@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/features/home/presentation/widgets/custom_bottom_navigation_bar_item.dart';
 
-class CustomBottomBar extends StatefulWidget {
+class CustomBottomBar extends StatelessWidget {
   const CustomBottomBar({
     Key? key,
+    required this.onTap,
+    required this.currentPage,
   }) : super(key: key);
+  final Function(int) onTap;
+  final int currentPage;
 
-  @override
-  State<CustomBottomBar> createState() => _CustomBottomBarState();
-}
-
-class _CustomBottomBarState extends State<CustomBottomBar> {
-  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -21,20 +19,16 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
         topRight: Radius.circular(25.0),
       ),
       child: BottomNavigationBar(
-        currentIndex: _currentIndex,
+        currentIndex: currentPage,
         type: BottomNavigationBarType.fixed,
         backgroundColor: CustomColors.customBlack,
         selectedFontSize: 0.0,
         unselectedFontSize: 0.0,
-        onTap: (value) {
-          setState(() {
-            _currentIndex = value;
-          });
-        },
+        onTap: (value) => onTap(value),
         items: [
           BottomNavigationBarItem(
             icon: CustomBottomNavigationBarItem(
-              currentIndex: _currentIndex,
+              currentIndex: currentPage,
               index: 0,
               icon: 'assets/home/home.svg',
               text: 'Home',
@@ -43,7 +37,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
           ),
           BottomNavigationBarItem(
             icon: CustomBottomNavigationBarItem(
-              currentIndex: _currentIndex,
+              currentIndex: currentPage,
               index: 1,
               icon: 'assets/home/play-circle.svg',
               text: 'Play',
@@ -52,7 +46,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
           ),
           BottomNavigationBarItem(
             icon: CustomBottomNavigationBarItem(
-              currentIndex: _currentIndex,
+              currentIndex: currentPage,
               index: 2,
               icon: 'assets/home/calendar.svg',
               text: 'Bookings',
@@ -61,7 +55,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
           ),
           BottomNavigationBarItem(
             icon: CustomBottomNavigationBarItem(
-              currentIndex: _currentIndex,
+              currentIndex: currentPage,
               index: 3,
               icon: 'assets/home/more.svg',
               text: 'More',

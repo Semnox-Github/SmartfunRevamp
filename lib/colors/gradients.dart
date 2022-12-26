@@ -13,4 +13,16 @@ class CustomGradients {
       Colors.grey,
     ],
   );
+  static const LinearGradient goldenGradient = LinearGradient(
+    colors: [
+      Color(0xFFFFF2AD),
+      Color(0xFFFFA322),
+    ],
+  );
+  static const LinearGradient skyBlueGradient = LinearGradient(
+    colors: [
+      Color(0xFF25E5FF),
+      Color(0xFFAADBFF),
+    ],
+  );
 }

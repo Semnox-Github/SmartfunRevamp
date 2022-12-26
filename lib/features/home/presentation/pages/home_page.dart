@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/features/home/presentation/view/bookings_view.dart';
-import 'package:semnox/features/home/presentation/view/home_view.dart';
 import 'package:semnox/features/home/presentation/view/more_view.dart';
+import 'package:semnox/features/home/presentation/view/home_view.dart';
 import 'package:semnox/features/home/presentation/view/play_view.dart';
 import 'package:semnox/features/home/presentation/widgets/custom_bottom_bar.dart';
 
@@ -30,7 +30,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       bottomNavigationBar: CustomBottomBar(
         onTap: (page) {
           setState(() {

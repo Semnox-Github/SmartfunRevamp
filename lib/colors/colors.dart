@@ -11,4 +11,5 @@ class CustomColors {
   static const Color customOrange = Color(0xFFFFCFB4);
   static const Color customGreen = Color(0xFFD7FFC5);
   static const Color customPurple = Color(0xFFDECFFF);
+  static const Color customLigthGray = Color(0xFFD6EDFC);
 }

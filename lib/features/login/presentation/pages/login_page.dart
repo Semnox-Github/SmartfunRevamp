@@ -9,10 +9,12 @@ import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/features/login/presentation/provider/login_notifier.dart';
 
 class LoginPage extends ConsumerWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
+  LoginPage({Key? key}) : super(key: key);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    String mLoginId = '';
+    String mPassword = '';
     ref.listen<LoginState>(loginProvider, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),
@@ -55,59 +57,71 @@ class LoginPage extends ConsumerWidget {
                       20.0,
                     ),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const EmailTextField(),
-                      const SizedBox(height: 20.0),
-                      const PasswordField(),
-                      const SizedBox(height: 20.0),
-                      RichText(
-                        text: const TextSpan(
-                          style: TextStyle(color: CustomColors.customBlue),
-                          children: [
-                            TextSpan(
-                              text: 'Forgot Password?',
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        EmailTextField(
+                          onSaved: (loginId) => mLoginId = loginId,
+                        ),
+                        const SizedBox(height: 20.0),
+                        PasswordField(
+                          onSaved: (password) => mPassword = password,
+                        ),
+                        const SizedBox(height: 20.0),
+                        RichText(
+                          text: const TextSpan(
+                            style: TextStyle(color: CustomColors.customBlue),
+                            children: [
+                              TextSpan(
+                                text: 'Forgot Password?',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(
+                                  width: 5.0,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'RESET NOW',
+                                style: TextStyle(
+                                  color: CustomColors.hardOrange,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20.0),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            gradient: CustomGradients.linearGradient,
+                          ),
+                          margin: const EdgeInsets.all(3),
+                          child: TextButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                ref.read(loginProvider.notifier).loginUser(mLoginId, mPassword);
+                              }
+                            },
+                            child: const Text(
+                              'LOGIN',
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
-                            WidgetSpan(
-                              child: SizedBox(
-                                width: 5.0,
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'RESET NOW',
-                              style: TextStyle(
-                                color: CustomColors.hardOrange,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20.0),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          gradient: CustomGradients.linearGradient,
-                        ),
-                        margin: const EdgeInsets.all(3),
-                        child: TextButton(
-                          onPressed: () => ref.read(loginProvider.notifier).loginUser('admin', 'root1234'),
-                          child: const Text(
-                            'LOGIN',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Positioned(
@@ -213,8 +227,9 @@ class LoginPage extends ConsumerWidget {
 class PasswordField extends StatefulWidget {
   const PasswordField({
     Key? key,
+    required this.onSaved,
   }) : super(key: key);
-
+  final Function(String) onSaved;
   @override
   State<PasswordField> createState() => _PasswordFieldState();
 }
@@ -232,8 +247,10 @@ class _PasswordFieldState extends State<PasswordField> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 5.0),
-        TextField(
+        TextFormField(
           obscureText: _isObscured,
+          onSaved: (newValue) => widget.onSaved(newValue!),
+          validator: (value) => value!.isEmpty ? 'Required' : null,
           cursorColor: Colors.black,
           keyboardType: TextInputType.visiblePassword,
           decoration: InputDecoration(
@@ -274,7 +291,9 @@ class _PasswordFieldState extends State<PasswordField> {
 class EmailTextField extends StatelessWidget {
   const EmailTextField({
     Key? key,
+    required this.onSaved,
   }) : super(key: key);
+  final Function(String) onSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +306,9 @@ class EmailTextField extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 5.0),
-        TextField(
+        TextFormField(
+          onSaved: (newValue) => onSaved(newValue!),
+          validator: (value) => value!.isEmpty ? 'Required' : null,
           cursorColor: Colors.black,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(

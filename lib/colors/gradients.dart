@@ -25,4 +25,12 @@ class CustomGradients {
       Color(0xFFAADBFF),
     ],
   );
+  static const RadialGradient myFirstCircularGradient = RadialGradient(
+    colors: [
+      Color(0xFFF29C56),
+      Color(0xFFD74C5A),
+    ],
+    center: Alignment.bottomRight,
+    radius: 1.5,
+  );
 }

@@ -274,15 +274,25 @@ class HomeView extends StatelessWidget {
               ],
             ),
           ),
-          CarouselSlider(
-            options: CarouselOptions(height: 150.0),
-            items: [1, 2, 3, 4, 5].map((i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Image.asset('assets/home/carousel_test.png');
-                },
-              );
-            }).toList(),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 10.0),
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            decoration: BoxDecoration(
+              gradient: CustomGradients.myFirstCircularGradient,
+              borderRadius: BorderRadius.circular(
+                20.0,
+              ),
+            ),
+            child: CarouselSlider(
+              options: CarouselOptions(height: 150.0),
+              items: [1, 2, 3, 4, 5].map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Image.asset('assets/home/carousel_test.png');
+                  },
+                );
+              }).toList(),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20.0, top: 10.0),

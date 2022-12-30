@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
-import 'package:semnox/features/home/presentation/widgets/custom_bottom_navigation_bar_item.dart';
+import 'package:semnox/features/home/widgets/custom_bottom_navigation_bar_item.dart';
 
 class CustomBottomBar extends StatelessWidget {
   const CustomBottomBar({

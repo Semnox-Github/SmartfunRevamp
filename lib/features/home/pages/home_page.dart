@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:semnox/features/home/presentation/view/bookings_view.dart';
-import 'package:semnox/features/home/presentation/view/more_view.dart';
-import 'package:semnox/features/home/presentation/view/home_view.dart';
-import 'package:semnox/features/home/presentation/view/play_view.dart';
-import 'package:semnox/features/home/presentation/widgets/custom_bottom_bar.dart';
+import 'package:semnox/features/home/view/bookings_view.dart';
+import 'package:semnox/features/home/view/home_view.dart';
+import 'package:semnox/features/home/view/more_view.dart';
+import 'package:semnox/features/home/view/play_view.dart';
+
+import 'package:semnox/features/home/widgets/custom_bottom_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

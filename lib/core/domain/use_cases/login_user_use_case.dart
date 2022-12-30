@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:semnox/core/errors/failures.dart';
-import 'package:semnox/features/login/domain/repositories/authentication_repository.dart';
+import 'package:semnox/core/domain/repositories/authentication_repository.dart';
 
 class LoginUserUseCase {
   final AuthenticationRepository _repository;

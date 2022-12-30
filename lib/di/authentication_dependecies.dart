@@ -1,7 +1,8 @@
 import 'package:get_it/get_it.dart';
-import 'package:semnox/features/login/data/repositories/authentication_repository_impl.dart';
-import 'package:semnox/features/login/domain/repositories/authentication_repository.dart';
-import 'package:semnox/features/login/domain/usecases/login_user_use_case.dart';
+import 'package:semnox/core/data/repositories/authentication_repository_impl.dart';
+import 'package:semnox/core/domain/repositories/authentication_repository.dart';
+import 'package:semnox/core/domain/use_cases/login_user_use_case.dart';
+import 'package:semnox/core/domain/use_cases/sign_up_use_case.dart';
 
 void authenticaionDependecies(GetIt sl) {
   //Repository
@@ -9,4 +10,5 @@ void authenticaionDependecies(GetIt sl) {
 
   //Use Cases
   sl.registerLazySingleton(() => LoginUserUseCase(sl()));
+  sl.registerLazySingleton(() => SignUpUseCase(sl()));
 }

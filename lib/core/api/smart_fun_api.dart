@@ -36,4 +36,7 @@ abstract class SmartFunApi {
   }
   @POST('Login/AuthenticateUsers')
   Future<HttpResponse> loginUser(@Body() Map<String, dynamic> body);
+
+  @POST('')
+  Future<HttpResponse> signUpUser(@Body() Map<String, dynamic> body);
 }

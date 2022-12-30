@@ -3,7 +3,7 @@ import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
-import 'package:semnox/features/login/presentation/pages/login_page.dart';
+import 'package:semnox/features/login/pages/login_page.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key, required this.info}) : super(key: key);

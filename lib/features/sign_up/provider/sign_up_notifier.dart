@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:semnox/core/domain/entities/sign_up_entity.dart';
-import 'package:semnox/core/domain/use_cases/sign_up_use_case.dart';
+import 'package:semnox/core/domain/use_cases/authentication/sign_up_use_case.dart';
+
 import 'package:semnox/di/injection_container.dart';
 
 part 'sign_up_state.dart';

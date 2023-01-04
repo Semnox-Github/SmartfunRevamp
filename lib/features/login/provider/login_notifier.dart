@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:semnox/core/domain/use_cases/authentication/login_user_use_case.dart';
 import 'package:semnox/di/injection_container.dart';
-import 'package:semnox/core/domain/use_cases/login_user_use_case.dart';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'login_state.dart';

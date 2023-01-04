@@ -16,6 +16,13 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
 
   void signUpUser(SignUpEntity signUpEntity) async {
     state = const _InProgress();
+    // final dto = CustomerBL.dto(context, customerDTO);
+    // try {
+    //   final newUser = dto.create();
+    // } catch (e) {
+    //   Logger().e(e);
+    // }
+
     final result = await _signUpUseCase(signUpEntity);
     state = result.fold(
       (failure) => _Error(failure.message),

@@ -15,6 +15,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
   void loginUser(String loginId, String password) async {
     state = const _InProgress();
+
     final result = await _loginUserUseCase(
       {
         'LoginId': loginId,

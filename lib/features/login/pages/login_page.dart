@@ -35,7 +35,9 @@ class LoginPage extends ConsumerWidget {
             title: 'Error',
             desc: message,
             btnCancelOnPress: () {},
-            btnOkOnPress: () {},
+            btnOkOnPress: () {
+              Navigator.pushReplacementNamed(context, Routes.kHomePage);
+            },
           ).show();
         },
       );

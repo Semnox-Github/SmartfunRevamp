@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
-import 'package:semnox/core/domain/entities/sign_up_entity.dart';
+import 'package:semnox/core/domain/entities/sign_up/sign_up_entity.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
@@ -70,7 +70,40 @@ class SignUpPage extends ConsumerWidget {
                   'Hi There,\nComplete the following details to setup your account and continue using Smartfun app.',
                 ),
                 const SizedBox(height: 20.0),
-                CustomTextField(onSaved: (_) {}, label: 'Username'),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Title',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    DropdownButtonFormField<String>(
+                      value: request.title,
+                      items: ['Mr.', 'Mrs.', 'Ms.'].map((title) {
+                        return DropdownMenuItem<String>(
+                          value: title,
+                          child: Text(title),
+                        );
+                      }).toList(),
+                      onChanged: (title) => request.title = title,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20.0),
+                CustomTextField(
+                  onSaved: (firstname) => request.firstName = firstname,
+                  label: 'First Name',
+                ),
+                const SizedBox(height: 20.0),
+                CustomTextField(
+                  onSaved: (lastName) => request.lastName = lastName,
+                  label: 'Last Name',
+                ),
+                CustomTextField(
+                  onSaved: (username) => request.username = username,
+                  label: 'Username',
+                ),
                 const SizedBox(height: 20.0),
                 CustomTextField(
                   onSaved: (email) => request.email = email,

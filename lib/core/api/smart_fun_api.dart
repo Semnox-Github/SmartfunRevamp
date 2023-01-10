@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
+import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/environment.dart';
 
 part 'smart_fun_api.g.dart';
@@ -42,9 +43,13 @@ abstract class SmartFunApi {
     @Query('buildNumber') String buildNumber,
     @Query('generatedTime') String generatedTime,
     @Query('securityCode') String securityCode,
+    @Body() Map<String, dynamic> body,
   );
 
   //This use the response from getBaseURLFromCentral request
+  @POST('Login/AuthenticateSystemUsers')
+  Future<AuthenticateSystemUserResponse> authenticateSystemUser(@Body() Map<String, dynamic> body);
+
   @POST('Login/AuthenticateUsers')
   Future<HttpResponse> loginUser(@Body() Map<String, dynamic> body);
 
@@ -95,4 +100,11 @@ abstract class SmartFunApi {
     @Query('lastModifiedDate') String lastModifiedDate,
     @Query('imageType') String imageType,
   );
+
+  @GET('Customer/CustomerUIMetadataContainer')
+  Future<HttpResponse> getSignUpMetadata({
+    @Query('siteId') String siteId = '1010',
+    @Query('hash') String? hash,
+    @Query('rebuildCache') bool rebuildCache = false,
+  });
 }

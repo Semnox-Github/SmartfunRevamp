@@ -27,6 +27,26 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Demo',
           routes: Routes.routesMap,
           home: SplashScreen(info: _androidDeviceInfo),
+          theme: ThemeData(
+            inputDecorationTheme: InputDecorationTheme(
+              isDense: true,
+              fillColor: Colors.transparent,
+              filled: true,
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(
+                  color: Colors.black,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );

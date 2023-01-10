@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:semnox/core/domain/entities/sign_up_entity.dart';
+import 'package:semnox/core/domain/entities/sign_up/sign_up_entity.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/domain/repositories/authentication_repository.dart';
 

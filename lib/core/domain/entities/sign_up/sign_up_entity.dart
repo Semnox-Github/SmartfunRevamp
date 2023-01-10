@@ -8,6 +8,9 @@ class SignUpEntity {
   String? phoneNumber;
   String? dateOfBirth;
   String? password;
+  String? firstName;
+  String? lastName;
+  String? title;
 
   SignUpEntity({
     this.username,

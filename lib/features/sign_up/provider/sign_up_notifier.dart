@@ -63,15 +63,13 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       phone: signUpEntity.phoneNumber,
       siteId: _systemUser.siteId,
     );
-    Logger().d(customerDTO.toJson());
     final dto = CustomerBL.dto(
       executionDTO,
       customerDTO,
     );
     try {
-      final newUser = await dto.signUp();
+      await dto.signUp();
       state = const _Success();
-      Logger().d(newUser?.toJson());
     } catch (e, s) {
       Logger().e("Error", e, s);
       state = const _Error('An error ocurred');

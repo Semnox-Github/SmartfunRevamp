@@ -9,7 +9,7 @@ part 'smart_fun_api.g.dart';
 
 @RestApi(baseUrl: Environment.baseUrl)
 abstract class SmartFunApi {
-  factory SmartFunApi([String token = '', String baseUrl = Environment.baseUrl]) {
+  factory SmartFunApi({String token = ''}) {
     final dio = Dio();
     dio.interceptors.addAll([
       AuthorizationInterceptor(),
@@ -26,7 +26,6 @@ abstract class SmartFunApi {
     ]);
 
     dio.options = BaseOptions(
-      baseUrl: baseUrl,
       receiveTimeout: 20000,
       connectTimeout: 20000,
       headers: {

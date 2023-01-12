@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
+import 'package:semnox/core/api/parafait_api.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/repositories/splash_screen_repositories.dart';
@@ -11,8 +12,8 @@ import 'package:semnox/core/utils.dart';
 
 class SplashScreenRepositoryImpl implements SplashScreenRepository {
   final SmartFunApi _api;
-
-  SplashScreenRepositoryImpl(this._api);
+  final ParafaitApi _parafaitApi;
+  SplashScreenRepositoryImpl(this._api, this._parafaitApi);
 
   @override
   Future<Either<Failure, void>> getAllSites() async {
@@ -146,7 +147,7 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
   Future<Either<Failure, void>> getBaseURLFromCentral({required String appId, required String buildNumber, required String generatedTime, required String securityCode}) async {
     try {
       Logger().d(generatedTime);
-      final response = await _api.getBaseURLFromCentral(
+      final response = await _parafaitApi.getBaseURLFromCentral(
         appId,
         buildNumber,
         generatedTime,

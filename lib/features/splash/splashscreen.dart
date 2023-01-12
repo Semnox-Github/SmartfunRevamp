@@ -18,7 +18,7 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
-    ref.read(splashScreenProvider.notifier).authenticateBaseURL();
+    ref.read(splashScreenProvider.notifier).getBaseUrl();
     super.initState();
   }
 

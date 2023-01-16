@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/entities/sign_up/sign_up_entity.dart';
-import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
+import 'package:semnox/core/enums/contact_enum.dart';
 
 import 'package:semnox/di/injection_container.dart';
 import 'package:semnox_core/modules/customer/bl/customer_bl.dart';
@@ -11,38 +11,40 @@ import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/phone_contact_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/profile_dto.dart';
 import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
+import 'package:semnox_core/modules/utilities/api_service_library/server_exception.dart';
 
 part 'sign_up_state.dart';
 part 'sign_up_notifier.freezed.dart';
 
+///The user name will be the email
+///
+///
+///
+///
+///
 final signUpNotifier = StateNotifierProvider<SignUpNotifier, SignUpState>(
   (ref) => SignUpNotifier(
-    sl.get<SystemUser>(),
+    sl.get<ExecutionContextDTO>(),
   ),
 );
 
 class SignUpNotifier extends StateNotifier<SignUpState> {
-  SignUpNotifier(this._systemUser) : super(const _Initial());
-  final SystemUser _systemUser;
+  SignUpNotifier(this._executionContextDTO) : super(const _Initial());
+  final ExecutionContextDTO _executionContextDTO;
   void signUpUser(SignUpEntity signUpEntity) async {
     state = const _InProgress();
-    final executionDTO = ExecutionContextDTO(
-      apiUrl: 'https://smartfungigademo.parafait.com',
-      authToken: _systemUser.webApiToken,
-      siteId: _systemUser.siteId,
-    );
     final profileDTO = ProfileDTO(
-      siteId: _systemUser.siteId,
+      siteId: _executionContextDTO.siteId,
       contactDtoList: [
         PhoneContactDTO(
-          contactTypeId: 2,
-          contactType: 1,
+          contactTypeId: ContactType.email.typeId,
+          contactType: ContactType.email.type,
           attribute1: signUpEntity.email,
           isActive: true,
         ),
         PhoneContactDTO(
-          contactTypeId: 1,
-          contactType: 2,
+          contactTypeId: ContactType.phone.typeId,
+          contactType: ContactType.phone.type,
           attribute1: signUpEntity.phoneNumber,
           isActive: true,
         ),
@@ -61,18 +63,18 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       profileDto: profileDTO,
       email: signUpEntity.email,
       phone: signUpEntity.phoneNumber,
-      siteId: _systemUser.siteId,
+      siteId: _executionContextDTO.siteId,
     );
     final dto = CustomerBL.dto(
-      executionDTO,
+      _executionContextDTO,
       customerDTO,
     );
     try {
       await dto.signUp();
       state = const _Success();
-    } catch (e, s) {
+    } on AppException catch (e, s) {
       Logger().e("Error", e, s);
-      state = const _Error('An error ocurred');
+      state = _Error(e.toString());
     }
   }
 }

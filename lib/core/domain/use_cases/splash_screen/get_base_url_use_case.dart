@@ -9,7 +9,7 @@ class GetBaseURLUseCase {
     return await _repository.getBaseURLFromCentral(
       appId: 'com.semnox.smartfunrevamp',
       buildNumber: '2.130.11',
-      generatedTime: "${DateTime.now().toIso8601String().split('.')[0]}Z",
+      generatedTime: "${DateTime.now().toUtc().toIso8601String().split('.')[0]}Z",
       securityCode: '76',
     );
   }

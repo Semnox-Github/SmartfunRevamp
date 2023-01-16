@@ -35,9 +35,8 @@ class LoginPage extends ConsumerWidget {
             title: 'Error',
             desc: message,
             btnCancelOnPress: () {},
-            btnOkOnPress: () {
-              Navigator.pushReplacementNamed(context, Routes.kHomePage);
-            },
+            useRootNavigator: true,
+            btnOkOnPress: () {},
           ).show();
         },
       );
@@ -250,6 +249,7 @@ class _PasswordFieldState extends State<PasswordField> {
         ),
         const SizedBox(height: 5.0),
         TextFormField(
+          initialValue: 'root1234*',
           obscureText: _isObscured,
           onSaved: (newValue) => widget.onSaved(newValue!),
           validator: (value) => value!.isEmpty ? 'Required' : null,
@@ -309,6 +309,7 @@ class EmailTextField extends StatelessWidget {
         ),
         const SizedBox(height: 5.0),
         TextFormField(
+          initialValue: 'domaldona100',
           onSaved: (newValue) => onSaved(newValue!),
           validator: (value) => value!.isEmpty ? 'Required' : null,
           cursorColor: Colors.black,

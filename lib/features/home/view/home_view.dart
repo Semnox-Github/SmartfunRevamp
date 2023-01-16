@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/di/injection_container.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({Key? key}) : super(key: key);
-
+  HomeView({Key? key}) : super(key: key);
+  final user = sl.get<CustomerDTO>();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -33,9 +35,9 @@ class HomeView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Wilson Korsgaard',
-                          style: TextStyle(
+                        Text(
+                          '${user.profileDto?.firstName} ${user.profileDto?.lastName}',
+                          style: const TextStyle(
                             color: CustomColors.customBlue,
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,

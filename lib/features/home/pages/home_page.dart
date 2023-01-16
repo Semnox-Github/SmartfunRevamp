@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentPage = 0;
   late PageController _pageController;
+
   @override
   void initState() {
     _pageController = PageController(initialPage: _currentPage);
@@ -48,11 +49,11 @@ class _HomePageState extends State<HomePage> {
               _currentPage = index;
             });
           },
-          children: const [
+          children: [
             HomeView(),
-            PlayView(),
-            BookingsView(),
-            MoreView(),
+            const PlayView(),
+            const BookingsView(),
+            const MoreView(),
           ],
         ),
       ),

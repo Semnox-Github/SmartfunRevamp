@@ -18,7 +18,7 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
-    ref.read(splashScreenProvider.notifier).getBaseUrl();
+    ref.read(splashScreenProvider.notifier).authenticateBaseURL();
     super.initState();
   }
 
@@ -29,7 +29,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         backgroundImage: const AssetImage('assets/splash_screen/splash_screen.png'),
         backgroundColor: Colors.white,
         navigator: const AfterSplashScreen(),
-        durationInSeconds: 3,
+        durationInSeconds: 2,
         showLoader: false,
         logo: Image.asset('assets/splash_screen/transparent.png'),
       );

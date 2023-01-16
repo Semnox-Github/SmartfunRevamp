@@ -31,6 +31,7 @@ abstract class ParafaitApi {
       headers: {
         'Authorization': token,
         'content-type': 'application/json',
+        'Origin': 'mQ/btZP6wd74Sgd59JETzEtAkBO8QIL4KpE2pjz9hRg=',
       },
     );
     return _ParafaitApi(dio);

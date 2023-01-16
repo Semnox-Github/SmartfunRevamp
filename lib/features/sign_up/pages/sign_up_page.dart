@@ -100,13 +100,12 @@ class SignUpPage extends ConsumerWidget {
                   onSaved: (lastName) => request.lastName = lastName,
                   label: 'Last Name',
                 ),
-                CustomTextField(
-                  onSaved: (username) => request.username = username,
-                  label: 'Username',
-                ),
                 const SizedBox(height: 20.0),
                 CustomTextField(
-                  onSaved: (email) => request.email = email,
+                  onSaved: (email) {
+                    request.email = email;
+                    request.username = email;
+                  },
                   label: 'Email Address',
                   inputType: TextInputType.emailAddress,
                 ),

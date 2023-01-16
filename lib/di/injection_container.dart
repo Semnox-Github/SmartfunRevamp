@@ -5,6 +5,8 @@ import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/di/authentication_dependecies.dart';
 import 'package:semnox/di/splash_screen_dependencies.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
+import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
 final sl = GetIt.instance;
 
@@ -20,7 +22,16 @@ void authenticateApi(SystemUser systemUser) {
     sl.unregister<SmartFunApi>();
     sl.registerFactory(() => SmartFunApi(token: systemUser.webApiToken));
     sl.registerSingleton<SystemUser>(systemUser);
+    final executionDTO = ExecutionContextDTO(
+      apiUrl: 'https://smartfungigademo.parafait.com',
+      authToken: systemUser.webApiToken,
+      siteId: systemUser.siteId,
+    );
+    sl.registerSingleton<ExecutionContextDTO>(executionDTO);
     Logger().d('System User Authenticated');
   }
 }
- //https://parafaitdevcentral.parafait.com/api/ClientApp/ClientAppVersion?appId=com.semnox.smartfunrevamp&buildNumber=2.130.11&generatedTime=2023-01-05T09%3A08%3A10Z&securityCode=76
+
+void registerUser(CustomerDTO customerDTO) {
+  sl.registerSingleton<CustomerDTO>(customerDTO);
+}

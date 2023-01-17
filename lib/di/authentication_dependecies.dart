@@ -4,6 +4,7 @@ import 'package:semnox/core/domain/repositories/authentication_repository.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_user_metadata_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/login_user_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/sign_up_use_case.dart';
+import 'package:semnox_core/modules/customer/bl/customer_usecases.dart';
 
 void authenticaionDependecies(GetIt sl) {
   //Repository
@@ -13,4 +14,5 @@ void authenticaionDependecies(GetIt sl) {
   sl.registerLazySingleton(() => LoginUserUseCase(sl()));
   sl.registerLazySingleton(() => SignUpUseCase(sl()));
   sl.registerLazySingleton(() => GetUserMetaDataUseCase(sl()));
+  sl.registerFactory(() => CustomerUseCases(sl.get()));
 }

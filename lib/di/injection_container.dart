@@ -17,13 +17,13 @@ Future<void> init() async {
   splashScreenDependencies(sl);
 }
 
-void authenticateApi(SystemUser systemUser) {
+void authenticateApi(SystemUser systemUser, String baseURL) {
   if (sl.isRegistered<SmartFunApi>()) {
     sl.unregister<SmartFunApi>();
-    sl.registerFactory(() => SmartFunApi(token: systemUser.webApiToken));
+    sl.registerFactory(() => SmartFunApi(token: systemUser.webApiToken, baseUrl: baseURL));
     sl.registerSingleton<SystemUser>(systemUser);
     final executionDTO = ExecutionContextDTO(
-      apiUrl: 'https://smartfungigademo.parafait.com',
+      apiUrl: baseURL,
       authToken: systemUser.webApiToken,
       siteId: systemUser.siteId,
     );

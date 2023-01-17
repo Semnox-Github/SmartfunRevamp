@@ -25,16 +25,19 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     final response = await _getBaseURL();
     response.fold(
       (l) => Logger().e(l.message),
-      (r) => Logger().d(r),
+      (r) {
+        authenticateBaseURL(r.gateWayURL);
+      },
     );
   }
 
-  void authenticateBaseURL() async {
+  void authenticateBaseURL(String baseUrl) async {
     final response = await _authenticateBaseURLUseCase();
     response.fold(
       (l) => state = _Error(l.message),
       (r) {
-        authenticateApi(r);
+        authenticateApi(r, baseUrl);
+        state = const _Success();
       },
     );
   }

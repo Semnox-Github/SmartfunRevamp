@@ -8,7 +8,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/sign_up/sign_up_entity.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
-import 'package:semnox/features/login/pages/login_page.dart';
+import 'package:semnox/core/widgets/password_field.dart';
 import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
 
 class SignUpPage extends ConsumerWidget {
@@ -222,10 +222,12 @@ class CustomTextField extends StatelessWidget {
     required this.onSaved,
     required this.label,
     this.inputType = TextInputType.name,
+    this.fillColor = Colors.transparent,
   }) : super(key: key);
   final Function(String) onSaved;
   final String label;
   final TextInputType inputType;
+  final Color fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +237,11 @@ class CustomTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          // style: const TextStyle(fontWeight: FontWeight.bold),
+          style: GoogleFonts.mulish(
+            fontWeight: FontWeight.bold,
+            fontSize: 14.0,
+          ),
         ),
         const SizedBox(height: 5.0),
         TextFormField(
@@ -245,7 +251,7 @@ class CustomTextField extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             isDense: true,
-            fillColor: Colors.transparent,
+            fillColor: fillColor,
             filled: true,
             floatingLabelBehavior: FloatingLabelBehavior.never,
             border: OutlineInputBorder(

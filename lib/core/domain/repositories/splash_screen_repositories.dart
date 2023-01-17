@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
+import 'package:semnox/core/domain/entities/splash_screen/get_base_url_response.dart';
 import 'package:semnox/core/errors/failures.dart';
 
 abstract class SplashScreenRepository {
-  Future<Either<Failure, void>> getBaseURLFromCentral({
+  Future<Either<Failure, GetBaseUrlResponse>> getBaseURLFromCentral({
     required String appId,
     required String buildNumber,
     required String generatedTime,

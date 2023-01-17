@@ -4,6 +4,7 @@ import 'package:semnox/di/injection_container.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:semnox_core/modules/customer/bl/customer_bl.dart';
+import 'package:semnox_core/modules/customer/bl/customer_usecases.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_set_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/profile_dto.dart';
@@ -16,14 +17,17 @@ part 'login_notifier.freezed.dart';
 final loginProvider = StateNotifierProvider<LoginNotifier, LoginState>(
   (ref) => LoginNotifier(
     sl<ExecutionContextDTO>(),
+    sl<CustomerUseCases>(),
   ),
 );
 
 class LoginNotifier extends StateNotifier<LoginState> {
   final ExecutionContextDTO _executionContextDTO;
+  final CustomerUseCases _customerUseCases;
 
   LoginNotifier(
     this._executionContextDTO,
+    this._customerUseCases,
   ) : super(const _Initial());
 
   void loginUser(String loginId, String password) async {
@@ -45,6 +49,17 @@ class LoginNotifier extends StateNotifier<LoginState> {
     try {
       final customer = await dto.login(password);
       registerUser(customer!);
+      state = const _Success();
+    } on AppException catch (e) {
+      Logger().e(e.toString());
+      state = _Error(e.toString());
+    }
+  }
+
+  void loginUserWithOTP(String phoneOrEmail) async {
+    state = const _InProgress();
+    _customerUseCases.loginCustomerByOtp('maldonado100@gmail.com');
+    try {
       state = const _Success();
     } on AppException catch (e) {
       Logger().e(e.toString());

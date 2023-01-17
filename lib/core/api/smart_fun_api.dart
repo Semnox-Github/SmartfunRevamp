@@ -2,14 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
+import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
-import 'package:semnox/core/environment.dart';
 
 part 'smart_fun_api.g.dart';
 
-@RestApi(baseUrl: Environment.baseUrl)
+@RestApi()
 abstract class SmartFunApi {
-  factory SmartFunApi({String token = ''}) {
+  factory SmartFunApi({String token = '', String baseUrl = ''}) {
     final dio = Dio();
     dio.interceptors.addAll([
       AuthorizationInterceptor(),
@@ -26,6 +26,7 @@ abstract class SmartFunApi {
     ]);
 
     dio.options = BaseOptions(
+      baseUrl: baseUrl,
       receiveTimeout: 20000,
       connectTimeout: 20000,
       headers: {
@@ -36,18 +37,8 @@ abstract class SmartFunApi {
     return _SmartFunApi(dio);
   }
 
-  @POST('ClientApp/ClientAppVersion')
-  Future<HttpResponse> getBaseURLFromCentral(
-    @Query('appId') String appId,
-    @Query('buildNumber') String buildNumber,
-    @Query('generatedTime') String generatedTime,
-    @Query('securityCode') String securityCode,
-    @Body() Map<String, dynamic> body,
-  );
-
-  //This use the response from getBaseURLFromCentral request
   @POST('Login/AuthenticateSystemUsers')
-  Future<AuthenticateSystemUserResponse> authenticateSystemUser(@Body() Map<String, dynamic> body);
+  Future<Data<SystemUser>> authenticateSystemUser(@Body() Map<String, dynamic> body);
 
   @POST('Login/AuthenticateUsers')
   Future<HttpResponse> loginUser(@Body() Map<String, dynamic> body);

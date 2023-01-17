@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
+import 'package:semnox/core/domain/entities/data.dart';
+import 'package:semnox/core/domain/entities/splash_screen/get_base_url_response.dart';
 
 part 'parafait_api.g.dart';
 
@@ -38,7 +40,7 @@ abstract class ParafaitApi {
   }
 
   @POST('ClientApp/ClientAppVersion')
-  Future<HttpResponse> getBaseURLFromCentral(
+  Future<Data<GetBaseUrlResponse>> getBaseURLFromCentral(
     @Query('appId') String appId,
     @Query('buildNumber') String buildNumber,
     @Query('generatedTime') String generatedTime,

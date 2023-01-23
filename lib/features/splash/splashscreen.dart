@@ -33,7 +33,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       },
     );
     return Scaffold(
-      body: Image.asset('assets/splash_screen/splash_screen.png'),
+      body: Image.asset(
+        'assets/splash_screen/splash_screen.png',
+        height: double.infinity,
+        width: double.infinity,
+        fit: BoxFit.fill,
+      ),
     );
   }
 }

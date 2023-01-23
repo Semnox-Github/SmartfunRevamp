@@ -16,7 +16,7 @@ class Routes {
   static Map<String, WidgetBuilder> get routesMap {
     return {
       kHomePage: (BuildContext context) => const HomePage(),
-      kLogInPage: (BuildContext context) => LoginPage(),
+      kLogInPage: (BuildContext context) => const LoginPage(),
       kSignUpPage: (BuildContext context) => SignUpPage(),
       kAfterSplashScreenPage: (BuildContext context) => const AfterSplashScreen(),
     };

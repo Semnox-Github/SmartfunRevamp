@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/core/routes.dart';
-import 'package:semnox/features/splash/splashscreen.dart';
+import 'package:semnox/features/buy_a_card/pages/buy_card_list_page.dart';
 import 'di/injection_container.dart' as di;
 import 'dart:io' show Platform;
 
@@ -26,7 +26,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Flutter Demo',
           routes: Routes.routesMap,
-          home: SplashScreen(info: _androidDeviceInfo),
+          // home: SplashScreen(info: _androidDeviceInfo),
+          home: const BuyCardListPage(),
           theme: ThemeData(
             inputDecorationTheme: InputDecorationTheme(
               isDense: true,

@@ -33,4 +33,31 @@ class CustomGradients {
     center: Alignment.bottomRight,
     radius: 1.5,
   );
+  static const RadialGradient silverCircularGradient = RadialGradient(
+    colors: [
+      Color(0xFFF4F4F4),
+      Color(0xFFE9E9E9),
+      Color(0xFF9697BB),
+    ],
+    center: Alignment.topRight,
+    radius: 1.5,
+  );
+  static RadialGradient goldenCircularGradient = RadialGradient(
+    colors: [
+      Colors.yellow,
+      Colors.orangeAccent,
+      Colors.yellow.shade300,
+    ],
+    center: Alignment.topRight,
+    radius: 1.5,
+  );
+  static RadialGradient platimunGradient = const RadialGradient(
+    colors: [
+      Color(0xFF58949C),
+      Color(0xFFAADBFF),
+      Color(0xFF125C84),
+    ],
+    center: Alignment.topRight,
+    radius: 1.5,
+  );
 }

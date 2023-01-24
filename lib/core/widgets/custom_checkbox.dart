@@ -43,19 +43,6 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
           },
         ),
       ),
-      // child: IconButton(
-      //   iconSize: 15.0,
-      //   padding: EdgeInsets.zero,
-      //   icon: const Icon(
-      //     Icons.check,
-      //     color: Colors.white,
-      //   ),
-      //   onPressed: () {
-      //     setState(() {
-      //       isChecked = !isChecked;
-      //     });
-      //   },
-      // ),
     );
   }
 }

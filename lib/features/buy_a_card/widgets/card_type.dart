@@ -74,7 +74,7 @@ class CardType extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.0),
             border: Border.all(
               color: CustomColors.customLigthGray,
-              width: 1.0,
+              width: 1.5,
             ),
           ),
           child: Column(
@@ -113,49 +113,46 @@ class CardType extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-          flex: 2,
-          child: Card(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
+        Card(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Container(
+            margin: const EdgeInsets.all(3.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            height: 75,
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
+              gradient: value.colorGradient,
             ),
-            child: Container(
-              margin: const EdgeInsets.all(3.0),
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              height: 75,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                gradient: value.colorGradient,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    value.name,
-                    style: GoogleFonts.mulish(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10.0,
-                    ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  value.name,
+                  style: GoogleFonts.mulish(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10.0,
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset('assets/buy_card/coin.svg'),
-                      const SizedBox(width: 5.0),
-                      Text(
-                        '1000',
-                        style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22.0,
-                        ),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset('assets/buy_card/coin.svg'),
+                    const SizedBox(width: 5.0),
+                    Text(
+                      '1000',
+                      style: GoogleFonts.mulish(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22.0,
                       ),
-                    ],
-                  )
-                ],
-              ),
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
         ),

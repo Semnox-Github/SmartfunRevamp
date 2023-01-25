@@ -5,6 +5,7 @@ import 'package:semnox/core/domain/use_cases/authentication/get_user_metadata_us
 import 'package:semnox/core/domain/use_cases/authentication/login_user_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/sign_up_use_case.dart';
 import 'package:semnox_core/modules/customer/bl/customer_usecases.dart';
+import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
 void authenticaionDependecies() {
   //Repository
@@ -14,5 +15,5 @@ void authenticaionDependecies() {
   Get.lazyPut<LoginUserUseCase>(() => LoginUserUseCase(Get.find()));
   Get.lazyPut<SignUpUseCase>(() => SignUpUseCase(Get.find()));
   Get.lazyPut<GetUserMetaDataUseCase>(() => GetUserMetaDataUseCase(Get.find()));
-  Get.lazyPut<CustomerUseCases>(() => CustomerUseCases(Get.find()));
+  Get.lazyPut<CustomerUseCases>(() => CustomerUseCases(Get.find<ExecutionContextDTO>()));
 }

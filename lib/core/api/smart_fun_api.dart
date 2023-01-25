@@ -4,7 +4,6 @@ import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
-import 'package:logger/logger.dart';
 
 part 'smart_fun_api.g.dart';
 
@@ -38,7 +37,7 @@ abstract class SmartFunApi {
     return _SmartFunApi(dio);
   }
 
-  @POST('Login/AuthenticateSystemUsers')
+  @POST('/api/Login/AuthenticateSystemUsers')
   Future<Data<SystemUser>> authenticateSystemUser(@Body() Map<String, dynamic> body);
 
   @POST('Login/AuthenticateUsers')

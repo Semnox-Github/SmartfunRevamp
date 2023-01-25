@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
-import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
 import 'package:semnox/di/injection_container.dart';
@@ -27,9 +26,8 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     final response = await _getBaseURL();
     response.fold(
       (l) => Logger().e(l.message),
-      (r) {
-        Logger().d(r.gateWayURL);
-        Get.replace<SmartFunApi>(SmartFunApi(r.gateWayURL));
+      (r) async {
+        Get.put<String>(r.gateWayURL, tag: 'baseURL');
         authenticateBaseURL(r.gateWayURL);
       },
     );

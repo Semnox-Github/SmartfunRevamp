@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -223,11 +224,13 @@ class CustomTextField extends StatelessWidget {
     required this.label,
     this.inputType = TextInputType.name,
     this.fillColor = Colors.transparent,
+    this.formatters,
   }) : super(key: key);
   final Function(String) onSaved;
   final String label;
   final TextInputType inputType;
   final Color fillColor;
+  final List<TextInputFormatter>? formatters;
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +240,6 @@ class CustomTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          // style: const TextStyle(fontWeight: FontWeight.bold),
           style: GoogleFonts.mulish(
             fontWeight: FontWeight.bold,
             fontSize: 14.0,
@@ -245,6 +247,7 @@ class CustomTextField extends StatelessWidget {
         ),
         const SizedBox(height: 5.0),
         TextFormField(
+          inputFormatters: formatters,
           onSaved: (newValue) => onSaved(newValue!),
           validator: (value) => value!.isEmpty ? 'Required' : null,
           cursorColor: Colors.black,

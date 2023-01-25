@@ -3,7 +3,9 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
 import 'package:semnox/core/domain/entities/data.dart';
+import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 part 'smart_fun_api.g.dart';
 
@@ -37,14 +39,35 @@ abstract class SmartFunApi {
     return _SmartFunApi(dio);
   }
 
-  @POST('/api/Login/AuthenticateSystemUsers')
+  @POST('Login/AuthenticateSystemUsers')
   Future<Data<SystemUser>> authenticateSystemUser(@Body() Map<String, dynamic> body);
 
-  @POST('Login/AuthenticateUsers')
-  Future<HttpResponse> loginUser(@Body() Map<String, dynamic> body);
+  @POST('Customer/CustomerLogin')
+  Future<Data<CustomerDTO>> loginUser(@Body() Map<String, dynamic> body);
 
-  @POST('')
-  Future<HttpResponse> signUpUser(@Body() Map<String, dynamic> body);
+  // @GET('Product/ProductPrice')
+  // Future<Data<ProductPrice>> getProductsPrices(
+  //   @Query('menuType') String menuType,
+  //   @Query('transactionProfileId') int transactionProfileId,
+  //   @Query('dateTime') String dateTime,
+  //   @Query('membershipId') int membershipId,
+  // );
+
+  @POST('CommonServices/GenericOTP/Create')
+  Future<Data<CreateOtpResponse>> sendOTP(@Body() Map<String, dynamic> body);
+
+  ///Default code OTP 141448
+  @POST('CommonServices/GenericOTP/{id}/Validate')
+  Future<HttpResponse> validateOTP(
+    @Body() Map<String, dynamic> body,
+    @Path('id') otpId,
+  );
+
+  @GET('Customer/Customers')
+  Future<ListDataWrapper<CustomerDTO>> getCustomerByPhoneorEmail(
+    @Query('phoneoremail') String phoneOrEmail, {
+    @Query('buildChildRecords') bool buildChildRecords = true,
+  });
 
   @GET('Configuration/ParafaitDefaultContainer')
   Future<HttpResponse> getParafaitDefaults(

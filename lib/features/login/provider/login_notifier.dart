@@ -1,70 +1,103 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
-import 'package:semnox/di/injection_container.dart';
+import 'package:semnox/core/domain/use_cases/authentication/get_user_by_phone_or_email_use_case.dart';
+import 'package:semnox/core/domain/use_cases/authentication/login_user_use_case.dart';
+import 'package:semnox/core/domain/use_cases/authentication/send_otp_use_case.dart';
+import 'package:semnox/core/domain/use_cases/authentication/verify_otp_use_case.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:semnox_core/modules/customer/bl/customer_bl.dart';
-import 'package:semnox_core/modules/customer/bl/customer_usecases.dart';
-import 'package:semnox_core/modules/customer/model/customer/custom_data_set_dto.dart';
-import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
-import 'package:semnox_core/modules/customer/model/customer/profile_dto.dart';
-import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
-import 'package:semnox_core/modules/utilities/api_service_library/server_exception.dart';
+import 'package:semnox/di/injection_container.dart';
 
 part 'login_state.dart';
 part 'login_notifier.freezed.dart';
 
 final loginProvider = StateNotifierProvider<LoginNotifier, LoginState>(
   (ref) => LoginNotifier(
-    Get.find<ExecutionContextDTO>(),
-    Get.find<CustomerUseCases>(),
+    Get.find<SendOTPUseCase>(),
+    Get.find<VerifyOTPUseCase>(),
+    Get.find<GetUserByPhoneOrEmailUseCase>(),
+    Get.find<LoginUserUseCase>(),
   ),
 );
 
 class LoginNotifier extends StateNotifier<LoginState> {
-  final ExecutionContextDTO _executionContextDTO;
-  final CustomerUseCases _customerUseCases;
+  final SendOTPUseCase _sendOTPUseCase;
+  final VerifyOTPUseCase _verifyOTPUseCase;
+  final GetUserByPhoneOrEmailUseCase _byPhoneOrEmailUseCase;
+  final LoginUserUseCase _loginUserUseCase;
 
   LoginNotifier(
-    this._executionContextDTO,
-    this._customerUseCases,
+    this._sendOTPUseCase,
+    this._verifyOTPUseCase,
+    this._byPhoneOrEmailUseCase,
+    this._loginUserUseCase,
   ) : super(const _Initial());
 
+  String _phone = '';
+  String otpId = '';
+
+  String get phone => _phone;
   void loginUser(String loginId, String password) async {
     state = const _InProgress();
-    final customDataSetDto = CustomDataSetDTO(customDataDtoList: []);
-    final customerDTO = CustomerDTO(
-      customDataSetDto: customDataSetDto,
-      siteId: _executionContextDTO.siteId,
-      email: loginId,
-      profileDto: ProfileDTO(
-        userName: loginId,
-      ),
+    final response = await _loginUserUseCase(
+      {"UserName": loginId, "Password": password},
     );
-    final dto = CustomerBL.dto(
-      _executionContextDTO,
-      customerDTO,
+    response.fold(
+      (l) {
+        Logger().e(l.message);
+        state = _Error(l.message);
+      },
+      (r) {
+        registerUser(r);
+        state = const _Success();
+      },
     );
-
-    try {
-      final customer = await dto.login(password);
-      registerUser(customer!);
-      state = const _Success();
-    } on AppException catch (e) {
-      Logger().e(e.toString());
-      state = _Error(e.toString());
-    }
   }
 
-  void loginUserWithOTP(String phoneOrEmail) async {
+  void loginUserWithOTP(String phone) async {
+    _phone = phone;
     state = const _InProgress();
-    _customerUseCases.loginCustomerByOtp('maldonado100@gmail.com');
-    try {
-      state = const _Success();
-    } on AppException catch (e) {
-      Logger().e(e.toString());
-      state = _Error(e.toString());
-    }
+    final response = await _sendOTPUseCase({'Phone': phone, 'Source': 'LOGIN_OTP_EVENT'});
+    response.fold(
+      (l) {
+        Logger().e(l);
+        state = _Error(l.message);
+      },
+      (r) {
+        otpId = r;
+        state = const _OtpGenerated();
+      },
+    );
+  }
+
+  void verifyOTP(String otp) async {
+    state = const _VerifyingOTP();
+    final response = await _verifyOTPUseCase({'code': otp}, otpId);
+    response.fold(
+      (l) {
+        Logger().e(l.message);
+        state = _OtpVerificationError(l.message);
+      },
+      (r) {
+        _getUserInfo(_phone);
+        Logger().d(r);
+      },
+    );
+  }
+
+  void _getUserInfo(String phoneOrEmail) async {
+    final user = await _byPhoneOrEmailUseCase(phoneOrEmail);
+    user.fold(
+      (l) {
+        Logger().e(l);
+        state = _Error(l.message);
+      },
+      (r) {
+        registerUser(r);
+        state = const _OtpVerified();
+      },
+    );
   }
 }

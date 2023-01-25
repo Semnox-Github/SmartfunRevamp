@@ -16,7 +16,7 @@ Future<void> init() async {
 }
 
 void authenticateApi(SystemUser systemUser, String baseURL) {
-  Get.replace(SmartFunApi(systemUser.webApiToken, baseURL));
+  Get.replace(SmartFunApi(baseURL, systemUser.webApiToken));
   Get.put<SystemUser>(systemUser);
   ExecutionContextDTO executionDTO = ExecutionContextDTO(
     apiUrl: baseURL,
@@ -24,7 +24,6 @@ void authenticateApi(SystemUser systemUser, String baseURL) {
     siteId: systemUser.siteId,
   );
 
-  // Get.lazyPut<ExecutionContextDTO?>(() => executionDTO);
   Get.create<ExecutionContextDTO>(() => executionDTO);
   Logger().d('System User Authenticated');
 }

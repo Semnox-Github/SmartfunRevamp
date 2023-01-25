@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
@@ -29,8 +31,8 @@ abstract class ParafaitApi {
       receiveTimeout: 20000,
       connectTimeout: 20000,
       headers: {
-        'Authorization': token,
-        'content-type': 'application/json',
+        HttpHeaders.authorizationHeader: token,
+        HttpHeaders.contentTypeHeader: 'application/json',
         'Origin': 'mQ/btZP6wd74Sgd59JETzEtAkBO8QIL4KpE2pjz9hRg=',
       },
     );

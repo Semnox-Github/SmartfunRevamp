@@ -30,6 +30,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           context.loaderOverlay.hide();
           Navigator.pushReplacementNamed(context, Routes.kHomePage);
         },
+        otpGenerated: () {
+          context.loaderOverlay.hide();
+          Navigator.pushNamed(context, Routes.kVerifyOTP);
+        },
         error: (message) {
           context.loaderOverlay.hide();
           AwesomeDialog(

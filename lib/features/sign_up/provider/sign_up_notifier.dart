@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/entities/sign_up/sign_up_entity.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 
-import 'package:semnox/di/injection_container.dart';
 import 'package:semnox_core/modules/customer/bl/customer_bl.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_set_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -24,7 +24,7 @@ part 'sign_up_notifier.freezed.dart';
 ///
 final signUpNotifier = StateNotifierProvider<SignUpNotifier, SignUpState>(
   (ref) => SignUpNotifier(
-    sl.get<ExecutionContextDTO>(),
+    Get.find<ExecutionContextDTO>(),
   ),
 );
 

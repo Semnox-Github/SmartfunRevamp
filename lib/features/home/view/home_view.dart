@@ -1,14 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
-import 'package:semnox/di/injection_container.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
-  final user = sl.get<CustomerDTO>();
+  final user = Get.find<CustomerDTO>();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

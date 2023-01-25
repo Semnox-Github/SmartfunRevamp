@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/di/injection_container.dart';
 
@@ -16,8 +17,8 @@ part 'login_notifier.freezed.dart';
 
 final loginProvider = StateNotifierProvider<LoginNotifier, LoginState>(
   (ref) => LoginNotifier(
-    sl<ExecutionContextDTO>(),
-    sl<CustomerUseCases>(),
+    Get.find<ExecutionContextDTO>(),
+    Get.find<CustomerUseCases>(),
   ),
 );
 

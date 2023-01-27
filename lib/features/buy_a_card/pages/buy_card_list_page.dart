@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/features/buy_a_card/provider/buy_card_notifier.dart';
 import 'package:semnox/features/buy_a_card/widgets/card_type.dart';
 import 'package:semnox/features/buy_a_card/widgets/drawer_filter.dart';
 
@@ -15,6 +18,7 @@ class BuyCardListPage extends StatelessWidget {
         backgroundColor: const Color(0xFFCFF8FF),
         elevation: 0.0,
         centerTitle: false,
+        iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
           'Buy a Card',
           style: TextStyle(
@@ -78,35 +82,35 @@ class BuyCardListPage extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                itemCount: 7,
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                separatorBuilder: (_, __) => const SizedBox(height: 10.0),
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return const Text(
-                      'Recommended For You',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
-                  }
-                  if (index == 4) {
-                    return const Text(
-                      'Exclusive Offers on Cards',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
-                  }
-                  return const CardType();
+              child: Consumer(
+                builder: (context, ref, child) {
+                  return ref.watch(buyCardNotifier).maybeWhen(
+                        orElse: () => Container(),
+                        inProgress: () => const Center(child: CircularProgressIndicator()),
+                        success: (cards) {
+                          if (cards.isEmpty) {
+                            return const Center(
+                              child: Text('No cards found'),
+                            );
+                          }
+                          return ListView.separated(
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            itemCount: cards.length,
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            separatorBuilder: (_, __) => const SizedBox(height: 10.0),
+                            itemBuilder: (context, index) {
+                              return CardType(
+                                card: cards[index],
+                              );
+                            },
+                          );
+                        },
+                        error: (_) => Container(),
+                      );
                 },
               ),
-            ),
+            )
           ],
         ),
       ),

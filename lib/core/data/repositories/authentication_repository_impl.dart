@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
@@ -79,6 +80,23 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     try {
       final response = await _api.getCustomerByPhoneorEmail(phoneOrEmail);
       return Right(response.data.first);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> getExecutionController(int siteId) async {
+    try {
+      final response = await _api.getExecutionController(siteId);
+      final token = response.response.headers.value(HttpHeaders.authorizationHeader) ?? '';
+      Logger().d(token);
+      return Right(token);
     } on DioError catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {

@@ -3,9 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 
 class RechargeCardWidget extends StatelessWidget {
-  const RechargeCardWidget({Key? key}) : super(key: key);
+  const RechargeCardWidget({Key? key, required this.cardProduct}) : super(key: key);
+  final CardProduct cardProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class RechargeCardWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    '\$90',
+                    '\$${cardProduct.finalPrice}',
                     style: GoogleFonts.mulish(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -46,7 +48,7 @@ class RechargeCardWidget extends StatelessWidget {
                   ),
                   const SizedBox(width: 5.0),
                   Text(
-                    '\$100',
+                    '\$${cardProduct.basePrice}',
                     style: GoogleFonts.mulish(
                       color: CustomColors.customLigthGray,
                       fontWeight: FontWeight.w600,
@@ -81,7 +83,7 @@ class RechargeCardWidget extends StatelessWidget {
               ),
               const SizedBox(width: 5.0),
               Text(
-                '1000 CREDITS',
+                '${cardProduct.credits} CREDITS',
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.bold,
                   fontSize: 22.0,

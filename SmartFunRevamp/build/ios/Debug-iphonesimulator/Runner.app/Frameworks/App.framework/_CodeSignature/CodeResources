@@ -10,7 +10,7 @@
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		IYmS+dQbOww1nKdClAtt3RyMm7w=
+		kvxjrrdB7/aL7GqXG2b0Z89UyU8=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>flutter_assets/NOTICES.Z</key>
 		<data>
-		h4XSoSl4S/wuWdBG/bKiCU0lb7E=
+		oFHM672obzhUUUMdgs21rNqkXhY=
 		</data>
 		<key>flutter_assets/assets/buy_card/coin.svg</key>
 		<data>
@@ -142,7 +142,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		EgYhFxQBGZnlf2PUTs4TnCSQyLk=
+		d0Es83hQMoouEgo6+2Qv8QeGeOk=
 		</data>
 		<key>flutter_assets/packages/awesome_dialog/assets/flare/error.flr</key>
 		<data>
@@ -287,6 +287,14 @@
 		<key>flutter_assets/packages/flutter_icons/fonts/weathericons.ttf</key>
 		<data>
 		mRbj28OZDjBzz1ostMLpWCc7dTI=
+		</data>
+		<key>flutter_assets/packages/fluttertoast/assets/toastify.css</key>
+		<data>
+		HVkEhoid+n6bwOYCwZg4DdmGBHY=
+		</data>
+		<key>flutter_assets/packages/fluttertoast/assets/toastify.js</key>
+		<data>
+		Q0Yr9JVfSBiRH22TkE46LT+KLE8=
 		</data>
 		<key>flutter_assets/packages/semnox_core/assets/fonts/GothamRounded-Bold.otf</key>
 		<data>
@@ -623,7 +631,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			HmC6KGbt1HoZwKR8snzXf1A2eELDYXmUjfQSQldnvhk=
+			cJdYfXn2ep469HIW5PEJJTcO3RgyUcHR9Y+2QZoAqYo=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -637,7 +645,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			HkV8iEJxeKnqoH+/YuqM9t4LJq9gG87JJF463mKxsN8=
+			j7nxNYI/oSZk6VpIEbfQa+L90w+oB0OXFHzV0cw2ODs=
 			</data>
 		</dict>
 		<key>flutter_assets/assets/buy_card/coin.svg</key>
@@ -854,7 +862,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			hq652Az2hAsDEmACdhtaum8slFeCXsqv8sXXbwNzdiw=
+			jIydwWqtHe0Yh3AMixqecJwf7535zMPkE8Wu61wlXEI=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/awesome_dialog/assets/flare/error.flr</key>
@@ -1107,6 +1115,20 @@
 			<key>hash2</key>
 			<data>
 			F2vaZmHyE93kfCEU125HbsjKmq4H3VT5VQ0tKP4CtP0=
+			</data>
+		</dict>
+		<key>flutter_assets/packages/fluttertoast/assets/toastify.css</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			abr0T+pbPv0zd7q8FU7xuDv4JjuRAgKox9bnRddRNJ8=
+			</data>
+		</dict>
+		<key>flutter_assets/packages/fluttertoast/assets/toastify.js</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			mfqR+tbc9El/g4k3uPxXEF7vEx1a29TL45Ns5tQkjsE=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/semnox_core/assets/fonts/GothamRounded-Bold.otf</key>

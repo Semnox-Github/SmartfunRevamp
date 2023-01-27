@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:semnox/core/api/api_interceptor.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/splash_screen/get_base_url_response.dart';
 
@@ -14,7 +15,6 @@ abstract class ParafaitApi {
   factory ParafaitApi({String token = ''}) {
     final dio = Dio();
     dio.interceptors.addAll([
-      AuthorizationInterceptor(),
       PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
@@ -31,8 +31,8 @@ abstract class ParafaitApi {
       receiveTimeout: 20000,
       connectTimeout: 20000,
       headers: {
-        'Authorization': token,
-        'content-type': 'application/json',
+        HttpHeaders.authorizationHeader: token,
+        HttpHeaders.contentTypeHeader: 'application/json',
         'Origin': 'mQ/btZP6wd74Sgd59JETzEtAkBO8QIL4KpE2pjz9hRg=',
       },
     );

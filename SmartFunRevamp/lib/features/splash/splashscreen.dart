@@ -17,7 +17,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     ref.read(splashScreenProvider.notifier).getBaseUrl();
-
     super.initState();
   }
 
@@ -42,14 +41,3 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     );
   }
 }
-
-   // if (Platform.isAndroid && (widget.info?.version.sdkInt ?? 0) > 30) {
-    // return EasySplashScreen(
-    //   backgroundImage: const AssetImage('assets/splash_screen/splash_screen.png'),
-    //   backgroundColor: Colors.white,
-    //   navigator: const AfterSplashScreen(),
-    //   showLoader: false,
-    //   logo: Image.asset('assets/splash_screen/transparent.png'),
-    // );
-    // }
-    // return const AfterSplashScreen();

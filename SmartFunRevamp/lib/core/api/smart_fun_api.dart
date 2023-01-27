@@ -2,14 +2,18 @@ import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
+import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
+import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
 import 'package:semnox/core/domain/entities/data.dart';
+import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 part 'smart_fun_api.g.dart';
 
 @RestApi()
 abstract class SmartFunApi {
-  factory SmartFunApi({String token = '', String baseUrl = ''}) {
+  factory SmartFunApi([String baseUrl = '', String token = '']) {
     final dio = Dio();
     dio.interceptors.addAll([
       AuthorizationInterceptor(),
@@ -40,11 +44,40 @@ abstract class SmartFunApi {
   @POST('Login/AuthenticateSystemUsers')
   Future<Data<SystemUser>> authenticateSystemUser(@Body() Map<String, dynamic> body);
 
-  @POST('Login/AuthenticateUsers')
-  Future<HttpResponse> loginUser(@Body() Map<String, dynamic> body);
+  @POST('Customer/CustomerLogin')
+  Future<Data<CustomerDTO>> loginUser(@Body() Map<String, dynamic> body);
 
-  @POST('')
-  Future<HttpResponse> signUpUser(@Body() Map<String, dynamic> body);
+  @GET('Product/ProductPrice')
+  Future<ListDataWrapper<CardProduct>> getProductsPrices(
+    @Query('dateTime') String dateTime, {
+    @Query('menuType') String menuType = 'O',
+    @Query('transactionProfileId') int transactionProfileId = -1,
+    @Query('membershipId') int membershipId = -1,
+  });
+
+  @POST('CommonServices/GenericOTP/Create')
+  Future<Data<CreateOtpResponse>> sendOTP(@Body() Map<String, dynamic> body);
+
+  ///Default code OTP 141448
+  @POST('CommonServices/GenericOTP/{id}/Validate')
+  Future<HttpResponse> validateOTP(
+    @Body() Map<String, dynamic> body,
+    @Path('id') otpId,
+  );
+
+  @GET('Customer/Customers')
+  Future<ListDataWrapper<CustomerDTO>> getCustomerByPhoneorEmail(
+    @Query('phoneoremail') String phoneOrEmail, {
+    @Query('buildChildRecords') bool buildChildRecords = true,
+  });
+  @GET('ParafaitEnvironment/ExecutionContext')
+  Future<HttpResponse> getExecutionController(
+    @Query('siteId') int siteId, {
+    @Query('posMachineName') String posMachineName = 'webplatform',
+    @Query('languageCode') String languageCode = 'en-US',
+  });
+  @POST('Transaction/Transactions')
+  Future<Data<EstimateTransactionResponse>> estimateTransaction(@Body() Map<String, dynamic> body);
 
   @GET('Configuration/ParafaitDefaultContainer')
   Future<HttpResponse> getParafaitDefaults(

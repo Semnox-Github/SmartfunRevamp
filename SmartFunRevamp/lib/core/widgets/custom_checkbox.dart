@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:semnox/colors/gradients.dart';
 
 class CustomCheckBox extends StatefulWidget {
-  const CustomCheckBox({Key? key}) : super(key: key);
+  const CustomCheckBox({Key? key, this.onTap}) : super(key: key);
+  final Function(bool)? onTap;
 
   @override
   State<CustomCheckBox> createState() => _CustomCheckBoxState();
@@ -40,6 +41,9 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
             setState(() {
               isChecked = !isChecked;
             });
+            if (widget.onTap != null) {
+              widget.onTap!(isChecked);
+            }
           },
         ),
       ),

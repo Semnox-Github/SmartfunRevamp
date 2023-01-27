@@ -7,5 +7,6 @@ abstract class AuthenticationRepository {
   Future<Either<Failure, String>> sendOTP(Map<String, dynamic> body);
   Future<Either<Failure, bool>> verifyOTP(Map<String, dynamic> body, String otpId);
   Future<Either<Failure, CustomerDTO>> getUserByPhoneOrEmail(String phoneOrEmail);
+  Future<Either<Failure, String>> getExecutionController(int siteId);
   Future<Either<Failure, void>> getUserMetaData();
 }

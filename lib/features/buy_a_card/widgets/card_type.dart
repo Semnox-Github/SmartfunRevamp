@@ -1,12 +1,17 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
+import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
+import 'package:semnox/features/buy_a_card/provider/buy_card_notifier.dart';
 
 enum CardValue { silver, gold, platinum }
 
@@ -58,11 +63,12 @@ CardValue randomCard() {
   }
 }
 
-class CardType extends StatelessWidget {
-  const CardType({Key? key}) : super(key: key);
+class CardType extends ConsumerWidget {
+  const CardType({Key? key, required this.card}) : super(key: key);
+  final CardProduct card;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final CardValue value = randomCard();
     return GestureDetector(
       onTap: () {
@@ -105,7 +111,7 @@ class CardType extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const RechargeCardWidget(),
+                      RechargeCardWidget(cardProduct: card),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Column(
@@ -147,9 +153,30 @@ class CardType extends StatelessWidget {
                               height: MediaQuery.of(context).size.height * 0.05,
                             ),
                             CustomButton(
-                              onTap: () {},
-                              label: 'BUY NOW @ 90',
-                            )
+                              onTap: () {
+                                ref.listenManual(
+                                  estimateProvider(card),
+                                  (previous, next) {
+                                    next.maybeWhen(
+                                      orElse: () => Logger().d('else'),
+                                      data: (data) => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => EstimatedTransactionPage(
+                                            transactionResponse: data,
+                                            cardProduct: card,
+                                          ),
+                                        ),
+                                      ),
+                                      error: (error, stackTrace) => Logger().e(error),
+                                      loading: () => Logger().d('Loading'),
+                                    );
+                                  },
+                                  fireImmediately: true,
+                                );
+                              },
+                              label: 'BUY NOW @ ${card.finalPrice}',
+                            ),
                           ],
                         ),
                       )
@@ -181,7 +208,7 @@ class CardType extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '\$90',
+                  '\$${card.finalPrice}',
                   style: GoogleFonts.mulish(
                     fontWeight: FontWeight.w800,
                     fontSize: 20.0,
@@ -190,7 +217,7 @@ class CardType extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '\$100',
+                      '\$${card.basePrice}',
                       style: GoogleFonts.mulish(
                         color: CustomColors.discountColor,
                         fontWeight: FontWeight.w600,
@@ -221,6 +248,7 @@ class CardType extends StatelessWidget {
               margin: const EdgeInsets.all(3.0),
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               height: 75,
+              width: MediaQuery.of(context).size.width * 0.3,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 gradient: value.colorGradient,
@@ -231,7 +259,7 @@ class CardType extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    value.name,
+                    card.productName,
                     style: GoogleFonts.mulish(
                       fontWeight: FontWeight.bold,
                       fontSize: 10.0,
@@ -243,7 +271,7 @@ class CardType extends StatelessWidget {
                       SvgPicture.asset('assets/buy_card/coin.svg'),
                       const SizedBox(width: 5.0),
                       Text(
-                        '1000',
+                        card.credits.toString(),
                         style: GoogleFonts.mulish(
                           fontWeight: FontWeight.bold,
                           fontSize: 22.0,

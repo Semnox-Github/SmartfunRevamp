@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class HomeView extends StatelessWidget {
@@ -164,7 +165,7 @@ class HomeView extends StatelessWidget {
                           ),
                           margin: const EdgeInsets.all(3),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () => Navigator.pushNamed(context, Routes.kBuyACard),
                             child: const Text(
                               'RECHARGE NOW',
                               style: TextStyle(

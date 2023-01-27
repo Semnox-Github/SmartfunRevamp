@@ -3,6 +3,7 @@ import 'package:semnox/core/api/parafait_api.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/di/authentication_dependecies.dart';
+import 'package:semnox/di/products_price_dependecies.dart';
 import 'package:semnox/di/splash_screen_dependencies.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:get/get.dart';
@@ -13,6 +14,7 @@ Future<void> init() async {
   Get.lazyPut(() => SmartFunApi());
   splashScreenDependencies();
   authenticaionDependecies();
+  productsPriceDependecies();
 }
 
 void authenticateApi(SystemUser systemUser, String baseURL) {
@@ -23,7 +25,6 @@ void authenticateApi(SystemUser systemUser, String baseURL) {
     authToken: systemUser.webApiToken,
     siteId: systemUser.siteId,
   );
-
   Get.create<ExecutionContextDTO>(() => executionDTO);
   Logger().d('System User Authenticated');
 }

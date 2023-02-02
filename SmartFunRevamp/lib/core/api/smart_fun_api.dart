@@ -47,6 +47,9 @@ abstract class SmartFunApi {
   @POST('Customer/CustomerLogin')
   Future<Data<CustomerDTO>> loginUser(@Body() Map<String, dynamic> body);
 
+  @POST('/Customer/Customers')
+  Future<Data<CustomerDTO>> signUpUser(@Body() Map<String, dynamic> body);
+
   @GET('Product/ProductPrice')
   Future<ListDataWrapper<CardProduct>> getProductsPrices(
     @Query('dateTime') String dateTime, {

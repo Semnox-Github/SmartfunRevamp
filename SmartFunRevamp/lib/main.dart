@@ -1,18 +1,14 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/features/select_location/pages/enable_location_page.dart';
 import 'package:semnox/features/splash/splashscreen.dart';
 import 'di/injection_container.dart' as di;
-import 'dart:io' show Platform;
 
-AndroidDeviceInfo? _androidDeviceInfo;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isAndroid) {
-    _androidDeviceInfo = await DeviceInfoPlugin().androidInfo;
-  }
+
   di.init();
   runApp(const MyApp());
 }
@@ -26,8 +22,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Flutter Demo',
           routes: Routes.routesMap,
-          home: SplashScreen(info: _androidDeviceInfo),
-          // home: const BuyCardListPage(),
+          home: const SplashScreen(),
+          // home: const EnableLocationPage(),
           theme: ThemeData(
             inputDecorationTheme: InputDecorationTheme(
               isDense: true,

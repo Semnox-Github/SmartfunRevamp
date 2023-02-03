@@ -1,4 +1,3 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/core/routes.dart';
@@ -6,8 +5,7 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
-  const SplashScreen({Key? key, required this.info}) : super(key: key);
-  final AndroidDeviceInfo? info;
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SplashScreenState();

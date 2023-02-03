@@ -6,6 +6,7 @@ import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
+import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
@@ -119,7 +120,7 @@ abstract class SmartFunApi {
   );
 
   @GET('Organization/SiteContainer')
-  Future<HttpResponse> getAllSites();
+  Future<Data<GetAllSitesResponse>> getAllSites();
 
   @GET('Common/Images')
   Future<HttpResponse> getAppProductsImages(

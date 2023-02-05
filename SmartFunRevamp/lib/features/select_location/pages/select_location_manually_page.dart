@@ -38,7 +38,13 @@ class SelectLocationManuallyPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SearchTextField(),
+              Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  return SearchTextField(
+                    onChanged: (filter) => ref.read(selectLocationStateProvider.notifier).filterSites(filter),
+                  );
+                },
+              ),
               const SizedBox(height: 10.0),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -64,41 +70,7 @@ class SelectLocationManuallyPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10.0),
-              Consumer(
-                builder: (context, ref, child) {
-                  return ref.watch(sitesProvider).maybeWhen(
-                        orElse: () => Container(),
-                        loading: () => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        data: (data) {
-                          return ListView.separated(
-                            separatorBuilder: (context, index) => const Divider(color: Colors.white),
-                            shrinkWrap: true,
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  gradient: CustomGradients.linearGradient,
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                                child: ListTile(
-                                  title: MulishText(
-                                    text: data[index].siteName ?? '',
-                                    fontColor: Colors.white,
-                                  ),
-                                  trailing: const Icon(
-                                    Icons.check_circle,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      );
-                },
-              )
+              const LocatioListView()
             ],
           ),
         ),
@@ -107,14 +79,75 @@ class SelectLocationManuallyPage extends StatelessWidget {
   }
 }
 
-class SearchTextField extends StatelessWidget {
-  const SearchTextField({
+class LocatioListView extends StatefulWidget {
+  const LocatioListView({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<LocatioListView> createState() => _LocatioListViewState();
+}
+
+class _LocatioListViewState extends State<LocatioListView> {
+  int? locationSelected;
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, child) {
+        return ref.watch(selectLocationStateProvider).maybeWhen(
+              orElse: () => Container(),
+              inProgress: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              success: (data) {
+                return ListView.separated(
+                  separatorBuilder: (context, index) => const Divider(color: Colors.white),
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        gradient: locationSelected == index ? CustomGradients.linearGradient : null,
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: ListTile(
+                        title: MulishText(
+                          text: data[index].siteName ?? '',
+                          fontColor: locationSelected == index ? Colors.white : Colors.black,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            locationSelected = index;
+                          });
+                        },
+                        trailing: locationSelected == index
+                            ? const Icon(
+                                Icons.check_circle,
+                                color: Colors.white,
+                              )
+                            : null,
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+      },
+    );
+  }
+}
+
+class SearchTextField extends StatelessWidget {
+  const SearchTextField({
+    Key? key,
+    required this.onChanged,
+  }) : super(key: key);
+  final Function(String) onChanged;
+
+  @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: 'Search',
         border: OutlineInputBorder(

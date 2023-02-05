@@ -25,7 +25,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       (_, next) {
         next.maybeWhen(
           orElse: () {},
-          success: () => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage),
+          success: () => Navigator.pushReplacementNamed(context, Routes.kEnableLocation),
         );
       },
     );

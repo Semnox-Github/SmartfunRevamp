@@ -41,6 +41,7 @@ abstract class SmartFunApi {
     return _SmartFunApi(dio);
   }
 
+
   @POST('Login/AuthenticateSystemUsers')
   Future<Data<SystemUser>> authenticateSystemUser(@Body() Map<String, dynamic> body);
 
@@ -130,4 +131,16 @@ abstract class SmartFunApi {
     @Query('hash') String? hash,
     @Query('rebuildCache') bool rebuildCache = false,
   });
+
+  //----- Transaction -----// ->
+
+  //
+  @GET('Transaction/PaymentModes')
+  Future<HttpResponse> getPaymentModes({
+    @Query('siteId') String siteId = '1010',
+    @Query('isActive') int isActive = 1,
+  });
+
+
+  //----- Transaction -----// <-
 }

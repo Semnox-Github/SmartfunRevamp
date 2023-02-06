@@ -1,10 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class HomeView extends StatelessWidget {
@@ -72,81 +75,22 @@ class HomeView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10.0),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(20.0),
-                  decoration: BoxDecoration(
-                    color: Colors.purple.shade400,
-                    borderRadius: BorderRadius.circular(
-                      20.0,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              Text(
-                                '8723 46 89 6768',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              SizedBox(height: 10.0),
-                              Text(
-                                '+Add Nickname',
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
+                Consumer(
+                  builder: (context, ref, child) {
+                    return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
+                          orElse: () => Container(
+                            height: 20.0,
+                            width: 20.0,
+                            color: Colors.red,
                           ),
-                          Image.asset(
-                            'assets/home/QR.png',
-                            height: 42.0,
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 10.0),
-                      OutlinedButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              side: const BorderSide(
-                                width: 1.5,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        child: const Text(
-                          'Get Balance',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      const Text(
-                        '01 Jan 2021 - 01 Jan 2023',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )
-                    ],
-                  ),
+                          loading: () => const CircularProgressIndicator(),
+                          data: (data) {
+                            return MulishText(
+                              text: 'This user has ${data.length}  cards',
+                            );
+                          },
+                        );
+                  },
                 ),
                 const SizedBox(height: 10.0),
                 Row(
@@ -229,33 +173,34 @@ class HomeView extends StatelessWidget {
             ),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            children: const [
+            children: [
               QuickLinkItem(
                 color: CustomColors.customYellow,
                 image: 'recharge',
                 text: 'Recharge',
+                onTap: () => Navigator.pushNamed(context, Routes.kBuyACard),
               ),
-              QuickLinkItem(
+              const QuickLinkItem(
                 color: CustomColors.customPink,
                 image: 'new_card',
                 text: 'New Card',
               ),
-              QuickLinkItem(
+              const QuickLinkItem(
                 color: CustomColors.customLigthBlue,
                 image: 'activities',
                 text: 'Activities',
               ),
-              QuickLinkItem(
+              const QuickLinkItem(
                 color: CustomColors.customOrange,
                 image: 'lost_card',
                 text: 'Lost Card',
               ),
-              QuickLinkItem(
+              const QuickLinkItem(
                 color: CustomColors.customGreen,
                 image: 'gameplays',
                 text: 'Game Plays',
               ),
-              QuickLinkItem(
+              const QuickLinkItem(
                 color: CustomColors.customPurple,
                 image: 'transfer_credit',
                 text: 'Transfer Credit',
@@ -346,31 +291,36 @@ class QuickLinkItem extends StatelessWidget {
     required this.color,
     required this.image,
     required this.text,
+    this.onTap,
   }) : super(key: key);
   final Color color;
   final String image;
   final String text;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            color: color,
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              color: color,
+            ),
+            padding: const EdgeInsets.all(13.0),
+            child: SvgPicture.asset('assets/home/$image.svg'),
           ),
-          padding: const EdgeInsets.all(13.0),
-          child: SvgPicture.asset('assets/home/$image.svg'),
-        ),
-        const SizedBox(height: 10.0),
-        Text(
-          text,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
+          const SizedBox(height: 10.0),
+          Text(
+            text,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

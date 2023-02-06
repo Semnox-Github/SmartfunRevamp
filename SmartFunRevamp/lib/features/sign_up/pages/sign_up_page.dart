@@ -225,9 +225,11 @@ class CustomTextField extends StatelessWidget {
     this.inputType = TextInputType.name,
     this.fillColor = Colors.transparent,
     this.formatters,
+    this.initialValue,
   }) : super(key: key);
   final Function(String) onSaved;
   final String label;
+  final String? initialValue;
   final TextInputType inputType;
   final Color fillColor;
   final List<TextInputFormatter>? formatters;
@@ -247,6 +249,7 @@ class CustomTextField extends StatelessWidget {
         ),
         const SizedBox(height: 5.0),
         TextFormField(
+          initialValue: initialValue,
           inputFormatters: formatters,
           onSaved: (newValue) => onSaved(newValue!),
           validator: (value) => value!.isEmpty ? 'Required' : null,

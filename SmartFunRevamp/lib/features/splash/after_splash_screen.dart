@@ -89,6 +89,7 @@ class AfterSplashScreen extends StatelessWidget {
                         margin: const EdgeInsets.all(3),
                         child: TextButton(
                           onPressed: () => Navigator.pushReplacementNamed(context, Routes.kLogInPage),
+                          // onPressed: () => Navigator.pushNamed(context, Routes.kEnableLocation),
                           child: const Text(
                             'LOGIN',
                             style: TextStyle(

@@ -1,12 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:otp_text_field/otp_text_field.dart';
-import 'package:otp_text_field/style.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
@@ -82,17 +80,13 @@ class VerifyOtpPage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 40.0),
-              OTPTextField(
-                length: 6,
-                width: MediaQuery.of(context).size.width * 0.9,
-                fieldWidth: 45,
-                style: const TextStyle(fontSize: 17),
-                textFieldAlignment: MainAxisAlignment.spaceAround,
-                fieldStyle: FieldStyle.box,
-                onCompleted: (pin) => otp = pin,
+              OtpTextField(
+                numberOfFields: 6,
+                showFieldAsBox: true,
+                focusedBorderColor: CustomColors.hardOrange,
+                onCodeChanged: (String code) => otp = code,
+                onSubmit: (String verificationCode) => ref.read(loginProvider.notifier).verifyOTP(verificationCode),
                 keyboardType: TextInputType.number,
-                inputFormatter: [FilteringTextInputFormatter.digitsOnly],
-                onChanged: (value) {},
               ),
               const SizedBox(height: 40.0),
               InkWell(

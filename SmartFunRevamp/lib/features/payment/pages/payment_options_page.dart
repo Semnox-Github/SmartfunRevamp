@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/payment/provider/payment_options_provider.dart';
+
 
 class PaymentOptionsPage extends StatelessWidget {
   const PaymentOptionsPage({Key? key, required this.transactionResponse, required this.cardProduct}) : super(key: key);
@@ -64,6 +68,29 @@ class PaymentOptionsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10.0),
+            Consumer(
+              builder: (context, ref, child) {
+                return ref.watch(PaymentOptionsProvider.paymentModesProvider).maybeWhen(
+                      orElse: () => Container(
+                        height: 20.0,
+                        width: 20.0,
+                        color: Colors.red,
+                      ),
+                      error: (e,s) => Container(
+
+                        child: MulishText(
+                          text: '${e}',
+                        ),
+                      ),
+                      loading: () => const CircularProgressIndicator(),
+                      data: (data) {
+                        return MulishText(
+                          text: 'This user has ${data.length}  cards',
+                        );
+                      },
+                    );
+              },
+            ),
             const SizedBox(height: 10.0),
            
             const Spacer(),
@@ -72,4 +99,6 @@ class PaymentOptionsPage extends StatelessWidget {
       ),
     );
   }
+
+ 
 }

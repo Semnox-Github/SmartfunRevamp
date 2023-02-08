@@ -6,9 +6,9 @@ class PaymentMode {
   final int paymentModeId;
   final String paymentMode;
   final String imageFileName;
-  final String LookupValue;
+  
 
-  PaymentMode(this.paymentModeId, this.paymentMode, this.imageFileName, this.LookupValue);
+  PaymentMode(this.paymentModeId, this.paymentMode, this.imageFileName);
   factory PaymentMode.fromJson(Map<String, dynamic> json) => _$PaymentModeFromJson(json);
   Map<String, dynamic> toJson() => _$PaymentModeToJson(this);
 }

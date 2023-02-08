@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
-import 'package:semnox/features/payment/payment_options_page.dart';
+import 'package:semnox/features/payment/pages/payment_options_page.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 
 class EstimatedTransactionPage extends StatelessWidget {

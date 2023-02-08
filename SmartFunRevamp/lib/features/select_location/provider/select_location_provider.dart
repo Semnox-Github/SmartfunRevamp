@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/use_cases/select_location/get_all_sites_use_case.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 part 'select_location_state.dart';
@@ -9,13 +10,15 @@ part 'select_location_provider.freezed.dart';
 final selectLocationStateProvider = StateNotifierProvider<SelectLocationProvider, SelectLocationState>(
   (ref) => SelectLocationProvider(
     Get.find<GetAllSitesUseCase>(),
+    Get.find<LocalDataSource>(),
   ),
 );
 
 class SelectLocationProvider extends StateNotifier<SelectLocationState> {
   final GetAllSitesUseCase _getAllSitesUseCase;
+  final LocalDataSource _localDataSource;
   List<SiteViewDTO> _sites = [];
-  SelectLocationProvider(this._getAllSitesUseCase) : super(const _Initial()) {
+  SelectLocationProvider(this._getAllSitesUseCase, this._localDataSource) : super(const _Initial()) {
     getSites();
   }
 
@@ -29,6 +32,10 @@ class SelectLocationProvider extends StateNotifier<SelectLocationState> {
         _sites = r;
       },
     );
+  }
+
+  Future<void> saveSite(SiteViewDTO site) async {
+    await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, site.toJson());
   }
 
   void filterSites(String filter) {

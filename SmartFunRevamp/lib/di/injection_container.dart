@@ -13,10 +13,10 @@ import 'package:semnox_core/modules/execution_context/model/execution_context_dt
 Future<void> init() async {
   Get.lazyPut(() => ParafaitApi());
   Get.lazyPut(() => SmartFunApi());
+  selectLocationDependecies();
   splashScreenDependencies();
   authenticaionDependecies();
   productsPriceDependecies();
-  selectLocationDependecies();
 }
 
 void authenticateApi(SystemUser systemUser, String baseURL) {

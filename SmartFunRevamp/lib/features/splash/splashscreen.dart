@@ -25,10 +25,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       (_, next) {
         next.maybeWhen(
           orElse: () {},
-          success: () => Navigator.pushReplacementNamed(context, Routes.kEnableLocation),
+          success: () => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage),
         );
       },
     );
+
     return Scaffold(
       body: Image.asset(
         'assets/splash_screen/splash_screen.png',

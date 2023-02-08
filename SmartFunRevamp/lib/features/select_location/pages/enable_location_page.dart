@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/routes.dart';
-import 'package:semnox/core/utils/permission_service.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 
 class EnableLocationPage extends StatelessWidget {
@@ -38,9 +37,9 @@ class EnableLocationPage extends StatelessWidget {
               children: [
                 CustomButton(
                   onTap: () async {
-                    if (await PermissionServices.getLocationPermision()) {
-                      //TODO: Redirect to Map Page
-                    }
+                    // if (await PermissionServices.getLocationPermision()) {
+                    Navigator.pushNamed(context, Routes.kMap);
+                    // }
                   },
                   label: 'ENABLE LOCATION SERVICES',
                 ),

@@ -110,7 +110,6 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     try {
       final response = await _api.getExecutionController(siteId);
       final token = response.response.headers.value(HttpHeaders.authorizationHeader) ?? '';
-      Logger().d(token);
       return Right(token);
     } on DioError catch (e) {
       Logger().e(e);

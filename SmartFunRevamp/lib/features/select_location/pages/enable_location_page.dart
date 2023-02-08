@@ -38,7 +38,9 @@ class EnableLocationPage extends StatelessWidget {
               children: [
                 CustomButton(
                   onTap: () async {
-                    if (await PermissionServices.getLocationPermision()) {}
+                    if (await PermissionServices.getLocationPermision()) {
+                      //TODO: Redirect to Map Page
+                    }
                   },
                   label: 'ENABLE LOCATION SERVICES',
                 ),

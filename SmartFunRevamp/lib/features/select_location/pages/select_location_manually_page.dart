@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
+import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 class SelectLocationManuallyPage extends StatelessWidget {
   const SelectLocationManuallyPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    late SiteViewDTO selectedSite;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -27,9 +31,17 @@ class SelectLocationManuallyPage extends StatelessWidget {
         elevation: 20.0,
         child: Container(
           padding: const EdgeInsets.all(25.0),
-          child: CustomButton(
-            onTap: () {},
-            label: 'CONFIRM LOCATION',
+          child: Consumer(
+            builder: (context, ref, child) {
+              return CustomButton(
+                onTap: () {
+                  (ref.read(selectLocationStateProvider.notifier).saveSite(selectedSite)).then(
+                    (_) => Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                  );
+                },
+                label: 'CONFIRM LOCATION',
+              );
+            },
           ),
         ),
       ),
@@ -70,7 +82,9 @@ class SelectLocationManuallyPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10.0),
-              const LocatioListView()
+              LocationListView(
+                onSelected: (site) => selectedSite = site,
+              )
             ],
           ),
         ),
@@ -79,16 +93,17 @@ class SelectLocationManuallyPage extends StatelessWidget {
   }
 }
 
-class LocatioListView extends StatefulWidget {
-  const LocatioListView({
+class LocationListView extends StatefulWidget {
+  const LocationListView({
     Key? key,
+    required this.onSelected,
   }) : super(key: key);
-
+  final Function(SiteViewDTO) onSelected;
   @override
-  State<LocatioListView> createState() => _LocatioListViewState();
+  State<LocationListView> createState() => _LocationListViewState();
 }
 
-class _LocatioListViewState extends State<LocatioListView> {
+class _LocationListViewState extends State<LocationListView> {
   int? locationSelected;
   @override
   Widget build(BuildContext context) {
@@ -118,6 +133,7 @@ class _LocatioListViewState extends State<LocatioListView> {
                         onTap: () {
                           setState(() {
                             locationSelected = index;
+                            widget.onSelected(data[index]);
                           });
                         },
                         trailing: locationSelected == index

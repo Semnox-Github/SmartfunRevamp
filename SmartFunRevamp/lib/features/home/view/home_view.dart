@@ -3,16 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/instance_manager.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/data.dart';
+import 'package:semnox/core/domain/entities/home/card_details.dart';
 import 'package:semnox/core/routes.dart';
-import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
+import 'package:intl/intl.dart';
+
+import '../../../core/widgets/mulish_text.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
   final user = Get.find<CustomerDTO>();
+  String mCardNumber = '';
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -78,20 +87,19 @@ class HomeView extends StatelessWidget {
                 Consumer(
                   builder: (context, ref, child) {
                     return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
-                          orElse: () => Container(
-                            height: 20.0,
-                            width: 20.0,
-                            color: Colors.red,
-                          ),
-                          loading: () => const CircularProgressIndicator(),
-                          data: (data) {
-                            return MulishText(
-                              text: 'This user has ${data.length}  cards',
-                            );
-                          },
-                        );
+                      orElse: () => Container(
+                        height: 20.0,
+                        width: 20.0,
+                        color: Colors.red,
+                      ),
+                      loading: () => const CircularProgressIndicator(),
+                      data: (data) {
+                        return data.isNotEmpty ? CarouselCards( cards: data ) : const LinkNewCard();
+                      },
+                    );
                   },
                 ),
+                
                 const SizedBox(height: 10.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -343,6 +351,132 @@ class ImageAvatar extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundImage: NetworkImage('https://kprofiles.com/wp-content/uploads/2016/05/TWICE-Perfect-World-Concept-Teasers-documents-10.jpeg'),
       ),
+    );
+  }
+}
+
+class ListOfCard extends StatelessWidget {
+  const ListOfCard({
+    Key? key,
+    required this.data
+  }) : super(key: key);
+  
+  final List<CardDetails> data;
+
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider(
+      options: CarouselOptions(height: 200.0),
+      items: data.map((i) {
+        return Builder(
+          builder: (BuildContext context) {
+            // return Image.asset('assets/home/carousel_test.png');
+            return BackgroundCard(
+              child: 
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children:  [
+                            Text(
+                              '${i.accountNumber}',
+                              style: const   TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 22,
+                              ),
+                            ),
+                            const SizedBox(height: 7.0),
+                            Text(
+                              '${i.accountIdentifier == '' ? '+ Add nickname' : i.accountIdentifier?.substring(0,15) }',
+                              style: const TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Image.asset(
+                          'assets/home/QR.png',
+                          height: 42.0,
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 10.0),
+                    OutlinedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            side: const BorderSide(
+                              width: 1.5,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'Get Balance',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    Text(
+                      '${i.issueDate  != null ?  DateFormat('dd  MMM yyyy').format(i.issueDate as DateTime) : ''} ${i.expiryDate  != null ? DateFormat('- dd  MMM yyyy').format(i.expiryDate as DateTime) : ''}',
+                      style: const  TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+            );
+          },
+        );
+      }).toList(),
+    );
+  }
+}
+
+
+class ListOfCard2 extends StatelessWidget {
+  const ListOfCard2({
+    Key? key,
+    required this.data
+  }) : super(key: key);
+  
+  final List<CardDetails> data;
+  
+  @override
+  Widget build(BuildContext context) {
+    return CarouselCards(cards: data);
+  }
+}
+
+class LinkNewCard extends StatelessWidget {
+  const LinkNewCard({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(
+      builder: (BuildContext context) {
+        return const BackgroundCard(
+          child: LinkACard(),
+        );
+      },
     );
   }
 }

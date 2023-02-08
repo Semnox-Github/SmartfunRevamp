@@ -6,7 +6,7 @@ part 'card_details.g.dart';
 class CardDetails {
   int? accountId;
   String? accountNumber;
-  String? issueDate;
+  DateTime? issueDate;
   double? faceValue;
   bool? refundFlag;
   dynamic refundAmount;
@@ -37,7 +37,7 @@ class CardDetails {
   int? uploadSiteId;
   dynamic uploadTime;
   bool? synchStatus;
-  String? expiryDate;
+  DateTime? expiryDate;
   int? downloadBatchId;
   dynamic refreshFromHqTime;
   int? masterEntityId;

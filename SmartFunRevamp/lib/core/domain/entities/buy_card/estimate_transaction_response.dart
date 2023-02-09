@@ -4,12 +4,14 @@ part 'estimate_transaction_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
 class EstimateTransactionResponse extends Equatable {
+  final int transactionId;
   final double transactionAmount;
   final double taxAmount;
   final double transactionDiscountAmount;
   final double transactionNetAmount;
 
   const EstimateTransactionResponse(
+    this.transactionId,
     this.transactionAmount,
     this.taxAmount,
     this.transactionDiscountAmount,

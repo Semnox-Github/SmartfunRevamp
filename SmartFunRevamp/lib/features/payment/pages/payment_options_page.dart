@@ -82,7 +82,7 @@ class PaymentOptionsPage extends StatelessWidget {
                       ),
                       loading: () => const CircularProgressIndicator(),
                       data: (data) {
-                        return PaymentOptionsWidged(paymentOptionsList: data);
+                        return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse);
                       },
                     );
               },
@@ -118,24 +118,16 @@ List<Item> generateItems(List<PaymentMode> paymentOptionsList) {
   return List<Item>.generate(paymentOptionsList.length, (int index) {
     return Item(
       headerValue: paymentOptionsList[index].paymentMode,
-      expandedValue: 'placeholder',
-    );
-  });
-}
-
-List<Item> generateItemsInt(int numberOfItems) {
-  
-  return List<Item>.generate(numberOfItems, (int index) {
-    return Item(
-      headerValue: 'Panel $index',
-      expandedValue: 'This is item number $index',
+      expandedValue: (paymentOptionsList[index].paymentGateway as Map)["LookupValue"].toString(),
     );
   });
 }
 
 class PaymentOptionsWidged extends StatefulWidget {
-  const PaymentOptionsWidged({super.key, required this.paymentOptionsList});
+  const PaymentOptionsWidged({super.key, required this.paymentOptionsList, required this.transactionResponse, required this.cardProduct});
   final List<PaymentMode> paymentOptionsList;
+  final EstimateTransactionResponse transactionResponse;
+  final CardProduct cardProduct;
 
   @override
   State<PaymentOptionsWidged> createState() => _PaymentOptionsWidgedState();
@@ -174,15 +166,27 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
             );
           },
           body: ListTile(
-              title: Text(item.expandedValue),
-              subtitle:
-                  const Text('To delete this panel, tap the trash can icon'),
-              trailing: const Icon(Icons.delete),
-              onTap: () {
-                setState(() {
-                  _data.removeWhere((Item currentItem) => item == currentItem);
-                });
-              }),
+              title: Text('${item.expandedValue} + ${widget.cardProduct.finalPrice} + ${widget.transactionResponse.transactionId}'),
+            //   Consumer(
+            //   builder: (context, ref, child) {
+
+            //     return ref.watch(PaymentOptionsProvider.hostedPaymentGatewayProvider).maybeWhen(
+            //           orElse: () => Container(
+            //             height: 20.0,
+            //             width: 20.0,
+            //             color: Colors.red,
+            //           ),
+            //           error: (e,s) => MulishText(
+            //             text: 'An error has ocurred $e',
+            //           ),
+            //           loading: () => const CircularProgressIndicator(),
+            //           data: (data) {
+            //             return  Text('${item.expandedValue} + ${widget.cardProduct.finalPrice} + ${widget.transactionResponse.transactionId}');
+            //           },
+            //         );
+            //   },
+            // ),
+              ),
           isExpanded: item.isExpanded,
         );
       }).toList(),

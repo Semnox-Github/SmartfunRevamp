@@ -234,7 +234,7 @@ class HomeView extends StatelessWidget {
                 color: CustomColors.customYellow,
                 image: 'recharge',
                 text: 'Recharge',
-                onTap: () => Navigator.pushNamed(context, Routes.kBuyACard),
+                onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
               ),
               const QuickLinkItem(
                 color: CustomColors.customPink,

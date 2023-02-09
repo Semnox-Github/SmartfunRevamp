@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
+import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/payment/provider/payment_options_provider.dart';
 
@@ -76,17 +77,12 @@ class PaymentOptionsPage extends StatelessWidget {
                         width: 20.0,
                         color: Colors.red,
                       ),
-                      error: (e,s) => Container(
-
-                        child: MulishText(
-                          text: '${e}',
-                        ),
+                      error: (e,s) => MulishText(
+                        text: 'An error has ocurred $e',
                       ),
                       loading: () => const CircularProgressIndicator(),
                       data: (data) {
-                        return MulishText(
-                          text: 'This user has ${data.length}  cards',
-                        );
+                        return PaymentOptionsWidged(paymentOptionsList: data);
                       },
                     );
               },
@@ -101,4 +97,95 @@ class PaymentOptionsPage extends StatelessWidget {
   }
 
  
+}
+
+
+// stores ExpansionPanel state information
+class Item {
+  Item({
+    required this.expandedValue,
+    required this.headerValue,
+    this.isExpanded = false,
+  });
+
+  String expandedValue;
+  String headerValue;
+  bool isExpanded;
+}
+
+List<Item> generateItems(List<PaymentMode> paymentOptionsList) {
+  
+  return List<Item>.generate(paymentOptionsList.length, (int index) {
+    return Item(
+      headerValue: paymentOptionsList[index].paymentMode,
+      expandedValue: 'placeholder',
+    );
+  });
+}
+
+List<Item> generateItemsInt(int numberOfItems) {
+  
+  return List<Item>.generate(numberOfItems, (int index) {
+    return Item(
+      headerValue: 'Panel $index',
+      expandedValue: 'This is item number $index',
+    );
+  });
+}
+
+class PaymentOptionsWidged extends StatefulWidget {
+  const PaymentOptionsWidged({super.key, required this.paymentOptionsList});
+  final List<PaymentMode> paymentOptionsList;
+
+  @override
+  State<PaymentOptionsWidged> createState() => _PaymentOptionsWidgedState();
+}
+
+class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
+  List<Item> _data = [];
+
+  @override
+  void initState() {
+    _data = generateItems(widget.paymentOptionsList);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        child: _buildPanel(),
+      ),
+    );
+  }
+
+  Widget _buildPanel() {
+    return ExpansionPanelList(
+      expansionCallback: (int index, bool isExpanded) {
+        setState(() {
+          _data[index].isExpanded = !isExpanded;
+        });
+      },
+      children: _data.map<ExpansionPanel>((Item item) {
+        return ExpansionPanel(
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return ListTile(
+              title: Text(item.headerValue),
+            );
+          },
+          body: ListTile(
+              title: Text(item.expandedValue),
+              subtitle:
+                  const Text('To delete this panel, tap the trash can icon'),
+              trailing: const Icon(Icons.delete),
+              onTap: () {
+                setState(() {
+                  _data.removeWhere((Item currentItem) => item == currentItem);
+                });
+              }),
+          isExpanded: item.isExpanded,
+        );
+      }).toList(),
+    );
+  }
 }

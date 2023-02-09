@@ -17,7 +17,7 @@ class PaymentOptionsRepositoryImpl implements PaymentOptionsRepository {
     Future<Either<Failure, List<PaymentMode>>> getPaymentModes() async {
       try {
         final response = await _api.getPaymentModes();
-        final paymentModes = response.data;
+        final paymentModes = response.data..removeWhere((element) => element.paymentGateway == null);
         return Right(paymentModes);
       } on DioError catch (e) {
         Logger().e(e);

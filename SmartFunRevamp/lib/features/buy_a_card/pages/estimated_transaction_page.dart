@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
@@ -64,52 +65,7 @@ class EstimatedTransactionPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 10.0),
-            Container(
-              padding: const EdgeInsets.all(20.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: CustomColors.customLigthGray),
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text(
-                    'Coupons',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(20.0),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFE9DC),
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.percent,
-                          color: CustomColors.hardOrange,
-                          size: 14.0,
-                        ),
-                        SizedBox(width: 5.0),
-                        Text(
-                          'Add coupons and save more',
-                          style: TextStyle(
-                            color: CustomColors.hardOrange,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10.0),
+            const CouponContainer(),
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,6 +160,78 @@ class EstimatedTransactionPage extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CouponContainer extends StatelessWidget {
+  const CouponContainer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10.0),
+      padding: const EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+        border: Border.all(color: CustomColors.customLigthGray),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Text(
+            'Coupons',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.noHeader,
+                animType: AnimType.scale,
+                body: Form(
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: 'Coupon',
+                    ),
+                  ),
+                ),
+                btnOkOnPress: () {},
+              ).show();
+            },
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFE9DC),
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.percent,
+                    color: CustomColors.hardOrange,
+                    size: 14.0,
+                  ),
+                  SizedBox(width: 5.0),
+                  Text(
+                    'Add coupons and save more',
+                    style: TextStyle(
+                      color: CustomColors.hardOrange,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

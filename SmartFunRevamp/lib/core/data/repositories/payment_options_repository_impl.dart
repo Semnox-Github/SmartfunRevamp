@@ -31,9 +31,9 @@ class PaymentOptionsRepositoryImpl implements PaymentOptionsRepository {
     }
 
   @override
-    Future<Either<Failure, List<HostedPaymentGateway>>> getHostedPaymentGateways({
+    Future<Either<Failure, HostedPaymentGateway>> getHostedPaymentGateways({
       required String hostedPaymentGateway, 
-      required int amount, 
+      required double amount, 
       required int transactionId
     }) async {
       try {

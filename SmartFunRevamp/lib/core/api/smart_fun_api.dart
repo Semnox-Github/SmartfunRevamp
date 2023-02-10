@@ -150,9 +150,9 @@ abstract class SmartFunApi {
   });
 
   @GET('Transaction/HostedPaymentGateways')
-  Future<ListDataWrapper<HostedPaymentGateway>> getHostedPaymentGateways(
+  Future<Data<HostedPaymentGateway>> getHostedPaymentGateways(
     @Query('hostedPaymentGateway') String hostedPaymentGateway, 
-    @Query('amount') int amount,
+    @Query('amount') double amount,
     @Query('transactionId') int transactionId,
   );
 

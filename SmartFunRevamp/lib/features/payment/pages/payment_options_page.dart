@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
+import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway_request.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/payment/provider/payment_options_provider.dart';
@@ -166,26 +167,27 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
             );
           },
           body: ListTile(
-              title: Text('${item.expandedValue} + ${widget.cardProduct.finalPrice} + ${widget.transactionResponse.transactionId}'),
-            //   Consumer(
-            //   builder: (context, ref, child) {
+              // title: Text('${item.expandedValue} + ${widget.cardProduct.finalPrice} + ${widget.transactionResponse.transactionId}'),
+              title:
+                Consumer(
+                builder: (context, ref, child) {
 
-            //     return ref.watch(PaymentOptionsProvider.hostedPaymentGatewayProvider).maybeWhen(
-            //           orElse: () => Container(
-            //             height: 20.0,
-            //             width: 20.0,
-            //             color: Colors.red,
-            //           ),
-            //           error: (e,s) => MulishText(
-            //             text: 'An error has ocurred $e',
-            //           ),
-            //           loading: () => const CircularProgressIndicator(),
-            //           data: (data) {
-            //             return  Text('${item.expandedValue} + ${widget.cardProduct.finalPrice} + ${widget.transactionResponse.transactionId}');
-            //           },
-            //         );
-            //   },
-            // ),
+                  return ref.watch(PaymentOptionsProvider.hostedPaymentGatewayProvider(HostedPaymentGatewayRequest(hostedPaymentGateway: "CCAvenueHostedPayment", amount: widget.cardProduct.finalPrice, transactionId: widget.transactionResponse.transactionId))).maybeWhen(
+                        orElse: () => Container(
+                          height: 20.0,
+                          width: 20.0,
+                          color: Colors.red,
+                        ),
+                        error: (e,s) => MulishText(
+                          text: 'An error has ocurred $e',
+                        ),
+                        loading: () => const CircularProgressIndicator(),
+                        data: (data) {
+                          return  Text('${item.expandedValue} + ${widget.cardProduct.finalPrice} + ${widget.transactionResponse.transactionId}');
+                        },
+                      );
+                  },
+                ),
               ),
           isExpanded: item.isExpanded,
         );

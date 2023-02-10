@@ -6,9 +6,9 @@ import 'package:semnox/core/errors/failures.dart';
 class GetHostedPaymentGatewayUseCase {
   final PaymentOptionsRepository _repository;
   GetHostedPaymentGatewayUseCase(this._repository);
-  Future<Either<Failure, List<HostedPaymentGateway>>> call({
+  Future<Either<Failure, HostedPaymentGateway>> call({
     required String hostedPaymentGateway,
-    required int amount,
+    required double amount,
     required int transactionId
   }) async {
     return await _repository.getHostedPaymentGateways(

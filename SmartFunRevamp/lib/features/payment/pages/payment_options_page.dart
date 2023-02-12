@@ -140,6 +140,9 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
   @override
   void initState() {
     _data = generateItems(widget.paymentOptionsList);
+    _data.removeAt(0);
+    _data.removeAt(0);
+    _data.removeAt(0);
     super.initState();
   }
 
@@ -172,7 +175,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                 Consumer(
                 builder: (context, ref, child) {
 
-                  return ref.watch(PaymentOptionsProvider.hostedPaymentGatewayProvider(HostedPaymentGatewayRequest(hostedPaymentGateway: "CCAvenueHostedPayment", amount: widget.cardProduct.finalPrice, transactionId: widget.transactionResponse.transactionId))).maybeWhen(
+                  return ref.watch(PaymentOptionsProvider.hostedPaymentGatewayProvider(HostedPaymentGatewayRequest(hostedPaymentGateway: item.expandedValue, amount: widget.cardProduct.finalPrice, transactionId: widget.transactionResponse.transactionId))).maybeWhen(
                         orElse: () => Container(
                           height: 20.0,
                           width: 20.0,
@@ -183,7 +186,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                         ),
                         loading: () => const CircularProgressIndicator(),
                         data: (data) {
-                          return  Text('${item.expandedValue} + ${widget.cardProduct.finalPrice} + ${widget.transactionResponse.transactionId}');
+                          return  Text(data.gatewayRequestString);
                         },
                       );
                   },

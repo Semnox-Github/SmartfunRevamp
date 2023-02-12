@@ -20,7 +20,7 @@ class PaymentOptionsProvider {
     );
   });
 
-  static final hostedPaymentGatewayProvider = FutureProvider.family<HostedPaymentGateway, HostedPaymentGatewayRequest>((ref, requestData) async {
+  static final hostedPaymentGatewayProvider = FutureProvider.autoDispose.family<HostedPaymentGateway, HostedPaymentGatewayRequest>((ref, requestData) async {
 
     final GetHostedPaymentGatewayUseCase getHostedPaymentGatewayUseCase = Get.find<GetHostedPaymentGatewayUseCase>();
 

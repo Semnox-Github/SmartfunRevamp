@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
@@ -7,6 +9,7 @@ import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway_reque
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/payment/provider/payment_options_provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 
 class PaymentOptionsPage extends StatelessWidget {
@@ -89,7 +92,6 @@ class PaymentOptionsPage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 10.0),
-           
             const Spacer(),
           ],
         ),
@@ -140,9 +142,6 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
   @override
   void initState() {
     _data = generateItems(widget.paymentOptionsList);
-    _data.removeAt(0);
-    _data.removeAt(0);
-    _data.removeAt(0);
     super.initState();
   }
 
@@ -186,7 +185,30 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                         ),
                         loading: () => const CircularProgressIndicator(),
                         data: (data) {
-                          return  Text(data.gatewayRequestString);
+                          if(data.gatewayRequestString.isNotEmpty){
+                          return SizedBox(
+                            width: 300,
+                            height: 600,
+                            child: WebView(
+                                initialUrl: Uri.dataFromString(
+                                  data.gatewayRequestString,
+                                  mimeType: 'text/html',
+                                  encoding: Encoding.getByName('utf-8')
+                                ).toString(),
+                                javascriptMode: JavascriptMode.unrestricted,
+                             ),
+                          );
+                          } else{
+                            return const Text("This payment mode is not available");
+                          }
+                           
+                          
+                            
+                           
+
+                          
+                          // return  Text(data.gatewayRequestString);
+                          
                         },
                       );
                   },
@@ -197,4 +219,8 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
       }).toList(),
     );
   }
+
+
+
+
 }

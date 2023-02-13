@@ -5,6 +5,7 @@ import 'package:semnox/core/api/api_interceptor.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
 import 'package:semnox/core/domain/entities/data.dart';
+import 'package:semnox/core/domain/entities/home/card_details.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
@@ -134,4 +135,7 @@ abstract class SmartFunApi {
     @Query('hash') String? hash,
     @Query('rebuildCache') bool rebuildCache = false,
   });
+
+  @GET('Customer/Account/LinkedAccountsSummary')
+  Future<ListDataWrapper<CardDetails>> getUserCards(@Query('customerId') String customerId);
 }

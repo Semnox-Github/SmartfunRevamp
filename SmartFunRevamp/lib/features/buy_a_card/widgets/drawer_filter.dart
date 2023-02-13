@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_checkbox.dart';
-import 'package:semnox/features/buy_a_card/provider/buy_card_notifier.dart';
+import 'package:semnox/features/buy_a_card/provider/buy_card/buy_card_notifier.dart';
 
 class FilterDrawer extends ConsumerWidget {
   const FilterDrawer({

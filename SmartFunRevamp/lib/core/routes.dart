@@ -3,6 +3,7 @@ import 'package:semnox/features/buy_a_card/pages/buy_card_list_page.dart';
 import 'package:semnox/features/home/pages/home_page.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/login/pages/verify_otp_page.dart';
+import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/select_location/pages/enable_location_page.dart';
 import 'package:semnox/features/select_location/pages/map_page.dart';
 import 'package:semnox/features/select_location/pages/select_location_manually_page.dart';
@@ -20,6 +21,7 @@ class Routes {
   static const kSelectLocationManually = '/select_location_manually';
   static const kMap = '/map';
   static const kEnableLocation = '/enable_location';
+  static const kRechargePageCard = '/recharge_card';
 
   static String get initialRoute => kSplashScreenPage;
 
@@ -34,6 +36,7 @@ class Routes {
       kSelectLocationManually: (BuildContext context) => const SelectLocationManuallyPage(),
       kEnableLocation: (BuildContext context) => const EnableLocationPage(),
       kMap: (BuildContext context) => const MapPage(),
+      kRechargePageCard: (BuildContext context) => const SelectCardRechargePage()
     };
   }
 }

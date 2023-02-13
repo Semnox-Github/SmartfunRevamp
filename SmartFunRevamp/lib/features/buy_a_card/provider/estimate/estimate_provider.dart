@@ -11,29 +11,6 @@ import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 part 'estimate_state.dart';
 part 'estimate_provider.freezed.dart';
 
-// final estimateCouponProvider = FutureProvider.family<EstimateTransactionResponse, String>((ref, coupon) async {
-//   final EstimateTransactionUseCase estimateTransactionUseCase = Get.find<EstimateTransactionUseCase>();
-//   final customer = Get.find<CustomerDTO>();
-//   final discountCoupon = DiscountApplicationHistoryDTOList(-1, coupon, -1);
-//   final card = ref.read(estimateStateProvider.notifier).cardProduct;
-//   final response = await estimateTransactionUseCase(
-//     EstimateTransactionRequest(
-//       siteId: customer.siteId!,
-//       customerId: customer.id!,
-//       userName: customer.userName!,
-//       commitTransaction: false,
-//       discountApplicationHistoryDTOList: [discountCoupon],
-//       transactionLinesDTOList: [
-//         TransactionLinesDTO(productId: card.productId!),
-//       ],
-//     ).toJson(),
-//   );
-//   return response.fold(
-//     (l) => throw l,
-//     (r) => r,
-//   );
-// });
-
 final estimateStateProvider = StateNotifierProvider.autoDispose<EstimateStateProvider, EstimateState>(
   (ref) => EstimateStateProvider(
     Get.find<EstimateTransactionUseCase>(),
@@ -61,7 +38,7 @@ class EstimateStateProvider extends StateNotifier<EstimateState> {
     state = _TransactionEstimated(_estimateTransactionResponse);
   }
 
-  void getEstimateTransaction(CardProduct card, {DiscountApplicationHistoryDTOList? dtoList}) async {
+  void getEstimateTransaction(CardProduct card, {DiscountApplicationHistoryDTOList? dtoList, String? cardNumber}) async {
     final response = await _estimateTransactionUseCase(
       EstimateTransactionRequest(
         siteId: _customer.siteId!,
@@ -69,7 +46,10 @@ class EstimateStateProvider extends StateNotifier<EstimateState> {
         userName: _customer.userName!,
         commitTransaction: false,
         transactionLinesDTOList: [
-          TransactionLinesDTO(productId: card.productId!),
+          TransactionLinesDTO(
+            productId: card.productId!,
+            cardNumber: cardNumber ?? '',
+          ),
         ],
         discountApplicationHistoryDTOList: [if (dtoList != null) dtoList],
       ).toJson(),

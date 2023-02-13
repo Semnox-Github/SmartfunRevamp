@@ -7,8 +7,10 @@ import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
@@ -21,7 +23,9 @@ class SelectCardRecharge extends StatefulWidget {
 }
 
 class _SelectCardRechargeState extends State<SelectCardRecharge> {
-  double currentCard = 0;
+  double cardToRecharge = 0;
+  String selectedCardNumber = '';
+  CardProduct? offerSelected;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +44,17 @@ class _SelectCardRechargeState extends State<SelectCardRecharge> {
       ),
       bottomSheet: BottomSheetButton(
         label: 'RECHARGE NOW',
-        onTap: () {},
+        onTap: () {
+          if (offerSelected != null) {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EstimatedTransactionPage(cardProduct: offerSelected!, cardNumber: selectedCardNumber),
+              ),
+            );
+          }
+        },
       ),
       body: SafeArea(
         child: Column(
@@ -52,6 +66,7 @@ class _SelectCardRechargeState extends State<SelectCardRecharge> {
                       orElse: () => Container(),
                       loading: () => const CircularProgressIndicator(),
                       data: (data) {
+                        selectedCardNumber = data[0].accountNumber ?? '';
                         return Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -64,8 +79,9 @@ class _SelectCardRechargeState extends State<SelectCardRecharge> {
                                 anchor: 0.5,
                                 velocityFactor: 0.2,
                                 onIndexChanged: (index) {
+                                  selectedCardNumber = data[index].accountNumber ?? '';
                                   setState(() {
-                                    currentCard = index.toDouble();
+                                    cardToRecharge = index.toDouble();
                                   });
                                 },
                                 axisDirection: Axis.horizontal,
@@ -141,7 +157,7 @@ class _SelectCardRechargeState extends State<SelectCardRecharge> {
                             ),
                             DotsIndicator(
                               dotsCount: data.length,
-                              position: currentCard,
+                              position: cardToRecharge,
                               decorator: const DotsDecorator(
                                 activeColor: CustomColors.hardOrange,
                               ),
@@ -159,99 +175,13 @@ class _SelectCardRechargeState extends State<SelectCardRecharge> {
                   builder: (context, ref, child) {
                     return ref.watch(rechargeProductsProvider).maybeWhen(
                           orElse: () => Container(),
+                          loading: () => const Center(child: CircularProgressIndicator()),
                           error: (error, stackTrace) => const MulishText(text: 'Error'),
                           data: (offers) {
-                            return ListView.separated(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                              itemCount: offers.length,
-                              shrinkWrap: true,
-                              separatorBuilder: (_, __) => const SizedBox(height: 10.0),
-                              itemBuilder: (context, index) {
-                                final offer = offers[index];
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: CustomColors.customLigthBlue,
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      //RIGTH
-                                      Container(
-                                        padding: const EdgeInsets.all(15.0),
-                                        child: Column(
-                                          children: [
-                                            const MulishText(
-                                              text: 'PLAY CREDIT',
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                SvgPicture.asset('assets/buy_card/coin.svg'),
-                                                const SizedBox(width: 5.0),
-                                                Text(
-                                                  offer.credits.toString(),
-                                                  style: GoogleFonts.mulish(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 22.0,
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ), //LEFT
-                                      Expanded(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(20.0),
-                                            color: Colors.white,
-                                            border: Border.all(
-                                              width: 2,
-                                              color: CustomColors.customLigthGray,
-                                            ),
-                                          ),
-                                          padding: const EdgeInsets.all(25),
-                                          margin: const EdgeInsets.all(1.5),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    '\$${offer.basePrice}',
-                                                    style: GoogleFonts.mulish(
-                                                      color: CustomColors.discountColor,
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 16.0,
-                                                      decoration: TextDecoration.lineThrough,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 8.0),
-                                                  Text(
-                                                    '10% OFF',
-                                                    style: GoogleFonts.mulish(
-                                                      color: CustomColors.discountPercentColor,
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 14.0,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Text(
-                                                '\$${offer.finalPrice}',
-                                                style: GoogleFonts.mulish(
-                                                  fontWeight: FontWeight.w800,
-                                                  fontSize: 20.0,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                );
+                            return RechargeCardOffers(
+                              offers: offers,
+                              onOfferSelected: (offer) {
+                                offerSelected = offer;
                               },
                             );
                           },
@@ -260,6 +190,154 @@ class _SelectCardRechargeState extends State<SelectCardRecharge> {
                 ),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class RechargeCardOffers extends StatefulWidget {
+  const RechargeCardOffers({Key? key, required this.offers, required this.onOfferSelected}) : super(key: key);
+  final List<CardProduct> offers;
+  final Function(CardProduct) onOfferSelected;
+  @override
+  State<RechargeCardOffers> createState() => _RechargeCardOffersState();
+}
+
+class _RechargeCardOffersState extends State<RechargeCardOffers> {
+  int selectedIndex = -1;
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      itemCount: widget.offers.length,
+      shrinkWrap: true,
+      separatorBuilder: (_, __) => const SizedBox(height: 10.0),
+      itemBuilder: (context, index) {
+        final offer = widget.offers[index];
+        return RechargeCardOffer(
+          offer: offer,
+          isSelected: selectedIndex == index,
+          onTap: () {
+            widget.onOfferSelected(offer);
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+        );
+      },
+    );
+  }
+}
+
+class RechargeCardOffer extends StatelessWidget {
+  const RechargeCardOffer({
+    Key? key,
+    required this.offer,
+    required this.isSelected,
+    required this.onTap,
+  }) : super(key: key);
+
+  final CardProduct offer;
+  final bool isSelected;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: CustomColors.customLigthBlue,
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Row(
+          children: [
+            //RIGTH
+            Container(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+                  const MulishText(
+                    text: 'PLAY CREDIT',
+                    fontWeight: FontWeight.bold,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SvgPicture.asset('assets/buy_card/coin.svg'),
+                      const SizedBox(width: 5.0),
+                      Text(
+                        offer.credits.toString(),
+                        style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22.0,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ), //LEFT
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  color: Colors.white,
+                  border: Border.all(
+                    width: 2,
+                    color: isSelected ? Colors.green : CustomColors.customLigthGray,
+                  ),
+                ),
+                padding: const EdgeInsets.all(25),
+                margin: const EdgeInsets.all(1.5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '\$${offer.basePrice}',
+                              style: GoogleFonts.mulish(
+                                color: CustomColors.discountColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16.0,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Text(
+                              '10% OFF',
+                              style: GoogleFonts.mulish(
+                                color: CustomColors.discountPercentColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          '\$${offer.finalPrice}',
+                          style: GoogleFonts.mulish(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (isSelected)
+                      const Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                      )
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

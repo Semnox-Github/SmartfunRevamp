@@ -10,13 +10,18 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
 
 class EstimatedTransactionPage extends ConsumerWidget {
-  const EstimatedTransactionPage({Key? key, required this.cardProduct}) : super(key: key);
+  const EstimatedTransactionPage({
+    Key? key,
+    required this.cardProduct,
+    this.cardNumber,
+  }) : super(key: key);
 
   final CardProduct cardProduct;
+  final String? cardNumber;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct);
+    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct, cardNumber: cardNumber);
     ref.listen(estimateStateProvider, (previous, next) {
       next.maybeWhen(
         orElse: () => {},

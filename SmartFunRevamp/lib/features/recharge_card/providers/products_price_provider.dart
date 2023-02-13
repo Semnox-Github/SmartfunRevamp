@@ -8,6 +8,7 @@ final rechargeProductsProvider = FutureProvider<List<CardProduct>>((ref) async {
   final GetProductsPriceUseCase getProductsPriceUseCase = Get.find<GetProductsPriceUseCase>();
 
   final response = await getProductsPriceUseCase();
+
   return response.fold(
     (l) => throw l,
     (r) {

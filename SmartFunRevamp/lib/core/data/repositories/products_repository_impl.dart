@@ -40,6 +40,10 @@ class ProductsRepositoryImpl implements ProductsRepository {
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
       }
+      if (e.response?.statusCode == 500) {
+        final message = json.decode(e.response.toString());
+        return Left(InvalidCouponFailure(message['data']));
+      }
       final message = json.decode(e.response.toString());
       return Left(ServerFailure(message['data']));
     }

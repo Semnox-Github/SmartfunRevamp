@@ -9,3 +9,15 @@ class ServerFailure implements Failure {
   final String message;
   ServerFailure(this.message);
 }
+
+class InvalidCouponFailure implements Failure {
+  @override
+  final String message;
+  InvalidCouponFailure(this.message);
+}
+
+class LocalDataSourceFailure implements Failure {
+  @override
+  final String message;
+  LocalDataSourceFailure(this.message);
+}

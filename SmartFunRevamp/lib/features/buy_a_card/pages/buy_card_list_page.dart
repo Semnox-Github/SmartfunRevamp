@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
-import 'package:semnox/features/buy_a_card/provider/buy_card_notifier.dart';
+import 'package:semnox/features/buy_a_card/provider/buy_card/buy_card_notifier.dart';
 import 'package:semnox/features/buy_a_card/widgets/card_type.dart';
 import 'package:semnox/features/buy_a_card/widgets/drawer_filter.dart';
 

@@ -29,6 +29,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         );
       },
     );
+
     return Scaffold(
       body: Image.asset(
         'assets/splash_screen/splash_screen.png',

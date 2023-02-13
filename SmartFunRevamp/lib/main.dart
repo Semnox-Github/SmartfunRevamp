@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Demo',
           routes: Routes.routesMap,
           home: const SplashScreen(),
-          // home: const EnableLocationPage(),
           theme: ThemeData(
             inputDecorationTheme: InputDecorationTheme(
               isDense: true,

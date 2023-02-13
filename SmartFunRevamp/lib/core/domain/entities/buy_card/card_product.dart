@@ -9,8 +9,17 @@ class CardProduct {
   final double finalPrice;
   final int? productId;
   final double credits;
+  final String productType;
 
-  CardProduct(this.finalPrice, this.productName, this.basePrice, this.imageFileName, this.productId, this.credits);
+  CardProduct(
+    this.finalPrice,
+    this.productName,
+    this.basePrice,
+    this.imageFileName,
+    this.productId,
+    this.credits,
+    this.productType,
+  );
   factory CardProduct.fromJson(Map<String, dynamic> json) => _$CardProductFromJson(json);
   Map<String, dynamic> toJson() => _$CardProductToJson(this);
 }

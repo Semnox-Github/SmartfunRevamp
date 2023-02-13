@@ -6,8 +6,13 @@ import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/routes.dart';
-import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
+import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
+import 'package:semnox/features/login/widgets/profile_picture.dart';
+import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/home/widgets/link_a_card.dart';
+import 'package:semnox/features/login/widgets/quick_link_item.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class HomeView extends StatelessWidget {
@@ -32,7 +37,7 @@ class HomeView extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const ImageAvatar(),
+                    const ProfilePicture(),
                     const SizedBox(width: 10.0),
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -74,80 +79,30 @@ class HomeView extends StatelessWidget {
                     SvgPicture.asset('assets/home/notification.svg')
                   ],
                 ),
-                const SizedBox(height: 10.0),
-                Consumer(
-                  builder: (context, ref, child) {
-                    return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
-                          orElse: () => Container(
-                            height: 20.0,
-                            width: 20.0,
-                            color: Colors.red,
-                          ),
-                          loading: () => const CircularProgressIndicator(),
-                          data: (data) {
-                            return MulishText(
-                              text: 'This user has ${data.length}  cards',
-                            );
-                          },
-                        );
-                  },
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
+                            orElse: () => Container(
+                              height: 20.0,
+                              width: 20.0,
+                              color: Colors.red,
+                            ),
+                            loading: () => const CircularProgressIndicator(),
+                            data: (data) {
+                              return Column(
+                                children: [
+                                  data.isNotEmpty ? CarouselCards(cards: data) : const LinkACard(),
+                                  const SizedBox(height: 10.0),
+                                  if (data.isNotEmpty) const RechargeCardDetailsButton() else const BuyNewCardButton(),
+                                ],
+                              );
+                            },
+                          );
+                    },
+                  ),
                 ),
-                const SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: CustomGradients.linearGradient,
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0),
-                            gradient: CustomGradients.linearGradient,
-                          ),
-                          margin: const EdgeInsets.all(3),
-                          child: TextButton(
-                            onPressed: () => Navigator.pushNamed(context, Routes.kBuyACard),
-                            child: const Text(
-                              'RECHARGE NOW',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 20.0),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: CustomGradients.linearGradient,
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0),
-                            color: Colors.white,
-                          ),
-                          margin: const EdgeInsets.all(3),
-                          child: TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'CARD DETAILS',
-                              style: TextStyle(
-                                color: CustomColors.hardOrange,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
           ),
@@ -178,7 +133,7 @@ class HomeView extends StatelessWidget {
                 color: CustomColors.customYellow,
                 image: 'recharge',
                 text: 'Recharge',
-                onTap: () => Navigator.pushNamed(context, Routes.kBuyACard),
+                onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
               ),
               const QuickLinkItem(
                 color: CustomColors.customPink,
@@ -280,68 +235,6 @@ class HomeView extends StatelessWidget {
           ),
           const SizedBox(height: 20.0),
         ],
-      ),
-    );
-  }
-}
-
-class QuickLinkItem extends StatelessWidget {
-  const QuickLinkItem({
-    Key? key,
-    required this.color,
-    required this.image,
-    required this.text,
-    this.onTap,
-  }) : super(key: key);
-  final Color color;
-  final String image;
-  final String text;
-  final Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              color: color,
-            ),
-            padding: const EdgeInsets.all(13.0),
-            child: SvgPicture.asset('assets/home/$image.svg'),
-          ),
-          const SizedBox(height: 10.0),
-          Text(
-            text,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ImageAvatar extends StatelessWidget {
-  const ImageAvatar({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(2.5),
-      decoration: const BoxDecoration(
-        gradient: CustomGradients.goldenGradient,
-        shape: BoxShape.circle,
-      ),
-      child: const CircleAvatar(
-        radius: 30.0,
-        backgroundColor: Colors.white,
-        foregroundImage: NetworkImage('https://kprofiles.com/wp-content/uploads/2016/05/TWICE-Perfect-World-Concept-Teasers-documents-10.jpeg'),
       ),
     );
   }

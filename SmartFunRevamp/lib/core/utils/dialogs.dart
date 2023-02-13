@@ -1,10 +1,14 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
+import 'package:semnox/core/widgets/card_widget.dart';
+import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
 
 class Dialogs {
@@ -69,5 +73,110 @@ class Dialogs {
         }
       },
     ).show();
+  }
+
+  static void showCardInfo(BuildContext context, CardProduct card) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          content: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    color: CustomColors.customLigthBlue,
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Platinum 1000',
+                          style: GoogleFonts.mulish(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(
+                            Icons.cancel_outlined,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  RechargeCardWidget(cardProduct: card),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Features & Terms',
+                          style: GoogleFonts.mulish(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                        ),
+                        CustomButton(
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EstimatedTransactionPage(cardProduct: card),
+                              ),
+                            );
+                          },
+                          label: 'BUY NOW @ ${card.finalPrice}',
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

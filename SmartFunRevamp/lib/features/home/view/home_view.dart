@@ -8,6 +8,8 @@ import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/login/widgets/profile_picture.dart';
+import 'package:semnox/features/login/widgets/quick_link_item.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class HomeView extends StatelessWidget {
@@ -32,7 +34,7 @@ class HomeView extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const ImageAvatar(),
+                    const ProfilePicture(),
                     const SizedBox(width: 10.0),
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -280,68 +282,6 @@ class HomeView extends StatelessWidget {
           ),
           const SizedBox(height: 20.0),
         ],
-      ),
-    );
-  }
-}
-
-class QuickLinkItem extends StatelessWidget {
-  const QuickLinkItem({
-    Key? key,
-    required this.color,
-    required this.image,
-    required this.text,
-    this.onTap,
-  }) : super(key: key);
-  final Color color;
-  final String image;
-  final String text;
-  final Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              color: color,
-            ),
-            padding: const EdgeInsets.all(13.0),
-            child: SvgPicture.asset('assets/home/$image.svg'),
-          ),
-          const SizedBox(height: 10.0),
-          Text(
-            text,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ImageAvatar extends StatelessWidget {
-  const ImageAvatar({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(2.5),
-      decoration: const BoxDecoration(
-        gradient: CustomGradients.goldenGradient,
-        shape: BoxShape.circle,
-      ),
-      child: const CircleAvatar(
-        radius: 30.0,
-        backgroundColor: Colors.white,
-        foregroundImage: NetworkImage('https://kprofiles.com/wp-content/uploads/2016/05/TWICE-Perfect-World-Concept-Teasers-documents-10.jpeg'),
       ),
     );
   }

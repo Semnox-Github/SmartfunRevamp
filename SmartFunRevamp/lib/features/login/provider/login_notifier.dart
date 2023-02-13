@@ -83,8 +83,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   void loginUserWithOTP(String phoneOrEmail) async {
-    _phone = phoneOrEmail;
     state = const _InProgress();
+    _phone = phoneOrEmail;
     final response = await _sendOTPUseCase({phoneOrEmail.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail, 'Source': 'LOGIN_OTP_EVENT'});
     response.fold(
       (l) {

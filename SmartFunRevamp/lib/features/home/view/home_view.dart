@@ -6,9 +6,12 @@ import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/routes.dart';
-import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
+import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
 import 'package:semnox/features/login/widgets/profile_picture.dart';
+import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
@@ -76,80 +79,30 @@ class HomeView extends StatelessWidget {
                     SvgPicture.asset('assets/home/notification.svg')
                   ],
                 ),
-                const SizedBox(height: 10.0),
-                Consumer(
-                  builder: (context, ref, child) {
-                    return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
-                          orElse: () => Container(
-                            height: 20.0,
-                            width: 20.0,
-                            color: Colors.red,
-                          ),
-                          loading: () => const CircularProgressIndicator(),
-                          data: (data) {
-                            return MulishText(
-                              text: 'This user has ${data.length}  cards',
-                            );
-                          },
-                        );
-                  },
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
+                            orElse: () => Container(
+                              height: 20.0,
+                              width: 20.0,
+                              color: Colors.red,
+                            ),
+                            loading: () => const CircularProgressIndicator(),
+                            data: (data) {
+                              return Column(
+                                children: [
+                                  data.isNotEmpty ? CarouselCards(cards: data) : const LinkACard(),
+                                  const SizedBox(height: 10.0),
+                                  if (data.isNotEmpty) const RechargeCardDetailsButton() else const BuyNewCardButton(),
+                                ],
+                              );
+                            },
+                          );
+                    },
+                  ),
                 ),
-                const SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: CustomGradients.linearGradient,
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0),
-                            gradient: CustomGradients.linearGradient,
-                          ),
-                          margin: const EdgeInsets.all(3),
-                          child: TextButton(
-                            onPressed: () => Navigator.pushNamed(context, Routes.kBuyACard),
-                            child: const Text(
-                              'RECHARGE NOW',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 20.0),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: CustomGradients.linearGradient,
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0),
-                            color: Colors.white,
-                          ),
-                          margin: const EdgeInsets.all(3),
-                          child: TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'CARD DETAILS',
-                              style: TextStyle(
-                                color: CustomColors.hardOrange,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
           ),

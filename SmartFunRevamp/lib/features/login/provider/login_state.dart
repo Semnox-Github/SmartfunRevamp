@@ -5,6 +5,7 @@ class LoginState with _$LoginState {
   const factory LoginState.initial() = _Initial;
   const factory LoginState.inProgress() = _InProgress;
   const factory LoginState.success() = _Success;
+  const factory LoginState.selectLocationNeeded() = _SelectLocationNeeded;
   const factory LoginState.error(String message) = _Error;
   const factory LoginState.otpGenerated() = _OtpGenerated;
   const factory LoginState.verifyingOTp() = _VerifyingOTP;

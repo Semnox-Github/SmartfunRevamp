@@ -29,6 +29,21 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
+  Future<Either<Failure, CustomerDTO>> signUpUser(Map<String, dynamic> body) async {
+    try {
+      final response = await _api.signUpUser(body);
+      return Right(response.data);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> getUserMetaData() async {
     try {
       final response = await _api.getSignUpMetadata();
@@ -95,7 +110,6 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     try {
       final response = await _api.getExecutionController(siteId);
       final token = response.response.headers.value(HttpHeaders.authorizationHeader) ?? '';
-      Logger().d(token);
       return Right(token);
     } on DioError catch (e) {
       Logger().e(e);

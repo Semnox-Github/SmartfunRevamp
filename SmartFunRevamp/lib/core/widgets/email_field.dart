@@ -19,7 +19,7 @@ class EmailTextField extends StatelessWidget {
         ),
         const SizedBox(height: 5.0),
         TextFormField(
-          initialValue: 'domaldona100',
+          initialValue: 'new@mail1.com',
           onSaved: (newValue) => onSaved(newValue!),
           validator: (value) => value!.isEmpty ? 'Required' : null,
           cursorColor: Colors.black,

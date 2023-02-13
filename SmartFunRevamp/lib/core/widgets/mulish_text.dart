@@ -9,16 +9,19 @@ class MulishText extends StatelessWidget {
     this.fontColor,
     this.fontSize,
     this.textDecoration,
+    this.textAlign,
   }) : super(key: key);
   final String text;
   final FontWeight? fontWeight;
   final Color? fontColor;
   final double? fontSize;
   final TextDecoration? textDecoration;
+  final TextAlign? textAlign;
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign: textAlign,
       style: GoogleFonts.mulish(
         color: fontColor,
         fontSize: fontSize,

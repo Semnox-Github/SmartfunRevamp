@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
-import 'package:semnox/features/buy_a_card/provider/buy_card_notifier.dart';
 
 enum CardValue { silver, gold, platinum }
 
@@ -154,25 +152,12 @@ class CardType extends ConsumerWidget {
                             ),
                             CustomButton(
                               onTap: () {
-                                ref.listenManual(
-                                  estimateProvider(card),
-                                  (previous, next) {
-                                    next.maybeWhen(
-                                      orElse: () => Logger().d('else'),
-                                      data: (data) => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => EstimatedTransactionPage(
-                                            transactionResponse: data,
-                                            cardProduct: card,
-                                          ),
-                                        ),
-                                      ),
-                                      error: (error, stackTrace) => Logger().e(error),
-                                      loading: () => Logger().d('Loading'),
-                                    );
-                                  },
-                                  fireImmediately: true,
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EstimatedTransactionPage(cardProduct: card),
+                                  ),
                                 );
                               },
                               label: 'BUY NOW @ ${card.finalPrice}',

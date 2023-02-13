@@ -13,5 +13,6 @@ class CustomColors {
   static const Color customPurple = Color(0xFFDECFFF);
   static const Color customLigthGray = Color(0xFFD6EDFC);
   static const Color discountColor = Color(0xFF655D6C);
+  static const Color couponTextColor = Color(0xFF645E5E);
   static const Color discountPercentColor = Color(0xFF37AF3C);
 }

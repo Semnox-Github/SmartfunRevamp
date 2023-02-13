@@ -1,28 +1,31 @@
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'discount_entity.dart';
 part 'estimate_transaction_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
-class EstimateTransactionResponse extends Equatable {
+class EstimateTransactionResponse {
   final double transactionAmount;
   final double taxAmount;
   final double transactionDiscountAmount;
   final double transactionNetAmount;
+  //TODO:Put final again
+  double? couponDiscountAmount;
+  String? couponNumber;
 
-  const EstimateTransactionResponse(
+  EstimateTransactionResponse(
     this.transactionAmount,
     this.taxAmount,
     this.transactionDiscountAmount,
     this.transactionNetAmount,
+    this.couponDiscountAmount,
+    this.couponNumber,
   );
   factory EstimateTransactionResponse.fromJson(Map<String, dynamic> json) => _$EstimateTransactionResponseFromJson(json);
   Map<String, dynamic> toJson() => _$EstimateTransactionResponseToJson(this);
-
-  @override
-  List<Object?> get props => [];
 }
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class EstimateTransactionRequest {
   final int transactionId;
   final int siteId;
@@ -35,6 +38,7 @@ class EstimateTransactionRequest {
   final bool paymentProcessingCompleted;
   final bool reverseTransaction;
   final List<TransactionLinesDTO> transactionLinesDTOList;
+  final List<DiscountApplicationHistoryDTOList> discountApplicationHistoryDTOList;
 
   EstimateTransactionRequest({
     required this.siteId,
@@ -42,6 +46,7 @@ class EstimateTransactionRequest {
     required this.userName,
     required this.commitTransaction,
     required this.transactionLinesDTOList,
+    required this.discountApplicationHistoryDTOList,
     this.transactionId = -1,
     this.posMachine = 'webplatform',
     this.primaryCard = '',

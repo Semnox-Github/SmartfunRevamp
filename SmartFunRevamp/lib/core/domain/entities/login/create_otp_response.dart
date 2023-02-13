@@ -5,7 +5,7 @@ part 'create_otp_response.g.dart';
 class CreateOtpResponse {
   final int id;
   final String code;
-  final String phone;
+  final String? phone;
   final String? countryCode;
   final String? emailId;
   final String source;

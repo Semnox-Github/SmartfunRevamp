@@ -43,8 +43,6 @@ abstract class SplashScreenRepository {
     required String activeChildRecords,
   });
 
-  Future<Either<Failure, void>> getAllSites();
-
   Future<Either<Failure, void>> getAppProductsImages({
     required String imageType,
     required String lastModifiedDate,

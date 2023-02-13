@@ -1,12 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:otp_text_field/otp_text_field.dart';
-import 'package:otp_text_field/style.dart';
+import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
@@ -70,57 +68,60 @@ class VerifyOtpPage extends ConsumerWidget {
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'We have sent an OTP to your mobile number $phoneNumber.\nEnter the OTP to verify.',
-                style: GoogleFonts.mulish(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14.0,
+          child: LoaderOverlay(
+            overlayWidget: const CircularProgressIndicator(),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'We have sent an OTP to your mobile number $phoneNumber.\nEnter the OTP to verify.',
+                  style: GoogleFonts.mulish(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.0,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 40.0),
-              OTPTextField(
-                length: 6,
-                width: MediaQuery.of(context).size.width * 0.9,
-                fieldWidth: 45,
-                style: const TextStyle(fontSize: 17),
-                textFieldAlignment: MainAxisAlignment.spaceAround,
-                fieldStyle: FieldStyle.box,
-                onCompleted: (pin) => otp = pin,
-                keyboardType: TextInputType.number,
-                inputFormatter: [FilteringTextInputFormatter.digitsOnly],
-                onChanged: (value) {},
-              ),
-              const SizedBox(height: 40.0),
-              InkWell(
-                onTap: () {},
-                child: const Text(
-                  "Didn't receive OTP?",
-                  style: TextStyle(color: CustomColors.hardOrange),
-                  textAlign: TextAlign.start,
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 40.0),
+                  child: OtpPinField(
+                    onSubmit: (otp) => ref.read(loginProvider.notifier).verifyOTP(otp),
+                    onChange: (code) => otp = code,
+                    keyboardType: TextInputType.number,
+                    otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
+                    otpPinFieldStyle: const OtpPinFieldStyle(
+                      defaultFieldBorderColor: CustomColors.customOrange,
+                      activeFieldBorderColor: CustomColors.hardOrange,
+                    ),
+                    maxLength: 6,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10.0),
-              Text(
-                'Resend OTP in 30 seconds',
-                style: GoogleFonts.mulish(
-                  fontSize: 14.0,
+                InkWell(
+                  onTap: () {},
+                  child: const Text(
+                    "Didn't receive OTP?",
+                    style: TextStyle(color: CustomColors.hardOrange),
+                    textAlign: TextAlign.start,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 100.0),
-              CustomButton(
-                onTap: () {
-                  if (otp.isEmpty) {
-                    Fluttertoast.showToast(msg: 'Please enter the OTP');
-                  }
-                  ref.read(loginProvider.notifier).verifyOTP(otp);
-                },
-                label: 'Verify & Procced',
-              )
-            ],
+                const SizedBox(height: 10.0),
+                Text(
+                  'Resend OTP in 30 seconds',
+                  style: GoogleFonts.mulish(
+                    fontSize: 14.0,
+                  ),
+                ),
+                const SizedBox(height: 100.0),
+                CustomButton(
+                  onTap: () {
+                    if (otp.isEmpty) {
+                      Fluttertoast.showToast(msg: 'Please enter the OTP');
+                    }
+                    ref.read(loginProvider.notifier).verifyOTP(otp);
+                  },
+                  label: 'Verify & Procced',
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
@@ -23,12 +22,9 @@ class LoginWithOTP extends ConsumerWidget {
             label: 'Enter registered phone number',
             inputType: TextInputType.phone,
             fillColor: Colors.white,
-            formatters: [
-              FilteringTextInputFormatter.digitsOnly,
-            ],
+            initialValue: '9880080663',
           ),
           const SizedBox(height: 20.0),
-          //Testing purposes 9980765789
           CustomButton(
             label: 'SEND OTP',
             onTap: () {

@@ -6,7 +6,7 @@ import 'package:semnox/core/errors/failures.dart';
 class GetPaymentOptionsUseCase {
   final PaymentOptionsRepository _repository;
   GetPaymentOptionsUseCase(this._repository);
-  Future<Either<Failure, List<PaymentMode>>> call() async {
-    return await _repository.getPaymentModes();
+  Future<Either<Failure, List<PaymentMode>>> call(int siteId) async {
+    return await _repository.getPaymentModes(siteId: siteId.toString());
   }
 }

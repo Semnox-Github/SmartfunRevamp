@@ -6,13 +6,14 @@ import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway_reque
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/domain/use_cases/payment/get_hosted_payment_gateways_use_case.dart';
 import 'package:semnox/core/domain/use_cases/payment/get_payment_options_use_case.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class PaymentOptionsProvider {
   static final paymentModesProvider = FutureProvider<List<PaymentMode>>((ref) async {
     
     final GetPaymentOptionsUseCase getPaymentOptionsUseCase = Get.find<GetPaymentOptionsUseCase>();
-    
-    final response = await getPaymentOptionsUseCase();
+    final siteId = Get.find<CustomerDTO>().siteId;
+    final response = await getPaymentOptionsUseCase(siteId?.toInt() ?? 1010);
     Logger().d(response);
     return response.fold(
       (l) => throw l,

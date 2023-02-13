@@ -7,9 +7,10 @@ class BackgroundCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.26,
+      height: MediaQuery.of(context).size.height * 0.25,
       width: double.infinity,
       padding: const EdgeInsets.all(20.0),
+      margin: const EdgeInsets.symmetric(horizontal: 5.0),
       decoration: BoxDecoration(
         color: Colors.purple.shade400,
         borderRadius: BorderRadius.circular(

@@ -5,6 +5,7 @@ part 'estimate_transaction_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
 class EstimateTransactionResponse {
+  final int transactionId;
   final double transactionAmount;
   final double taxAmount;
   final double transactionDiscountAmount;
@@ -14,6 +15,7 @@ class EstimateTransactionResponse {
   String? couponNumber;
 
   EstimateTransactionResponse(
+    this.transactionId,
     this.transactionAmount,
     this.taxAmount,
     this.transactionDiscountAmount,

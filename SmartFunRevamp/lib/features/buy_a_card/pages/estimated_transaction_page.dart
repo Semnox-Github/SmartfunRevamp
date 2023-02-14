@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
+import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
+import 'package:semnox/features/payment/pages/payment_options_page.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
@@ -180,7 +182,17 @@ class EstimatedTransactionPage extends ConsumerWidget {
                               ],
                             ),
                             CustomButton(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PaymentOptionsPage(
+                                      transactionResponse: transactionResponse,
+                                      cardProduct: cardProduct,
+                                    ),
+                                  ),
+                                );
+                              },
                               label: 'PROCEED TO PAY',
                               width: 200,
                             ),

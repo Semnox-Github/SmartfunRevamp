@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
@@ -9,6 +10,8 @@ import 'package:semnox/core/domain/entities/home/card_details.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
+import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
+import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 part 'smart_fun_api.g.dart';
@@ -42,6 +45,7 @@ abstract class SmartFunApi {
     );
     return _SmartFunApi(dio);
   }
+
 
   @POST('Login/AuthenticateSystemUsers')
   Future<Data<SystemUser>> authenticateSystemUser(@Body() Map<String, dynamic> body);
@@ -136,6 +140,24 @@ abstract class SmartFunApi {
     @Query('rebuildCache') bool rebuildCache = false,
   });
 
+  //----- Transaction -----// ->
+
+  //
+  @GET('Transaction/PaymentModes')
+  Future<ListDataWrapper<PaymentMode>> getPaymentModes({
+    @Query('siteId') String siteId = '1010',
+    @Query('isActive') int isActive = 1,
+  });
+
+  @GET('Transaction/HostedPaymentGateways')
+  Future<Data<HostedPaymentGateway>> getHostedPaymentGateways(
+    @Query('hostedPaymentGateway') String hostedPaymentGateway, 
+    @Query('amount') double amount,
+    @Query('transactionId') int transactionId,
+  );
+
+
+  //----- Transaction -----// <-
   @GET('Customer/Account/LinkedAccountsSummary')
   Future<ListDataWrapper<CardDetails>> getUserCards(@Query('customerId') String customerId);
 }

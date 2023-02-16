@@ -37,7 +37,7 @@ class _UserCardsState extends State<UserCards> {
                   children: [
                     Container(
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.,
+                        height: MediaQuery.of(context).size.height * 0.25,
                         child: InfiniteCarousel.builder(
                           itemCount: data.length,
                           itemExtent: MediaQuery.of(context).size.width,

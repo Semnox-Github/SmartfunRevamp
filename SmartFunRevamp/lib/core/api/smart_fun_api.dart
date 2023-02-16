@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
@@ -36,8 +35,8 @@ abstract class SmartFunApi {
 
     dio.options = BaseOptions(
       baseUrl: baseUrl,
-      receiveTimeout: 20000,
-      connectTimeout: 20000,
+      receiveTimeout: 40000,
+      connectTimeout: 40000,
       headers: {
         'Authorization': token,
         'content-type': 'application/json',
@@ -45,7 +44,6 @@ abstract class SmartFunApi {
     );
     return _SmartFunApi(dio);
   }
-
 
   @POST('Login/AuthenticateSystemUsers')
   Future<Data<SystemUser>> authenticateSystemUser(@Body() Map<String, dynamic> body);
@@ -151,11 +149,10 @@ abstract class SmartFunApi {
 
   @GET('Transaction/HostedPaymentGateways')
   Future<Data<HostedPaymentGateway>> getHostedPaymentGateways(
-    @Query('hostedPaymentGateway') String hostedPaymentGateway, 
+    @Query('hostedPaymentGateway') String hostedPaymentGateway,
     @Query('amount') double amount,
     @Query('transactionId') int transactionId,
   );
-
 
   //----- Transaction -----// <-
   @GET('Customer/Account/LinkedAccountsSummary')

@@ -11,6 +11,7 @@ class RechargeCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double discount = ((cardProduct.basePrice - cardProduct.finalPrice) * 100) / cardProduct.basePrice;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20.0),
@@ -28,7 +29,7 @@ class RechargeCardWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Platinum',
+                cardProduct.productName.substring(0, cardProduct.productName.length < 16 ? cardProduct.productName.length : 16),
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0,
@@ -39,7 +40,7 @@ class RechargeCardWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    '\$${cardProduct.finalPrice}',
+                    '\$${cardProduct.finalPrice.toStringAsFixed(0)}',
                     style: GoogleFonts.mulish(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -48,7 +49,7 @@ class RechargeCardWidget extends StatelessWidget {
                   ),
                   const SizedBox(width: 5.0),
                   Text(
-                    '\$${cardProduct.basePrice}',
+                    '\$${cardProduct.basePrice.toStringAsFixed(0)}',
                     style: GoogleFonts.mulish(
                       color: CustomColors.customLigthGray,
                       fontWeight: FontWeight.w600,
@@ -59,16 +60,15 @@ class RechargeCardWidget extends StatelessWidget {
                 ],
               )
             ],
-          ),
-          const SizedBox(height: 10.0),
+          ),      
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                '10% OFF',
+                '${discount.toStringAsFixed(0)} % OFF',
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.w600,
-                  fontSize: 12.0,
+                  fontSize: 14.0,
                   color: Colors.white,
                 ),
               )
@@ -83,7 +83,7 @@ class RechargeCardWidget extends StatelessWidget {
               ),
               const SizedBox(width: 5.0),
               Text(
-                '${cardProduct.credits} CREDITS',
+                '${cardProduct.credits.toStringAsFixed(0)} CREDITS',
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.bold,
                   fontSize: 22.0,

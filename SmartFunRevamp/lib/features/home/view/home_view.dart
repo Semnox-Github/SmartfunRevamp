@@ -122,45 +122,63 @@ class HomeView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10.0),
-          GridView(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
+          Container(
+            child: Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) { 
+                return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
+                  orElse: () => Container(
+                    height: 20.0,
+                    width: 20.0,
+                    color: Colors.red,
+                  ),
+                  loading: () => const CircularProgressIndicator(),
+                  data: (data) {
+                    bool hasCard = data.isNotEmpty ? true : false;
+                    return GridView(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                      ),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        QuickLinkItem(
+                          color: CustomColors.customYellow,
+                          image: 'recharge',
+                          text: 'Recharge',
+                          onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kRechargePageCard) : () {},
+                        ),
+                        QuickLinkItem(
+                          color: CustomColors.customPink,
+                          image: 'new_card',
+                          text: 'New Card',
+                          onTap: () => Navigator.pushNamed(context, Routes.kBuyACard),
+                        ),
+                        const QuickLinkItem(
+                          color: CustomColors.customLigthBlue,
+                          image: 'activities',
+                          text: 'Activities',
+                        ),
+                        const QuickLinkItem(
+                          color: CustomColors.customOrange,
+                          image: 'lost_card',
+                          text: 'Lost Card',
+                        ),
+                        const QuickLinkItem(
+                          color: CustomColors.customGreen,
+                          image: 'gameplays',
+                          text: 'Game Plays',
+                        ),
+                        const QuickLinkItem(
+                          color: CustomColors.customPurple,
+                          image: 'transfer_credit',
+                          text: 'Transfer Credit',
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }, 
             ),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              QuickLinkItem(
-                color: CustomColors.customYellow,
-                image: 'recharge',
-                text: 'Recharge',
-                onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
-              ),
-              const QuickLinkItem(
-                color: CustomColors.customPink,
-                image: 'new_card',
-                text: 'New Card',
-              ),
-              const QuickLinkItem(
-                color: CustomColors.customLigthBlue,
-                image: 'activities',
-                text: 'Activities',
-              ),
-              const QuickLinkItem(
-                color: CustomColors.customOrange,
-                image: 'lost_card',
-                text: 'Lost Card',
-              ),
-              const QuickLinkItem(
-                color: CustomColors.customGreen,
-                image: 'gameplays',
-                text: 'Game Plays',
-              ),
-              const QuickLinkItem(
-                color: CustomColors.customPurple,
-                image: 'transfer_credit',
-                text: 'Transfer Credit',
-              ),
-            ],
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20.0, top: 10.0),

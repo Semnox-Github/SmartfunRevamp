@@ -26,7 +26,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
               ),
               margin: const EdgeInsets.all(3),
               child: TextButton(
-                onPressed: () => Navigator.pushNamed(context, Routes.kBuyACard),
+                onPressed: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
                 child: const Text(
                   'RECHARGE NOW',
                   style: TextStyle(

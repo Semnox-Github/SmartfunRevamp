@@ -150,10 +150,11 @@ class HomeView extends StatelessWidget {
                 image: 'lost_card',
                 text: 'Lost Card',
               ),
-              const QuickLinkItem(
+              QuickLinkItem(
                 color: CustomColors.customGreen,
                 image: 'gameplays',
                 text: 'Game Plays',
+                onTap: () => Navigator.pushNamed(context, Routes.kGameplays),
               ),
               const QuickLinkItem(
                 color: CustomColors.customPurple,

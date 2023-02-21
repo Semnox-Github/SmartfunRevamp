@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
-import 'package:semnox/core/domain/entities/home/card_details.dart';
+
 import 'package:intl/intl.dart';
-import '../../../core/widgets/background_card_details.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/widgets/background_card_details.dart';
 
 class CarouselCards extends StatelessWidget {
-  const CarouselCards({Key? key, required this.cards}) : super(key: key);
-
+  const CarouselCards({
+    Key? key,
+    required this.cards,
+    required this.onCardChanged,
+  }) : super(key: key);
+  final Function(CardDetails) onCardChanged;
   final List<CardDetails> cards;
 
   @override
@@ -19,7 +24,9 @@ class CarouselCards extends StatelessWidget {
         center: true,
         anchor: 0.0,
         velocityFactor: 0.2,
-        onIndexChanged: (index) {},
+        onIndexChanged: (index) {
+          onCardChanged(cards[index]);
+        },
         axisDirection: Axis.horizontal,
         loop: false,
         itemBuilder: (context, itemIndex, realIndex) {

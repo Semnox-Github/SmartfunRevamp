@@ -4,8 +4,9 @@ import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
-import 'package:semnox/core/domain/entities/home/card_details.dart';
+
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
@@ -153,6 +154,12 @@ abstract class SmartFunApi {
     @Query('amount') double amount,
     @Query('transactionId') int transactionId,
   );
+
+  @GET('Customer/Account/AccountSummaryView')
+  Future<ListDataWrapper<CardDetails>> getCardDetails(
+    @Query('accountNumber') String accountNumber, {
+    @Query('isActive') String isActive = 'Y',
+  });
 
   //----- Transaction -----// <-
   @GET('Customer/Account/LinkedAccountsSummary')

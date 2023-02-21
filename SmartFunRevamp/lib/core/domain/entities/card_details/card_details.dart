@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-
 part 'card_details.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
@@ -30,6 +29,7 @@ class CardDetails {
   String? technicianCard;
   dynamic techGames;
   bool? timerResetCard;
+  @JsonKey(defaultValue: 0.0)
   double? loyaltyPoints;
   String? lastUpdatedBy;
   dynamic cardTypeId;
@@ -68,9 +68,8 @@ class CardDetails {
   double? totalTicketsBalance;
   double? totalGamesBalance;
   double? totalGamePlayCreditsBalance;
-  factory CardDetails.fromJson(Map<String, dynamic> json) => _$CardDetailsFromJson(json);
-  Map<String, dynamic> toJson() => _$CardDetailsToJson(this);
-  CardDetails(
+
+  CardDetails({
     this.accountId,
     this.accountNumber,
     this.issueDate,
@@ -135,5 +134,7 @@ class CardDetails {
     this.totalTicketsBalance,
     this.totalGamesBalance,
     this.totalGamePlayCreditsBalance,
-  );
+  });
+  factory CardDetails.fromJson(Map<String, dynamic> json) => _$CardDetailsFromJson(json);
+  Map<String, dynamic> toJson() => _$CardDetailsToJson(this);
 }

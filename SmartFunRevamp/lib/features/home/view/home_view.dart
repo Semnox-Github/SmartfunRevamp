@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/instance_manager.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
@@ -15,9 +17,16 @@ import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
-class HomeView extends StatelessWidget {
-  HomeView({Key? key}) : super(key: key);
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   final user = Get.find<CustomerDTO>();
+  CardDetails? cardDetails;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -83,7 +92,7 @@ class HomeView extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Consumer(
                     builder: (context, ref, child) {
-                      return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
+                      return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
                             orElse: () => Container(
                               height: 20.0,
                               width: 20.0,
@@ -93,9 +102,24 @@ class HomeView extends StatelessWidget {
                             data: (data) {
                               return Column(
                                 children: [
-                                  data.isNotEmpty ? CarouselCards(cards: data) : const LinkACard(),
+                                  data.isNotEmpty
+                                      ? CarouselCards(
+                                          cards: data,
+                                          onCardChanged: (details) {
+                                            Logger().d('Card Changed ${details.toJson()}');
+                                            setState(() {
+                                              cardDetails = details;
+                                            });
+                                          },
+                                        )
+                                      : const LinkACard(),
                                   const SizedBox(height: 10.0),
-                                  if (data.isNotEmpty) const RechargeCardDetailsButton() else const BuyNewCardButton(),
+                                  if (data.isNotEmpty)
+                                    RechargeCardDetailsButton(
+                                      cardDetails: cardDetails ?? data.first,
+                                    )
+                                  else
+                                    const BuyNewCardButton(),
                                 ],
                               );
                             },
@@ -122,63 +146,61 @@ class HomeView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10.0),
-          Container(
-            child: Consumer(
-              builder: (BuildContext context, WidgetRef ref, Widget? child) { 
-                return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
-                  orElse: () => Container(
-                    height: 20.0,
-                    width: 20.0,
-                    color: Colors.red,
-                  ),
-                  loading: () => const CircularProgressIndicator(),
-                  data: (data) {
-                    bool hasCard = data.isNotEmpty ? true : false;
-                    return GridView(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                      ),
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        QuickLinkItem(
-                          color: CustomColors.customYellow,
-                          image: 'recharge',
-                          text: 'Recharge',
-                          onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kRechargePageCard) : () {},
+          Consumer(
+            builder: (BuildContext context, WidgetRef ref, Widget? child) {
+              return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
+                    orElse: () => Container(
+                      height: 20.0,
+                      width: 20.0,
+                      color: Colors.red,
+                    ),
+                    loading: () => const CircularProgressIndicator(),
+                    data: (data) {
+                      bool hasCard = data.isNotEmpty ? true : false;
+                      return GridView(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
                         ),
-                        QuickLinkItem(
-                          color: CustomColors.customPink,
-                          image: 'new_card',
-                          text: 'New Card',
-                          onTap: () => Navigator.pushNamed(context, Routes.kBuyACard),
-                        ),
-                        const QuickLinkItem(
-                          color: CustomColors.customLigthBlue,
-                          image: 'activities',
-                          text: 'Activities',
-                        ),
-                        const QuickLinkItem(
-                          color: CustomColors.customOrange,
-                          image: 'lost_card',
-                          text: 'Lost Card',
-                        ),
-                        const QuickLinkItem(
-                          color: CustomColors.customGreen,
-                          image: 'gameplays',
-                          text: 'Game Plays',
-                        ),
-                        const QuickLinkItem(
-                          color: CustomColors.customPurple,
-                          image: 'transfer_credit',
-                          text: 'Transfer Credit',
-                        ),
-                      ],
-                    );
-                  },
-                );
-              }, 
-            ),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          QuickLinkItem(
+                            color: CustomColors.customYellow,
+                            image: 'recharge',
+                            text: 'Recharge',
+                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kRechargePageCard) : () {},
+                          ),
+                          QuickLinkItem(
+                            color: CustomColors.customPink,
+                            image: 'new_card',
+                            text: 'New Card',
+                            onTap: () => Navigator.pushNamed(context, Routes.kBuyACard),
+                          ),
+                          const QuickLinkItem(
+                            color: CustomColors.customLigthBlue,
+                            image: 'activities',
+                            text: 'Activities',
+                          ),
+                          const QuickLinkItem(
+                            color: CustomColors.customOrange,
+                            image: 'lost_card',
+                            text: 'Lost Card',
+                          ),
+                          const QuickLinkItem(
+                            color: CustomColors.customGreen,
+                            image: 'gameplays',
+                            text: 'Game Plays',
+                          ),
+                          const QuickLinkItem(
+                            color: CustomColors.customPurple,
+                            image: 'transfer_credit',
+                            text: 'Transfer Credit',
+                          ),
+                        ],
+                      );
+                    },
+                  );
+            },
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20.0, top: 10.0),

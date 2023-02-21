@@ -10,6 +10,8 @@ import 'package:semnox/features/select_location/pages/select_location_manually_p
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 
+import '../features/lost_card/pages/select_lost_card_page.dart';
+
 class Routes {
   static const kHomePage = '/home';
   static const kLogInPage = '/log_in';
@@ -22,6 +24,7 @@ class Routes {
   static const kMap = '/map';
   static const kEnableLocation = '/enable_location';
   static const kRechargePageCard = '/recharge_card';
+  static const kLostPageCard = '/lost_card';
 
   static String get initialRoute => kSplashScreenPage;
 
@@ -36,7 +39,8 @@ class Routes {
       kSelectLocationManually: (BuildContext context) => const SelectLocationManuallyPage(),
       kEnableLocation: (BuildContext context) => const EnableLocationPage(),
       kMap: (BuildContext context) => const MapPage(),
-      kRechargePageCard: (BuildContext context) => const SelectCardRechargePage()
+      kRechargePageCard: (BuildContext context) => const SelectCardRechargePage(),
+      kLostPageCard: (BuildContext context) => const SelectCardLostPage()
     };
   }
 }

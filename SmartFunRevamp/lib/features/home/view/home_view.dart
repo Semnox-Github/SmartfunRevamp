@@ -158,10 +158,11 @@ class HomeView extends StatelessWidget {
                           image: 'activities',
                           text: 'Activities',
                         ),
-                        const QuickLinkItem(
+                        QuickLinkItem(
                           color: CustomColors.customOrange,
                           image: 'lost_card',
                           text: 'Lost Card',
+                          onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kLostPageCard) : () {},
                         ),
                         const QuickLinkItem(
                           color: CustomColors.customGreen,

@@ -56,7 +56,7 @@ class _UserCardsState extends State<UserCards> {
                             final card = data[itemIndex];
                             final formatter = DateFormat('dd MMM yyyy'); 
                             return Container(
-                              margin: const EdgeInsets.all(10.0),
+                              margin: const EdgeInsets.all(10),
                               padding: const EdgeInsets.only(left: 15, top: 0, right: 10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20.0),

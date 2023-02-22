@@ -7,10 +7,10 @@ class AccountGameplays {
   final String playDate;
   final String game;
   final String site;
-  final int credits;
-  final int courtesy;
-  final int bonus;
-  final int time;
+  final double credits;
+  final double courtesy;
+  final double bonus;
+  final double time;
   
   AccountGameplays(this.gameplayId, this.playDate, this.game, this.site, this.credits, this.courtesy, this.bonus, this.time);
   factory AccountGameplays.fromJson(Map<String, dynamic> json) => _$AccountGameplaysFromJson(json);

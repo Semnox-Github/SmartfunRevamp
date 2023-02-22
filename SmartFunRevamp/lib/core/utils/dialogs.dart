@@ -195,7 +195,7 @@ class Dialogs {
   static void showMessageInfo(BuildContext context, String title, String meessge) {
     AwesomeDialog(
       context: context,
-      dialogType: DialogType.noHeader,
+      dialogType: DialogType.infoReverse,
       animType: AnimType.scale,
       title: title,
       desc: meessge,

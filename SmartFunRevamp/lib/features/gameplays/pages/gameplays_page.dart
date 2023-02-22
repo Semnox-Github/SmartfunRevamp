@@ -8,6 +8,8 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/gameplays/provider/gameplays_provider.dart';
 
 
+
+
 class GameplaysPage extends StatelessWidget {
   const GameplaysPage({Key? key}) : super(key: key);
 
@@ -116,8 +118,6 @@ class GameplaysPage extends StatelessWidget {
                                         Container(),
                                         Container(),
                                       ]
-
-
                                     ),
                                     // child: 
                                     // Column(

@@ -84,9 +84,12 @@ class GameplaysPage extends StatelessWidget {
                               onTap: () => showDialog<String>(
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
-                                  title: Text(item.game),
-                                  content: Container(
-                                    height: MediaQuery.of(context).size.height * 0.25,
+                                  title: Text(
+                                    item.game, 
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  content: SizedBox(
+                                    height: MediaQuery.of(context).size.height * 0.30,
                                     child: GridView(
                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 2,
@@ -94,29 +97,102 @@ class GameplaysPage extends StatelessWidget {
                                       shrinkWrap: true,
                                       physics: const NeverScrollableScrollPhysics(),
                                       children: [
-                                        InkWell(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(20.0),
-                                                  color: Colors.grey,
-                                                ),
-                                                padding: const EdgeInsets.all(13.0)
+                                        Expanded(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                            ),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(12.0),
+                                                color: Colors.lightBlue,
                                               ),
-                                              const SizedBox(height: 10.0),
-                                              Text(
-                                                'Credits ${item.credits}',
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
+                                              margin: const EdgeInsets.all(3),
+                                              child: TextButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  'Credits\n${item.credits}',
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                  ),
                                                 ),
                                               ),
-                                            ],
+                                            ),
                                           ),
                                         ),
-                                        Container(),
-                                        Container(),
-                                        Container(),
+                                        Expanded(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                            ),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(12.0),
+                                                color: Colors.lightBlue,
+                                              ),
+                                              margin: const EdgeInsets.all(3),
+                                              child: TextButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  'Bonus\n${item.bonus}',
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                            ),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(12.0),
+                                                color: Colors.lightBlue,
+                                              ),
+                                              margin: const EdgeInsets.all(3),
+                                              child: TextButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  'Time\n${item.time}',
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                            ),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(12.0),
+                                                color: Colors.lightBlue,
+                                              ),
+                                              margin: const EdgeInsets.all(3),
+                                              child: TextButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  'Card Game\n${item.courtesy}',
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ]
                                     ),
                                     // child: 

@@ -15,6 +15,8 @@ import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
+import '../../../core/utils/dialogs.dart';
+
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
   final user = Get.find<CustomerDTO>();
@@ -134,6 +136,7 @@ class HomeView extends StatelessWidget {
                   loading: () => const CircularProgressIndicator(),
                   data: (data) {
                     bool hasCard = data.isNotEmpty ? true : false;
+                    String msgCardNoLink = 'No card is associated with customer, please link your card.';
                     return GridView(
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
@@ -145,7 +148,7 @@ class HomeView extends StatelessWidget {
                           color: CustomColors.customYellow,
                           image: 'recharge',
                           text: 'Recharge',
-                          onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kRechargePageCard) : () {},
+                          onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kRechargePageCard) : Dialogs.showMessageInfo(context, 'Recharge Card', msgCardNoLink),
                         ),
                         QuickLinkItem(
                           color: CustomColors.customPink,

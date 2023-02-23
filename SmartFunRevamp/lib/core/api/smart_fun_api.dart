@@ -161,6 +161,13 @@ abstract class SmartFunApi {
     @Query('isActive') String isActive = 'Y',
   });
 
+  @GET('Customer/Account/Accounts')
+  Future<ListDataWrapper<CardDetails>> getBonusSummary(
+    @Query('accountNumber') String accountNumber, {
+    @Query('activeRecordsOnly') bool activeRecordsOnly = true,
+    @Query('buildChildRecords') bool buildChildRecords = true,
+  });
+
   //----- Transaction -----// <-
   @GET('Customer/Account/LinkedAccountsSummary')
   Future<ListDataWrapper<CardDetails>> getUserCards(@Query('customerId') String customerId);

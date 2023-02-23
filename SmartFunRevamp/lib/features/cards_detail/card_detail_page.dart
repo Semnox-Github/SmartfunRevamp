@@ -5,6 +5,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 
 class CardDetailPage extends StatelessWidget {
   const CardDetailPage({Key? key, required this.cardDetails}) : super(key: key);
@@ -56,6 +57,14 @@ class CardDetailPage extends StatelessWidget {
                     image: 'bonus_points',
                     amount: '${cardDetails.bonus?.toStringAsFixed(0)}',
                     desc: 'Bonus',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? ''),
+                        ),
+                      );
+                    },
                   ),
                   CardDetailItem(
                     color: CustomColors.customGreen,

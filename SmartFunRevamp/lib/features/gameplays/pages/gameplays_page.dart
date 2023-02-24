@@ -4,10 +4,17 @@ import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/gameplays/provider/gameplays_provider.dart';
+import 'package:semnox/features/recharge_card/widgets/user_cards.dart';
 
-class GameplaysPage extends StatelessWidget {
+class GameplaysPage extends StatefulWidget {
   const GameplaysPage({Key? key}) : super(key: key);
 
+@override
+  State<GameplaysPage> createState() => _GameplaysPageState();
+}
+
+class _GameplaysPageState extends State<GameplaysPage> {
+  String selectedCardNumber = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,16 +32,20 @@ class GameplaysPage extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        minimum: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            UserCards(
+              onCardSelected: (card) {
+                selectedCardNumber = card;
+              },
+            ),
             Expanded(
               child: Consumer(
                 builder: (context, ref, child) {
                   return ref.watch(GameplaysProvider.accountGameplaysProvider).maybeWhen(
                         orElse: () => Container(
-                          height: MediaQuery.of(context).size.height * 0.50,
+                          height: MediaQuery.of(context).size.height * 0.70,
                           width: MediaQuery.of(context).size.width * 0.85,
                           color: Colors.red,
                         ),
@@ -46,12 +57,11 @@ class GameplaysPage extends StatelessWidget {
                           return ListView.separated(
                           // Let the ListView know how many items it needs to build.
                           itemCount: data.length,
-                          separatorBuilder: (_, __) => const SizedBox(height: 10.0),
+                          separatorBuilder: (_, __) => const Divider(height: 0),
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           shrinkWrap: true,
                           physics: const ClampingScrollPhysics(),
                           // Provide a builder function. This is where the magic happens.
-                          // Convert each item into a widget based on the type of item it is.
                           itemBuilder: (context, index) {
                             final item = data[index];
                             return ListTile(
@@ -85,6 +95,7 @@ class GameplaysPage extends StatelessWidget {
                                   ),
                                   content: SizedBox(
                                     height: MediaQuery.of(context).size.height * 0.30,
+                                    width:  MediaQuery.of(context).size.height * 0.30,
                                     child: GridView(
                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 2,

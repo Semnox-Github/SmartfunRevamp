@@ -24,7 +24,7 @@ class _UserCardsState extends State<UserCards> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
+        return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
               orElse: () => Container(),
               loading: () => const CircularProgressIndicator(),
               data: (data) {

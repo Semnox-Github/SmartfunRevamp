@@ -5,7 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
 import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
@@ -15,11 +17,17 @@ import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
-import '../../../core/utils/dialogs.dart';
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
 
-class HomeView extends StatelessWidget {
-  HomeView({Key? key}) : super(key: key);
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   final user = Get.find<CustomerDTO>();
+  CardDetails? cardDetails;
+  int _cardIndex = -1;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -85,7 +93,7 @@ class HomeView extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(vertical: 10.0),
                   child: Consumer(
                     builder: (context, ref, child) {
-                      return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
+                      return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
                             orElse: () => Container(
                               height: 20.0,
                               width: 20.0,
@@ -95,9 +103,26 @@ class HomeView extends StatelessWidget {
                             data: (data) {
                               return Column(
                                 children: [
-                                  data.isNotEmpty ? CarouselCards(cards: data) : const LinkACard(),
+                                  data.isNotEmpty
+                                      ? CarouselCards(
+                                          cards: data,
+                                          onCardChanged: (cardIndex) {
+                                            setState(() {
+                                              if (cardIndex != data.length) {
+                                                cardDetails = data[cardIndex];
+                                              }
+                                              _cardIndex = cardIndex;
+                                            });
+                                          },
+                                        )
+                                      : LinkACard(),
                                   const SizedBox(height: 10.0),
-                                  if (data.isNotEmpty) const RechargeCardDetailsButton() else const BuyNewCardButton(),
+                                  if (data.isNotEmpty && _cardIndex != data.length)
+                                    RechargeCardDetailsButton(
+                                      cardDetails: cardDetails ?? data.first,
+                                    )
+                                  else
+                                    const BuyNewCardButton(),
                                 ],
                               );
                             },
@@ -126,7 +151,7 @@ class HomeView extends StatelessWidget {
           const SizedBox(height: 10.0),
           Consumer(
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
-              return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
+              return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
                     orElse: () => Container(
                       height: 20.0,
                       width: 20.0,

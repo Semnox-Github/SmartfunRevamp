@@ -13,9 +13,7 @@ class BackgroundCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 5.0),
       decoration: BoxDecoration(
         color: Colors.purple.shade400,
-        borderRadius: BorderRadius.circular(
-          20.0,
-        ),
+        borderRadius: BorderRadius.circular(20.0),
       ),
       child: child,
     );

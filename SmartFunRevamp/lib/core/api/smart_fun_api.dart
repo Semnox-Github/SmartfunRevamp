@@ -4,8 +4,10 @@ import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
+import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
-import 'package:semnox/core/domain/entities/home/card_details.dart';
+
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
@@ -154,7 +156,25 @@ abstract class SmartFunApi {
     @Query('transactionId') int transactionId,
   );
 
-  //----- Transaction -----// <-
+  @GET('Customer/Account/AccountSummaryView')
+  Future<ListDataWrapper<CardDetails>> getCardDetails(
+    @Query('accountNumber') String accountNumber, {
+    @Query('isActive') String isActive = 'Y',
+  });
+
+  @GET('Customer/Account/Accounts')
+  Future<ListDataWrapper<CardDetails>> getBonusSummary(
+    @Query('accountNumber') String accountNumber, {
+    @Query('activeRecordsOnly') bool activeRecordsOnly = true,
+    @Query('buildChildRecords') bool buildChildRecords = true,
+  });
+
   @GET('Customer/Account/LinkedAccountsSummary')
   Future<ListDataWrapper<CardDetails>> getUserCards(@Query('customerId') String customerId);
+
+  @GET('Customer/Account/{customerId}/AccountGamesSummary')
+  Future<ListDataWrapper<AccountCreditPlusConsumptionDTO>> getGamesAccountSummart(@Path('customerId') String customerId);
+
+  @POST('Customer/Account/AccountService/LinkAccountToCustomers')
+  Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
 }

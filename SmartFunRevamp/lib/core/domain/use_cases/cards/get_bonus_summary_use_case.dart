@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:semnox/core/domain/entities/card_details/bonus_summary.dart';
+import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/domain/repositories/cards_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
 

@@ -14,9 +14,8 @@ class BonusSummaryPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //TODO:Whenever the app rebuilds this is called again
     ref.read(CardsProviders.bonusSummaryProvider.notifier).getSummary('C163975D');
-    // ref.read(CardsProviders.bonusSummaryProvider.notifier).getSummary(cardNumber);
-
     return Scaffold(
       appBar: const CustomAppBar(
         title: MulishText(

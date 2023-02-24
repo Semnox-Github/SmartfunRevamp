@@ -4,6 +4,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
+import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 
@@ -168,7 +169,9 @@ abstract class SmartFunApi {
     @Query('buildChildRecords') bool buildChildRecords = true,
   });
 
-  //----- Transaction -----// <-
   @GET('Customer/Account/LinkedAccountsSummary')
   Future<ListDataWrapper<CardDetails>> getUserCards(@Query('customerId') String customerId);
+
+  @GET('Customer/Account/{customerId}/AccountGamesSummary')
+  Future<ListDataWrapper<AccountCreditPlusConsumptionDTO>> getGamesAccountSummart(@Path('customerId') String customerId);
 }

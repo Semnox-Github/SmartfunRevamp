@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
-import 'package:semnox/core/domain/entities/card_details/bonus_summary.dart';
+import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
+import 'package:semnox/features/home/provider/cards_provider.dart';
 
 class BonusSummaryDetailPage extends StatelessWidget {
   const BonusSummaryDetailPage({Key? key, required this.summary}) : super(key: key);
@@ -37,6 +39,13 @@ class BonusSummaryDetailPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                Consumer(
+                  builder: (context, ref, child) {
+                    return ref.watch(CardsProviders.userGamesSummaryProvider).maybeWhen(
+                          orElse: () => Container(),
+                        );
+                  },
+                ),
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(10.0),

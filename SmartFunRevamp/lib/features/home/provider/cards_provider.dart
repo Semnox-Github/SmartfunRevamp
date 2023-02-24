@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
-import 'package:semnox/core/domain/entities/card_details/bonus_summary.dart';
+import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/use_cases/cards/get_account_games_summary_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_bonus_summary_use_case.dart';
-import 'package:semnox/core/domain/use_cases/cards/get_card_details_use_case.dart';
 
 import 'package:semnox/core/domain/use_cases/home/get_user_cards_use_case.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -21,6 +21,15 @@ class CardsProviders {
       (r) => r,
     );
   });
+  static final userGamesSummaryProvider = FutureProvider<void>((ref) async {
+    final GetAccountGamesSummaryUseCase getAccountGamesSummaryUseCase = Get.find<GetAccountGamesSummaryUseCase>();
+    final userId = Get.find<CustomerDTO>().id;
+    final response = await getAccountGamesSummaryUseCase(userId.toString());
+    return response.fold(
+      (l) => throw l,
+      (r) => r,
+    );
+  });
 
   static final bonusSummaryProvider = StateNotifierProvider.autoDispose<CardBonusSummaryProvider, CardsState>(
     (ref) => CardBonusSummaryProvider(
@@ -28,15 +37,6 @@ class CardsProviders {
     ),
   );
 }
-
-final cardsDetailsProvider = FutureProvider.family<CardDetails, String>((ref, accountNumber) async {
-  final GetCardDetailsUseCase getDetails = Get.find<GetCardDetailsUseCase>();
-  final response = await getDetails(accountNumber);
-  return response.fold(
-    (l) => throw l,
-    (r) => r,
-  );
-});
 
 class CardBonusSummaryProvider extends StateNotifier<CardsState> {
   final GetBonusSummaryUseCase _getBonusSummary;

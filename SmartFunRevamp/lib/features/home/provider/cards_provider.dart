@@ -40,7 +40,6 @@ class CardsProviders {
   static final linkCardProvider = FutureProvider.autoDispose.family<void, String>((ref, cardNumber) async {
     final LinkCardUseCase linkCardUseCase = Get.find<LinkCardUseCase>();
     final userId = Get.find<CustomerDTO>().id;
-    await Future.delayed(const Duration(seconds: 10));
     final response = await linkCardUseCase({
       "SourceAccountDTO": {"AccountId": userId},
       "CustomerDTO": {"Id": cardNumber}

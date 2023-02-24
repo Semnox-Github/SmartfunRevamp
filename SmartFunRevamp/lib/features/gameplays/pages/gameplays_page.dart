@@ -1,18 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
-import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/gameplays/provider/gameplays_provider.dart';
 
-
-
-
 class GameplaysPage extends StatelessWidget {
   const GameplaysPage({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,33 +54,34 @@ class GameplaysPage extends StatelessWidget {
                           // Convert each item into a widget based on the type of item it is.
                           itemBuilder: (context, index) {
                             final item = data[index];
-
                             return ListTile(
                               title: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Column(
-                                    children: [
-                                      Text(item.game)
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(item.playDate)
-                                    ],
-                                  )
+                                  Text(item.game,
+                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                  Text(DateFormat('MMM d, yyyy, h:mm a').format(DateTime.parse(item.playDate)),
+                                  style: const TextStyle(fontSize: 12, color: Colors.grey))
                                 ],
                               ),
                               subtitle: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('${item.site}\nRef: ${item.gameplayId}'),
+                                  const Icon(Icons.arrow_forward_ios_outlined)
                                 ]
                               ),
                               onTap: () => showDialog<String>(
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
-                                  title: Text(
-                                    item.game, 
-                                    textAlign: TextAlign.center,
+                                  title: Column(
+                                    children: <Widget>[
+                                      Text(item.game),
+                                      const Text(
+                                        "Balance consumed during gameplay",
+                                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                                      ),
+                                    ]
                                   ),
                                   content: SizedBox(
                                     height: MediaQuery.of(context).size.height * 0.30,
@@ -110,12 +105,19 @@ class GameplaysPage extends StatelessWidget {
                                               margin: const EdgeInsets.all(3),
                                               child: TextButton(
                                                 onPressed: () {},
-                                                child: Text(
-                                                  'Credits\n${item.credits}',
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                    color: Colors.white,
-                                                  ),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      item.credits.toString(),
+                                                      style: const TextStyle(fontSize: 20, color: Colors.black)
+                                                      ),
+                                                    const Text(
+                                                      "Credits",
+                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                                    ),
+                                                  ]
                                                 ),
                                               ),
                                             ),
@@ -134,12 +136,19 @@ class GameplaysPage extends StatelessWidget {
                                               margin: const EdgeInsets.all(3),
                                               child: TextButton(
                                                 onPressed: () {},
-                                                child: Text(
-                                                  'Bonus\n${item.bonus}',
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                    color: Colors.white,
-                                                  ),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      item.bonus.toString(),
+                                                      style: const TextStyle(fontSize: 20, color: Colors.black)
+                                                      ),
+                                                    const Text(
+                                                      "Bonus",
+                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                                    ),
+                                                  ]
                                                 ),
                                               ),
                                             ),
@@ -158,12 +167,19 @@ class GameplaysPage extends StatelessWidget {
                                               margin: const EdgeInsets.all(3),
                                               child: TextButton(
                                                 onPressed: () {},
-                                                child: Text(
-                                                  'Time\n${item.time}',
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                    color: Colors.white,
-                                                  ),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      item.time.toString(),
+                                                      style: const TextStyle(fontSize: 20, color: Colors.black)
+                                                      ),
+                                                    const Text(
+                                                      "Time",
+                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                                    ),
+                                                  ]
                                                 ),
                                               ),
                                             ),
@@ -182,12 +198,19 @@ class GameplaysPage extends StatelessWidget {
                                               margin: const EdgeInsets.all(3),
                                               child: TextButton(
                                                 onPressed: () {},
-                                                child: Text(
-                                                  'Card Game\n${item.courtesy}',
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                    color: Colors.white,
-                                                  ),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      item.courtesy.toString(),
+                                                      style: const TextStyle(fontSize: 20, color: Colors.black)
+                                                      ),
+                                                    const Text(
+                                                      "Card Game",
+                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                                    ),
+                                                  ]
                                                 ),
                                               ),
                                             ),
@@ -195,39 +218,6 @@ class GameplaysPage extends StatelessWidget {
                                         ),
                                       ]
                                     ),
-                                    // child: 
-                                    // Column(
-                                    //   children: [
-                                    //     Row(
-                                    //       children: [
-                                    //         Column(
-                                    //           children: [
-                                    //             Text('Credits ${item.credits}')
-                                    //           ],
-                                    //         ),
-                                    //         Column(
-                                    //           children: [
-                                    //             Text('Bonus ${item.bonus}')
-                                    //           ],
-                                    //         )
-                                    //       ],
-                                    //     ),
-                                    //     Row(
-                                    //       children: [
-                                    //         Column(
-                                    //           children: [
-                                    //             Text('Time ${item.time}')
-                                    //           ],
-                                    //         ),
-                                    //         Column(
-                                    //           children: [
-                                    //             Text('Card Game ${item.courtesy}')
-                                    //           ],
-                                    //         )
-                                    //       ],
-                                    //       )
-                                    //   ],
-                                    // ),
                                   ),
                                   actions: <Widget>[
                                     TextButton(

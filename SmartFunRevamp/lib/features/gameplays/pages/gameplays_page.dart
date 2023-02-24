@@ -115,7 +115,6 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                         crossAxisSpacing: 10,
                                         mainAxisSpacing: 10,
                                       ),
-                                      
                                       shrinkWrap: true,
                                       physics: const NeverScrollableScrollPhysics(),
                                       children: [
@@ -267,9 +266,45 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                     ),
                                   ),
                                   actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context, 'OK'),
-                                      child: const Text('Done'),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width * 0.80,
+                                      child: OutlinedButton(
+                                        onPressed: () => Navigator.pop(context, 'OK'),
+                                        style: OutlinedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                            side: const BorderSide(
+                                              width: 1.5,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          backgroundColor: Colors.black
+                                        ),
+                                        
+                                        // ButtonStyle(
+                                        //   shape: MaterialStateProperty.all(
+                                        //     RoundedRectangleBorder(
+                                        //       borderRadius: BorderRadius.circular(8.0),
+                                        //       side: const BorderSide(
+                                        //         width: 1.5,
+                                        //         color: Colors.grey,
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                      
+                                        child: const Text(
+                                          'Get Balance',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      // TextButton(
+                                      //   onPressed: () => Navigator.pop(context, 'OK'),
+                                      //   child: const Text('Done'),
+                                      // ),
                                     ),
                                   ],
                                 ),

@@ -110,8 +110,8 @@ class GameplaysPage extends StatelessWidget {
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: <Widget>[
                                                     Text(
-                                                      item.credits.toString(),
-                                                      style: const TextStyle(fontSize: 20, color: Colors.black)
+                                                      item.credits.toInt().toString(),
+                                                      style: const TextStyle(fontSize: 25, color: Colors.white70)
                                                       ),
                                                     const Text(
                                                       "Credits",
@@ -141,8 +141,8 @@ class GameplaysPage extends StatelessWidget {
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: <Widget>[
                                                     Text(
-                                                      item.bonus.toString(),
-                                                      style: const TextStyle(fontSize: 20, color: Colors.black)
+                                                      item.bonus.toInt().toString(),
+                                                      style: const TextStyle(fontSize: 25, color: Colors.white70)
                                                       ),
                                                     const Text(
                                                       "Bonus",
@@ -172,8 +172,8 @@ class GameplaysPage extends StatelessWidget {
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: <Widget>[
                                                     Text(
-                                                      item.time.toString(),
-                                                      style: const TextStyle(fontSize: 20, color: Colors.black)
+                                                      item.time.toInt().toString(),
+                                                      style: const TextStyle(fontSize: 25, color: Colors.white70)
                                                       ),
                                                     const Text(
                                                       "Time",
@@ -203,8 +203,8 @@ class GameplaysPage extends StatelessWidget {
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: <Widget>[
                                                     Text(
-                                                      item.courtesy.toString(),
-                                                      style: const TextStyle(fontSize: 20, color: Colors.black)
+                                                      item.courtesy.toInt().toString(),
+                                                      style: const TextStyle(fontSize: 25, color: Colors.white70)
                                                       ),
                                                     const Text(
                                                       "Card Game",

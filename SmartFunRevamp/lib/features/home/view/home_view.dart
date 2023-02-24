@@ -7,6 +7,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
 import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
@@ -159,6 +160,7 @@ class _HomeViewState extends State<HomeView> {
                     loading: () => const CircularProgressIndicator(),
                     data: (data) {
                       bool hasCard = data.isNotEmpty ? true : false;
+                      String msgCardNoLink = 'No card is associated with customer, please link your card.';
                       return GridView(
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
@@ -170,7 +172,7 @@ class _HomeViewState extends State<HomeView> {
                             color: CustomColors.customYellow,
                             image: 'recharge',
                             text: 'Recharge',
-                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kRechargePageCard) : () {},
+                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kRechargePageCard) : Dialogs.showMessageInfo(context, 'Recharge Card', msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customPink,

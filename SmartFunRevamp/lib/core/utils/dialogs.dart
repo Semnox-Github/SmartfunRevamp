@@ -191,4 +191,21 @@ class Dialogs {
       },
     );
   }
+
+  static void showMessageInfo(BuildContext context, String title, String meessge) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.infoReverse,
+      animType: AnimType.scale,
+      title: title,
+      desc: meessge,
+      descTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
+      ),
+      btnOkOnPress: () {},
+      btnOkText: 'OK',
+      btnOkColor: Colors.blue,
+    ).show();
+  }
 }

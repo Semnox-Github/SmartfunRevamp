@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/gameplays/provider/gameplays_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/user_cards.dart';
@@ -54,10 +55,9 @@ class _GameplaysPageState extends State<GameplaysPage> {
                         ),
                         loading: () => const CircularProgressIndicator(),
                         data: (data) {
-                          return ListView.separated(
+                          return ListView.builder(
                           // Let the ListView know how many items it needs to build.
                           itemCount: data.length,
-                          separatorBuilder: (_, __) => const Divider(height: 0),
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           shrinkWrap: true,
                           physics: const ClampingScrollPhysics(),
@@ -68,16 +68,24 @@ class _GameplaysPageState extends State<GameplaysPage> {
                               title: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(item.game,
-                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                                  Text(DateFormat('MMM d, yyyy, h:mm a').format(DateTime.parse(item.playDate)),
-                                  style: const TextStyle(fontSize: 12, color: Colors.grey))
+                                  MulishText(
+                                    text: item.game,
+                                    fontSize: 14, 
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                  MulishText(
+                                    text: DateFormat('MMM d, yyyy, h:mm a').format(DateTime.parse(item.playDate)),
+                                    fontSize: 12, 
+                                    fontColor: Colors.grey,
+                                  ),
                                 ],
                               ),
                               subtitle: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('${item.site}\nRef: ${item.gameplayId}'),
+                                  MulishText(
+                                    text: '${item.site}\nRef: ${item.gameplayId}',
+                                  ),
                                   const Icon(Icons.arrow_forward_ios_outlined)
                                 ]
                               ),
@@ -86,20 +94,28 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                 builder: (BuildContext context) => AlertDialog(
                                   title: Column(
                                     children: <Widget>[
-                                      Text(item.game),
-                                      const Text(
-                                        "Balance consumed during gameplay",
-                                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                                      MulishText(
+                                        text: item.game,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      const MulishText(
+                                        text: "Balance consumed during gameplay",
+                                        fontSize: 12, 
+                                        fontColor: Colors.grey,
                                       ),
                                     ]
                                   ),
                                   content: SizedBox(
-                                    height: MediaQuery.of(context).size.height * 0.30,
+                                    height: MediaQuery.of(context).size.height * 0.25,
                                     width:  MediaQuery.of(context).size.height * 0.30,
                                     child: GridView(
                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 2,
+                                        childAspectRatio: (100/70),
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
                                       ),
+                                      
                                       shrinkWrap: true,
                                       physics: const NeverScrollableScrollPhysics(),
                                       children: [
@@ -107,11 +123,13 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                           child: Container(
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(15.0),
+                                              color: CustomColors.hardOrange,
+                                              gradient: CustomGradients.linearGradient
                                             ),
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(12.0),
-                                                color: Colors.lightBlue,
+                                                color: Colors.white,
                                               ),
                                               margin: const EdgeInsets.all(3),
                                               child: TextButton(
@@ -120,13 +138,16 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: <Widget>[
-                                                    Text(
-                                                      item.credits.toInt().toString(),
-                                                      style: const TextStyle(fontSize: 25, color: Colors.white70)
-                                                      ),
-                                                    const Text(
-                                                      "Credits",
-                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                                    MulishText(
+                                                      text: item.credits.toInt().toString(),
+                                                      fontSize: 25, 
+                                                      fontColor: Colors.black,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                    const MulishText(
+                                                      text: "Credits",
+                                                      fontSize: 14, 
+                                                      fontColor: Colors.grey,
                                                     ),
                                                   ]
                                                 ),
@@ -138,11 +159,13 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                           child: Container(
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(15.0),
+                                              color: CustomColors.hardOrange,
+                                              gradient: CustomGradients.linearGradient
                                             ),
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(12.0),
-                                                color: Colors.lightBlue,
+                                                color: Colors.white,
                                               ),
                                               margin: const EdgeInsets.all(3),
                                               child: TextButton(
@@ -151,13 +174,16 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: <Widget>[
-                                                    Text(
-                                                      item.bonus.toInt().toString(),
-                                                      style: const TextStyle(fontSize: 25, color: Colors.white70)
-                                                      ),
-                                                    const Text(
-                                                      "Bonus",
-                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                                    MulishText(
+                                                      text: item.bonus.toInt().toString(),
+                                                      fontSize: 25, 
+                                                      fontColor: Colors.black,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                    const MulishText(
+                                                      text: "Bonus",
+                                                      fontSize: 14, 
+                                                      fontColor: Colors.grey,
                                                     ),
                                                   ]
                                                 ),
@@ -169,11 +195,13 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                           child: Container(
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(15.0),
+                                              color: CustomColors.hardOrange,
+                                              gradient: CustomGradients.linearGradient
                                             ),
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(12.0),
-                                                color: Colors.lightBlue,
+                                                color: Colors.white,
                                               ),
                                               margin: const EdgeInsets.all(3),
                                               child: TextButton(
@@ -182,13 +210,16 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: <Widget>[
-                                                    Text(
-                                                      item.time.toInt().toString(),
-                                                      style: const TextStyle(fontSize: 25, color: Colors.white70)
-                                                      ),
-                                                    const Text(
-                                                      "Time",
-                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                                    MulishText(
+                                                      text: item.time.toInt().toString(),
+                                                      fontSize: 25, 
+                                                      fontColor: Colors.black,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                    const MulishText(
+                                                      text: "Time",
+                                                      fontSize: 14, 
+                                                      fontColor: Colors.grey,
                                                     ),
                                                   ]
                                                 ),
@@ -200,11 +231,13 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                           child: Container(
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(15.0),
+                                              color: CustomColors.hardOrange,
+                                              gradient: CustomGradients.linearGradient
                                             ),
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(12.0),
-                                                color: Colors.lightBlue,
+                                                color: Colors.white,
                                               ),
                                               margin: const EdgeInsets.all(3),
                                               child: TextButton(
@@ -213,13 +246,16 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: <Widget>[
-                                                    Text(
-                                                      item.courtesy.toInt().toString(),
-                                                      style: const TextStyle(fontSize: 25, color: Colors.white70)
-                                                      ),
-                                                    const Text(
-                                                      "Card Game",
-                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                                    MulishText(
+                                                      text: item.courtesy.toInt().toString(),
+                                                      fontSize: 25, 
+                                                      fontColor: Colors.black,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                    const MulishText(
+                                                      text: "Card Game",
+                                                      fontSize: 14, 
+                                                      fontColor: Colors.grey,
                                                     ),
                                                   ]
                                                 ),

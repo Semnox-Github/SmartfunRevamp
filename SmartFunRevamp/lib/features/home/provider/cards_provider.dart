@@ -5,6 +5,7 @@ import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_account_games_summary_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_bonus_summary_use_case.dart';
+import 'package:semnox/core/domain/use_cases/cards/link_card_use_case.dart';
 
 import 'package:semnox/core/domain/use_cases/home/get_user_cards_use_case.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -36,6 +37,19 @@ class CardsProviders {
       Get.find<GetBonusSummaryUseCase>(),
     ),
   );
+  static final linkCardProvider = FutureProvider.autoDispose.family<void, String>((ref, cardNumber) async {
+    final LinkCardUseCase linkCardUseCase = Get.find<LinkCardUseCase>();
+    final userId = Get.find<CustomerDTO>().id;
+    await Future.delayed(const Duration(seconds: 10));
+    final response = await linkCardUseCase({
+      "SourceAccountDTO": {"AccountId": userId},
+      "CustomerDTO": {"Id": cardNumber}
+    });
+    return response.fold(
+      (l) => throw l,
+      (r) => r,
+    );
+  });
 }
 
 class CardBonusSummaryProvider extends StateNotifier<CardsState> {

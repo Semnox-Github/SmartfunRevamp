@@ -88,4 +88,22 @@ class CardsRepositoryImpl implements CardsRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<Either<Failure, void>> linkCardToUser(Map<String, dynamic> body) async {
+    try {
+      final response = await _api.linkCardToCustomer(body);
+      Logger().d(response.data);
+      return const Right(null);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

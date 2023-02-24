@@ -174,4 +174,7 @@ abstract class SmartFunApi {
 
   @GET('Customer/Account/{customerId}/AccountGamesSummary')
   Future<ListDataWrapper<AccountCreditPlusConsumptionDTO>> getGamesAccountSummart(@Path('customerId') String customerId);
+
+  @POST('Customer/Account/AccountService/LinkAccountToCustomers')
+  Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
 }

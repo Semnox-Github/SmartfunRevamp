@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/instance_manager.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -27,6 +26,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final user = Get.find<CustomerDTO>();
   CardDetails? cardDetails;
+  int _cardIndex = -1;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -105,16 +105,18 @@ class _HomeViewState extends State<HomeView> {
                                   data.isNotEmpty
                                       ? CarouselCards(
                                           cards: data,
-                                          onCardChanged: (details) {
-                                            Logger().d('Card Changed ${details.toJson()}');
+                                          onCardChanged: (cardIndex) {
                                             setState(() {
-                                              cardDetails = details;
+                                              if (cardIndex != data.length) {
+                                                cardDetails = data[cardIndex];
+                                              }
+                                              _cardIndex = cardIndex;
                                             });
                                           },
                                         )
-                                      : const LinkACard(),
+                                      : LinkACard(),
                                   const SizedBox(height: 10.0),
-                                  if (data.isNotEmpty)
+                                  if (data.isNotEmpty && _cardIndex != data.length)
                                     RechargeCardDetailsButton(
                                       cardDetails: cardDetails ?? data.first,
                                     )

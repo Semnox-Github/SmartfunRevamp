@@ -65,8 +65,11 @@ class _GameplaysPageState extends State<GameplaysPage> {
                           itemBuilder: (context, index) {
                             final item = data[index];
                             return Card(
-                              color: Colors.white70,
-                              child: ListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20), 
+                                side: const BorderSide(color: Colors.white70)
+                              ),                              
+                              child: ListTile(                                
                                 contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -95,7 +98,6 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                   ]
                                 ),
                                 onTap: () => showDialog<String>(
-                                  
                                   context: context,
                                   builder: (BuildContext context) => AlertDialog(
                                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),

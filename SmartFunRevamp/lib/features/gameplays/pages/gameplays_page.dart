@@ -90,8 +90,10 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                 ]
                               ),
                               onTap: () => showDialog<String>(
+                                
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
+                                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
                                   title: Column(
                                     children: <Widget>[
                                       MulishText(
@@ -113,7 +115,7 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                         crossAxisCount: 2,
                                         childAspectRatio: (100/70),
                                         crossAxisSpacing: 10,
-                                        mainAxisSpacing: 10,
+                                        mainAxisSpacing: 20,
                                       ),
                                       shrinkWrap: true,
                                       physics: const NeverScrollableScrollPhysics(),
@@ -268,43 +270,29 @@ class _GameplaysPageState extends State<GameplaysPage> {
                                   actions: <Widget>[
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width * 0.80,
-                                      child: OutlinedButton(
+                                      child: ElevatedButton(
                                         onPressed: () => Navigator.pop(context, 'OK'),
-                                        style: OutlinedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(8.0),
-                                            side: const BorderSide(
-                                              width: 1.5,
-                                              color: Colors.grey,
+                                        style: ElevatedButton.styleFrom(
+                                            padding: EdgeInsets.zero,
+                                            backgroundColor: CustomColors.hardOrange,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10))),
+                                        child: Ink(
+                                          decoration: BoxDecoration(
+                                              color: CustomColors.hardOrange,
+                                              gradient: CustomGradients.linearGradient,
+                                              borderRadius: BorderRadius.circular(10)),
+                                          child: Container(
+                                            height: 40,
+                                            alignment: Alignment.center,
+                                            child: const MulishText(
+                                              text: "Done",
+                                              fontColor: Colors.white,
+                                              fontSize: 18,
                                             ),
                                           ),
-                                          backgroundColor: Colors.black
                                         ),
-                                        
-                                        // ButtonStyle(
-                                        //   shape: MaterialStateProperty.all(
-                                        //     RoundedRectangleBorder(
-                                        //       borderRadius: BorderRadius.circular(8.0),
-                                        //       side: const BorderSide(
-                                        //         width: 1.5,
-                                        //         color: Colors.grey,
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      
-                                        child: const Text(
-                                          'Get Balance',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                      // TextButton(
-                                      //   onPressed: () => Navigator.pop(context, 'OK'),
-                                      //   child: const Text('Done'),
-                                      // ),
+                                      ), 
                                     ),
                                   ],
                                 ),
@@ -312,14 +300,14 @@ class _GameplaysPageState extends State<GameplaysPage> {
                             );
                           },
                         );
-                        },
-                      );
+                      },
+                    );
                 },
               )
             ),
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 20.0),
 
-            const Spacer(),
+            
           ],
         ),
       ),

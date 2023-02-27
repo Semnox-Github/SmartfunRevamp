@@ -1,7 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:semnox/core/domain/entities/home/card_details.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+
 import 'package:semnox/core/widgets/background_card_details.dart';
 
 class ListOfCard extends StatelessWidget {

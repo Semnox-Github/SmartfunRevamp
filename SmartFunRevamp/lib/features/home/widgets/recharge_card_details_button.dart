@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/features/cards_detail/card_detail_page.dart';
 
 class RechargeCardDetailsButton extends StatelessWidget {
   const RechargeCardDetailsButton({
     Key? key,
+    required this.cardDetails,
   }) : super(key: key);
+  final CardDetails cardDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
               ),
               margin: const EdgeInsets.all(3),
               child: TextButton(
-                onPressed: () => Navigator.pushNamed(context, Routes.kBuyACard),
+                onPressed: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
                 child: const Text(
                   'RECHARGE NOW',
                   style: TextStyle(
@@ -52,7 +56,12 @@ class RechargeCardDetailsButton extends StatelessWidget {
               ),
               margin: const EdgeInsets.all(3),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CardDetailPage(cardDetails: cardDetails),
+                  ),
+                ),
                 child: const Text(
                   'CARD DETAILS',
                   style: TextStyle(

@@ -5,12 +5,14 @@ class CustomButton extends StatelessWidget {
   final Function() onTap;
   final String label;
   final double width;
+  final EdgeInsets margin;
 
   const CustomButton({
     super.key,
     required this.onTap,
     required this.label,
     this.width = double.infinity,
+    this.margin = const EdgeInsets.all(3),
   });
 
   @override
@@ -21,7 +23,7 @@ class CustomButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
         gradient: CustomGradients.linearGradient,
       ),
-      margin: const EdgeInsets.all(3),
+      margin: margin,
       child: TextButton(
         onPressed: onTap,
         child: Text(

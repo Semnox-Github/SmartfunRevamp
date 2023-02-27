@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
-import 'package:semnox/core/widgets/card_widget.dart';
+import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
@@ -87,7 +87,7 @@ class Dialogs {
           content: ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.65,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +99,7 @@ class Dialogs {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Platinum 1000',
+                          card.productName,
                           style: GoogleFonts.mulish(
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
@@ -129,23 +129,8 @@ class Dialogs {
                             fontSize: 20.0,
                           ),
                         ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
                         ),
                         Text(
                           '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
@@ -154,7 +139,34 @@ class Dialogs {
                           ),
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.04,
                         ),
                         CustomButton(
                           onTap: () {
@@ -166,7 +178,7 @@ class Dialogs {
                               ),
                             );
                           },
-                          label: 'BUY NOW @ ${card.finalPrice}',
+                          label: 'BUY NOW @ ${card.finalPrice.toStringAsFixed(0)}',
                         ),
                       ],
                     ),
@@ -178,5 +190,22 @@ class Dialogs {
         );
       },
     );
+  }
+
+  static void showMessageInfo(BuildContext context, String title, String meessge) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.infoReverse,
+      animType: AnimType.scale,
+      title: title,
+      desc: meessge,
+      descTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
+      ),
+      btnOkOnPress: () {},
+      btnOkText: 'OK',
+      btnOkColor: Colors.blue,
+    ).show();
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
-import 'package:semnox/core/widgets/mulish_text.dart';
 
 class RechargeCardOffer extends StatelessWidget {
   const RechargeCardOffer({
@@ -19,6 +18,7 @@ class RechargeCardOffer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double discount = offer.basePrice != 0 ? (((offer.basePrice - offer.finalPrice) * 100) / offer.basePrice) : 0;
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -29,32 +29,42 @@ class RechargeCardOffer extends StatelessWidget {
         child: Row(
           children: [
             //RIGTH
-            Container(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                children: [
-                  const MulishText(
-                    text: 'PLAY CREDIT',
-                    fontWeight: FontWeight.bold,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset('assets/buy_card/coin.svg'),
-                      const SizedBox(width: 5.0),
-                      Text(
-                        offer.credits.toString(),
-                        style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22.0,
-                        ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      offer.productName,
+                      style: GoogleFonts.mulish(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12.0,
                       ),
-                    ],
-                  )
-                ],
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset('assets/buy_card/coin.svg'),
+                        const SizedBox(width: 5.0),
+                        Text(
+                          offer.credits.toStringAsFixed(0),
+                          style: GoogleFonts.mulish(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ), //LEFT
             Expanded(
+              flex: 2,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
@@ -72,30 +82,32 @@ class RechargeCardOffer extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              '\$${offer.basePrice}',
-                              style: GoogleFonts.mulish(
-                                color: CustomColors.discountColor,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16.0,
-                                decoration: TextDecoration.lineThrough,
-                              ),
-                            ),
-                            const SizedBox(width: 8.0),
-                            Text(
-                              '10% OFF',
-                              style: GoogleFonts.mulish(
-                                color: CustomColors.discountPercentColor,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14.0,
-                              ),
-                            ),
-                          ],
-                        ),
+                        offer.basePrice == offer.finalPrice
+                            ? Row(
+                                children: [
+                                  Text(
+                                    '\$${offer.basePrice.toStringAsFixed(0)}',
+                                    style: GoogleFonts.mulish(
+                                      color: CustomColors.discountColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16.0,
+                                      decoration: TextDecoration.lineThrough,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8.0),
+                                  Text(
+                                    '${discount.toStringAsFixed(0)}% OFF',
+                                    style: GoogleFonts.mulish(
+                                      color: CustomColors.discountPercentColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14.0,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Row(),
                         Text(
-                          '\$${offer.finalPrice}',
+                          '\$${offer.finalPrice.toStringAsFixed(0)}',
                           style: GoogleFonts.mulish(
                             fontWeight: FontWeight.w800,
                             fontSize: 20.0,

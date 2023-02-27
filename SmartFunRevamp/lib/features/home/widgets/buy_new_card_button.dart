@@ -3,8 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 
-import '../../../core/routes.dart';
-
 class BuyNewCardButton extends StatelessWidget {
   const BuyNewCardButton({
     Key? key,
@@ -20,7 +18,7 @@ class BuyNewCardButton extends StatelessWidget {
       ),
       margin: const EdgeInsets.all(3),
       child: TextButton(
-        onPressed: () => Navigator.pushNamed(context, Routes.kBuyACard),
+        onPressed: () {},
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

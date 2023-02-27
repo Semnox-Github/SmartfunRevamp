@@ -14,7 +14,6 @@ class CustomDatePicker extends StatefulWidget {
     this.maximunDateTime,
     required this.onItemSelected,
     this.margin = EdgeInsets.zero,
-    this.suffixIcon,
   }) : super(key: key);
   final String labelText;
   final String hintText;
@@ -23,7 +22,6 @@ class CustomDatePicker extends StatefulWidget {
   final DateTime? maximunDateTime;
   final Function(DateTime) onItemSelected;
   final EdgeInsetsGeometry margin;
-  final Icon? suffixIcon;
 
   @override
   State<StatefulWidget> createState() {
@@ -64,10 +62,8 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
             },
             decoration: InputDecoration(
               isDense: true,
-              suffixIcon: widget.suffixIcon,
               fillColor: Colors.transparent,
               filled: true,
-              hintText: widget.hintText,
               floatingLabelBehavior: FloatingLabelBehavior.never,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.0),

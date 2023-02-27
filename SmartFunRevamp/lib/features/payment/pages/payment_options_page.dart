@@ -201,6 +201,14 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                           } else{
                             return const Text("This payment mode is not available");
                           }
+                           
+                          
+                            
+                           
+
+                          
+                          // return  Text(data.gatewayRequestString);
+                          
                         },
                       );
                   },

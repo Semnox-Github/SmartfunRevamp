@@ -49,11 +49,11 @@ class _HomePageState extends State<HomePage> {
               _currentPage = index;
             });
           },
-          children: const [
+          children: [
             HomeView(),
-            PlayView(),
-            BookingsView(),
-            MoreView(),
+            const PlayView(),
+            const BookingsView(),
+            const MoreView(),
           ],
         ),
       ),

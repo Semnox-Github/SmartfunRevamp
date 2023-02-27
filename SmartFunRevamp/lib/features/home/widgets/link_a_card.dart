@@ -1,18 +1,14 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:loader_overlay/loader_overlay.dart';
-import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/widgets/input_text_field.dart';
-import 'package:semnox/features/home/provider/cards_provider.dart';
 
-class LinkACard extends ConsumerWidget {
-  LinkACard({super.key});
-  final _formKey = GlobalKey<FormState>();
+import '../../../colors/gradients.dart';
+
+class LinkACard extends StatelessWidget {
+  const LinkACard({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     String mCardNumber = '';
-
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -21,121 +17,85 @@ class LinkACard extends ConsumerWidget {
           20.0,
         ),
       ),
-      child: Form(
-        key: _formKey,
-        child: LoaderOverlay(
-          overlayWidget: const Center(child: CircularProgressIndicator()),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Text(
-                        'Add your card and manage your recharges,',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 5.0),
-                      Text(
-                        'activities, gameplays and more with smartfun.',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Text(
+                    'Add your card and manager your recharges,',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 5.0),
+                  Text(
+                    'activities, gameplays and more with smartfun.',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 15.0),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: InputTextField(
-                      onSaved: (cardNumber) => mCardNumber = cardNumber,
-                      hintText: 'Enter Card Number',
-                      prefixIcon: IconButton(
-                        icon: const Icon(
-                          Icons.add_card,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {},
-                      ),
+            ],
+          ),
+          const SizedBox(height: 15.0),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: InputTextField(
+                  onSaved: (cardNumber) => mCardNumber = cardNumber,
+                  hintText: 'Enter Card Number',
+                  prefixIcon: IconButton(
+                    icon: const Icon(
+                      Icons.add_card,
+                      color: Colors.black,
                     ),
-                  )
-                ],
-              ),
-              const SizedBox(height: 12.0),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: CustomGradients.linearGradient,
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.0),
-                        gradient: CustomGradients.linearGradient,
-                      ),
-                      margin: const EdgeInsets.all(3),
-                      child: TextButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-
-                            ref.listenManual(
-                              CardsProviders.linkCardProvider(mCardNumber),
-                              (previous, next) {
-                                next.maybeWhen(
-                                  orElse: () => {},
-                                  data: (data) {
-                                    context.loaderOverlay.hide();
-                                    ref.invalidate(CardsProviders.userCardsProvider);
-                                    ref.read(CardsProviders.userCardsProvider);
-                                  },
-                                  error: (e, s) {
-                                    context.loaderOverlay.hide();
-                                    AwesomeDialog(
-                                      context: context,
-                                      dialogType: DialogType.error,
-                                      animType: AnimType.scale,
-                                      title: 'Link A Card',
-                                      desc: 'Account is already linked to other customer',
-                                      btnOkOnPress: () {},
-                                    ).show();
-                                  },
-                                  loading: () => context.loaderOverlay.show(),
-                                );
-                              },
-                            );
-                          }
-                        },
-                        child: const Text(
-                          'LINK CARD',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                    onPressed: () {},
+                  ),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 12.0),
+          Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: CustomGradients.linearGradient,
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    gradient: CustomGradients.linearGradient,
+                  ),
+                  margin: const EdgeInsets.all(3),
+                  child: TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'LINK CARD',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
-              ])
-            ],
-          ),
-        ),
+              ),
+            ),
+          ])
+        ],
       ),
     );
   }

@@ -38,6 +38,7 @@ class VerifyOtpPage extends ConsumerWidget {
             animType: AnimType.bottomSlide,
             title: 'Error',
             desc: message,
+            btnCancelOnPress: () {},
             useRootNavigator: true,
             btnOkOnPress: () {},
           ).show();

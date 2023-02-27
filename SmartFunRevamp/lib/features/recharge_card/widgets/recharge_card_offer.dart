@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
 
 class RechargeCardOffer extends StatelessWidget {
   const RechargeCardOffer({
@@ -71,30 +72,28 @@ class RechargeCardOffer extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        offer.basePrice == offer.finalPrice
-                            ? Row(
-                                children: [
-                                  Text(
-                                    '\$${offer.basePrice.toStringAsFixed(0)}',
-                                    style: GoogleFonts.mulish(
-                                      color: CustomColors.discountColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16.0,
-                                      decoration: TextDecoration.lineThrough,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  Text(
-                                    '${discount.toStringAsFixed(0)}% OFF',
-                                    style: GoogleFonts.mulish(
-                                      color: CustomColors.discountPercentColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14.0,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Row(),
+                        Row(
+                          children: [
+                            Text(
+                              '\$${offer.basePrice}',
+                              style: GoogleFonts.mulish(
+                                color: CustomColors.discountColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16.0,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Text(
+                              '10% OFF',
+                              style: GoogleFonts.mulish(
+                                color: CustomColors.discountPercentColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.0,
+                              ),
+                            ),
+                          ],
+                        ),
                         Text(
                           '\$${offer.finalPrice}',
                           style: GoogleFonts.mulish(

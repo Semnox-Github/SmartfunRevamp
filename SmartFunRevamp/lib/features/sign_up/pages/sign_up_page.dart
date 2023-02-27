@@ -60,158 +60,155 @@ class SignUpPage extends ConsumerWidget {
         ),
         elevation: 0.0,
       ),
-      body: LoaderOverlay(
-        overlayWidget: const Center(child: CircularProgressIndicator()),
-        child: SafeArea(
-          minimum: const EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _key,
-              child: Column(
-                children: [
-                  const Text(
-                    'Hi There,\nComplete the following details to setup your account and continue using Smartfun app.',
+      body: SafeArea(
+        minimum: const EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _key,
+            child: Column(
+              children: [
+                const Text(
+                  'Hi There,\nComplete the following details to setup your account and continue using Smartfun app.',
+                ),
+                const SizedBox(height: 20.0),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Title',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    DropdownButtonFormField<String>(
+                      value: request.title,
+                      items: ['Mr.', 'Mrs.', 'Ms.'].map((title) {
+                        return DropdownMenuItem<String>(
+                          value: title,
+                          child: Text(title),
+                        );
+                      }).toList(),
+                      onChanged: (title) => request.title = title,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20.0),
+                CustomTextField(
+                  onSaved: (firstname) => request.firstName = firstname,
+                  label: 'First Name',
+                ),
+                const SizedBox(height: 20.0),
+                CustomTextField(
+                  onSaved: (lastName) => request.lastName = lastName,
+                  label: 'Last Name',
+                ),
+                const SizedBox(height: 20.0),
+                CustomTextField(
+                  onSaved: (email) {
+                    request.email = email;
+                    request.username = email;
+                  },
+                  label: 'Email Address',
+                  inputType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 20.0),
+                CustomTextField(
+                  onSaved: (phoneNumber) => request.phoneNumber = phoneNumber,
+                  label: 'Mobile Number',
+                  inputType: TextInputType.phone,
+                ),
+                const SizedBox(height: 20.0),
+                CustomDatePicker(
+                  labelText: 'Date of birth',
+                  format: 'MM-dd-yyyy',
+                  onItemSelected: (dob) => request.dateOfBirth = dob.toIso8601String(),
+                ),
+                const SizedBox(height: 20.0),
+                PasswordField(
+                  onSaved: (password) => request.password = password,
+                  borderColor: Colors.black,
+                  fillColor: Colors.transparent,
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 20.0),
+                  margin: const EdgeInsets.symmetric(vertical: 20.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    border: Border.all(
+                      color: CustomColors.customLigthGray,
+                      width: 1.0,
+                    ),
                   ),
-                  const SizedBox(height: 20.0),
-                  Column(
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Title',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Row(
+                        children: const [
+                          Text(
+                            'Or Continue with social Logins',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      DropdownButtonFormField<String>(
-                        value: request.title,
-                        items: ['Mr.', 'Mrs.', 'Ms.'].map((title) {
-                          return DropdownMenuItem<String>(
-                            value: title,
-                            child: Text(title),
-                          );
-                        }).toList(),
-                        onChanged: (title) => request.title = title,
+                      const SizedBox(height: 10.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/login/google.svg',
+                          ),
+                          SvgPicture.asset(
+                            'assets/login/apple.svg',
+                          ),
+                          SvgPicture.asset(
+                            'assets/login/facebook.svg',
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: GoogleFonts.mulish(
+                      fontWeight: FontWeight.w600,
+                      color: CustomColors.customLigthBlack,
+                    ),
+                    children: const [
+                      TextSpan(
+                        text: 'By Logging in you agree to our ',
+                      ),
+                      TextSpan(
+                        text: 'Terms of Service ',
+                        style: TextStyle(
+                          color: CustomColors.hardOrange,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'and ',
+                      ),
+                      TextSpan(
+                        text: 'Privacy Policy',
+                        style: TextStyle(
+                          color: CustomColors.hardOrange,
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20.0),
-                  CustomTextField(
-                    onSaved: (firstname) => request.firstName = firstname,
-                    label: 'First Name',
-                  ),
-                  const SizedBox(height: 20.0),
-                  CustomTextField(
-                    onSaved: (lastName) => request.lastName = lastName,
-                    label: 'Last Name',
-                  ),
-                  const SizedBox(height: 20.0),
-                  CustomTextField(
-                    onSaved: (email) {
-                      request.email = email;
-                      request.username = email;
-                    },
-                    label: 'Email Address',
-                    inputType: TextInputType.emailAddress,
-                  ),
-                  const SizedBox(height: 20.0),
-                  CustomTextField(
-                    onSaved: (phoneNumber) => request.phoneNumber = phoneNumber,
-                    label: 'Mobile Number',
-                    inputType: TextInputType.phone,
-                  ),
-                  const SizedBox(height: 20.0),
-                  CustomDatePicker(
-                    labelText: 'Date of birth',
-                    format: 'MM-dd-yyyy',
-                    onItemSelected: (dob) => request.dateOfBirth = dob.toIso8601String(),
-                  ),
-                  const SizedBox(height: 20.0),
-                  PasswordField(
-                    onSaved: (password) => request.password = password,
-                    borderColor: Colors.black,
-                    fillColor: Colors.transparent,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 20.0),
-                    margin: const EdgeInsets.symmetric(vertical: 20.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      border: Border.all(
-                        color: CustomColors.customLigthGray,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: const [
-                            Text(
-                              'Or Continue with social Logins',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/login/google.svg',
-                            ),
-                            SvgPicture.asset(
-                              'assets/login/apple.svg',
-                            ),
-                            SvgPicture.asset(
-                              'assets/login/facebook.svg',
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      style: GoogleFonts.mulish(
-                        fontWeight: FontWeight.w600,
-                        color: CustomColors.customLigthBlack,
-                      ),
-                      children: const [
-                        TextSpan(
-                          text: 'By Logging in you agree to our ',
-                        ),
-                        TextSpan(
-                          text: 'Terms of Service ',
-                          style: TextStyle(
-                            color: CustomColors.hardOrange,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'and ',
-                        ),
-                        TextSpan(
-                          text: 'Privacy Policy',
-                          style: TextStyle(
-                            color: CustomColors.hardOrange,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  CustomButton(
-                    onTap: () {
-                      if (_key.currentState!.validate()) {
-                        _key.currentState!.save();
-                        ref.read(signUpNotifier.notifier).signUpUser(request);
-                      }
-                    },
-                    label: 'SIGN UP',
-                  )
-                ],
-              ),
+                ),
+                const SizedBox(height: 20.0),
+                CustomButton(
+                  onTap: () {
+                    if (_key.currentState!.validate()) {
+                      _key.currentState!.save();
+                      ref.read(signUpNotifier.notifier).signUpUser(request);
+                    }
+                  },
+                  label: 'SIGN UP',
+                )
+              ],
             ),
           ),
         ),

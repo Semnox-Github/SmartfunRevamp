@@ -55,54 +55,51 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       );
     });
     return Scaffold(
-      body: LoaderOverlay(
-        overlayWidget: const Center(child: CircularProgressIndicator()),
-        child: SafeArea(
-          minimum: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 10.0),
-                LoginContainer(
-                  isOTPLogin: isOTPLogin,
-                ),
-                const SizedBox(height: 20.0),
-                LoginWithOTPContainer(
-                  isLoginWithOTP: isOTPLogin,
-                  onTap: () {
-                    setState(() {
-                      isOTPLogin = !isOTPLogin;
-                    });
-                  },
-                ),
-                const SizedBox(height: 10.0),
-                const SocialLoginsContainer(),
-                const SizedBox(height: 40.0),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'New to SmartFun?',
+      body: SafeArea(
+        minimum: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 10.0),
+              LoginContainer(
+                isOTPLogin: isOTPLogin,
+              ),
+              const SizedBox(height: 20.0),
+              LoginWithOTPContainer(
+                isLoginWithOTP: isOTPLogin,
+                onTap: () {
+                  setState(() {
+                    isOTPLogin = !isOTPLogin;
+                  });
+                },
+              ),
+              const SizedBox(height: 10.0),
+              const SocialLoginsContainer(),
+              const SizedBox(height: 40.0),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'New to SmartFun?',
+                    style: GoogleFonts.mulish(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
+                    child: Text(
+                      'SIGN UP',
                       style: GoogleFonts.mulish(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
+                        color: CustomColors.hardOrange,
                       ),
                     ),
-                    TextButton(
-                      onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
-                      child: Text(
-                        'SIGN UP',
-                        style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.bold,
-                          color: CustomColors.hardOrange,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
       ),

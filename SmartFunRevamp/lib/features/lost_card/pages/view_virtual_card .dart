@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
-import 'package:semnox/features/lost_card/pages/view_virtual_card%20.dart';
+import 'package:semnox/features/home/pages/home_page.dart';
 import 'package:semnox/features/payment/pages/payment_options_page.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
@@ -17,8 +15,8 @@ import 'package:semnox/features/buy_a_card/widgets/coupon_container.dart';
 
 import '../../recharge_card/widgets/recharge_bottom_sheet_button.dart';
 
-class LostCardPage extends ConsumerWidget {
-  const LostCardPage({
+class ViewVirtualCardPage extends ConsumerWidget {
+  const ViewVirtualCardPage({
     Key? key,
     this.cardNumber,
   }) : super(key: key);
@@ -44,13 +42,13 @@ class LostCardPage extends ConsumerWidget {
       ),
       */
       bottomSheet: BottomSheetButton(
-        label: 'VIEW VIRTUAL CARD',
+        label: 'OKAY,  GOT IT',
         onTap: () => {
           Navigator.pop(context),
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const ViewVirtualCardPage(),
+              builder: (context) => const HomePage(),
             ),
           ),
         }
@@ -77,16 +75,18 @@ class LostCardPage extends ConsumerWidget {
                 children: [
                   const SizedBox(height: 20.0),
                   const Text(
-                    'Card  Sucessfully Blocked',
+                    'Here is your virtual card',
                      style: TextStyle(
                         color: CustomColors.hardOrange,
                         fontSize: 22.0,
                         fontWeight: FontWeight.bold,
                       ),
                   ),
-                  const SizedBox(height: 10.0),
+                  const SizedBox(height: 30.0),
+                  Image.asset('assets/home/carousel_test.png'),
+                  const SizedBox(height: 30.0),
                   Text(
-                    'You card  $cardNumber has been blocked and you no longer will be abe to use it.',
+                    'Show this Barcode on site to get a new physical card. A payment of 40 will be charged for the replacement on site.',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       color: CustomColors.customBlack,
@@ -95,36 +95,7 @@ class LostCardPage extends ConsumerWidget {
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: 30.0),
-              Stack(
-                children: [
-                  Container(
-                    child: 
-                      Column(
-                        children: [
-                          Image.asset('assets/home/carousel_test.png'),
-                          BackdropFilter(
-                            filter: ImageFilter.blur(
-                              sigmaX: 5.0,
-                              sigmaY: 5.0
-                            ),
-                          )
-                        ],
-                      ),
-                  ),
-                ] 
-              ),
-              const SizedBox(height: 30.0),
-              Text(
-                'We have transfered all your credits and other points to a new virtual card.',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.mulish(
-                  color: CustomColors.customBlack,
-                  fontSize: 17.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              )
             ],
           ), 
       ),

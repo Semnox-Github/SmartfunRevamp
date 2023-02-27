@@ -1,129 +1,321 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
-import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
+import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/gameplays/provider/gameplays_provider.dart';
+import 'package:semnox/features/recharge_card/widgets/user_cards.dart';
 
-class RechargeCardOffer extends StatelessWidget {
-  const RechargeCardOffer({
-    Key? key,
-    required this.offer,
-    required this.isSelected,
-    required this.onTap,
-  }) : super(key: key);
+class GameplaysPage extends StatefulWidget {
+  const GameplaysPage({Key? key}) : super(key: key);
 
-  final CardProduct offer;
-  final bool isSelected;
-  final Function() onTap;
+@override
+  State<GameplaysPage> createState() => _GameplaysPageState();
+}
 
+class _GameplaysPageState extends State<GameplaysPage> {
+  String selectedCardNumber = '';
   @override
   Widget build(BuildContext context) {
-    double discount = offer.basePrice != 0 ? (((offer.basePrice - offer.finalPrice) * 100) / offer.basePrice) : 0;
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: CustomColors.customLigthBlue,
-          borderRadius: BorderRadius.circular(20.0),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFCFF8FF),
+        elevation: 0.0,
+        centerTitle: false,
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: const Text(
+          'Game Plays',
+          style: TextStyle(
+            color: CustomColors.customBlue,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        child: Row(
+      ),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //RIGTH
+            UserCards(
+              onCardSelected: (card) {
+                selectedCardNumber = card;
+              },
+            ),
             Expanded(
-              flex: 1,
-              child: Container(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      offer.productName,
-                      style: GoogleFonts.mulish(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12.0,
-                      ),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset('assets/buy_card/coin.svg'),
-                        const SizedBox(width: 5.0),
-                        Text(
-                          offer.credits.toStringAsFixed(0),
-                          style: GoogleFonts.mulish(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                          ),
+              child: Consumer(
+                builder: (context, ref, child) {
+                  return ref.watch(GameplaysProvider.accountGameplaysProvider).maybeWhen(
+                        orElse: () => Container(
+                          height: MediaQuery.of(context).size.height * 0.70,
+                          width: MediaQuery.of(context).size.width * 0.85,
+                          color: Colors.red,
                         ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ), //LEFT
-            Expanded(
-              flex: 2,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  color: Colors.white,
-                  border: Border.all(
-                    width: 2,
-                    color: isSelected ? Colors.green : CustomColors.customLigthGray,
-                  ),
-                ),
-                padding: const EdgeInsets.all(25),
-                margin: const EdgeInsets.all(1.5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        offer.basePrice == offer.finalPrice
-                            ? Row(
-                                children: [
-                                  Text(
-                                    '\$${offer.basePrice.toStringAsFixed(0)}',
-                                    style: GoogleFonts.mulish(
-                                      color: CustomColors.discountColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16.0,
-                                      decoration: TextDecoration.lineThrough,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  Text(
-                                    '${discount.toStringAsFixed(0)}% OFF',
-                                    style: GoogleFonts.mulish(
-                                      color: CustomColors.discountPercentColor,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14.0,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Row(),
-                        Text(
-                          '\$${offer.finalPrice.toStringAsFixed(0)}',
-                          style: GoogleFonts.mulish(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 20.0,
-                          ),
+                        error: (e,s) => MulishText(
+                          text: 'An error has ocurred $e',
                         ),
-                      ],
-                    ),
-                    if (isSelected)
-                      const Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                      )
-                  ],
-                ),
-              ),
-            )
+                        loading: () => const CircularProgressIndicator(),
+                        data: (data) {
+                          return ListView.builder(
+                          // Let the ListView know how many items it needs to build.
+                          itemCount: data.length,
+                          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                          shrinkWrap: true,
+                          physics: const ClampingScrollPhysics(),
+                          // Provide a builder function. This is where the magic happens.
+                          itemBuilder: (context, index) {
+                            final item = data[index];
+                            return Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20), 
+                                side: const BorderSide(color: Colors.white70)
+                              ),                              
+                              child: ListTile(                                
+                                contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                title: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    MulishText(
+                                      text: item.game,
+                                      fontSize: 16, 
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                    MulishText(
+                                      text: DateFormat('MMM d, yyyy, h:mm a').format(DateTime.parse(item.playDate)),
+                                      fontSize: 14, 
+                                      fontColor: Colors.grey,
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    MulishText(
+                                      text: '\n${item.site}\nRef: ${item.gameplayId}',
+                                      fontColor: Colors.black
+                                    ),
+                                    const Icon(Icons.arrow_forward_ios_outlined,)
+                                  ]
+                                ),
+                                onTap: () => showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) => AlertDialog(
+                                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+                                    title: Column(
+                                      children: <Widget>[
+                                        MulishText(
+                                          text: item.game,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        const MulishText(
+                                          text: "Balance consumed during gameplay",
+                                          fontSize: 12, 
+                                          fontColor: Colors.grey,
+                                        ),
+                                      ]
+                                    ),
+                                    content: SizedBox(
+                                      height: MediaQuery.of(context).size.height * 0.25,
+                                      width:  MediaQuery.of(context).size.height * 0.30,
+                                      child: GridView(
+                                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: (100/70),
+                                          crossAxisSpacing: 10,
+                                          mainAxisSpacing: 20,
+                                        ),
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(15.0),
+                                                color: CustomColors.hardOrange,
+                                                gradient: CustomGradients.linearGradient
+                                              ),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(12.0),
+                                                  color: Colors.white,
+                                                ),
+                                                margin: const EdgeInsets.all(3),
+                                                child: TextButton(
+                                                  onPressed: () {},
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      MulishText(
+                                                        text: item.credits.toInt().toString(),
+                                                        fontSize: 25, 
+                                                        fontColor: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                      const MulishText(
+                                                        text: "Credits",
+                                                        fontSize: 14, 
+                                                        fontColor: Colors.grey,
+                                                      ),
+                                                    ]
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(15.0),
+                                                color: CustomColors.hardOrange,
+                                                gradient: CustomGradients.linearGradient
+                                              ),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(12.0),
+                                                  color: Colors.white,
+                                                ),
+                                                margin: const EdgeInsets.all(3),
+                                                child: TextButton(
+                                                  onPressed: () {},
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      MulishText(
+                                                        text: item.bonus.toInt().toString(),
+                                                        fontSize: 25, 
+                                                        fontColor: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                      const MulishText(
+                                                        text: "Bonus",
+                                                        fontSize: 14, 
+                                                        fontColor: Colors.grey,
+                                                      ),
+                                                    ]
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(15.0),
+                                                color: CustomColors.hardOrange,
+                                                gradient: CustomGradients.linearGradient
+                                              ),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(12.0),
+                                                  color: Colors.white,
+                                                ),
+                                                margin: const EdgeInsets.all(3),
+                                                child: TextButton(
+                                                  onPressed: () {},
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      MulishText(
+                                                        text: item.time.toInt().toString(),
+                                                        fontSize: 25, 
+                                                        fontColor: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                      const MulishText(
+                                                        text: "Time",
+                                                        fontSize: 14, 
+                                                        fontColor: Colors.grey,
+                                                      ),
+                                                    ]
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(15.0),
+                                                color: CustomColors.hardOrange,
+                                                gradient: CustomGradients.linearGradient
+                                              ),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(12.0),
+                                                  color: Colors.white,
+                                                ),
+                                                margin: const EdgeInsets.all(3),
+                                                child: TextButton(
+                                                  onPressed: () {},
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      MulishText(
+                                                        text: item.courtesy.toInt().toString(),
+                                                        fontSize: 25, 
+                                                        fontColor: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                      const MulishText(
+                                                        text: "Card Game",
+                                                        fontSize: 14, 
+                                                        fontColor: Colors.grey,
+                                                      ),
+                                                    ]
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ]
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.80,
+                                        child: ElevatedButton(
+                                          onPressed: () => Navigator.pop(context, 'OK'),
+                                          style: ElevatedButton.styleFrom(
+                                              padding: EdgeInsets.zero,
+                                              backgroundColor: CustomColors.hardOrange,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10))),
+                                          child: Ink(
+                                            decoration: BoxDecoration(
+                                                color: CustomColors.hardOrange,
+                                                gradient: CustomGradients.linearGradient,
+                                                borderRadius: BorderRadius.circular(10)),
+                                            child: Container(
+                                              height: 40,
+                                              alignment: Alignment.center,
+                                              child: const MulishText(
+                                                text: "Done",
+                                                fontColor: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ), 
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                },
+              )
+            ),
+            const SizedBox(height: 20.0),
+
+            
           ],
         ),
       ),

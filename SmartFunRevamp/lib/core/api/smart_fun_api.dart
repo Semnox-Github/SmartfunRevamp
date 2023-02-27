@@ -1,18 +1,20 @@
 import 'package:dio/dio.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
+import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
-import 'package:semnox/core/domain/entities/home/card_details.dart';
+import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
+
 
 part 'smart_fun_api.g.dart';
 
@@ -36,8 +38,8 @@ abstract class SmartFunApi {
 
     dio.options = BaseOptions(
       baseUrl: baseUrl,
-      receiveTimeout: 20000,
-      connectTimeout: 20000,
+      receiveTimeout: 40000,
+      connectTimeout: 40000,
       headers: {
         'Authorization': token,
         'content-type': 'application/json',
@@ -45,7 +47,6 @@ abstract class SmartFunApi {
     );
     return _SmartFunApi(dio);
   }
-
 
   @POST('Login/AuthenticateSystemUsers')
   Future<Data<SystemUser>> authenticateSystemUser(@Body() Map<String, dynamic> body);
@@ -142,7 +143,6 @@ abstract class SmartFunApi {
 
   //----- Transaction -----// ->
 
-  //
   @GET('Transaction/PaymentModes')
   Future<ListDataWrapper<PaymentMode>> getPaymentModes({
     @Query('siteId') String siteId = '1010',
@@ -151,13 +151,43 @@ abstract class SmartFunApi {
 
   @GET('Transaction/HostedPaymentGateways')
   Future<Data<HostedPaymentGateway>> getHostedPaymentGateways(
-    @Query('hostedPaymentGateway') String hostedPaymentGateway, 
+    @Query('hostedPaymentGateway') String hostedPaymentGateway,
     @Query('amount') double amount,
     @Query('transactionId') int transactionId,
   );
 
-
   //----- Transaction -----// <-
+
+  //----- Gameplays -----// ->
+
+  @GET('Customer/Account/{urlId}/AccountGamePlays')
+  Future<ListDataWrapper<AccountGameplays>> getAccountGamePlays(
+    @Query('accountId') int accountId,
+    @Path('urlId') int urlId,
+  );
+
+  //----- Gameplays -----// <-
+
+  //----- Accoount Details -----// ->
+  @GET('Customer/Account/AccountSummaryView')
+  Future<ListDataWrapper<CardDetails>> getCardDetails(
+    @Query('accountNumber') String accountNumber, {
+    @Query('isActive') String isActive = 'Y',
+  });
+
+  @GET('Customer/Account/Accounts')
+  Future<ListDataWrapper<CardDetails>> getBonusSummary(
+    @Query('accountNumber') String accountNumber, {
+    @Query('activeRecordsOnly') bool activeRecordsOnly = true,
+    @Query('buildChildRecords') bool buildChildRecords = true,
+  });
+
   @GET('Customer/Account/LinkedAccountsSummary')
   Future<ListDataWrapper<CardDetails>> getUserCards(@Query('customerId') String customerId);
+
+  @GET('Customer/Account/{customerId}/AccountGamesSummary')
+  Future<ListDataWrapper<AccountCreditPlusConsumptionDTO>> getGamesAccountSummart(@Path('customerId') String customerId);
+
+  @POST('Customer/Account/AccountService/LinkAccountToCustomers')
+  Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
 }

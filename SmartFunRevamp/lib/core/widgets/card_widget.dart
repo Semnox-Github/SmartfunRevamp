@@ -1,105 +1,83 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:semnox/colors/colors.dart';
+import 'package:intl/intl.dart';
 import 'package:semnox/colors/gradients.dart';
-import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/core/utils/extensions.dart';
 
-class RechargeCardWidget extends StatelessWidget {
-  const RechargeCardWidget({Key? key, required this.cardProduct}) : super(key: key);
-  final CardProduct cardProduct;
+class CardWidget extends StatelessWidget {
+  CardWidget({Key? key, required this.cardDetails}) : super(key: key);
 
+  final formatter = DateFormat('dd MMM yyyy');
+  final CardDetails cardDetails;
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20.0),
       margin: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(left: 15, top: 0, right: 10),
       decoration: BoxDecoration(
-        gradient: CustomGradients.platimunGradient,
-        borderRadius: BorderRadius.circular(
-          20.0,
-        ),
+        borderRadius: BorderRadius.circular(20.0),
+        gradient: CustomGradients.linearGradient,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Platinum',
-                style: GoogleFonts.mulish(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16.0,
-                  color: Colors.white,
-                ),
-              ),
-              Row(
+              Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '\$${cardProduct.finalPrice}',
-                    style: GoogleFonts.mulish(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20.0,
+                  Row(children: [
+                    MulishText(
+                      text: cardDetails.accountNumber ?? '',
+                      fontColor: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
                     ),
-                  ),
-                  const SizedBox(width: 5.0),
-                  Text(
-                    '\$${cardProduct.basePrice}',
-                    style: GoogleFonts.mulish(
-                      color: CustomColors.customLigthGray,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12.0,
-                      decoration: TextDecoration.lineThrough,
-                    ),
-                  ),
+                  ]),
+                  const SizedBox(width: 10.0),
+                  Row(children: [
+                    !cardDetails.accountIdentifier.isNullOrEmpty()
+                        ? MulishText(
+                            text: cardDetails.accountIdentifier ?? '',
+                            fontColor: Colors.white,
+                          )
+                        : const MulishText(
+                            text: '+Add Nickname',
+                            textDecoration: TextDecoration.underline,
+                            fontColor: Colors.white,
+                          ),
+                  ]),
                 ],
+              ),
+              Image.asset(
+                'assets/home/QR.png',
+                height: 42,
               )
             ],
           ),
-          const SizedBox(height: 10.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                '10% OFF',
-                style: GoogleFonts.mulish(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12.0,
-                  color: Colors.white,
-                ),
-              )
-            ],
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(
-                'assets/buy_card/coin.svg',
+          OutlinedButton(
+            onPressed: () {},
+            style: OutlinedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              side: const BorderSide(
+                width: 1.5,
                 color: Colors.white,
               ),
-              const SizedBox(width: 5.0),
-              Text(
-                '${cardProduct.credits} CREDITS',
-                style: GoogleFonts.mulish(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22.0,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10.0),
-          const Text(
-            'Valid for 11 months from date of purchase',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 12.0,
-              fontWeight: FontWeight.w500,
             ),
+            child: const MulishText(
+              text: 'Get Balance',
+              fontColor: Colors.white,
+            ),
+          ),
+          MulishText(
+            text: '${formatter.format(cardDetails.issueDate ?? DateTime.now())} -${formatter.format(cardDetails.expiryDate ?? DateTime.now())}',
+            fontColor: Colors.white,
           )
         ],
       ),

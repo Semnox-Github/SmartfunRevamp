@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/features/buy_a_card/pages/buy_card_list_page.dart';
+import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/home/pages/home_page.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/login/pages/verify_otp_page.dart';
@@ -22,6 +23,7 @@ class Routes {
   static const kMap = '/map';
   static const kEnableLocation = '/enable_location';
   static const kRechargePageCard = '/recharge_card';
+  static const kGameplays = '/gameplays';
 
   static String get initialRoute => kSplashScreenPage;
 
@@ -36,7 +38,8 @@ class Routes {
       kSelectLocationManually: (BuildContext context) => const SelectLocationManuallyPage(),
       kEnableLocation: (BuildContext context) => const EnableLocationPage(),
       kMap: (BuildContext context) => const MapPage(),
-      kRechargePageCard: (BuildContext context) => const SelectCardRechargePage()
+      kRechargePageCard: (BuildContext context) => const SelectCardRechargePage(),
+      kGameplays: (BuildContext context) => const GameplaysPage()
     };
   }
 }

@@ -24,7 +24,7 @@ class _UserCardsState extends State<UserCards> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
+        return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
               orElse: () => Container(),
               loading: () => const CircularProgressIndicator(),
               data: (data) {
@@ -55,8 +55,8 @@ class _UserCardsState extends State<UserCards> {
                           final card = data[itemIndex];
                           final formatter = DateFormat('dd MMM yyyy');
                           return Container(
-                            margin: const EdgeInsets.all(20.0),
-                            padding: const EdgeInsets.all(15.0),
+                            margin: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.only(left: 15, top: 0, right: 10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20.0),
                               gradient: CustomGradients.linearGradient,
@@ -72,20 +72,27 @@ class _UserCardsState extends State<UserCards> {
                                       mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        MulishText(
-                                          text: card.accountNumber ?? '',
-                                          fontColor: Colors.white,
-                                        ),
-                                        !card.accountIdentifier.isNullOrEmpty()
-                                            ? MulishText(
-                                                text: card.accountIdentifier ?? '',
-                                                fontColor: Colors.white,
-                                              )
-                                            : const MulishText(
-                                                text: '+Add Nickname',
-                                                textDecoration: TextDecoration.underline,
-                                                fontColor: Colors.white,
-                                              ),
+                                        Row(children: [
+                                          MulishText(
+                                            text: card.accountNumber ?? '',
+                                            fontColor: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
+                                        ]),
+                                        const SizedBox(width: 10.0),
+                                        Row(children: [
+                                          !card.accountIdentifier.isNullOrEmpty()
+                                              ? MulishText(
+                                                  text: card.accountIdentifier ?? '',
+                                                  fontColor: Colors.white,
+                                                )
+                                              : const MulishText(
+                                                  text: '+Add Nickname',
+                                                  textDecoration: TextDecoration.underline,
+                                                  fontColor: Colors.white,
+                                                ),
+                                        ]),
                                       ],
                                     ),
                                     Image.asset(

@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
-import 'package:semnox/core/domain/entities/account/account_detail.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
 import 'package:semnox/core/domain/entities/data.dart';
@@ -172,15 +171,6 @@ abstract class SmartFunApi {
 
   //----- Accoount Details -----// ->
 
-  @GET('Customer/Account/Accounts')
-  Future<ListDataWrapper<AccountDetail>> getAccountDetails({
-    @Query('accountNumber') String accountNumber = 'C163975D',
-    @Query('activeRecordsOnly') int activeRecordsOnly = 1,
-    @Query('buildChildRecords') int buildChildRecords = 1,
-    @Query('fromDate') String fromDate = '2016-10-10',
-  });
-
-  //----- Accoount Details -----// <-
   @GET('Customer/Account/LinkedAccountsSummary')
   Future<ListDataWrapper<CardDetails>> getUserCards(@Query('customerId') String customerId);
 }

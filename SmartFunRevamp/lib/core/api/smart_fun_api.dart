@@ -8,7 +8,6 @@ import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
-import 'package:semnox/core/domain/entities/home/card_details.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';

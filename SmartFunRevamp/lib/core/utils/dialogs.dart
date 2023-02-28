@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
-import 'package:semnox/core/widgets/card_widget.dart';
+import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
@@ -190,5 +190,22 @@ class Dialogs {
         );
       },
     );
+  }
+
+  static void showMessageInfo(BuildContext context, String title, String meessge) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.infoReverse,
+      animType: AnimType.scale,
+      title: title,
+      desc: meessge,
+      descTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
+      ),
+      btnOkOnPress: () {},
+      btnOkText: 'OK',
+      btnOkColor: Colors.blue,
+    ).show();
   }
 }

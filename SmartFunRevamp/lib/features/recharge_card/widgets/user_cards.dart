@@ -24,7 +24,7 @@ class _UserCardsState extends State<UserCards> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        return ref.watch(HomeProviders.userCardsProvider).maybeWhen(
+        return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
               orElse: () => Container(),
               loading: () => const CircularProgressIndicator(),
               data: (data) {
@@ -35,102 +35,96 @@ class _UserCardsState extends State<UserCards> {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        child: InfiniteCarousel.builder(
-                          itemCount: data.length,
-                          itemExtent: MediaQuery.of(context).size.width,
-                          center: true,
-                          anchor: 0.5,
-                          velocityFactor: 0.2,
-                          onIndexChanged: (index) {
-                            widget.onCardSelected(data[index].accountNumber ?? '');
-                            setState(() {
-                              cardToRecharge = index.toDouble();
-                            });
-                          },
-                          axisDirection: Axis.horizontal,
-                          loop: false,
-                          itemBuilder: (context, itemIndex, realIndex) {
-                            final card = data[itemIndex];
-                            final formatter = DateFormat('dd MMM yyyy'); 
-                            return Container(
-                              margin: const EdgeInsets.all(10),
-                              padding: const EdgeInsets.only(left: 15, top: 0, right: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.0),
-                                gradient: CustomGradients.linearGradient,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              MulishText(
-                                                text: card.accountNumber ?? '',
-                                                fontColor: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
-                                              ),
-                                            ]
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: InfiniteCarousel.builder(
+                        itemCount: data.length,
+                        itemExtent: MediaQuery.of(context).size.width,
+                        center: true,
+                        anchor: 0.5,
+                        velocityFactor: 0.2,
+                        onIndexChanged: (index) {
+                          widget.onCardSelected(data[index].accountNumber ?? '');
+                          setState(() {
+                            cardToRecharge = index.toDouble();
+                          });
+                        },
+                        axisDirection: Axis.horizontal,
+                        loop: false,
+                        itemBuilder: (context, itemIndex, realIndex) {
+                          final card = data[itemIndex];
+                          final formatter = DateFormat('dd MMM yyyy');
+                          return Container(
+                            margin: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.only(left: 15, top: 0, right: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                              gradient: CustomGradients.linearGradient,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(children: [
+                                          MulishText(
+                                            text: card.accountNumber ?? '',
+                                            fontColor: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
                                           ),
-                                          const SizedBox(width: 10.0),
-                                          Row(
-                                            children: [
-                                              !card.accountIdentifier.isNullOrEmpty()
-                                                  ? MulishText(
-                                                      text: card.accountIdentifier ?? '',
-                                                      fontColor: Colors.white,
-                                                    )
-                                                  : const MulishText(
-                                                      text: '+Add Nickname',
-                                                      textDecoration: TextDecoration.underline,
-                                                      fontColor: Colors.white,
-                                                    ),
-                                            ]
-                                          ),
-                                        ],
-                                      ),
-                                      Image.asset(
-                                        'assets/home/QR.png',
-                                        height: 42,
-                                      )
-                                    ],
-                                  ),
-                                  OutlinedButton(
-                                    onPressed: () {},
-                                    style: OutlinedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12.0),
-                                      ),
-                                      side: const BorderSide(
-                                        width: 1.5,
-                                        color: Colors.white,
-                                      ),
+                                        ]),
+                                        const SizedBox(width: 10.0),
+                                        Row(children: [
+                                          !card.accountIdentifier.isNullOrEmpty()
+                                              ? MulishText(
+                                                  text: card.accountIdentifier ?? '',
+                                                  fontColor: Colors.white,
+                                                )
+                                              : const MulishText(
+                                                  text: '+Add Nickname',
+                                                  textDecoration: TextDecoration.underline,
+                                                  fontColor: Colors.white,
+                                                ),
+                                        ]),
+                                      ],
                                     ),
-                                    child: const MulishText(
-                                      text: 'Get Balance',
-                                      fontColor: Colors.white,
+                                    Image.asset(
+                                      'assets/home/QR.png',
+                                      height: 42,
+                                    )
+                                  ],
+                                ),
+                                OutlinedButton(
+                                  onPressed: () {},
+                                  style: OutlinedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                    ),
+                                    side: const BorderSide(
+                                      width: 1.5,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                  MulishText(
-                                    text: '${formatter.format(card.issueDate ?? DateTime.now())} -${formatter.format(card.expiryDate ?? DateTime.now())}',
+                                  child: const MulishText(
+                                    text: 'Get Balance',
                                     fontColor: Colors.white,
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        ),
+                                  ),
+                                ),
+                                MulishText(
+                                  text: '${formatter.format(card.issueDate ?? DateTime.now())} -${formatter.format(card.expiryDate ?? DateTime.now())}',
+                                  fontColor: Colors.white,
+                                )
+                              ],
+                            ),
+                          );
+                        },
                       ),
                     ),
                     DotsIndicator(

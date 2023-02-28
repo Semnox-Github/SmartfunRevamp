@@ -22,7 +22,7 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
-  webview_flutter: '3.0.4'
+  flutter_carousel_widget: ^2.0.1
   flutter_native_splash: ^2.2.16
   flutter_otp_text_field: ^1.1.1
   flutter_riverpod: ^2.1.1
@@ -47,6 +47,7 @@ dependencies:
     path: ../semnox_core
   uuid: ^3.0.7
   blurrycontainer: ^1.0.2
+  webview_flutter: 3.0.4
 
 dev_dependencies:
   build_runner: ^2.3.3
@@ -65,3 +66,4 @@ flutter:
     - assets/login/
     - assets/buy_card/
     - assets/select_location/
+    - assets/card_details/

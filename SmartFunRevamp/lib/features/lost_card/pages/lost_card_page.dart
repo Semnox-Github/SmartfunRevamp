@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -99,20 +100,21 @@ class LostCardPage extends ConsumerWidget {
               const SizedBox(height: 30.0),
               Stack(
                 children: [
-                  Container(
-                    child: 
-                      Column(
-                        children: [
-                          Image.asset('assets/home/carousel_test.png'),
-                          BackdropFilter(
-                            filter: ImageFilter.blur(
-                              sigmaX: 5.0,
-                              sigmaY: 5.0
-                            ),
-                          )
-                        ],
-                      ),
+                  BlurryContainer(
+                    color: Colors.white.withOpacity(0.15),
+                    blur: 10,
+                    elevation: 6,
+                    height: 200,
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/home/carousel_test.png', 
+                        ),
+                      ],
+                    ),
                   ),
+                   
                 ] 
               ),
               const SizedBox(height: 30.0),

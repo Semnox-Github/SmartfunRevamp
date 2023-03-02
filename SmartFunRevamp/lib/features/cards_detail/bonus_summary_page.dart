@@ -8,18 +8,22 @@ import 'package:semnox/features/cards_detail/bonus_summary_detail_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/core/utils/extensions.dart';
 
+import '../../core/domain/entities/card_details/account_credit_plus_dto_list.dart';
+
 class BonusSummaryPage extends ConsumerWidget {
-  const BonusSummaryPage({Key? key, required this.cardNumber}) : super(key: key);
+  const BonusSummaryPage({Key? key, required this.cardNumber, required this.creditPlusType, required this.pageTitle}) : super(key: key);
   final String cardNumber;
+  final int? creditPlusType;
+  final String pageTitle;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //TODO:Whenever the app rebuilds this is called again
     ref.read(CardsProviders.bonusSummaryProvider.notifier).getSummary('C163975D');
     return Scaffold(
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         title: MulishText(
-          text: 'Bonus',
+          text: pageTitle,
           fontColor: CustomColors.customBlue,
           fontWeight: FontWeight.bold,
         ),
@@ -34,7 +38,9 @@ class BonusSummaryPage extends ConsumerWidget {
                     return Container();
                   },
                   inProgress: () => const Center(child: CircularProgressIndicator()),
-                  success: (data) {
+                  success: (responseData) {
+                    List<AccountCreditPlusDTOList> data = List.from(responseData);
+                    data = data..removeWhere((element) => (element.creditPlusType != creditPlusType && creditPlusType != null));
                     int totalBonus = 0;
                     for (var element in data) {
                       totalBonus += element.creditPlusBalance.toInt();

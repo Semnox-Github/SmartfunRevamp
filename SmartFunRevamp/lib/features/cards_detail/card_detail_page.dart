@@ -61,7 +61,7 @@ class CardDetailPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? ''),
+                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 5, pageTitle: "Bonus", ),
                         ),
                       );
                     },
@@ -71,24 +71,56 @@ class CardDetailPage extends StatelessWidget {
                     image: 'playtime',
                     amount: '${cardDetails.time?.toStringAsFixed(0)}',
                     desc: 'Time',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 6, pageTitle: "Time", ),
+                        ),
+                      );
+                    },
                   ),
                   CardDetailItem(
                     color: CustomColors.customPurple,
                     image: 'ticket_count',
                     amount: '${cardDetails.ticketCount}',
                     desc: 'Tickets',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 2, pageTitle: "Tickets", ),
+                        ),
+                      );
+                    },
                   ),
                   CardDetailItem(
                     color: CustomColors.customYellow,
                     image: 'courtesy',
                     amount: '${cardDetails.courtesy?.toStringAsFixed(0)}',
                     desc: 'Courtesy',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 3, pageTitle: "Courtesy", ),
+                        ),
+                      );
+                    },
                   ),
                   CardDetailItem(
                     color: CustomColors.customPink,
                     image: 'loyalty',
                     amount: '${cardDetails.loyaltyPoints?.toStringAsFixed(0)}',
                     desc: 'Loyalty',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 1, pageTitle: "Loyalty", ),
+                        ),
+                      );
+                    },
                   ),
                   CardDetailItem(
                     color: CustomColors.customLigthBlue,

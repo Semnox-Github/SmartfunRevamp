@@ -87,7 +87,7 @@ class Dialogs {
           content: ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.65,
+              height: MediaQuery.of(context).size.height * 0.6,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +99,7 @@ class Dialogs {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          card.productName,
+                          'Platinum 1000',
                           style: GoogleFonts.mulish(
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
@@ -129,8 +129,23 @@ class Dialogs {
                             fontSize: 20.0,
                           ),
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
                         ),
                         Text(
                           '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
@@ -139,34 +154,7 @@ class Dialogs {
                           ),
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.04,
+                          height: MediaQuery.of(context).size.height * 0.05,
                         ),
                         CustomButton(
                           onTap: () {
@@ -178,7 +166,7 @@ class Dialogs {
                               ),
                             );
                           },
-                          label: 'BUY NOW @ ${card.finalPrice.toStringAsFixed(0)}',
+                          label: 'BUY NOW @ ${card.finalPrice}',
                         ),
                       ],
                     ),

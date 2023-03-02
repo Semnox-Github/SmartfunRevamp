@@ -62,11 +62,10 @@ CardValue randomCard() {
 class CardType extends ConsumerWidget {
   const CardType({Key? key, required this.card}) : super(key: key);
   final CardProduct card;
-    
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final CardValue value = randomCard();
-    double discount = ((card.basePrice - card.finalPrice) * 100) / card.basePrice;
     return GestureDetector(
       onTap: () => Dialogs.showCardInfo(context, card),
       child: Stack(
@@ -74,7 +73,7 @@ class CardType extends ConsumerWidget {
           Container(
             height: 100,
             padding: const EdgeInsets.symmetric(
-              horizontal: 75.0,
+              horizontal: 50.0,
             ),
             margin: const EdgeInsets.only(left: 80.0, right: 10.0),
             decoration: BoxDecoration(
@@ -88,41 +87,35 @@ class CardType extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row( 
+                Text(
+                  '\$${card.finalPrice}',
+                  style: GoogleFonts.mulish(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 20.0,
+                  ),
+                ),
+                Row(
                   children: [
                     Text(
-                      '\$${card.finalPrice.toStringAsFixed(0)}',
+                      '\$${card.basePrice}',
                       style: GoogleFonts.mulish(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 20.0,
+                        color: CustomColors.discountColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16.0,
+                        decoration: TextDecoration.lineThrough,
                       ),
                     ),
-                  ]
-                ),
-                card.basePrice == card.finalPrice ?
-                  Row(
-                    children: [
-                      Text(
-                        '\$${card.basePrice.toStringAsFixed(0)}',
-                        style: GoogleFonts.mulish(
-                          color: CustomColors.discountColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.0,
-                          decoration: TextDecoration.lineThrough,
-                        ),
+                    const SizedBox(width: 8.0),
+                    Text(
+                      '10% OFF',
+                      style: GoogleFonts.mulish(
+                        color: CustomColors.discountPercentColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.0,
                       ),
-                      const SizedBox(width: 8.0),
-                      Text(
-                        '${discount.toStringAsFixed(0)} % OFF',
-                        style: GoogleFonts.mulish(
-                          color: CustomColors.discountPercentColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ],
-                  )
-                : Row()
+                    ),
+                  ],
+                )
               ],
             ),
           ),
@@ -133,9 +126,9 @@ class CardType extends ConsumerWidget {
             ),
             child: Container(
               margin: const EdgeInsets.all(3.0),
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              height: MediaQuery.of(context).size.height * 0.1,
-              width: MediaQuery.of(context).size.width * 0.37,
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              height: 75,
+              width: MediaQuery.of(context).size.width * 0.3,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 gradient: value.colorGradient,
@@ -149,7 +142,7 @@ class CardType extends ConsumerWidget {
                     card.productName,
                     style: GoogleFonts.mulish(
                       fontWeight: FontWeight.bold,
-                      fontSize: 12.0,
+                      fontSize: 10.0,
                     ),
                   ),
                   Row(

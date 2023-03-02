@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 class InputTextField extends StatelessWidget {
   const InputTextField({
     Key? key,
-    required this.onSaved, 
+    required this.onSaved,
     required this.hintText,
-    required this.prefixIcon
+    required this.prefixIcon,
+    this.initialValue,
   }) : super(key: key);
 
   final Function(String) onSaved;
   final String hintText;
   final Widget prefixIcon;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class InputTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
-          initialValue: '',
+          initialValue: initialValue,
           onSaved: (newValue) => onSaved(newValue!),
           validator: (value) => value!.isEmpty ? 'Required' : null,
           cursorColor: Colors.black,

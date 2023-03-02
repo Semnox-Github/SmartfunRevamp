@@ -62,6 +62,7 @@ class LinkACard extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: InputTextField(
+                      initialValue: '3X92P5N5',
                       onSaved: (cardNumber) => mCardNumber = cardNumber,
                       hintText: 'Enter Card Number',
                       prefixIcon: IconButton(

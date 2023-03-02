@@ -9,5 +9,5 @@ abstract class CardsRepository {
   Future<Either<Failure, List<AccountCreditPlusDTOList>>> getBonusSummary(String accountNumber);
   Future<Either<Failure, List<CardDetails>>> getCards(String userId);
   Future<Either<Failure, void>> getAccountGamesSummary(String userId);
-  Future<Either<Failure, void>> linkCardToUser(Map<String, dynamic> body);
+  Future<Either<Failure, void>> linkCardToUser(String cardNumber, String userId);
 }

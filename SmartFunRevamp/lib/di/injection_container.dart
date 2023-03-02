@@ -1,4 +1,3 @@
-import 'package:logger/logger.dart';
 import 'package:semnox/core/api/parafait_api.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
@@ -12,6 +11,7 @@ import 'package:semnox/di/splash_screen_dependencies.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:get/get.dart';
 import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
+import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 Future<void> init() async {
   Get.lazyPut(() => ParafaitApi());
@@ -35,7 +35,17 @@ void authenticateApi(SystemUser systemUser, String baseURL) {
     siteId: systemUser.siteId,
   );
   Get.create<ExecutionContextDTO>(() => executionDTO);
-  Logger().d('System User Authenticated');
+}
+
+void changeSiteId(SiteViewDTO siteViewDTO) {
+  final executionContext = Get.find<ExecutionContextDTO>();
+  Get.replace<ExecutionContextDTO>(
+    ExecutionContextDTO(
+      apiUrl: executionContext.apiUrl,
+      authToken: executionContext.authToken,
+      siteId: siteViewDTO.siteId,
+    ),
+  );
 }
 
 void registerUser(CustomerDTO customerDTO) {

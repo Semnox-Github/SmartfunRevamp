@@ -6,6 +6,8 @@ import 'package:semnox/core/api/smart_fun_api.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
+import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
+import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/repositories/cards_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
@@ -109,6 +111,42 @@ class CardsRepositoryImpl implements CardsRepository {
       return Left(ServerFailure(message['data']));
     } catch (e) {
       rethrow;
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CardActivity>>> getCardActivityLog(String cardId) async {
+    try {
+      final response = await _api.getCardActivityDetail(cardId);
+      return Right(response.data);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    } catch (e) {
+      Logger().e(e);
+      return Left(ServerFailure('This card has no activities'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CardActivityDetails>> getCardActivityTransactionDetail(String transactionId, bool buildReceipt) async {
+    try {
+      final response = await _api.getTransactionDetail(transactionId, buildReceipt: buildReceipt);
+      return Right(response.data.first);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    } catch (e) {
+      Logger().e(e);
+      return Left(ServerFailure('This Activity has no details'));
     }
   }
 }

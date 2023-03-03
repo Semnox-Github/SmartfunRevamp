@@ -180,10 +180,11 @@ class _HomeViewState extends State<HomeView> {
                             text: 'New Card',
                             onTap: () => Navigator.pushNamed(context, Routes.kBuyACard),
                           ),
-                          const QuickLinkItem(
+                          QuickLinkItem(
                             color: CustomColors.customLigthBlue,
                             image: 'activities',
                             text: 'Activities',
+                            onTap: () => Navigator.pushNamed(context, Routes.kActivities),
                           ),
                           const QuickLinkItem(
                             color: CustomColors.customOrange,

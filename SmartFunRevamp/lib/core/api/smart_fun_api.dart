@@ -5,6 +5,8 @@ import 'package:semnox/core/api/api_interceptor.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
+import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
+import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
@@ -188,4 +190,13 @@ abstract class SmartFunApi {
 
   @POST('Customer/Account/AccountService/LinkAccountToCustomers')
   Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
+
+  @GET('Customer/Account/{accountId}/AccountActivity')
+  Future<ListDataWrapper<CardActivity>> getCardActivityDetail(@Path('accountId') @Query('accountId') String accountId);
+
+  @GET('Transaction/Transactions')
+  Future<ListDataWrapper<CardActivityDetails>> getTransactionDetail(
+    @Query('transactionId') String transactionId, {
+    @Query('buildReceipt') bool buildReceipt = false,
+  });
 }

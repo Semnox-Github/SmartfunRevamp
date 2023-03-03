@@ -11,9 +11,11 @@ class CarouselCards extends StatelessWidget {
     Key? key,
     required this.cards,
     required this.onCardChanged,
+    this.showLinkCard = true,
   }) : super(key: key);
   final Function(int) onCardChanged;
   final List<CardDetails> cards;
+  final bool showLinkCard;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +26,9 @@ class CarouselCards extends StatelessWidget {
         viewportFraction: 1,
         onPageChanged: (index, _) => onCardChanged(index),
       ),
-      itemCount: cards.length + 1,
+      itemCount: cards.length + (showLinkCard ? 1 : 0),
       itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-        if (itemIndex == cards.length) {
+        if (itemIndex == cards.length && showLinkCard) {
           return LinkACard();
         }
         final card = cards[itemIndex];

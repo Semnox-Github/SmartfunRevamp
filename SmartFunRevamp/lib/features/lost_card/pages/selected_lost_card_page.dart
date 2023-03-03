@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/widgets/card_widget.dart';
+import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
+import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 import 'package:semnox/features/recharge_card/widgets/user_cards.dart';
 
 import 'lost_card_page.dart';
 
-class SelectCardLostPage extends StatefulWidget {
-  const SelectCardLostPage({Key? key}) : super(key: key);
+class SelectedCardLostPage extends StatelessWidget {
+  const SelectedCardLostPage({
+    Key? key,
+    required this.cardDetails
+  }) : super(key: key);
 
-  @override
-  State<SelectCardLostPage> createState() => _SelectCardLostPageState();
-}
-
-class _SelectCardLostPageState extends State<SelectCardLostPage> {
-  late CardDetails selectedCardNumber;
+  final CardDetails cardDetails;
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +42,7 @@ class _SelectCardLostPageState extends State<SelectCardLostPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => LostCardPage(cardDetails: selectedCardNumber),
+              builder: (context) => LostCardPage(cardDetails: cardDetails),
             ),
           ),
         }
@@ -49,7 +52,7 @@ class _SelectCardLostPageState extends State<SelectCardLostPage> {
           children: [
             Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.33,
+              height: MediaQuery.of(context).size.height * 0.3,
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               margin: const EdgeInsets.only(bottom: 10.0),
               decoration: const BoxDecoration(
@@ -59,11 +62,7 @@ class _SelectCardLostPageState extends State<SelectCardLostPage> {
                   bottomRight: Radius.circular(20.0),
                 ),
               ),
-              child:UserCards(
-                onCardSelected: (card) {
-                  selectedCardNumber = card;
-                },
-              ),
+              child: CardWidget(cardDetails: cardDetails),
             ),
             Expanded(
               child: Container(

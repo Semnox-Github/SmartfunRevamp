@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/use_cases/select_location/get_all_sites_use_case.dart';
+import 'package:semnox/di/injection_container.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 part 'select_location_state.dart';
 part 'select_location_provider.freezed.dart';
@@ -35,6 +36,7 @@ class SelectLocationProvider extends StateNotifier<SelectLocationState> {
   }
 
   Future<void> saveSite(SiteViewDTO site) async {
+    changeSiteId(site);
     await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, site.toJson());
   }
 

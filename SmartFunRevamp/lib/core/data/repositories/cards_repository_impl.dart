@@ -90,9 +90,14 @@ class CardsRepositoryImpl implements CardsRepository {
   }
 
   @override
-  Future<Either<Failure, void>> linkCardToUser(Map<String, dynamic> body) async {
+  Future<Either<Failure, void>> linkCardToUser(String cardNumber, String userId) async {
     try {
-      final response = await _api.linkCardToCustomer(body);
+      final cardDetail = await _api.getCardDetails(cardNumber);
+
+      final response = await _api.linkCardToCustomer({
+        "SourceAccountDTO": {"AccountId": cardDetail.data.first.accountId},
+        "CustomerDTO": {"Id": userId}
+      });
       Logger().d(response.data);
       return const Right(null);
     } on DioError catch (e) {

@@ -85,28 +85,12 @@ class CardDetailPage extends StatelessWidget {
                     image: 'ticket_count',
                     amount: '${cardDetails.ticketCount}',
                     desc: 'Tickets',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 2, pageTitle: "Tickets", ),
-                        ),
-                      );
-                    },
                   ),
                   CardDetailItem(
                     color: CustomColors.customYellow,
                     image: 'courtesy',
                     amount: '${cardDetails.courtesy?.toStringAsFixed(0)}',
                     desc: 'Courtesy',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 3, pageTitle: "Courtesy", ),
-                        ),
-                      );
-                    },
                   ),
                   CardDetailItem(
                     color: CustomColors.customPink,

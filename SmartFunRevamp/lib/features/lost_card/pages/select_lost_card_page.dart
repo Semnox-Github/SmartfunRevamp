@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/features/lost_card/widgets/block_card_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/recharge_card/widgets/user_cards.dart';
 
@@ -15,7 +16,7 @@ class SelectCardLostPage extends StatefulWidget {
 }
 
 class _SelectCardLostPageState extends State<SelectCardLostPage> {
-  late CardDetails selectedCardNumber;
+  CardDetails? selectedCardNumber;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,18 +33,24 @@ class _SelectCardLostPageState extends State<SelectCardLostPage> {
           ),
         ),
       ),
+
+      // bottomSheet: BlockCardButton(cardDetails: selectedCardNumber),
+       
       bottomSheet: BottomSheetButton(
         label: 'BLOCK & ISSUE REPLACEMENT',
         onTap: () => {
+          
           Navigator.pop(context),
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => LostCardPage(cardDetails: selectedCardNumber),
+              builder: (context) => LostCardPage(cardDetails: selectedCardNumber!),
             ),
           ),
         }
       ),
+      
+      
       body: SafeArea(
         child: Column(
           children: [
@@ -61,7 +68,9 @@ class _SelectCardLostPageState extends State<SelectCardLostPage> {
               ),
               child:UserCards(
                 onCardSelected: (card) {
-                  selectedCardNumber = card;
+
+                     selectedCardNumber = card;
+
                 },
               ),
             ),

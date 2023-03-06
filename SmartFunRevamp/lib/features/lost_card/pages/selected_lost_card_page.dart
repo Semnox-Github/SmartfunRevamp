@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
-import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
-import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
+import 'package:semnox/features/lost_card/widgets/block_card_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
-import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
-import 'package:semnox/features/recharge_card/widgets/user_cards.dart';
-
 import 'lost_card_page.dart';
 
 class SelectedCardLostPage extends StatelessWidget {
@@ -35,6 +31,8 @@ class SelectedCardLostPage extends StatelessWidget {
           ),
         ),
       ),
+      bottomSheet: BlockCardButton(cardDetails: cardDetails),
+      /*
       bottomSheet: BottomSheetButton(
         label: 'BLOCK & ISSUE REPLACEMENT',
         onTap: () => {
@@ -47,6 +45,7 @@ class SelectedCardLostPage extends StatelessWidget {
           ),
         }
       ),
+      */
       body: SafeArea(
         child: Column(
           children: [

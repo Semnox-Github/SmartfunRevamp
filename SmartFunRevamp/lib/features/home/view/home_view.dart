@@ -189,7 +189,7 @@ class _HomeViewState extends State<HomeView> {
                             color: CustomColors.customOrange,
                             image: 'lost_card',
                             text: 'Lost Card',
-                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kLostPageCard) : () {},
+                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kLostPageCard) : Dialogs.showMessageInfo(context, 'Lost Card', msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customGreen,

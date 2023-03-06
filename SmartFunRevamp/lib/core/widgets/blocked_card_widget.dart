@@ -49,7 +49,7 @@ class BlockedCardWidget extends StatelessWidget {
                                 fontColor: Colors.white,
                               )
                             : const MulishText(
-                                text: '+Add Nickname',
+                                text: '',
                                 textDecoration: TextDecoration.underline,
                                 fontColor: Colors.white,
                               ),

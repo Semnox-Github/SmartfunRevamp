@@ -1,24 +1,24 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
-import 'package:semnox/features/lost_card/widgets/block_card_button.dart';
+import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/recharge_card/widgets/user_cards.dart';
 
 import 'lost_card_page.dart';
 
-class SelectCardLostPage extends StatefulWidget {
-  const SelectCardLostPage({Key? key}) : super(key: key);
+      
+class SelectCardLostPage extends ConsumerWidget{
+  SelectCardLostPage({
+    Key? key
+  }) : super(key: key);
 
-  @override
-  State<SelectCardLostPage> createState() => _SelectCardLostPageState();
-}
-
-class _SelectCardLostPageState extends State<SelectCardLostPage> {
   CardDetails? selectedCardNumber;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFCFF8FF),
@@ -38,15 +38,36 @@ class _SelectCardLostPageState extends State<SelectCardLostPage> {
        
       bottomSheet: BottomSheetButton(
         label: 'BLOCK & ISSUE REPLACEMENT',
-        onTap: () => {
-          
-          Navigator.pop(context),
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => LostCardPage(cardDetails: selectedCardNumber!),
-            ),
-          ),
+        onTap: () {
+          ref.listenManual(
+            CardsProviders.lostCardProvider(selectedCardNumber!),
+            (previous, next) {
+              next.maybeWhen(
+                orElse: () => {},
+                data: (data) {
+                  ref.invalidate(CardsProviders.userCardsProvider);
+                  ref.read(CardsProviders.userCardsProvider);
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LostCardPage(cardDetails: selectedCardNumber!),
+                    ),
+                  );
+                },
+                error: (e, s) {
+                  AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.error,
+                    animType: AnimType.scale,
+                    title: 'Lost Card',
+                    desc: 'Try again',
+                    btnOkOnPress: () {},
+                  ).show();
+                },
+              );
+            },
+          );    
         }
       ),
       
@@ -68,9 +89,7 @@ class _SelectCardLostPageState extends State<SelectCardLostPage> {
               ),
               child:UserCards(
                 onCardSelected: (card) {
-
                      selectedCardNumber = card;
-
                 },
               ),
             ),

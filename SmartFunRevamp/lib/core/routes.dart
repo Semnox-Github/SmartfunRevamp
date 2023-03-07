@@ -42,7 +42,7 @@ class Routes {
       kEnableLocation: (BuildContext context) => const EnableLocationPage(),
       kMap: (BuildContext context) => const MapPage(),
       kRechargePageCard: (BuildContext context) => const SelectCardRechargePage(),
-      kLostPageCard: (BuildContext context) => const SelectCardLostPage(),
+      kLostPageCard: (BuildContext context) =>  SelectCardLostPage(),
       kGameplays: (BuildContext context) => const GameplaysPage()
     };
   }

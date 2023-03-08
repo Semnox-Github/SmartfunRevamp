@@ -32,20 +32,6 @@ class SelectedCardLostPage extends StatelessWidget {
         ),
       ),
       bottomSheet: BlockCardButton(cardDetails: cardDetails),
-      /*
-      bottomSheet: BottomSheetButton(
-        label: 'BLOCK & ISSUE REPLACEMENT',
-        onTap: () => {
-          Navigator.pop(context),
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => LostCardPage(cardDetails: cardDetails),
-            ),
-          ),
-        }
-      ),
-      */
       body: SafeArea(
         child: Column(
           children: [

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +19,7 @@ class SelectCardLostPage extends ConsumerWidget{
   }) : super(key: key);
 
   CardDetails? selectedCardNumber;
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -33,45 +36,53 @@ class SelectCardLostPage extends ConsumerWidget{
           ),
         ),
       ),
-
       // bottomSheet: BlockCardButton(cardDetails: selectedCardNumber),
-       
       bottomSheet: BottomSheetButton(
         label: 'BLOCK & ISSUE REPLACEMENT',
         onTap: () {
-          ref.listenManual(
-            CardsProviders.lostCardProvider(selectedCardNumber!),
-            (previous, next) {
-              next.maybeWhen(
-                orElse: () => {},
-                data: (data) {
-                  ref.invalidate(CardsProviders.userCardsProvider);
-                  ref.read(CardsProviders.userCardsProvider);
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LostCardPage(cardDetails: selectedCardNumber!),
-                    ),
-                  );
-                },
-                error: (e, s) {
-                  AwesomeDialog(
-                    context: context,
-                    dialogType: DialogType.error,
-                    animType: AnimType.scale,
-                    title: 'Lost Card',
-                    desc: 'Try again',
-                    btnOkOnPress: () {},
-                  ).show();
-                },
-              );
-            },
-          );    
+          if  (selectedCardNumber!.accountNumber!.startsWith('T')) { 
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.infoReverse,
+              animType: AnimType.scale,
+              title: 'Lost Card',
+              desc: 'Your card ${selectedCardNumber!.accountNumber} has been blocked.',
+              btnOkOnPress: () {},
+            ).show();
+          } 
+          else { 
+            ref.listenManual(
+              CardsProviders.lostCardProvider(selectedCardNumber!),
+              (previous, next) {
+                next.maybeWhen(
+                  orElse: () => {},
+                  data: (data) {
+                    ref.invalidate(CardsProviders.userCardsProvider);
+                    ref.read(CardsProviders.userCardsProvider);
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LostCardPage(cardDetails: selectedCardNumber!),
+                      ),
+                    );
+                  },
+                  error: (e, s) {
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.error,
+                      animType: AnimType.scale,
+                      title: 'Lost Card',
+                      desc: 'Sorry, we have had a problem. Please contact our Staff',
+                      btnOkOnPress: () {},
+                    ).show();
+                  },
+                );
+              },
+            );
+          }    
         }
       ),
-      
-      
       body: SafeArea(
         child: Column(
           children: [

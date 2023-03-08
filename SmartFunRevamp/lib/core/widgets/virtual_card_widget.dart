@@ -11,6 +11,7 @@ class VirtualCardWidget extends StatelessWidget {
   final CardDetails cardDetails;
   @override
   Widget build(BuildContext context) {
+    String temporalNumber = 'T${cardDetails.accountNumber!.substring(1)}'; 
     return Stack(
       children: [ 
         Container(
@@ -27,7 +28,7 @@ class VirtualCardWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MulishText(
-                text: cardDetails.accountNumber ?? '',
+                text: temporalNumber,
                 fontColor: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,

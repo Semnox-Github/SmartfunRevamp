@@ -98,10 +98,7 @@ class PaymentOptionsPage extends StatelessWidget {
       ),
     );
   }
-
- 
 }
-
 
 // stores ExpansionPanel state information
 class Item {

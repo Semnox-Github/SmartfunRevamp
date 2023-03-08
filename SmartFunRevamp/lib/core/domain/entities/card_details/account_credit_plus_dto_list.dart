@@ -8,6 +8,7 @@ class AccountCreditPlusDTOList {
   final DateTime? periodTo;
   final double creditPlus;
   final double creditPlusBalance;
+  final int creditPlusType;
 
   AccountCreditPlusDTOList(
     this.remarks,
@@ -15,6 +16,7 @@ class AccountCreditPlusDTOList {
     this.creditPlus,
     this.creditPlusBalance,
     this.periodTo,
+    this.creditPlusType
   );
 
   factory AccountCreditPlusDTOList.fromJson(Map<String, dynamic> json) => _$AccountCreditPlusDTOListFromJson(json);

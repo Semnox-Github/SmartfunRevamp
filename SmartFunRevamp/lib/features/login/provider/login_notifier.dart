@@ -13,7 +13,6 @@ import 'package:semnox/core/domain/use_cases/authentication/verify_otp_use_case.
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:semnox/core/domain/use_cases/select_location/get_all_sites_use_case.dart';
 import 'package:semnox/di/injection_container.dart';
-import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 part 'login_state.dart';
@@ -128,8 +127,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   Future<void> getNewToken() async {
-    final siteId = Get.find<ExecutionContextDTO>().siteId;
-    final response = await _getExecutionContextUseCase(siteId ?? 0);
+    //TODO:POSMACHINENAME doesnt work for site 1040
+    final response = await _getExecutionContextUseCase(selectedSite?.siteId ?? 0);
     response.fold(
       (l) {
         Logger().e(l);

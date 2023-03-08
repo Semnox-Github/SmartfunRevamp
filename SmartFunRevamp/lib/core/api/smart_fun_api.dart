@@ -15,7 +15,6 @@ import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
-
 part 'smart_fun_api.g.dart';
 
 @RestApi()
@@ -83,7 +82,6 @@ abstract class SmartFunApi {
   @GET('ParafaitEnvironment/ExecutionContext')
   Future<HttpResponse> getExecutionController(
     @Query('siteId') int siteId, {
-    @Query('posMachineName') String posMachineName = 'webplatform',
     @Query('languageCode') String languageCode = 'en-US',
   });
   @POST('Transaction/Transactions')
@@ -145,7 +143,7 @@ abstract class SmartFunApi {
 
   @GET('Transaction/PaymentModes')
   Future<ListDataWrapper<PaymentMode>> getPaymentModes({
-    @Query('siteId') String siteId = '1010',
+    @Query('siteId') String siteId = '1040',
     @Query('isActive') int isActive = 1,
   });
 

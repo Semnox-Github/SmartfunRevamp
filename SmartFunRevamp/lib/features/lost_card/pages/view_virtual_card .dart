@@ -9,9 +9,8 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 
 import 'package:semnox/core/widgets/virtual_card_widget.dart';
 import 'package:semnox/features/home/pages/home_page.dart';
+import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 
-
-import '../../recharge_card/widgets/recharge_bottom_sheet_button.dart';
 
 class ViewVirtualCardPage extends ConsumerWidget {
   const ViewVirtualCardPage({
@@ -60,7 +59,7 @@ class ViewVirtualCardPage extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Here is your virtual card',
+                        'Here is your temporary card',
                         style: TextStyle(
                             color: CustomColors.hardOrange,
                             fontSize: 22.0,
@@ -72,8 +71,18 @@ class ViewVirtualCardPage extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
                         child: VirtualCardWidget(cardDetails: cardDetails), 
                       ),
-                      SvgPicture.asset('assets/lost_card/arrow_virtual_card.svg',
-                        alignment: Alignment.center,),
+                      Container(
+                        padding: const EdgeInsets.only(right: 60.0) ,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/lost_card/arrow_virtual_card.svg',
+                              alignment: Alignment.center,
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(height: 10.0),
                       Text(
                         'Show this Barcode on site to get a new physical card. A payment of 40 will be charged for the replacement on site.',

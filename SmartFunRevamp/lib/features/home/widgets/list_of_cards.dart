@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 
 import 'package:semnox/core/widgets/background_card_details.dart';
 
@@ -21,6 +22,7 @@ class ListOfCard extends StatelessWidget {
             // return Image.asset('assets/home/carousel_test.png');
             return BackgroundCard(
               isBlocked: hasBlocked,
+              cardNumber: i.accountNumber!,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -50,9 +52,12 @@ class ListOfCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Image.asset(
-                        'assets/home/QR.png',
-                        height: 42.0,
+                      GestureDetector(
+                        onTap: () => Dialogs.showBarcodeTempCard(context, i.accountNumber!),
+                        child: Image.asset(
+                          'assets/home/QR.png',
+                          height: 42.0,
+                          ),
                       )
                     ],
                   ),

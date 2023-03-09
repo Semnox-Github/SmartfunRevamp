@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -207,5 +208,63 @@ class Dialogs {
       btnOkText: 'OK',
       btnOkColor: Colors.blue,
     ).show();
+  }
+
+  static void showBarcodeTempCard(BuildContext context, String accountNumber) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          title: const Text(
+            'Temporary Card',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold
+            ),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsetsDirectional.all(10.0),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsetsDirectional.all(10.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: BarcodeWidget(
+                          barcode: Barcode.code128(), 
+                          data: accountNumber,
+                          drawText: false,
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          width: double.maxFinite,
+                        )
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    Text(
+                      accountNumber,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    const SizedBox(height: 20.0),
+                    CustomButton(
+                      onTap: () => Navigator.pop(context),
+                      label: 'DONE',
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

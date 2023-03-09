@@ -91,7 +91,265 @@ class BonusSummaryDetailPage extends StatelessWidget {
             ),
             TotalBonusBalance(
               totalBonus: summary.creditPlusBalance.toInt(),
-            )
+            ),
+            const SizedBox(height: 10.0),
+            RichText(
+              textAlign: TextAlign.left,
+              text: const TextSpan(
+                style: TextStyle( 
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  
+                ),
+                children: [
+                  WidgetSpan(
+                   
+                    child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
+                  ),
+                  TextSpan(
+                    text: " Can be used to purchase below packages",
+                  ),
+                ],
+              ),
+            ),
+            DataTable(
+              headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                return CustomColors.customOrange;  // Use the default value.
+              }),
+              decoration: BoxDecoration(
+                                  border: Border.all(color: CustomColors.customLigthGray),
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+              columns: const <DataColumn>[
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Category',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Package',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Qty',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+              ],
+              rows: const <DataRow>[
+                DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('--')),
+                    DataCell(Text('Lion King Entry')),
+                    DataCell(Text('-')),
+                  ],
+                ),
+                DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('Drinks')),
+                    DataCell(Text('All')),
+                    DataCell(Text('1', textAlign: TextAlign.right)),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            RichText(
+              textAlign: TextAlign.start,
+              text: const TextSpan(
+                style: TextStyle( 
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+                children: [
+                  WidgetSpan(                  
+                    child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
+                  ),
+                  TextSpan(
+                    text: " Below packages are excluded",
+                  ),
+                ],
+              ),
+            ),
+            DataTable(
+              headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                return CustomColors.customOrange;  // Use the default value.
+              }),
+               decoration: BoxDecoration(
+                                  border: Border.all(color: CustomColors.customLigthGray),
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+              columns: const <DataColumn>[
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Category',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Package',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      '',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+              ],
+              rows: const <DataRow>[
+                DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('--')),
+                    DataCell(Text('Lion King Entry')),
+                    DataCell(Text('')),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            RichText(
+              textAlign: TextAlign.left,
+              text: const TextSpan(
+                style: TextStyle( 
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  
+                ),
+                children: [
+                  WidgetSpan(
+                    child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
+                  ),
+                  TextSpan(
+                    text: " Can be used to play below games",
+                  ),
+                ],
+              ),
+            ),
+            DataTable(
+              headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                return CustomColors.customOrange;  // Use the default value.
+              }),
+               decoration: BoxDecoration(
+                                  border: Border.all(color: CustomColors.customLigthGray),
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+              columns: const <DataColumn>[
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Category',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Game',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Qty',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+              ],
+              rows: const <DataRow>[
+                DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('All')),
+                    DataCell(Text('All')),
+                    DataCell(Text('100')),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            RichText(
+              textAlign: TextAlign.start,
+              text: const TextSpan(
+                style: TextStyle( 
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+                children: [
+                  WidgetSpan(
+                    child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
+                  ),
+                  TextSpan(
+                    text: " Below games are excluded",
+                  ),
+                ],
+              ),
+            ),
+            DataTable(
+              headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                return CustomColors.customOrange;  // Use the default value.
+              }),
+               decoration: BoxDecoration(
+                                  border: Border.all(color: CustomColors.customLigthGray),
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+              columns: const <DataColumn>[
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Category',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Game',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Qty',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ),
+              ],
+              rows: const <DataRow>[
+                DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('All')),
+                    DataCell(Text('All')),
+                    DataCell(Text('100')),
+                  ],
+                )
+              ],
+            ),
           ],
         ),
       ),

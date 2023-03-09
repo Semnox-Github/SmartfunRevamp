@@ -46,6 +46,7 @@ dependencies:
   semnox_core:
     path: ../semnox_core
   uuid: ^3.0.7
+  blurrycontainer: ^1.0.2
   webview_flutter: 3.0.4
 
 dev_dependencies:
@@ -64,5 +65,6 @@ flutter:
     - assets/home/
     - assets/login/
     - assets/buy_card/
+    - assets/lost_card/
     - assets/select_location/
     - assets/card_details/

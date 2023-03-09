@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/gameplays/provider/gameplays_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/user_cards.dart';
@@ -15,7 +16,7 @@ class GameplaysPage extends StatefulWidget {
 }
 
 class _GameplaysPageState extends State<GameplaysPage> {
-  String selectedCardNumber = '';
+  late CardDetails selectedCardNumber;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

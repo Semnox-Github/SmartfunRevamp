@@ -30,10 +30,12 @@ class CarouselCards extends StatelessWidget {
           return LinkACard();
         }
         final card = cards[itemIndex];
+        bool hasBlocked = card.accountNumber!.startsWith('T') ? true : false;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             BackgroundCard(
+              isBlocked: hasBlocked,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

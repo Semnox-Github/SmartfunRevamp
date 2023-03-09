@@ -6,6 +6,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_account_games_summary_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_bonus_summary_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/link_card_use_case.dart';
+import 'package:semnox/core/domain/use_cases/cards/lost_card_use_case.dart';
 
 import 'package:semnox/core/domain/use_cases/home/get_user_cards_use_case.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -42,6 +43,20 @@ class CardsProviders {
     final userId = Get.find<CustomerDTO>().id;
 
     final response = await linkCardUseCase(cardNumber, userId.toString());
+    return response.fold(
+      (l) => throw l,
+      (r) => r,
+    );
+  });
+  
+  static final lostCardProvider = FutureProvider.autoDispose.family<void, CardDetails>((ref, cardDetails) async {
+    final LostCardUseCase lostCardUseCase = Get.find<LostCardUseCase>();
+    final response = await lostCardUseCase({
+      "SourceAccountDTO": {
+          "AccountId": cardDetails.accountId, 
+          "TagNumber": cardDetails.accountNumber
+      }
+    });
     return response.fold(
       (l) => throw l,
       (r) => r,

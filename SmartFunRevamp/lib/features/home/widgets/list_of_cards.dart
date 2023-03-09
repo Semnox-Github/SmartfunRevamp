@@ -15,10 +15,12 @@ class ListOfCard extends StatelessWidget {
     return CarouselSlider(
       options: CarouselOptions(height: 200.0),
       items: data.map((i) {
+        bool hasBlocked = i.accountNumber!.startsWith('T') ? true : false;
         return Builder(
           builder: (BuildContext context) {
             // return Image.asset('assets/home/carousel_test.png');
             return BackgroundCard(
+              isBlocked: hasBlocked,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

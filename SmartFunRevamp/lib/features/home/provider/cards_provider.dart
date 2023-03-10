@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
+import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_account_games_summary_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_bonus_summary_use_case.dart';
@@ -22,6 +23,7 @@ class CardsProviders {
       (r) => r,
     );
   });
+
   static final userGamesSummaryProvider = FutureProvider<void>((ref) async {
     final GetAccountGamesSummaryUseCase getAccountGamesSummaryUseCase = Get.find<GetAccountGamesSummaryUseCase>();
     final userId = Get.find<CustomerDTO>().id;
@@ -37,6 +39,13 @@ class CardsProviders {
       Get.find<GetBonusSummaryUseCase>(),
     ),
   );
+
+static final accountGamesSummaryProvider = StateNotifierProvider.autoDispose<AccountGamesSummaryProvider, CardsState>(
+    (ref) => AccountGamesSummaryProvider(
+      Get.find<GetAccountGamesSummaryUseCase>(),
+    ),
+  );
+  
   static final linkCardProvider = FutureProvider.autoDispose.family<void, String>((ref, cardNumber) async {
     final LinkCardUseCase linkCardUseCase = Get.find<LinkCardUseCase>();
     final userId = Get.find<CustomerDTO>().id;
@@ -71,3 +80,28 @@ class CardBonusSummaryProvider extends StateNotifier<CardsState> {
     state = _Success(filteredList);
   }
 }
+
+class AccountGamesSummaryProvider extends StateNotifier<CardsState> {
+  final GetAccountGamesSummaryUseCase _getAccountGamesSummary;
+
+  AccountGamesSummaryProvider(this._getAccountGamesSummary) : super(const _InProgress());
+  List<AccountGameDTOList> _list = [];
+  void getSummary(String accountNumber) async {
+    final response = await _getAccountGamesSummary(accountNumber);
+    response.fold(
+      (l) => state = _Error(l.message),
+      (r) {
+        _list = r;
+        state = _AccountGamesSuccess(_list);
+      },
+    );
+  }
+
+  // void filter(DateTime filter) async {
+  //   state = const _InProgress();
+  //   final filteredList = _list.where((element) => element.fromDate?.isBefore(filter) ?? false).toList();
+  //   state = _AccountGamesSuccess(filteredList);
+  // }
+}
+
+

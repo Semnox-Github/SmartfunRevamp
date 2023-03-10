@@ -6,6 +6,7 @@ import 'package:semnox/core/api/smart_fun_api.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
+import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/repositories/cards_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
@@ -72,11 +73,13 @@ class CardsRepositoryImpl implements CardsRepository {
   }
 
   @override
-  Future<Either<Failure, void>> getAccountGamesSummary(String userId) async {
+  Future<Either<Failure, List<AccountGameDTOList>>> getAccountGamesSummary(String accountNumber) async {
     try {
-      final response = await _api.getGamesAccountSummart(userId);
+      final response = await _api.getBonusSummary(accountNumber);
+      final cleanList = response.data.first.accountGameDTOList;
+      cleanList?.removeWhere((element) => element.fromDate == null);
       Logger().d(response.data);
-      return const Right(null);
+      return Right(cleanList ?? []);
     } on DioError catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {

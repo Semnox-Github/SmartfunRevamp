@@ -39,13 +39,13 @@ class BonusSummaryDetailPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Consumer(
-                  builder: (context, ref, child) {
-                    return ref.watch(CardsProviders.userGamesSummaryProvider).maybeWhen(
-                          orElse: () => Container(),
-                        );
-                  },
-                ),
+                // Consumer(
+                //   builder: (context, ref, child) {
+                //     return ref.watch(CardsProviders.userGamesSummaryProvider).maybeWhen(
+                //           orElse: () => Container(),
+                //         );
+                //   },
+                // ),
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(10.0),

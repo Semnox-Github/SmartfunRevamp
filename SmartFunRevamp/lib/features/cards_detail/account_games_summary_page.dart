@@ -2,28 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/cards_detail/bonus_summary_detail_page.dart';
+import 'package:semnox/features/cards_detail/account_games_summary_detail_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/core/utils/extensions.dart';
 
-import '../../core/domain/entities/card_details/account_credit_plus_dto_list.dart';
-
-class BonusSummaryPage extends ConsumerWidget {
-  const BonusSummaryPage({Key? key, required this.cardNumber, required this.creditPlusType, required this.pageTitle}) : super(key: key);
+class AccountGamesSummaryPage extends ConsumerWidget {
+  const AccountGamesSummaryPage({Key? key, required this.cardNumber}) : super(key: key);
   final String cardNumber;
-  final int? creditPlusType;
-  final String pageTitle;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //TODO:Whenever the app rebuilds this is called again
-    ref.read(CardsProviders.bonusSummaryProvider.notifier).getSummary('C163975D');
+    ref.read(CardsProviders.accountGamesSummaryProvider.notifier).getSummary('CCD23CCE');
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         title: MulishText(
-          text: pageTitle,
+          text: "Card Games",
           fontColor: CustomColors.customBlue,
           fontWeight: FontWeight.bold,
         ),
@@ -32,18 +29,17 @@ class BonusSummaryPage extends ConsumerWidget {
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Consumer(
           builder: (context, ref, child) {
-            return ref.watch(CardsProviders.bonusSummaryProvider).maybeWhen(
+            return ref.watch(CardsProviders.accountGamesSummaryProvider).maybeWhen(
                   orElse: () => Container(),
                   error: (_) {
                     return Container();
                   },
                   inProgress: () => const Center(child: CircularProgressIndicator()),
-                  success: (responseData) {
-                    List<AccountCreditPlusDTOList> data = List.from(responseData);
-                    data = data..removeWhere((element) => (element.creditPlusType != creditPlusType && creditPlusType != null));
+                  accountGamesSuccess: (responseData) {
+                    List<AccountGameDTOList> data = List.from(responseData);
                     int totalBonus = 0;
                     for (var element in data) {
-                      totalBonus += element.creditPlusBalance.toInt();
+                      totalBonus += element.balanceGames.toInt();
                     }
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,11 +95,11 @@ class BonusSummaryPage extends ConsumerWidget {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           MulishText(
-                                            text: summary.remarks,
+                                            text: summary.gameId.toString(),
                                             fontWeight: FontWeight.bold,
                                           ),
                                           MulishText(
-                                            text: '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
+                                            text: '${summary.fromDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.fromDate.formatDate(DateFormat.HOUR_MINUTE)}',
                                             fontSize: 10.0,
                                           ),
                                         ],
@@ -120,7 +116,7 @@ class BonusSummaryPage extends ConsumerWidget {
                                                 text: 'Value Loaded',
                                               ),
                                               MulishText(
-                                                text: '${summary.creditPlus.toInt()}',
+                                                text: '${summary.quantity.toInt()}',
                                               ),
                                             ],
                                           ),
@@ -130,7 +126,7 @@ class BonusSummaryPage extends ConsumerWidget {
                                                 text: 'Balance',
                                               ),
                                               MulishText(
-                                                text: '${summary.creditPlusBalance.toInt()}',
+                                                text: '${summary.balanceGames.toInt()}',
                                               ),
                                             ],
                                           ),
@@ -138,7 +134,7 @@ class BonusSummaryPage extends ConsumerWidget {
                                             onPressed: () => Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => BonusSummaryDetailPage(summary: summary),
+                                                builder: (context) => AccountGamesSummaryDetailPage(summary: summary),
                                               ),
                                             ),
                                             icon: const Icon(

@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
-import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
+import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
-import 'package:semnox/features/home/provider/cards_provider.dart';
 
-class BonusSummaryDetailPage extends StatelessWidget {
-  const BonusSummaryDetailPage({Key? key, required this.summary}) : super(key: key);
-  final AccountCreditPlusDTOList summary;
+class AccountGamesSummaryDetailPage extends StatelessWidget {
+  const AccountGamesSummaryDetailPage({Key? key, required this.summary}) : super(key: key);
+  final AccountGameDTOList summary;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +19,12 @@ class BonusSummaryDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             MulishText(
-              text: summary.remarks,
+              text: summary.gameId.toString(),
               fontColor: CustomColors.customBlue,
               fontWeight: FontWeight.bold,
             ),
             MulishText(
-              text: '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
+              text: '${summary.fromDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.fromDate.formatDate(DateFormat.HOUR_MINUTE)}',
               fontColor: CustomColors.customBlue,
               fontSize: 16.0,
             ),
@@ -61,7 +60,7 @@ class BonusSummaryDetailPage extends StatelessWidget {
                           text: 'Valid From',
                           fontWeight: FontWeight.bold,
                         ),
-                        MulishText(text: summary.periodFrom.formatDate('dd MMM yyyy')),
+                        MulishText(text: summary.fromDate.formatDate('dd MMM yyyy')),
                       ],
                     ),
                   ),
@@ -82,7 +81,7 @@ class BonusSummaryDetailPage extends StatelessWidget {
                           text: 'Valid To',
                           fontWeight: FontWeight.bold,
                         ),
-                        MulishText(text: summary.periodTo.formatDate('dd MMM yyyy')),
+                        MulishText(text: summary.expiryDate.formatDate('dd MMM yyyy')),
                       ],
                     ),
                   ),
@@ -90,140 +89,7 @@ class BonusSummaryDetailPage extends StatelessWidget {
               ],
             ),
             TotalBonusBalance(
-              totalBonus: summary.creditPlusBalance.toInt(),
-            ),
-            const SizedBox(height: 10.0),
-            RichText(
-              textAlign: TextAlign.left,
-              text: const TextSpan(
-                style: TextStyle( 
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  
-                ),
-                children: [
-                  WidgetSpan(
-                   
-                    child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
-                  ),
-                  TextSpan(
-                    text: " Can be used to purchase below packages",
-                  ),
-                ],
-              ),
-            ),
-            DataTable(
-              headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                return CustomColors.customOrange;  // Use the default value.
-              }),
-              decoration: BoxDecoration(
-                                  border: Border.all(color: CustomColors.customLigthGray),
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
-              columns: const <DataColumn>[
-                DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      'Category',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                  ),
-                ),
-                DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      'Package',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                  ),
-                ),
-                DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      'Qty',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                  ),
-                ),
-              ],
-              rows: const <DataRow>[
-                DataRow(
-                  cells: <DataCell>[
-                    DataCell(Text('--')),
-                    DataCell(Text('Lion King Entry')),
-                    DataCell(Text('-')),
-                  ],
-                ),
-                DataRow(
-                  cells: <DataCell>[
-                    DataCell(Text('Drinks')),
-                    DataCell(Text('All')),
-                    DataCell(Text('1', textAlign: TextAlign.right)),
-                  ],
-                )
-              ],
-            ),
-            const SizedBox(height: 10.0),
-            RichText(
-              textAlign: TextAlign.start,
-              text: const TextSpan(
-                style: TextStyle( 
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-                children: [
-                  WidgetSpan(                  
-                    child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
-                  ),
-                  TextSpan(
-                    text: " Below packages are excluded",
-                  ),
-                ],
-              ),
-            ),
-            DataTable(
-              headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                return CustomColors.customOrange;  // Use the default value.
-              }),
-               decoration: BoxDecoration(
-                                  border: Border.all(color: CustomColors.customLigthGray),
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
-              columns: const <DataColumn>[
-                DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      'Category',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                  ),
-                ),
-                DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      'Package',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                  ),
-                ),
-                DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      '',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                  ),
-                ),
-              ],
-              rows: const <DataRow>[
-                DataRow(
-                  cells: <DataCell>[
-                    DataCell(Text('--')),
-                    DataCell(Text('Lion King Entry')),
-                    DataCell(Text('')),
-                  ],
-                )
-              ],
+              totalBonus: summary.balanceGames.toInt(),
             ),
             const SizedBox(height: 10.0),
             RichText(

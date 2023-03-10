@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
+
+import 'account_game_dto_list.dart';
 part 'card_details.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
@@ -70,6 +72,7 @@ class CardDetails {
   double? totalGamesBalance;
   double? totalGamePlayCreditsBalance;
   List<AccountCreditPlusDTOList>? accountCreditPlusDTOList;
+  List<AccountGameDTOList>? accountGameDTOList;
 
   CardDetails({
     this.accountId,

@@ -5,6 +5,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/cards_detail/account_games_summary_page.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
 
@@ -86,6 +87,14 @@ class CardDetailPage extends StatelessWidget {
                     image: 'ticket_count',
                     amount: '${cardDetails.ticketCount}',
                     desc: 'Tickets',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 0, pageTitle: "Ticket", ),
+                        ),
+                      );
+                    },
                   ),
                   CardDetailItem(
                     color: CustomColors.customYellow,
@@ -112,6 +121,14 @@ class CardDetailPage extends StatelessWidget {
                     image: 'card_time',
                     amount: '${cardDetails.totalGamesBalance?.toStringAsFixed(0)}',
                     desc: 'Card Games',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AccountGamesSummaryPage(cardNumber: cardDetails.accountNumber ?? ''),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

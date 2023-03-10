@@ -35,6 +35,7 @@ class _HomeViewState extends State<HomeView> {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+            height: MediaQuery.of(context).size.height * 0.5,
             decoration: BoxDecoration(
               color: Colors.lightBlue.shade200,
               borderRadius: const BorderRadius.only(
@@ -185,10 +186,11 @@ class _HomeViewState extends State<HomeView> {
                             image: 'activities',
                             text: 'Activities',
                           ),
-                          const QuickLinkItem(
+                          QuickLinkItem(
                             color: CustomColors.customOrange,
                             image: 'lost_card',
                             text: 'Lost Card',
+                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kLostPageCard) : Dialogs.showMessageInfo(context, 'Lost Card', msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customGreen,

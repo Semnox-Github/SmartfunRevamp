@@ -5,13 +5,14 @@ import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/core/utils/extensions.dart';
 
 class UserCards extends StatefulWidget {
   const UserCards({Key? key, required this.onCardSelected}) : super(key: key);
-  final Function(String) onCardSelected;
+  final Function(CardDetails) onCardSelected;
 
   @override
   State<UserCards> createState() => _UserCardsState();
@@ -19,7 +20,7 @@ class UserCards extends StatefulWidget {
 
 class _UserCardsState extends State<UserCards> {
   double cardToRecharge = 0;
-  String selectedCardNumber = '';
+  CardDetails? selectedCard;
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -28,9 +29,9 @@ class _UserCardsState extends State<UserCards> {
               orElse: () => Container(),
               loading: () => const CircularProgressIndicator(),
               data: (data) {
-                if (selectedCardNumber.isEmpty) {
-                  selectedCardNumber = data[0].accountNumber ?? '';
-                  widget.onCardSelected(selectedCardNumber);
+                if (selectedCard == null) {
+                  selectedCard = data[0];
+                  widget.onCardSelected(selectedCard!);
                 }
                 return Column(
                   mainAxisSize: MainAxisSize.min,
@@ -44,7 +45,7 @@ class _UserCardsState extends State<UserCards> {
                         anchor: 0.5,
                         velocityFactor: 0.2,
                         onIndexChanged: (index) {
-                          widget.onCardSelected(data[index].accountNumber ?? '');
+                          widget.onCardSelected(data[index]);
                           setState(() {
                             cardToRecharge = index.toDouble();
                           });

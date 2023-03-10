@@ -189,4 +189,7 @@ abstract class SmartFunApi {
 
   @POST('Customer/Account/AccountService/LinkAccountToCustomers')
   Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
+
+  @POST('Customer/Account/AccountService/LostCard')
+  Future<Data<String>> lostCard(@Body() Map<String, dynamic> body);
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/features/home/widgets/link_a_card.dart';
 
@@ -30,10 +31,13 @@ class CarouselCards extends StatelessWidget {
           return LinkACard();
         }
         final card = cards[itemIndex];
+        bool hasBlocked = card.accountNumber!.startsWith('T') ? true : false;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             BackgroundCard(
+              isBlocked: hasBlocked,
+              cardNumber: card.accountNumber!,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -63,9 +67,12 @@ class CarouselCards extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Image.asset(
-                        'assets/home/QR.png',
-                        height: 42.0,
+                      GestureDetector(
+                        onTap: () => Dialogs.showBarcodeTempCard(context, card.accountNumber!),
+                        child: Image.asset(
+                          'assets/home/QR.png',
+                          height: 42.0,
+                        ),
                       )
                     ],
                   ),

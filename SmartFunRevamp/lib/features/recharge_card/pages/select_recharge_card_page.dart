@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
@@ -18,7 +19,7 @@ class SelectCardRechargePage extends StatefulWidget {
 }
 
 class _SelectCardRechargePageState extends State<SelectCardRechargePage> {
-  String selectedCardNumber = '';
+  late CardDetails selectedCardNumber;
   CardProduct? offerSelected;
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class _SelectCardRechargePageState extends State<SelectCardRechargePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EstimatedTransactionPage(cardProduct: offerSelected!, cardNumber: selectedCardNumber),
+                builder: (context) => EstimatedTransactionPage(cardProduct: offerSelected!, cardSelected: selectedCardNumber),
               ),
             );
           }

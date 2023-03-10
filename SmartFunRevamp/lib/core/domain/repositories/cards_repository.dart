@@ -11,4 +11,5 @@ abstract class CardsRepository {
   Future<Either<Failure, List<CardDetails>>> getCards(String userId);
   Future<Either<Failure, List<AccountGameDTOList>>> getAccountGamesSummary(String accountNumber);
   Future<Either<Failure, void>> linkCardToUser(String cardNumber, String userId);
+    Future<Either<Failure, void>> lostCard(Map<String, dynamic> body);
 }

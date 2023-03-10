@@ -97,11 +97,11 @@ class AccountGamesSummaryProvider extends StateNotifier<CardsState> {
     );
   }
 
-  // void filter(DateTime filter) async {
-  //   state = const _InProgress();
-  //   final filteredList = _list.where((element) => element.fromDate?.isBefore(filter) ?? false).toList();
-  //   state = _AccountGamesSuccess(filteredList);
-  // }
+  void filter(DateTime filter) async {
+    state = const _InProgress();
+    final filteredList = _list.where((element) => element.fromDate?.isBefore(filter) ?? false).toList();
+    state = _AccountGamesSuccess(filteredList);
+  }
 }
 
 

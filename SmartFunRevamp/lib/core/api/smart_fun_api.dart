@@ -83,6 +83,7 @@ abstract class SmartFunApi {
   Future<HttpResponse> getExecutionController(
     @Query('siteId') int siteId, {
     @Query('languageCode') String languageCode = 'en-US',
+    @Query('posMachineName') String posMachineName = 'CustomerApp'
   });
   @POST('Transaction/Transactions')
   Future<Data<EstimateTransactionResponse>> estimateTransaction(@Body() Map<String, dynamic> body);

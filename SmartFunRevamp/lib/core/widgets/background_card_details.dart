@@ -1,31 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:semnox/colors/gradients.dart';
+
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 
 class BackgroundCard extends StatelessWidget {
-  const BackgroundCard({
+   const BackgroundCard({
     Key? key, 
     required this.child,
-    required this.isBlocked
+    required this.isBlocked,
+    required this.cardNumber,
   }) : super(key: key);
   final Widget child;
   final bool isBlocked;
+  final String cardNumber;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: AlignmentDirectional.center,
       children:[
-        Container(
-          height: MediaQuery.of(context).size.height * 0.25,
-          width: double.infinity,
-          padding: const EdgeInsets.all(20.0),
-          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-          decoration: BoxDecoration(
-            color: isBlocked ? Colors.purple.shade400.withOpacity(0.5): Colors.purple.shade400,
-            borderRadius: BorderRadius.circular(20.0),
+        GestureDetector(
+          onTap: !isBlocked ? () {} : () => Dialogs.showBarcodeTempCard(context, cardNumber),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.25,
+            width: double.infinity,
+            padding: const EdgeInsets.all(20.0),
+            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+            decoration: BoxDecoration(
+              color: isBlocked ? Colors.purple.shade400.withOpacity(0.5): Colors.purple.shade400,
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: child,
           ),
-          child: child,
         ),
         if (isBlocked)
           Center(
@@ -50,7 +56,6 @@ class BackgroundCard extends StatelessWidget {
             ),
           )
       ]
-    );
-    
+    );    
   }
 }

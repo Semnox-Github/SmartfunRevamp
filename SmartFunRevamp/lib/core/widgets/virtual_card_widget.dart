@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 
 class VirtualCardWidget extends StatelessWidget {
@@ -34,8 +35,8 @@ class VirtualCardWidget extends StatelessWidget {
                 fontSize: 20,
               ),
               const SizedBox(height: 10.0),
-              const MulishText(
-                text: '+Add Nickname',
+              MulishText(
+                text: cardDetails.customerName!,
                 fontColor: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -61,9 +62,12 @@ class VirtualCardWidget extends StatelessWidget {
                       )
                     ]  
                   ),
-                  Image.asset(
-                    'assets/home/QR.png',
-                    height: 60,
+                  GestureDetector(
+                    onTap: () => Dialogs.showBarcodeTempCard(context, temporalNumber),
+                    child: Image.asset(
+                      'assets/lost_card/barcode.png',
+                      height: 60,
+                    ),
                   )
                 ],
               ), 

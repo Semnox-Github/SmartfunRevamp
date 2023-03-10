@@ -6,7 +6,7 @@ class AccountGameDTOList {
   final DateTime? fromDate;
   final DateTime? expiryDate;
   final double quantity;
-  final double balanceGames;
+  final int balanceGames;
   final int gameId;
   final int gameProfileId;
 

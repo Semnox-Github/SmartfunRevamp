@@ -210,6 +210,23 @@ class Dialogs {
     ).show();
   }
 
+  static void showErrorMessage(BuildContext context, String message) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.error,
+      animType: AnimType.scale,
+      title: 'Error',
+      desc: message,
+      descTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
+      ),
+      btnOkOnPress: () {},
+      btnOkText: 'OK',
+      btnOkColor: Colors.red,
+    ).show();
+  }
+
   static void showBarcodeTempCard(BuildContext context, String accountNumber) {
     showDialog(
       context: context,
@@ -219,9 +236,7 @@ class Dialogs {
           title: const Text(
             'Temporary Card',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.bold
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
@@ -236,22 +251,19 @@ class Dialogs {
                     Container(
                       padding: const EdgeInsetsDirectional.all(10.0),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: BarcodeWidget(
-                          barcode: Barcode.code128(), 
-                          data: accountNumber,
-                          drawText: false,
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          width: double.maxFinite,
-                        )
-                      ),
+                          borderRadius: BorderRadius.circular(5),
+                          child: BarcodeWidget(
+                            barcode: Barcode.code128(),
+                            data: accountNumber,
+                            drawText: false,
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            width: double.maxFinite,
+                          )),
                     ),
                     const SizedBox(height: 10.0),
                     Text(
                       accountNumber,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 20.0),
                     CustomButton(

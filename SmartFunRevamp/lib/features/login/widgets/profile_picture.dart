@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class ProfilePicture extends StatelessWidget {
   const ProfilePicture({
     Key? key,
-    this.profilePicture = 'https://kprofiles.com/wp-content/uploads/2016/05/TWICE-Perfect-World-Concept-Teasers-documents-10.jpeg',
+    required this.customerDTO,
   }) : super(key: key);
-  final String profilePicture;
+
+  final CustomerDTO customerDTO;
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +20,21 @@ class ProfilePicture extends StatelessWidget {
         gradient: CustomGradients.goldenGradient,
         shape: BoxShape.circle,
       ),
-      child: CircleAvatar(
-        radius: 30.0,
-        backgroundColor: Colors.white,
-        foregroundImage: NetworkImage(profilePicture),
-      ),
+      child: !customerDTO.photoUrl.isNullOrEmpty()
+          ? CircleAvatar(
+              radius: 30.0,
+              backgroundColor: Colors.white,
+              foregroundImage: NetworkImage(customerDTO.photoUrl!),
+            )
+          : SizedBox(
+              height: 40.0,
+              width: 40.0,
+              child: Center(
+                child: MulishText(
+                  text: '${customerDTO.firstName![0]}${customerDTO.lastName![0]}',
+                ),
+              ),
+            ),
     );
   }
 }

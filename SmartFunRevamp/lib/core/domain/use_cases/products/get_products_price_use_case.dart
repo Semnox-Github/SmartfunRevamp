@@ -6,7 +6,7 @@ import 'package:semnox/core/errors/failures.dart';
 class GetProductsPriceUseCase {
   final ProductsRepository _repository;
   GetProductsPriceUseCase(this._repository);
-  Future<Either<Failure, List<CardProduct>>> call() async {
-    return await _repository.getProductPrice();
+  Future<Either<Failure, List<CardProduct>>> call(int siteId) async {
+    return await _repository.getProductPriceBySite(siteId);
   }
 }

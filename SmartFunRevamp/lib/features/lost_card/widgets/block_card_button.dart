@@ -1,8 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/lost_card/pages/lost_card_page.dart';
@@ -48,8 +46,7 @@ class BlockCardButton extends ConsumerWidget {
                 },
               );
             },
-          );    
-        }
-      );
+          );
+        });
   }
 }

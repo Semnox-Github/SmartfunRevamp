@@ -6,9 +6,8 @@ import 'package:semnox/core/domain/use_cases/products/get_products_price_use_cas
 
 final rechargeProductsProvider = FutureProvider<List<CardProduct>>((ref) async {
   final GetProductsPriceUseCase getProductsPriceUseCase = Get.find<GetProductsPriceUseCase>();
-
-  final response = await getProductsPriceUseCase();
-
+  //TODO:Make siteId variable
+  final response = await getProductsPriceUseCase(1040);
   return response.fold(
     (l) => throw l,
     (r) {

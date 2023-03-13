@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -43,6 +44,26 @@ class ProductsRepositoryImpl implements ProductsRepository {
       if (e.response?.statusCode == 500) {
         final message = json.decode(e.response.toString());
         return Left(InvalidCouponFailure(message['data']));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CardProduct>>> getProductPriceBySite(int siteId) async {
+    try {
+      final responseToken = await _api.getExecutionController(siteId);
+      final token = responseToken.response.headers.value(HttpHeaders.authorizationHeader) ?? '';
+
+      final response = await _api.getProductsPricesBySite(DateTime.now().toIso8601String(), token);
+      final cards = response.data;
+      cards.removeWhere((element) => element.productId == null);
+      return Right(cards);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
       }
       final message = json.decode(e.response.toString());
       return Left(ServerFailure(message['data']));

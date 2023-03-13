@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
-import 'package:semnox/features/home/provider/cards_provider.dart';
 
 class BonusSummaryDetailPage extends StatelessWidget {
   const BonusSummaryDetailPage({Key? key, required this.summary}) : super(key: key);
@@ -96,14 +94,12 @@ class BonusSummaryDetailPage extends StatelessWidget {
             RichText(
               textAlign: TextAlign.left,
               text: const TextSpan(
-                style: TextStyle( 
+                style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  
                 ),
                 children: [
                   WidgetSpan(
-                   
                     child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
                   ),
                   TextSpan(
@@ -114,12 +110,12 @@ class BonusSummaryDetailPage extends StatelessWidget {
             ),
             DataTable(
               headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                return CustomColors.customOrange;  // Use the default value.
+                return CustomColors.customOrange; // Use the default value.
               }),
               decoration: BoxDecoration(
-                                  border: Border.all(color: CustomColors.customLigthGray),
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
+                border: Border.all(color: CustomColors.customLigthGray),
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               columns: const <DataColumn>[
                 DataColumn(
                   label: Expanded(
@@ -167,12 +163,12 @@ class BonusSummaryDetailPage extends StatelessWidget {
             RichText(
               textAlign: TextAlign.start,
               text: const TextSpan(
-                style: TextStyle( 
+                style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
                 children: [
-                  WidgetSpan(                  
+                  WidgetSpan(
                     child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
                   ),
                   TextSpan(
@@ -183,12 +179,12 @@ class BonusSummaryDetailPage extends StatelessWidget {
             ),
             DataTable(
               headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                return CustomColors.customOrange;  // Use the default value.
+                return CustomColors.customOrange; // Use the default value.
               }),
-               decoration: BoxDecoration(
-                                  border: Border.all(color: CustomColors.customLigthGray),
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
+              decoration: BoxDecoration(
+                border: Border.all(color: CustomColors.customLigthGray),
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               columns: const <DataColumn>[
                 DataColumn(
                   label: Expanded(
@@ -229,10 +225,9 @@ class BonusSummaryDetailPage extends StatelessWidget {
             RichText(
               textAlign: TextAlign.left,
               text: const TextSpan(
-                style: TextStyle( 
+                style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  
                 ),
                 children: [
                   WidgetSpan(
@@ -246,12 +241,12 @@ class BonusSummaryDetailPage extends StatelessWidget {
             ),
             DataTable(
               headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                return CustomColors.customOrange;  // Use the default value.
+                return CustomColors.customOrange; // Use the default value.
               }),
-               decoration: BoxDecoration(
-                                  border: Border.all(color: CustomColors.customLigthGray),
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
+              decoration: BoxDecoration(
+                border: Border.all(color: CustomColors.customLigthGray),
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               columns: const <DataColumn>[
                 DataColumn(
                   label: Expanded(
@@ -292,7 +287,7 @@ class BonusSummaryDetailPage extends StatelessWidget {
             RichText(
               textAlign: TextAlign.start,
               text: const TextSpan(
-                style: TextStyle( 
+                style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
@@ -308,12 +303,12 @@ class BonusSummaryDetailPage extends StatelessWidget {
             ),
             DataTable(
               headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                return CustomColors.customOrange;  // Use the default value.
+                return CustomColors.customOrange; // Use the default value.
               }),
-               decoration: BoxDecoration(
-                                  border: Border.all(color: CustomColors.customLigthGray),
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
+              decoration: BoxDecoration(
+                border: Border.all(color: CustomColors.customLigthGray),
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               columns: const <DataColumn>[
                 DataColumn(
                   label: Expanded(

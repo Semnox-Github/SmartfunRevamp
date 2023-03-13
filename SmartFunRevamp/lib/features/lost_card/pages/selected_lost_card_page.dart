@@ -4,17 +4,12 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/features/lost_card/widgets/block_card_button.dart';
-import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
-import 'lost_card_page.dart';
 
 class SelectedCardLostPage extends StatelessWidget {
-  const SelectedCardLostPage({
-    Key? key,
-    required this.cardDetails
-  }) : super(key: key);
+  const SelectedCardLostPage({Key? key, required this.cardDetails}) : super(key: key);
 
   final CardDetails cardDetails;
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,51 +47,47 @@ class SelectedCardLostPage extends StatelessWidget {
             Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Column (
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min, 
-                  children: [
-                    const SizedBox(height: 20.0),
-                    const Text(
-                      'Lost Card Terms',
-                      style: TextStyle(
-                        color: CustomColors.hardOrange,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisSize: MainAxisSize.min, children: [
+                  const SizedBox(height: 20.0),
+                  const Text(
+                    'Lost Card Terms',
+                    style: TextStyle(
+                      color: CustomColors.hardOrange,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(height: 10.0),
-                    Text(
-                      'This Card cannot be used for any further transactions. A temporary will be issued, exachange the temporary card for a new physical carrd at site',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.mulish(
-                        color: CustomColors.customBlack,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w500,
-                      ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  Text(
+                    'This Card cannot be used for any further transactions. A temporary will be issued, exachange the temporary card for a new physical carrd at site',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.mulish(
+                      color: CustomColors.customBlack,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
                     ),
-                    const SizedBox(height: 20.0),
-                    const Divider(
-                      color: CustomColors.customLigthBlack,
-                      thickness: 0.5,
+                  ),
+                  const SizedBox(height: 20.0),
+                  const Divider(
+                    color: CustomColors.customLigthBlack,
+                    thickness: 0.5,
+                  ),
+                  const SizedBox(height: 20.0),
+                  Text(
+                    '40 need to paid while exchanging for a new physical card',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.mulish(
+                      color: CustomColors.customBlack,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
                     ),
-                    const SizedBox(height: 20.0),
-                    Text(
-                      '40 need to paid while exchanging for a new physical card',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.mulish(
-                        color: CustomColors.customBlack,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 20.0),
-                    const Divider(
-                      color: CustomColors.customLigthBlack,
-                      thickness: 0.5,
-                    ),
-                  ]
-                ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  const Divider(
+                    color: CustomColors.customLigthBlack,
+                    thickness: 0.5,
+                  ),
+                ]),
               ),
             ),
           ],

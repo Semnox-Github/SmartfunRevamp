@@ -8,6 +8,7 @@ import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
+import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/repositories/cards_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
@@ -74,11 +75,13 @@ class CardsRepositoryImpl implements CardsRepository {
   }
 
   @override
-  Future<Either<Failure, void>> getAccountGamesSummary(String userId) async {
+  Future<Either<Failure, List<AccountGameDTOList>>> getAccountGamesSummary(String accountNumber) async {
     try {
-      final response = await _api.getGamesAccountSummart(userId);
+      final response = await _api.getBonusSummary(accountNumber);
+      final cleanList = response.data.first.accountGameDTOList;
+      cleanList?.removeWhere((element) => element.fromDate == null);
       Logger().d(response.data);
-      return const Right(null);
+      return Right(cleanList ?? []);
     } on DioError catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
@@ -119,6 +122,25 @@ class CardsRepositoryImpl implements CardsRepository {
     try {
       final response = await _api.getCardActivityDetail(cardId);
       return Right(response.data);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    } catch (e) {
+      Logger().e(e);
+      return Left(ServerFailure('This card has no activities'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> lostCard(Map<String, dynamic> body) async {
+    try {
+      final response = await _api.lostCard(body);
+      Logger().d(response.data);
+      return const Right(null);
     } on DioError catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/features/payment/pages/payment_options_page.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
@@ -14,15 +15,16 @@ class EstimatedTransactionPage extends ConsumerWidget {
   const EstimatedTransactionPage({
     Key? key,
     required this.cardProduct,
-    this.cardNumber,
+    this.cardSelected,
   }) : super(key: key);
 
   final CardProduct cardProduct;
-  final String? cardNumber;
+  final CardDetails? cardSelected;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct, cardNumber: cardNumber);
+    /* Ver card number acount Numbre*/
+    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : ''); 
     ref.listen(estimateStateProvider, (previous, next) {
       next.maybeWhen(
         orElse: () => {},

@@ -5,7 +5,9 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/cards_detail/account_games_summary_page.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
+import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
 
 class CardDetailPage extends StatelessWidget {
   const CardDetailPage({Key? key, required this.cardDetails}) : super(key: key);
@@ -61,7 +63,7 @@ class CardDetailPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? ''),
+                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 5, pageTitle: "Bonus", ),
                         ),
                       );
                     },
@@ -71,12 +73,28 @@ class CardDetailPage extends StatelessWidget {
                     image: 'playtime',
                     amount: '${cardDetails.time?.toStringAsFixed(0)}',
                     desc: 'Time',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 6, pageTitle: "Time", ),
+                        ),
+                      );
+                    },
                   ),
                   CardDetailItem(
                     color: CustomColors.customPurple,
                     image: 'ticket_count',
                     amount: '${cardDetails.ticketCount}',
                     desc: 'Tickets',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 0, pageTitle: "Ticket", ),
+                        ),
+                      );
+                    },
                   ),
                   CardDetailItem(
                     color: CustomColors.customYellow,
@@ -89,12 +107,28 @@ class CardDetailPage extends StatelessWidget {
                     image: 'loyalty',
                     amount: '${cardDetails.loyaltyPoints?.toStringAsFixed(0)}',
                     desc: 'Loyalty',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 1, pageTitle: "Loyalty", ),
+                        ),
+                      );
+                    },
                   ),
                   CardDetailItem(
                     color: CustomColors.customLigthBlue,
                     image: 'card_time',
                     amount: '${cardDetails.totalGamesBalance?.toStringAsFixed(0)}',
                     desc: 'Card Games',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AccountGamesSummaryPage(cardNumber: cardDetails.accountNumber ?? ''),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -107,8 +141,8 @@ class CardDetailPage extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    MulishText(
+                  children: [
+                    const MulishText(
                       text: 'More Actions',
                       fontWeight: FontWeight.bold,
                     ),
@@ -117,24 +151,35 @@ class CardDetailPage extends StatelessWidget {
                       subTitle: 'Report your lost card and get replacement',
                       title: 'Lost Card',
                       svgImage: 'assets/home/lost_card.svg',
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SelectedCardLostPage(cardDetails: cardDetails),
+                          ),
+                        );
+                      },
                     ),
                     MoreActionListTile(
                       color: CustomColors.customPurple,
                       subTitle: 'Transfer credits from one card to another',
                       title: 'Tranfer Credit',
                       svgImage: 'assets/home/transfer_credit.svg',
+                      onPressed: () {},
                     ),
                     MoreActionListTile(
                       color: CustomColors.customGreen,
                       subTitle: 'View all your gameplay records',
                       title: 'Game Plays',
                       svgImage: 'assets/home/gameplays.svg',
+                      onPressed: () {},
                     ),
                     MoreActionListTile(
                       color: CustomColors.customYellow,
                       subTitle: 'View Transactions, Recharges and more.',
                       title: 'Activity',
                       svgImage: 'assets/home/activities.svg',
+                      onPressed: () { },
                     )
                   ],
                 ),
@@ -154,11 +199,13 @@ class MoreActionListTile extends StatelessWidget {
     required this.subTitle,
     required this.svgImage,
     required this.color,
+    this.onPressed,
   }) : super(key: key);
   final String title;
   final String subTitle;
   final String svgImage;
   final Color color;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +243,7 @@ class MoreActionListTile extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: onPressed,
               icon: const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: Color(0xFF292D32),

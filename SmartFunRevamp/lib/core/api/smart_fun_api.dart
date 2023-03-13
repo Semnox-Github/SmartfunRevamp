@@ -93,10 +93,7 @@ abstract class SmartFunApi {
     @Query('buildChildRecords') bool buildChildRecords = true,
   });
   @GET('ParafaitEnvironment/ExecutionContext')
-  Future<HttpResponse> getExecutionController(
-    @Query('siteId') int siteId, {
-    @Query('languageCode') String languageCode = 'en-US',
-  });
+  Future<HttpResponse> getExecutionController(@Query('siteId') int siteId, {@Query('languageCode') String languageCode = 'en-US', @Query('posMachineName') String posMachineName = 'CustomerApp'});
   @POST('Transaction/Transactions')
   Future<Data<EstimateTransactionResponse>> estimateTransaction(@Body() Map<String, dynamic> body);
 
@@ -156,7 +153,7 @@ abstract class SmartFunApi {
 
   @GET('Transaction/PaymentModes')
   Future<ListDataWrapper<PaymentMode>> getPaymentModes({
-    @Query('siteId') String siteId = '1010',
+    @Query('siteId') String siteId = '1040',
     @Query('isActive') int isActive = 1,
   });
 
@@ -213,4 +210,6 @@ abstract class SmartFunApi {
 
   @POST('Customer/Account/AccountService/TransferBalances')
   Future<Data<String>> transferBalance(@Body() Map<String, dynamic> body);
+  @POST('Customer/Account/AccountService/LostCard')
+  Future<Data<String>> lostCard(@Body() Map<String, dynamic> body);
 }

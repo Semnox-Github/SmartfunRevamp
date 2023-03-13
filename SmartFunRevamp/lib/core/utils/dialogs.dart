@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -87,7 +88,7 @@ class Dialogs {
           content: ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.65,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +100,7 @@ class Dialogs {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Platinum 1000',
+                          card.productName,
                           style: GoogleFonts.mulish(
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
@@ -129,23 +130,8 @@ class Dialogs {
                             fontSize: 20.0,
                           ),
                         ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
                         ),
                         Text(
                           '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
@@ -154,7 +140,34 @@ class Dialogs {
                           ),
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Text(
+                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                          style: GoogleFonts.mulish(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.04,
                         ),
                         CustomButton(
                           onTap: () {
@@ -166,7 +179,7 @@ class Dialogs {
                               ),
                             );
                           },
-                          label: 'BUY NOW @ ${card.finalPrice}',
+                          label: 'BUY NOW @ ${card.finalPrice.toStringAsFixed(0)}',
                         ),
                       ],
                     ),
@@ -212,5 +225,58 @@ class Dialogs {
       btnOkText: 'OK',
       btnOkColor: Colors.red,
     ).show();
+  }
+
+  static void showBarcodeTempCard(BuildContext context, String accountNumber) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          title: const Text(
+            'Temporary Card',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsetsDirectional.all(10.0),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsetsDirectional.all(10.0),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: BarcodeWidget(
+                            barcode: Barcode.code128(),
+                            data: accountNumber,
+                            drawText: false,
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            width: double.maxFinite,
+                          )),
+                    ),
+                    const SizedBox(height: 10.0),
+                    Text(
+                      accountNumber,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20.0),
+                    CustomButton(
+                      onTap: () => Navigator.pop(context),
+                      label: 'DONE',
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

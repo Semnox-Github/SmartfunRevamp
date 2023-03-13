@@ -218,8 +218,8 @@ class BonusSummaryDetailPage extends StatelessWidget {
               rows: const <DataRow>[
                 DataRow(
                   cells: <DataCell>[
-                    DataCell(Text('--')),
-                    DataCell(Text('Lion King Entry')),
+                    DataCell(Text('')),
+                    DataCell(Text('')),
                     DataCell(Text('')),
                   ],
                 )
@@ -343,9 +343,9 @@ class BonusSummaryDetailPage extends StatelessWidget {
               rows: const <DataRow>[
                 DataRow(
                   cells: <DataCell>[
-                    DataCell(Text('All')),
-                    DataCell(Text('All')),
-                    DataCell(Text('100')),
+                    DataCell(Text('')),
+                    DataCell(Text('')),
+                    DataCell(Text('')),
                   ],
                 )
               ],

@@ -149,4 +149,22 @@ class CardsRepositoryImpl implements CardsRepository {
       return Left(ServerFailure('This Activity has no details'));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> transferBalance(Map<String, dynamic> body) async {
+    try {
+      final response = await _api.transferBalance(body);
+      return Right(response.data);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    } catch (e) {
+      Logger().e(e);
+      return Left(ServerFailure('This Activity has no details'));
+    }
+  }
 }

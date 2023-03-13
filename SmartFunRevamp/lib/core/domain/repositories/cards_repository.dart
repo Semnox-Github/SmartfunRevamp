@@ -14,4 +14,5 @@ abstract class CardsRepository {
   Future<Either<Failure, void>> linkCardToUser(String cardNumber, String userId);
   Future<Either<Failure, List<CardActivity>>> getCardActivityLog(String cardId);
   Future<Either<Failure, CardActivityDetails>> getCardActivityTransactionDetail(String transactionId, bool buildReceipt);
+  Future<Either<Failure, String>> transferBalance(Map<String, dynamic> body);
 }

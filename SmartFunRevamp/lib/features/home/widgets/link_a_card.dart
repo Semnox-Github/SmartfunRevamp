@@ -2,9 +2,11 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/widgets/input_text_field.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/provider/link_card/link_card_provider.dart';
 
 class LinkACard extends ConsumerWidget {
   LinkACard({super.key});
@@ -12,7 +14,30 @@ class LinkACard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String mCardNumber = '';
-
+    ref.listen(
+      linkCardProvider,
+      (previous, next) {
+        next.maybeWhen(
+          orElse: () => {},
+          success: () {
+            context.loaderOverlay.hide();
+            ref.read(CardsProviders.userCardsProvider);
+          },
+          error: (e) {
+            context.loaderOverlay.hide();
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.error,
+              animType: AnimType.scale,
+              title: 'Link A Card',
+              desc: 'Account is already linked to other customer',
+              btnOkOnPress: () {},
+            ).show();
+          },
+          inProgress: () => context.loaderOverlay.show(),
+        );
+      },
+    );
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -93,33 +118,9 @@ class LinkACard extends ConsumerWidget {
                       child: TextButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
+                            Logger().d('Linking');
                             _formKey.currentState!.save();
-
-                            ref.listenManual(
-                              CardsProviders.linkCardProvider(mCardNumber),
-                              (previous, next) {
-                                next.maybeWhen(
-                                  orElse: () => {},
-                                  data: (data) {
-                                    context.loaderOverlay.hide();
-                                    ref.invalidate(CardsProviders.userCardsProvider);
-                                    ref.read(CardsProviders.userCardsProvider);
-                                  },
-                                  error: (e, s) {
-                                    context.loaderOverlay.hide();
-                                    AwesomeDialog(
-                                      context: context,
-                                      dialogType: DialogType.error,
-                                      animType: AnimType.scale,
-                                      title: 'Link A Card',
-                                      desc: 'Account is already linked to other customer',
-                                      btnOkOnPress: () {},
-                                    ).show();
-                                  },
-                                  loading: () => context.loaderOverlay.show(),
-                                );
-                              },
-                            );
+                            ref.read(linkCardProvider.notifier).linkCard(mCardNumber);
                           }
                         },
                         child: const Text(

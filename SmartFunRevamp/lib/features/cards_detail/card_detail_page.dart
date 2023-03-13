@@ -171,6 +171,7 @@ class MoreActionListTile extends StatelessWidget {
             Container(
               height: 50.0,
               width: 50.0,
+              margin: const EdgeInsets.only(right: 20.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
                 color: color,
@@ -178,19 +179,21 @@ class MoreActionListTile extends StatelessWidget {
               padding: const EdgeInsets.all(13.0),
               child: SvgPicture.asset(svgImage),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MulishText(
-                  text: title,
-                  fontWeight: FontWeight.bold,
-                ),
-                MulishText(
-                  text: subTitle,
-                  fontSize: 10.0,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MulishText(
+                    text: title,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  MulishText(
+                    text: subTitle,
+                    fontSize: 10.0,
+                  ),
+                ],
+              ),
             ),
             IconButton(
               onPressed: () {},

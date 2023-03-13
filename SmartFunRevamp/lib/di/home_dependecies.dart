@@ -6,6 +6,7 @@ import 'package:semnox/core/domain/use_cases/cards/get_bonus_summary_use_case.da
 import 'package:semnox/core/domain/use_cases/cards/get_card_activity_log_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_card_activity_transaction_detail_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/link_card_use_case.dart';
+import 'package:semnox/core/domain/use_cases/cards/transfer_balance_use_case.dart';
 
 import 'package:semnox/core/domain/use_cases/home/get_user_cards_use_case.dart';
 
@@ -20,4 +21,5 @@ void homeDependecies() {
   Get.lazyPut<LinkCardUseCase>(() => LinkCardUseCase(Get.find()));
   Get.lazyPut<GetCardActivityLogUseCase>(() => GetCardActivityLogUseCase(Get.find()));
   Get.lazyPut<GetCardActivityTransactionDetailUseCase>(() => GetCardActivityTransactionDetailUseCase(Get.find()));
+  Get.lazyPut<TransferBalanceUseCase>(() => TransferBalanceUseCase(Get.find()));
 }

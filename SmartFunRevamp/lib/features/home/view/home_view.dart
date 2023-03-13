@@ -47,7 +47,7 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 Row(
                   children: [
-                    const ProfilePicture(),
+                    ProfilePicture(customerDTO: user),
                     const SizedBox(width: 10.0),
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -197,10 +197,11 @@ class _HomeViewState extends State<HomeView> {
                             text: 'Game Plays',
                             onTap: () => Navigator.pushNamed(context, Routes.kGameplays),
                           ),
-                          const QuickLinkItem(
+                          QuickLinkItem(
                             color: CustomColors.customPurple,
                             image: 'transfer_credit',
                             text: 'Transfer Credit',
+                            onTap: () => Navigator.pushNamed(context, Routes.kTransfers),
                           ),
                         ],
                       );

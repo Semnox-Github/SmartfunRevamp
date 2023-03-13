@@ -26,7 +26,9 @@ class SelectLocationRepositoryImpl implements SelectLocationRepository {
       } else {
         final list = await _localDataSource.retrieveSites();
         list.removeWhere((site) => !site.onlineEnabled!);
-        Logger().d(list);
+        for (var element in list) {
+          Logger().d(element.siteId);
+        }
         return Right(list);
       }
     } on DioError catch (e) {

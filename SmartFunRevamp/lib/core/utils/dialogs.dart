@@ -196,4 +196,21 @@ class Dialogs {
       btnOkColor: Colors.blue,
     ).show();
   }
+
+  static void showErrorMessage(BuildContext context, String message) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.error,
+      animType: AnimType.scale,
+      title: 'Error',
+      desc: message,
+      descTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
+      ),
+      btnOkOnPress: () {},
+      btnOkText: 'OK',
+      btnOkColor: Colors.red,
+    ).show();
+  }
 }

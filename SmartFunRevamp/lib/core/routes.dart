@@ -11,6 +11,7 @@ import 'package:semnox/features/select_location/pages/map_page.dart';
 import 'package:semnox/features/select_location/pages/select_location_manually_page.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox/features/transfer/transfer_page.dart';
 
 class Routes {
   static const kHomePage = '/home';
@@ -26,6 +27,7 @@ class Routes {
   static const kRechargePageCard = '/recharge_card';
   static const kGameplays = '/gameplays';
   static const kActivities = '/activities';
+  static const kTransfers = '/transfers';
 
   static String get initialRoute => kSplashScreenPage;
 
@@ -42,7 +44,8 @@ class Routes {
       kMap: (BuildContext context) => const MapPage(),
       kRechargePageCard: (BuildContext context) => const SelectCardRechargePage(),
       kGameplays: (BuildContext context) => const GameplaysPage(),
-      kActivities: (BuildContext context) => const CardActivityLogPage()
+      kActivities: (BuildContext context) => const CardActivityLogPage(),
+      kTransfers: (BuildContext context) => const TransferPage()
     };
   }
 }

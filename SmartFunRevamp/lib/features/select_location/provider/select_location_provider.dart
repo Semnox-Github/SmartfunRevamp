@@ -15,6 +15,21 @@ final selectLocationStateProvider = StateNotifierProvider<SelectLocationProvider
   ),
 );
 
+final getAllSitesProvider = FutureProvider.autoDispose<List<SiteViewDTO>>((ref) async {
+  final GetAllSitesUseCase getAllSitesUseCase = Get.find<GetAllSitesUseCase>();
+  final response = await getAllSitesUseCase();
+  return response.fold(
+    (l) => throw l,
+    (r) => r,
+  );
+});
+final sitesProvider = FutureProvider<SelectLocationProvider>(
+  (ref) => SelectLocationProvider(
+    Get.find<GetAllSitesUseCase>(),
+    Get.find<LocalDataSource>(),
+  ),
+);
+
 class SelectLocationProvider extends StateNotifier<SelectLocationState> {
   final GetAllSitesUseCase _getAllSitesUseCase;
   final LocalDataSource _localDataSource;

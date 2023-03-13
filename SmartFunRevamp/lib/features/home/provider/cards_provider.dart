@@ -3,9 +3,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_account_games_summary_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_bonus_summary_use_case.dart';
-import 'package:semnox/core/domain/use_cases/cards/link_card_use_case.dart';
+import 'package:semnox/core/domain/use_cases/cards/transfer_balance_use_case.dart';
 
 import 'package:semnox/core/domain/use_cases/home/get_user_cards_use_case.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -37,11 +38,10 @@ class CardsProviders {
       Get.find<GetBonusSummaryUseCase>(),
     ),
   );
-  static final linkCardProvider = FutureProvider.autoDispose.family<void, String>((ref, cardNumber) async {
-    final LinkCardUseCase linkCardUseCase = Get.find<LinkCardUseCase>();
-    final userId = Get.find<CustomerDTO>().id;
 
-    final response = await linkCardUseCase(cardNumber, userId.toString());
+  static final transferBalance = FutureProvider.autoDispose.family<String, TransferBalance>((ref, transferRequest) async {
+    final TransferBalanceUseCase transferBalanceUseCase = Get.find<TransferBalanceUseCase>();
+    final response = await transferBalanceUseCase(transferRequest.toJson());
     return response.fold(
       (l) => throw l,
       (r) => r,

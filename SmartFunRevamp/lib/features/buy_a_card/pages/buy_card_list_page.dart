@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/features/buy_a_card/provider/buy_card/buy_card_notifier.dart';
 import 'package:semnox/features/buy_a_card/widgets/card_type.dart';
 import 'package:semnox/features/buy_a_card/widgets/drawer_filter.dart';
+import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 
 class BuyCardListPage extends StatelessWidget {
   const BuyCardListPage({Key? key}) : super(key: key);
@@ -42,44 +42,7 @@ class BuyCardListPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              height: 50,
-              width: double.infinity,
-              margin: const EdgeInsets.only(bottom: 20.0),
-              decoration: const BoxDecoration(
-                color: Color(0xFFCFF8FF),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20.0),
-                  bottomRight: Radius.circular(20.0),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.location_on_outlined,
-                  ),
-                  DropdownButton<String>(
-                    value: 'One Mall',
-                    icon: const Icon(Icons.expand_more),
-                    underline: const SizedBox(),
-                    items: ['One Mall', 'Two Mall'].map((e) {
-                      return DropdownMenuItem<String>(
-                        value: e,
-                        child: Text(
-                          e,
-                          style: GoogleFonts.mulish(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (_) {},
-                  ),
-                ],
-              ),
-            ),
+            const SitesAppBarDropdown(),
             Expanded(
               child: Consumer(
                 builder: (context, ref, child) {

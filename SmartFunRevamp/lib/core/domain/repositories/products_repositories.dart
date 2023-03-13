@@ -5,5 +5,6 @@ import 'package:semnox/core/errors/failures.dart';
 
 abstract class ProductsRepository {
   Future<Either<Failure, List<CardProduct>>> getProductPrice();
+  Future<Either<Failure, List<CardProduct>>> getProductPriceBySite(int siteId);
   Future<Either<Failure, EstimateTransactionResponse>> getEstimateTransaction(Map<String, dynamic> body);
 }

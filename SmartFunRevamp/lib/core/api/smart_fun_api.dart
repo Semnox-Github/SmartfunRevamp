@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
@@ -61,6 +63,15 @@ abstract class SmartFunApi {
   @GET('Product/ProductPrice')
   Future<ListDataWrapper<CardProduct>> getProductsPrices(
     @Query('dateTime') String dateTime, {
+    @Query('menuType') String menuType = 'O',
+    @Query('transactionProfileId') int transactionProfileId = -1,
+    @Query('membershipId') int membershipId = -1,
+  });
+
+  @GET('Product/ProductPrice')
+  Future<ListDataWrapper<CardProduct>> getProductsPricesBySite(
+    @Query('dateTime') String dateTime,
+    @Header(HttpHeaders.authorizationHeader) String token, {
     @Query('menuType') String menuType = 'O',
     @Query('transactionProfileId') int transactionProfileId = -1,
     @Query('membershipId') int membershipId = -1,
@@ -199,4 +210,7 @@ abstract class SmartFunApi {
     @Query('transactionId') String transactionId, {
     @Query('buildReceipt') bool buildReceipt = false,
   });
+
+  @POST('Customer/Account/AccountService/TransferBalances')
+  Future<Data<String>> transferBalance(@Body() Map<String, dynamic> body);
 }

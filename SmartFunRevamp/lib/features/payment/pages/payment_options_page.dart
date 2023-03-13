@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
@@ -73,25 +75,28 @@ class PaymentOptionsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10.0),
-            Consumer(
-              builder: (context, ref, child) {
-                return ref.watch(PaymentOptionsProvider.paymentModesProvider).maybeWhen(
-                      orElse: () => Container(
-                        height: 20.0,
-                        width: 20.0,
-                        color: Colors.red,
-                      ),
-                      error: (e,s) => MulishText(
-                        text: 'An error has ocurred $e',
-                      ),
-                      loading: () => const CircularProgressIndicator(),
-                      data: (data) {
-                        return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse);
-                      },
-                    );
-              },
+            SizedBox(
+              height: 600,
+              child: Consumer(
+                builder: (context, ref, child) {
+                  return ref.watch(PaymentOptionsProvider.paymentModesProvider).maybeWhen(
+                    orElse: () => Container(
+                      height: 20.0,
+                      width: 20.0,
+                      color: Colors.red,
+                    ),
+                    error: (e,s) => MulishText(
+                      text: 'An error has ocurred $e',
+                    ),
+                    loading: () => const CircularProgressIndicator(),
+                    data: (data) {
+                      return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse);
+                    },
+                  );
+                },
+              ),
             ),
-            const SizedBox(height: 10.0),
+            
             const Spacer(),
           ],
         ),
@@ -136,6 +141,9 @@ class PaymentOptionsWidged extends StatefulWidget {
 class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
   List<Item> _data = [];
 
+ final gestureRecognizers = [Factory(() => EagerGestureRecognizer()),].toSet();
+
+
   @override
   void initState() {
     _data = generateItems(widget.paymentOptionsList);
@@ -160,56 +168,61 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
       },
       children: _data.map<ExpansionPanel>((Item item) {
         return ExpansionPanel(
+          
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
               title: Text(item.headerValue),
             );
           },
-          body: ListTile(
-              // title: Text('${item.expandedValue} + ${widget.cardProduct.finalPrice} + ${widget.transactionResponse.transactionId}'),
-              title:
-                Consumer(
-                builder: (context, ref, child) {
+          body:
+            Consumer(
+            builder: (context, ref, child) {
+              return ref.watch(PaymentOptionsProvider.hostedPaymentGatewayProvider(HostedPaymentGatewayRequest(hostedPaymentGateway: item.expandedValue, amount: widget.cardProduct.finalPrice, transactionId: widget.transactionResponse.transactionId))).maybeWhen(
+                    orElse: () => Container(
+                      height: 20.0,
+                      width: 20.0,
+                      color: Colors.red,
+                    ),
+                    error: (e,s) => MulishText(
+                      text: 'An error has ocurred $e',
+                    ),
+                    loading: () => const CircularProgressIndicator(),
+                    data: (data) {
+                      if(data.gatewayRequestString.isNotEmpty){
+                      return SizedBox(
+                        height: 500,
+                        child: WebView(
+                            gestureRecognizers: gestureRecognizers,
+                            navigationDelegate: (NavigationRequest request) {
+                              if(request.url.contains(data.successURL)){
 
-                  return ref.watch(PaymentOptionsProvider.hostedPaymentGatewayProvider(HostedPaymentGatewayRequest(hostedPaymentGateway: item.expandedValue, amount: widget.cardProduct.finalPrice, transactionId: widget.transactionResponse.transactionId))).maybeWhen(
-                        orElse: () => Container(
-                          height: 20.0,
-                          width: 20.0,
-                          color: Colors.red,
-                        ),
-                        error: (e,s) => MulishText(
-                          text: 'An error has ocurred $e',
-                        ),
-                        loading: () => const CircularProgressIndicator(),
-                        data: (data) {
-                          if(data.gatewayRequestString.isNotEmpty){
-                          return SizedBox(
-                            width: 300,
-                            height: 600,
-                            child: WebView(
-                                initialUrl: Uri.dataFromString(
-                                  data.gatewayRequestString,
-                                  mimeType: 'text/html',
-                                  encoding: Encoding.getByName('utf-8')
-                                ).toString(),
-                                javascriptMode: JavascriptMode.unrestricted,
-                             ),
-                          );
-                          } else{
-                            return const Text("This payment mode is not available");
-                          }
-                        },
+                              } else if(request.url.contains(data.failureURL)){
+
+                              } else if(request.url.contains(data.cancelURL)){
+
+                              }
+
+                              return NavigationDecision.navigate;
+                              
+                            } ,
+                            initialUrl: Uri.dataFromString(
+                              data.gatewayRequestString,
+                              mimeType: 'text/html',
+                              encoding: Encoding.getByName('utf-8')
+                            ).toString(),
+                            javascriptMode: JavascriptMode.unrestricted,
+                          ),
                       );
-                  },
-                ),
-              ),
+                      } else{
+                        return const Text("This payment mode is not available");
+                      }
+                    },
+                  );
+              },
+            ),
           isExpanded: item.isExpanded,
         );
       }).toList(),
     );
   }
-
-
-
-
 }

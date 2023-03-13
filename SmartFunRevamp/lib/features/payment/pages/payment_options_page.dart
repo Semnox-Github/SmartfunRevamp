@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
@@ -73,23 +75,26 @@ class PaymentOptionsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10.0),
-            Consumer(
-              builder: (context, ref, child) {
-                return ref.watch(PaymentOptionsProvider.paymentModesProvider).maybeWhen(
-                      orElse: () => Container(
-                        height: 20.0,
-                        width: 20.0,
-                        color: Colors.red,
-                      ),
-                      error: (e,s) => MulishText(
-                        text: 'An error has ocurred $e',
-                      ),
-                      loading: () => const CircularProgressIndicator(),
-                      data: (data) {
-                        return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse);
-                      },
-                    );
-              },
+            SizedBox(
+              height: 600,
+              child: Consumer(
+                builder: (context, ref, child) {
+                  return ref.watch(PaymentOptionsProvider.paymentModesProvider).maybeWhen(
+                    orElse: () => Container(
+                      height: 20.0,
+                      width: 20.0,
+                      color: Colors.red,
+                    ),
+                    error: (e,s) => MulishText(
+                      text: 'An error has ocurred $e',
+                    ),
+                    loading: () => const CircularProgressIndicator(),
+                    data: (data) {
+                      return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse);
+                    },
+                  );
+                },
+              ),
             ),
             const SizedBox(height: 10.0),
             const Spacer(),
@@ -135,6 +140,9 @@ class PaymentOptionsWidged extends StatefulWidget {
 
 class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
   List<Item> _data = [];
+
+ final gestureRecognizers = [Factory(() => EagerGestureRecognizer()),].toSet();
+
 
   @override
   void initState() {
@@ -184,9 +192,9 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                         data: (data) {
                           if(data.gatewayRequestString.isNotEmpty){
                           return SizedBox(
-                            width: 300,
                             height: 600,
                             child: WebView(
+                                gestureRecognizers: gestureRecognizers,
                                 initialUrl: Uri.dataFromString(
                                   data.gatewayRequestString,
                                   mimeType: 'text/html',
@@ -208,8 +216,4 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
       }).toList(),
     );
   }
-
-
-
-
 }

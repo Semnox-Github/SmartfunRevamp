@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +11,7 @@ import 'package:semnox/core/domain/entities/sign_up/sign_up_entity.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/password_field.dart';
+import 'package:semnox/features/sign_up/pages/privacy_policy_page.dart';
 import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
 
 class SignUpPage extends ConsumerWidget {
@@ -178,24 +180,32 @@ class SignUpPage extends ConsumerWidget {
                         fontWeight: FontWeight.w600,
                         color: CustomColors.customLigthBlack,
                       ),
-                      children: const [
-                        TextSpan(
+                      children: [
+                        const TextSpan(
                           text: 'By Logging in you agree to our ',
                         ),
-                        TextSpan(
+                        const TextSpan(
                           text: 'Terms of Service ',
                           style: TextStyle(
                             color: CustomColors.hardOrange,
                           ),
                         ),
-                        TextSpan(
+                        const TextSpan(
                           text: 'and ',
                         ),
                         TextSpan(
                           text: 'Privacy Policy',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: CustomColors.hardOrange,
                           ),
+                          recognizer: TapGestureRecognizer()..onTap = () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const PrivacyPolicyPage(),
+                              ),
+                            );
+                          }
                         ),
                       ],
                     ),

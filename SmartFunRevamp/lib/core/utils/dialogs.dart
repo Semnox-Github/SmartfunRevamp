@@ -229,7 +229,7 @@ class Dialogs {
 
   static void showBarcodeTempCard(BuildContext context, String accountNumber) {
     String titleOfDialog = accountNumber.startsWith('T')  ? 'Virtual Card' : 'Card';
-    String cardCoachMarck = 'QRCODE';
+    String cardCoachMark = 'BARCODE';
     showDialog(
       context: context,
       builder: (context) {
@@ -255,7 +255,7 @@ class Dialogs {
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: BarcodeWidget(
-                            barcode: cardCoachMarck == 'BARCODE' ? Barcode.code128() : Barcode.qrCode(errorCorrectLevel: BarcodeQRCorrectionLevel.high),
+                            barcode: cardCoachMark == 'BARCODE' ? Barcode.code128() : Barcode.qrCode(errorCorrectLevel: BarcodeQRCorrectionLevel.high),
                             data: accountNumber,
                             drawText: false,
                             height: MediaQuery.of(context).size.height * 0.2,

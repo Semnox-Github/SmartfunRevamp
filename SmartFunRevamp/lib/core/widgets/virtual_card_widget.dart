@@ -12,7 +12,7 @@ class VirtualCardWidget extends StatelessWidget {
   final CardDetails cardDetails;
   @override
   Widget build(BuildContext context) {
-    String temporalNumber = 'T${cardDetails.accountNumber!.substring(1)}'; 
+    String virtualNumber = 'T${cardDetails.accountNumber!.substring(1)}'; 
     return Stack(
       children: [ 
         Container(
@@ -29,7 +29,7 @@ class VirtualCardWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MulishText(
-                text: temporalNumber,
+                text: virtualNumber,
                 fontColor: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -63,7 +63,7 @@ class VirtualCardWidget extends StatelessWidget {
                     ]  
                   ),
                   GestureDetector(
-                    onTap: () => Dialogs.showBarcodeTempCard(context, temporalNumber),
+                    onTap: () => Dialogs.showBarcodeTempCard(context, virtualNumber),
                     child: Image.asset(
                       'assets/lost_card/barcode.png',
                       height: 60,

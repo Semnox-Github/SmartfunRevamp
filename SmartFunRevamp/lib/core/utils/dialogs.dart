@@ -228,8 +228,8 @@ class Dialogs {
   }
 
   static void showBarcodeTempCard(BuildContext context, String accountNumber) {
-    String titleOfDialog = accountNumber.startsWith('T')  ? 'Temporary Card' : 'Card';
-    String cardCoachMarck = 'BARCODE';
+    String titleOfDialog = accountNumber.startsWith('T')  ? 'Virtual Card' : 'Card';
+    String cardCoachMarck = 'QRCODE';
     showDialog(
       context: context,
       builder: (context) {

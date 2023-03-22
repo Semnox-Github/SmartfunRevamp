@@ -21,7 +21,7 @@ class ListOfCard extends StatelessWidget {
           builder: (BuildContext context) {
             // return Image.asset('assets/home/carousel_test.png');
             return BackgroundCard(
-              isTemporary: hasBlocked,
+              isVirtual: hasBlocked,
               cardNumber: i.accountNumber!,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

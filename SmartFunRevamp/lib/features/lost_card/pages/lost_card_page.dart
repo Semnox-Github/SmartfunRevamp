@@ -21,7 +21,7 @@ class LostCardPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       bottomSheet: BottomSheetButton(
-        label: 'VIEW TEMPORARY CARD',
+        label: 'VIEW VIRTUAL CARD',
         onTap: () => {
           Navigator.pop(context),
           Navigator.push(
@@ -82,7 +82,7 @@ class LostCardPage extends ConsumerWidget {
                   child: BlockedCardWidget(cardDetails: cardDetails), 
                 ),
                 Text(
-                  'We have transfered all your credits and other points to a new temporary card.',
+                  'We have transfered all your credits and other points to a new virtual card.',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.mulish(
                     color: CustomColors.customBlack,

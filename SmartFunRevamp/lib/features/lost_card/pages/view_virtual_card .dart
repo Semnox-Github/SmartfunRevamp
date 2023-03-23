@@ -56,7 +56,7 @@ class ViewVirtualCardPage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Here is your temporary card',
+                    'Here is your virtual card',
                     style: TextStyle(
                       color: CustomColors.hardOrange,
                       fontSize: 22.0,

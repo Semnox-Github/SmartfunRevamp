@@ -38,7 +38,7 @@ class CarouselCards extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             BackgroundCard(
-              isBlocked: hasBlocked,
+              isVirtual: hasBlocked,
               cardNumber: card.accountNumber!,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

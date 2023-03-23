@@ -139,7 +139,7 @@ class CardActivityDetailPage extends StatelessWidget {
                               text: 'Variable App Recharge',
                             ),
                             MulishText(
-                              text: '\$${data.transactionLinesDTOList?.first.taxAmount}',
+                              text: '\$${data.transactionLinesDTOList?.first.taxAmount ?? 0}',
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -152,7 +152,7 @@ class CardActivityDetailPage extends StatelessWidget {
                               text: 'Tax',
                             ),
                             MulishText(
-                              text: '\$${data.transactionLinesDTOList?.first.taxAmount}',
+                              text: '\$${data.transactionLinesDTOList?.first.taxAmount ?? 0}',
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -166,11 +166,11 @@ class CardActivityDetailPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
                             MulishText(
-                              text: 'Payable Amount',
+                              text: 'Payed Amount',
                               fontWeight: FontWeight.bold,
                             ),
                             MulishText(
-                              text: '\$N/A',
+                              text: '\$0',
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),

@@ -19,3 +19,13 @@ extension DateTimeExtension on DateTime? {
     }
   }
 }
+
+extension MapExtension on Map<dynamic, List> {
+  String countItems() {
+    int count = 0;
+    forEach((key, list) {
+      count += list.length;
+    });
+    return count.toString();
+  }
+}

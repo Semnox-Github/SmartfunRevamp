@@ -45,7 +45,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
               height: MediaQuery.of(context).size.height * 0.80,
               child: WebView(
                 gestureRecognizers: gestureRecognizers,
-                initialUrl: "https://google.com",
+                initialUrl: "https://www.semnox.com/privacy-policy.html",
                 javascriptMode: JavascriptMode.unrestricted,
               ),
             ),          

@@ -13,6 +13,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
+import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
@@ -210,6 +211,14 @@ abstract class SmartFunApi {
 
   @POST('Customer/Account/AccountService/TransferBalances')
   Future<Data<String>> transferBalance(@Body() Map<String, dynamic> body);
+
   @POST('Customer/Account/AccountService/LostCard')
   Future<Data<String>> lostCard(@Body() Map<String, dynamic> body);
+
+  @POST('Communication/MessagingRequests?MessageType=A')
+  Future<ListDataWrapper<NotificationsResponse>> getAllNotifications(
+    @Query('CustomerId') String customerId, {
+    @Query('From_Date') String fromDate = '',
+    @Query('To_Date') String toDate = '',
+  });
 }

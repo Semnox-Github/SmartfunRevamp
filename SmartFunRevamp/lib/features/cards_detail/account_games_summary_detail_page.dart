@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -13,23 +12,24 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MulishText(
-              text: summary.gameId.toString(),
-              fontColor: CustomColors.customBlue,
-              fontWeight: FontWeight.bold,
-            ),
-            MulishText(
-              text: '${summary.fromDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.fromDate.formatDate(DateFormat.HOUR_MINUTE)}',
-              fontColor: CustomColors.customBlue,
-              fontSize: 16.0,
-            ),
-          ],
-        ),
-      ),
+      //TODO:Check this app bar ASAP
+      // appBar: CustomAppBar(
+      //   title: Column(
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: [
+      //       MulishText(
+      //         text: summary.gameId.toString(),
+      //         fontColor: CustomColors.customBlue,
+      //         fontWeight: FontWeight.bold,
+      //       ),
+      //       MulishText(
+      //         text: '${summary.fromDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.fromDate.formatDate(DateFormat.HOUR_MINUTE)}',
+      //         fontColor: CustomColors.customBlue,
+      //         fontSize: 16.0,
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Column(
@@ -37,13 +37,6 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                // Consumer(
-                //   builder: (context, ref, child) {
-                //     return ref.watch(CardsProviders.userGamesSummaryProvider).maybeWhen(
-                //           orElse: () => Container(),
-                //         );
-                //   },
-                // ),
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(10.0),

@@ -8,10 +8,10 @@ import 'package:semnox/core/domain/entities/card_details/card_activity_details.d
 import 'package:semnox/core/domain/use_cases/cards/get_card_activity_transaction_detail_use_case.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/activity/card_activity_receipt_page.dart';
-import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 
 final _getTrxDetail = FutureProvider.autoDispose.family<CardActivityDetails, String>((ref, transactionId) async {
   final GetCardActivityTransactionDetailUseCase getTrxDetail = Get.find<GetCardActivityTransactionDetailUseCase>();
@@ -30,11 +30,7 @@ class CardActivityDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: MulishText(
-          text: 'Transaction Details',
-          fontColor: CustomColors.customBlue,
-          fontWeight: FontWeight.bold,
-        ),
+        title: 'Transaction Details',
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),

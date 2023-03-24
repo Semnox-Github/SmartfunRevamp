@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/email_field.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/widgets/password_field.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 
@@ -27,31 +29,22 @@ class LoginWithEmail extends ConsumerWidget {
             onSaved: (password) => mPassword = password,
           ),
           const SizedBox(height: 20.0),
-          RichText(
-            text: const TextSpan(
-              style: TextStyle(color: CustomColors.customBlue),
-              children: [
-                TextSpan(
-                  text: 'Forgot Password?',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                WidgetSpan(
-                  child: SizedBox(
-                    width: 5.0,
-                  ),
-                ),
-                TextSpan(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const MulishText(
+                text: 'Forgot Password?',
+                fontWeight: FontWeight.w600,
+              ),
+              TextButton(
+                onPressed: () => Navigator.pushNamed(context, Routes.kForgotPassword),
+                child: const MulishText(
                   text: 'RESET NOW',
-                  style: TextStyle(
-                    color: CustomColors.hardOrange,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  fontWeight: FontWeight.bold,
+                  fontColor: CustomColors.hardOrange,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           const SizedBox(height: 20.0),
           CustomButton(

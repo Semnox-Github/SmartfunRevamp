@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         routes: Routes.routesMap,
         home: const SplashScreen(),
         theme: ThemeData(
+          useMaterial3: true,
           iconTheme: const IconThemeData(color: CustomColors.customBlue),
           inputDecorationTheme: InputDecorationTheme(
             isDense: true,

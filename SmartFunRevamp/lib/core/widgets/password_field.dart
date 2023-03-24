@@ -46,7 +46,7 @@ class _PasswordFieldState extends State<PasswordField> {
                 });
               },
               icon: Icon(
-                _isObscured ? Icons.visibility_off : Icons.visibility,
+                !_isObscured ? Icons.visibility_off : Icons.visibility,
                 color: Colors.black,
               ),
             ),

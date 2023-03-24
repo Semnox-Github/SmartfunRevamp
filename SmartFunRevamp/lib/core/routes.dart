@@ -5,6 +5,8 @@ import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/home/pages/home_page.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/login/pages/verify_otp_page.dart';
+import 'package:semnox/features/notifications/pages/notification_center_page.dart';
+import 'package:semnox/features/notifications/pages/notifications_settings_page.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/select_location/pages/enable_location_page.dart';
 import 'package:semnox/features/select_location/pages/map_page.dart';
@@ -31,6 +33,8 @@ class Routes {
   static const kGameplays = '/gameplays';
   static const kActivities = '/activities';
   static const kTransfers = '/transfers';
+  static const kNotifications = '/notifications';
+  static const kNotificationsSettings = '/notifications_settings';
 
   static String get initialRoute => kSplashScreenPage;
 
@@ -50,6 +54,8 @@ class Routes {
       kActivities: (BuildContext context) => const CardActivityLogPage(),
       kTransfers: (BuildContext context) => const TransferPage(),
       kLostPageCard: (BuildContext context) => const SelectCardLostPage(),
+      kNotifications: (BuildContext context) => const NotificationCenterPage(),
+      kNotificationsSettings: (BuildContext context) => const NotificationsSettingsPage(),
     };
   }
 }

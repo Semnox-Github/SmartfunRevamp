@@ -228,15 +228,17 @@ class Dialogs {
   }
 
   static void showBarcodeTempCard(BuildContext context, String accountNumber) {
+    String titleOfDialog = accountNumber.startsWith('T')  ? 'Virtual Card' : 'Card';
+    String cardCoachMark = 'BARCODE';
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           contentPadding: EdgeInsets.zero,
-          title: const Text(
-            'Temporary Card',
+          title: Text(
+            titleOfDialog,
             textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
@@ -253,7 +255,7 @@ class Dialogs {
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: BarcodeWidget(
-                            barcode: Barcode.code128(),
+                            barcode: cardCoachMark == 'BARCODE' ? Barcode.code128() : Barcode.qrCode(errorCorrectLevel: BarcodeQRCorrectionLevel.high),
                             data: accountNumber,
                             drawText: false,
                             height: MediaQuery.of(context).size.height * 0.2,

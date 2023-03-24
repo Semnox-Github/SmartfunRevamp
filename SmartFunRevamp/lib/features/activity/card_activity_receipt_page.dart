@@ -15,6 +15,7 @@ import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:webcontent_converter/webcontent_converter.dart';
+import 'package:semnox/core/utils/extensions.dart';
 
 const testHTML = """
  <div>\r<h2>FUN CITY INDIA</h2>\r<h2>Master</h2>\r<h2></h2>\r<p><strong>Date: </strong>05-Oct-2020</p>\r<p><strong>Invoice No: </strong>139812</p>\r<p><strong>OTP: </strong></p>\r<p><strong>NAME: </strong>Abhilash</p>\r<p><strong>PHONE: </strong>7760227031</p>\r<p><strong>EMAIL: </strong>abhilash.mathew@mailinator.com</p>\r\r<table>\r<tbody>\r<tr>\r<td>Product Details</td>\r<td>Price</td>\r<td>Quantity</td>\r<td>Amount</td>\r</tr>\r<tr>\r<td>@productName</td>\r<td>@price</td>\r<td>@quantity</td>\r<td><strong>@subTotal</strong></td>\r</tr>\r</tbody>\r</table>\r<p><strong>Tax Total GBP 0.00</strong></p>\r<p><strong>Discount GBP 0.00</strong></p>\r<p><strong>Grand Total GBP 10.00 </strong></p>\r<p><strong>Thank you for choosing FUN CITY</strong></p>\r</div>
@@ -57,15 +58,15 @@ class CardActivityReceiptPage extends StatelessWidget {
                     ),
                   ),
                   data: (data) {
-                    // if (data.receiptHTML.isNullOrEmpty()) {
-                    //   return const Center(
-                    //     child: MulishText(
-                    //       text: "We couldn't generate the receipt please try later.",
-                    //       fontSize: 30.0,
-                    //       textAlign: TextAlign.center,
-                    //     ),
-                    //   );
-                    // }
+                    if (data.receiptHTML.isNullOrEmpty()) {
+                      return const Center(
+                        child: MulishText(
+                          text: "We couldn't generate the receipt please try later.",
+                          fontSize: 30.0,
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    }
                     return Column(
                       children: [
                         const HtmlWidget(testHTML),

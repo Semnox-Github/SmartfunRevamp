@@ -127,7 +127,6 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   Future<void> getNewToken() async {
-    //TODO:POSMACHINENAME doesnt work for site 1040
     final response = await _getExecutionContextUseCase(selectedSite?.siteId ?? 0);
     response.fold(
       (l) {

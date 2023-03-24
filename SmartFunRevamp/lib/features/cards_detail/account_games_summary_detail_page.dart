@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
@@ -95,10 +94,9 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
             RichText(
               textAlign: TextAlign.left,
               text: const TextSpan(
-                style: TextStyle( 
+                style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  
                 ),
                 children: [
                   WidgetSpan(
@@ -112,12 +110,12 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
             ),
             DataTable(
               headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                return CustomColors.customOrange;  // Use the default value.
+                return CustomColors.customOrange; // Use the default value.
               }),
-               decoration: BoxDecoration(
-                                  border: Border.all(color: CustomColors.customLigthGray),
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
+              decoration: BoxDecoration(
+                border: Border.all(color: CustomColors.customLigthGray),
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               columns: const <DataColumn>[
                 DataColumn(
                   label: Expanded(
@@ -158,7 +156,7 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
             RichText(
               textAlign: TextAlign.start,
               text: const TextSpan(
-                style: TextStyle( 
+                style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
@@ -174,12 +172,12 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
             ),
             DataTable(
               headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                return CustomColors.customOrange;  // Use the default value.
+                return CustomColors.customOrange; // Use the default value.
               }),
-               decoration: BoxDecoration(
-                                  border: Border.all(color: CustomColors.customLigthGray),
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
+              decoration: BoxDecoration(
+                border: Border.all(color: CustomColors.customLigthGray),
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               columns: const <DataColumn>[
                 DataColumn(
                   label: Expanded(

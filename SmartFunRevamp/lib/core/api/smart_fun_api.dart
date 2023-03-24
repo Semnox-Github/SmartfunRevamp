@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
@@ -5,10 +7,13 @@ import 'package:semnox/core/api/api_interceptor.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
+import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
+import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
+import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
@@ -64,6 +69,15 @@ abstract class SmartFunApi {
     @Query('membershipId') int membershipId = -1,
   });
 
+  @GET('Product/ProductPrice')
+  Future<ListDataWrapper<CardProduct>> getProductsPricesBySite(
+    @Query('dateTime') String dateTime,
+    @Header(HttpHeaders.authorizationHeader) String token, {
+    @Query('menuType') String menuType = 'O',
+    @Query('transactionProfileId') int transactionProfileId = -1,
+    @Query('membershipId') int membershipId = -1,
+  });
+
   @POST('CommonServices/GenericOTP/Create')
   Future<Data<CreateOtpResponse>> sendOTP(@Body() Map<String, dynamic> body);
 
@@ -80,11 +94,7 @@ abstract class SmartFunApi {
     @Query('buildChildRecords') bool buildChildRecords = true,
   });
   @GET('ParafaitEnvironment/ExecutionContext')
-  Future<HttpResponse> getExecutionController(
-    @Query('siteId') int siteId, {
-    @Query('languageCode') String languageCode = 'en-US',
-    @Query('posMachineName') String posMachineName = 'CustomerApp'
-  });
+  Future<HttpResponse> getExecutionController(@Query('siteId') int siteId, {@Query('languageCode') String languageCode = 'en-US', @Query('posMachineName') String posMachineName = 'CustomerApp'});
   @POST('Transaction/Transactions')
   Future<Data<EstimateTransactionResponse>> estimateTransaction(@Body() Map<String, dynamic> body);
 
@@ -191,6 +201,25 @@ abstract class SmartFunApi {
   @POST('Customer/Account/AccountService/LinkAccountToCustomers')
   Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
 
+  @GET('Customer/Account/{accountId}/AccountActivity')
+  Future<ListDataWrapper<CardActivity>> getCardActivityDetail(@Path('accountId') @Query('accountId') String accountId);
+
+  @GET('Transaction/Transactions')
+  Future<ListDataWrapper<CardActivityDetails>> getTransactionDetail(
+    @Query('transactionId') String transactionId, {
+    @Query('buildReceipt') bool buildReceipt = false,
+  });
+
+  @POST('Customer/Account/AccountService/TransferBalances')
+  Future<Data<String>> transferBalance(@Body() Map<String, dynamic> body);
+
   @POST('Customer/Account/AccountService/LostCard')
   Future<Data<String>> lostCard(@Body() Map<String, dynamic> body);
+
+  @POST('Communication/MessagingRequests?MessageType=A')
+  Future<ListDataWrapper<NotificationsResponse>> getAllNotifications(
+    @Query('CustomerId') String customerId, {
+    @Query('From_Date') String fromDate = '',
+    @Query('To_Date') String toDate = '',
+  });
 }

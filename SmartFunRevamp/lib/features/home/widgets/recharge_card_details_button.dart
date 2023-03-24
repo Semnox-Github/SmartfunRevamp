@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -16,74 +15,71 @@ class RechargeCardDetailsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!cardDetails.accountNumber!.startsWith('T')) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: CustomGradients.linearGradient,
-                borderRadius: BorderRadius.circular(15.0),
-              ),
+      return Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
                   gradient: CustomGradients.linearGradient,
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                margin: const EdgeInsets.all(3),
-                child: TextButton(
-                  onPressed: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
-                  child: const Text(
-                    'RECHARGE NOW',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    gradient: CustomGradients.linearGradient,
+                  ),
+                  margin: const EdgeInsets.all(3),
+                  child: TextButton(
+                    onPressed: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
+                    child: const Text(
+                      'RECHARGE NOW',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: 20.0),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: CustomGradients.linearGradient,
-                borderRadius: BorderRadius.circular(15.0),
-              ),
+            const SizedBox(width: 20.0),
+            Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  color: Colors.white,
+                  gradient: CustomGradients.linearGradient,
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                margin: const EdgeInsets.all(3),
-                child: TextButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CardDetailPage(cardDetails: cardDetails),
-                    ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    color: Colors.white,
                   ),
-                  child: const Text(
-                    'CARD DETAILS',
-                    style: TextStyle(
-                      color: CustomColors.hardOrange,
+                  margin: const EdgeInsets.all(3),
+                  child: TextButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CardDetailPage(cardDetails: cardDetails),
+                      ),
+                    ),
+                    child: const Text(
+                      'CARD DETAILS',
+                      style: TextStyle(
+                        color: CustomColors.hardOrange,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-  else {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
+          ],
+        ),
+      );
+    } else {
+      return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Expanded(
           child: Column(
             children: [
@@ -97,16 +93,14 @@ class RechargeCardDetailsButton extends StatelessWidget {
               const Text(
                 ' This card will be removed from smartfun once you get the new physical card.',
                 textAlign: TextAlign.center,
-                 style: TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ],
           ),
         ),
-        
-      ]
-    );
-  }
+      ]);
+    }
   }
 }

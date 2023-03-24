@@ -4,9 +4,10 @@ import 'package:get/instance_manager.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_account_games_summary_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_bonus_summary_use_case.dart';
-import 'package:semnox/core/domain/use_cases/cards/link_card_use_case.dart';
+import 'package:semnox/core/domain/use_cases/cards/transfer_balance_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/lost_card_use_case.dart';
 
 import 'package:semnox/core/domain/use_cases/home/get_user_cards_use_case.dart';
@@ -41,30 +42,25 @@ class CardsProviders {
     ),
   );
 
-static final accountGamesSummaryProvider = StateNotifierProvider.autoDispose<AccountGamesSummaryProvider, CardsState>(
+  static final accountGamesSummaryProvider = StateNotifierProvider.autoDispose<AccountGamesSummaryProvider, CardsState>(
     (ref) => AccountGamesSummaryProvider(
       Get.find<GetAccountGamesSummaryUseCase>(),
     ),
   );
-  
-  static final linkCardProvider = FutureProvider.autoDispose.family<void, String>((ref, cardNumber) async {
-    final LinkCardUseCase linkCardUseCase = Get.find<LinkCardUseCase>();
-    final userId = Get.find<CustomerDTO>().id;
 
-    final response = await linkCardUseCase(cardNumber, userId.toString());
+  static final transferBalance = FutureProvider.autoDispose.family<String, TransferBalance>((ref, transferRequest) async {
+    final TransferBalanceUseCase transferBalanceUseCase = Get.find<TransferBalanceUseCase>();
+    final response = await transferBalanceUseCase(transferRequest.toJson());
     return response.fold(
       (l) => throw l,
       (r) => r,
     );
   });
-  
+
   static final lostCardProvider = FutureProvider.autoDispose.family<void, CardDetails>((ref, cardDetails) async {
     final LostCardUseCase lostCardUseCase = Get.find<LostCardUseCase>();
     final response = await lostCardUseCase({
-      "SourceAccountDTO": {
-          "AccountId": cardDetails.accountId, 
-          "TagNumber": cardDetails.accountNumber
-      }
+      "SourceAccountDTO": {"AccountId": cardDetails.accountId, "TagNumber": cardDetails.accountNumber}
     });
     return response.fold(
       (l) => throw l,
@@ -118,5 +114,3 @@ class AccountGamesSummaryProvider extends StateNotifier<CardsState> {
     state = _AccountGamesSuccess(filteredList);
   }
 }
-
-

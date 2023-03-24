@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/buy_a_card/pages/buy_card_list_page.dart';
 import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/home/pages/home_page.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/login/pages/verify_otp_page.dart';
+import 'package:semnox/features/notifications/pages/notification_center_page.dart';
+import 'package:semnox/features/notifications/pages/notifications_settings_page.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/select_location/pages/enable_location_page.dart';
 import 'package:semnox/features/select_location/pages/map_page.dart';
 import 'package:semnox/features/select_location/pages/select_location_manually_page.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox/features/transfer/transfer_page.dart';
 
 import '../features/lost_card/pages/select_lost_card_page.dart';
 
@@ -27,6 +31,10 @@ class Routes {
   static const kRechargePageCard = '/recharge_card';
   static const kLostPageCard = '/lost_card';
   static const kGameplays = '/gameplays';
+  static const kActivities = '/activities';
+  static const kTransfers = '/transfers';
+  static const kNotifications = '/notifications';
+  static const kNotificationsSettings = '/notifications_settings';
 
   static String get initialRoute => kSplashScreenPage;
 
@@ -42,8 +50,12 @@ class Routes {
       kEnableLocation: (BuildContext context) => const EnableLocationPage(),
       kMap: (BuildContext context) => const MapPage(),
       kRechargePageCard: (BuildContext context) => const SelectCardRechargePage(),
-      kLostPageCard: (BuildContext context) =>  SelectCardLostPage(),
-      kGameplays: (BuildContext context) => const GameplaysPage()
+      kGameplays: (BuildContext context) => const GameplaysPage(),
+      kActivities: (BuildContext context) => const CardActivityLogPage(),
+      kTransfers: (BuildContext context) => const TransferPage(),
+      kLostPageCard: (BuildContext context) => const SelectCardLostPage(),
+      kNotifications: (BuildContext context) => const NotificationCenterPage(),
+      kNotificationsSettings: (BuildContext context) => const NotificationsSettingsPage(),
     };
   }
 }

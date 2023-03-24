@@ -25,7 +25,7 @@ class BuyCardNotifier extends StateNotifier<BuyCardState> {
   }
 
   void _getCards() async {
-    final response = await _getProductsPriceUseCase();
+    final response = await _getProductsPriceUseCase(1013);
     response.fold(
       (l) => state = _Error(l.message),
       (r) {

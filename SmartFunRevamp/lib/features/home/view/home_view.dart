@@ -1,13 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
 import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
@@ -15,7 +16,9 @@ import 'package:semnox/features/login/widgets/profile_picture.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
+import 'package:semnox/features/notifications/provider/notifications_provider.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
+import 'package:badges/badges.dart' as badges;
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -48,7 +51,7 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 Row(
                   children: [
-                    const ProfilePicture(),
+                    ProfilePicture(customerDTO: user),
                     const SizedBox(width: 10.0),
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -85,9 +88,50 @@ class _HomeViewState extends State<HomeView> {
                       ],
                     ),
                     const Spacer(),
-                    SvgPicture.asset('assets/home/search-normal.svg'),
-                    const SizedBox(width: 10.0),
-                    SvgPicture.asset('assets/home/notification.svg')
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.search_outlined,
+                        color: CustomColors.customBlue,
+                      ),
+                    ),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        return ref.watch(NotificationsProvider.notificationsStateProvider).maybeWhen(
+                              orElse: () => Container(),
+                              inProgress: () => const Icon(
+                                Icons.notifications_none_outlined,
+                                color: CustomColors.customBlue,
+                              ),
+                              success: (data) {
+                                if (data.isEmpty) {
+                                  return InkWell(
+                                    child: const Icon(
+                                      Icons.notifications_none_outlined,
+                                      color: CustomColors.customBlue,
+                                    ),
+                                    onTap: () => Navigator.pushNamed(context, Routes.kNotifications),
+                                  );
+                                }
+                                return badges.Badge(
+                                  badgeAnimation: const badges.BadgeAnimation.scale(),
+                                  badgeContent: MulishText(
+                                    text: data.countItems(),
+                                    fontColor: Colors.white,
+                                  ),
+                                  child: InkWell(
+                                    child: const Icon(
+                                      Icons.notifications_none_outlined,
+                                      color: CustomColors.customBlue,
+                                    ),
+                                    onTap: () => Navigator.pushNamed(context, Routes.kNotifications),
+                                  ),
+                                );
+                              },
+                              error: (error) => Container(),
+                            );
+                      },
+                    ),
                   ],
                 ),
                 Container(
@@ -181,10 +225,11 @@ class _HomeViewState extends State<HomeView> {
                             text: 'New Card',
                             onTap: () => Navigator.pushNamed(context, Routes.kBuyACard),
                           ),
-                          const QuickLinkItem(
+                          QuickLinkItem(
                             color: CustomColors.customLigthBlue,
                             image: 'activities',
                             text: 'Activities',
+                            onTap: () => Navigator.pushNamed(context, Routes.kActivities),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customOrange,
@@ -198,10 +243,11 @@ class _HomeViewState extends State<HomeView> {
                             text: 'Game Plays',
                             onTap: () => Navigator.pushNamed(context, Routes.kGameplays),
                           ),
-                          const QuickLinkItem(
+                          QuickLinkItem(
                             color: CustomColors.customPurple,
                             image: 'transfer_credit',
                             text: 'Transfer Credit',
+                            onTap: () => Navigator.pushNamed(context, Routes.kTransfers),
                           ),
                         ],
                       );

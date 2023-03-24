@@ -7,11 +7,11 @@ class BackgroundCard extends StatelessWidget {
    const BackgroundCard({
     Key? key, 
     required this.child,
-    required this.isBlocked,
+    required this.isVirtual,
     required this.cardNumber,
   }) : super(key: key);
   final Widget child;
-  final bool isBlocked;
+  final bool isVirtual;
   final String cardNumber;
 
   @override
@@ -20,20 +20,20 @@ class BackgroundCard extends StatelessWidget {
       alignment: AlignmentDirectional.center,
       children:[
         GestureDetector(
-          onTap: !isBlocked ? () {} : () => Dialogs.showBarcodeTempCard(context, cardNumber),
+          onTap: !isVirtual ? () {} : () => Dialogs.showBarcodeTempCard(context, cardNumber),
           child: Container(
             height: MediaQuery.of(context).size.height * 0.25,
             width: double.infinity,
             padding: const EdgeInsets.all(20.0),
             margin: const EdgeInsets.symmetric(horizontal: 5.0),
             decoration: BoxDecoration(
-              color: isBlocked ? Colors.purple.shade400.withOpacity(0.5): Colors.purple.shade400,
+              color: isVirtual ? Colors.purple.shade400.withOpacity(0.5): Colors.purple.shade400,
               borderRadius: BorderRadius.circular(20.0),
             ),
             child: child,
           ),
         ),
-        if (isBlocked)
+        if (isVirtual)
           Center(
             child: Container(
               alignment: Alignment.center,
@@ -46,7 +46,7 @@ class BackgroundCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   const MulishText(
-                    text: 'BLOCKED',
+                    text: 'VIRTUAL',
                     fontColor: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,

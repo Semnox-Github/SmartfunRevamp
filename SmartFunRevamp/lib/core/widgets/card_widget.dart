@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/utils/extensions.dart';
 
@@ -53,9 +54,12 @@ class CardWidget extends StatelessWidget {
                   ]),
                 ],
               ),
-              Image.asset(
-                'assets/home/QR.png',
-                height: 42,
+              GestureDetector(
+                onTap: () => Dialogs.showBarcodeTempCard(context, cardDetails.accountNumber!),
+                child: Image.asset(
+                  'assets/home/QR.png',
+                  height: 42,
+                ),
               )
             ],
           ),

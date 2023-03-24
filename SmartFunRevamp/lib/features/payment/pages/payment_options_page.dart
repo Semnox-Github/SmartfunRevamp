@@ -13,7 +13,6 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/payment/provider/payment_options_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-
 class PaymentOptionsPage extends StatelessWidget {
   const PaymentOptionsPage({Key? key, required this.transactionResponse, required this.cardProduct}) : super(key: key);
   final EstimateTransactionResponse transactionResponse;
@@ -80,23 +79,22 @@ class PaymentOptionsPage extends StatelessWidget {
               child: Consumer(
                 builder: (context, ref, child) {
                   return ref.watch(PaymentOptionsProvider.paymentModesProvider).maybeWhen(
-                    orElse: () => Container(
-                      height: 20.0,
-                      width: 20.0,
-                      color: Colors.red,
-                    ),
-                    error: (e,s) => MulishText(
-                      text: 'An error has ocurred $e',
-                    ),
-                    loading: () => const CircularProgressIndicator(),
-                    data: (data) {
-                      return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse);
-                    },
-                  );
+                        orElse: () => Container(
+                          height: 20.0,
+                          width: 20.0,
+                          color: Colors.red,
+                        ),
+                        error: (e, s) => MulishText(
+                          text: 'An error has ocurred $e',
+                        ),
+                        loading: () => const CircularProgressIndicator(),
+                        data: (data) {
+                          return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse);
+                        },
+                      );
                 },
               ),
             ),
-            
             const Spacer(),
           ],
         ),
@@ -119,7 +117,6 @@ class Item {
 }
 
 List<Item> generateItems(List<PaymentMode> paymentOptionsList) {
-  
   return List<Item>.generate(paymentOptionsList.length, (int index) {
     return Item(
       headerValue: paymentOptionsList[index].paymentMode,
@@ -141,8 +138,9 @@ class PaymentOptionsWidged extends StatefulWidget {
 class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
   List<Item> _data = [];
 
- final gestureRecognizers = [Factory(() => EagerGestureRecognizer()),].toSet();
-
+  final gestureRecognizers = {
+    Factory(() => EagerGestureRecognizer()),
+  };
 
   @override
   void initState() {
@@ -168,58 +166,50 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
       },
       children: _data.map<ExpansionPanel>((Item item) {
         return ExpansionPanel(
-          
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
               title: Text(item.headerValue),
             );
           },
-          body:
-            Consumer(
+          body: Consumer(
             builder: (context, ref, child) {
-              return ref.watch(PaymentOptionsProvider.hostedPaymentGatewayProvider(HostedPaymentGatewayRequest(hostedPaymentGateway: item.expandedValue, amount: widget.cardProduct.finalPrice, transactionId: widget.transactionResponse.transactionId))).maybeWhen(
+              return ref
+                  .watch(PaymentOptionsProvider.hostedPaymentGatewayProvider(
+                      HostedPaymentGatewayRequest(hostedPaymentGateway: item.expandedValue, amount: widget.cardProduct.finalPrice, transactionId: widget.transactionResponse.transactionId)))
+                  .maybeWhen(
                     orElse: () => Container(
                       height: 20.0,
                       width: 20.0,
                       color: Colors.red,
                     ),
-                    error: (e,s) => MulishText(
+                    error: (e, s) => MulishText(
                       text: 'An error has ocurred $e',
                     ),
                     loading: () => const CircularProgressIndicator(),
                     data: (data) {
-                      if(data.gatewayRequestString.isNotEmpty){
-                      return SizedBox(
-                        height: 500,
-                        child: WebView(
+                      if (data.gatewayRequestString.isNotEmpty) {
+                        return SizedBox(
+                          height: 500,
+                          child: WebView(
                             gestureRecognizers: gestureRecognizers,
                             navigationDelegate: (NavigationRequest request) {
-                              if(request.url.contains(data.successURL)){
-
-                              } else if(request.url.contains(data.failureURL)){
-
-                              } else if(request.url.contains(data.cancelURL)){
-
-                              }
+                              if (request.url.contains(data.successURL)) {
+                              } else if (request.url.contains(data.failureURL)) {
+                              } else if (request.url.contains(data.cancelURL)) {}
 
                               return NavigationDecision.navigate;
-                              
-                            } ,
-                            initialUrl: Uri.dataFromString(
-                              data.gatewayRequestString,
-                              mimeType: 'text/html',
-                              encoding: Encoding.getByName('utf-8')
-                            ).toString(),
+                            },
+                            initialUrl: Uri.dataFromString(data.gatewayRequestString, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString(),
                             javascriptMode: JavascriptMode.unrestricted,
                           ),
-                      );
-                      } else{
+                        );
+                      } else {
                         return const Text("This payment mode is not available");
                       }
                     },
                   );
-              },
-            ),
+            },
+          ),
           isExpanded: item.isExpanded,
         );
       }).toList(),

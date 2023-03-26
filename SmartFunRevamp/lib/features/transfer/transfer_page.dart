@@ -13,7 +13,6 @@ import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/transfer/transfer_success_page.dart';

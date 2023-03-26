@@ -31,3 +31,30 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 20);
 }
+
+class CustomAppBarCustomWidget extends StatelessWidget implements PreferredSizeWidget {
+  const CustomAppBarCustomWidget({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+  final Widget title;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      elevation: 0.0,
+      iconTheme: const IconThemeData(color: CustomColors.customBlue),
+      backgroundColor: CustomColors.customLigthBlue,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(20),
+        ),
+      ),
+      title: title,
+      centerTitle: false,
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 20);
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semnox/features/account/account_page.dart';
 import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/buy_a_card/pages/buy_card_list_page.dart';
 import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
@@ -35,6 +36,7 @@ class Routes {
   static const kTransfers = '/transfers';
   static const kNotifications = '/notifications';
   static const kNotificationsSettings = '/notifications_settings';
+  static const kAccount = '/account';
 
   static String get initialRoute => kSplashScreenPage;
 
@@ -56,6 +58,7 @@ class Routes {
       kLostPageCard: (BuildContext context) => const SelectCardLostPage(),
       kNotifications: (BuildContext context) => const NotificationCenterPage(),
       kNotificationsSettings: (BuildContext context) => const NotificationsSettingsPage(),
+      kAccount: (BuildContext context) => AccountPage(),
     };
   }
 }

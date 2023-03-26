@@ -229,6 +229,8 @@ class CustomTextField extends StatelessWidget {
     this.fillColor = Colors.transparent,
     this.formatters,
     this.initialValue,
+    this.padding = EdgeInsets.zero,
+    this.margins = EdgeInsets.zero,
   }) : super(key: key);
   final Function(String) onSaved;
   final String label;
@@ -236,48 +238,54 @@ class CustomTextField extends StatelessWidget {
   final TextInputType inputType;
   final Color fillColor;
   final List<TextInputFormatter>? formatters;
+  final EdgeInsets padding;
+  final EdgeInsets margins;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: GoogleFonts.mulish(
-            fontWeight: FontWeight.bold,
-            fontSize: 14.0,
-          ),
-        ),
-        const SizedBox(height: 5.0),
-        TextFormField(
-          initialValue: initialValue,
-          inputFormatters: formatters,
-          onSaved: (newValue) => onSaved(newValue!),
-          validator: (value) => value!.isEmpty ? 'Required' : null,
-          cursorColor: Colors.black,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            isDense: true,
-            fillColor: fillColor,
-            filled: true,
-            floatingLabelBehavior: FloatingLabelBehavior.never,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.0),
-              borderSide: const BorderSide(
-                color: Colors.black,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.0),
-              borderSide: const BorderSide(
-                color: Colors.black,
-              ),
+    return Container(
+      padding: padding,
+      margin: margins,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.mulish(
+              fontWeight: FontWeight.bold,
+              fontSize: 14.0,
             ),
           ),
-        )
-      ],
+          const SizedBox(height: 5.0),
+          TextFormField(
+            initialValue: initialValue,
+            inputFormatters: formatters,
+            onSaved: (newValue) => onSaved(newValue!),
+            validator: (value) => value!.isEmpty ? 'Required' : null,
+            cursorColor: Colors.black,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              isDense: true,
+              fillColor: fillColor,
+              filled: true,
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(
+                  color: Colors.black,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

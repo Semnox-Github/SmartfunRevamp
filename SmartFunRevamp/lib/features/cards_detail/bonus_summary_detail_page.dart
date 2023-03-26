@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -13,23 +12,24 @@ class BonusSummaryDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MulishText(
-              text: summary.remarks,
-              fontColor: CustomColors.customBlue,
-              fontWeight: FontWeight.bold,
-            ),
-            MulishText(
-              text: '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
-              fontColor: CustomColors.customBlue,
-              fontSize: 16.0,
-            ),
-          ],
-        ),
-      ),
+      //TODO:CHECK THIS APP BAR ASAP
+      // appBar: CustomAppBar(
+      //   title: Column(
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: [
+      //       MulishText(
+      //         text: summary.remarks,
+      //         fontColor: CustomColors.customBlue,
+      //         fontWeight: FontWeight.bold,
+      //       ),
+      //       MulishText(
+      //         text: '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
+      //         fontColor: CustomColors.customBlue,
+      //         fontSize: 16.0,
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Column(

@@ -10,6 +10,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
@@ -83,13 +84,7 @@ class _TransferPageState extends State<TransferPage> {
           },
         );
       }),
-      appBar: const CustomAppBar(
-        title: MulishText(
-          text: 'Transfer',
-          fontColor: CustomColors.customBlue,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'Transfer'),
       body: LoaderOverlay(
         child: SafeArea(
           minimum: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 100),

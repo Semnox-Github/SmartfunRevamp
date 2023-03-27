@@ -80,7 +80,7 @@ class CardWidget extends StatelessWidget {
             ),
           ),
           MulishText(
-            text: '${formatter.format(cardDetails.issueDate ?? DateTime.now())} -${formatter.format(cardDetails.expiryDate ?? DateTime.now())}',
+            text: '${formatter.format(cardDetails.issueDate ?? DateTime.now())} -${formatter.format(DateTime.parse(cardDetails.expiryDate.toString()))}',
             fontColor: Colors.white,
           )
         ],

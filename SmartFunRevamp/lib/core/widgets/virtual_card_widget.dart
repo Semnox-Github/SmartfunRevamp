@@ -57,7 +57,7 @@ class VirtualCardWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 10.0),
                       MulishText(
-                        text: '${formatter.format(cardDetails.issueDate ?? DateTime.now())} -${formatter.format(cardDetails.expiryDate ?? DateTime.now())}',
+                        text: '${formatter.format(cardDetails.issueDate ?? DateTime.now())} -${formatter.format(DateTime.parse(cardDetails.expiryDate.toString()))}',
                         fontColor: Colors.white,
                       )
                     ]  

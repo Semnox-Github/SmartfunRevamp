@@ -33,12 +33,16 @@ class CarouselCards extends StatelessWidget {
           return LinkACard();
         }
         final card = cards[itemIndex];
+        late final DateTime timeNow = DateTime.now();
+        late final DateTime expirationDate = card.expiryDate!= null ? DateTime.parse(card.expiryDate.toString()) : timeNow;
+        late final int daysUntilExpiration = (expirationDate.difference(timeNow).inHours / 24).round();
         bool hasBlocked = card.accountNumber!.startsWith('T') ? true : false;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             BackgroundCard(
               isVirtual: hasBlocked,
+              isExpired: daysUntilExpiration < 0,
               cardNumber: card.accountNumber!,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +106,7 @@ class CarouselCards extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    '${card.issueDate != null ? DateFormat('dd  MMM yyyy').format(card.issueDate as DateTime) : ''} ${card.expiryDate != null ? DateFormat('- dd  MMM yyyy').format(card.expiryDate as DateTime) : ''}',
+                    '${card.issueDate != null ? DateFormat('dd  MMM yyyy').format(card.issueDate as DateTime) : ''} ${card.expiryDate != null ? DateFormat('- dd  MMM yyyy').format(DateTime.parse(card.expiryDate.toString())) : ''}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14.0,

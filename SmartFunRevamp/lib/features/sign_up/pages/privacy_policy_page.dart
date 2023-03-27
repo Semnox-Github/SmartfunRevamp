@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class PlayView extends StatefulWidget {
-  const PlayView({Key? key}) : super(key: key);
+class PrivacyPolicyPage extends StatefulWidget {
+  const PrivacyPolicyPage({Key? key}) : super(key: key);
 
   @override
-  State<PlayView> createState() => _PlayViewState();
+  State<PrivacyPolicyPage> createState() => _PrivacyPolicyPageState();
 }
 
-class _PlayViewState extends State<PlayView> {
+class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
   
   final gestureRecognizers = {
     Factory(() => EagerGestureRecognizer()),
@@ -29,7 +29,7 @@ class _PlayViewState extends State<PlayView> {
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
-          'Play',
+          'Privacy Policy',
           style: TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,
@@ -42,10 +42,10 @@ class _PlayViewState extends State<PlayView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.75,
+              height: MediaQuery.of(context).size.height * 0.80,
               child: WebView(
                 gestureRecognizers: gestureRecognizers,
-                initialUrl: "https://google.com",
+                initialUrl: "https://www.semnox.com/privacy-policy.html",
                 javascriptMode: JavascriptMode.unrestricted,
               ),
             ),          

@@ -7,6 +7,6 @@ class GetPaymentOptionsUseCase {
   final PaymentOptionsRepository _repository;
   GetPaymentOptionsUseCase(this._repository);
   Future<Either<Failure, List<PaymentMode>>> call(int siteId) async {
-    return await _repository.getPaymentModes(siteId: siteId.toString());
+    return await _repository.getPaymentModes(siteId.toString());
   }
 }

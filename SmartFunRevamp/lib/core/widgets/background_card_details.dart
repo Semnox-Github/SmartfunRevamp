@@ -65,7 +65,7 @@ class BackgroundCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/lost_card/blocked.png',
+                    'assets/expired_card/expired.png',
                     height: 70,
                   ),
                   const SizedBox(height: 10.0),

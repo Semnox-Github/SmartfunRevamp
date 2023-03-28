@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semnox/features/account/account_page.dart';
 import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/buy_a_card/pages/buy_card_list_page.dart';
 import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
@@ -8,6 +9,8 @@ import 'package:semnox/features/login/pages/verify_otp_page.dart';
 import 'package:semnox/features/notifications/pages/notification_center_page.dart';
 import 'package:semnox/features/notifications/pages/notifications_settings_page.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
+import 'package:semnox/features/reset_password/pages/forgot_password_page.dart';
+import 'package:semnox/features/reset_password/pages/reset_password_page.dart';
 import 'package:semnox/features/select_location/pages/enable_location_page.dart';
 import 'package:semnox/features/select_location/pages/map_page.dart';
 import 'package:semnox/features/select_location/pages/select_location_manually_page.dart';
@@ -35,6 +38,9 @@ class Routes {
   static const kTransfers = '/transfers';
   static const kNotifications = '/notifications';
   static const kNotificationsSettings = '/notifications_settings';
+  static const kAccount = '/account';
+  static const kForgotPassword = '/forgot_password';
+  static const kResetPassword = '/reset_password';
 
   static String get initialRoute => kSplashScreenPage;
 
@@ -56,6 +62,9 @@ class Routes {
       kLostPageCard: (BuildContext context) => const SelectCardLostPage(),
       kNotifications: (BuildContext context) => const NotificationCenterPage(),
       kNotificationsSettings: (BuildContext context) => const NotificationsSettingsPage(),
+      kAccount: (BuildContext context) => AccountPage(),
+      kForgotPassword: (BuildContext context) => ForgotPasswordPage(),
+      kResetPassword: (BuildContext context) => const ResetPasswordPage(),
     };
   }
 }

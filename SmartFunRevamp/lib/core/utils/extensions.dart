@@ -7,6 +7,15 @@ extension StringExtension on String? {
     }
     return false;
   }
+
+  String cleanDate() {
+    try {
+      final date = DateTime.parse(this!);
+      return DateFormat('MM-dd-yyyy').format(date);
+    } catch (_) {
+      return 'String is not a date';
+    }
+  }
 }
 
 extension DateTimeExtension on DateTime? {

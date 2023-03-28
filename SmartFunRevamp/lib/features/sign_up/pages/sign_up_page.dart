@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +11,7 @@ import 'package:semnox/core/domain/entities/sign_up/sign_up_entity.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/password_field.dart';
+import 'package:semnox/features/sign_up/pages/privacy_policy_page.dart';
 import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
 
 class SignUpPage extends ConsumerWidget {
@@ -178,24 +180,32 @@ class SignUpPage extends ConsumerWidget {
                         fontWeight: FontWeight.w600,
                         color: CustomColors.customLigthBlack,
                       ),
-                      children: const [
-                        TextSpan(
+                      children: [
+                        const TextSpan(
                           text: 'By Logging in you agree to our ',
                         ),
-                        TextSpan(
+                        const TextSpan(
                           text: 'Terms of Service ',
                           style: TextStyle(
                             color: CustomColors.hardOrange,
                           ),
                         ),
-                        TextSpan(
+                        const TextSpan(
                           text: 'and ',
                         ),
                         TextSpan(
                           text: 'Privacy Policy',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: CustomColors.hardOrange,
                           ),
+                          recognizer: TapGestureRecognizer()..onTap = () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const PrivacyPolicyPage(),
+                              ),
+                            );
+                          }
                         ),
                       ],
                     ),
@@ -229,6 +239,8 @@ class CustomTextField extends StatelessWidget {
     this.fillColor = Colors.transparent,
     this.formatters,
     this.initialValue,
+    this.padding = EdgeInsets.zero,
+    this.margins = EdgeInsets.zero,
   }) : super(key: key);
   final Function(String) onSaved;
   final String label;
@@ -236,48 +248,54 @@ class CustomTextField extends StatelessWidget {
   final TextInputType inputType;
   final Color fillColor;
   final List<TextInputFormatter>? formatters;
+  final EdgeInsets padding;
+  final EdgeInsets margins;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: GoogleFonts.mulish(
-            fontWeight: FontWeight.bold,
-            fontSize: 14.0,
-          ),
-        ),
-        const SizedBox(height: 5.0),
-        TextFormField(
-          initialValue: initialValue,
-          inputFormatters: formatters,
-          onSaved: (newValue) => onSaved(newValue!),
-          validator: (value) => value!.isEmpty ? 'Required' : null,
-          cursorColor: Colors.black,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            isDense: true,
-            fillColor: fillColor,
-            filled: true,
-            floatingLabelBehavior: FloatingLabelBehavior.never,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.0),
-              borderSide: const BorderSide(
-                color: Colors.black,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.0),
-              borderSide: const BorderSide(
-                color: Colors.black,
-              ),
+    return Container(
+      padding: padding,
+      margin: margins,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.mulish(
+              fontWeight: FontWeight.bold,
+              fontSize: 14.0,
             ),
           ),
-        )
-      ],
+          const SizedBox(height: 5.0),
+          TextFormField(
+            initialValue: initialValue,
+            inputFormatters: formatters,
+            onSaved: (newValue) => onSaved(newValue!),
+            validator: (value) => value!.isEmpty ? 'Required' : null,
+            cursorColor: Colors.black,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              isDense: true,
+              fillColor: fillColor,
+              filled: true,
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(
+                  color: Colors.black,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -187,7 +187,9 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                     ),
                     loading: () => const CircularProgressIndicator(),
                     data: (data) {
-                      if (data.gatewayRequestString.isNotEmpty) {
+                      //for some payment options the html string comes in GatewayRequestFormString instead of GatewayRequestString
+                      final htmlString = data.gatewayRequestFormString != null ? data.gatewayRequestFormString : data.gatewayRequestString;
+                      if (htmlString!.isNotEmpty) {
                         return SizedBox(
                           height: 500,
                           child: WebView(
@@ -199,7 +201,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
 
                               return NavigationDecision.navigate;
                             },
-                            initialUrl: Uri.dataFromString(data.gatewayRequestString, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString(),
+                            initialUrl: Uri.dataFromString(htmlString, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString(),
                             javascriptMode: JavascriptMode.unrestricted,
                           ),
                         );

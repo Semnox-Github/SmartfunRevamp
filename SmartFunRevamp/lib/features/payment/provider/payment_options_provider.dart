@@ -13,7 +13,7 @@ class PaymentOptionsProvider {
     
     final GetPaymentOptionsUseCase getPaymentOptionsUseCase = Get.find<GetPaymentOptionsUseCase>();
     final siteId = Get.find<CustomerDTO>().siteId;
-    final response = await getPaymentOptionsUseCase(siteId?.toInt() ?? 1010);
+    final response = await getPaymentOptionsUseCase(1040);
     Logger().d(response);
     return response.fold(
       (l) => throw l,

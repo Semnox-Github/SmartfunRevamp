@@ -8,12 +8,11 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_card_activity_transaction_detail_use_case.dart';
+import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:webcontent_converter/webcontent_converter.dart';
 import 'package:semnox/core/utils/extensions.dart';
 
@@ -37,11 +36,7 @@ class CardActivityReceiptPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: MulishText(
-          text: 'Transaction Details',
-          fontColor: CustomColors.customBlue,
-          fontWeight: FontWeight.bold,
-        ),
+        title: 'Transaction Details',
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),

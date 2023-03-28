@@ -93,8 +93,10 @@ abstract class SmartFunApi {
     @Query('phoneoremail') String phoneOrEmail, {
     @Query('buildChildRecords') bool buildChildRecords = true,
   });
+
   @GET('ParafaitEnvironment/ExecutionContext')
   Future<HttpResponse> getExecutionController(@Query('siteId') int siteId, {@Query('languageCode') String languageCode = 'en-US', @Query('posMachineName') String posMachineName = 'CustomerApp'});
+
   @POST('Transaction/Transactions')
   Future<Data<EstimateTransactionResponse>> estimateTransaction(@Body() Map<String, dynamic> body);
 
@@ -156,6 +158,7 @@ abstract class SmartFunApi {
   Future<ListDataWrapper<PaymentMode>> getPaymentModes({
     @Query('siteId') String siteId = '1040',
     @Query('isActive') int isActive = 1,
+    @Query('paymentChannel') String paymentChannel = 'CUSTOMER_APP_PAYMENT'
   });
 
   @GET('Transaction/HostedPaymentGateways')
@@ -221,4 +224,9 @@ abstract class SmartFunApi {
     @Query('From_Date') String fromDate = '',
     @Query('To_Date') String toDate = '',
   });
+
+  @POST('Customer/PasswordReset')
+  Future<void> sendResetPasswordLink(
+    @Body() Map<String, dynamic> body,
+  );
 }

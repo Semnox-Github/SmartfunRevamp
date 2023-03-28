@@ -15,9 +15,9 @@ class PaymentOptionsRepositoryImpl implements PaymentOptionsRepository {
   PaymentOptionsRepositoryImpl(this._api);
 
   @override
-    Future<Either<Failure, List<PaymentMode>>> getPaymentModes({
-      String siteId = "1010",
-    }) async {
+    Future<Either<Failure, List<PaymentMode>>> getPaymentModes(
+      String siteId,
+    ) async {
       try {
         final response = await _api.getPaymentModes(siteId: siteId);
         final paymentModes = response.data..removeWhere((element) => element.paymentGateway == null);

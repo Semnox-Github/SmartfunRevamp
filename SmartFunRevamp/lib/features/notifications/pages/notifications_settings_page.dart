@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 
 class NotificationsSettingsPage extends StatelessWidget {
   const NotificationsSettingsPage({super.key});
@@ -12,11 +12,7 @@ class NotificationsSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: MulishText(
-          text: 'Notifications Preferences',
-          fontWeight: FontWeight.bold,
-          fontColor: CustomColors.customBlue,
-        ),
+        title: 'Notifications Preferences',
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),

@@ -8,9 +8,10 @@ class HostedPaymentGateway {
   final String failureURL;
   final String cancelURL;
   final String gatewayRequestString;
+  final String? gatewayRequestFormString;
   
 
-  HostedPaymentGateway(this.successURL, this.callBackURL, this.failureURL, this.cancelURL, this.gatewayRequestString);
+  HostedPaymentGateway(this.successURL, this.callBackURL, this.failureURL, this.cancelURL, this.gatewayRequestString, this.gatewayRequestFormString);
   factory HostedPaymentGateway.fromJson(Map<String, dynamic> json) => _$HostedPaymentGatewayFromJson(json);
   Map<String, dynamic> toJson() => _$HostedPaymentGatewayToJson(this);
 }

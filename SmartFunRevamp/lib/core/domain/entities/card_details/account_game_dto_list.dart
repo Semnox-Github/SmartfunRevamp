@@ -9,6 +9,7 @@ class AccountGameDTOList {
   final int balanceGames;
   final int gameId;
   final int gameProfileId;
+  final List<AccountGameExtendedDTOList> accountGameExtendedDTOList;
 
   AccountGameDTOList(
     this.fromDate,
@@ -17,6 +18,7 @@ class AccountGameDTOList {
     this.balanceGames,
     this.gameId,
     this.gameProfileId,
+    this.accountGameExtendedDTOList
   );
 
   factory AccountGameDTOList.fromJson(Map<String, dynamic> json) => _$AccountGameDTOListFromJson(json);
@@ -25,10 +27,10 @@ class AccountGameDTOList {
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
 class AccountGameExtendedDTOList {
-  final int gameProfileId;
-  final int gameId;
-  final bool exclude;
-  final int playLimitPerGame;
+  final int? gameProfileId;
+  final int? gameId;
+  late final bool exclude;
+  final int? playLimitPerGame;
 
   AccountGameExtendedDTOList(
     this.gameProfileId, 

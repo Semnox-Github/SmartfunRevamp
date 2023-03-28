@@ -9,6 +9,7 @@ class CustomDatePicker extends StatefulWidget {
     Key? key,
     required this.labelText,
     this.hintText = "",
+    this.initialText = '',
     required this.format,
     this.initialDateTime,
     this.maximunDateTime,
@@ -18,6 +19,7 @@ class CustomDatePicker extends StatefulWidget {
   }) : super(key: key);
   final String labelText;
   final String hintText;
+  final String? initialText;
   final String format;
   final DateTime? initialDateTime;
   final DateTime? maximunDateTime;
@@ -32,7 +34,13 @@ class CustomDatePicker extends StatefulWidget {
 }
 
 class _CustomDatePickerState extends State<CustomDatePicker> {
-  final TextEditingController _controller = TextEditingController(text: '');
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialText);
+  }
 
   @override
   void dispose() {

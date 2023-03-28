@@ -9,10 +9,12 @@ class BackgroundCard extends StatelessWidget {
     required this.child,
     required this.isVirtual,
     required this.cardNumber,
+    required this.isExpired,
   }) : super(key: key);
   final Widget child;
   final bool isVirtual;
   final String cardNumber;
+  final bool isExpired;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,28 @@ class BackgroundCard extends StatelessWidget {
                   const SizedBox(height: 10.0),
                   const MulishText(
                     text: 'VIRTUAL',
+                    fontColor: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  )
+                ],
+              ),
+            ),
+          )
+        else if (isExpired)
+          Center(
+            child: Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/expired_card/expired.png',
+                    height: 70,
+                  ),
+                  const SizedBox(height: 10.0),
+                  const MulishText(
+                    text: 'EXPIRED',
                     fontColor: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,

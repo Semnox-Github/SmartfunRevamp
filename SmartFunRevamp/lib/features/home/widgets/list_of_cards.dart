@@ -17,11 +17,15 @@ class ListOfCard extends StatelessWidget {
       options: CarouselOptions(height: 200.0),
       items: data.map((i) {
         bool hasBlocked = i.accountNumber!.startsWith('T') ? true : false;
+        late final DateTime timeNow = DateTime.now();
+        late final DateTime expirationDate = i.expiryDate!= null ? DateTime.parse(i.expiryDate.toString()) : timeNow;
+        late final int daysUntilExpiration = (expirationDate.difference(timeNow).inHours / 24).round();
         return Builder(
           builder: (BuildContext context) {
             // return Image.asset('assets/home/carousel_test.png');
             return BackgroundCard(
               isVirtual: hasBlocked,
+              isExpired: daysUntilExpiration < 0,
               cardNumber: i.accountNumber!,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

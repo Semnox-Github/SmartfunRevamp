@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
@@ -59,7 +60,7 @@ class MoreView extends StatelessWidget {
             desc: 'Manage your notifications settings',
             iconBgColor: CustomColors.customLigthGreen,
             iconPath: 'notification',
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, Routes.kNotificationsSettings),
             title: 'Notifications',
           ),
           MoreOptions(

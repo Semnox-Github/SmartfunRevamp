@@ -40,7 +40,7 @@ class CardDetails {
   int? uploadSiteId;
   dynamic uploadTime;
   bool? synchStatus;
-  DateTime? expiryDate;
+  String? expiryDate;
   int? downloadBatchId;
   dynamic refreshFromHqTime;
   int? masterEntityId;

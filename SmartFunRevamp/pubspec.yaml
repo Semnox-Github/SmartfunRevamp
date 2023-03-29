@@ -74,6 +74,7 @@ flutter:
     - assets/home/
     - assets/login/
     - assets/buy_card/
+    - assets/expired_card/
     - assets/lost_card/
     - assets/select_location/
     - assets/card_details/

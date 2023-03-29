@@ -119,7 +119,7 @@ class _UserCardsState extends State<UserCards> {
                                   ),
                                 ),
                                 MulishText(
-                                  text: '${formatter.format(card.issueDate ?? DateTime.now())} -${formatter.format(card.expiryDate ?? DateTime.now())}',
+                                  text: '${formatter.format(card.issueDate ?? DateTime.now())} -${formatter.format(DateTime.parse(card.expiryDate.toString()))}',
                                   fontColor: Colors.white,
                                 )
                               ],

@@ -120,4 +120,22 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return Left(ServerFailure(message['data']));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> sendResetPasswordLink(String phoneOrEmail) async {
+    try {
+      final userInfo = await _api.getCustomerByPhoneorEmail(phoneOrEmail);
+      await _api.sendResetPasswordLink({"UserName": userInfo.data.first.email});
+      return const Right(null);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    } catch (e) {
+      return Left(ServerFailure('Email not found'));
+    }
+  }
 }

@@ -3,6 +3,7 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
@@ -228,7 +229,7 @@ class Dialogs {
   }
 
   static void showBarcodeTempCard(BuildContext context, String accountNumber) {
-    String titleOfDialog = accountNumber.startsWith('T')  ? 'Virtual Card' : 'Card';
+    String titleOfDialog = accountNumber.startsWith('T') ? 'Virtual Card' : 'Card';
     String cardCoachMark = 'BARCODE';
     showDialog(
       context: context,
@@ -253,14 +254,15 @@ class Dialogs {
                     Container(
                       padding: const EdgeInsetsDirectional.all(10.0),
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: BarcodeWidget(
-                            barcode: cardCoachMark == 'BARCODE' ? Barcode.code128() : Barcode.qrCode(errorCorrectLevel: BarcodeQRCorrectionLevel.high),
-                            data: accountNumber,
-                            drawText: false,
-                            height: MediaQuery.of(context).size.height * 0.2,
-                            width: double.maxFinite,
-                          )),
+                        borderRadius: BorderRadius.circular(5),
+                        child: BarcodeWidget(
+                          barcode: cardCoachMark == 'BARCODE' ? Barcode.code128() : Barcode.qrCode(errorCorrectLevel: BarcodeQRCorrectionLevel.high),
+                          data: accountNumber,
+                          drawText: false,
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          width: double.maxFinite,
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 10.0),
                     Text(
@@ -280,5 +282,73 @@ class Dialogs {
         );
       },
     );
+  }
+
+  static void verifyDialog(BuildContext context, Function() onVerify, String description) {
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.noHeader,
+        btnOk: CustomButton(
+          onTap: () {
+            onVerify();
+            Navigator.pop(context);
+          },
+          label: 'VERIFY',
+        ),
+        btnCancel: CustomCancelButton(onPressed: () => Navigator.pop(context), label: 'CANCEL'),
+        body: Column(
+          children: [
+            Container(
+              padding: const EdgeInsetsDirectional.all(10.0),
+              margin: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const MulishText(
+                    text: 'Verify Email',
+                    fontWeight: FontWeight.bold,
+                    textAlign: TextAlign.start,
+                  ),
+                  const SizedBox(height: 10.0),
+                  MulishText(
+                    text: 'We have mailed you an OTP.\nEnter the OTP to verify your $description',
+                  ),
+                  const SizedBox(height: 10.0),
+                  OtpPinField(
+                    onSubmit: (otp) => {},
+                    onChange: (code) => {},
+                    keyboardType: TextInputType.number,
+                    otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
+                    otpPinFieldStyle: const OtpPinFieldStyle(
+                      defaultFieldBorderColor: CustomColors.customOrange,
+                      activeFieldBorderColor: CustomColors.hardOrange,
+                    ),
+                    maxLength: 4,
+                  ),
+                  const SizedBox(height: 10.0),
+                  const MulishText(
+                    text: "Didn't Receive?",
+                    textAlign: TextAlign.start,
+                  ),
+                  RichText(
+                    text: const TextSpan(children: [
+                      WidgetSpan(
+                        child: MulishText(
+                          text: 'RESEND',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      WidgetSpan(
+                        child: MulishText(
+                          text: ' in 30 seconds',
+                        ),
+                      )
+                    ]),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        )).show();
   }
 }

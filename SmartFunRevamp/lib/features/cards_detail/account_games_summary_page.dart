@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
+import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/cards_detail/account_games_summary_detail_page.dart';
@@ -19,11 +20,7 @@ class AccountGamesSummaryPage extends ConsumerWidget {
     ref.read(CardsProviders.accountGamesSummaryProvider.notifier).getSummary('CCD23CCE');
     return Scaffold(
       appBar: const CustomAppBar(
-        title: MulishText(
-          text: "Card Games",
-          fontColor: CustomColors.customBlue,
-          fontWeight: FontWeight.bold,
-        ),
+        title: "Card Games",
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -193,26 +190,4 @@ class TotalBonusBalance extends StatelessWidget {
       ),
     );
   }
-}
-
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
-  final Widget title;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      elevation: 0.0,
-      iconTheme: const IconThemeData(color: CustomColors.customBlue),
-      backgroundColor: CustomColors.customLigthBlue,
-      title: title,
-      centerTitle: false,
-    );
-  }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

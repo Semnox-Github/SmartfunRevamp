@@ -6,9 +6,9 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_card_activity_log_use_case.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/activity/card_activity_details_page.dart';
-import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 
@@ -34,11 +34,7 @@ class _CardActivityLogPageState extends State<CardActivityLogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: MulishText(
-          text: 'Activity',
-          fontColor: CustomColors.customBlue,
-          fontWeight: FontWeight.bold,
-        ),
+        title: 'Activity',
       ),
       body: SafeArea(
         child: Consumer(

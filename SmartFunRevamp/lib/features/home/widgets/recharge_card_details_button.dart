@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -6,15 +7,45 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/cards_detail/card_detail_page.dart';
 
 class RechargeCardDetailsButton extends StatelessWidget {
-  const RechargeCardDetailsButton({
+  RechargeCardDetailsButton({
     Key? key,
     required this.cardDetails,
   }) : super(key: key);
-  final CardDetails cardDetails;
+  late final CardDetails cardDetails;
+  late final DateTime timeNow = DateTime.now();
+  late final DateTime expirationDate = cardDetails.expiryDate!= null ? DateTime.parse(cardDetails.expiryDate.toString()) : timeNow;
+  late final int daysUntilExpiration = (expirationDate.difference(timeNow).inHours / 24).round();
 
   @override
+  
   Widget build(BuildContext context) {
-    if (!cardDetails.accountNumber!.startsWith('T')) {
+    if (daysUntilExpiration < 0) {
+      return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        Expanded(
+          child: Column(
+            children: [
+              Text(
+                'This card has expired on ${DateFormat('dd MMM yyyy').format(expirationDate)}\n',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                  color: Colors.red
+                ),
+              ),
+              const Text(
+                'You will no longer be able to use this card. But you can still view the Gameplay history and Activity details.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]);
+    }
+    else if (!cardDetails.accountNumber!.startsWith('T')) {
       return Padding(
         padding: const EdgeInsets.all(5.0),
         child: Row(

@@ -1,5 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
+
+class CustomCancelButton extends StatelessWidget {
+  const CustomCancelButton({super.key, required this.label, required this.onPressed});
+  final String label;
+  final Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: CustomGradients.linearGradient,
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
+          color: Colors.white,
+        ),
+        margin: const EdgeInsets.all(3),
+        child: TextButton(
+          onPressed: onPressed,
+          child: MulishText(
+            text: label,
+            fontWeight: FontWeight.bold,
+            fontColor: CustomColors.hardOrange,
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class CustomButton extends StatelessWidget {
   final Function() onTap;

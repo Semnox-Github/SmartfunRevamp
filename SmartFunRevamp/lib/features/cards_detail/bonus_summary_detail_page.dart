@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
+import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
@@ -15,7 +16,7 @@ class BonusSummaryDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: CustomAppBarCustomWidget(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -39,13 +40,6 @@ class BonusSummaryDetailPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                // Consumer(
-                //   builder: (context, ref, child) {
-                //     return ref.watch(CardsProviders.userGamesSummaryProvider).maybeWhen(
-                //           orElse: () => Container(),
-                //         );
-                //   },
-                // ),
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(10.0),

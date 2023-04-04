@@ -76,5 +76,6 @@ flutter:
     - assets/buy_card/
     - assets/expired_card/
     - assets/lost_card/
+    - assets/payment/
     - assets/select_location/
     - assets/card_details/

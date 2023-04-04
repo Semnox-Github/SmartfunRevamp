@@ -190,6 +190,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                     builder: (context) => PaymentOptionsPage(
                                       transactionResponse: transactionResponse,
                                       cardProduct: cardProduct,
+                                      cardDetails: cardSelected
                                     ),
                                   ),
                                 );

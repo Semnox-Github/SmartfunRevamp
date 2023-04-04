@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +12,12 @@ class PrivacyPolicyPage extends StatefulWidget {
 }
 
 class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
-  
   final gestureRecognizers = {
     Factory(() => EagerGestureRecognizer()),
   };
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFCFF8FF),
@@ -48,7 +44,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                 initialUrl: "https://www.semnox.com/privacy-policy.html",
                 javascriptMode: JavascriptMode.unrestricted,
               ),
-            ),          
+            ),
             const SizedBox(height: 10.0),
             const Spacer(),
           ],

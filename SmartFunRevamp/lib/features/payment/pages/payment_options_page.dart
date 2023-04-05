@@ -7,16 +7,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway_request.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/payment/pages/payment_failed_page.dart';
+import 'package:semnox/features/payment/pages/payment_success_page.dart';
 import 'package:semnox/features/payment/provider/payment_options_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentOptionsPage extends StatelessWidget {
-  const PaymentOptionsPage({Key? key, required this.transactionResponse, required this.cardProduct}) : super(key: key);
+  const PaymentOptionsPage({Key? key, required this.transactionResponse, required this.cardProduct, this.cardDetails}) : super(key: key);
   final EstimateTransactionResponse transactionResponse;
   final CardProduct cardProduct;
+  final CardDetails? cardDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +78,9 @@ class PaymentOptionsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10.0),
-            SizedBox(
-              height: 600,
-              child: Consumer(
+            
+             
+              Consumer(
                 builder: (context, ref, child) {
                   return ref.watch(PaymentOptionsProvider.paymentModesProvider).maybeWhen(
                         orElse: () => Container(
@@ -89,13 +93,13 @@ class PaymentOptionsPage extends StatelessWidget {
                         ),
                         loading: () => const CircularProgressIndicator(),
                         data: (data) {
-                          return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse);
+                          return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse, cardDetails: cardDetails);
                         },
                       );
                 },
               ),
-            ),
-            const Spacer(),
+            
+            
           ],
         ),
       ),
@@ -126,10 +130,11 @@ List<Item> generateItems(List<PaymentMode> paymentOptionsList) {
 }
 
 class PaymentOptionsWidged extends StatefulWidget {
-  const PaymentOptionsWidged({super.key, required this.paymentOptionsList, required this.transactionResponse, required this.cardProduct});
+  const PaymentOptionsWidged({super.key, required this.paymentOptionsList, required this.transactionResponse, required this.cardProduct, this.cardDetails});
   final List<PaymentMode> paymentOptionsList;
   final EstimateTransactionResponse transactionResponse;
   final CardProduct cardProduct;
+  final CardDetails? cardDetails;
 
   @override
   State<PaymentOptionsWidged> createState() => _PaymentOptionsWidgedState();
@@ -150,9 +155,12 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        child: _buildPanel(),
+    return SizedBox(
+      height: 600,
+      child: SingleChildScrollView(
+        child: Container(
+          child: _buildPanel(),
+        ),
       ),
     );
   }
@@ -191,13 +199,36 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                       final htmlString = data.gatewayRequestFormString != null ? data.gatewayRequestFormString : data.gatewayRequestString;
                       if (htmlString!.isNotEmpty) {
                         return SizedBox(
-                          height: 500,
+                          height: 600,
                           child: WebView(
                             gestureRecognizers: gestureRecognizers,
                             navigationDelegate: (NavigationRequest request) {
                               if (request.url.contains(data.successURL)) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PaymentSuccessPage(amount: widget.cardProduct.finalPrice, cardNumber: widget.cardDetails?.accountNumber,),                                    
+                                  ),
+                                );
+                                return NavigationDecision.navigate;
                               } else if (request.url.contains(data.failureURL)) {
-                              } else if (request.url.contains(data.cancelURL)) {}
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const PaymentFailedPage(),
+                                  ),
+                                );
+                                return NavigationDecision.prevent;
+                              } else if (request.url.contains(data.cancelURL)) {
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     // builder: (context) => const PaymentSuccessPage(amount: 10, cardNumber: '123',),
+                                //     builder: (context) => const PaymentFailedPage(),
+                                //   ),
+                                // );
+                                return NavigationDecision.prevent;
+                              }
 
                               return NavigationDecision.navigate;
                             },

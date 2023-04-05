@@ -29,7 +29,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 18,
+                  fontSize: 16,
                   color: Colors.red
                 ),
               ),
@@ -37,6 +37,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
                 'You will no longer be able to use this card. But you can still view the Gameplay history and Activity details.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
               ),

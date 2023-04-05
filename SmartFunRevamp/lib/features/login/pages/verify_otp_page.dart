@@ -1,4 +1,3 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,7 +6,11 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/widgets/count_down_text.dart';
+import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 
 String censorPhoneNumber(String phoneNumber) {
@@ -31,96 +34,61 @@ class VerifyOtpPage extends ConsumerWidget {
         },
         otpVerificationError: (message) {
           context.loaderOverlay.hide();
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.error,
-            headerAnimationLoop: false,
-            animType: AnimType.bottomSlide,
-            title: 'Error',
-            desc: message,
-            useRootNavigator: true,
-            btnOkOnPress: () {},
-          ).show();
+          Dialogs.showErrorMessage(context, message);
         },
       );
     });
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: CustomColors.customLigthBlue,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(
-            Icons.arrow_back,
-            color: CustomColors.customBlue,
-          ),
-        ),
-        title: Text(
-          'OTP Verification',
-          style: GoogleFonts.mulish(
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0,
-            color: CustomColors.customBlue,
-          ),
-        ),
-        centerTitle: false,
-      ),
+      appBar: const CustomAppBar(title: 'OTP Verification'),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
         child: SingleChildScrollView(
-          child: LoaderOverlay(
-            overlayWidget: const CircularProgressIndicator(),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'We have sent an OTP to your mobile number $phoneNumber.\nEnter the OTP to verify.',
-                  style: GoogleFonts.mulish(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14.0,
-                  ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'We have sent an OTP to your mobile number $phoneNumber.\nEnter the OTP to verify.',
+                style: GoogleFonts.mulish(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14.0,
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 40.0),
-                  child: OtpPinField(
-                    onSubmit: (otp) => ref.read(loginProvider.notifier).verifyOTP(otp),
-                    onChange: (code) => otp = code,
-                    keyboardType: TextInputType.number,
-                    otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
-                    otpPinFieldStyle: const OtpPinFieldStyle(
-                      defaultFieldBorderColor: CustomColors.customOrange,
-                      activeFieldBorderColor: CustomColors.hardOrange,
-                    ),
-                    maxLength: 6,
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 40.0),
+                child: OtpPinField(
+                  onSubmit: (otp) => {},
+                  onChange: (code) => otp = code,
+                  keyboardType: TextInputType.number,
+                  otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
+                  otpPinFieldStyle: const OtpPinFieldStyle(
+                    defaultFieldBorderColor: CustomColors.customOrange,
+                    activeFieldBorderColor: CustomColors.hardOrange,
                   ),
+                  maxLength: 6,
                 ),
-                InkWell(
-                  onTap: () {},
-                  child: const Text(
-                    "Didn't receive OTP?",
-                    style: TextStyle(color: CustomColors.hardOrange),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                Text(
-                  'Resend OTP in 30 seconds',
-                  style: GoogleFonts.mulish(
-                    fontSize: 14.0,
-                  ),
-                ),
-                const SizedBox(height: 100.0),
-                CustomButton(
-                  onTap: () {
-                    if (otp.isEmpty) {
-                      Fluttertoast.showToast(msg: 'Please enter the OTP');
-                    }
+              ),
+              const MulishText(
+                text: "Didn't receive OTP?",
+                textAlign: TextAlign.start,
+                fontWeight: FontWeight.bold,
+              ),
+              const SizedBox(height: 10.0),
+              CountdownText(
+                onPressed: () => ref.read(loginProvider.notifier).resendOtp(),
+              ),
+              const SizedBox(height: 100.0),
+              CustomButton(
+                onTap: () {
+                  if (otp.isEmpty) {
+                    Fluttertoast.showToast(msg: 'Please enter the OTP');
+                  } else {
                     ref.read(loginProvider.notifier).verifyOTP(otp);
-                  },
-                  label: 'Verify & Procced',
-                )
-              ],
-            ),
+                  }
+                },
+                label: 'Verify & Procced',
+              )
+            ],
           ),
         ),
       ),

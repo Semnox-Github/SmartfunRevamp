@@ -84,55 +84,102 @@ class _TransferPageState extends State<TransferPage> {
         );
       }),
       appBar: const CustomAppBar(title: 'Transfer'),
-      body: LoaderOverlay(
-        child: SafeArea(
-          minimum: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 100),
-          child: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const MulishText(text: 'Select Entitlement', fontWeight: FontWeight.bold),
-                        const SizedBox(height: 10.0),
-                        EntitlementDropdown(
-                          onChanged: (selected) {
-                            setState(() {
-                              isAmountVisible = true;
-                              entitlement = selected!.toLowerCase();
-                            });
-                          },
-                        ),
-                      ],
-                    ),
+      body: SafeArea(
+        minimum: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 100),
+        child: SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const MulishText(text: 'Select Entitlement', fontWeight: FontWeight.bold),
+                      const SizedBox(height: 10.0),
+                      EntitlementDropdown(
+                        onChanged: (selected) {
+                          setState(() {
+                            isAmountVisible = true;
+                            entitlement = selected!.toLowerCase();
+                          });
+                        },
+                      ),
+                    ],
                   ),
-                  AnimatedOpacity(
-                    duration: const Duration(milliseconds: 300),
-                    opacity: isAmountVisible ? 1.0 : 0.0,
-                    child: Column(
-                      children: [
-                        AmountFormField(
-                          entitlement: entitlement,
-                          onSaved: (newValue) => amount = num.tryParse(newValue!) ?? 0,
+                ),
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: isAmountVisible ? 1.0 : 0.0,
+                  child: Column(
+                    children: [
+                      AmountFormField(
+                        entitlement: entitlement,
+                        onSaved: (newValue) => amount = num.tryParse(newValue!) ?? 0,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const MulishText(
+                              text: 'Transfer From',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
+                            const SizedBox(height: 10.0),
+                            Consumer(
+                              builder: (context, ref, child) {
+                                return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
+                                      orElse: () => Container(),
+                                      data: (data) {
+                                        return CarouselCards(
+                                          showLinkCard: false,
+                                          cards: data,
+                                          onCardChanged: (cardIndex) {
+                                            cardFrom = data[cardIndex];
+                                          },
+                                        );
+                                      },
+                                    );
+                              },
+                            ),
+                          ],
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              const MulishText(
-                                text: 'Transfer From',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0,
-                              ),
-                              const SizedBox(height: 10.0),
-                              Consumer(
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const MulishText(
+                              text: 'Transfer To',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
+                            const SizedBox(height: 10.0),
+                            RadioGroup<String>.builder(
+                              groupValue: transferTo,
+                              activeColor: CustomColors.hardOrange,
+                              direction: Axis.horizontal,
+                              onChanged: (value) {
+                                setState(() {
+                                  transferTo = value!;
+                                  isOwnTransfer = !isOwnTransfer;
+                                  cardTo = null;
+                                });
+                              },
+                              items: const ['My Cards', "Other's Card"],
+                              itemBuilder: (item) => RadioButtonBuilder(item),
+                            ),
+                            const SizedBox(height: 10.0),
+                            Visibility(
+                              visible: isOwnTransfer,
+                              child: Consumer(
                                 builder: (context, ref, child) {
                                   return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
                                         orElse: () => Container(),
@@ -141,94 +188,45 @@ class _TransferPageState extends State<TransferPage> {
                                             showLinkCard: false,
                                             cards: data,
                                             onCardChanged: (cardIndex) {
-                                              cardFrom = data[cardIndex];
+                                              cardTo = data[cardIndex];
                                             },
                                           );
                                         },
                                       );
                                 },
                               ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              const MulishText(
-                                text: 'Transfer To',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0,
-                              ),
-                              const SizedBox(height: 10.0),
-                              RadioGroup<String>.builder(
-                                groupValue: transferTo,
-                                activeColor: CustomColors.hardOrange,
-                                direction: Axis.horizontal,
-                                onChanged: (value) {
-                                  setState(() {
-                                    transferTo = value!;
-                                    isOwnTransfer = !isOwnTransfer;
-                                    cardTo = null;
-                                  });
-                                },
-                                items: const ['My Cards', "Other's Card"],
-                                itemBuilder: (item) => RadioButtonBuilder(item),
-                              ),
-                              const SizedBox(height: 10.0),
-                              Visibility(
-                                visible: isOwnTransfer,
-                                child: Consumer(
-                                  builder: (context, ref, child) {
-                                    return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
-                                          orElse: () => Container(),
-                                          data: (data) {
-                                            return CarouselCards(
-                                              showLinkCard: false,
-                                              cards: data,
-                                              onCardChanged: (cardIndex) {
-                                                cardTo = data[cardIndex];
-                                              },
-                                            );
-                                          },
-                                        );
-                                  },
-                                ),
-                              ),
-                              Visibility(
-                                visible: !isOwnTransfer,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const MulishText(
-                                      text: 'Enter card number',
-                                      fontWeight: FontWeight.bold,
+                            ),
+                            Visibility(
+                              visible: !isOwnTransfer,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const MulishText(
+                                    text: 'Enter card number',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  const SizedBox(height: 10.0),
+                                  TextFormField(
+                                    validator: (value) => value.isNullOrEmpty() ? 'Required' : null,
+                                    decoration: InputDecoration(
+                                      enabledBorder: CustomInputDecorations.k20RoundedCustomBlue,
+                                      focusedBorder: CustomInputDecorations.k20RoundedCustomBlue,
+                                      errorBorder: CustomInputDecorations.k20RoundedError,
+                                      focusedErrorBorder: CustomInputDecorations.k20RoundedError,
+                                      hintText: 'Enter card number',
                                     ),
-                                    const SizedBox(height: 10.0),
-                                    TextFormField(
-                                      validator: (value) => value.isNullOrEmpty() ? 'Required' : null,
-                                      decoration: InputDecoration(
-                                        enabledBorder: CustomInputDecorations.k20RoundedCustomBlue,
-                                        focusedBorder: CustomInputDecorations.k20RoundedCustomBlue,
-                                        errorBorder: CustomInputDecorations.k20RoundedError,
-                                        focusedErrorBorder: CustomInputDecorations.k20RoundedError,
-                                        hintText: 'Enter card number',
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

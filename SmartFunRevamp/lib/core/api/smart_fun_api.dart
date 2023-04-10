@@ -200,7 +200,7 @@ abstract class SmartFunApi {
   @POST('Customer/Account/AccountService/LinkAccountToCustomers')
   Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
 
-  @GET('Customer/Account/{accountId}/AccountActivity')
+  @GET('Customer/Account/{accountId}/AccountActivityView')
   Future<ListDataWrapper<CardActivity>> getCardActivityDetail(@Path('accountId') @Query('accountId') String accountId);
 
   @GET('Transaction/Transactions')

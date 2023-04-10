@@ -15,6 +15,7 @@ dependencies:
   barcode_widget: ^2.0.3
   blurrycontainer: ^1.0.2
   carousel_slider: ^4.2.1
+  collection: ^1.17.0
   crypto: ^3.0.2
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1

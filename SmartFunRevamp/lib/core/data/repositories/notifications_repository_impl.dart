@@ -24,8 +24,8 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
       final fromDate = DateTime.now().subtract(const Duration(days: 365));
       final response = await _api.getAllNotifications(
         userId,
-        toDate: toDate.formatDate('yyyy-MM-d'),
-        fromDate: fromDate.formatDate('yyyy-MM-d'),
+        toDate: toDate.formatDate('yyyy-MM-dd'),
+        fromDate: fromDate.formatDate('yyyy-MM-dd'),
       );
 
       return Right(response.data.groupListsBy((element) => element.sendDate));

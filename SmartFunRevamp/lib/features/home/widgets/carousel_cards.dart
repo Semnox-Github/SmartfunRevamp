@@ -33,16 +33,12 @@ class CarouselCards extends StatelessWidget {
           return LinkACard();
         }
         final card = cards[itemIndex];
-        late final DateTime timeNow = DateTime.now();
-        late final DateTime expirationDate = card.expiryDate!= null ? DateTime.parse(card.expiryDate.toString()) : timeNow;
-        late final int daysUntilExpiration = (expirationDate.difference(timeNow).inHours / 24).round();
-        bool hasBlocked = card.accountNumber!.startsWith('T') ? true : false;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             BackgroundCard(
-              isVirtual: hasBlocked,
-              isExpired: daysUntilExpiration < 0,
+              isVirtual: card.isBlocked(),
+              isExpired: card.isExpired(),
               cardNumber: card.accountNumber!,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -50,7 +50,7 @@ class CardsProviders {
 
   static final transferBalance = FutureProvider.autoDispose.family<String, TransferBalance>((ref, transferRequest) async {
     final TransferBalanceUseCase transferBalanceUseCase = Get.find<TransferBalanceUseCase>();
-    final response = await transferBalanceUseCase(transferRequest.toJson());
+    final response = await transferBalanceUseCase(transferRequest);
     return response.fold(
       (l) => throw l,
       (r) => r,

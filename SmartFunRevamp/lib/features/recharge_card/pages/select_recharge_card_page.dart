@@ -8,7 +8,6 @@ import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart';
-import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 import 'package:semnox/features/recharge_card/widgets/user_cards.dart';
 
 class SelectCardRechargePage extends StatefulWidget {
@@ -53,12 +52,20 @@ class _SelectCardRechargePageState extends State<SelectCardRechargePage> {
       ),
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SitesAppBarDropdown(),
             UserCards(
               onCardSelected: (card) {
                 selectedCardNumber = card;
               },
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 10.0, bottom: 10.0),
+              child: MulishText(
+                text: 'Exclusive Offers on Recharges',
+                textAlign: TextAlign.start,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Expanded(
               child: Container(

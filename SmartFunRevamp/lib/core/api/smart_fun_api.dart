@@ -155,11 +155,8 @@ abstract class SmartFunApi {
   //----- Transaction -----// ->
 
   @GET('Transaction/PaymentModes')
-  Future<ListDataWrapper<PaymentMode>> getPaymentModes({
-    @Query('siteId') String siteId = '1040',
-    @Query('isActive') int isActive = 1,
-    @Query('paymentChannel') String paymentChannel = 'CUSTOMER_APP_PAYMENT'
-  });
+  Future<ListDataWrapper<PaymentMode>> getPaymentModes(
+      {@Query('siteId') String siteId = '1040', @Query('isActive') int isActive = 1, @Query('paymentChannel') String paymentChannel = 'CUSTOMER_APP_PAYMENT'});
 
   @GET('Transaction/HostedPaymentGateways')
   Future<Data<HostedPaymentGateway>> getHostedPaymentGateways(

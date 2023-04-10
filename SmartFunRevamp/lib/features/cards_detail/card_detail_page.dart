@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -63,7 +64,11 @@ class CardDetailPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 5, pageTitle: "Bonus", ),
+                          builder: (context) => BonusSummaryPage(
+                            cardNumber: cardDetails.accountNumber ?? '',
+                            creditPlusType: 5,
+                            pageTitle: "Bonus",
+                          ),
                         ),
                       );
                     },
@@ -77,7 +82,11 @@ class CardDetailPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 6, pageTitle: "Time", ),
+                          builder: (context) => BonusSummaryPage(
+                            cardNumber: cardDetails.accountNumber ?? '',
+                            creditPlusType: 6,
+                            pageTitle: "Time",
+                          ),
                         ),
                       );
                     },
@@ -91,7 +100,11 @@ class CardDetailPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 0, pageTitle: "Ticket", ),
+                          builder: (context) => BonusSummaryPage(
+                            cardNumber: cardDetails.accountNumber ?? '',
+                            creditPlusType: 0,
+                            pageTitle: "Ticket",
+                          ),
                         ),
                       );
                     },
@@ -111,7 +124,11 @@ class CardDetailPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(cardNumber: cardDetails.accountNumber ?? '', creditPlusType: 1, pageTitle: "Loyalty", ),
+                          builder: (context) => BonusSummaryPage(
+                            cardNumber: cardDetails.accountNumber ?? '',
+                            creditPlusType: 1,
+                            pageTitle: "Loyalty",
+                          ),
                         ),
                       );
                     },
@@ -133,7 +150,7 @@ class CardDetailPage extends StatelessWidget {
                 ],
               ),
               CustomButton(
-                onTap: () {},
+                onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
                 label: 'RECHARGE NOW',
                 margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               ),
@@ -165,21 +182,21 @@ class CardDetailPage extends StatelessWidget {
                       subTitle: 'Transfer credits from one card to another',
                       title: 'Tranfer Credit',
                       svgImage: 'assets/home/transfer_credit.svg',
-                      onPressed: () {},
+                      onPressed: () => Navigator.pushNamed(context, Routes.kTransfers),
                     ),
                     MoreActionListTile(
                       color: CustomColors.customGreen,
                       subTitle: 'View all your gameplay records',
                       title: 'Game Plays',
                       svgImage: 'assets/home/gameplays.svg',
-                      onPressed: () {},
+                      onPressed: () => Navigator.pushNamed(context, Routes.kGameplays),
                     ),
                     MoreActionListTile(
                       color: CustomColors.customYellow,
                       subTitle: 'View Transactions, Recharges and more.',
                       title: 'Activity',
                       svgImage: 'assets/home/activities.svg',
-                      onPressed: () { },
+                      onPressed: () => Navigator.pushNamed(context, Routes.kActivities),
                     )
                   ],
                 ),

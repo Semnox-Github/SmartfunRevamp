@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
 
 class LoginWithOTPContainer extends StatelessWidget {
   const LoginWithOTPContainer({
@@ -14,7 +15,7 @@ class LoginWithOTPContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 80.0, vertical: 20.0),
+      padding: const EdgeInsets.symmetric(vertical: 20.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
         border: Border.all(
@@ -24,11 +25,12 @@ class LoginWithOTPContainer extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (!isLoginWithOTP)
-            const Text(
-              "Don't worry about password",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            const MulishText(
+              text: "Don't worry about password",
+              fontWeight: FontWeight.bold,
             ),
           const SizedBox(height: 10.0),
           TextButton(

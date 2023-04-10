@@ -90,7 +90,7 @@ class MoreView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.popAndPushNamed(context, Routes.kLogInPage),
                   child: const MulishText(
                     text: 'Logout',
                     fontColor: CustomColors.hardOrange,

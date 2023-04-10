@@ -155,11 +155,8 @@ abstract class SmartFunApi {
   //----- Transaction -----// ->
 
   @GET('Transaction/PaymentModes')
-  Future<ListDataWrapper<PaymentMode>> getPaymentModes({
-    @Query('siteId') String siteId = '1040',
-    @Query('isActive') int isActive = 1,
-    @Query('paymentChannel') String paymentChannel = 'CUSTOMER_APP_PAYMENT'
-  });
+  Future<ListDataWrapper<PaymentMode>> getPaymentModes(
+      {@Query('siteId') String siteId = '1040', @Query('isActive') int isActive = 1, @Query('paymentChannel') String paymentChannel = 'CUSTOMER_APP_PAYMENT'});
 
   @GET('Transaction/HostedPaymentGateways')
   Future<Data<HostedPaymentGateway>> getHostedPaymentGateways(
@@ -203,7 +200,7 @@ abstract class SmartFunApi {
   @POST('Customer/Account/AccountService/LinkAccountToCustomers')
   Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
 
-  @GET('Customer/Account/{accountId}/AccountActivity')
+  @GET('Customer/Account/{accountId}/AccountActivityView')
   Future<ListDataWrapper<CardActivity>> getCardActivityDetail(@Path('accountId') @Query('accountId') String accountId);
 
   @GET('Transaction/Transactions')

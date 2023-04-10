@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
 
 enum CardValue { silver, gold, platinum }
 
@@ -62,7 +62,7 @@ CardValue randomCard() {
 class CardType extends ConsumerWidget {
   const CardType({Key? key, required this.card}) : super(key: key);
   final CardProduct card;
-    
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final CardValue value = randomCard();
@@ -88,41 +88,33 @@ class CardType extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row( 
-                  children: [
-                    Text(
-                      '\$${card.finalPrice.toStringAsFixed(0)}',
-                      style: GoogleFonts.mulish(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                  ]
-                ),
-                card.basePrice == card.finalPrice ?
-                  Row(
-                    children: [
-                      Text(
-                        '\$${card.basePrice.toStringAsFixed(0)}',
-                        style: GoogleFonts.mulish(
-                          color: CustomColors.discountColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.0,
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      Text(
-                        '${discount.toStringAsFixed(0)} % OFF',
-                        style: GoogleFonts.mulish(
-                          color: CustomColors.discountPercentColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ],
-                  )
-                : Row()
+                Row(children: [
+                  MulishText(
+                    text: '\$${card.finalPrice.toStringAsFixed(0)}',
+                    fontWeight: FontWeight.w800,
+                    fontSize: 20.0,
+                  ),
+                ]),
+                card.basePrice == card.finalPrice
+                    ? Row(
+                        children: [
+                          MulishText(
+                            text: '\$${card.basePrice.toStringAsFixed(0)}',
+                            fontColor: CustomColors.discountColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16.0,
+                            textDecoration: TextDecoration.lineThrough,
+                          ),
+                          const SizedBox(width: 8.0),
+                          MulishText(
+                            text: '${discount.toStringAsFixed(0)} % OFF',
+                            fontColor: CustomColors.discountPercentColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14.0,
+                          ),
+                        ],
+                      )
+                    : Row()
               ],
             ),
           ),
@@ -145,24 +137,20 @@ class CardType extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    card.productName,
-                    style: GoogleFonts.mulish(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12.0,
-                    ),
+                  MulishText(
+                    text: card.productName,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12.0,
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SvgPicture.asset('assets/buy_card/coin.svg'),
                       const SizedBox(width: 5.0),
-                      Text(
-                        card.credits.toString(),
-                        style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22.0,
-                        ),
+                      MulishText(
+                        text: card.credits.toString(),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22.0,
                       ),
                     ],
                   )

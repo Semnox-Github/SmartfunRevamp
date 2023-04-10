@@ -9,14 +9,14 @@ class MulishText extends StatelessWidget {
     this.fontColor,
     this.fontSize,
     this.textDecoration,
-    this.textAlign,
+    this.textAlign = TextAlign.center,
   }) : super(key: key);
   final String text;
   final FontWeight? fontWeight;
   final Color? fontColor;
   final double? fontSize;
   final TextDecoration? textDecoration;
-  final TextAlign? textAlign;
+  final TextAlign textAlign;
   @override
   Widget build(BuildContext context) {
     return Text(

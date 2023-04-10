@@ -2,14 +2,13 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
-import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
 
@@ -86,107 +85,87 @@ class Dialogs {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          content: ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.65,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
+          content: Container(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(left: 5.0),
+                  decoration: BoxDecoration(
                     color: CustomColors.customLigthBlue,
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          card.productName,
-                          style: GoogleFonts.mulish(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () => Navigator.pop(context),
-                          icon: const Icon(
-                            Icons.cancel_outlined,
-                          ),
-                        )
-                      ],
-                    ),
+                    borderRadius: BorderRadius.circular(12.0),
                   ),
-                  RechargeCardWidget(cardProduct: card),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Features & Terms',
-                          style: GoogleFonts.mulish(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 20.0,
-                          ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MulishText(
+                        text: card.productName,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                      ),
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(
+                          Icons.cancel_outlined,
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.04,
-                        ),
-                        CustomButton(
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EstimatedTransactionPage(cardProduct: card),
-                              ),
-                            );
-                          },
-                          label: 'BUY NOW @ ${card.finalPrice.toStringAsFixed(0)}',
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                      )
+                    ],
+                  ),
+                ),
+                RechargeCardWidget(cardProduct: card),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const MulishText(
+                        text: 'Features & Terms',
+                        fontWeight: FontWeight.w800,
+                        textAlign: TextAlign.start,
+                        fontSize: 20.0,
+                      ),
+                      const MulishText(
+                        text: '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                        fontSize: 14.0,
+                        textAlign: TextAlign.start,
+                      ),
+                      const MulishText(
+                        text: '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                        fontSize: 14.0,
+                        textAlign: TextAlign.start,
+                      ),
+                      const MulishText(
+                        text: '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                        fontSize: 14.0,
+                        textAlign: TextAlign.start,
+                      ),
+                      const MulishText(
+                        text: '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                        fontSize: 14.0,
+                        textAlign: TextAlign.start,
+                      ),
+                      CustomButton(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EstimatedTransactionPage(cardProduct: card),
+                            ),
+                          );
+                        },
+                        label: 'BUY NOW @ ${card.finalPrice.toStringAsFixed(0)}',
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
         );

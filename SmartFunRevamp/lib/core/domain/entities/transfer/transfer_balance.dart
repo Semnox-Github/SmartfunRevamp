@@ -2,7 +2,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 
 class TransferBalance {
   final CardDetails from;
-  final CardDetails to;
+  CardDetails to;
   final num amount;
   final String entitlement;
 

@@ -33,16 +33,12 @@ class CarouselCards extends StatelessWidget {
           return LinkACard();
         }
         final card = cards[itemIndex];
-        late final DateTime timeNow = DateTime.now();
-        late final DateTime expirationDate = card.expiryDate!= null ? DateTime.parse(card.expiryDate.toString()) : timeNow;
-        late final int daysUntilExpiration = (expirationDate.difference(timeNow).inHours / 24).round();
-        bool hasBlocked = card.accountNumber!.startsWith('T') ? true : false;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             BackgroundCard(
-              isVirtual: hasBlocked,
-              isExpired: daysUntilExpiration < 0,
+              isVirtual: card.isBlocked(),
+              isExpired: card.isExpired(),
               cardNumber: card.accountNumber!,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +64,7 @@ class CarouselCards extends StatelessWidget {
                             style: const TextStyle(
                               decoration: TextDecoration.underline,
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 12,
                             ),
                           ),
                         ],
@@ -85,15 +81,10 @@ class CarouselCards extends StatelessWidget {
                   const SizedBox(height: 10.0),
                   OutlinedButton(
                     onPressed: () {},
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          side: const BorderSide(
-                            width: 1.5,
-                            color: Colors.white,
-                          ),
-                        ),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(width: 1.0, color: Colors.white),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
                     child: const Text(

@@ -27,6 +27,7 @@ class MulishText extends StatelessWidget {
         fontSize: fontSize,
         fontWeight: fontWeight,
         decoration: textDecoration,
+        decorationColor: fontColor,
       ),
     );
   }

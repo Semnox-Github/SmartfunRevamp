@@ -226,4 +226,7 @@ abstract class SmartFunApi {
   Future<void> sendResetPasswordLink(
     @Body() Map<String, dynamic> body,
   );
+
+  @GET('Customer/{CustomerId}/Summary')
+  Future<void> getMembershipInfo(@Path('CustomerId') int customerId);
 }

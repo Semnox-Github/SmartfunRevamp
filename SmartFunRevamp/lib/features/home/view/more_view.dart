@@ -46,7 +46,7 @@ class MoreView extends StatelessWidget {
             desc: 'Since 23 Apr 2021',
             iconBgColor: CustomColors.customLigthYellow,
             iconPath: 'gold_medal',
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, Routes.kMembershipInfo),
             title: 'Gold Member',
           ),
           MoreOptions(

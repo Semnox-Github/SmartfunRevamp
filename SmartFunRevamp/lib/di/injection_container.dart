@@ -4,6 +4,7 @@ import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_us
 import 'package:semnox/di/authentication_dependecies.dart';
 import 'package:semnox/di/gameplays_dependencies.dart';
 import 'package:semnox/di/home_dependecies.dart';
+import 'package:semnox/di/membership_dependencies.dart';
 import 'package:semnox/di/notifications_dependecies.dart';
 import 'package:semnox/di/products_price_dependecies.dart';
 import 'package:semnox/di/select_location_dependecies.dart';
@@ -26,6 +27,7 @@ Future<void> init() async {
   selectLocationDependecies();
   homeDependecies();
   notificationsDependecies();
+  membershipDependencies();
 }
 
 void authenticateApi(SystemUser systemUser, String baseURL) {

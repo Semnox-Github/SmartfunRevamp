@@ -78,28 +78,24 @@ class PaymentOptionsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10.0),
-            
-             
-              Consumer(
-                builder: (context, ref, child) {
-                  return ref.watch(PaymentOptionsProvider.paymentModesProvider).maybeWhen(
-                        orElse: () => Container(
-                          height: 20.0,
-                          width: 20.0,
-                          color: Colors.red,
-                        ),
-                        error: (e, s) => MulishText(
-                          text: 'An error has ocurred $e',
-                        ),
-                        loading: () => const CircularProgressIndicator(),
-                        data: (data) {
-                          return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse, cardDetails: cardDetails);
-                        },
-                      );
-                },
-              ),
-            
-            
+            Consumer(
+              builder: (context, ref, child) {
+                return ref.watch(PaymentOptionsProvider.paymentModesProvider).maybeWhen(
+                      orElse: () => Container(
+                        height: 20.0,
+                        width: 20.0,
+                        color: Colors.red,
+                      ),
+                      error: (e, s) => MulishText(
+                        text: 'An error has ocurred $e',
+                      ),
+                      loading: () => const CircularProgressIndicator(),
+                      data: (data) {
+                        return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse, cardDetails: cardDetails);
+                      },
+                    );
+              },
+            ),
           ],
         ),
       ),
@@ -196,8 +192,8 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                     loading: () => const CircularProgressIndicator(),
                     data: (data) {
                       //for some payment options the html string comes in GatewayRequestFormString instead of GatewayRequestString
-                      final htmlString = data.gatewayRequestFormString != null ? data.gatewayRequestFormString : data.gatewayRequestString;
-                      if (htmlString!.isNotEmpty) {
+                      final htmlString = data.gatewayRequestFormString ?? data.gatewayRequestString;
+                      if (htmlString.isNotEmpty) {
                         return SizedBox(
                           height: 600,
                           child: WebView(
@@ -207,7 +203,10 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => PaymentSuccessPage(amount: widget.cardProduct.finalPrice, cardNumber: widget.cardDetails?.accountNumber,),                                    
+                                    builder: (context) => PaymentSuccessPage(
+                                      amount: widget.cardProduct.finalPrice,
+                                      cardNumber: widget.cardDetails?.accountNumber,
+                                    ),
                                   ),
                                 );
                                 return NavigationDecision.navigate;

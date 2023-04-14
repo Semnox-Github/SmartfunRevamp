@@ -15,21 +15,24 @@ class CardGameplaysRepositoryImpl implements CardGameplaysRepository {
   CardGameplaysRepositoryImpl(this._api);
 
   @override
-    Future<Either<Failure, List<AccountGameplays>>> getAccountGamePlays({
-      int accountId = 0,
-      int urlId = 0,
-    }) async {
-      try {
-        final response = await _api.getAccountGamePlays(accountId, urlId);
-        
-        return Right(response.data);
-      } on DioError catch (e) {
-        Logger().e(e);
-        if (e.response?.statusCode == 404) {
+  Future<Either<Failure, List<AccountGameplays>>> getAccountGamePlays({int accountId = 0, int urlId = 0}) async {
+    try {
+      final response = await _api.getAccountGamePlays(accountId, urlId);
+      Logger().d(response.data);
+      return Right(response.data);
+    } on DioError catch (e) {
+      Logger().e(e);
+      switch (e.response?.statusCode) {
+        case 404:
           return Left(ServerFailure('Not Found'));
-        }
-        final message = json.decode(e.response.toString());
-        return Left(ServerFailure(message['data']));
+        case 200:
+          return Left(ServerFailure('Gameplays Not Found'));
+        default:
+          final message = json.decode(e.response.toString());
+          return Left(ServerFailure(message['data']));
       }
+    } catch (_) {
+      return Left(ServerFailure('Gameplays Not Found'));
     }
+  }
 }

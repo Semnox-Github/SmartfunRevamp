@@ -55,9 +55,9 @@ class _UserCardsState extends State<UserCards> {
                         itemBuilder: (context, itemIndex, realIndex) {
                           final card = data[itemIndex];
                           final formatter = DateFormat('dd MMM yyyy');
-                          late final validPeriod = card.expiryDate.isNullOrEmpty() ? 
-                            formatter.format(card.issueDate ?? DateTime.now()) : 
-                          '${formatter.format(card.issueDate ?? DateTime.now())} - ${formatter.format(DateTime.parse(card.expiryDate.toString()))}';
+                          late final validPeriod = card.expiryDate.isNullOrEmpty()
+                              ? formatter.format(card.issueDate ?? DateTime.now())
+                              : '${formatter.format(card.issueDate ?? DateTime.now())} - ${formatter.format(DateTime.parse(card.expiryDate.toString()))}';
                           return Container(
                             margin: const EdgeInsets.all(10.0),
                             padding: const EdgeInsets.only(left: 15, top: 0, right: 10),
@@ -95,6 +95,7 @@ class _UserCardsState extends State<UserCards> {
                                                   text: '+Add Nickname',
                                                   textDecoration: TextDecoration.underline,
                                                   fontColor: Colors.white,
+                                                  fontSize: 12.0,
                                                 ),
                                         ]),
                                       ],

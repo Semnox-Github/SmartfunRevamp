@@ -142,4 +142,28 @@ class CardDetails {
   });
   factory CardDetails.fromJson(Map<String, dynamic> json) => _$CardDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$CardDetailsToJson(this);
+
+  bool isBlocked() {
+    if (accountNumber!.startsWith('T')) {
+      return true;
+    }
+    return false;
+  }
+
+  bool isExpired() {
+    final today = DateTime.now();
+    final DateTime expirationDate = expiryDate != null ? DateTime.parse(expiryDate.toString()) : today;
+    final int daysUntilExpiration = (expirationDate.difference(today).inHours / 24).round();
+    if (daysUntilExpiration < 0) {
+      return true;
+    }
+    return false;
+  }
+
+  bool isSameCard(CardDetails? cardTo) {
+    if (cardTo == null) {
+      return false;
+    }
+    return accountNumber == cardTo.accountNumber;
+  }
 }

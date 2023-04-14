@@ -85,15 +85,24 @@ class LoginNotifier extends StateNotifier<LoginState> {
     state = const _InProgress();
     _phone = phoneOrEmail;
     final response = await _sendOTPUseCase({phoneOrEmail.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail, 'Source': 'LOGIN_OTP_EVENT'});
-    response.fold(
+    state = response.fold(
       (l) {
         Logger().e(l);
-        state = _Error(l.message);
+        return _Error(l.message);
       },
       (r) {
         otpId = r;
-        state = const _OtpGenerated();
+        return const _OtpGenerated();
       },
+    );
+  }
+
+  void resendOtp() async {
+    state = const _InProgress();
+    final response = await _sendOTPUseCase({_phone.contains('@') ? 'EmailId' : 'Phone': _phone, 'Source': 'LOGIN_OTP_EVENT'});
+    state = response.fold(
+      (l) => _Error(l.message),
+      (r) => const _OtpResend(),
     );
   }
 

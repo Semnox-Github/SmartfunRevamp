@@ -31,36 +31,34 @@ class ForgotPasswordPage extends ConsumerWidget {
     });
     return Scaffold(
       appBar: const CustomAppBar(title: 'Forgot Password'),
-      body: LoaderOverlay(
-        child: SafeArea(
-          minimum: const EdgeInsets.all(20.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                const MulishText(
-                  text: 'Enter your registered email or mobile below to receive password reset instructions.',
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500,
-                ),
-                const SizedBox(height: 20.0),
-                CustomTextField(
-                  onSaved: (emailOrPhone) {
-                    ref.read(resetPasswordStateProvider.notifier).sendEmail(emailOrPhone);
-                  },
-                  label: 'Enter registered phone number or email',
-                ),
-                const Spacer(),
-                CustomButton(
-                  onTap: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                    }
-                  },
-                  label: 'SEND',
-                )
-              ],
-            ),
+      body: SafeArea(
+        minimum: const EdgeInsets.all(20.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              const MulishText(
+                text: 'Enter your registered email or mobile below to receive password reset instructions.',
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+              const SizedBox(height: 20.0),
+              CustomTextField(
+                onSaved: (emailOrPhone) {
+                  ref.read(resetPasswordStateProvider.notifier).sendEmail(emailOrPhone);
+                },
+                label: 'Enter registered phone number or email',
+              ),
+              const Spacer(),
+              CustomButton(
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                  }
+                },
+                label: 'SEND',
+              )
+            ],
           ),
         ),
       ),

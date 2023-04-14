@@ -50,7 +50,7 @@ class EstimateTransactionRequest {
     required this.transactionLinesDTOList,
     required this.discountApplicationHistoryDTOList,
     this.transactionId = -1,
-    this.posMachine = 'webplatform',
+    this.posMachine = 'CustomerApp',
     this.primaryCard = '',
     this.closeTransaction = false,
     this.paymentProcessingCompleted = false,

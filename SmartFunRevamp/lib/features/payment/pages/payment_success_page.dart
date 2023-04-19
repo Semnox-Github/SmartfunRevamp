@@ -9,6 +9,7 @@ class PaymentSuccessPage extends StatelessWidget {
   final double amount;
   @override
   Widget build(BuildContext context) {
+    final String fixedAmount = amount.toStringAsFixed(2);
     return Scaffold(
       body: Center(
         child: Column(
@@ -28,7 +29,7 @@ class PaymentSuccessPage extends StatelessWidget {
             ),
             MulishText(
               textAlign: TextAlign.center,
-              text: 'You have successfully recharged \$$amount.00 on to your $cardNumber',
+              text: 'You have successfully recharged \$$fixedAmount on to your $cardNumber',
               fontColor: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 16,

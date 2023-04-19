@@ -7,6 +7,7 @@ import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_respon
 import 'package:semnox/core/domain/use_cases/products/estimate_transaction_use_case.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
+import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
 part 'estimate_state.dart';
 part 'estimate_provider.freezed.dart';
@@ -15,6 +16,7 @@ final estimateStateProvider = StateNotifierProvider.autoDispose<EstimateStatePro
   (ref) => EstimateStateProvider(
     Get.find<EstimateTransactionUseCase>(),
     Get.find<CustomerDTO>(),
+    Get.find<ExecutionContextDTO>(),
   ),
 );
 
@@ -22,13 +24,15 @@ final estimateCouponProvider = StateNotifierProvider.autoDispose<EstimateStatePr
   (ref) => EstimateStateProvider(
     Get.find<EstimateTransactionUseCase>(),
     Get.find<CustomerDTO>(),
+    Get.find<ExecutionContextDTO>(),
   ),
 );
 
 class EstimateStateProvider extends StateNotifier<EstimateState> {
-  EstimateStateProvider(this._estimateTransactionUseCase, this._customer) : super(const _InProgress());
+  EstimateStateProvider(this._estimateTransactionUseCase, this._customer, this._executionContextDTO) : super(const _InProgress());
   final EstimateTransactionUseCase _estimateTransactionUseCase;
   final CustomerDTO _customer;
+  final ExecutionContextDTO _executionContextDTO;
   late EstimateTransactionResponse _estimateTransactionResponse;
 
   void resetCoupon() {
@@ -39,12 +43,14 @@ class EstimateStateProvider extends StateNotifier<EstimateState> {
   }
 
   void getEstimateTransaction(CardProduct card, {DiscountApplicationHistoryDTOList? dtoList, String? cardNumber}) async {
+    late int siteId = _executionContextDTO.siteId?.toInt() ?? 1040;
+    siteId = siteId == 1010 ? 1040 : siteId;
     final response = await _estimateTransactionUseCase(
       EstimateTransactionRequest(
-        siteId: _customer.siteId!,
+        siteId: siteId,
         customerId: _customer.id!,
         userName: _customer.userName!,
-        commitTransaction: false,
+        commitTransaction: true,
         transactionLinesDTOList: [
           TransactionLinesDTO(
             productId: card.productId!,

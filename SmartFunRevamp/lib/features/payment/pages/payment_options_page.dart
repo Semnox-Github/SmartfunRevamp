@@ -154,7 +154,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.80,
+      height: MediaQuery.of(context).size.height * 0.70,
       child: SingleChildScrollView(
         child: Container(
           child: _buildPanel(),
@@ -197,7 +197,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                       final htmlString = data.gatewayRequestFormString ?? data.gatewayRequestString;
                       if (htmlString.isNotEmpty) {
                         return SizedBox(
-                          height: (MediaQuery.of(context).size.height * 0.80) -120 ,
+                          height: (MediaQuery.of(context).size.height * 0.70) -150 ,
                           child: WebView(
                             gestureRecognizers: gestureRecognizers,
                             navigationDelegate: (NavigationRequest request) {

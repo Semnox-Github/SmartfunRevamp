@@ -49,7 +49,8 @@ class EstimateStateProvider extends StateNotifier<EstimateState> {
       EstimateTransactionRequest(
         siteId: siteId,
         customerId: _customer.id!,
-        userName: _customer.userName!,
+        userName: "CustomerApp",
+        customerName: _customer.userName!,
         commitTransaction: true,
         transactionLinesDTOList: [
           TransactionLinesDTO(

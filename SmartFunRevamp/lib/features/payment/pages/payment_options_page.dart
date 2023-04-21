@@ -154,7 +154,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 600,
+      height: MediaQuery.of(context).size.height * 0.80,
       child: SingleChildScrollView(
         child: Container(
           child: _buildPanel(),
@@ -197,12 +197,11 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                       final htmlString = data.gatewayRequestFormString ?? data.gatewayRequestString;
                       if (htmlString.isNotEmpty) {
                         return SizedBox(
-                          height: 600,
+                          height: (MediaQuery.of(context).size.height * 0.80) -120 ,
                           child: WebView(
                             gestureRecognizers: gestureRecognizers,
                             navigationDelegate: (NavigationRequest request) {
-                              // if (request.url.contains(data.successURL)) {
-                              if (request.url.contains(data.failureURL)) {  
+                              if (request.url.contains(data.successURL)) {                          
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -213,8 +212,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                                     ),
                                   ),
                                 );
-                                //return NavigationDecision.navigate;
-                                return NavigationDecision.prevent;
+                                return NavigationDecision.navigate;
                               } else if (request.url.contains(data.failureURL)) {
                                 Navigator.push(
                                   context,
@@ -237,7 +235,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                               return NavigationDecision.navigate;
                             },
                             initialUrl: Uri.dataFromString(htmlString, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString(),
-                            javascriptMode: JavascriptMode.unrestricted,
+                            javascriptMode: JavascriptMode.unrestricted
                           ),
                         );
                       } else {

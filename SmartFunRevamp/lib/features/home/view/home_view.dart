@@ -7,202 +7,196 @@ import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
-import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
+import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/home/widgets/home_view_widgets/notification_button.dart';
+import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
 import 'package:semnox/features/login/widgets/profile_picture.dart';
-import 'package:semnox/features/home/widgets/carousel_cards.dart';
-import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
-import 'package:semnox/features/notifications/provider/notifications_provider.dart';
+import 'package:semnox/features/select_location/provider/select_location_provider.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
-import 'package:badges/badges.dart' as badges;
+import 'package:shimmer/shimmer.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+class HomeView extends ConsumerStatefulWidget {
+  const HomeView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewState extends ConsumerState<HomeView> {
   final user = Get.find<CustomerDTO>();
   CardDetails? cardDetails;
+
   int _cardIndex = -1;
+
   @override
   Widget build(BuildContext context) {
+    //TODO:Update when linked a new card
+    var cardsWatch = ref.watch(CardsProviders.userCardsProvider.select((asyncValue) => asyncValue));
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-            height: MediaQuery.of(context).size.height * 0.5,
-            decoration: BoxDecoration(
-              color: Colors.lightBlue.shade200,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(15.0),
-                bottomRight: Radius.circular(15.0),
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              decoration: const BoxDecoration(
+                color: CustomColors.customLigthBlue,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15.0),
+                  bottomRight: Radius.circular(15.0),
+                ),
               ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    ProfilePicture(customerDTO: user),
-                    const SizedBox(width: 10.0),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${user.profileDto?.firstName} ${user.profileDto?.lastName}',
-                          style: const TextStyle(
-                            color: CustomColors.customBlue,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      ProfilePicture(customerDTO: user),
+                      const SizedBox(width: 10.0),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${user.profileDto?.firstName} ${user.profileDto?.lastName}',
+                            style: const TextStyle(
+                              color: CustomColors.customBlue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
                           ),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            style: const TextStyle(color: CustomColors.customBlue),
-                            children: [
-                              WidgetSpan(
-                                child: Image.asset(
-                                  'assets/home/gold_medal.png',
-                                  height: 20.0,
+                          RichText(
+                            text: TextSpan(
+                              style: const TextStyle(color: CustomColors.customBlue),
+                              children: [
+                                WidgetSpan(
+                                  child: Image.asset(
+                                    'assets/home/gold_medal.png',
+                                    height: 20.0,
+                                  ),
                                 ),
-                              ),
-                              const TextSpan(
-                                text: 'Gold Member',
-                                style: TextStyle(
-                                  color: CustomColors.customLigthBlack,
+                                const TextSpan(
+                                  text: 'Gold Member',
+                                  style: TextStyle(
+                                    color: CustomColors.customLigthBlack,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.search_outlined,
-                        color: CustomColors.customBlue,
+                              ],
+                            ),
+                          )
+                        ],
                       ),
-                    ),
-                    Consumer(
-                      builder: (context, ref, child) {
-                        return ref.watch(NotificationsProvider.notificationsStateProvider).maybeWhen(
-                              orElse: () => Container(),
-                              inProgress: () => const Icon(
-                                Icons.notifications_none_outlined,
-                                color: CustomColors.customBlue,
-                              ),
-                              success: (data) {
-                                if (data.isEmpty) {
-                                  return InkWell(
-                                    child: const Icon(
-                                      Icons.notifications_none_outlined,
-                                      color: CustomColors.customBlue,
-                                    ),
-                                    onTap: () => Navigator.pushNamed(context, Routes.kNotifications),
-                                  );
-                                }
-                                return badges.Badge(
-                                  badgeAnimation: const badges.BadgeAnimation.scale(),
-                                  badgeContent: MulishText(
-                                    text: data.countItems(),
-                                    fontColor: Colors.white,
-                                  ),
-                                  child: InkWell(
-                                    child: const Icon(
-                                      Icons.notifications_none_outlined,
-                                      color: CustomColors.customBlue,
-                                    ),
-                                    onTap: () => Navigator.pushNamed(context, Routes.kNotifications),
-                                  ),
-                                );
-                              },
-                              error: (error) => Container(),
-                            );
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.search_outlined,
+                          color: CustomColors.customBlue,
+                        ),
+                      ),
+                      const NotificationsButton(),
+                    ],
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: cardsWatch.when(
+                      loading: () {
+                        return Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            width: double.infinity,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        );
+                      },
+                      error: (_, __) => const Center(
+                        child: MulishText(text: 'No Cards found'),
+                      ),
+                      data: (data) {
+                        return Column(
+                          children: [
+                            data.isNotEmpty
+                                ? CarouselCards(
+                                    cards: data,
+                                    onCardChanged: (cardIndex) {
+                                      setState(() {
+                                        if (cardIndex != data.length) {
+                                          cardDetails = data[cardIndex];
+                                        }
+                                        _cardIndex = cardIndex;
+                                      });
+                                    },
+                                  )
+                                : LinkACard(),
+                            if (data.isNotEmpty && _cardIndex != data.length)
+                              RechargeCardDetailsButton(
+                                cardDetails: cardDetails ?? data.first,
+                              )
+                            else
+                              const BuyNewCardButton(),
+                          ],
+                        );
                       },
                     ),
-                  ],
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Consumer(
-                    builder: (context, ref, child) {
-                      return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
-                            orElse: () => Container(
-                              height: 20.0,
-                              width: 20.0,
-                              color: Colors.red,
-                            ),
-                            loading: () => const CircularProgressIndicator(),
-                            data: (data) {
-                              return Column(
-                                children: [
-                                  data.isNotEmpty
-                                      ? CarouselCards(
-                                          cards: data,
-                                          onCardChanged: (cardIndex) {
-                                            setState(() {
-                                              if (cardIndex != data.length) {
-                                                cardDetails = data[cardIndex];
-                                              }
-                                              _cardIndex = cardIndex;
-                                            });
-                                          },
-                                        )
-                                      : LinkACard(),
-                                  const SizedBox(height: 10.0),
-                                  if (data.isNotEmpty && _cardIndex != data.length)
-                                    RechargeCardDetailsButton(
-                                      cardDetails: cardDetails ?? data.first,
-                                    )
-                                  else
-                                    const BuyNewCardButton(),
-                                ],
-                              );
-                            },
-                          );
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 0,
+              width: 0,
+              child: Consumer(
+                builder: (context, ref, child) {
+                  return ref.watch(getAllSitesProvider).maybeWhen(
+                        orElse: () => Container(),
+                      );
+                },
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'Quick Links',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  cardsWatch.when(
+                    error: (error, stackTrace) => Container(),
+                    loading: () {
+                      return Shimmer.fromColors(
+                        baseColor: Colors.grey.shade300,
+                        highlightColor: Colors.grey.shade100,
+                        child: Container(
+                          width: double.infinity,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      );
                     },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Text(
-                  'Quick Links',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10.0),
-          Consumer(
-            builder: (BuildContext context, WidgetRef ref, Widget? child) {
-              return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
-                    orElse: () => Container(
-                      height: 20.0,
-                      width: 20.0,
-                      color: Colors.red,
-                    ),
-                    loading: () => const CircularProgressIndicator(),
                     data: (data) {
                       bool hasCard = data.isNotEmpty ? true : false;
                       String msgCardNoLink = 'No card is associated with customer, please link your card.';
@@ -229,7 +223,7 @@ class _HomeViewState extends State<HomeView> {
                             color: CustomColors.customLigthBlue,
                             image: 'activities',
                             text: 'Activities',
-                            onTap: () => Navigator.pushNamed(context, Routes.kActivities),
+                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kActivities) : Dialogs.showMessageInfo(context, 'Activities', msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customOrange,
@@ -241,93 +235,73 @@ class _HomeViewState extends State<HomeView> {
                             color: CustomColors.customGreen,
                             image: 'gameplays',
                             text: 'Game Plays',
-                            onTap: () => Navigator.pushNamed(context, Routes.kGameplays),
+                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kGameplays) : Dialogs.showMessageInfo(context, 'Game Plays', msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customPurple,
                             image: 'transfer_credit',
                             text: 'Transfer Credit',
-                            onTap: () => Navigator.pushNamed(context, Routes.kTransfers),
+                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kTransfers) : Dialogs.showMessageInfo(context, 'Transfer Credit', msgCardNoLink),
                           ),
                         ],
                       );
                     },
-                  );
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Text(
-                  "Today's Offers",
-                  style: TextStyle(
+                  ),
+                  const MulishText(
+                    text: "Today's Offers",
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
                   ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 10.0),
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            decoration: BoxDecoration(
-              gradient: CustomGradients.myFirstCircularGradient,
-              borderRadius: BorderRadius.circular(
-                20.0,
-              ),
-            ),
-            child: CarouselSlider(
-              options: CarouselOptions(height: 150.0),
-              items: [1, 2, 3, 4, 5].map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Image.asset('assets/home/carousel_test.png');
-                  },
-                );
-              }).toList(),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Text(
-                  'More Actions',
-                  style: TextStyle(
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10.0),
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    decoration: BoxDecoration(
+                      gradient: CustomGradients.myFirstCircularGradient,
+                      borderRadius: BorderRadius.circular(
+                        20.0,
+                      ),
+                    ),
+                    child: CarouselSlider(
+                      options: CarouselOptions(height: 150.0),
+                      items: [1, 2, 3, 4, 5].map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Image.asset('assets/home/carousel_test.png');
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  const MulishText(
+                    text: 'More Actions',
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
                   ),
-                ),
-              ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: const [
+                      QuickLinkItem(
+                        color: CustomColors.customYellow,
+                        image: 'tickets',
+                        text: 'Tickets',
+                      ),
+                      QuickLinkItem(
+                        color: CustomColors.customOrange,
+                        image: 'coupons',
+                        text: 'Coupons',
+                      ),
+                      QuickLinkItem(
+                        color: CustomColors.customGreen,
+                        image: 'events',
+                        text: 'Events',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 10.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              QuickLinkItem(
-                color: CustomColors.customYellow,
-                image: 'tickets',
-                text: 'Tickets',
-              ),
-              QuickLinkItem(
-                color: CustomColors.customOrange,
-                image: 'coupons',
-                text: 'Coupons',
-              ),
-              QuickLinkItem(
-                color: CustomColors.customGreen,
-                image: 'events',
-                text: 'Events',
-              ),
-            ],
-          ),
-          const SizedBox(height: 20.0),
-        ],
+          ],
+        ),
       ),
     );
   }

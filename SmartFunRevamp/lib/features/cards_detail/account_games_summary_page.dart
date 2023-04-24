@@ -16,7 +16,8 @@ class AccountGamesSummaryPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //TODO:Whenever the app rebuilds this is called again
+    //TODO:Whenever the app rebuilds this is called again remove hardcoded Account Number
+
     ref.read(CardsProviders.accountGamesSummaryProvider.notifier).getSummary('CCD23CCE');
     return Scaffold(
       appBar: const CustomAppBar(

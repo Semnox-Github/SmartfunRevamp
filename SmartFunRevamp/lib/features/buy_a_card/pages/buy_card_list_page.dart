@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/features/buy_a_card/provider/buy_card/buy_card_notifier.dart';
 import 'package:semnox/features/buy_a_card/widgets/card_type.dart';
@@ -8,7 +9,7 @@ import 'package:semnox/features/buy_a_card/widgets/drawer_filter.dart';
 import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 
 class BuyCardListPage extends StatelessWidget {
-  const BuyCardListPage({Key? key}) : super(key: key);
+  const BuyCardListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,15 @@ class BuyCardListPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const SitesAppBarDropdown(),
+            Consumer(
+              builder: (_, ref, __) {
+                return SitesAppBarDropdown(
+                  onChanged: (selectedSite) {
+                    ref.read(buyCardNotifier.notifier).getCards(selectedSite!.siteId ?? -1);
+                  },
+                );
+              },
+            ),
             Expanded(
               child: Consumer(
                 builder: (context, ref, child) {
@@ -71,7 +80,13 @@ class BuyCardListPage extends StatelessWidget {
                             },
                           );
                         },
-                        error: (_) => Container(),
+                        error: (error) => Center(
+                          child: MulishText(
+                            text: error,
+                            fontColor: Colors.red,
+                            fontSize: 20.0,
+                          ),
+                        ),
                       );
                 },
               ),

@@ -7,6 +7,6 @@ class GetCardGameplaysUseCase {
   final CardGameplaysRepository _repository;
   GetCardGameplaysUseCase(this._repository);
   Future<Either<Failure, List<AccountGameplays>>> call(int accountId) async {
-    return await _repository.getAccountGamePlays(accountId: accountId, urlId: accountId);
+    return await _repository.getAccountGamePlays(accountId: accountId);
   }
 }

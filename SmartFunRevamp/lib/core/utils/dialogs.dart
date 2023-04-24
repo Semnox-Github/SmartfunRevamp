@@ -6,6 +6,7 @@ import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
+import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/widgets/recharge_card_widget.dart';
@@ -263,71 +264,77 @@ class Dialogs {
     );
   }
 
-  static void verifyDialog(BuildContext context, Function() onVerify, String description) {
+  static void verifyDialog(BuildContext context, Function(String) onVerify, ContactType contactType) {
+    String otp = '';
     AwesomeDialog(
-        context: context,
-        dialogType: DialogType.noHeader,
-        btnOk: CustomButton(
-          onTap: () {
-            onVerify();
-            Navigator.pop(context);
-          },
-          label: 'VERIFY',
-        ),
-        btnCancel: CustomCancelButton(onPressed: () => Navigator.pop(context), label: 'CANCEL'),
-        body: Column(
-          children: [
-            Container(
-              padding: const EdgeInsetsDirectional.all(10.0),
-              margin: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const MulishText(
-                    text: 'Verify Email',
-                    fontWeight: FontWeight.bold,
-                    textAlign: TextAlign.start,
+      context: context,
+      dialogType: DialogType.noHeader,
+      btnOk: CustomButton(
+        onTap: () {
+          onVerify(otp);
+          Navigator.pop(context);
+        },
+        label: 'VERIFY',
+      ),
+      btnCancel: CustomCancelButton(
+        onPressed: () => Navigator.pop(context),
+        label: 'CANCEL',
+      ),
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsetsDirectional.all(10.0),
+            margin: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MulishText(
+                  text: 'Verify ${contactType.valueString}',
+                  fontWeight: FontWeight.bold,
+                  textAlign: TextAlign.start,
+                ),
+                const SizedBox(height: 10.0),
+                MulishText(
+                  text: 'We have mailed you an OTP.\nEnter the OTP to verify your ${contactType.valueString}',
+                  textAlign: TextAlign.start,
+                ),
+                const SizedBox(height: 10.0),
+                OtpPinField(
+                  onSubmit: (otp) => {},
+                  onChange: (code) => otp = code,
+                  keyboardType: TextInputType.number,
+                  otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
+                  otpPinFieldStyle: const OtpPinFieldStyle(
+                    defaultFieldBorderColor: CustomColors.customOrange,
+                    activeFieldBorderColor: CustomColors.hardOrange,
                   ),
-                  const SizedBox(height: 10.0),
-                  MulishText(
-                    text: 'We have mailed you an OTP.\nEnter the OTP to verify your $description',
-                  ),
-                  const SizedBox(height: 10.0),
-                  OtpPinField(
-                    onSubmit: (otp) => {},
-                    onChange: (code) => {},
-                    keyboardType: TextInputType.number,
-                    otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
-                    otpPinFieldStyle: const OtpPinFieldStyle(
-                      defaultFieldBorderColor: CustomColors.customOrange,
-                      activeFieldBorderColor: CustomColors.hardOrange,
-                    ),
-                    maxLength: 4,
-                  ),
-                  const SizedBox(height: 10.0),
-                  const MulishText(
-                    text: "Didn't Receive?",
-                    textAlign: TextAlign.start,
-                  ),
-                  RichText(
-                    text: const TextSpan(children: [
-                      WidgetSpan(
-                        child: MulishText(
-                          text: 'RESEND',
-                          fontWeight: FontWeight.bold,
-                        ),
+                  maxLength: 6,
+                ),
+                const SizedBox(height: 10.0),
+                const MulishText(
+                  text: "Didn't Receive?",
+                  textAlign: TextAlign.start,
+                ),
+                RichText(
+                  text: const TextSpan(children: [
+                    WidgetSpan(
+                      child: MulishText(
+                        text: 'RESEND',
+                        fontWeight: FontWeight.bold,
                       ),
-                      WidgetSpan(
-                        child: MulishText(
-                          text: ' in 30 seconds',
-                        ),
-                      )
-                    ]),
-                  ),
-                ],
-              ),
+                    ),
+                    WidgetSpan(
+                      child: MulishText(
+                        text: ' in 30 seconds',
+                      ),
+                    )
+                  ]),
+                ),
+              ],
             ),
-          ],
-        )).show();
+          ),
+        ],
+      ),
+    ).show();
   }
 }

@@ -15,6 +15,7 @@ class MembershipRepositoryImpl implements MembershipRepository {
   Future<Either<Failure, void>> getMembershipInfo(int customerId) async {
     try {
       await _api.getMembershipInfo(customerId);
+      await _api.getMembershipContainer(1040);
       Logger().d(null);
       return const Right(null);
     } on DioError catch (e) {

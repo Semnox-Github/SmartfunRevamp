@@ -53,5 +53,5 @@ void changeSiteId(SiteViewDTO siteViewDTO) {
 }
 
 void registerUser(CustomerDTO customerDTO) {
-  Get.put<CustomerDTO>(customerDTO);
+  Get.replace<CustomerDTO>(customerDTO);
 }

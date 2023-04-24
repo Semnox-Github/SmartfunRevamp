@@ -1,20 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
+import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
-class SitesAppBarDropdown extends StatefulWidget {
+class SitesAppBarDropdown extends ConsumerStatefulWidget {
   const SitesAppBarDropdown({
     Key? key,
+    this.onChanged,
   }) : super(key: key);
+  final Function(SiteViewDTO?)? onChanged;
 
   @override
-  State<SitesAppBarDropdown> createState() => _SitesAppBarDropdownState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SitesAppBarDropdownState();
 }
 
-class _SitesAppBarDropdownState extends State<SitesAppBarDropdown> {
-  String? _selectedSite;
+class _SitesAppBarDropdownState extends ConsumerState<SitesAppBarDropdown> {
+  SiteViewDTO? _selectedSite;
+  late List<SiteViewDTO> sites;
+
+  @override
+  void initState() {
+    super.initState();
+    sites = List<SiteViewDTO>.from(ref.read(getAllSitesProvider).value ?? []);
+    for (var element in sites) {
+      Logger().d(element.siteId);
+    }
+
+    final userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 0;
+    _selectedSite = sites.firstWhere(
+      (element) => element.siteId == userSite,
+      orElse: () => sites.first,
+    );
+    Logger().d(userSite);
+    if (widget.onChanged != null) {
+      widget.onChanged!(_selectedSite);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,41 +60,33 @@ class _SitesAppBarDropdownState extends State<SitesAppBarDropdown> {
           const Icon(
             Icons.location_on_outlined,
           ),
-          Consumer(
-            builder: (context, ref, child) {
-              return ref.watch(getAllSitesProvider).maybeWhen(
-                    orElse: () => Container(),
-                    error: (error, stackTrace) => const MulishText(text: "We couln't retrieve the sites"),
-                    loading: () => const Center(child: CircularProgressIndicator()),
-                    data: (data) {
-                      return DropdownButton<String>(
-                        value: _selectedSite,
-                        icon: const Icon(Icons.expand_more),
-                        underline: const SizedBox(),
-                        hint: const MulishText(
-                          text: 'Select a site',
-                          textAlign: TextAlign.center,
-                        ),
-                        items: data.map((e) {
-                          return DropdownMenuItem<String>(
-                            value: e.siteName,
-                            child: Text(
-                              e.siteName!,
-                              style: GoogleFonts.mulish(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (site) {
-                          setState(() {
-                            _selectedSite = site!;
-                          });
-                        },
-                      );
-                    },
-                  );
+          DropdownButton<SiteViewDTO>(
+            value: _selectedSite,
+            icon: const Icon(Icons.expand_more),
+            underline: const SizedBox(),
+            hint: const MulishText(
+              text: 'Select a site',
+              textAlign: TextAlign.center,
+            ),
+            items: sites.map((e) {
+              return DropdownMenuItem<SiteViewDTO>(
+                value: e,
+                child: Text(
+                  e.siteName!,
+                  style: GoogleFonts.mulish(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                  ),
+                ),
+              );
+            }).toList(),
+            onChanged: (site) {
+              if (widget.onChanged != null) {
+                widget.onChanged!(site);
+              }
+              setState(() {
+                _selectedSite = site!;
+              });
             },
           ),
         ],

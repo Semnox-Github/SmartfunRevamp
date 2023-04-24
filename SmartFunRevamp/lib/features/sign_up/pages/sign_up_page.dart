@@ -8,9 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/sign_up/sign_up_entity.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/password_field.dart';
+import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/sign_up/pages/privacy_policy_page.dart';
 import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
 
@@ -24,9 +26,8 @@ class SignUpPage extends ConsumerWidget {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),
         orElse: () => context.loaderOverlay.hide(),
-        success: () {
-          context.loaderOverlay.hide();
-          Navigator.pop(context);
+        success: (signUpEntity) {
+          ref.read(loginProvider.notifier).loginUser(signUpEntity.email!, signUpEntity.password!);
         },
         error: (message) {
           context.loaderOverlay.hide();
@@ -43,6 +44,35 @@ class SignUpPage extends ConsumerWidget {
         },
       );
     });
+    ref.listen<LoginState>(loginProvider, (_, next) {
+      next.maybeWhen(
+        inProgress: () => context.loaderOverlay.show(),
+        orElse: () => context.loaderOverlay.hide(),
+        success: () {
+          context.loaderOverlay.hide();
+          Navigator.pushReplacementNamed(context, Routes.kHomePage);
+        },
+        selectLocationNeeded: () {
+          context.loaderOverlay.hide();
+          Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
+        },
+        error: (message) {
+          context.loaderOverlay.hide();
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.error,
+            headerAnimationLoop: false,
+            animType: AnimType.bottomSlide,
+            title: 'Error',
+            desc: message,
+            btnCancelOnPress: () {},
+            useRootNavigator: true,
+            btnOkOnPress: () {},
+          ).show();
+        },
+      );
+    });
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.customLigthBlue,

@@ -55,11 +55,13 @@ class SelectCardLostPage extends ConsumerWidget {
                         ),
                         loading: () => const Center(child: CircularProgressIndicator()),
                         data: (data) {
+                          final cards = List<CardDetails>.from(data);
+                          cards.removeWhere((element) => element.isBlocked() || element.isExpired());
                           return CarouselCards(
-                            cards: data,
+                            cards: cards,
                             showLinkCard: false,
                             onCardChanged: (index) {
-                              selectedCardNumber = data[index];
+                              selectedCardNumber = cards[index];
                             },
                           );
                         },

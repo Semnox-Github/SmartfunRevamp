@@ -12,7 +12,7 @@ import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/account/provider/update_account_provider.dart';
+import 'package:semnox/features/account/provider/update_account/update_account_provider.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/round_rectangle_picture.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -60,6 +60,7 @@ class AccountPage extends ConsumerWidget {
         );
       },
     );
+
     return Scaffold(
       appBar: const CustomAppBar(title: 'Account'),
       body: SafeArea(
@@ -99,14 +100,16 @@ class AccountPage extends ConsumerWidget {
                   label: 'Email Address',
                   initialValue: user.email,
                   margins: const EdgeInsets.symmetric(vertical: 10.0),
-                  verifying: 'Email ID',
+                  contactType: ContactType.email,
+                  phoneOrEmail: user.email ?? '',
                 ),
                 CustomVerifyTextField(
                   onSaved: (phone) => newPhone = phone,
                   label: 'Phone',
                   initialValue: user.phone,
                   margins: const EdgeInsets.symmetric(vertical: 10.0),
-                  verifying: 'Phone Number',
+                  contactType: ContactType.phone,
+                  phoneOrEmail: user.phone ?? '',
                 ),
                 CustomDatePicker(
                   margin: const EdgeInsets.symmetric(vertical: 10.0),

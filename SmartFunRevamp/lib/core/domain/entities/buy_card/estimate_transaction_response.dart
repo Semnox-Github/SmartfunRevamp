@@ -10,7 +10,6 @@ class EstimateTransactionResponse {
   final double taxAmount;
   final double transactionDiscountAmount;
   final double transactionNetAmount;
-  //TODO:Put final again
   double? couponDiscountAmount;
   String? couponNumber;
   String? primaryCard;

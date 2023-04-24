@@ -5,12 +5,12 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/widgets/input_text_field.dart';
-import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/provider/link_card/link_card_provider.dart';
 
 class LinkACard extends ConsumerWidget {
   LinkACard({super.key});
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String mCardNumber = '';
@@ -19,9 +19,16 @@ class LinkACard extends ConsumerWidget {
       (previous, next) {
         next.maybeWhen(
           orElse: () => {},
-          success: () {
+          success: () async {
             context.loaderOverlay.hide();
-            ref.read(CardsProviders.userCardsProvider);
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.success,
+              animType: AnimType.scale,
+              title: 'Link A Card',
+              desc: 'Card linked successfully.',
+              btnOkOnPress: () {},
+            ).show();
           },
           error: (e) {
             context.loaderOverlay.hide();
@@ -30,7 +37,7 @@ class LinkACard extends ConsumerWidget {
               dialogType: DialogType.error,
               animType: AnimType.scale,
               title: 'Link A Card',
-              desc: 'Account is already linked to other customer',
+              desc: e,
               btnOkOnPress: () {},
             ).show();
           },
@@ -85,7 +92,7 @@ class LinkACard extends ConsumerWidget {
               children: [
                 Expanded(
                   child: InputTextField(
-                    initialValue: '3X92P5N5',
+                    initialValue: 'X6PIS313',
                     onSaved: (cardNumber) => mCardNumber = cardNumber,
                     hintText: 'Enter Card Number',
                     prefixIcon: IconButton(

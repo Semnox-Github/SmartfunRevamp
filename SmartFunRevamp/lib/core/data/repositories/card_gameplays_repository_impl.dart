@@ -15,9 +15,9 @@ class CardGameplaysRepositoryImpl implements CardGameplaysRepository {
   CardGameplaysRepositoryImpl(this._api);
 
   @override
-  Future<Either<Failure, List<AccountGameplays>>> getAccountGamePlays({int accountId = 0, int urlId = 0}) async {
+  Future<Either<Failure, List<AccountGameplays>>> getAccountGamePlays({int accountId = 0}) async {
     try {
-      final response = await _api.getAccountGamePlays(accountId, urlId);
+      final response = await _api.getAccountGamePlays(accountId);
       Logger().d(response.data);
       return Right(response.data);
     } on DioError catch (e) {
@@ -31,7 +31,8 @@ class CardGameplaysRepositoryImpl implements CardGameplaysRepository {
           final message = json.decode(e.response.toString());
           return Left(ServerFailure(message['data']));
       }
-    } catch (_) {
+    } catch (e) {
+      Logger().e(e);
       return Left(ServerFailure('Gameplays Not Found'));
     }
   }

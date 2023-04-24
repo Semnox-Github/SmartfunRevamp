@@ -20,12 +20,12 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
   @override
   Future<Either<Failure, Map<DateTime, List<NotificationsResponse>>>> getNotifications(String userId) async {
     try {
-      final toDate = DateTime.now();
-      final fromDate = DateTime.now().subtract(const Duration(days: 365));
+      final toDate = DateTime.now().subtract(const Duration(days: 365));
+      final fromDate = toDate.subtract(const Duration(days: 30));
       final response = await _api.getAllNotifications(
+        fromDate.formatDate('yyyy-MM-dd'),
+        toDate.formatDate('yyyy-MM-dd'),
         userId,
-        toDate: toDate.formatDate('yyyy-MM-dd'),
-        fromDate: fromDate.formatDate('yyyy-MM-dd'),
       );
 
       return Right(response.data.groupListsBy((element) => element.sendDate));

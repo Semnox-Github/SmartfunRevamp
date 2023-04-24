@@ -19,7 +19,7 @@ class BonusSummaryPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //TODO:Whenever the app rebuilds this is called again
+    //TODO:Whenever the app rebuilds this is called again remove hardcoded card
     ref.read(CardsProviders.bonusSummaryProvider.notifier).getSummary('C163975D');
     return Scaffold(
       appBar: CustomAppBar(

@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
+import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/domain/use_cases/select_location/get_all_sites_use_case.dart';
-import 'package:semnox/di/injection_container.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 part 'select_location_state.dart';
 part 'select_location_provider.freezed.dart';
@@ -12,6 +12,7 @@ final selectLocationStateProvider = StateNotifierProvider<SelectLocationProvider
   (ref) => SelectLocationProvider(
     Get.find<GetAllSitesUseCase>(),
     Get.find<LocalDataSource>(),
+    Get.find<GetExecutionContextUseCase>(),
   ),
 );
 
@@ -23,18 +24,13 @@ final getAllSitesProvider = FutureProvider.autoDispose<List<SiteViewDTO>>((ref) 
     (r) => r,
   );
 });
-final sitesProvider = FutureProvider<SelectLocationProvider>(
-  (ref) => SelectLocationProvider(
-    Get.find<GetAllSitesUseCase>(),
-    Get.find<LocalDataSource>(),
-  ),
-);
 
 class SelectLocationProvider extends StateNotifier<SelectLocationState> {
   final GetAllSitesUseCase _getAllSitesUseCase;
   final LocalDataSource _localDataSource;
+  final GetExecutionContextUseCase _getExecutionContextUseCase;
   List<SiteViewDTO> _sites = [];
-  SelectLocationProvider(this._getAllSitesUseCase, this._localDataSource) : super(const _Initial()) {
+  SelectLocationProvider(this._getAllSitesUseCase, this._localDataSource, this._getExecutionContextUseCase) : super(const _Initial()) {
     getSites();
   }
 
@@ -50,9 +46,16 @@ class SelectLocationProvider extends StateNotifier<SelectLocationState> {
     );
   }
 
-  Future<void> saveSite(SiteViewDTO site) async {
-    changeSiteId(site);
-    await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, site.toJson());
+  void selectSite(SiteViewDTO selectedSite) async {
+    state = const _InProgress();
+    final response = await _getExecutionContextUseCase(selectedSite.siteId!);
+    response.fold(
+      (l) => state = _Error(l.message),
+      (r) async {
+        await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite.toJson());
+        state = _NewContextSuccess(selectedSite);
+      },
+    );
   }
 
   void filterSites(String filter) {

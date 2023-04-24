@@ -1,20 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
-class SelectLocationManuallyPage extends StatelessWidget {
+class SelectLocationManuallyPage extends ConsumerWidget {
   const SelectLocationManuallyPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     late SiteViewDTO selectedSite;
-
+    ref.listen(
+      selectLocationStateProvider,
+      (_, next) {
+        next.maybeWhen(
+          orElse: () => {},
+          error: (message) {
+            context.loaderOverlay.hide();
+            Dialogs.showErrorMessage(context, message);
+          },
+          inProgress: () => context.loaderOverlay.show(),
+          newContextSuccess: (selectedSite) {
+            ref.read(loginProvider.notifier).selectedSite = selectedSite;
+            context.loaderOverlay.hide();
+            Navigator.pushReplacementNamed(context, Routes.kHomePage);
+          },
+        );
+      },
+    );
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -31,17 +51,11 @@ class SelectLocationManuallyPage extends StatelessWidget {
         elevation: 20.0,
         child: Container(
           padding: const EdgeInsets.all(25.0),
-          child: Consumer(
-            builder: (context, ref, child) {
-              return CustomButton(
-                onTap: () {
-                  (ref.read(selectLocationStateProvider.notifier).saveSite(selectedSite)).then(
-                    (_) => Navigator.pushReplacementNamed(context, Routes.kHomePage),
-                  );
-                },
-                label: 'CONFIRM LOCATION',
-              );
+          child: CustomButton(
+            onTap: () {
+              ref.read(selectLocationStateProvider.notifier).selectSite(selectedSite);
             },
+            label: 'CONFIRM LOCATION',
           ),
         ),
       ),
@@ -50,12 +64,8 @@ class SelectLocationManuallyPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Consumer(
-                builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                  return SearchTextField(
-                    onChanged: (filter) => ref.read(selectLocationStateProvider.notifier).filterSites(filter),
-                  );
-                },
+              SearchTextField(
+                onChanged: (filter) => ref.read(selectLocationStateProvider.notifier).filterSites(filter),
               ),
               const SizedBox(height: 10.0),
               Container(

@@ -38,7 +38,7 @@ class BackgroundCard extends StatelessWidget {
       if (isExpired)
         Positioned.fill(
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            filter: ImageFilter.blur(sigmaX: 1, sigmaY: 2),
             child: Container(
               height: MediaQuery.of(context).size.height * 0.25,
               width: double.infinity,

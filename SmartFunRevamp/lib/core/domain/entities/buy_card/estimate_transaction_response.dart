@@ -13,6 +13,7 @@ class EstimateTransactionResponse {
   //TODO:Put final again
   double? couponDiscountAmount;
   String? couponNumber;
+  String? primaryCard;
 
   EstimateTransactionResponse(
     this.transactionId,
@@ -22,6 +23,7 @@ class EstimateTransactionResponse {
     this.transactionNetAmount,
     this.couponDiscountAmount,
     this.couponNumber,
+    this.primaryCard,
   );
   factory EstimateTransactionResponse.fromJson(Map<String, dynamic> json) => _$EstimateTransactionResponseFromJson(json);
   Map<String, dynamic> toJson() => _$EstimateTransactionResponseToJson(this);
@@ -34,6 +36,7 @@ class EstimateTransactionRequest {
   final String posMachine;
   final int customerId;
   final String userName;
+  final String customerName;
   final String primaryCard;
   final bool commitTransaction;
   final bool closeTransaction;
@@ -46,6 +49,7 @@ class EstimateTransactionRequest {
     required this.siteId,
     required this.customerId,
     required this.userName,
+    required this.customerName,
     required this.commitTransaction,
     required this.transactionLinesDTOList,
     required this.discountApplicationHistoryDTOList,

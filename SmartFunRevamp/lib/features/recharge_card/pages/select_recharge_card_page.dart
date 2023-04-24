@@ -44,7 +44,7 @@ class _SelectCardRechargePageState extends State<SelectCardRechargePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EstimatedTransactionPage(cardProduct: offerSelected!, cardSelected: selectedCardNumber),
+                builder: (context) => EstimatedTransactionPage(cardProduct: offerSelected!, cardSelected: selectedCardNumber, transactionType: "recharge"),
               ),
             );
           }

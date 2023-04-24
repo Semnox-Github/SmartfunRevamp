@@ -17,10 +17,11 @@ import 'package:semnox/features/payment/provider/payment_options_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentOptionsPage extends StatelessWidget {
-  const PaymentOptionsPage({Key? key, required this.transactionResponse, required this.cardProduct, this.cardDetails}) : super(key: key);
+  const PaymentOptionsPage({Key? key, required this.transactionResponse, required this.cardProduct, this.cardDetails, required this.transactionType}) : super(key: key);
   final EstimateTransactionResponse transactionResponse;
   final CardProduct cardProduct;
   final CardDetails? cardDetails;
+  final String transactionType;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +92,7 @@ class PaymentOptionsPage extends StatelessWidget {
                       ),
                       loading: () => const CircularProgressIndicator(),
                       data: (data) {
-                        return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse, cardDetails: cardDetails);
+                        return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse, cardDetails: cardDetails, transactionType: transactionType);
                       },
                     );
               },
@@ -126,11 +127,12 @@ List<Item> generateItems(List<PaymentMode> paymentOptionsList) {
 }
 
 class PaymentOptionsWidged extends StatefulWidget {
-  const PaymentOptionsWidged({super.key, required this.paymentOptionsList, required this.transactionResponse, required this.cardProduct, this.cardDetails});
+  const PaymentOptionsWidged({super.key, required this.paymentOptionsList, required this.transactionResponse, required this.cardProduct, this.cardDetails, required this.transactionType});
   final List<PaymentMode> paymentOptionsList;
   final EstimateTransactionResponse transactionResponse;
   final CardProduct cardProduct;
   final CardDetails? cardDetails;
+  final String transactionType;
 
   @override
   State<PaymentOptionsWidged> createState() => _PaymentOptionsWidgedState();
@@ -152,7 +154,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 600,
+      height: MediaQuery.of(context).size.height * 0.70,
       child: SingleChildScrollView(
         child: Container(
           child: _buildPanel(),
@@ -195,17 +197,18 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                       final htmlString = data.gatewayRequestFormString ?? data.gatewayRequestString;
                       if (htmlString.isNotEmpty) {
                         return SizedBox(
-                          height: 600,
+                          height: (MediaQuery.of(context).size.height * 0.70) -150 ,
                           child: WebView(
                             gestureRecognizers: gestureRecognizers,
                             navigationDelegate: (NavigationRequest request) {
-                              if (request.url.contains(data.successURL)) {
+                              if (request.url.contains(data.successURL)) {                          
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => PaymentSuccessPage(
                                       amount: widget.cardProduct.finalPrice,
-                                      cardNumber: widget.cardDetails?.accountNumber,
+                                      cardNumber: widget.transactionResponse.primaryCard,
+                                      transactionType: widget.transactionType
                                     ),
                                   ),
                                 );
@@ -232,7 +235,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                               return NavigationDecision.navigate;
                             },
                             initialUrl: Uri.dataFromString(htmlString, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString(),
-                            javascriptMode: JavascriptMode.unrestricted,
+                            javascriptMode: JavascriptMode.unrestricted
                           ),
                         );
                       } else {

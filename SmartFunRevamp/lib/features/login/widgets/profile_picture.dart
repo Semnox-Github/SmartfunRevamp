@@ -14,6 +14,8 @@ class ProfilePicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fInitial = customerDTO.firstName!.isNotEmpty ? '${customerDTO.firstName?[0]}' : '';
+    final lInitial = customerDTO.lastName!.isNotEmpty ? '${customerDTO.lastName?[0]}' : '';
     return InkWell(
       onTap: () async {},
       child: Container(
@@ -33,7 +35,7 @@ class ProfilePicture extends StatelessWidget {
                 width: 40.0,
                 child: Center(
                   child: MulishText(
-                    text: '${customerDTO.firstName![0]}${customerDTO.lastName![0]}',
+                    text: '$fInitial$lInitial',
                   ),
                 ),
               ),

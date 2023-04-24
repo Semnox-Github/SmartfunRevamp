@@ -4,6 +4,7 @@ import 'package:get/instance_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_card_activity_log_use_case.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
@@ -21,15 +22,23 @@ final _getActivityLog = FutureProvider.autoDispose.family<List<CardActivity>, St
   );
 });
 
-class CardActivityLogPage extends StatefulWidget {
+class CardActivityLogPage extends ConsumerStatefulWidget {
   const CardActivityLogPage({super.key});
 
   @override
-  State<CardActivityLogPage> createState() => _CardActivityLogPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CardActivityLogPageState();
 }
 
-class _CardActivityLogPageState extends State<CardActivityLogPage> {
-  String? _cardId;
+class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
+  late CardDetails selectedCard;
+  late List<CardDetails> cards;
+  @override
+  void initState() {
+    super.initState();
+    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+    selectedCard = cards.first;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,124 +46,106 @@ class _CardActivityLogPageState extends State<CardActivityLogPage> {
         title: 'Activity',
       ),
       body: SafeArea(
-        child: Consumer(
-          builder: (context, ref, child) {
-            return Container(
-              margin: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Consumer(
-                builder: (context, ref, child) {
-                  return ref.watch(CardsProviders.userCardsProvider).maybeWhen(
-                        orElse: () => Container(
-                          height: 20.0,
-                          width: 20.0,
-                          color: Colors.red,
+        child: Column(
+          children: [
+            CarouselCards(
+              cards: cards,
+              showLinkCard: false,
+              onCardChanged: (index) {
+                setState(() {
+                  selectedCard = cards[index];
+                });
+              },
+            ),
+            Expanded(
+              child: ref.watch(_getActivityLog(selectedCard.accountId.toString())).maybeWhen(
+                    orElse: () => Container(),
+                    error: (error, stackTrace) {
+                      return const Center(
+                        child: MulishText(
+                          text: 'No activities on this Card',
+                          fontSize: 20.0,
                         ),
-                        loading: () => const CircularProgressIndicator(),
-                        data: (data) {
-                          return Column(
-                            children: [
-                              CarouselCards(
-                                cards: data,
-                                showLinkCard: false,
-                                onCardChanged: (cardIndex) {
-                                  setState(() {
-                                    _cardId = data[cardIndex].accountId.toString();
-                                  });
-                                },
-                              ),
-                              Expanded(
-                                child: ref.watch(_getActivityLog(_cardId ?? data.first.accountId.toString())).maybeWhen(
-                                      orElse: () => Container(),
-                                      error: (error, stackTrace) {
-                                        return const Center(
-                                          child: MulishText(
-                                            text: 'No activities on this Card',
-                                            fontSize: 20.0,
-                                          ),
-                                        );
-                                      },
-                                      loading: () => const Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                      data: (data) {
-                                        return Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.all(10.0),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  const MulishText(
-                                                    text: 'Card Activities',
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20.0,
-                                                  ),
-                                                  ListView.builder(
-                                                    itemCount: data.length,
-                                                    shrinkWrap: true,
-                                                    physics: const ClampingScrollPhysics(),
-                                                    itemBuilder: (context, index) {
-                                                      final activity = data[index];
-                                                      return Container(
-                                                        margin: const EdgeInsets.symmetric(vertical: 10.0),
-                                                        decoration: BoxDecoration(border: Border.all(color: CustomColors.customLigthBlue), borderRadius: BorderRadius.circular(20.0)),
-                                                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                MulishText(
-                                                                  text: '${activity.activityType}',
-                                                                  fontWeight: FontWeight.bold,
-                                                                ),
-                                                                MulishText(text: '${activity.site}'),
-                                                                MulishText(text: 'Ref: ${activity.refId}'),
-                                                              ],
-                                                            ),
-                                                            Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                                              children: [
-                                                                MulishText(
-                                                                  text: '${activity.date?.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)}, ${activity.date?.formatDate(DateFormat.HOUR_MINUTE)}',
-                                                                ),
-                                                                IconButton(
-                                                                  onPressed: () {
-                                                                    Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                        builder: (context) => CardActivityDetailPage(transactionId: activity.refId.toString()),
-                                                                      ),
-                                                                    );
-                                                                  },
-                                                                  icon: const Icon(
-                                                                    Icons.arrow_forward_ios_outlined,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        );
-                                      },
-                                    ),
-                              ),
-                            ],
-                          );
-                        },
                       );
-                },
-              ),
-            );
-          },
+                    },
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    data: (data) {
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const MulishText(
+                                  text: 'Card Activities',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                ),
+                                ListView.builder(
+                                  itemCount: data.length,
+                                  shrinkWrap: true,
+                                  physics: const ClampingScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    final activity = data[index];
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(vertical: 10.0),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: CustomColors.customLigthBlue),
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              MulishText(
+                                                text: '${activity.activityType}',
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              MulishText(text: '${activity.site}'),
+                                              MulishText(text: 'Ref: ${activity.refId}'),
+                                            ],
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: [
+                                              MulishText(
+                                                text: '${activity.date?.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)}, ${activity.date?.formatDate(DateFormat.HOUR_MINUTE)}',
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => CardActivityDetailPage(transactionId: activity.refId.toString()),
+                                                    ),
+                                                  );
+                                                },
+                                                icon: const Icon(
+                                                  Icons.arrow_forward_ios_outlined,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  ),
+            ),
+          ],
         ),
       ),
     );

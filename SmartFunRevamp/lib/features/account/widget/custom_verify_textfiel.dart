@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:semnox/core/enums/contact_enum.dart';
 
 import 'verify_button.dart';
 
-class CustomVerifyTextField extends StatelessWidget {
+class CustomVerifyTextField extends ConsumerWidget {
   const CustomVerifyTextField({
     super.key,
     required this.onSaved,
     required this.label,
-    required this.verifying,
+    required this.contactType,
+    required this.phoneOrEmail,
     this.padding = EdgeInsets.zero,
     this.margins = EdgeInsets.zero,
     this.inputType = TextInputType.name,
@@ -25,10 +28,11 @@ class CustomVerifyTextField extends StatelessWidget {
   final List<TextInputFormatter>? formatters;
   final EdgeInsets padding;
   final EdgeInsets margins;
-  final String verifying;
+  final ContactType contactType;
+  final String phoneOrEmail;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: padding,
       margin: margins,
@@ -77,7 +81,8 @@ class CustomVerifyTextField extends StatelessWidget {
                       ),
                     ),
                     VerifyButton(
-                      description: verifying,
+                      contactType: contactType,
+                      phoneOrEmail: phoneOrEmail,
                     ),
                   ],
                 ),

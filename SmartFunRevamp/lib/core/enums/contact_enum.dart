@@ -25,4 +25,15 @@ extension ContactTypeExtension on ContactType {
         return 0;
     }
   }
+
+  String get valueString {
+    switch (this) {
+      case ContactType.email:
+        return 'Email';
+      case ContactType.phone:
+        return 'Phone';
+      default:
+        return 'N/A';
+    }
+  }
 }

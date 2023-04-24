@@ -13,6 +13,8 @@ class RoundRectanglePicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fInitial = user.firstName!.isNotEmpty ? '${user.firstName?[0]}' : '';
+    final lInitial = user.lastName!.isNotEmpty ? '${user.lastName?[0]}' : '';
     return Container(
       padding: const EdgeInsets.all(1.5),
       decoration: BoxDecoration(
@@ -29,7 +31,7 @@ class RoundRectanglePicture extends StatelessWidget {
               : Container(
                   alignment: Alignment.center,
                   child: MulishText(
-                    text: '${user.firstName![0]}${user.lastName![0]}',
+                    text: '$fInitial$lInitial',
                     fontSize: 25.0,
                   ),
                 ),

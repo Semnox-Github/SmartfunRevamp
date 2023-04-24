@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
@@ -29,9 +27,9 @@ abstract class SmartFunApi {
     dio.interceptors.addAll([
       AuthorizationInterceptor(),
       PrettyDioLogger(
-        requestHeader: true,
         requestBody: true,
         responseBody: true,
+        requestHeader: false,
         responseHeader: false,
         request: true,
         error: true,
@@ -71,8 +69,7 @@ abstract class SmartFunApi {
 
   @GET('Product/ProductPrice')
   Future<ListDataWrapper<CardProduct>> getProductsPricesBySite(
-    @Query('dateTime') String dateTime,
-    @Header(HttpHeaders.authorizationHeader) String token, {
+    @Query('dateTime') String dateTime, {
     @Query('menuType') String menuType = 'O',
     @Query('transactionProfileId') int transactionProfileId = -1,
     @Query('membershipId') int membershipId = -1,
@@ -158,7 +155,7 @@ abstract class SmartFunApi {
   Future<ListDataWrapper<PaymentMode>> getPaymentModes({
     @Query('siteId') String siteId = '1040',
     @Query('isActive') int isActive = 1,
-    @Query('paymentChannel') String paymentChannel = 'CUSTOMER_APP_PAYMENT'
+    @Query('paymentChannel') String paymentChannel = 'CUSTOMER_APP_PAYMENT',
   });
 
   @GET('Transaction/HostedPaymentGateways')
@@ -172,11 +169,13 @@ abstract class SmartFunApi {
 
   //----- Gameplays -----// ->
 
-  @GET('Customer/Account/{urlId}/AccountGamePlays')
+  @GET('Transaction/Gameplays')
   Future<ListDataWrapper<AccountGameplays>> getAccountGamePlays(
-    @Query('accountId') int accountId,
-    @Path('urlId') int urlId,
-  );
+    @Query('accountId') int accountId, {
+    @Query('gameplayId') bool urlId = true,
+  });
+
+  // /api/Transaction/Gameplays?gameplayId=true&accountId=244065
 
   //----- Gameplays -----// <-
 
@@ -203,7 +202,7 @@ abstract class SmartFunApi {
   @POST('Customer/Account/AccountService/LinkAccountToCustomers')
   Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
 
-  @GET('Customer/Account/{accountId}/AccountActivity')
+  @GET('Customer/Account/{accountId}/AccountActivityView')
   Future<ListDataWrapper<CardActivity>> getCardActivityDetail(@Path('accountId') @Query('accountId') String accountId);
 
   @GET('Transaction/Transactions')
@@ -218,15 +217,20 @@ abstract class SmartFunApi {
   @POST('Customer/Account/AccountService/LostCard')
   Future<Data<String>> lostCard(@Body() Map<String, dynamic> body);
 
-  @POST('Communication/MessagingRequests?MessageType=A')
+  @GET('Communication/MessagingRequests?MessageType=A')
   Future<ListDataWrapper<NotificationsResponse>> getAllNotifications(
-    @Query('CustomerId') String customerId, {
-    @Query('From_Date') String fromDate = '',
-    @Query('To_Date') String toDate = '',
-  });
+    @Query('From_Date') String fromDate,
+    @Query('To_Date') String toDate,
+    @Query('CustomerId') String customerId,
+  );
 
   @POST('Customer/PasswordReset')
   Future<void> sendResetPasswordLink(
     @Body() Map<String, dynamic> body,
   );
+
+  @GET('Customer/{CustomerId}/Summary')
+  Future<void> getMembershipInfo(@Path('CustomerId') int customerId);
+  @GET('Customer/Membership/MembershipsContainer')
+  Future<void> getMembershipContainer(@Query('siteId') int siteId, {@Query('rebuildCache') bool rebuildCachec = false});
 }

@@ -10,10 +10,12 @@ part 'splash_screen_state.dart';
 part 'splash_screen_notifier.freezed.dart';
 
 final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashScreenState>(
-  (ref) => SplashScreenNotifier(
-    Get.find(),
-    Get.find(),
-  ),
+  (ref) {
+    return SplashScreenNotifier(
+      Get.find(),
+      Get.find(),
+    );
+  },
 );
 
 class SplashScreenNotifier extends StateNotifier<SplashScreenState> {

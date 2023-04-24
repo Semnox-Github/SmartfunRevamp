@@ -4,10 +4,9 @@ import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/use_cases/products/get_products_price_use_case.dart';
 
-final rechargeProductsProvider = FutureProvider<List<CardProduct>>((ref) async {
+final rechargeProductsProvider = FutureProvider.autoDispose.family<List<CardProduct>, int>((ref, siteId) async {
   final GetProductsPriceUseCase getProductsPriceUseCase = Get.find<GetProductsPriceUseCase>();
-  //TODO:Make siteId variable
-  final response = await getProductsPriceUseCase(1040);
+  final response = await getProductsPriceUseCase(siteId);
   return response.fold(
     (l) => throw l,
     (r) {

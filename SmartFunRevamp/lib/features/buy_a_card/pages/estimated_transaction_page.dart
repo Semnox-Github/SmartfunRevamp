@@ -16,10 +16,12 @@ class EstimatedTransactionPage extends ConsumerWidget {
     Key? key,
     required this.cardProduct,
     this.cardSelected,
+    required this.transactionType,
   }) : super(key: key);
 
   final CardProduct cardProduct;
   final CardDetails? cardSelected;
+  final String transactionType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -190,6 +192,8 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                     builder: (context) => PaymentOptionsPage(
                                       transactionResponse: transactionResponse,
                                       cardProduct: cardProduct,
+                                      cardDetails: cardSelected,
+                                      transactionType: transactionType,
                                     ),
                                   ),
                                 );

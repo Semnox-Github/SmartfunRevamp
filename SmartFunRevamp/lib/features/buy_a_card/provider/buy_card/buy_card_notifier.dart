@@ -9,7 +9,7 @@ import 'package:semnox/core/domain/use_cases/products/get_products_price_use_cas
 part 'buy_card_state.dart';
 part 'buy_card_notifier.freezed.dart';
 
-final buyCardNotifier = StateNotifierProvider<BuyCardNotifier, BuyCardState>(
+final buyCardNotifier = StateNotifierProvider.autoDispose<BuyCardNotifier, BuyCardState>(
   (ref) => BuyCardNotifier(
     Get.find<GetProductsPriceUseCase>(),
   ),
@@ -20,12 +20,11 @@ class BuyCardNotifier extends StateNotifier<BuyCardState> {
 
   List<CardProduct> _cards = [];
 
-  BuyCardNotifier(this._getProductsPriceUseCase) : super(const _InProgress()) {
-    _getCards();
-  }
+  BuyCardNotifier(this._getProductsPriceUseCase) : super(const _InProgress());
 
-  void _getCards() async {
-    final response = await _getProductsPriceUseCase(1013);
+  void getCards(int siteId) async {
+    state = const _InProgress();
+    final response = await _getProductsPriceUseCase(siteId);
     response.fold(
       (l) => state = _Error(l.message),
       (r) {

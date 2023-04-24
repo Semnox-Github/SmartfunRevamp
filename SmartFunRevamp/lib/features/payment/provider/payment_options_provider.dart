@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
@@ -9,8 +11,7 @@ import 'package:semnox/core/domain/use_cases/payment/get_payment_options_use_cas
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class PaymentOptionsProvider {
-  static final paymentModesProvider = FutureProvider<List<PaymentMode>>((ref) async {
-    
+  static final paymentModesProvider = FutureProvider.autoDispose<List<PaymentMode>>((ref) async {
     final GetPaymentOptionsUseCase getPaymentOptionsUseCase = Get.find<GetPaymentOptionsUseCase>();
     final siteId = Get.find<CustomerDTO>().siteId;
     final response = await getPaymentOptionsUseCase(1040);
@@ -22,7 +23,6 @@ class PaymentOptionsProvider {
   });
 
   static final hostedPaymentGatewayProvider = FutureProvider.autoDispose.family<HostedPaymentGateway, HostedPaymentGatewayRequest>((ref, requestData) async {
-
     final GetHostedPaymentGatewayUseCase getHostedPaymentGatewayUseCase = Get.find<GetHostedPaymentGatewayUseCase>();
 
     final response = await getHostedPaymentGatewayUseCase(hostedPaymentGateway: requestData.hostedPaymentGateway, amount: requestData.amount, transactionId: requestData.transactionId);

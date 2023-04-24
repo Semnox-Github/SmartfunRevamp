@@ -29,7 +29,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 18,
+                  fontSize: 16,
                   color: Colors.red
                 ),
               ),
@@ -37,6 +37,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
                 'You will no longer be able to use this card. But you can still view the Gameplay history and Activity details.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -114,11 +115,73 @@ class RechargeCardDetailsButton extends StatelessWidget {
         Expanded(
           child: Column(
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  // Expanded(
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //       gradient: CustomGradients.linearGradient,
+                  //       borderRadius: BorderRadius.circular(15.0),
+                  //     ),
+                  //     child: Container(
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.circular(12.0),
+                  //         gradient: CustomGradients.linearGradient,
+                  //       ),
+                  //       margin: const EdgeInsets.all(3),
+                  //       child: TextButton(
+                  //         onPressed: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
+                  //         child: const Text(
+                  //           'RECHARGE NOW',
+                  //           style: TextStyle(
+                  //             color: Colors.white,
+                  //             fontWeight: FontWeight.bold,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(width: 20.0),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: CustomGradients.linearGradient,
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Colors.white,
+                        ),
+                        margin: const EdgeInsets.all(3),
+                        child: TextButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CardDetailPage(cardDetails: cardDetails),
+                            ),
+                          ),
+                          child: const Text(
+                            'CARD DETAILS',
+                            style: TextStyle(
+                              color: CustomColors.hardOrange,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 3.0),
               Text(
                 'Your card ${cardDetails.accountNumber} has been blocked, based on your request. You no longer will be to use it.',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
+                  fontSize: 8,
                 ),
               ),
               const Text(
@@ -126,6 +189,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
+                  fontSize: 8,
                 ),
               ),
             ],

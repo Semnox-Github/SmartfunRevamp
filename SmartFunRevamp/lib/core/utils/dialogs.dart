@@ -2,14 +2,14 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
-import 'package:semnox/core/widgets/recharge_card_widget.dart';
+import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
 
@@ -86,107 +86,87 @@ class Dialogs {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          content: ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.65,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
+          content: Container(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(left: 5.0),
+                  decoration: BoxDecoration(
                     color: CustomColors.customLigthBlue,
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          card.productName,
-                          style: GoogleFonts.mulish(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () => Navigator.pop(context),
-                          icon: const Icon(
-                            Icons.cancel_outlined,
-                          ),
-                        )
-                      ],
-                    ),
+                    borderRadius: BorderRadius.circular(12.0),
                   ),
-                  RechargeCardWidget(cardProduct: card),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Features & Terms',
-                          style: GoogleFonts.mulish(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 20.0,
-                          ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MulishText(
+                        text: card.productName,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                      ),
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(
+                          Icons.cancel_outlined,
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Text(
-                          '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                          style: GoogleFonts.mulish(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.04,
-                        ),
-                        CustomButton(
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EstimatedTransactionPage(cardProduct: card),
-                              ),
-                            );
-                          },
-                          label: 'BUY NOW @ ${card.finalPrice.toStringAsFixed(0)}',
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                      )
+                    ],
+                  ),
+                ),
+                RechargeCardWidget(cardProduct: card),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const MulishText(
+                        text: 'Features & Terms',
+                        fontWeight: FontWeight.w800,
+                        textAlign: TextAlign.start,
+                        fontSize: 20.0,
+                      ),
+                      const MulishText(
+                        text: '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                        fontSize: 14.0,
+                        textAlign: TextAlign.start,
+                      ),
+                      const MulishText(
+                        text: '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                        fontSize: 14.0,
+                        textAlign: TextAlign.start,
+                      ),
+                      const MulishText(
+                        text: '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                        fontSize: 14.0,
+                        textAlign: TextAlign.start,
+                      ),
+                      const MulishText(
+                        text: '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                        fontSize: 14.0,
+                        textAlign: TextAlign.start,
+                      ),
+                      CustomButton(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EstimatedTransactionPage(cardProduct: card, transactionType: "newcard",),
+                            ),
+                          );
+                        },
+                        label: 'BUY NOW @ ${card.finalPrice.toStringAsFixed(0)}',
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
         );
@@ -284,71 +264,77 @@ class Dialogs {
     );
   }
 
-  static void verifyDialog(BuildContext context, Function() onVerify, String description) {
+  static void verifyDialog(BuildContext context, Function(String) onVerify, ContactType contactType) {
+    String otp = '';
     AwesomeDialog(
-        context: context,
-        dialogType: DialogType.noHeader,
-        btnOk: CustomButton(
-          onTap: () {
-            onVerify();
-            Navigator.pop(context);
-          },
-          label: 'VERIFY',
-        ),
-        btnCancel: CustomCancelButton(onPressed: () => Navigator.pop(context), label: 'CANCEL'),
-        body: Column(
-          children: [
-            Container(
-              padding: const EdgeInsetsDirectional.all(10.0),
-              margin: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const MulishText(
-                    text: 'Verify Email',
-                    fontWeight: FontWeight.bold,
-                    textAlign: TextAlign.start,
+      context: context,
+      dialogType: DialogType.noHeader,
+      btnOk: CustomButton(
+        onTap: () {
+          onVerify(otp);
+          Navigator.pop(context);
+        },
+        label: 'VERIFY',
+      ),
+      btnCancel: CustomCancelButton(
+        onPressed: () => Navigator.pop(context),
+        label: 'CANCEL',
+      ),
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsetsDirectional.all(10.0),
+            margin: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MulishText(
+                  text: 'Verify ${contactType.valueString}',
+                  fontWeight: FontWeight.bold,
+                  textAlign: TextAlign.start,
+                ),
+                const SizedBox(height: 10.0),
+                MulishText(
+                  text: 'We have mailed you an OTP.\nEnter the OTP to verify your ${contactType.valueString}',
+                  textAlign: TextAlign.start,
+                ),
+                const SizedBox(height: 10.0),
+                OtpPinField(
+                  onSubmit: (otp) => {},
+                  onChange: (code) => otp = code,
+                  keyboardType: TextInputType.number,
+                  otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
+                  otpPinFieldStyle: const OtpPinFieldStyle(
+                    defaultFieldBorderColor: CustomColors.customOrange,
+                    activeFieldBorderColor: CustomColors.hardOrange,
                   ),
-                  const SizedBox(height: 10.0),
-                  MulishText(
-                    text: 'We have mailed you an OTP.\nEnter the OTP to verify your $description',
-                  ),
-                  const SizedBox(height: 10.0),
-                  OtpPinField(
-                    onSubmit: (otp) => {},
-                    onChange: (code) => {},
-                    keyboardType: TextInputType.number,
-                    otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
-                    otpPinFieldStyle: const OtpPinFieldStyle(
-                      defaultFieldBorderColor: CustomColors.customOrange,
-                      activeFieldBorderColor: CustomColors.hardOrange,
-                    ),
-                    maxLength: 4,
-                  ),
-                  const SizedBox(height: 10.0),
-                  const MulishText(
-                    text: "Didn't Receive?",
-                    textAlign: TextAlign.start,
-                  ),
-                  RichText(
-                    text: const TextSpan(children: [
-                      WidgetSpan(
-                        child: MulishText(
-                          text: 'RESEND',
-                          fontWeight: FontWeight.bold,
-                        ),
+                  maxLength: 6,
+                ),
+                const SizedBox(height: 10.0),
+                const MulishText(
+                  text: "Didn't Receive?",
+                  textAlign: TextAlign.start,
+                ),
+                RichText(
+                  text: const TextSpan(children: [
+                    WidgetSpan(
+                      child: MulishText(
+                        text: 'RESEND',
+                        fontWeight: FontWeight.bold,
                       ),
-                      WidgetSpan(
-                        child: MulishText(
-                          text: ' in 30 seconds',
-                        ),
-                      )
-                    ]),
-                  ),
-                ],
-              ),
+                    ),
+                    WidgetSpan(
+                      child: MulishText(
+                        text: ' in 30 seconds',
+                      ),
+                    )
+                  ]),
+                ),
+              ],
             ),
-          ],
-        )).show();
+          ),
+        ],
+      ),
+    ).show();
   }
 }

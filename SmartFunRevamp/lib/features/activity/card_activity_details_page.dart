@@ -177,8 +177,8 @@ class CardActivityDetailPage extends StatelessWidget {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CardActivityReceiptPage(
-                                transactionId: data.transactionId.toString(),
+                              builder: (context) => const CardActivityReceiptPage(
+                                transactionId: '140432',
                               ),
                             ),
                           ),

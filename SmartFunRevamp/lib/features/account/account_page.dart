@@ -12,7 +12,7 @@ import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/account/provider/update_account_provider.dart';
+import 'package:semnox/features/account/provider/update_account/update_account_provider.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/round_rectangle_picture.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -31,8 +31,8 @@ class AccountPage extends ConsumerWidget {
     String newPhone = '';
     ref.listen(
       updateAccountProvider,
-      (a, b) {
-        b.maybeWhen(
+      (_, next) {
+        next.maybeWhen(
           orElse: () => {},
           success: (data) {
             context.loaderOverlay.hide();
@@ -60,94 +60,95 @@ class AccountPage extends ConsumerWidget {
         );
       },
     );
+
     return Scaffold(
       appBar: const CustomAppBar(title: 'Account'),
-      body: LoaderOverlay(
-        child: SafeArea(
-          minimum: const EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  RoundRectanglePicture(user: user),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.edit_square),
-                        color: CustomColors.hardOrange,
-                      ),
-                      const MulishText(text: 'Edit Photo')
-                    ],
-                  ),
-                  CustomTextField(
-                    onSaved: (firstName) => user.profilefirtName = firstName,
-                    label: 'First Name',
-                    initialValue: user.firstName,
-                    margins: const EdgeInsets.symmetric(vertical: 10.0),
-                  ),
-                  CustomTextField(
-                    onSaved: (lastName) => user.profilelastName = lastName,
-                    label: 'Last Name',
-                    initialValue: user.lastName,
-                    margins: const EdgeInsets.symmetric(vertical: 10.0),
-                  ),
-                  CustomVerifyTextField(
-                    onSaved: (email) => newEmail = email,
-                    label: 'Email Address',
-                    initialValue: user.email,
-                    margins: const EdgeInsets.symmetric(vertical: 10.0),
-                    verifying: 'Email ID',
-                  ),
-                  CustomVerifyTextField(
-                    onSaved: (phone) => newPhone = phone,
-                    label: 'Phone',
-                    initialValue: user.phone,
-                    margins: const EdgeInsets.symmetric(vertical: 10.0),
-                    verifying: 'Phone Number',
-                  ),
-                  CustomDatePicker(
-                    margin: const EdgeInsets.symmetric(vertical: 10.0),
-                    labelText: 'Date of birth',
-                    format: 'MM-dd-yyyy',
-                    initialText: user.dateOfBirth.cleanDate(),
-                    onItemSelected: (dob) => user.profiledateOfBirth = DateFormat('MM-dd-yyyy').format(dob),
-                    suffixIcon: const Icon(
-                      Icons.date_range_outlined,
+      body: SafeArea(
+        minimum: const EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                RoundRectanglePicture(user: user),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.edit_square),
                       color: CustomColors.hardOrange,
                     ),
+                    const MulishText(text: 'Edit Photo')
+                  ],
+                ),
+                CustomTextField(
+                  onSaved: (firstName) => user.profilefirtName = firstName,
+                  label: 'First Name',
+                  initialValue: user.firstName,
+                  margins: const EdgeInsets.symmetric(vertical: 10.0),
+                ),
+                CustomTextField(
+                  onSaved: (lastName) => user.profilelastName = lastName,
+                  label: 'Last Name',
+                  initialValue: user.lastName,
+                  margins: const EdgeInsets.symmetric(vertical: 10.0),
+                ),
+                CustomVerifyTextField(
+                  onSaved: (email) => newEmail = email,
+                  label: 'Email Address',
+                  initialValue: user.email,
+                  margins: const EdgeInsets.symmetric(vertical: 10.0),
+                  contactType: ContactType.email,
+                  phoneOrEmail: user.email ?? '',
+                ),
+                CustomVerifyTextField(
+                  onSaved: (phone) => newPhone = phone,
+                  label: 'Phone',
+                  initialValue: user.phone,
+                  margins: const EdgeInsets.symmetric(vertical: 10.0),
+                  contactType: ContactType.phone,
+                  phoneOrEmail: user.phone ?? '',
+                ),
+                CustomDatePicker(
+                  margin: const EdgeInsets.symmetric(vertical: 10.0),
+                  labelText: 'Date of birth',
+                  format: 'MM-dd-yyyy',
+                  initialText: user.dateOfBirth.cleanDate(),
+                  onItemSelected: (dob) => user.profiledateOfBirth = DateFormat('MM-dd-yyyy').format(dob),
+                  suffixIcon: const Icon(
+                    Icons.date_range_outlined,
+                    color: CustomColors.hardOrange,
                   ),
-                  CustomButton(
-                    onTap: () {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        user.contactDtoList?.clear();
-                        user.profilecontactDtoList = [
-                          PhoneContactDTO(
-                            contactTypeId: ContactType.email.typeId,
-                            contactType: ContactType.email.type,
-                            attribute1: newEmail,
-                            isActive: true,
-                          ),
-                          PhoneContactDTO(
-                            contactTypeId: ContactType.phone.typeId,
-                            contactType: ContactType.phone.type,
-                            attribute1: newPhone,
-                            isActive: true,
-                          ),
-                        ];
-                        user.profileaddressDtoList = [];
-                        ref.read(updateAccountProvider.notifier).updateProfile(user);
-                      }
-                    },
-                    label: 'SAVE',
-                    margin: const EdgeInsets.symmetric(vertical: 20.0),
-                  )
-                ],
-              ),
+                ),
+                CustomButton(
+                  onTap: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      user.contactDtoList?.clear();
+                      user.profilecontactDtoList = [
+                        PhoneContactDTO(
+                          contactTypeId: ContactType.email.typeId,
+                          contactType: ContactType.email.type,
+                          attribute1: newEmail,
+                          isActive: true,
+                        ),
+                        PhoneContactDTO(
+                          contactTypeId: ContactType.phone.typeId,
+                          contactType: ContactType.phone.type,
+                          attribute1: newPhone,
+                          isActive: true,
+                        ),
+                      ];
+                      user.profileaddressDtoList = [];
+                      ref.read(updateAccountProvider.notifier).updateProfile(user);
+                    }
+                  },
+                  label: 'SAVE',
+                  margin: const EdgeInsets.symmetric(vertical: 20.0),
+                )
+              ],
             ),
           ),
         ),

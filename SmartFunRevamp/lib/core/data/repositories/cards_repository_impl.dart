@@ -10,6 +10,7 @@ import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/domain/repositories/cards_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
 
@@ -98,7 +99,9 @@ class CardsRepositoryImpl implements CardsRepository {
   Future<Either<Failure, void>> linkCardToUser(String cardNumber, String userId) async {
     try {
       final cardDetail = await _api.getCardDetails(cardNumber);
-
+      if (cardDetail.data.first.customerId != -1) {
+        return Left(ServerFailure('Card is already linked to another user'));
+      }
       final response = await _api.linkCardToCustomer({
         "SourceAccountDTO": {"AccountId": cardDetail.data.first.accountId},
         "CustomerDTO": {"Id": userId}
@@ -173,9 +176,13 @@ class CardsRepositoryImpl implements CardsRepository {
   }
 
   @override
-  Future<Either<Failure, String>> transferBalance(Map<String, dynamic> body) async {
+  Future<Either<Failure, String>> transferBalance(TransferBalance transferBalance) async {
     try {
-      final response = await _api.transferBalance(body);
+      if (transferBalance.to.accountId == null) {
+        transferBalance.to = (await _api.getCardDetails(transferBalance.to.accountNumber ?? '')).data.first;
+      }
+      final response = await _api.transferBalance(transferBalance.toJson());
+
       return Right(response.data);
     } on DioError catch (e) {
       Logger().e(e);

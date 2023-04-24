@@ -16,17 +16,18 @@ part 'cards_state.dart';
 part 'cards_provider.freezed.dart';
 
 class CardsProviders {
-  static final userCardsProvider = FutureProvider<List<CardDetails>>((ref) async {
+  static final userCardsProvider = FutureProvider.autoDispose<List<CardDetails>>((ref) async {
     final GetUserCardsUseCase getUserCardsUseCase = Get.find<GetUserCardsUseCase>();
     final userId = Get.find<CustomerDTO>().id;
     final response = await getUserCardsUseCase(userId.toString());
+
     return response.fold(
       (l) => throw l,
       (r) => r,
     );
   });
 
-  static final userGamesSummaryProvider = FutureProvider<void>((ref) async {
+  static final userGamesSummaryProvider = FutureProvider.autoDispose<void>((ref) async {
     final GetAccountGamesSummaryUseCase getAccountGamesSummaryUseCase = Get.find<GetAccountGamesSummaryUseCase>();
     final userId = Get.find<CustomerDTO>().id;
     final response = await getAccountGamesSummaryUseCase(userId.toString());
@@ -50,7 +51,7 @@ class CardsProviders {
 
   static final transferBalance = FutureProvider.autoDispose.family<String, TransferBalance>((ref, transferRequest) async {
     final TransferBalanceUseCase transferBalanceUseCase = Get.find<TransferBalanceUseCase>();
-    final response = await transferBalanceUseCase(transferRequest.toJson());
+    final response = await transferBalanceUseCase(transferRequest);
     return response.fold(
       (l) => throw l,
       (r) => r,

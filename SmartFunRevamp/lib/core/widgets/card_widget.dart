@@ -10,7 +10,10 @@ class CardWidget extends StatelessWidget {
   CardWidget({Key? key, required this.cardDetails}) : super(key: key);
 
   final formatter = DateFormat('dd MMM yyyy');
-  final CardDetails cardDetails;
+  late final CardDetails cardDetails;
+  late final validPeriod = cardDetails.expiryDate.isNullOrEmpty() ? 
+    formatter.format(cardDetails.issueDate ?? DateTime.now()) : 
+    '${formatter.format(cardDetails.issueDate ?? DateTime.now())} - ${formatter.format(DateTime.parse(cardDetails.expiryDate.toString()))}';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -80,7 +83,7 @@ class CardWidget extends StatelessWidget {
             ),
           ),
           MulishText(
-            text: '${formatter.format(cardDetails.issueDate ?? DateTime.now())} -${formatter.format(DateTime.parse(cardDetails.expiryDate.toString()))}',
+            text: validPeriod,
             fontColor: Colors.white,
           )
         ],

@@ -4,6 +4,7 @@ import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 
 import 'package:semnox/core/errors/failures.dart';
 
@@ -15,6 +16,6 @@ abstract class CardsRepository {
   Future<Either<Failure, void>> linkCardToUser(String cardNumber, String userId);
   Future<Either<Failure, List<CardActivity>>> getCardActivityLog(String cardId);
   Future<Either<Failure, CardActivityDetails>> getCardActivityTransactionDetail(String transactionId, bool buildReceipt);
-  Future<Either<Failure, String>> transferBalance(Map<String, dynamic> body);
+  Future<Either<Failure, String>> transferBalance(TransferBalance transferBalance);
   Future<Either<Failure, void>> lostCard(Map<String, dynamic> body);
 }

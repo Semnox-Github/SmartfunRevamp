@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semnox/colors/colors.dart';
 import 'package:semnox/features/home/view/bookings_view.dart';
 import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/view/more_view.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentPage = 3;
+  int _currentPage = 0;
   late PageController _pageController;
 
   @override
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.customLigthBlue,
       bottomNavigationBar: CustomBottomBar(
         onTap: (page) {
           setState(() {

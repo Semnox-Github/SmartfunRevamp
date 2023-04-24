@@ -22,7 +22,7 @@ class LoginWithOTP extends ConsumerWidget {
             label: 'Enter registered phone number',
             inputType: TextInputType.phone,
             fillColor: Colors.white,
-            initialValue: '9880080663',
+            initialValue: '988789987',
           ),
           const SizedBox(height: 20.0),
           CustomButton(

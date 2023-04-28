@@ -10,6 +10,7 @@ import 'package:semnox/core/domain/entities/card_details/card_activity_details.d
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
+import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
@@ -105,7 +106,7 @@ abstract class SmartFunApi {
   );
 
   @GET('Configuration/LanguageContainer')
-  Future<HttpResponse> getParafaitLanguages(
+  Future<Data<LanguageContainerDTO>> getParafaitLanguages(
     @Query('siteId') String siteId,
   );
 

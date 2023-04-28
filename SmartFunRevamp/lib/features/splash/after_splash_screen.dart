@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class AfterSplashScreen extends StatelessWidget {
+import '../../core/widgets/mulish_text.dart';
+
+class AfterSplashScreen extends StatefulWidget {
   const AfterSplashScreen({Key? key}) : super(key: key);
 
+  @override
+  State<AfterSplashScreen> createState() => _AfterSplashScreenState();
+}
+
+class _AfterSplashScreenState extends State<AfterSplashScreen> {
+  String dropdownValue = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,17 +60,38 @@ class AfterSplashScreen extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  DropdownButton<String>(
-                    value: 'English',
-                    isExpanded: true,
-                    items: ['English', 'Spanish'].map((item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                    onChanged: (_) {},
-                  )
+                  Consumer(
+                    builder: (context, ref, child) {
+                      return ref.watch(SplashScreenNotifier.parafaitLanguagesProvider).maybeWhen(
+                            orElse: () => Container(
+                              height: 20.0,
+                              width: 20.0,
+                              color: Colors.red,
+                            ),
+                            error: (e, s) => MulishText(
+                              text: 'An error has ocurred $e',
+                            ),
+                            loading: () => const CircularProgressIndicator(),
+                            data: (data) {
+                              return DropdownButton<String>(
+                                isExpanded: true,
+                                value: dropdownValue,
+                                items: data.languageContainerDTOList.map((item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item.languageId.toString(),
+                                    child: Text(item.languageName),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    dropdownValue = value.toString();
+                                  });
+                                },
+                             );
+                            },
+                          );
+                    },
+                  ),
                 ],
               ),
             ),

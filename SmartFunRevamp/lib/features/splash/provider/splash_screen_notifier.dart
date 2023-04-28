@@ -4,7 +4,10 @@ import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
+import 'package:semnox/core/domain/use_cases/splash_screen/get_parafait_languages_use_case.dart';
 import 'package:semnox/di/injection_container.dart';
+
+import '../../../core/domain/entities/language/language_container_dto.dart';
 
 part 'splash_screen_state.dart';
 part 'splash_screen_notifier.freezed.dart';
@@ -45,4 +48,14 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
       },
     );
   }
+
+    static final parafaitLanguagesProvider = FutureProvider<LanguageContainerDTO>((ref) async{
+    final GetParafaitLanguagesUseCase getParafaitLanguagesUseCase = Get.find<GetParafaitLanguagesUseCase>();
+    final response = await getParafaitLanguagesUseCase(siteId: "1040");
+    Logger().d(response);
+    return response.fold(
+      (l) => throw l,
+      (r) => r,
+    );
+  });
 }

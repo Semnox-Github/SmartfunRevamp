@@ -29,4 +29,21 @@ class InitialLoadRepositoryImpl implements InitialLoadRepository {
       return Left(ServerFailure(message['data']));
     }
   }
+
+  @override
+  Future<Either<Failure, Object>> getStringsForLocalization({required String siteId, required String languageId, String outputForm = 'JSON'}) async {
+    try {
+      final response = await _api.getStringsForLocalization(siteId, languageId, outputForm);
+      Logger().d(response);
+      
+      return Right(response.data);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    }
+  }
 }

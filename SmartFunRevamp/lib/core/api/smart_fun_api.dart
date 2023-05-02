@@ -114,7 +114,7 @@ abstract class SmartFunApi {
   Future<HttpResponse> getStringsForLocalization(
     @Query('siteId') String siteId,
     @Query('languageId') String languageId,
-    @Query('outputForm') String outputForm,
+    @Query('outputFormat') String outputForm,
   );
 
   @GET('Common/Images')

@@ -16,7 +16,7 @@ class AfterSplashScreen extends StatefulWidget {
 }
 
 class _AfterSplashScreenState extends State<AfterSplashScreen> {
-  String dropdownValue = "";
+  String dropdownValue = "90";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +85,22 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     dropdownValue = value.toString();
+                                    
                                   });
+
+                                  //ref.read(splashScreenProvider.notifier).getStringForLocalization();
+                                  ref.watch(SplashScreenNotifier.getStringForLocalization).maybeWhen(
+                                    orElse: () => Container(
+                                    height: 20.0,
+                                    width: 20.0,
+                                    color: Colors.red,
+                                  ),
+                                  error: (e, s) => MulishText(
+                                    text: 'An error has ocurred $e',
+                                  ),
+                                  loading: () => const CircularProgressIndicator(),
+                                  data: (data) {}
+                                  );
                                 },
                              );
                             },

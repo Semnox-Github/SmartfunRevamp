@@ -6,6 +6,12 @@ abstract class InitialLoadRepository {
   Future<Either<Failure, LanguageContainerDTO>> getParafaitLanguages({
     required String siteId,
   });
+
+  Future<Either<Failure, void>> getStringsForLocalization({
+    required String siteId,
+    required String languageId,
+    String outputForm = 'JSON',
+  });
 }
 
 

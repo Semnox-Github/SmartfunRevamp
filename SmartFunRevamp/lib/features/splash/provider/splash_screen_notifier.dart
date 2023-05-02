@@ -1,3 +1,4 @@
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
@@ -5,28 +6,35 @@ import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_parafait_languages_use_case.dart';
+import 'package:semnox/core/domain/use_cases/splash_screen/get_string_for_localization_use_case.dart';
 import 'package:semnox/di/injection_container.dart';
 
-import '../../../core/domain/entities/language/language_container_dto.dart';
+import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 
 part 'splash_screen_state.dart';
 part 'splash_screen_notifier.freezed.dart';
 
 final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashScreenState>(
-  (ref) {
-    return SplashScreenNotifier(
-      Get.find(),
-      Get.find(),
-    );
-  },
-);
+  (ref) => SplashScreenNotifier(
+      Get.find<GetBaseURLUseCase>(),
+      Get.find<AuthenticateBaseURLUseCase>(),
+     
+    )
+  );
 
 class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
-  SplashScreenNotifier(this._getBaseURL, this._authenticateBaseURLUseCase) : super(const _Initial());
-
+  
+  
   final GetBaseURLUseCase _getBaseURL;
   final AuthenticateBaseURLUseCase _authenticateBaseURLUseCase;
+  
 
+  SplashScreenNotifier(
+    this._getBaseURL, 
+    this._authenticateBaseURLUseCase, 
+    
+    ) : super(const _Initial());
+  
   void getBaseUrl() async {
     final response = await _getBaseURL();
     response.fold(
@@ -57,5 +65,18 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
       (l) => throw l,
       (r) => r,
     );
+  });
+
+  // void getStringForLocalization() async {
+  //   final response = await _getStringForLocalizationUseCase(siteId: "1040", languageId: "90");
+  //   Logger().d(response);
+  // }
+
+  static final getStringForLocalization = FutureProvider<Object>((ref) async{
+    final GetStringForLocalizationUseCase getStringForLocalizationUseCase = Get.find<GetStringForLocalizationUseCase>();
+    final response = await getStringForLocalizationUseCase(siteId: "1040", languageId: "90");
+    
+    Logger().d(response);
+    return response;
   });
 }

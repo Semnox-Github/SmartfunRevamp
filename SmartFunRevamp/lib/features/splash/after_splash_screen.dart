@@ -118,7 +118,7 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Have an account?',
+                        SplashScreenNotifier.getLanguageLabel("Have an account?"),
                         textAlign: TextAlign.center,
                         style: GoogleFonts.mulish(
                           color: CustomColors.customBlack,

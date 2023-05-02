@@ -10,6 +10,7 @@ import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_parafait_languages_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_string_for_localization_use_case.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
 
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
@@ -21,12 +22,12 @@ final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashS
   (ref) => SplashScreenNotifier(
       Get.find<GetBaseURLUseCase>(),
       Get.find<AuthenticateBaseURLUseCase>(),
-     
     )
   );
 
+Map<dynamic, dynamic> languageLabels = {};
+
 class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
-  
   
   final GetBaseURLUseCase _getBaseURL;
   final AuthenticateBaseURLUseCase _authenticateBaseURLUseCase;
@@ -36,8 +37,10 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     this._getBaseURL, 
     this._authenticateBaseURLUseCase, 
     
-    ) : super(const _Initial());
+  ) : super(const _Initial());
   
+  
+
   void getBaseUrl() async {
     final response = await _getBaseURL();
     response.fold(
@@ -60,7 +63,12 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     );
   }
 
-    static final parafaitLanguagesProvider = FutureProvider<LanguageContainerDTO>((ref) async{
+  static String getLanguageLabel(String labelKey){
+    String? languageLabel = languageLabels[labelKey];
+    return languageLabel.isNullOrEmpty()? labelKey: languageLabel.toString();
+  }
+
+  static final parafaitLanguagesProvider = FutureProvider<LanguageContainerDTO>((ref) async{
     final GetParafaitLanguagesUseCase getParafaitLanguagesUseCase = Get.find<GetParafaitLanguagesUseCase>();
     final response = await getParafaitLanguagesUseCase(siteId: "1040");
     Logger().d(response);
@@ -86,8 +94,8 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     //Combining both language json objects
     final combinedMap = {};
     combinedMap..addAll(jsonDefaultLanguageStrings)..addAll(jsonLanguageAPIResult);
-
-    Logger().d(response);
+    languageLabels = combinedMap;
+    Logger().d(combinedMap);
     
   });
 }

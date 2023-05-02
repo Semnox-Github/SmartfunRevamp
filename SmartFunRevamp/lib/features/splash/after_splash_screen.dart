@@ -88,19 +88,19 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
                                     
                                   });
 
-                                  //ref.read(splashScreenProvider.notifier).getStringForLocalization();
-                                  ref.watch(SplashScreenNotifier.getStringForLocalization).maybeWhen(
-                                    orElse: () => Container(
-                                    height: 20.0,
-                                    width: 20.0,
-                                    color: Colors.red,
-                                  ),
-                                  error: (e, s) => MulishText(
-                                    text: 'An error has ocurred $e',
-                                  ),
-                                  loading: () => const CircularProgressIndicator(),
-                                  data: (data) {}
-                                  );
+                                  ref.read(SplashScreenNotifier.getStringForLocalization(value.toString()));
+                                  // ref.watch(SplashScreenNotifier.getStringForLocalization(value.toString())).maybeWhen(
+                                  //   orElse: () => Container(
+                                  //   height: 20.0,
+                                  //   width: 20.0,
+                                  //   color: Colors.red,
+                                  // ),
+                                  // error: (e, s) => MulishText(
+                                  //   text: 'An error has ocurred $e',
+                                  // ),
+                                  // loading: () => const CircularProgressIndicator(),
+                                  // data: (data) {}
+                                  // );
                                 },
                              );
                             },

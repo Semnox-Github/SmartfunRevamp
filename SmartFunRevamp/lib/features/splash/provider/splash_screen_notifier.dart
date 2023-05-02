@@ -1,4 +1,7 @@
 
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
@@ -67,16 +70,24 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     );
   });
 
-  // void getStringForLocalization() async {
-  //   final response = await _getStringForLocalizationUseCase(siteId: "1040", languageId: "90");
-  //   Logger().d(response);
-  // }
-
-  static final getStringForLocalization = FutureProvider<Object>((ref) async{
+  static final getStringForLocalization = FutureProvider.autoDispose.family<void, String>((ref, languageId) async{
     final GetStringForLocalizationUseCase getStringForLocalizationUseCase = Get.find<GetStringForLocalizationUseCase>();
-    final response = await getStringForLocalizationUseCase(siteId: "1040", languageId: "90");
+    final response = await getStringForLocalizationUseCase(siteId: "1040", languageId: languageId);
+    // get the language Json from the assets
+    String defaultLanguageStrings = await rootBundle.loadString("assets/localization/strings.json");
+    final jsonDefaultLanguageStrings = jsonDecode(defaultLanguageStrings); 
+
+    //get the language json from the api
+    late final jsonLanguageAPIResult;
+    response.forEach((r) { 
+      jsonLanguageAPIResult = r;
+    });
     
+    //Combining both language json objects
+    final combinedMap = {};
+    combinedMap..addAll(jsonDefaultLanguageStrings)..addAll(jsonLanguageAPIResult);
+
     Logger().d(response);
-    return response;
+    
   });
 }

@@ -9,6 +9,7 @@ import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/link_a_card.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CarouselCards extends StatefulWidget {
@@ -97,7 +98,7 @@ class _CarouselCardsState extends State<CarouselCards> {
                               ),
                               const SizedBox(height: 7.0),
                               Text(
-                                '${card.accountIdentifier == '' ? '+ Add nickname' : card.accountIdentifier?.substring(0, 15)}',
+                                '${card.accountIdentifier == '' ? '+ ${SplashScreenNotifier.getLanguageLabel('Add nickname')}' : card.accountIdentifier?.substring(0, 15)}',
                                 style: const TextStyle(
                                   decoration: TextDecoration.underline,
                                   color: Colors.white,
@@ -124,9 +125,9 @@ class _CarouselCardsState extends State<CarouselCards> {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                         ),
-                        child: const Text(
-                          'Get Balance',
-                          style: TextStyle(
+                        child: Text(
+                          SplashScreenNotifier.getLanguageLabel('Get Balance'),
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),

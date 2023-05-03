@@ -6,6 +6,7 @@ import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/features/transfer/transfer_success_page.dart';
 import 'package:semnox/features/transfer/widgets/amount_form_field.dart';
 import 'package:semnox/features/transfer/widgets/bottom_sheet_button.dart';
@@ -40,7 +41,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Transfer'),
+      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Transfer')),
       body: SafeArea(
         minimum: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 100),
         child: SingleChildScrollView(
@@ -96,7 +97,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
           }
           formKey.currentState!.save();
           if (cardFrom!.isSameCard(cardTo)) {
-            Dialogs.showErrorMessage(context, "You can't transfer from/to the same card");
+            Dialogs.showErrorMessage(context, SplashScreenNotifier.getLanguageLabel("You can't transfer from/to the same card"));
           } else {
             TransferBalance transferBalance = TransferBalance(
               cardFrom!,
@@ -123,7 +124,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                     context.loaderOverlay.hide();
                     Dialogs.showErrorMessage(
                       context,
-                      'There was an error during the transfer.\nPlease try again.',
+                      SplashScreenNotifier.getLanguageLabel('There was an error during the transfer.\nPlease try again.'),
                     );
                   },
                 );

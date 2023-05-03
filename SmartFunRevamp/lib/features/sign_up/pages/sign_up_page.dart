@@ -15,6 +15,7 @@ import 'package:semnox/core/widgets/password_field.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/sign_up/pages/privacy_policy_page.dart';
 import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SignUpPage extends ConsumerWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -299,7 +300,7 @@ class CustomTextField extends StatelessWidget {
             initialValue: initialValue,
             inputFormatters: formatters,
             onSaved: (newValue) => onSaved(newValue!),
-            validator: (value) => value!.isEmpty ? 'Required' : null,
+            validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(

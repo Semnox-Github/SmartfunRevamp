@@ -12,6 +12,7 @@ import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 String censorPhoneNumber(String phoneNumber) {
   return phoneNumber.replaceRange(0, phoneNumber.length - 3, 'X' * (phoneNumber.length - 3));
@@ -39,7 +40,7 @@ class VerifyOtpPage extends ConsumerWidget {
       );
     });
     return Scaffold(
-      appBar: const CustomAppBar(title: 'OTP Verification'),
+      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('OTP Verification')),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
         child: SingleChildScrollView(
@@ -48,7 +49,7 @@ class VerifyOtpPage extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'We have sent an OTP to your mobile number $phoneNumber.\nEnter the OTP to verify.',
+                SplashScreenNotifier.getLanguageLabel('We have sent an OTP to your mobile number &1.\nEnter the OTP to verify.').replaceAll('&1', phoneNumber),
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.bold,
                   fontSize: 14.0,
@@ -81,12 +82,12 @@ class VerifyOtpPage extends ConsumerWidget {
               CustomButton(
                 onTap: () {
                   if (otp.isEmpty) {
-                    Fluttertoast.showToast(msg: 'Please enter the OTP');
+                    Fluttertoast.showToast(msg: SplashScreenNotifier.getLanguageLabel('Please enter the OTP'));
                   } else {
                     ref.read(loginProvider.notifier).verifyOTP(otp);
                   }
                 },
-                label: 'Verify & Procced',
+                label: SplashScreenNotifier.getLanguageLabel('Verify & Procced'),
               )
             ],
           ),

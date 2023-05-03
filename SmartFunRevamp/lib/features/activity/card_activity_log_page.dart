@@ -12,6 +12,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/activity/card_activity_details_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 final _getActivityLog = FutureProvider.autoDispose.family<List<CardActivity>, String>((ref, cardId) async {
   final GetCardActivityLogUseCase getCardActivityLogUseCase = Get.find<GetCardActivityLogUseCase>();
@@ -42,8 +43,8 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Activity',
+      appBar: CustomAppBar(
+        title: SplashScreenNotifier.getLanguageLabel('Activity'),
       ),
       body: SafeArea(
         child: Column(

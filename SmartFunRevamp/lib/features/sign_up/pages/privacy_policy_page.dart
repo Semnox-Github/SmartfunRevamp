@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyPolicyPage extends StatefulWidget {
@@ -24,9 +25,9 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
         elevation: 0.0,
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
-          'Privacy Policy',
-          style: TextStyle(
+        title: Text(
+          SplashScreenNotifier.getLanguageLabel('Privacy Policy'),
+          style: const TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,
           ),

@@ -9,6 +9,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/cards_detail/account_games_summary_detail_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class AccountGamesSummaryPage extends ConsumerWidget {
   const AccountGamesSummaryPage({Key? key, required this.cardNumber}) : super(key: key);
@@ -20,8 +21,8 @@ class AccountGamesSummaryPage extends ConsumerWidget {
 
     ref.read(CardsProviders.accountGamesSummaryProvider.notifier).getSummary('CCD23CCE');
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: "Card Games",
+      appBar: CustomAppBar(
+        title: SplashScreenNotifier.getLanguageLabel("Card Games"),
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -53,7 +54,7 @@ class AccountGamesSummaryPage extends ConsumerWidget {
                               labelText: '',
                               format: DateFormat.YEAR_ABBR_MONTH_DAY,
                               onItemSelected: (dob) => ref.read(CardsProviders.bonusSummaryProvider.notifier).filter(dob),
-                              hintText: 'Enter Date',
+                              hintText: SplashScreenNotifier.getLanguageLabel('Enter Date'),
                               suffixIcon: const Icon(
                                 Icons.date_range,
                                 color: CustomColors.hardOrange,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class PaymentFailedPage extends StatelessWidget {
   const PaymentFailedPage({Key? key}) : super(key: key);
@@ -42,9 +43,9 @@ class PaymentFailedPage extends StatelessWidget {
         margin: const EdgeInsets.all(3),
         child: TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text(
-            'RETRY PAYMENT',
-            style: TextStyle(
+          child: Text(
+            SplashScreenNotifier.getLanguageLabel('RETRY PAYMENT'),
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),

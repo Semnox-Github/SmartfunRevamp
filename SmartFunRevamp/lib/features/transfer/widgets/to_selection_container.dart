@@ -6,6 +6,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 enum TransferType { myCards, othersCards }
 
@@ -13,9 +14,9 @@ extension TransferTypeExtension on TransferType {
   String stringValue() {
     switch (this) {
       case TransferType.myCards:
-        return 'My Cards';
+        return SplashScreenNotifier.getLanguageLabel('My Cards');
       case TransferType.othersCards:
-        return "Other's Cards";
+        return SplashScreenNotifier.getLanguageLabel("Other's Cards");
       default:
         return '';
     }
@@ -91,14 +92,14 @@ class _ToSelectionContainerState extends State<ToSelectionContainer> {
               ),
               const SizedBox(height: 10.0),
               TextFormField(
-                validator: (value) => value.isNullOrEmpty() ? 'Required' : null,
+                validator: (value) => value.isNullOrEmpty() ? SplashScreenNotifier.getLanguageLabel('Required') : null,
                 onSaved: widget.onAccountNumberSaved,
                 decoration: InputDecoration(
                   enabledBorder: CustomInputDecorations.k12RoundedCustomBlue,
                   focusedBorder: CustomInputDecorations.k12RoundedCustomBlue,
                   errorBorder: CustomInputDecorations.k12RoundedError,
                   focusedErrorBorder: CustomInputDecorations.k12RoundedError,
-                  hintText: 'Enter card number',
+                  hintText: SplashScreenNotifier.getLanguageLabel('Enter card number'),
                 ),
               ),
             ],

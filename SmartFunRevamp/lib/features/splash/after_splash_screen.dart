@@ -26,9 +26,9 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
           children: [
             Image.asset('assets/splash_screen/after_splash.png'),
             const SizedBox(height: 10.0),
-            const Text(
-              'QUICK CARD RECHARGES',
-              style: TextStyle(
+            Text(
+              SplashScreenNotifier.getLanguageLabel('QUICK CARD RECHARGES'),
+              style: const TextStyle(
                 color: CustomColors.customBlack,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w400,
@@ -52,7 +52,7 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Preferred Language to be used in the app',
+                    SplashScreenNotifier.getLanguageLabel('Preferred Language to be used in the app'),
                     textAlign: TextAlign.start,
                     style: GoogleFonts.mulish(
                       color: CustomColors.customBlack,
@@ -135,9 +135,9 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
                         margin: const EdgeInsets.all(3),
                         child: TextButton(
                           onPressed: () => Navigator.pushReplacementNamed(context, Routes.kLogInPage),
-                          child: const Text(
-                            'LOGIN',
-                            style: TextStyle(
+                          child: Text(
+                            SplashScreenNotifier.getLanguageLabel('LOGIN'),
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
@@ -153,7 +153,7 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'New to SmartFun?',
+                        SplashScreenNotifier.getLanguageLabel('New to SmartFun?'),
                         textAlign: TextAlign.center,
                         style: GoogleFonts.mulish(
                           color: CustomColors.customBlack,
@@ -175,9 +175,9 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
                           margin: const EdgeInsets.all(3),
                           child: TextButton(
                             onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
-                            child: const Text(
-                              'SIGN UP',
-                              style: TextStyle(
+                            child: Text(
+                              SplashScreenNotifier.getLanguageLabel('SIGN UP'),
+                              style: const TextStyle(
                                 color: CustomColors.hardOrange,
                               ),
                             ),

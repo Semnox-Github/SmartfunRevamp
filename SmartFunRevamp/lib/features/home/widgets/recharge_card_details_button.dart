@@ -5,6 +5,7 @@ import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/cards_detail/card_detail_page.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class RechargeCardDetailsButton extends StatelessWidget {
   RechargeCardDetailsButton({
@@ -25,7 +26,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'This card has expired on ${DateFormat('dd MMM yyyy').format(expirationDate)}\n',
+                '${SplashScreenNotifier.getLanguageLabel('This card has expired on')} ${DateFormat('dd MMM yyyy').format(expirationDate)}\n',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
@@ -33,10 +34,10 @@ class RechargeCardDetailsButton extends StatelessWidget {
                   color: Colors.red
                 ),
               ),
-              const Text(
-                'You will no longer be able to use this card. But you can still view the Gameplay history and Activity details.',
+              Text(
+                SplashScreenNotifier.getLanguageLabel('You will no longer be able to use this card. But you can still view the Gameplay history and Activity details.'),
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
@@ -66,9 +67,9 @@ class RechargeCardDetailsButton extends StatelessWidget {
                   margin: const EdgeInsets.all(3),
                   child: TextButton(
                     onPressed: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
-                    child: const Text(
-                      'RECHARGE NOW',
-                      style: TextStyle(
+                    child: Text(
+                      SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -97,9 +98,9 @@ class RechargeCardDetailsButton extends StatelessWidget {
                         builder: (context) => CardDetailPage(cardDetails: cardDetails),
                       ),
                     ),
-                    child: const Text(
-                      'CARD DETAILS',
-                      style: TextStyle(
+                    child: Text(
+                      SplashScreenNotifier.getLanguageLabel('CARD DETAILS'),
+                      style: const TextStyle(
                         color: CustomColors.hardOrange,
                       ),
                     ),
@@ -163,9 +164,9 @@ class RechargeCardDetailsButton extends StatelessWidget {
                               builder: (context) => CardDetailPage(cardDetails: cardDetails),
                             ),
                           ),
-                          child: const Text(
-                            'CARD DETAILS',
-                            style: TextStyle(
+                          child:  Text(
+                            SplashScreenNotifier.getLanguageLabel('CARD DETAILS'),
+                            style: const TextStyle(
                               color: CustomColors.hardOrange,
                             ),
                           ),
@@ -177,17 +178,17 @@ class RechargeCardDetailsButton extends StatelessWidget {
               ),
               const SizedBox(height: 3.0),
               Text(
-                'Your card ${cardDetails.accountNumber} has been blocked, based on your request. You no longer will be to use it.',
+                SplashScreenNotifier.getLanguageLabel('Your card &1 has been blocked, based on your request. You no longer will be to use it.').replaceAll('&1', cardDetails.accountNumber.toString()),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 8,
                 ),
               ),
-              const Text(
-                ' This card will be removed from smartfun once you get the new physical card.',
+              Text(
+                ' ${SplashScreenNotifier.getLanguageLabel('This card will be removed from smartfun once you get the new physical card.')}',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 8,
                 ),

@@ -7,6 +7,7 @@ import 'package:semnox/core/widgets/email_field.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/widgets/password_field.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class LoginWithEmail extends ConsumerWidget {
   LoginWithEmail({super.key});
@@ -48,7 +49,7 @@ class LoginWithEmail extends ConsumerWidget {
           ),
           const SizedBox(height: 20.0),
           CustomButton(
-            label: 'LOGIN',
+            label: SplashScreenNotifier.getLanguageLabel('LOGIN'),
             onTap: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();

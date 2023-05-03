@@ -8,6 +8,7 @@ import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 enum CardValue { silver, gold, platinum }
 
@@ -15,11 +16,11 @@ extension CardValueExtension on CardValue {
   String get name {
     switch (this) {
       case CardValue.silver:
-        return 'SILVER';
+        return SplashScreenNotifier.getLanguageLabel('SILVER');
       case CardValue.gold:
-        return 'GOLD';
+        return SplashScreenNotifier.getLanguageLabel('GOLD');
       case CardValue.platinum:
-        return 'PLATINUM';
+        return SplashScreenNotifier.getLanguageLabel('PLATINUM');
       default:
         return '';
     }
@@ -107,7 +108,7 @@ class CardType extends ConsumerWidget {
                           ),
                           const SizedBox(width: 8.0),
                           MulishText(
-                            text: '${discount.toStringAsFixed(0)} % OFF',
+                            text: '${discount.toStringAsFixed(0)} % ${SplashScreenNotifier.getLanguageLabel('OFF')}',
                             fontColor: CustomColors.discountPercentColor,
                             fontWeight: FontWeight.w600,
                             fontSize: 14.0,

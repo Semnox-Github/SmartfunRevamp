@@ -12,6 +12,7 @@ import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/activity/card_activity_receipt_page.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 final _getTrxDetail = FutureProvider.autoDispose.family<CardActivityDetails, String>((ref, transactionId) async {
   final GetCardActivityTransactionDetailUseCase getTrxDetail = Get.find<GetCardActivityTransactionDetailUseCase>();
@@ -29,8 +30,8 @@ class CardActivityDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Transaction Details',
+      appBar: CustomAppBar(
+        title: SplashScreenNotifier.getLanguageLabel('Transaction Details'),
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
@@ -67,7 +68,7 @@ class CardActivityDetailPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 10.0),
                               MulishText(
-                                text: data.transactionLinesDTOList?.first.productName ?? 'Card - XXXXXXXX',
+                                text: data.transactionLinesDTOList?.first.productName ?? '${SplashScreenNotifier.getLanguageLabel('Card')} - XXXXXXXX',
                                 fontWeight: FontWeight.bold,
                                 fontColor: Colors.white,
                               ),
@@ -182,7 +183,7 @@ class CardActivityDetailPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          label: 'VIEW RECEIPT',
+                          label: SplashScreenNotifier.getLanguageLabel('VIEW RECEIPT'),
                           icon: const Icon(
                             Icons.receipt_rounded,
                             color: Colors.white,

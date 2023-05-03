@@ -9,6 +9,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/gameplays/provider/gameplays_provider.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class GameplaysPage extends ConsumerStatefulWidget {
   const GameplaysPage({super.key});
@@ -36,9 +37,9 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
           elevation: 0.0,
           centerTitle: false,
           iconTheme: const IconThemeData(color: Colors.black),
-          title: const Text(
-            'Game Plays',
-            style: TextStyle(
+          title: Text(
+            SplashScreenNotifier.getLanguageLabel('Game Plays'),
+            style: const TextStyle(
               color: CustomColors.customBlue,
               fontWeight: FontWeight.bold,
             ),

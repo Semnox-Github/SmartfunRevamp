@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/widgets/input_text_field.dart';
 import 'package:semnox/features/home/provider/link_card/link_card_provider.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class LinkACard extends ConsumerWidget {
   LinkACard({super.key});
@@ -25,8 +26,8 @@ class LinkACard extends ConsumerWidget {
               context: context,
               dialogType: DialogType.success,
               animType: AnimType.scale,
-              title: 'Link A Card',
-              desc: 'Card linked successfully.',
+              title: SplashScreenNotifier.getLanguageLabel('Link A Card'),
+              desc: SplashScreenNotifier.getLanguageLabel('Card linked successfully.'),
               btnOkOnPress: () {},
             ).show();
           },
@@ -36,7 +37,7 @@ class LinkACard extends ConsumerWidget {
               context: context,
               dialogType: DialogType.error,
               animType: AnimType.scale,
-              title: 'Link A Card',
+              title: SplashScreenNotifier.getLanguageLabel('Link A Card'),
               desc: e,
               btnOkOnPress: () {},
             ).show();
@@ -64,10 +65,10 @@ class LinkACard extends ConsumerWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
+                  children: [
                     Text(
-                      'Add your card and manage your recharges,',
-                      style: TextStyle(
+                      SplashScreenNotifier.getLanguageLabel('Add your card and manage your recharges,'),
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -75,8 +76,8 @@ class LinkACard extends ConsumerWidget {
                     ),
                     SizedBox(height: 5.0),
                     Text(
-                      'activities, gameplays and more with smartfun.',
-                      style: TextStyle(
+                      SplashScreenNotifier.getLanguageLabel('activities, gameplays and more with smartfun.'),
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -94,7 +95,7 @@ class LinkACard extends ConsumerWidget {
                   child: InputTextField(
                     initialValue: 'X6PIS313',
                     onSaved: (cardNumber) => mCardNumber = cardNumber,
-                    hintText: 'Enter Card Number',
+                    hintText: SplashScreenNotifier.getLanguageLabel('Enter Card Number'),
                     prefixIcon: IconButton(
                       icon: const Icon(
                         Icons.add_card,
@@ -128,9 +129,9 @@ class LinkACard extends ConsumerWidget {
                           ref.read(linkCardProvider.notifier).linkCard(mCardNumber);
                         }
                       },
-                      child: const Text(
-                        'LINK CARD',
-                        style: TextStyle(
+                      child: Text(
+                        SplashScreenNotifier.getLanguageLabel('LINK CARD'),
+                        style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),

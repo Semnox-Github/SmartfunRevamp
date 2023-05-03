@@ -15,6 +15,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/account/provider/update_account/update_account_provider.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/round_rectangle_picture.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/phone_contact_dto.dart';
 
@@ -62,7 +63,7 @@ class AccountPage extends ConsumerWidget {
     );
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Account'),
+      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Account')),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -85,19 +86,19 @@ class AccountPage extends ConsumerWidget {
                 ),
                 CustomTextField(
                   onSaved: (firstName) => user.profilefirtName = firstName,
-                  label: 'First Name',
+                  label: SplashScreenNotifier.getLanguageLabel('First Name'),
                   initialValue: user.firstName,
                   margins: const EdgeInsets.symmetric(vertical: 10.0),
                 ),
                 CustomTextField(
                   onSaved: (lastName) => user.profilelastName = lastName,
-                  label: 'Last Name',
+                  label: SplashScreenNotifier.getLanguageLabel('Last Name'),
                   initialValue: user.lastName,
                   margins: const EdgeInsets.symmetric(vertical: 10.0),
                 ),
                 CustomVerifyTextField(
                   onSaved: (email) => newEmail = email,
-                  label: 'Email Address',
+                  label: SplashScreenNotifier.getLanguageLabel('Email Address'),
                   initialValue: user.email,
                   margins: const EdgeInsets.symmetric(vertical: 10.0),
                   contactType: ContactType.email,
@@ -105,7 +106,7 @@ class AccountPage extends ConsumerWidget {
                 ),
                 CustomVerifyTextField(
                   onSaved: (phone) => newPhone = phone,
-                  label: 'Phone',
+                  label: SplashScreenNotifier.getLanguageLabel('Phone'),
                   initialValue: user.phone,
                   margins: const EdgeInsets.symmetric(vertical: 10.0),
                   contactType: ContactType.phone,
@@ -113,7 +114,7 @@ class AccountPage extends ConsumerWidget {
                 ),
                 CustomDatePicker(
                   margin: const EdgeInsets.symmetric(vertical: 10.0),
-                  labelText: 'Date of birth',
+                  labelText: SplashScreenNotifier.getLanguageLabel('Date of birth'),
                   format: 'MM-dd-yyyy',
                   initialText: user.dateOfBirth.cleanDate(),
                   onItemSelected: (dob) => user.profiledateOfBirth = DateFormat('MM-dd-yyyy').format(dob),
@@ -145,7 +146,7 @@ class AccountPage extends ConsumerWidget {
                       ref.read(updateAccountProvider.notifier).updateProfile(user);
                     }
                   },
-                  label: 'SAVE',
+                  label: SplashScreenNotifier.getLanguageLabel('SAVE'),
                   margin: const EdgeInsets.symmetric(vertical: 20.0),
                 )
               ],

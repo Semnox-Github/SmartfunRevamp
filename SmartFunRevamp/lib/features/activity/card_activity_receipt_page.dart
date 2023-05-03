@@ -13,6 +13,7 @@ import 'package:semnox/core/domain/use_cases/cards/get_card_activity_transaction
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:webcontent_converter/webcontent_converter.dart';
 import 'package:semnox/core/utils/extensions.dart';
 
@@ -35,8 +36,8 @@ class CardActivityReceiptPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Transaction Details',
+      appBar: CustomAppBar(
+        title: SplashScreenNotifier.getLanguageLabel('Transaction Details'),
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
@@ -81,7 +82,7 @@ class CardActivityReceiptPage extends StatelessWidget {
                             File fileDef = File(result!);
                             DocumentFileSavePlus.saveFile(fileDef.readAsBytesSync(), 'receipt.pdf', 'application/pdf');
                           },
-                          label: 'DOWNLOAD',
+                          label: SplashScreenNotifier.getLanguageLabel('DOWNLOAD'),
                           icon: const Icon(
                             Icons.download_rounded,
                             color: Colors.white,

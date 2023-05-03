@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/features/home/widgets/custom_bottom_navigation_bar_item.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CustomBottomBar extends StatelessWidget {
   const CustomBottomBar({
@@ -31,7 +32,7 @@ class CustomBottomBar extends StatelessWidget {
               currentIndex: currentPage,
               index: 0,
               icon: 'assets/home/home.svg',
-              text: 'Home',
+              text: SplashScreenNotifier.getLanguageLabel('Home'),
             ),
             label: '',
           ),
@@ -40,7 +41,7 @@ class CustomBottomBar extends StatelessWidget {
               currentIndex: currentPage,
               index: 1,
               icon: 'assets/home/play-circle.svg',
-              text: 'Play',
+              text: SplashScreenNotifier.getLanguageLabel('Play'),
             ),
             label: '',
           ),
@@ -49,7 +50,7 @@ class CustomBottomBar extends StatelessWidget {
               currentIndex: currentPage,
               index: 2,
               icon: 'assets/home/calendar.svg',
-              text: 'Bookings',
+              text: SplashScreenNotifier.getLanguageLabel('Bookings'),
             ),
             label: '',
           ),
@@ -58,7 +59,7 @@ class CustomBottomBar extends StatelessWidget {
               currentIndex: currentPage,
               index: 3,
               icon: 'assets/home/more.svg',
-              text: 'More',
+              text: SplashScreenNotifier.getLanguageLabel('More'),
             ),
             label: '',
           ),

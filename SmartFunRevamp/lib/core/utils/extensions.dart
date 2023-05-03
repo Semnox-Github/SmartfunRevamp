@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 extension StringExtension on String? {
   bool isNullOrEmpty() {
@@ -13,7 +14,7 @@ extension StringExtension on String? {
       final date = DateTime.parse(this!);
       return DateFormat('MM-dd-yyyy').format(date);
     } catch (_) {
-      return 'String is not a date';
+      return SplashScreenNotifier.getLanguageLabel('String is not a date');
     }
   }
 }

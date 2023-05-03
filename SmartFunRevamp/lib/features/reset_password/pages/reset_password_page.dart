@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class ResetPasswordPage extends StatelessWidget {
   const ResetPasswordPage({super.key});
@@ -36,7 +37,7 @@ class ResetPasswordPage extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: CustomButton(
                 onTap: () => Navigator.pop(context),
-                label: 'DONE',
+                label: SplashScreenNotifier.getLanguageLabel('DONE'),
               ),
             )
           ],

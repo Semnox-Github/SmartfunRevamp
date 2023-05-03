@@ -12,6 +12,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class Dialogs {
   static void couponSuccessDialog(BuildContext context, double couponValue) {
@@ -209,7 +210,7 @@ class Dialogs {
   }
 
   static void showBarcodeTempCard(BuildContext context, String accountNumber) {
-    String titleOfDialog = accountNumber.startsWith('T') ? 'Virtual Card' : 'Card';
+    String titleOfDialog = accountNumber.startsWith('T') ? SplashScreenNotifier.getLanguageLabel('Virtual Card') : SplashScreenNotifier.getLanguageLabel('Card');
     String cardCoachMark = 'BARCODE';
     showDialog(
       context: context,
@@ -252,7 +253,7 @@ class Dialogs {
                     const SizedBox(height: 20.0),
                     CustomButton(
                       onTap: () => Navigator.pop(context),
-                      label: 'DONE',
+                      label: SplashScreenNotifier.getLanguageLabel('DONE'),
                     ),
                   ],
                 ),
@@ -274,11 +275,11 @@ class Dialogs {
           onVerify(otp);
           Navigator.pop(context);
         },
-        label: 'VERIFY',
+        label: SplashScreenNotifier.getLanguageLabel('VERIFY'),
       ),
       btnCancel: CustomCancelButton(
         onPressed: () => Navigator.pop(context),
-        label: 'CANCEL',
+        label: SplashScreenNotifier.getLanguageLabel('CANCEL'),
       ),
       body: Column(
         children: [
@@ -289,13 +290,13 @@ class Dialogs {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MulishText(
-                  text: 'Verify ${contactType.valueString}',
+                  text: '${SplashScreenNotifier.getLanguageLabel('Verify')} ${contactType.valueString}',
                   fontWeight: FontWeight.bold,
                   textAlign: TextAlign.start,
                 ),
                 const SizedBox(height: 10.0),
                 MulishText(
-                  text: 'We have mailed you an OTP.\nEnter the OTP to verify your ${contactType.valueString}',
+                  text: SplashScreenNotifier.getLanguageLabel('We have mailed you an OTP.\nEnter the OTP to verify your &1').replaceAll("&1", contactType.valueString),
                   textAlign: TextAlign.start,
                 ),
                 const SizedBox(height: 10.0),

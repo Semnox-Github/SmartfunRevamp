@@ -9,6 +9,7 @@ import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 class SelectLocationManuallyPage extends ConsumerWidget {
@@ -55,7 +56,7 @@ class SelectLocationManuallyPage extends ConsumerWidget {
             onTap: () {
               ref.read(selectLocationStateProvider.notifier).selectSite(selectedSite);
             },
-            label: 'CONFIRM LOCATION',
+            label: SplashScreenNotifier.getLanguageLabel('CONFIRM LOCATION'),
           ),
         ),
       ),
@@ -175,7 +176,7 @@ class SearchTextField extends StatelessWidget {
     return TextField(
       onChanged: onChanged,
       decoration: InputDecoration(
-        hintText: 'Search',
+        hintText: SplashScreenNotifier.getLanguageLabel('Search'),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
         ),

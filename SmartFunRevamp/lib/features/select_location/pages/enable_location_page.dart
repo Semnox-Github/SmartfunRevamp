@@ -4,6 +4,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class EnableLocationPage extends StatelessWidget {
   const EnableLocationPage({Key? key}) : super(key: key);
@@ -18,14 +19,14 @@ class EnableLocationPage extends StatelessWidget {
             const Spacer(),
             Image.asset('assets/select_location/select_location_img.png'),
             Text(
-              'Access Location',
+              SplashScreenNotifier.getLanguageLabel('Access Location'),
               style: GoogleFonts.mulish(
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0,
               ),
             ),
             Text(
-              'If you enable location services we can show you the nearest Store and Store specific offers, deals and prices for you',
+              SplashScreenNotifier.getLanguageLabel('If you enable location services we can show you the nearest Store and Store specific offers, deals and prices for you'),
               style: GoogleFonts.mulish(
                 fontWeight: FontWeight.w500,
                 fontSize: 16.0,
@@ -41,12 +42,12 @@ class EnableLocationPage extends StatelessWidget {
                     Navigator.pushNamed(context, Routes.kMap);
                     // }
                   },
-                  label: 'ENABLE LOCATION SERVICES',
+                  label: SplashScreenNotifier.getLanguageLabel('ENABLE LOCATION SERVICES'),
                 ),
                 const SizedBox(height: 10.0),
                 CustomWhiteButton(
                   onPresssed: () => Navigator.pushNamed(context, Routes.kSelectLocationManually),
-                  label: "I'LL LOCATE THE STORE MANUALLY",
+                  label: SplashScreenNotifier.getLanguageLabel("I'LL LOCATE THE STORE MANUALLY"),
                 ),
               ],
             ),

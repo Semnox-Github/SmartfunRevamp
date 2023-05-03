@@ -10,6 +10,7 @@ import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/login/widgets/login_container.dart';
 import 'package:semnox/features/login/widgets/login_with_otp_container.dart';
 import 'package:semnox/features/login/widgets/social_logins_container.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -45,7 +46,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             dialogType: DialogType.error,
             headerAnimationLoop: false,
             animType: AnimType.bottomSlide,
-            title: 'Error',
+            title: SplashScreenNotifier.getLanguageLabel('Error'),
             desc: message,
             btnCancelOnPress: () {},
             useRootNavigator: true,
@@ -81,7 +82,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'New to SmartFun?',
+                    SplashScreenNotifier.getLanguageLabel('New to SmartFun?'),
                     style: GoogleFonts.mulish(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
@@ -90,7 +91,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   TextButton(
                     onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
                     child: Text(
-                      'SIGN UP',
+                      SplashScreenNotifier.getLanguageLabel('SIGN UP'),
                       style: GoogleFonts.mulish(
                         fontWeight: FontWeight.bold,
                         color: CustomColors.hardOrange,

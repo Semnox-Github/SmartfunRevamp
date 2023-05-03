@@ -8,6 +8,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_detail_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import '../../core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 
@@ -56,7 +57,7 @@ class BonusSummaryPage extends ConsumerWidget {
                               labelText: '',
                               format: DateFormat.YEAR_ABBR_MONTH_DAY,
                               onItemSelected: (dob) => ref.read(CardsProviders.bonusSummaryProvider.notifier).filter(dob),
-                              hintText: 'Enter Date',
+                              hintText: SplashScreenNotifier.getLanguageLabel('Enter Date'),
                               suffixIcon: const Icon(
                                 Icons.date_range,
                                 color: CustomColors.hardOrange,

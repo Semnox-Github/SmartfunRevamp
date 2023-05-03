@@ -17,6 +17,7 @@ import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
 import 'package:semnox/features/login/widgets/profile_picture.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -81,9 +82,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                     height: 20.0,
                                   ),
                                 ),
-                                const TextSpan(
-                                  text: 'Gold Member',
-                                  style: TextStyle(
+                                TextSpan(
+                                  text: SplashScreenNotifier.getLanguageLabel('Gold Member'),
+                                  style: const TextStyle(
                                     color: CustomColors.customLigthBlack,
                                   ),
                                 ),
@@ -171,10 +172,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
-                        'Quick Links',
-                        style: TextStyle(
+                        SplashScreenNotifier.getLanguageLabel('Quick Links'),
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20.0,
                         ),
@@ -199,7 +200,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     },
                     data: (data) {
                       bool hasCard = data.isNotEmpty ? true : false;
-                      String msgCardNoLink = 'No card is associated with customer, please link your card.';
+                      String msgCardNoLink = SplashScreenNotifier.getLanguageLabel('No card is associated with customer, please link your card.');
                       return GridView(
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
@@ -211,7 +212,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             color: CustomColors.customYellow,
                             image: 'recharge',
                             text: 'Recharge',
-                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kRechargePageCard) : Dialogs.showMessageInfo(context, 'Recharge Card', msgCardNoLink),
+                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kRechargePageCard) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Recharge Card'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customPink,
@@ -223,25 +224,25 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             color: CustomColors.customLigthBlue,
                             image: 'activities',
                             text: 'Activities',
-                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kActivities) : Dialogs.showMessageInfo(context, 'Activities', msgCardNoLink),
+                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kActivities) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customOrange,
                             image: 'lost_card',
                             text: 'Lost Card',
-                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kLostPageCard) : Dialogs.showMessageInfo(context, 'Lost Card', msgCardNoLink),
+                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kLostPageCard) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customGreen,
                             image: 'gameplays',
                             text: 'Game Plays',
-                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kGameplays) : Dialogs.showMessageInfo(context, 'Game Plays', msgCardNoLink),
+                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kGameplays) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customPurple,
                             image: 'transfer_credit',
                             text: 'Transfer Credit',
-                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kTransfers) : Dialogs.showMessageInfo(context, 'Transfer Credit', msgCardNoLink),
+                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kTransfers) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
                           ),
                         ],
                       );

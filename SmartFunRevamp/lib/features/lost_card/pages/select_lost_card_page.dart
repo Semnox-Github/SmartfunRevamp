@@ -8,6 +8,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import 'lost_card_page.dart';
 
@@ -23,9 +24,9 @@ class SelectCardLostPage extends ConsumerWidget {
         elevation: 0.0,
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
-          'Lost Card',
-          style: TextStyle(
+        title: Text(
+          SplashScreenNotifier.getLanguageLabel('Lost Card'),
+          style: const TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,
           ),
@@ -74,9 +75,9 @@ class SelectCardLostPage extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisSize: MainAxisSize.min, children: [
                   const SizedBox(height: 20.0),
-                  const Text(
-                    'Lost Card Terms',
-                    style: TextStyle(
+                  Text(
+                    SplashScreenNotifier.getLanguageLabel('Lost Card Terms'),
+                    style: const TextStyle(
                       color: CustomColors.hardOrange,
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -84,7 +85,7 @@ class SelectCardLostPage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    'This Card cannot be used for any further transactions. A temporary will be issued, exachange the temporary card for a new physical carrd at site',
+                    SplashScreenNotifier.getLanguageLabel('This Card cannot be used for any further transactions. A temporary will be issued, exachange the temporary card for a new physical carrd at site'),
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       color: CustomColors.customBlack,
@@ -99,7 +100,7 @@ class SelectCardLostPage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 20.0),
                   Text(
-                    '40 need to paid while exchanging for a new physical card',
+                    SplashScreenNotifier.getLanguageLabel('40 need to paid while exchanging for a new physical card'),
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       color: CustomColors.customBlack,
@@ -119,15 +120,15 @@ class SelectCardLostPage extends ConsumerWidget {
         ),
       ),
       bottomSheet: BottomSheetButton(
-        label: 'BLOCK & ISSUE REPLACEMENT',
+        label: SplashScreenNotifier.getLanguageLabel('BLOCK & ISSUE REPLACEMENT'),
         onTap: () {
           if (selectedCardNumber!.accountNumber!.startsWith('T')) {
             AwesomeDialog(
               context: context,
               dialogType: DialogType.infoReverse,
               animType: AnimType.scale,
-              title: 'Lost Card',
-              desc: 'Your card ${selectedCardNumber!.accountNumber} has been blocked.',
+              title: SplashScreenNotifier.getLanguageLabel('Lost Card'),
+              desc: SplashScreenNotifier.getLanguageLabel('Your card &1 has been blocked.').replaceAll("&1", selectedCardNumber!.accountNumber.toString()),
               btnOkOnPress: () {},
             ).show();
           } else {
@@ -151,8 +152,8 @@ class SelectCardLostPage extends ConsumerWidget {
                     context: context,
                     dialogType: DialogType.error,
                     animType: AnimType.scale,
-                    title: 'Lost Card',
-                    desc: 'Sorry, we have had a problem. Please contact our Staff',
+                    title: SplashScreenNotifier.getLanguageLabel('Lost Card'),
+                    desc: SplashScreenNotifier.getLanguageLabel('Sorry, we have had a problem. Please contact our Staff'),
                     btnOkOnPress: () {},
                   ).show();
                 },

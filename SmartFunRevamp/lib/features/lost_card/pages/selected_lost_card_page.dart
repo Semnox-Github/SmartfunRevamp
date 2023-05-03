@@ -4,6 +4,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/features/lost_card/widgets/block_card_button.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SelectedCardLostPage extends StatelessWidget {
   const SelectedCardLostPage({Key? key, required this.cardDetails}) : super(key: key);
@@ -18,9 +19,9 @@ class SelectedCardLostPage extends StatelessWidget {
         elevation: 0.0,
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
-          'Lost Card',
-          style: TextStyle(
+        title: Text(
+          SplashScreenNotifier.getLanguageLabel('Lost Card'),
+          style: const TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,
           ),
@@ -49,9 +50,9 @@ class SelectedCardLostPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisSize: MainAxisSize.min, children: [
                   const SizedBox(height: 20.0),
-                  const Text(
-                    'Lost Card Terms',
-                    style: TextStyle(
+                  Text(
+                    SplashScreenNotifier.getLanguageLabel('Lost Card Terms'),
+                    style: const TextStyle(
                       color: CustomColors.hardOrange,
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -59,7 +60,7 @@ class SelectedCardLostPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    'This Card cannot be used for any further transactions. A temporary will be issued, exachange the temporary card for a new physical carrd at site',
+                    SplashScreenNotifier.getLanguageLabel('This Card cannot be used for any further transactions. A temporary will be issued, exachange the temporary card for a new physical carrd at site'),
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       color: CustomColors.customBlack,
@@ -74,7 +75,7 @@ class SelectedCardLostPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20.0),
                   Text(
-                    '40 need to paid while exchanging for a new physical card',
+                    SplashScreenNotifier.getLanguageLabel('40 need to paid while exchanging for a new physical card'),
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       color: CustomColors.customBlack,

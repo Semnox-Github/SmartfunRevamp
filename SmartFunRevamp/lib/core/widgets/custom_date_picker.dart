@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CustomDatePicker extends StatefulWidget {
   const CustomDatePicker({
@@ -134,7 +135,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                   }),
             ),
             CupertinoButton(
-              child: const Text('Done'),
+              child: Text(SplashScreenNotifier.getLanguageLabel('Done')),
               onPressed: () => Navigator.of(ctx).pop(),
             )
           ],

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CountdownText extends StatefulWidget {
   const CountdownText({Key? key, required this.onPressed}) : super(key: key);
@@ -65,7 +66,7 @@ class CountdownTextState extends State<CountdownText> {
       );
     }
     return MulishText(
-      text: 'Resend OTP in $_time seconds',
+      text: SplashScreenNotifier.getLanguageLabel('Resend OTP in &1 seconds').replaceAll("&1", _time.toString()),
       fontWeight: FontWeight.bold,
       textAlign: TextAlign.start,
       fontColor: CustomColors.hardOrange,

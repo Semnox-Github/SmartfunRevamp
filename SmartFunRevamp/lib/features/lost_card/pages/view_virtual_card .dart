@@ -11,6 +11,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/virtual_card_widget.dart';
 import 'package:semnox/features/home/pages/home_page.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class ViewVirtualCardPage extends ConsumerWidget {
   const ViewVirtualCardPage({
@@ -24,7 +25,7 @@ class ViewVirtualCardPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       bottomSheet: BottomSheetButton(
-          label: 'OKAY,  GOT IT',
+          label: SplashScreenNotifier.getLanguageLabel('OKAY,  GOT IT'),
           onTap: () => {
                 Navigator.pop(context),
                 Navigator.push(
@@ -55,9 +56,9 @@ class ViewVirtualCardPage extends ConsumerWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Here is your virtual card',
-                    style: TextStyle(
+                  Text(
+                    SplashScreenNotifier.getLanguageLabel('Here is your virtual card'),
+                    style: const TextStyle(
                       color: CustomColors.hardOrange,
                       fontSize: 22.0,
                       fontWeight: FontWeight.bold,
@@ -82,7 +83,7 @@ class ViewVirtualCardPage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    'Show this Barcode on site to get a new physical card. A payment of 40 will be charged for the replacement on site.',
+                    SplashScreenNotifier.getLanguageLabel('Show this Barcode on site to get a new physical card. A payment of 40 will be charged for the replacement on site.'),
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       color: CustomColors.customBlack,

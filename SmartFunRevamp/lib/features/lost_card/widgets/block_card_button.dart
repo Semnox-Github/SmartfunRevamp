@@ -5,6 +5,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/lost_card/pages/lost_card_page.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class BlockCardButton extends ConsumerWidget {
   const BlockCardButton({
@@ -16,7 +17,7 @@ class BlockCardButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BottomSheetButton(
-        label: 'BLOCK & ISSUE REPLACEMENT',
+        label: SplashScreenNotifier.getLanguageLabel('BLOCK & ISSUE REPLACEMENT'),
         onTap: () {
           ref.listenManual(
             CardsProviders.lostCardProvider(cardDetails!),
@@ -39,8 +40,8 @@ class BlockCardButton extends ConsumerWidget {
                     context: context,
                     dialogType: DialogType.error,
                     animType: AnimType.scale,
-                    title: 'Lost Card',
-                    desc: 'Try again',
+                    title: SplashScreenNotifier.getLanguageLabel('Lost Card'),
+                    desc: SplashScreenNotifier.getLanguageLabel('Try again'),
                     btnOkOnPress: () {},
                   ).show();
                 },

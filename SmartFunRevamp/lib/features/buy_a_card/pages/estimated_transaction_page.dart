@@ -10,6 +10,7 @@ import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
 import 'package:semnox/features/buy_a_card/widgets/bill_detail_row.dart';
 import 'package:semnox/features/buy_a_card/widgets/coupon_container.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class EstimatedTransactionPage extends ConsumerWidget {
   const EstimatedTransactionPage({
@@ -40,7 +41,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
             context: context,
             dialogType: DialogType.error,
             animType: AnimType.scale,
-            title: 'Error',
+            title: SplashScreenNotifier.getLanguageLabel('Error'),
             desc: message,
             btnOkOnPress: () => {},
           ).show();
@@ -53,9 +54,9 @@ class EstimatedTransactionPage extends ConsumerWidget {
         elevation: 0.0,
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
-          'Recharge',
-          style: TextStyle(
+        title: Text(
+          SplashScreenNotifier.getLanguageLabel('Recharge'),
+          style: const TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,
           ),
@@ -72,9 +73,9 @@ class EstimatedTransactionPage extends ConsumerWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Recharge Value',
-                          style: TextStyle(
+                        Text(
+                          SplashScreenNotifier.getLanguageLabel('Recharge Value'),
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
@@ -90,7 +91,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '${cardProduct.credits} play credit',
+                                '${cardProduct.credits} ${SplashScreenNotifier.getLanguageLabel('play credit')}',
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -111,28 +112,28 @@ class EstimatedTransactionPage extends ConsumerWidget {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Bills Details',
-                              style: TextStyle(
+                            Text(
+                              SplashScreenNotifier.getLanguageLabel('Bills Details'),
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             BillDetailRow(
-                              description: 'Recharge Amount',
+                              description: SplashScreenNotifier.getLanguageLabel('Recharge Amount'),
                               amount: '${transactionResponse.transactionAmount}',
                             ),
                             BillDetailRow(
-                              description: 'Tax',
+                              description: SplashScreenNotifier.getLanguageLabel('Tax'),
                               amount: '${transactionResponse.taxAmount}',
                             ),
                             BillDetailRow(
-                              description: 'Discount (Offer)',
+                              description: SplashScreenNotifier.getLanguageLabel('Discount (Offer)'),
                               amount: '${transactionResponse.transactionDiscountAmount}',
                             ),
                             if (transactionResponse.couponDiscountAmount != null)
                               BillDetailRow(
-                                description: 'Discount (Coupon)',
+                                description: SplashScreenNotifier.getLanguageLabel('Discount (Coupon)'),
                                 amount: '${transactionResponse.couponDiscountAmount}',
                               ),
                             const Divider(
@@ -143,9 +144,9 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
-                                  'Payable Amount',
-                                  style: TextStyle(
+                                Text(
+                                  SplashScreenNotifier.getLanguageLabel('Payable Amount'),
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -175,9 +176,9 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const Text(
-                                  'View Details',
-                                  style: TextStyle(
+                                Text(
+                                  SplashScreenNotifier.getLanguageLabel('View Details'),
+                                  style: const TextStyle(
                                     color: CustomColors.hardOrange,
                                     decoration: TextDecoration.underline,
                                   ),
@@ -198,7 +199,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                   ),
                                 );
                               },
-                              label: 'PROCEED TO PAY',
+                              label: SplashScreenNotifier.getLanguageLabel('PROCEED TO PAY'),
                               width: 200,
                             ),
                           ],

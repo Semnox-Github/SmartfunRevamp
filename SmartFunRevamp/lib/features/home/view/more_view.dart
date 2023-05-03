@@ -6,6 +6,7 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class MoreView extends StatelessWidget {
@@ -109,7 +110,7 @@ class MoreView extends StatelessWidget {
                       }
                       final info = snapshot.data;
                       return MulishText(
-                        text: 'Build Version ${info?.version ?? ''}',
+                        text: '${SplashScreenNotifier.getLanguageLabel('Build Version')} ${info?.version ?? ''}',
                         fontColor: CustomColors.couponTextColor,
                       );
                     },

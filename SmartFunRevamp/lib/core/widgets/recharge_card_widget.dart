@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class RechargeCardWidget extends StatelessWidget {
   const RechargeCardWidget({Key? key, required this.cardProduct}) : super(key: key);
@@ -65,7 +66,7 @@ class RechargeCardWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                '${discount.toStringAsFixed(0)} % OFF',
+                '${discount.toStringAsFixed(0)} % ${SplashScreenNotifier.getLanguageLabel('OFF')}',
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.w600,
                   fontSize: 14.0,
@@ -83,7 +84,7 @@ class RechargeCardWidget extends StatelessWidget {
               ),
               const SizedBox(width: 5.0),
               Text(
-                '${cardProduct.credits.toStringAsFixed(0)} CREDITS',
+                '${cardProduct.credits.toStringAsFixed(0)} ${SplashScreenNotifier.getLanguageLabel('CREDITS')}',
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.bold,
                   fontSize: 22.0,
@@ -93,9 +94,9 @@ class RechargeCardWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10.0),
-          const Text(
-            'Valid for 11 months from date of purchase',
-            style: TextStyle(
+          Text(
+            SplashScreenNotifier.getLanguageLabel('Valid for 11 months from date of purchase'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 12.0,
               fontWeight: FontWeight.w500,

@@ -6,6 +6,7 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:semnox/colors/inputs_decorations.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CustomNativeDropdown extends StatelessWidget {
   const CustomNativeDropdown({super.key, required this.items, required this.onChanged});
@@ -63,13 +64,13 @@ class _CustomCupertinoPickerState extends State<CustomCupertinoPicker> {
       readOnly: true,
       controller: _controller,
       decoration: InputDecoration(
-        hintText: 'Select',
+        hintText: SplashScreenNotifier.getLanguageLabel('Select'),
         enabledBorder: CustomInputDecorations.k12RoundedCustomBlue,
         focusedBorder: CustomInputDecorations.k12RoundedCustomBlue,
         errorBorder: CustomInputDecorations.k12RoundedError,
         focusedErrorBorder: CustomInputDecorations.k12RoundedError,
       ),
-      validator: (value) => value!.isEmpty ? 'Required' : null,
+      validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
       onTap: () {
         if (_controller.text.isBlank ?? true) {
           selectedEntitlement ??= _items.first.toLowerCase();
@@ -118,9 +119,9 @@ class CustomAndroidPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      validator: (value) => value!.toString().isNullOrEmpty() ? 'Required' : null,
+      validator: (value) => value!.toString().isNullOrEmpty() ? SplashScreenNotifier.getLanguageLabel('Required') : null,
       decoration: InputDecoration(
-        hintText: 'Select',
+        hintText: SplashScreenNotifier.getLanguageLabel('Select'),
         enabledBorder: CustomInputDecorations.k20RoundedCustomBlue,
         focusedBorder: CustomInputDecorations.k20RoundedCustomBlue,
         errorBorder: CustomInputDecorations.k20RoundedError,

@@ -9,6 +9,7 @@ import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/reset_password/provider/reset_password_provider.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class ForgotPasswordPage extends ConsumerWidget {
   ForgotPasswordPage({super.key});
@@ -30,7 +31,7 @@ class ForgotPasswordPage extends ConsumerWidget {
       );
     });
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Forgot Password'),
+      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Forgot Password')),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: Form(
@@ -47,7 +48,7 @@ class ForgotPasswordPage extends ConsumerWidget {
                 onSaved: (emailOrPhone) {
                   ref.read(resetPasswordStateProvider.notifier).sendEmail(emailOrPhone);
                 },
-                label: 'Enter registered phone number or email',
+                label: SplashScreenNotifier.getLanguageLabel('Enter registered phone number or email'),
               ),
               const Spacer(),
               CustomButton(
@@ -56,7 +57,7 @@ class ForgotPasswordPage extends ConsumerWidget {
                     _formKey.currentState!.save();
                   }
                 },
-                label: 'SEND',
+                label: SplashScreenNotifier.getLanguageLabel('SEND'),
               )
             ],
           ),

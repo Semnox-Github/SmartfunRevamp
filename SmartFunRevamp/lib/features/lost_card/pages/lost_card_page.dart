@@ -5,6 +5,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/blocked_card_widget.dart';
 import 'package:semnox/features/lost_card/pages/view_virtual_card%20.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 
 import '../../recharge_card/widgets/recharge_bottom_sheet_button.dart';
@@ -21,7 +22,7 @@ class LostCardPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       bottomSheet: BottomSheetButton(
-        label: 'VIEW VIRTUAL CARD',
+        label: SplashScreenNotifier.getLanguageLabel('VIEW VIRTUAL CARD'),
         onTap: () => {
           Navigator.pop(context),
           Navigator.push(
@@ -54,9 +55,9 @@ class LostCardPage extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 20.0),
-                    const Text(
-                      'Card  Sucessfully Blocked',
-                       style: TextStyle(
+                    Text(
+                      SplashScreenNotifier.getLanguageLabel('Card  Sucessfully Blocked'),
+                       style: const TextStyle(
                           color: CustomColors.hardOrange,
                           fontSize: 22.0,
                           fontWeight: FontWeight.bold,
@@ -64,7 +65,7 @@ class LostCardPage extends ConsumerWidget {
                     ),
                     const SizedBox(height: 10.0),
                     Text(
-                      'You card  ${cardDetails.accountNumber} has been blocked and you no longer will be abe to use it.',
+                      SplashScreenNotifier.getLanguageLabel('You card  &1 has been blocked and you no longer will be abe to use it.').replaceAll("&1", cardDetails.accountNumber.toString()),
                       textAlign: TextAlign.center,
                       style: GoogleFonts.mulish(
                         color: CustomColors.customBlack,
@@ -82,7 +83,7 @@ class LostCardPage extends ConsumerWidget {
                   child: BlockedCardWidget(cardDetails: cardDetails), 
                 ),
                 Text(
-                  'We have transfered all your credits and other points to a new virtual card.',
+                  SplashScreenNotifier.getLanguageLabel('We have transfered all your credits and other points to a new virtual card.'),
                   textAlign: TextAlign.center,
                   style: GoogleFonts.mulish(
                     color: CustomColors.customBlack,

@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class RechargeCardOffer extends StatelessWidget {
   const RechargeCardOffer({
@@ -96,7 +97,7 @@ class RechargeCardOffer extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 8.0),
                                   Text(
-                                    '${discount.toStringAsFixed(0)}% OFF',
+                                    '${discount.toStringAsFixed(0)}% ${SplashScreenNotifier.getLanguageLabel('OFF')}',
                                     style: GoogleFonts.mulish(
                                       color: CustomColors.discountPercentColor,
                                       fontWeight: FontWeight.w600,

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class NotificationsSettingsPage extends StatelessWidget {
   const NotificationsSettingsPage({super.key});
@@ -11,8 +12,8 @@ class NotificationsSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Notifications Preferences',
+      appBar: CustomAppBar(
+        title: SplashScreenNotifier.getLanguageLabel('Notifications Preferences'),
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
@@ -77,7 +78,7 @@ class _NotificationSettingState extends State<NotificationSetting> {
                         fontColor: Colors.black,
                       ),
                       Text(
-                        widget.description,
+                        SplashScreenNotifier.getLanguageLabel(widget.description),
                         style: GoogleFonts.mulish(
                           color: CustomColors.couponTextColor,
                           fontSize: 12,

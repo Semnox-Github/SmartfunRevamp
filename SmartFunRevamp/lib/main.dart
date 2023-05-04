@@ -1,5 +1,8 @@
 import 'dart:math';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -7,11 +10,19 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/splash/splashscreen.dart';
+import 'package:semnox/firebase_options.dart';
 import 'di/injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
   di.init();
   runApp(const MyApp());
 }

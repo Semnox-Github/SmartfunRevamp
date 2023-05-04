@@ -11,4 +11,5 @@ abstract class AuthenticationRepository {
   Future<Either<Failure, String>> getExecutionController(int siteId);
   Future<Either<Failure, void>> getUserMetaData();
   Future<Either<Failure, void>> sendResetPasswordLink(String phoneOrEmail);
+  Future<Either<Failure, void>> getAppConfigurations(int siteId);
 }

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
+import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
+import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class MoreView extends StatelessWidget {
@@ -14,6 +18,7 @@ class MoreView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Get.find<CustomerDTO>();
+    final localDatasource = Get.find<LocalDataSource>();
     return SingleChildScrollView(
       physics: const ClampingScrollPhysics(),
       child: Container(
@@ -45,12 +50,22 @@ class MoreView extends StatelessWidget {
                 ],
               ),
             ),
-            MoreOptions(
-              desc: 'Since 23 Apr 2021',
-              iconBgColor: CustomColors.customLigthYellow,
-              iconPath: 'gold_medal',
-              onTap: () => Navigator.pushNamed(context, Routes.kMembershipInfo),
-              title: 'Gold Member',
+            Consumer(
+              builder: (context, ref, child) {
+                return ref.watch(membershipInfoProvider).when(
+                      data: (data) {
+                        return MoreOptions(
+                          desc: 'Since ${DateFormat('dd MMM yyyy').format(data.membershipValidity ?? DateTime.now())}',
+                          iconBgColor: CustomColors.customLigthYellow,
+                          iconPath: 'gold_medal',
+                          onTap: () => Navigator.pushNamed(context, Routes.kMembershipInfo),
+                          title: '${data.memberShipName}',
+                        );
+                      },
+                      error: (_, __) => Container(),
+                      loading: () => const CircularProgressIndicator(),
+                    );
+              },
             ),
             MoreOptions(
               desc: 'View the rewards you have earned',
@@ -93,7 +108,11 @@ class MoreView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                    onPressed: () => Navigator.popAndPushNamed(context, Routes.kLogInPage),
+                    onPressed: () async {
+                      localDatasource.deleteValue(LocalDataSource.kUserId).then(
+                            (value) => Navigator.popAndPushNamed(context, Routes.kLogInPage),
+                          );
+                    },
                     child: const MulishText(
                       text: 'Logout',
                       fontColor: CustomColors.hardOrange,

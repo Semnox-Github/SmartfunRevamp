@@ -16,6 +16,7 @@ import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
 import 'package:semnox/features/login/widgets/profile_picture.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
+import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:shimmer/shimmer.dart';
@@ -71,25 +72,17 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               fontSize: 16.0,
                             ),
                           ),
-                          RichText(
-                            text: TextSpan(
-                              style: const TextStyle(color: CustomColors.customBlue),
-                              children: [
-                                WidgetSpan(
-                                  child: Image.asset(
-                                    'assets/home/gold_medal.png',
-                                    height: 20.0,
-                                  ),
+                          ref.watch(membershipInfoProvider).when(
+                                error: (_, __) => const MulishText(text: 'Error '),
+                                loading: () => const ShimmerLoading(
+                                  height: 10.0,
+                                  width: 50,
                                 ),
-                                const TextSpan(
-                                  text: 'Gold Member',
-                                  style: TextStyle(
-                                    color: CustomColors.customLigthBlack,
-                                  ),
+                                data: (data) => MulishText(
+                                  text: '${data.memberShipName}',
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ],
-                            ),
-                          )
+                              ),
                         ],
                       ),
                       const Spacer(),
@@ -106,20 +99,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 10.0),
                     child: cardsWatch.when(
-                      loading: () {
-                        return Shimmer.fromColors(
-                          baseColor: Colors.grey.shade300,
-                          highlightColor: Colors.grey.shade100,
-                          child: Container(
-                            width: double.infinity,
-                            height: 200,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                        );
-                      },
+                      loading: () => const ShimmerLoading(height: 200),
                       error: (_, __) => const Center(
                         child: MulishText(text: 'No Cards found'),
                       ),
@@ -183,20 +163,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   ),
                   cardsWatch.when(
                     error: (error, stackTrace) => Container(),
-                    loading: () {
-                      return Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
-                        child: Container(
-                          width: double.infinity,
-                          height: 200,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      );
-                    },
+                    loading: () => const ShimmerLoading(height: 200.0),
                     data: (data) {
                       bool hasCard = data.isNotEmpty ? true : false;
                       String msgCardNoLink = 'No card is associated with customer, please link your card.';
@@ -301,6 +268,32 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ShimmerLoading extends StatelessWidget {
+  const ShimmerLoading({
+    super.key,
+    required this.height,
+    this.width = double.infinity,
+  });
+  final double height;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
         ),
       ),
     );

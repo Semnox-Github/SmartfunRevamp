@@ -9,6 +9,7 @@ import 'package:semnox/core/domain/use_cases/authentication/send_link_reset_pass
 import 'package:semnox/core/domain/use_cases/authentication/send_otp_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/sign_up_user_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/verify_otp_use_case.dart';
+import 'package:semnox/core/domain/use_cases/splash_screen/get_app_configuration_use_case.dart';
 import 'package:semnox_core/modules/customer/bl/customer_usecases.dart';
 import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
@@ -26,4 +27,5 @@ void authenticaionDependecies() {
   Get.lazyPut<GetUserMetaDataUseCase>(() => GetUserMetaDataUseCase(Get.find()));
   Get.lazyPut<CustomerUseCases>(() => CustomerUseCases(Get.find<ExecutionContextDTO>()));
   Get.lazyPut<SendLinkResetPasswordUseCase>(() => SendLinkResetPasswordUseCase(Get.find()));
+  Get.lazyPut<GetAppConfigurationUseCase>(() => GetAppConfigurationUseCase(Get.find()));
 }

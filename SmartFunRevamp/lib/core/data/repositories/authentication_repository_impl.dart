@@ -138,4 +138,19 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return Left(ServerFailure('Email not found'));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> getAppConfigurations(int siteId) async {
+    try {
+      await _api.getAppConfiguration(siteId);
+      return const Right(null);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    }
+  }
 }

@@ -11,6 +11,8 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
+import 'package:semnox/core/domain/entities/membership/membership_info.dart';
+import 'package:semnox/core/domain/entities/membership/membership_tier.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
@@ -92,7 +94,11 @@ abstract class SmartFunApi {
   });
 
   @GET('ParafaitEnvironment/ExecutionContext')
-  Future<HttpResponse> getExecutionController(@Query('siteId') int siteId, {@Query('languageCode') String languageCode = 'en-US', @Query('posMachineName') String posMachineName = 'CustomerApp'});
+  Future<HttpResponse> getExecutionController(
+    @Query('siteId') int siteId, {
+    @Query('languageCode') String languageCode = 'en-US',
+    @Query('posMachineName') String posMachineName = 'CustomerApp',
+  });
 
   @POST('Transaction/Transactions')
   Future<Data<EstimateTransactionResponse>> estimateTransaction(@Body() Map<String, dynamic> body);
@@ -230,7 +236,14 @@ abstract class SmartFunApi {
   );
 
   @GET('Customer/{CustomerId}/Summary')
-  Future<void> getMembershipInfo(@Path('CustomerId') int customerId);
+  Future<Data<MembershipInfo>> getMembershipInfo(@Path('CustomerId') int customerId);
+
   @GET('Customer/Membership/MembershipsContainer')
-  Future<void> getMembershipContainer(@Query('siteId') int siteId, {@Query('rebuildCache') bool rebuildCachec = false});
+  Future<MembershipContainerResponse> getMembershipContainer(
+    @Query('siteId') int siteId, {
+    @Query('rebuildCache') bool rebuildCachec = false,
+  });
+
+  @GET('CustomerApp/CustomerAppConfiguration')
+  Future<void> getAppConfiguration(@Query('siteId') int siteId);
 }

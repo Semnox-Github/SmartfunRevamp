@@ -3,10 +3,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
+import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_account_games_summary_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_bonus_summary_use_case.dart';
+import 'package:semnox/core/domain/use_cases/cards/get_card_activity_log_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/transfer_balance_use_case.dart';
 import 'package:semnox/core/domain/use_cases/cards/lost_card_use_case.dart';
 
@@ -25,6 +27,36 @@ class CardsProviders {
       (l) => throw l,
       (r) => r,
     );
+  });
+  static final loyaltyPointsBalanceProvider = Provider.autoDispose<int>((ref) {
+    final cards = ref.watch(userCardsProvider).value;
+    if (cards == null) {
+      return 0;
+    }
+    int loyaltyBalance = 0;
+    for (var card in cards) {
+      if (card.totalLoyaltyBalance != null) {
+        loyaltyBalance += card.totalLoyaltyBalance!.toInt();
+      }
+    }
+    return loyaltyBalance;
+  });
+
+  static final loyaltyPointsDetailProvider = FutureProvider.autoDispose<List<CardActivity>>((ref) async {
+    final cards = ref.watch(userCardsProvider).value;
+    final List<CardActivity> allTransactions = [];
+    final GetCardActivityLogUseCase getCardActivityLogUseCase = Get.find<GetCardActivityLogUseCase>();
+    if (cards != null) {
+      final cardsNumbers = cards.map((e) => e.accountId.toString()).toList();
+      for (var cardNumber in cardsNumbers) {
+        allTransactions.addAll(
+          (await getCardActivityLogUseCase(cardNumber)).fold((l) => [], (r) => r),
+        );
+      }
+      allTransactions.removeWhere((element) => element.amount == null || element.loyaltyPoints == null);
+      return allTransactions;
+    }
+    return [];
   });
 
   static final userGamesSummaryProvider = FutureProvider.autoDispose<void>((ref) async {

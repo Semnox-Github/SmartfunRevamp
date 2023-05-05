@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
-import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
@@ -55,7 +55,7 @@ class MoreView extends StatelessWidget {
                 return ref.watch(membershipInfoProvider).when(
                       data: (data) {
                         return MoreOptions(
-                          desc: 'Since ${DateFormat('dd MMM yyyy').format(data.membershipValidity ?? DateTime.now())}',
+                          desc: 'Since ${data.membershipValidity.formatDate('dd MMM yyyy')}',
                           iconBgColor: CustomColors.customLigthYellow,
                           iconPath: 'gold_medal',
                           onTap: () => Navigator.pushNamed(context, Routes.kMembershipInfo),

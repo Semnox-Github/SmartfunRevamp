@@ -6,8 +6,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     Key? key,
     required this.title,
+    this.fontSize,
   }) : super(key: key);
   final String title;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +18,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       iconTheme: const IconThemeData(color: CustomColors.customBlue),
       backgroundColor: CustomColors.customLigthBlue,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-        bottom: Radius.circular(20),
-      )),
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(20),
+        ),
+      ),
       title: MulishText(
         text: title,
         fontWeight: FontWeight.bold,
         fontColor: CustomColors.customBlue,
+        fontSize: fontSize,
       ),
       centerTitle: false,
     );

@@ -8,14 +8,14 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import '../../core/widgets/mulish_text.dart';
 
-class AfterSplashScreen extends StatefulWidget {
+class AfterSplashScreen extends ConsumerStatefulWidget {
   const AfterSplashScreen({Key? key}) : super(key: key);
 
   @override
-  State<AfterSplashScreen> createState() => _AfterSplashScreenState();
+  ConsumerState<AfterSplashScreen> createState() => _AfterSplashScreenState();
 }
 
-class _AfterSplashScreenState extends State<AfterSplashScreen> {
+class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
   String dropdownValue = "90";
   @override
   Widget build(BuildContext context) {
@@ -62,6 +62,7 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
                   ),
                   Consumer(
                     builder: (context, ref, child) {
+                      ref.read(SplashScreenNotifier.getInitialData);
                       return ref.watch(SplashScreenNotifier.parafaitLanguagesProvider).maybeWhen(
                             orElse: () => Container(
                               height: 20.0,

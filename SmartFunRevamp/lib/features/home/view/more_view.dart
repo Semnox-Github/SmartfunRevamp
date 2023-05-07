@@ -6,6 +6,8 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
+import 'package:semnox/features/sign_up/pages/help_page.dart';
+import 'package:semnox/features/sign_up/pages/terms_of_use_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
@@ -71,14 +73,28 @@ class MoreView extends StatelessWidget {
               desc: 'Read FAQs or Get in touch',
               iconBgColor: const Color(0xFFE0F0D3),
               iconPath: 'help',
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HelpPage(),
+                  ),
+                );
+              },
               title: 'Help',
             ),
             MoreOptions(
               desc: 'Term of use and Privacy Policy',
               iconBgColor: CustomColors.customOrange,
               iconPath: 'note',
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TermsOfUsePage(),
+                  ),
+                );
+              },
               title: 'Legal',
             ),
             MoreOptions(

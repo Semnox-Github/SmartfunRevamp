@@ -12,6 +12,7 @@ import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
+import 'package:semnox/core/domain/entities/lookups/lookups_dto.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
@@ -234,4 +235,10 @@ abstract class SmartFunApi {
   Future<void> getMembershipInfo(@Path('CustomerId') int customerId);
   @GET('Customer/Membership/MembershipsContainer')
   Future<void> getMembershipContainer(@Query('siteId') int siteId, {@Query('rebuildCache') bool rebuildCachec = false});
+
+  @GET('Lookups/LookupsContainer')
+  Future<Data<LookupsContainer>> getLookups(
+    @Query('siteId') String siteId,
+    @Query('rebuildCache') bool rebuildCache
+  );
 }

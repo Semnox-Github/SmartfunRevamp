@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
+import 'package:semnox/core/domain/entities/lookups/lookups_dto.dart';
 
 import 'package:semnox/core/domain/repositories/initial_load_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
@@ -36,6 +37,22 @@ class InitialLoadRepositoryImpl implements InitialLoadRepository {
       final response = await _api.getStringsForLocalization(siteId, languageId, outputForm);
       Logger().d(response);
       
+      return Right(response.data);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    }
+  }
+
+  @override
+  Future<Either<Failure, LookupsContainer>> getLookups({required String siteId, bool rebuildCache = true}) async {
+    try {
+      final response = await _api.getLookups(siteId, rebuildCache);
+
       return Right(response.data);
     } on DioError catch (e) {
       Logger().e(e);

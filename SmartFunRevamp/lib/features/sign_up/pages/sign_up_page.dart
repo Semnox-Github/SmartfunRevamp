@@ -14,6 +14,7 @@ import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/password_field.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/sign_up/pages/privacy_policy_page.dart';
+import 'package:semnox/features/sign_up/pages/terms_of_use_page.dart';
 import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
@@ -213,11 +214,21 @@ class SignUpPage extends ConsumerWidget {
                       const TextSpan(
                         text: 'By Logging in you agree to our ',
                       ),
-                      const TextSpan(
+                      TextSpan(
                         text: 'Terms of Service ',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: CustomColors.hardOrange,
                         ),
+                        recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const TermsOfUsePage(),
+                                ),
+                              );
+                            }
+                        
                       ),
                       const TextSpan(
                         text: 'and ',

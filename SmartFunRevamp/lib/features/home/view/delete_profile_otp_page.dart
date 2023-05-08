@@ -23,16 +23,17 @@ class DeleteProfileOTPPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(loginProvider.notifier).resendDeleteOtp();
+    
     String phoneNumber = censorPhoneNumber(ref.read(loginProvider.notifier).phone);
     String otp = '';
+    ref.read(loginProvider.notifier).resendDeleteOtp();
     ref.listen<LoginState>(loginProvider, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),
         orElse: () => context.loaderOverlay.hide(),
         otpVerified: () {
           context.loaderOverlay.hide();
-          Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage, (route) => false);
+          Navigator.popAndPushNamed(context, Routes.kLogInPage);
         },
         otpVerificationError: (message) {
           context.loaderOverlay.hide();
@@ -40,6 +41,7 @@ class DeleteProfileOTPPage extends ConsumerWidget {
         },
       );
     });
+    
     return Scaffold(
       appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('OTP Verification')),
       body: SafeArea(
@@ -87,7 +89,7 @@ class DeleteProfileOTPPage extends ConsumerWidget {
                   } else {
                     try {
                       ref.read(loginProvider.notifier).verifyDeleteOTP(otp);
-                      Navigator.popAndPushNamed(context, Routes.kLogInPage);
+                      // Navigator.popAndPushNamed(context, Routes.kLogInPage);
                     }
                     catch(e){
                       null;

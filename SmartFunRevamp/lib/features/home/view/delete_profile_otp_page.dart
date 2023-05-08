@@ -50,7 +50,7 @@ class DeleteProfileOTPPage extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                SplashScreenNotifier.getLanguageLabel('We have sent an OTP to your mobile number &1.\nEnter the OTP to verify.').replaceAll('&1', phoneNumber),
+                SplashScreenNotifier.getLanguageLabel('We have sent an OTP to your mobile number &1.\nPlease enter the OTP to delete the customer profile.').replaceAll('&1', phoneNumber),
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.bold,
                   fontSize: 14.0,

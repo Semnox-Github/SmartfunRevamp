@@ -1,5 +1,6 @@
 // ignore_for_file: unused_field
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
@@ -141,6 +142,15 @@ class LoginNotifier extends StateNotifier<LoginState> {
     );
   }
 
+  void resendDeleteOtp() async {
+    state = const _InProgress();
+    final response = await _sendOTPUseCase({_phone.contains('@') ? 'EmailId' : 'Phone': _phone, 'Source': 'Customer_Delete_Otp_Event'});
+    state = response.fold(
+      (l) => _Error(l.message),
+      (r) => const _OtpResend(),
+    );
+  }
+
   void verifyOTP(String otp) async {
     state = const _VerifyingOTP();
     final response = await _verifyOTPUseCase({'code': otp}, otpId);
@@ -151,6 +161,20 @@ class LoginNotifier extends StateNotifier<LoginState> {
       },
       (r) {
         _getUserInfo(_phone);
+      },
+    );
+  }
+
+  void verifyDeleteOTP(String otp) async {
+    state = const _VerifyingOTP();
+    final response = await _verifyOTPUseCase({'code': otp}, otpId);
+    response.fold(
+      (l) {
+        Logger().e(l.message);
+        state = _OtpVerificationError(l.message);
+      },
+      (r) {
+        
       },
     );
   }

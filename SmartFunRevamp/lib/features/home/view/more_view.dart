@@ -118,6 +118,15 @@ class MoreView extends StatelessWidget {
                       textDecoration: TextDecoration.underline,
                     ),
                   ),
+                  TextButton(
+                    onPressed: () => Navigator.popAndPushNamed(context, Routes.kDeleteOTP),
+                    child: const MulishText(
+                      text: 'Delete Profile',
+                      fontColor: CustomColors.hardOrange,
+                      fontWeight: FontWeight.bold,
+                      textDecoration: TextDecoration.underline,
+                    ),
+                  ),
                   FutureBuilder<PackageInfo>(
                     future: PackageInfo.fromPlatform(),
                     builder: (context, snapshot) {

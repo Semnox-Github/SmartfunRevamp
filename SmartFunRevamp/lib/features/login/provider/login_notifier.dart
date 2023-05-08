@@ -143,12 +143,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   void resendDeleteOtp() async {
-    state = const _InProgress();
     final response = await _sendOTPUseCase({_phone.contains('@') ? 'EmailId' : 'Phone': _phone, 'Source': 'Customer_Delete_Otp_Event'});
-    state = response.fold(
-      (l) => _Error(l.message),
-      (r) => const _OtpResend(),
-    );
   }
 
   void verifyOTP(String otp) async {
@@ -174,7 +169,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
         state = _OtpVerificationError(l.message);
       },
       (r) {
-        
+        state = const _OtpVerified();
       },
     );
   }

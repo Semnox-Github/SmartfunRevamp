@@ -6,11 +6,13 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/buy_a_card/pages/buy_card_list_page.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/buy_card/buy_card_notifier.dart';
 import 'package:semnox/features/buy_a_card/widgets/card_type.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
+import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart';
@@ -27,7 +29,7 @@ class SearchPage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _SearchPageState();
 }
 
-class _SearchPageState extends ConsumerState<SearchPage> {
+class _SearchPageState extends ConsumerState<SearchPage> with TickerProviderStateMixin{
   CardProduct? offerSelected;
   late CardDetails selectedCardNumber;
   late List<CardDetails> cards;
@@ -36,6 +38,8 @@ class _SearchPageState extends ConsumerState<SearchPage> {
   late List<CardProduct> recharges = [];
   late List<CardProduct> newCardsFiltered = [];
   late List<CardProduct> rechargesFiltered = [];
+  late TabController tabController;
+  late String filterStr = "";
   @override
   void initState() {
     super.initState();
@@ -43,6 +47,11 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     selectedCardNumber = cards.first;
     userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1040;
+    tabController = TabController(
+      initialIndex: 0,
+      length: 2,
+      vsync: this
+    );
     
   }
 
@@ -54,94 +63,67 @@ class _SearchPageState extends ConsumerState<SearchPage> {
         elevation: 0.0,
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
-        title: Text(
-          SplashScreenNotifier.getLanguageLabel('Search'),
-          style: const TextStyle(
-            color: CustomColors.customBlue,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      bottomSheet: BottomSheetButton(
-        label: SplashScreenNotifier.getLanguageLabel('Buy Now'),
-        onTap: () {
-          Logger().d(offerSelected);
-          if (offerSelected != null) {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EstimatedTransactionPage(
-                  cardProduct: offerSelected!,
-                  cardSelected: selectedCardNumber,
-                  transactionType: "recharge",
-                ),
-              ),
-            );
-          }
-        },
-      ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        title: Column(
           children: [
-            const SizedBox( height: 10,),
-            SearchTextField(
-                onChanged: (filter) => {
-                  setState((){
-                    if(filter.isEmpty) {
-                      newCardsFiltered = [];
-                      rechargesFiltered = [];
-                    } else {
-                      newCardsFiltered = newCards.where((element) => (element.productName.toLowerCase().contains(filter.toLowerCase()))).toList();
-                      rechargesFiltered = recharges.where((element) => (element.productName.toLowerCase().contains(filter.toLowerCase()))).toList();
-                    }
-                  })                 
-                },
-              ),
-              const SizedBox( height: 10,),
-            // CarouselCards(
-            //   cards: cards,
-            //   onCardChanged: (index) {
-            //     selectedCardNumber = cards[index];
-            //   },
-            //   showLinkCard: false,
-            // ),
-            // const Padding(
-            //   padding: EdgeInsets.only(left: 10.0, bottom: 10.0),
-            //   child: MulishText(
-            //     text: 'Exclusive Offers on Recharges',
-            //     textAlign: TextAlign.start,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 100.0),
-                child: Consumer(
-                  builder: (context, ref, child) {
-                    return ref.watch(allProductsProvider(userSite)).maybeWhen(
-                          orElse: () => Container(),
-                          loading: () => const Center(child: CircularProgressIndicator()),
-                          error: (error, stackTrace) => const MulishText(text: 'Error'),
-                          data: (offers) {
-                            newCards = offers.where((element) => element.productType == "CARDSALE" || element.productType == "NEW").toList();
-                            recharges = offers.where((element) => (element.productType == "RECHARGE")).toList();
-                            return RechargeCardOffers(
-                              offers: rechargesFiltered,
-                              onOfferSelected: (offer) {
-                                offerSelected = offer;
-                              },
-                            );
-                          },
-                        );
-                  },
-                ),
+            Text(
+              SplashScreenNotifier.getLanguageLabel('Search'),
+              style: const TextStyle(
+                color: CustomColors.customBlue,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],
         ),
+        
       ),
-    );
+        body: SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          const SizedBox(height: 10),
+          SearchTextField(
+                onChanged: (filter) => {
+                  setState((){
+                    filterStr = filter;
+                  })                 
+                },
+              ),
+          _tabSection(context, filterStr),
+        ],
+      ),
+    ));
   }
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+}
+
+Widget _tabSection(BuildContext context, String? filterStr) {
+  return DefaultTabController(
+    length: 3,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Container(
+          child: TabBar(tabs: [
+            MulishText(text: "Card Recharge", fontSize: 14,),
+            MulishText(text: "New Card", fontSize: 14),
+          ]),
+        ),
+        Container( 
+          //Add this to give height
+          height: MediaQuery.of(context).size.height,
+          child: TabBarView(children: [
+            Container(
+              child: SelectCardRechargePage(filterStr: filterStr),
+            ),
+            Container(
+              child: BuyCardListPage(filterStr: filterStr),
+            )
+          ]),
+        ),
+      ],
+    ),
+  );
 }

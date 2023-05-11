@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
@@ -15,7 +16,12 @@ import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart'
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
-  const SelectCardRechargePage({super.key});
+  const SelectCardRechargePage({
+    Key? key,
+    this.filterStr,
+  }) : super(key: key);
+
+  final String? filterStr;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SelectCardRechargePageState();
@@ -99,8 +105,12 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                           loading: () => const Center(child: CircularProgressIndicator()),
                           error: (error, stackTrace) => const MulishText(text: 'Error'),
                           data: (offers) {
+                            List<CardProduct> offersFiltered = offers;
+                            if (!widget.filterStr.isNullOrEmpty()){
+                              offersFiltered = offers.where((element) => (element.productName.toLowerCase().contains(widget.filterStr.toString().toLowerCase()))).toList();
+                            }
                             return RechargeCardOffers(
-                              offers: offers,
+                              offers: offersFiltered,
                               onOfferSelected: (offer) {
                                 offerSelected = offer;
                               },

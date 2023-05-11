@@ -33,6 +33,7 @@ class DeleteProfileOTPPage extends ConsumerWidget {
         orElse: () => context.loaderOverlay.hide(),
         otpVerified: () {
           context.loaderOverlay.hide();
+          ref.read(loginProvider.notifier).deleteProfile();
           Navigator.popAndPushNamed(context, Routes.kLogInPage);
         },
         otpVerificationError: (message) {
@@ -89,7 +90,6 @@ class DeleteProfileOTPPage extends ConsumerWidget {
                   } else {
                     try {
                       ref.read(loginProvider.notifier).verifyDeleteOTP(otp);
-                      // Navigator.popAndPushNamed(context, Routes.kLogInPage);
                     }
                     catch(e){
                       null;

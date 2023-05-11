@@ -231,6 +231,9 @@ abstract class SmartFunApi {
     @Body() Map<String, dynamic> body,
   );
 
+  @POST('Customer/Customers/{CustomerId}/Delete')
+  Future<void> deleteProfile(@Path('CustomerId') int customerId);
+
   @GET('Customer/{CustomerId}/Summary')
   Future<void> getMembershipInfo(@Path('CustomerId') int customerId);
   @GET('Customer/Membership/MembershipsContainer')

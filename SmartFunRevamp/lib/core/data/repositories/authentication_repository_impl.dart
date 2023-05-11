@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/repositories/authentication_repository.dart';
+import 'package:semnox/features/home/widgets/more_view_widgets/user_info.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
@@ -136,6 +138,18 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return Left(ServerFailure(message['data']));
     } catch (e) {
       return Left(ServerFailure('Email not found'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteProfile() async {
+    try {
+      final user = Get.find<CustomerDTO>();
+      final int id =  user.id?.toInt() ?? 0;
+      await _api.deleteProfile(id);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure('User not found'));
     }
   }
 }

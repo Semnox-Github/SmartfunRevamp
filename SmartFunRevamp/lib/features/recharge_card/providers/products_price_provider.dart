@@ -17,3 +17,16 @@ final rechargeProductsProvider = FutureProvider.autoDispose.family<List<CardProd
     },
   );
 });
+
+final allProductsProvider = FutureProvider.autoDispose.family<List<CardProduct>, int>((ref, siteId) async {
+  final GetProductsPriceUseCase getProductsPriceUseCase = Get.find<GetProductsPriceUseCase>();
+  final response = await getProductsPriceUseCase(siteId);
+  return response.fold(
+    (l) => throw l,
+    (r) {
+      Logger().d(r.length);
+      Logger().d(r.length);
+      return r;
+    },
+  );
+});

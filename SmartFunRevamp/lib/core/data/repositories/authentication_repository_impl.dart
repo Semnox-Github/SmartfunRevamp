@@ -85,7 +85,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } on DioError catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure('Invalid OTP'));
       }
       final message = json.decode(e.response.toString());
       return Left(ServerFailure(message['data']));

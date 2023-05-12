@@ -71,6 +71,8 @@ class DeleteProfileOTPPage extends ConsumerWidget {
                     activeFieldBorderColor: CustomColors.hardOrange,
                   ),
                   maxLength: 6,
+                  fieldHeight: MediaQuery.of(context).size.width * 0.12,
+                  fieldWidth: MediaQuery.of(context).size.width * 0.12,
                 ),
               ),
               const MulishText(

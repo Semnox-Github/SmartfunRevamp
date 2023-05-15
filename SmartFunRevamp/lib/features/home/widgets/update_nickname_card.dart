@@ -87,7 +87,7 @@ class UpdateNicknameCard extends ConsumerWidget {
                 Expanded(
                   child: InputTextField(
                     initialValue: '',
-                    onSaved: (cardNickname) => cardNickname = cardNickname,
+                    onSaved: (newNickname) => cardNickname = newNickname,
                     hintText: SplashScreenNotifier.getLanguageLabel('Choose nickname'),
                     prefixIcon: IconButton(
                       icon: const Icon(
@@ -117,7 +117,7 @@ class UpdateNicknameCard extends ConsumerWidget {
                     child: TextButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          Logger().d('Linking');
+                          Logger().d('updating nickname');
                           _formKey.currentState!.save();
                           ref.read(updateCardNicknameProvider.notifier).updateCardNickname(cardDetails.accountId!, cardNickname);
                         }

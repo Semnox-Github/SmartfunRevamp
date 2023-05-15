@@ -200,10 +200,13 @@ class CardsRepositoryImpl implements CardsRepository {
   @override
   Future<Either<Failure, void>> updateCardNickname(int cardId, String nickname) async {
     try {
-      final response = await _api.linkCardToCustomer({
-        "accountId": cardId,
-        "accountIdentifier": nickname,
-      });
+      final response = await _api.updateCardNickname(
+        cardId.toString(),
+        {
+          "accountId": cardId,
+          "accountIdentifier": nickname,
+        },
+      );
       Logger().d(response.data);
       return const Right(null);
     } on DioError catch (e) {

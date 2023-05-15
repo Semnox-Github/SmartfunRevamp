@@ -6,6 +6,7 @@ import 'package:semnox/colors/colors.dart';
 
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/link_a_card.dart';
@@ -107,7 +108,7 @@ class _CarouselCardsState extends State<CarouselCards> {
                                   );
                                 },
                                 child: Text(
-                                  '${card.accountIdentifier == '' ? '+ ${SplashScreenNotifier.getLanguageLabel('Add nickname')}' : card.accountIdentifier?.substring(0, 15)}',
+                                  '${card.accountIdentifier.isNullOrEmpty() ? card.customerName! : card.accountIdentifier!.characters.take(15).toString()} [change]',
                                   style: const TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Colors.white,

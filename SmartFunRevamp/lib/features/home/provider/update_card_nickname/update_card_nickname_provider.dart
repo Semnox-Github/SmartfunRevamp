@@ -2,12 +2,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/domain/use_cases/cards/update_card_nickname_use_case.dart';
-import 'package:semnox/features/home/provider/link_card/link_card_provider.dart';
 
 part 'update_card_nickname_provider.freezed.dart';
 part 'update_card_nickname_state.dart';
 
-final updateCardNicknameProvider = StateNotifierProvider.autoDispose<UdateCardNicknameProvider, LinkCardState>(
+final updateCardNicknameProvider = StateNotifierProvider.autoDispose<UdateCardNicknameProvider, UpdateCardNicknameState>(
   (ref) => UdateCardNicknameProvider(
     Get.find<UpdateCardNicknameUseCase>(),
   ),

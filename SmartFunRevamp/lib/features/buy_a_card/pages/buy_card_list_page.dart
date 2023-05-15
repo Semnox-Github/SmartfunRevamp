@@ -7,6 +7,7 @@ import 'package:semnox/features/buy_a_card/provider/buy_card/buy_card_notifier.d
 import 'package:semnox/features/buy_a_card/widgets/card_type.dart';
 import 'package:semnox/features/buy_a_card/widgets/drawer_filter.dart';
 import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class BuyCardListPage extends StatelessWidget {
   const BuyCardListPage({super.key});
@@ -20,9 +21,9 @@ class BuyCardListPage extends StatelessWidget {
         elevation: 0.0,
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
-          'Buy a Card',
-          style: TextStyle(
+        title: Text(
+          SplashScreenNotifier.getLanguageLabel('Buy a Card'),
+          style: const TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,
           ),
@@ -63,8 +64,8 @@ class BuyCardListPage extends StatelessWidget {
                           List<CardProduct> cards = List.from(responseCards);
                           cards = cards..removeWhere((element) => (element.productType != "CARDSALE" && element.productType != "NEW"));
                           if (cards.isEmpty) {
-                            return const Center(
-                              child: Text('No cards found'),
+                            return Center(
+                              child: Text(SplashScreenNotifier.getLanguageLabel('No cards found')),
                             );
                           }
                           return ListView.separated(

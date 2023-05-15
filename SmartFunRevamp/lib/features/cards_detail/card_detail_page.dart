@@ -9,6 +9,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/cards_detail/account_games_summary_page.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CardDetailPage extends StatelessWidget {
   const CardDetailPage({Key? key, required this.cardDetails}) : super(key: key);
@@ -67,7 +68,7 @@ class CardDetailPage extends StatelessWidget {
                           builder: (context) => BonusSummaryPage(
                             cardNumber: cardDetails.accountNumber ?? '',
                             creditPlusType: 5,
-                            pageTitle: "Bonus",
+                            pageTitle: SplashScreenNotifier.getLanguageLabel("Bonus"),
                           ),
                         ),
                       );
@@ -85,7 +86,7 @@ class CardDetailPage extends StatelessWidget {
                           builder: (context) => BonusSummaryPage(
                             cardNumber: cardDetails.accountNumber ?? '',
                             creditPlusType: 6,
-                            pageTitle: "Time",
+                            pageTitle: SplashScreenNotifier.getLanguageLabel("Time"),
                           ),
                         ),
                       );
@@ -103,7 +104,7 @@ class CardDetailPage extends StatelessWidget {
                           builder: (context) => BonusSummaryPage(
                             cardNumber: cardDetails.accountNumber ?? '',
                             creditPlusType: 0,
-                            pageTitle: "Ticket",
+                            pageTitle: SplashScreenNotifier.getLanguageLabel("Ticket"),
                           ),
                         ),
                       );
@@ -127,7 +128,7 @@ class CardDetailPage extends StatelessWidget {
                           builder: (context) => BonusSummaryPage(
                             cardNumber: cardDetails.accountNumber ?? '',
                             creditPlusType: 1,
-                            pageTitle: "Loyalty",
+                            pageTitle: SplashScreenNotifier.getLanguageLabel("Loyalty"),
                           ),
                         ),
                       );
@@ -151,7 +152,7 @@ class CardDetailPage extends StatelessWidget {
               ),
               CustomButton(
                 onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
-                label: 'RECHARGE NOW',
+                label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
                 margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               ),
               Padding(

@@ -6,6 +6,7 @@ import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_checkbox.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/provider/buy_card/buy_card_notifier.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class FilterDrawer extends ConsumerWidget {
   const FilterDrawer({
@@ -49,7 +50,7 @@ class FilterDrawer extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Price Range',
+                SplashScreenNotifier.getLanguageLabel('Price Range'),
                 style: GoogleFonts.mulish(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -94,7 +95,7 @@ class FilterDrawer extends ConsumerWidget {
                 Scaffold.of(context).closeEndDrawer();
                 ref.read(buyCardNotifier.notifier).filter(filters);
               },
-              label: 'Apply Filters',
+              label: SplashScreenNotifier.getLanguageLabel('Apply Filters'),
             ),
           ),
         ],

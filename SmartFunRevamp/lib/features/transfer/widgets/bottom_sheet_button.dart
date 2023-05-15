@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class BottomSheetButton extends StatelessWidget {
   const BottomSheetButton({
@@ -15,7 +16,7 @@ class BottomSheetButton extends StatelessWidget {
       color: Colors.white,
       child: CustomButton(
         onTap: onTap,
-        label: 'TRANSFER CREDITS',
+        label: SplashScreenNotifier.getLanguageLabel('TRANSFER CREDITS'),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class PasswordField extends StatefulWidget {
   const PasswordField({
@@ -22,16 +23,16 @@ class _PasswordFieldState extends State<PasswordField> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Password',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        Text(
+          SplashScreenNotifier.getLanguageLabel('Password'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 5.0),
         TextFormField(
           initialValue: 'testuser2!123@12',
           obscureText: _isObscured,
           onSaved: (newValue) => widget.onSaved(newValue!),
-          validator: (value) => value!.isEmpty ? 'Required' : null,
+          validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
           cursorColor: Colors.black,
           keyboardType: TextInputType.visiblePassword,
           decoration: InputDecoration(

@@ -5,6 +5,7 @@ import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/pages/home_page.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class PaymentSuccessPage extends StatelessWidget {
   const PaymentSuccessPage({Key? key, this.cardNumber, required this.amount, required this.transactionType}) : super(key: key);
@@ -68,9 +69,9 @@ class PaymentSuccessPage extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 7.0),
-                                const Text(
-                                  'Add nickname',
-                                  style:  TextStyle(
+                                Text(
+                                  SplashScreenNotifier.getLanguageLabel('Add nickname'),
+                                  style: const TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Colors.white,
                                     fontSize: 12,
@@ -154,9 +155,9 @@ class PaymentSuccessPage extends StatelessWidget {
                 builder: (context) => const HomePage(),
               ),
             ),
-            child: const Text(
-              'BACK TO HOME',
-              style: TextStyle(
+            child: Text(
+              SplashScreenNotifier.getLanguageLabel('BACK TO HOME'),
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -206,9 +207,9 @@ class PaymentSuccessPage extends StatelessWidget {
               builder: (context) => const HomePage(),
             ),
           ),
-          child: const Text(
-            'BACK TO HOME',
-            style: TextStyle(
+          child: Text(
+            SplashScreenNotifier.getLanguageLabel('BACK TO HOME'),
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class InputTextField extends StatelessWidget {
   const InputTextField({
@@ -23,7 +24,7 @@ class InputTextField extends StatelessWidget {
         TextFormField(
           initialValue: initialValue,
           onSaved: (newValue) => onSaved(newValue!),
-          validator: (value) => value!.isEmpty ? 'Required' : null,
+          validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
           cursorColor: Colors.black,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(

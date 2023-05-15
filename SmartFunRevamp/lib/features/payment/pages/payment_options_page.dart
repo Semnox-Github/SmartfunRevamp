@@ -14,6 +14,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/payment/pages/payment_failed_page.dart';
 import 'package:semnox/features/payment/pages/payment_success_page.dart';
 import 'package:semnox/features/payment/provider/payment_options_provider.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentOptionsPage extends StatelessWidget {
@@ -31,9 +32,9 @@ class PaymentOptionsPage extends StatelessWidget {
         elevation: 0.0,
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
-          'Payment Options',
-          style: TextStyle(
+        title: Text(
+          SplashScreenNotifier.getLanguageLabel('Payment Options'),
+          style: const TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,
           ),
@@ -44,9 +45,9 @@ class PaymentOptionsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Recharge Value',
-              style: TextStyle(
+            Text(
+              SplashScreenNotifier.getLanguageLabel('Recharge Value'),
+              style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
@@ -62,7 +63,7 @@ class PaymentOptionsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${cardProduct.credits} play credit',
+                    '${cardProduct.credits} ${SplashScreenNotifier.getLanguageLabel('play credit')}',
                     style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -239,7 +240,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                           ),
                         );
                       } else {
-                        return const Text("This payment mode is not available");
+                        return Text(SplashScreenNotifier.getLanguageLabel("This payment mode is not available"));
                       }
                     },
                   );

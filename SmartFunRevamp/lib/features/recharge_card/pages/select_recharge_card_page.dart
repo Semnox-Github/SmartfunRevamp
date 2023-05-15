@@ -12,6 +12,7 @@ import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
   const SelectCardRechargePage({super.key});
@@ -42,16 +43,16 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
         elevation: 0.0,
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
-          'Recharge a Card',
-          style: TextStyle(
+        title: Text(
+          SplashScreenNotifier.getLanguageLabel('Recharge a Card'),
+          style: const TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
       bottomSheet: BottomSheetButton(
-        label: 'RECHARGE NOW',
+        label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
         onTap: () {
           Logger().d(offerSelected);
           if (offerSelected != null) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class TransferSuccessPage extends StatelessWidget {
   const TransferSuccessPage({super.key, required this.transferBalance});
@@ -35,7 +36,7 @@ class TransferSuccessPage extends StatelessWidget {
             const Spacer(),
             CustomButton(
               onTap: () => Navigator.popUntil(context, (route) => route.isFirst),
-              label: 'DONE',
+              label: SplashScreenNotifier.getLanguageLabel('DONE'),
             ),
           ],
         ),

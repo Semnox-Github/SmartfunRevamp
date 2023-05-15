@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class AfterSplashScreen extends StatelessWidget {
+import '../../core/widgets/mulish_text.dart';
+
+class AfterSplashScreen extends StatefulWidget {
   const AfterSplashScreen({Key? key}) : super(key: key);
 
+  @override
+  State<AfterSplashScreen> createState() => _AfterSplashScreenState();
+}
+
+class _AfterSplashScreenState extends State<AfterSplashScreen> {
+  String dropdownValue = "90";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,9 +26,9 @@ class AfterSplashScreen extends StatelessWidget {
           children: [
             Image.asset('assets/splash_screen/after_splash.png'),
             const SizedBox(height: 10.0),
-            const Text(
-              'QUICK CARD RECHARGES',
-              style: TextStyle(
+            Text(
+              SplashScreenNotifier.getLanguageLabel('QUICK CARD RECHARGES'),
+              style: const TextStyle(
                 color: CustomColors.customBlack,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w400,
@@ -42,7 +52,7 @@ class AfterSplashScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Preferred Language to be used in the app',
+                    SplashScreenNotifier.getLanguageLabel('Preferred Language to be used in the app'),
                     textAlign: TextAlign.start,
                     style: GoogleFonts.mulish(
                       color: CustomColors.customBlack,
@@ -50,17 +60,53 @@ class AfterSplashScreen extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  DropdownButton<String>(
-                    value: 'English',
-                    isExpanded: true,
-                    items: ['English', 'Spanish'].map((item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                    onChanged: (_) {},
-                  )
+                  Consumer(
+                    builder: (context, ref, child) {
+                      return ref.watch(SplashScreenNotifier.parafaitLanguagesProvider).maybeWhen(
+                            orElse: () => Container(
+                              height: 20.0,
+                              width: 20.0,
+                              color: Colors.red,
+                            ),
+                            error: (e, s) => MulishText(
+                              text: 'An error has ocurred $e',
+                            ),
+                            loading: () => const CircularProgressIndicator(),
+                            data: (data) {
+                              return DropdownButton<String>(
+                                isExpanded: true,
+                                value: dropdownValue,
+                                items: data.languageContainerDTOList.map((item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item.languageId.toString(),
+                                    child: Text(item.languageName),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    dropdownValue = value.toString();
+                                    
+                                  });
+
+                                  ref.read(SplashScreenNotifier.getStringForLocalization(value.toString()));
+                                  // ref.watch(SplashScreenNotifier.getStringForLocalization(value.toString())).maybeWhen(
+                                  //   orElse: () => Container(
+                                  //   height: 20.0,
+                                  //   width: 20.0,
+                                  //   color: Colors.red,
+                                  // ),
+                                  // error: (e, s) => MulishText(
+                                  //   text: 'An error has ocurred $e',
+                                  // ),
+                                  // loading: () => const CircularProgressIndicator(),
+                                  // data: (data) {}
+                                  // );
+                                },
+                             );
+                            },
+                          );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -72,7 +118,7 @@ class AfterSplashScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Have an account?',
+                        SplashScreenNotifier.getLanguageLabel("Have an account?"),
                         textAlign: TextAlign.center,
                         style: GoogleFonts.mulish(
                           color: CustomColors.customBlack,
@@ -89,9 +135,9 @@ class AfterSplashScreen extends StatelessWidget {
                         margin: const EdgeInsets.all(3),
                         child: TextButton(
                           onPressed: () => Navigator.pushReplacementNamed(context, Routes.kLogInPage),
-                          child: const Text(
-                            'LOGIN',
-                            style: TextStyle(
+                          child: Text(
+                            SplashScreenNotifier.getLanguageLabel('LOGIN'),
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
@@ -107,7 +153,7 @@ class AfterSplashScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'New to SmartFun?',
+                        SplashScreenNotifier.getLanguageLabel('New to SmartFun?'),
                         textAlign: TextAlign.center,
                         style: GoogleFonts.mulish(
                           color: CustomColors.customBlack,
@@ -129,9 +175,9 @@ class AfterSplashScreen extends StatelessWidget {
                           margin: const EdgeInsets.all(3),
                           child: TextButton(
                             onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
-                            child: const Text(
-                              'SIGN UP',
-                              style: TextStyle(
+                            child: Text(
+                              SplashScreenNotifier.getLanguageLabel('SIGN UP'),
+                              style: const TextStyle(
                                 color: CustomColors.hardOrange,
                               ),
                             ),

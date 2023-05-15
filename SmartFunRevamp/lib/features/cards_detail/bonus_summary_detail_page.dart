@@ -6,6 +6,7 @@ import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class BonusSummaryDetailPage extends StatelessWidget {
   const BonusSummaryDetailPage({Key? key, required this.summary}) : super(key: key);
@@ -91,17 +92,17 @@ class BonusSummaryDetailPage extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: RichText(
                 textAlign: TextAlign.left,
-                text: const TextSpan(
-                  style: TextStyle(
+                text: TextSpan(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
                   children: [
-                    WidgetSpan(
+                    const WidgetSpan(
                       child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
                     ),
                     TextSpan(
-                      text: " Can be used to purchase below packages",
+                      text: " ${SplashScreenNotifier.getLanguageLabel('Can be used to purchase below packages')}",
                     ),
                   ],
                 ),
@@ -117,28 +118,28 @@ class BonusSummaryDetailPage extends StatelessWidget {
                   border: Border.all(color: CustomColors.customLigthGray),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
-                columns: const <DataColumn>[
+                columns: <DataColumn>[
                   DataColumn(
                     label: Expanded(
                       child: Text(
-                        'Category',
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        SplashScreenNotifier.getLanguageLabel('Category'),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                   ),
                   DataColumn(
                     label: Expanded(
                       child: Text(
-                        'Package',
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        SplashScreenNotifier.getLanguageLabel('Package'),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                   ),
                   DataColumn(
                     label: Expanded(
                       child: Text(
-                        'Qty',
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        SplashScreenNotifier.getLanguageLabel('Qty'),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                   ),
@@ -159,17 +160,17 @@ class BonusSummaryDetailPage extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: RichText(
                 textAlign: TextAlign.start,
-                text: const TextSpan(
-                  style: TextStyle(
+                text: TextSpan(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
                   children: [
-                    WidgetSpan(
+                    const WidgetSpan(
                       child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
                     ),
                     TextSpan(
-                      text: " Below packages are excluded",
+                      text: " ${SplashScreenNotifier.getLanguageLabel('Below packages are excluded')}",
                     ),
                   ],
                 ),
@@ -185,24 +186,24 @@ class BonusSummaryDetailPage extends StatelessWidget {
                   border: Border.all(color: CustomColors.customLigthGray),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
-                columns: const <DataColumn>[
+                columns: <DataColumn>[
                   DataColumn(
                     label: Expanded(
                       child: Text(
-                        'Category',
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        SplashScreenNotifier.getLanguageLabel('Category'),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                   ),
                   DataColumn(
                     label: Expanded(
                       child: Text(
-                        'Package',
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        SplashScreenNotifier.getLanguageLabel('Package'),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                   ),
-                  DataColumn(
+                  const DataColumn(
                     label: Expanded(
                       child: Text(
                         '',
@@ -227,17 +228,17 @@ class BonusSummaryDetailPage extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: RichText(
                 textAlign: TextAlign.left,
-                text: const TextSpan(
-                  style: TextStyle(
+                text: TextSpan(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
                   children: [
-                    WidgetSpan(
+                    const WidgetSpan(
                       child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
                     ),
                     TextSpan(
-                      text: " Can be used to play below games",
+                      text: " ${SplashScreenNotifier.getLanguageLabel('Can be used to play below games')}",
                     ),
                   ],
                 ),
@@ -253,28 +254,28 @@ class BonusSummaryDetailPage extends StatelessWidget {
                   border: Border.all(color: CustomColors.customLigthGray),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
-                columns: const <DataColumn>[
+                columns: <DataColumn>[
                   DataColumn(
                     label: Expanded(
                       child: Text(
-                        'Category',
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        SplashScreenNotifier.getLanguageLabel('Category'),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                   ),
                   DataColumn(
                     label: Expanded(
                       child: Text(
-                        'Game',
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        SplashScreenNotifier.getLanguageLabel('Game'),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                   ),
                   DataColumn(
                     label: Expanded(
                       child: Text(
-                        'Qty',
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        SplashScreenNotifier.getLanguageLabel('Qty'),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                   ),
@@ -295,17 +296,17 @@ class BonusSummaryDetailPage extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: RichText(
                 textAlign: TextAlign.start,
-                text: const TextSpan(
-                  style: TextStyle(
+                text: TextSpan(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
                   children: [
-                    WidgetSpan(
+                    const WidgetSpan(
                       child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
                     ),
                     TextSpan(
-                      text: " Below games are excluded",
+                      text: " ${SplashScreenNotifier.getLanguageLabel('Below games are excluded')}",
                     ),
                   ],
                 ),
@@ -321,24 +322,24 @@ class BonusSummaryDetailPage extends StatelessWidget {
                   border: Border.all(color: CustomColors.customLigthGray),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
-                columns: const <DataColumn>[
+                columns: <DataColumn>[
                   DataColumn(
                     label: Expanded(
                       child: Text(
-                        'Category',
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        SplashScreenNotifier.getLanguageLabel('Category'),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                   ),
                   DataColumn(
                     label: Expanded(
                       child: Text(
-                        'Game',
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        SplashScreenNotifier.getLanguageLabel('Game'),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                   ),
-                  DataColumn(
+                  const DataColumn(
                     label: Expanded(
                       child: Text(
                         '',

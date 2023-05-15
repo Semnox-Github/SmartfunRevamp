@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class LoginWithOTPContainer extends StatelessWidget {
   const LoginWithOTPContainer({
@@ -36,7 +37,7 @@ class LoginWithOTPContainer extends StatelessWidget {
           TextButton(
             onPressed: onTap,
             child: Text(
-              isLoginWithOTP ? 'LOGIN WITH EMAIL' : 'LOGIN WITH OTP',
+              isLoginWithOTP ? SplashScreenNotifier.getLanguageLabel('LOGIN WITH EMAIL') : SplashScreenNotifier.getLanguageLabel('LOGIN WITH OTP'),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: CustomColors.hardOrange,

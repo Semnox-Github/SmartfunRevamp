@@ -6,6 +6,7 @@ import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_respon
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CouponContainer extends ConsumerWidget {
   const CouponContainer(this.cardProduct, this.estimated, {Key? key}) : super(key: key);
@@ -24,9 +25,9 @@ class CouponContainer extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Coupons',
-            style: TextStyle(
+          Text(
+            SplashScreenNotifier.getLanguageLabel('Coupons'),
+            style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
@@ -48,9 +49,9 @@ class CouponContainer extends ConsumerWidget {
                   ),
                   const SizedBox(width: 5.0),
                   estimated.couponDiscountAmount == null
-                      ? const Text(
-                          'Add coupons and save more',
-                          style: TextStyle(
+                      ? Text(
+                          SplashScreenNotifier.getLanguageLabel('Add coupons and save more'),
+                          style: const TextStyle(
                             color: CustomColors.hardOrange,
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline,

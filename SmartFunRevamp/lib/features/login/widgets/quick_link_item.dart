@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class QuickLinkItem extends StatelessWidget {
   const QuickLinkItem({
@@ -30,7 +31,7 @@ class QuickLinkItem extends StatelessWidget {
           ),
           const SizedBox(height: 10.0),
           Text(
-            text,
+            SplashScreenNotifier.getLanguageLabel(text),
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),

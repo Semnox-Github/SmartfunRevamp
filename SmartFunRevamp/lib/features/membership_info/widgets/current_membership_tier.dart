@@ -153,7 +153,7 @@ class CurrentMembershipTier extends StatelessWidget {
                   color: const Color(0xFFCFF8FF),
                   title: 'Membership Rewards',
                   svgImage: 'assets/membership/membership_rewards.svg',
-                  onTap: () {},
+                  onTap: () => Navigator.pushNamed(context, Routes.kMembershipRewards),
                 ),
                 MembershipOptions(
                   color: const Color(0xFFD1FFD0),

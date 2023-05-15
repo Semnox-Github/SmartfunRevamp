@@ -9,6 +9,7 @@ import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
+import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/membership/membership_info.dart';
@@ -31,8 +32,8 @@ abstract class SmartFunApi {
       PrettyDioLogger(
         requestBody: true,
         responseBody: true,
-        requestHeader: false,
-        responseHeader: false,
+        requestHeader: true,
+        responseHeader: true,
         request: true,
         error: true,
         compact: true,
@@ -246,4 +247,11 @@ abstract class SmartFunApi {
 
   @GET('CustomerApp/CustomerAppConfiguration')
   Future<void> getAppConfiguration(@Query('siteId') int siteId);
+
+  @GET('Customer/FeedbackSurvey/FeedbackSurveys')
+  Future<ListDataWrapper<SurveyDetailsResponse>> getCustomerFeedbackActions({
+    @Query('loadActiveChild') bool loadActiveChild = true,
+    @Query('buildChildRecords') bool buildChildRecords = true,
+    @Query('posMachine') String posMachine = 'CustomerApp',
+  });
 }

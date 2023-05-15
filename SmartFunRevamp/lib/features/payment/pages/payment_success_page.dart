@@ -4,7 +4,6 @@ import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/home/pages/home_page.dart';
 
 class PaymentSuccessPage extends StatelessWidget {
   const PaymentSuccessPage({Key? key, this.cardNumber, required this.amount, required this.transactionType}) : super(key: key);
@@ -15,9 +14,9 @@ class PaymentSuccessPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final String fixedAmount = amount.toStringAsFixed(2);
     final DateTime dateToday = DateTime.now();
-    final DateTime dateOneYearLater = DateTime(dateToday.year+1, dateToday.month, dateToday.day);
-    if (transactionType == "newcard"){
-       return Scaffold(
+    final DateTime dateOneYearLater = DateTime(dateToday.year + 1, dateToday.month, dateToday.day);
+    if (transactionType == "newcard") {
+      return Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +69,7 @@ class PaymentSuccessPage extends StatelessWidget {
                                 const SizedBox(height: 7.0),
                                 const Text(
                                   'Add nickname',
-                                  style:  TextStyle(
+                                  style: TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Colors.white,
                                     fontSize: 12,
@@ -87,7 +86,7 @@ class PaymentSuccessPage extends StatelessWidget {
                             )
                           ],
                         ),
-                        const SizedBox(height: 10.0),                   
+                        const SizedBox(height: 10.0),
                         Text(
                           '${DateFormat('dd  MMM yyyy').format(dateToday)} ${DateFormat('- dd  MMM yyyy').format(dateOneYearLater)}',
                           style: const TextStyle(
@@ -96,10 +95,13 @@ class PaymentSuccessPage extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        const SizedBox(height: 20.0),  
+                        const SizedBox(height: 20.0),
                         Row(
                           children: [
-                            Image.asset('assets/payment/coin.png', scale: 0.8,),
+                            Image.asset(
+                              'assets/payment/coin.png',
+                              scale: 0.8,
+                            ),
                             Text(
                               '  \$ $fixedAmount',
                               style: const TextStyle(
@@ -148,12 +150,14 @@ class PaymentSuccessPage extends StatelessWidget {
           ),
           margin: const EdgeInsets.all(3),
           child: TextButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              ),
-            ),
+            onPressed: () {
+              Dialogs.showTransactionFeedbackDialog(
+                context,
+                () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                },
+              );
+            },
             child: const Text(
               'BACK TO HOME',
               style: TextStyle(
@@ -166,56 +170,58 @@ class PaymentSuccessPage extends StatelessWidget {
       );
     } else {
       return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/payment/recharge_successful.png',
-              height: MediaQuery.of(context).size.height * 0.25,
-            ),
-            const SizedBox(height: 10.0),
-            const MulishText(
-              textAlign: TextAlign.center,
-              text: 'Recharge Successful',
-              fontColor: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
-            ),
-            MulishText(
-              textAlign: TextAlign.center,
-              text: 'You have successfully recharged \$$fixedAmount on to your $cardNumber',
-              fontColor: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            )
-          ],
-        ),
-      ),
-      bottomSheet: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.0),
-          gradient: CustomGradients.linearGradient,
-        ),
-        margin: const EdgeInsets.all(3),
-        child: TextButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ),
-          ),
-          child: const Text(
-            'BACK TO HOME',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/payment/recharge_successful.png',
+                height: MediaQuery.of(context).size.height * 0.25,
+              ),
+              const SizedBox(height: 10.0),
+              const MulishText(
+                textAlign: TextAlign.center,
+                text: 'Recharge Successful',
+                fontColor: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+              ),
+              MulishText(
+                textAlign: TextAlign.center,
+                text: 'You have successfully recharged \$$fixedAmount on to your $cardNumber',
+                fontColor: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              )
+            ],
           ),
         ),
-      ),
-    );
+        bottomSheet: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+            gradient: CustomGradients.linearGradient,
+          ),
+          margin: const EdgeInsets.all(3),
+          child: TextButton(
+            onPressed: () {
+              Dialogs.showTransactionFeedbackDialog(
+                context,
+                () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                },
+              );
+            },
+            child: const Text(
+              'BACK TO HOME',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      );
     }
   }
 }

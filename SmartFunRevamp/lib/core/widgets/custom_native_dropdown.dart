@@ -26,7 +26,6 @@ class CustomNativeDropdown extends StatelessWidget {
   }
 }
 
-//TODO:Cupertino Picker is snapping to last and first item. Is happening only on iphone emulator?
 class CustomCupertinoPicker extends StatefulWidget {
   const CustomCupertinoPicker({super.key, required this.items, required this.onChanged});
   final List<String> items;

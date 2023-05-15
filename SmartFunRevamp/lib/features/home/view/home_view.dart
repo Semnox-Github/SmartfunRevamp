@@ -78,10 +78,15 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                   height: 10.0,
                                   width: 50,
                                 ),
-                                data: (data) => MulishText(
-                                  text: '${data.memberShipName}',
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                data: (data) {
+                                  if (data.membershipId == -1) {
+                                    return Container();
+                                  }
+                                  return MulishText(
+                                    text: '${data.memberShipName}',
+                                    fontWeight: FontWeight.bold,
+                                  );
+                                },
                               ),
                         ],
                       ),

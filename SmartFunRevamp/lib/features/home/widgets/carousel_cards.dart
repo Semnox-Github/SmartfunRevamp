@@ -100,7 +100,11 @@ class _CarouselCardsState extends State<CarouselCards> {
                               const SizedBox(height: 7.0),
                               GestureDetector(
                                 onTap: () {
-                                  showModalBottomSheet(context: context, builder: (context) => UpdateNicknameCard(), isScrollControlled: true);
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) => UpdateNicknameCard(cardDetails: card),
+                                    isScrollControlled: true,
+                                  );
                                 },
                                 child: Text(
                                   '${card.accountIdentifier == '' ? '+ ${SplashScreenNotifier.getLanguageLabel('Add nickname')}' : card.accountIdentifier?.substring(0, 15)}',

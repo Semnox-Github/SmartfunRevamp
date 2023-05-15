@@ -198,10 +198,10 @@ class CardsRepositoryImpl implements CardsRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateCardNickname(String cardNumber, String nickname) async {
+  Future<Either<Failure, void>> updateCardNickname(int cardId, String nickname) async {
     try {
       final response = await _api.linkCardToCustomer({
-        "accountId": cardNumber,
+        "accountId": cardId,
         "accountIdentifier": nickname,
       });
       Logger().d(response.data);

@@ -196,4 +196,25 @@ class CardsRepositoryImpl implements CardsRepository {
       return Left(ServerFailure('This Activity has no details'));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> updateCardNickname(String cardNumber, String nickname) async {
+    try {
+      final response = await _api.linkCardToCustomer({
+        "accountId": cardNumber,
+        "accountIdentifier": nickname,
+      });
+      Logger().d(response.data);
+      return const Right(null);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

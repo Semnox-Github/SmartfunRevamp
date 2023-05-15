@@ -6,10 +6,9 @@ import 'package:semnox/features/home/provider/link_card/link_card_provider.dart'
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 part 'update_card_nickname_state.dart';
-part 'update_card_nickname_state.freezed.dart';
+part 'update_card_nickname_provider.freezed.dart';
 
-final updateCardNicknameProvider =
-    StateNotifierProvider.autoDispose<UdateCardNicknameProvider, LinkCardState>(
+final updateCardNicknameProvider = StateNotifierProvider.autoDispose<UdateCardNicknameProvider, LinkCardState>(
   (ref) => UdateCardNicknameProvider(
     Get.find<UpdateCardNicknameUseCase>(),
   ),

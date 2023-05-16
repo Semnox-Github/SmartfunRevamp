@@ -1,14 +1,13 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
-
-import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
+import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
-import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/domain/repositories/cards_repository.dart';
@@ -198,7 +197,7 @@ class CardsRepositoryImpl implements CardsRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateCardNickname(int cardId, String nickname) async {
+  Future<Either<Failure, String>> updateCardNickname(int cardId, String nickname) async {
     try {
       final response = await _api.updateCardNickname(
         cardId.toString(),
@@ -208,7 +207,7 @@ class CardsRepositoryImpl implements CardsRepository {
         },
       );
       Logger().d(response.data);
-      return const Right(null);
+      return Right(response.data);
     } on DioError catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {

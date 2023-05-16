@@ -5,7 +5,7 @@ import 'package:semnox/core/errors/failures.dart';
 class UpdateCardNicknameUseCase {
   final CardsRepository _repository;
   UpdateCardNicknameUseCase(this._repository);
-  Future<Either<Failure, void>> call(int cardId, String nickname) async {
+  Future<Either<Failure, String>> call(int cardId, String nickname) async {
     return await _repository.updateCardNickname(cardId, nickname);
   }
 }

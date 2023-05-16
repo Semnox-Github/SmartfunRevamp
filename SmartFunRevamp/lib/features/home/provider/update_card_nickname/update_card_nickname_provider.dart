@@ -17,12 +17,13 @@ class UdateCardNicknameProvider extends StateNotifier<UpdateCardNicknameState> {
 
   UdateCardNicknameProvider(this._updateCardNicknameUseCase) : super(const _Initial());
 
-  void updateCardNickname(int cardId, String nickname) async {
+  Future<String> updateCardNickname(int cardId, String nickname) async {
     state = const _InProgress();
     final response = await _updateCardNicknameUseCase(cardId, nickname);
     state = response.fold(
       (l) => _Error(l.message),
       (r) => const _Success(),
     );
+    return 'done';
   }
 }

@@ -28,9 +28,11 @@ class UpdateNicknameCard extends ConsumerWidget {
               context: context,
               dialogType: DialogType.success,
               animType: AnimType.scale,
-              title: SplashScreenNotifier.getLanguageLabel('Link A Card'),
-              desc: SplashScreenNotifier.getLanguageLabel('Card linked successfully.'),
-              btnOkOnPress: () {},
+              title: SplashScreenNotifier.getLanguageLabel('Update Nickname'),
+              desc: SplashScreenNotifier.getLanguageLabel('Nickname successfully updated'),
+              btnOkOnPress: () {
+                Navigator.of(context).pop();
+              },
             ).show();
           },
           error: (e) {

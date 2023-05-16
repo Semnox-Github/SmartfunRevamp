@@ -18,5 +18,5 @@ abstract class CardsRepository {
   Future<Either<Failure, CardActivityDetails>> getCardActivityTransactionDetail(String transactionId, bool buildReceipt);
   Future<Either<Failure, String>> transferBalance(TransferBalance transferBalance);
   Future<Either<Failure, void>> lostCard(Map<String, dynamic> body);
-  Future<Either<Failure, void>> updateCardNickname(int cardId, String nickname);
+  Future<Either<Failure, String>> updateCardNickname(int cardId, String nickname);
 }

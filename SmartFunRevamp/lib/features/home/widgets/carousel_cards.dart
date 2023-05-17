@@ -107,13 +107,19 @@ class _CarouselCardsState extends State<CarouselCards> {
                                     isScrollControlled: true,
                                   );
                                 },
-                                child: Text(
-                                  '${card.accountIdentifier.isNullOrEmpty() ? card.customerName! : card.accountIdentifier!.characters.take(15).toString()} [change]',
-                                  style: const TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      card.accountIdentifier.isNullOrEmpty() ? card.customerName! : card.accountIdentifier!.characters.take(15).toString(),
+                                      style: const TextStyle(
+                                        decoration: TextDecoration.none,
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5.0),
+                                    const Icon(Icons.edit, color: Colors.white, size: 15.0),
+                                  ],
                                 ),
                               ),
                             ],

@@ -18,13 +18,25 @@ String censorPhoneNumber(String phoneNumber) {
   return phoneNumber.replaceRange(0, phoneNumber.length - 3, 'X' * (phoneNumber.length - 3));
 }
 
-class VerifyOtpPage extends ConsumerWidget {
+class VerifyOtpPage extends ConsumerStatefulWidget {
   const VerifyOtpPage({Key? key}) : super(key: key);
-
+  
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _VerifyOtpPageState();
+}
+class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
+  late String otp;
+  @override
+  void initState() {
+    super.initState();
+    otp = "";
+  
+  }
+  
+  @override
+  Widget build(BuildContext context) {
     String phoneNumber = censorPhoneNumber(ref.read(loginProvider.notifier).phone);
-    String otp = '';
+    
     ref.listen<LoginState>(loginProvider, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),
@@ -58,8 +70,13 @@ class VerifyOtpPage extends ConsumerWidget {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 40.0),
                 child: OtpPinField(
+    
                   onSubmit: (otp) => {},
-                  onChange: (code) => otp = code,
+                  onChange: (code) => {
+                    setState(() {
+                      otp = code;
+                    })
+                  },
                   keyboardType: TextInputType.number,
                   otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
                   otpPinFieldStyle: const OtpPinFieldStyle(
@@ -67,6 +84,8 @@ class VerifyOtpPage extends ConsumerWidget {
                     activeFieldBorderColor: CustomColors.hardOrange,
                   ),
                   maxLength: 6,
+                  fieldHeight: MediaQuery.of(context).size.width * 0.12,
+                  fieldWidth: MediaQuery.of(context).size.width * 0.12,
                 ),
               ),
               const MulishText(

@@ -18,14 +18,25 @@ String censorPhoneNumber(String phoneNumber) {
   return phoneNumber.replaceRange(0, phoneNumber.length - 3, 'X' * (phoneNumber.length - 3));
 }
 
-class DeleteProfileOTPPage extends ConsumerWidget {
+class DeleteProfileOTPPage extends ConsumerStatefulWidget {
   const DeleteProfileOTPPage({Key? key}) : super(key: key);
 
+   @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _DeleteProfileOTPPageState();
+}
+class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
+  late String otp;
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    super.initState();
+    otp = "";
+  
+  }
+
+  @override
+  Widget build(BuildContext context) {
     
     String phoneNumber = censorPhoneNumber(ref.read(loginProvider.notifier).phone);
-    String otp = '';
     ref.read(loginProvider.notifier).resendDeleteOtp();
     ref.listen<LoginState>(loginProvider, (_, next) {
       next.maybeWhen(
@@ -33,6 +44,7 @@ class DeleteProfileOTPPage extends ConsumerWidget {
         orElse: () => context.loaderOverlay.hide(),
         otpVerified: () {
           context.loaderOverlay.hide();
+          ref.read(loginProvider.notifier).deleteProfile();
           Navigator.popAndPushNamed(context, Routes.kLogInPage);
         },
         otpVerificationError: (message) {
@@ -62,7 +74,11 @@ class DeleteProfileOTPPage extends ConsumerWidget {
                 margin: const EdgeInsets.symmetric(vertical: 40.0),
                 child: OtpPinField(
                   onSubmit: (otp) => {},
-                  onChange: (code) => otp = code,
+                  onChange: (code) => {
+                    setState(() {
+                      otp = code;
+                    })
+                  },
                   keyboardType: TextInputType.number,
                   otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
                   otpPinFieldStyle: const OtpPinFieldStyle(
@@ -70,6 +86,8 @@ class DeleteProfileOTPPage extends ConsumerWidget {
                     activeFieldBorderColor: CustomColors.hardOrange,
                   ),
                   maxLength: 6,
+                  fieldHeight: MediaQuery.of(context).size.width * 0.12,
+                  fieldWidth: MediaQuery.of(context).size.width * 0.12,
                 ),
               ),
               const MulishText(
@@ -89,7 +107,6 @@ class DeleteProfileOTPPage extends ConsumerWidget {
                   } else {
                     try {
                       ref.read(loginProvider.notifier).verifyDeleteOTP(otp);
-                      // Navigator.popAndPushNamed(context, Routes.kLogInPage);
                     }
                     catch(e){
                       null;

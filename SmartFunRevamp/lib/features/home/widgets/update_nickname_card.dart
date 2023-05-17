@@ -1,10 +1,13 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/repositories/cards_repository.dart';
 import 'package:semnox/core/widgets/input_text_field.dart';
 import 'package:semnox/features/home/provider/update_card_nickname/update_card_nickname_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -30,7 +33,8 @@ class UpdateNicknameCard extends ConsumerWidget {
               animType: AnimType.scale,
               title: SplashScreenNotifier.getLanguageLabel('Update Nickname'),
               desc: SplashScreenNotifier.getLanguageLabel('Nickname successfully updated'),
-              btnOkOnPress: () {
+              onDismissCallback: (_) {
+                // TODO: here we should call to something that updates the interface, we could load all cards again from API or just update the visible nickcname on card
                 Navigator.of(context).pop();
               },
             ).show();

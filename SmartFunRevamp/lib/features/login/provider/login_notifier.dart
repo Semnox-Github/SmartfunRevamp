@@ -1,11 +1,13 @@
 // ignore_for_file: unused_field
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
+import 'package:semnox/core/domain/use_cases/authentication/delete_profile_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_user_by_phone_or_email_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/login_user_use_case.dart';
@@ -14,6 +16,7 @@ import 'package:semnox/core/domain/use_cases/authentication/verify_otp_use_case.
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:semnox/di/injection_container.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 part 'login_state.dart';
@@ -27,6 +30,7 @@ final loginProvider = StateNotifierProvider<LoginNotifier, LoginState>(
     Get.find<LoginUserUseCase>(),
     Get.find<GetExecutionContextUseCase>(),
     Get.find<LocalDataSource>(),
+    Get.find<DeleteProfileUseCase>(),
   ),
 );
 
@@ -36,6 +40,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   final GetUserByPhoneOrEmailUseCase _byPhoneOrEmailUseCase;
   final LoginUserUseCase _loginUserUseCase;
   final GetExecutionContextUseCase _getExecutionContextUseCase;
+  final DeleteProfileUseCase _deleteProfileUseCase;
 
   final LocalDataSource _localDataSource;
 
@@ -46,6 +51,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
     this._loginUserUseCase,
     this._getExecutionContextUseCase,
     this._localDataSource,
+    this._deleteProfileUseCase,
   ) : super(const _Initial());
 
   String _phone = '';
@@ -55,6 +61,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
   void loginUser(String loginId, String password) async {
     state = const _InProgress();
+    _phone = loginId;
     final selectedLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
     selectedLocationResponse.fold(
       (l) => Logger().e('No site has been selected'),
@@ -141,6 +148,14 @@ class LoginNotifier extends StateNotifier<LoginState> {
     );
   }
 
+  void resendDeleteOtp() async {
+    final response = await _sendOTPUseCase({_phone.contains('@') ? 'EmailId' : 'Phone': _phone, 'Source': 'Customer_Delete_Otp_Event'});
+  }
+
+  void deleteProfile() async {
+    final response = await _deleteProfileUseCase();
+  }
+
   void verifyOTP(String otp) async {
     state = const _VerifyingOTP();
     final response = await _verifyOTPUseCase({'code': otp}, otpId);
@@ -151,6 +166,20 @@ class LoginNotifier extends StateNotifier<LoginState> {
       },
       (r) {
         _getUserInfo(_phone);
+      },
+    );
+  }
+
+  void verifyDeleteOTP(String otp) async {
+    state = const _VerifyingOTP();
+    final response = await _verifyOTPUseCase({'code': otp}, otpId);
+    response.fold(
+      (l) {
+        Logger().e(l.message);
+        state = _OtpVerificationError(l.message);
+      },
+      (r) {
+        state = const _OtpVerified();
       },
     );
   }

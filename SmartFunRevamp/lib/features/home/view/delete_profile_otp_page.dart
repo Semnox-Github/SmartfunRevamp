@@ -18,13 +18,13 @@ String censorPhoneNumber(String phoneNumber) {
   return phoneNumber.replaceRange(0, phoneNumber.length - 3, 'X' * (phoneNumber.length - 3));
 }
 
-class VerifyOtpPage extends ConsumerStatefulWidget {
-  const VerifyOtpPage({Key? key}) : super(key: key);
-  
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _VerifyOtpPageState();
+class DeleteProfileOTPPage extends ConsumerStatefulWidget {
+  const DeleteProfileOTPPage({Key? key}) : super(key: key);
+
+   @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _DeleteProfileOTPPageState();
 }
-class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
+class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
   late String otp;
   @override
   void initState() {
@@ -32,18 +32,20 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
     otp = "";
   
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    String phoneNumber = censorPhoneNumber(ref.read(loginProvider.notifier).phone);
     
+    String phoneNumber = censorPhoneNumber(ref.read(loginProvider.notifier).phone);
+    ref.read(loginProvider.notifier).resendDeleteOtp();
     ref.listen<LoginState>(loginProvider, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),
         orElse: () => context.loaderOverlay.hide(),
         otpVerified: () {
           context.loaderOverlay.hide();
-          Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage, (route) => false);
+          ref.read(loginProvider.notifier).deleteProfile();
+          Navigator.popAndPushNamed(context, Routes.kLogInPage);
         },
         otpVerificationError: (message) {
           context.loaderOverlay.hide();
@@ -51,6 +53,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
         },
       );
     });
+    
     return Scaffold(
       appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('OTP Verification')),
       body: SafeArea(
@@ -61,7 +64,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                SplashScreenNotifier.getLanguageLabel('We have sent an OTP to your mobile number &1.\nEnter the OTP to verify.').replaceAll('&1', phoneNumber),
+                SplashScreenNotifier.getLanguageLabel('We have sent an OTP to your mobile number &1.\nPlease enter the OTP to delete the customer profile.').replaceAll('&1', phoneNumber),
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.bold,
                   fontSize: 14.0,
@@ -70,7 +73,6 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 40.0),
                 child: OtpPinField(
-    
                   onSubmit: (otp) => {},
                   onChange: (code) => {
                     setState(() {
@@ -95,7 +97,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
               ),
               const SizedBox(height: 10.0),
               CountdownText(
-                onPressed: () => ref.read(loginProvider.notifier).resendOtp(),
+                onPressed: () => ref.read(loginProvider.notifier).resendDeleteOtp(),
               ),
               const SizedBox(height: 100.0),
               CustomButton(
@@ -103,7 +105,12 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                   if (otp.isEmpty) {
                     Fluttertoast.showToast(msg: SplashScreenNotifier.getLanguageLabel('Please enter the OTP'));
                   } else {
-                    ref.read(loginProvider.notifier).verifyOTP(otp);
+                    try {
+                      ref.read(loginProvider.notifier).verifyDeleteOTP(otp);
+                    }
+                    catch(e){
+                      null;
+                    }
                   }
                 },
                 label: SplashScreenNotifier.getLanguageLabel('Verify & Procced'),

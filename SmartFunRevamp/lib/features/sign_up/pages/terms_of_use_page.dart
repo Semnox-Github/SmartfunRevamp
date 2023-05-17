@@ -5,14 +5,14 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class PrivacyPolicyPage extends StatefulWidget {
-  const PrivacyPolicyPage({Key? key}) : super(key: key);
+class TermsOfUsePage extends StatefulWidget {
+  const TermsOfUsePage({Key? key}) : super(key: key);
 
   @override
-  State<PrivacyPolicyPage> createState() => _PrivacyPolicyPageState();
+  State<TermsOfUsePage> createState() => _TermsOfUsePageState();
 }
 
-class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
+class _TermsOfUsePageState extends State<TermsOfUsePage> {
   final gestureRecognizers = {
     Factory(() => EagerGestureRecognizer()),
   };
@@ -26,7 +26,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          SplashScreenNotifier.getLanguageLabel('Privacy Policy'),
+          SplashScreenNotifier.getLanguageLabel('Terms of Service'),
           style: const TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,
@@ -42,7 +42,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
               height: MediaQuery.of(context).size.height * 0.80,
               child: WebView(
                 gestureRecognizers: gestureRecognizers,
-                initialUrl: SplashScreenNotifier.getUrl("Privacy"),
+                initialUrl: SplashScreenNotifier.getUrl("Terms"),
                 javascriptMode: JavascriptMode.unrestricted,
               ),
             ),

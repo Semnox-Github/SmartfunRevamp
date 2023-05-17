@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
@@ -148,6 +149,10 @@ class AccountPage extends ConsumerWidget {
                   },
                   label: SplashScreenNotifier.getLanguageLabel('SAVE'),
                   margin: const EdgeInsets.symmetric(vertical: 20.0),
+                ),
+                CustomButton(
+                  onTap: () => Navigator.pushNamed(context, Routes.kDeleteOTP),
+                  label: SplashScreenNotifier.getLanguageLabel('DELETE PROFILE'),
                 )
               ],
             ),

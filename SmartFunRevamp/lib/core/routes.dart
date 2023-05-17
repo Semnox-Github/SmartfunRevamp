@@ -4,6 +4,7 @@ import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/buy_a_card/pages/buy_card_list_page.dart';
 import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/home/pages/home_page.dart';
+import 'package:semnox/features/home/view/delete_profile_otp_page.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/login/pages/verify_otp_page.dart';
 import 'package:semnox/features/membership_info/pages/membership_info_page.dart';
@@ -29,6 +30,7 @@ class Routes {
   static const kSignUpPage = '/sign_up';
   static const kBuyACard = '/buy_a_card';
   static const kVerifyOTP = '/verify_otp';
+  static const kDeleteOTP = '/delete_otp';
   static const kSelectLocationManually = '/select_location_manually';
   static const kMap = '/map';
   static const kEnableLocation = '/enable_location';
@@ -54,6 +56,7 @@ class Routes {
       kAfterSplashScreenPage: (BuildContext context) => const AfterSplashScreen(),
       kBuyACard: (BuildContext context) => const BuyCardListPage(),
       kVerifyOTP: (BuildContext context) => const VerifyOtpPage(),
+      kDeleteOTP: (BuildContext context) => const DeleteProfileOTPPage(),
       kSelectLocationManually: (BuildContext context) => const SelectLocationManuallyPage(),
       kEnableLocation: (BuildContext context) => const EnableLocationPage(),
       kMap: (BuildContext context) => const MapPage(),

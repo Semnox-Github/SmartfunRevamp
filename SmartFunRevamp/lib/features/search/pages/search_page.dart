@@ -107,7 +107,7 @@ Widget _tabSection(BuildContext context, String? filterStr) {
       children: <Widget>[
         Container(
           child: TabBar(tabs: [
-            MulishText(text: "Card Recharge", fontSize: 14,),
+            MulishText(text: "Recharge", fontSize: 14,),
             MulishText(text: "New Card", fontSize: 14),
           ]),
         ),

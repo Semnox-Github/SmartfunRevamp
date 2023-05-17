@@ -31,6 +31,7 @@ dependencies:
   flutter_native_splash: ^2.2.16
   flutter_otp_text_field: ^1.1.1
   flutter_riverpod: ^2.1.1
+  flutter_spinbox: ^0.13.1
   flutter_svg: ^1.1.6
   flutter_widget_from_html: ^0.9.1
   fluttertoast: ^8.1.2

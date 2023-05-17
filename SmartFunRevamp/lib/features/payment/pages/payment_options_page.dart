@@ -70,7 +70,7 @@ class PaymentOptionsPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '\$${cardProduct.finalPrice}',
+                    '\$${transactionResponse.transactionNetAmount}',
                     style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -182,7 +182,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
             builder: (context, ref, child) {
               return ref
                   .watch(PaymentOptionsProvider.hostedPaymentGatewayProvider(
-                      HostedPaymentGatewayRequest(hostedPaymentGateway: item.expandedValue, amount: widget.cardProduct.finalPrice, transactionId: widget.transactionResponse.transactionId)))
+                      HostedPaymentGatewayRequest(hostedPaymentGateway: item.expandedValue, amount: widget.transactionResponse.transactionNetAmount, transactionId: widget.transactionResponse.transactionId)))
                   .maybeWhen(
                     orElse: () => Container(
                       height: 20.0,
@@ -207,7 +207,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => PaymentSuccessPage(
-                                      amount: widget.cardProduct.finalPrice,
+                                      amount: widget.transactionResponse.transactionNetAmount,
                                       cardNumber: widget.transactionResponse.primaryCard,
                                       transactionType: widget.transactionType
                                     ),

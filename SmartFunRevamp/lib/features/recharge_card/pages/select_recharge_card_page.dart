@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
@@ -14,6 +15,7 @@ import 'package:semnox/features/recharge_card/providers/products_price_provider.
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/semnox_core.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
   const SelectCardRechargePage({
@@ -32,6 +34,8 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
   late CardDetails selectedCardNumber;
   late List<CardDetails> cards;
   late int userSite;
+  late int qty;
+  late double finalPrice;
   @override
   void initState() {
     super.initState();
@@ -39,6 +43,8 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     selectedCardNumber = cards.first;
     userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1040;
+    qty = 1;
+    finalPrice = 0;
   }
 
   @override
@@ -58,7 +64,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
         ),
       ),
       bottomSheet: BottomSheetButton(
-        label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
+        label: offerSelected == null? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW') : '${SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')} \$${qty * finalPrice}',
         onTap: () {
           Logger().d(offerSelected);
           if (offerSelected != null) {
@@ -70,6 +76,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                   cardProduct: offerSelected!,
                   cardSelected: selectedCardNumber,
                   transactionType: "recharge",
+                  qty: qty,
                 ),
               ),
             );
@@ -112,7 +119,13 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                             return RechargeCardOffers(
                               offers: offersFiltered,
                               onOfferSelected: (offer) {
-                                offerSelected = offer;
+                                setState(() {
+                                  offerSelected = offer;
+                                  finalPrice = offerSelected!.finalPrice;
+                                  qty = 1;
+
+                                });
+                                _dialogBuilder(context);
                               },
                             );
                           },
@@ -124,6 +137,58 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _dialogBuilder(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(SplashScreenNotifier.getLanguageLabel('Enter que quantity')),
+          content: SpinBox(
+            min: 1,
+            max: 100,
+            value: qty.toDouble(),
+            onChanged: (value) => {
+              setState(() {
+                qty = value.toInt();
+              })
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const MulishText(
+                text: 'Done',
+                fontWeight: FontWeight.bold,
+                fontColor: CustomColors.hardOrange,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const MulishText(
+                text: 'Cancel',
+                fontWeight: FontWeight.bold,
+                fontColor: CustomColors.hardOrange,
+              ),
+              onPressed: () {
+                setState(() {
+                  qty = 1;
+                });  
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

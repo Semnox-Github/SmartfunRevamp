@@ -18,16 +18,18 @@ class EstimatedTransactionPage extends ConsumerWidget {
     required this.cardProduct,
     this.cardSelected,
     required this.transactionType,
+    required this.qty,
   }) : super(key: key);
 
   final CardProduct cardProduct;
   final CardDetails? cardSelected;
   final String transactionType;
+  final int qty;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     /* Ver card number acount Numbre*/
-    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : ''); 
+    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : '', quantity: qty); 
     ref.listen(estimateStateProvider, (previous, next) {
       next.maybeWhen(
         orElse: () => {},
@@ -98,7 +100,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                '\$${cardProduct.finalPrice}',
+                                '\$${cardProduct.finalPrice * qty}',
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -152,7 +154,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  '\$ ${transactionResponse.transactionAmount}',
+                                  '\$ ${transactionResponse.transactionNetAmount}',
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -170,7 +172,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '\$ ${transactionResponse.transactionAmount}',
+                                  '\$ ${transactionResponse.transactionNetAmount}',
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,

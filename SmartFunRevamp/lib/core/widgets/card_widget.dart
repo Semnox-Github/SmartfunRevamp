@@ -11,9 +11,9 @@ class CardWidget extends StatelessWidget {
 
   final formatter = DateFormat('dd MMM yyyy');
   late final CardDetails cardDetails;
-  late final validPeriod = cardDetails.expiryDate.isNullOrEmpty() ? 
-    formatter.format(cardDetails.issueDate ?? DateTime.now()) : 
-    '${formatter.format(cardDetails.issueDate ?? DateTime.now())} - ${formatter.format(DateTime.parse(cardDetails.expiryDate.toString()))}';
+  late final validPeriod = cardDetails.expiryDate.isNullOrEmpty()
+      ? formatter.format(cardDetails.issueDate ?? DateTime.now())
+      : '${formatter.format(cardDetails.issueDate ?? DateTime.now())} - ${formatter.format(DateTime.parse(cardDetails.expiryDate.toString()))}';
   @override
   Widget build(BuildContext context) {
     return Container(

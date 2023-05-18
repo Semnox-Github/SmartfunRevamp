@@ -4,19 +4,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/input_text_field.dart';
-import 'package:semnox/features/home/provider/link_card/link_card_provider.dart';
+import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/provider/update_card_nickname/update_card_nickname_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class LinkACard extends ConsumerWidget {
-  LinkACard({super.key});
+class UpdateNicknameCard extends ConsumerWidget {
+  final CardDetails cardDetails;
+  UpdateNicknameCard({super.key, required this.cardDetails});
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String mCardNumber = '';
+    String cardNickname = '';
     ref.listen(
-      linkCardProvider,
+      updateCardNicknameProvider,
       (previous, next) {
         next.maybeWhen(
           orElse: () => {},
@@ -26,9 +29,14 @@ class LinkACard extends ConsumerWidget {
               context: context,
               dialogType: DialogType.success,
               animType: AnimType.scale,
-              title: SplashScreenNotifier.getLanguageLabel('Link A Card'),
-              desc: SplashScreenNotifier.getLanguageLabel('Card linked successfully.'),
-              btnOkOnPress: () {},
+              title: SplashScreenNotifier.getLanguageLabel('Update Nickname'),
+              desc: SplashScreenNotifier.getLanguageLabel('Nickname successfully updated'),
+              onDismissCallback: (_) {
+                // TODO: here we should call to something that updates the interface, we could load all cards again from API or just update the visible nickcname on card
+                ref.invalidate(CardsProviders.userCardsProvider);
+                ref.read(CardsProviders.userCardsProvider);
+                Navigator.of(context).pop();
+              },
             ).show();
           },
           error: (e) {
@@ -47,13 +55,13 @@ class LinkACard extends ConsumerWidget {
       },
     );
     return Container(
+      margin: const EdgeInsets.all(15),
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         color: Colors.purple.shade500,
-        borderRadius: BorderRadius.circular(
-          20.0,
-        ),
+        borderRadius: BorderRadius.circular(20.0),
       ),
+      height: 170,
       child: Form(
         key: _formKey,
         child: Column(
@@ -67,16 +75,7 @@ class LinkACard extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      SplashScreenNotifier.getLanguageLabel('Add your card and manage your recharges,'),
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 5.0),
-                    Text(
-                      SplashScreenNotifier.getLanguageLabel('activities, gameplays and more with smartfun.'),
+                      SplashScreenNotifier.getLanguageLabel('Edit nickanme of your card'),
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -93,9 +92,9 @@ class LinkACard extends ConsumerWidget {
               children: [
                 Expanded(
                   child: InputTextField(
-                    initialValue: 'X6PIS313',
-                    onSaved: (cardNumber) => mCardNumber = cardNumber,
-                    hintText: SplashScreenNotifier.getLanguageLabel('Enter Card Number'),
+                    initialValue: '',
+                    onSaved: (newNickname) => cardNickname = newNickname,
+                    hintText: SplashScreenNotifier.getLanguageLabel('Choose nickname'),
                     prefixIcon: IconButton(
                       icon: const Icon(
                         Icons.add_card,
@@ -124,13 +123,13 @@ class LinkACard extends ConsumerWidget {
                     child: TextButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          Logger().d('Linking');
+                          Logger().d('updating nickname');
                           _formKey.currentState!.save();
-                          ref.read(linkCardProvider.notifier).linkCard(mCardNumber);
+                          ref.read(updateCardNicknameProvider.notifier).updateCardNickname(cardDetails.accountId!, cardNickname);
                         }
                       },
                       child: Text(
-                        SplashScreenNotifier.getLanguageLabel('LINK CARD'),
+                        SplashScreenNotifier.getLanguageLabel('SAVE'),
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

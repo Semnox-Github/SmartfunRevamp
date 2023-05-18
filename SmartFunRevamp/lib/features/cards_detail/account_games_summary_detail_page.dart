@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class AccountGamesSummaryDetailPage extends StatelessWidget {
   AccountGamesSummaryDetailPage({Key? key, required this.summary}) : super(key: key);
   final AccountGameDTOList summary;
-  
+
   late final List<AccountGameExtendedDTOList> gamesIncExcDetail = summary.accountGameExtendedDTOList;
 
   late final List<AccountGameExtendedDTOList> gamesIncluded = gamesIncExcDetail..removeWhere((element) => (!element.exclude));
@@ -149,15 +149,15 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                   ),
                 ],
                 rows: List<DataRow>.generate(
-                  gamesIncluded.isEmpty ? 1 : gamesIncluded.length, 
+                  gamesIncluded.isEmpty ? 1 : gamesIncluded.length,
                   (int index) => DataRow(
                     cells: <DataCell>[
                       DataCell(Text(gamesIncluded.isEmpty ? '--' : gamesIncluded[index].gameProfileId.toString())),
                       DataCell(Text(gamesIncluded.isEmpty ? '--' : gamesIncluded[index].gameId.toString())),
                       DataCell(Text(gamesIncluded.isEmpty ? '--' : gamesIncluded[index].playLimitPerGame.toString())),
                     ],
-                  )
-                )
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 50.0),
@@ -196,7 +196,7 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                     label: Expanded(
                       child: Text(
                         SplashScreenNotifier.getLanguageLabel('Category'),
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                   ),
@@ -225,8 +225,8 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                       DataCell(Text(gamesExcluded.isEmpty ? '--' : gamesExcluded[index].gameId.toString())),
                       DataCell(Text(gamesExcluded.isEmpty ? '--' : gamesExcluded[index].playLimitPerGame.toString())),
                     ],
-                  )
-                )
+                  ),
+                ),
               ),
             ),
           ],

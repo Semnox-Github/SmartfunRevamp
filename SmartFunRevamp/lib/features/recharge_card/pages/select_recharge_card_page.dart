@@ -43,7 +43,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
     cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     selectedCardNumber = cards.first;
-    userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1040;
+    userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010;
     qty = 1;
     finalPrice = 0;
   }

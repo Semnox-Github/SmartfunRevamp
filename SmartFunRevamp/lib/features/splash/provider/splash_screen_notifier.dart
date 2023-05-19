@@ -15,6 +15,7 @@ import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
 
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
+import 'package:semnox/features/login/provider/login_notifier.dart';
 
 part 'splash_screen_state.dart';
 part 'splash_screen_notifier.freezed.dart';
@@ -88,7 +89,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
 
   static final parafaitLanguagesProvider = FutureProvider<LanguageContainerDTO>((ref) async{
     final GetParafaitLanguagesUseCase getParafaitLanguagesUseCase = Get.find<GetParafaitLanguagesUseCase>();
-    final response = await getParafaitLanguagesUseCase(siteId: "1040");
+    final response = await getParafaitLanguagesUseCase(siteId: (ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010).toString());
     Logger().d(response);
     return response.fold(
       (l) => throw l,
@@ -98,7 +99,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
 
   static final getStringForLocalization = FutureProvider.autoDispose.family<void, String>((ref, languageId) async {
     final GetStringForLocalizationUseCase getStringForLocalizationUseCase = Get.find<GetStringForLocalizationUseCase>();
-    final response = await getStringForLocalizationUseCase(siteId: "1040", languageId: languageId);
+    final response = await getStringForLocalizationUseCase(siteId: (ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010).toString(), languageId: languageId);
     // get the language Json from the assets
     String defaultLanguageStrings = await rootBundle.loadString("assets/localization/strings.json");
     final jsonDefaultLanguageStrings = jsonDecode(defaultLanguageStrings); 
@@ -118,7 +119,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
 
   static final getInitialData = FutureProvider.autoDispose<void>((ref) async {
     final GetLookupsUseCase getLookupsUseCase = Get.find<GetLookupsUseCase>();
-    final response = await getLookupsUseCase(siteId: "1040");
+    final response = await getLookupsUseCase(siteId: (ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010).toString());
     const infoLookupName = "SELFSERVICEAPP_CUSTOMLINKS";
     response.forEach((r) { 
       for (var element in r.lookupsContainerDTOList) { 

@@ -76,7 +76,7 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                             data: (data) {
                               return DropdownButton<String>(
                                 isExpanded: true,
-                                value: dropdownValue,
+                                value: data.languageContainerDTOList[0].languageId.toString(),
                                 items: data.languageContainerDTOList.map((item) {
                                   return DropdownMenuItem<String>(
                                     value: item.languageId.toString(),

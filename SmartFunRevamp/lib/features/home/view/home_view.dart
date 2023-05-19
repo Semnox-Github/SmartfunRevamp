@@ -212,7 +212,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             color: CustomColors.customYellow,
                             image: 'recharge',
                             text: 'Recharge',
-                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kRechargePageCard) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Recharge Card'), msgCardNoLink),
+                            onTap: () => hasCard
+                                ? Navigator.pushNamed(context, Routes.kRechargePageCard)
+                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Recharge Card'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customPink,
@@ -224,25 +226,29 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             color: CustomColors.customLigthBlue,
                             image: 'activities',
                             text: 'Activities',
-                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kActivities) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
+                            onTap: () =>
+                                hasCard ? Navigator.pushNamed(context, Routes.kActivities) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customOrange,
                             image: 'lost_card',
                             text: 'Lost Card',
-                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kLostPageCard) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
+                            onTap: () =>
+                                hasCard ? Navigator.pushNamed(context, Routes.kLostPageCard) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customGreen,
                             image: 'gameplays',
                             text: 'Game Plays',
-                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kGameplays) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
+                            onTap: () =>
+                                hasCard ? Navigator.pushNamed(context, Routes.kGameplays) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customPurple,
                             image: 'transfer_credit',
                             text: 'Transfer Credit',
-                            onTap: () => hasCard ? Navigator.pushNamed(context, Routes.kTransfers) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
+                            onTap: () =>
+                                hasCard ? Navigator.pushNamed(context, Routes.kTransfers) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
                           ),
                         ],
                       );
@@ -278,20 +284,41 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: const [
+                  GridView(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                    ),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
                       QuickLinkItem(
+                        color: CustomColors.customPink,
+                        image: 'new_card',
+                        text: 'Link card',
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                height: 215,
+                                padding: const EdgeInsets.all(10),
+                                child: LinkACard(),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      const QuickLinkItem(
                         color: CustomColors.customYellow,
                         image: 'tickets',
                         text: 'Tickets',
                       ),
-                      QuickLinkItem(
+                      const QuickLinkItem(
                         color: CustomColors.customOrange,
                         image: 'coupons',
                         text: 'Coupons',
                       ),
-                      QuickLinkItem(
+                      const QuickLinkItem(
                         color: CustomColors.customGreen,
                         image: 'events',
                         text: 'Events',

@@ -43,8 +43,7 @@ class EstimateStateProvider extends StateNotifier<EstimateState> {
   }
 
   void getEstimateTransaction(CardProduct card, {DiscountApplicationHistoryDTOList? dtoList, String? cardNumber, int quantity = 1}) async {
-    late int siteId = _executionContextDTO.siteId?.toInt() ?? 1040;
-    siteId = siteId == 1010 ? 1040 : siteId;
+    late int siteId = _executionContextDTO.siteId?.toInt() ?? 1010;
     final response = await _estimateTransactionUseCase(
       EstimateTransactionRequest(
         siteId: siteId,

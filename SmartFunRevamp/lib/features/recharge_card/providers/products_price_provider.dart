@@ -11,7 +11,7 @@ final rechargeProductsProvider = FutureProvider.autoDispose.family<List<CardProd
     (l) => throw l,
     (r) {
       Logger().d(r.length);
-      r.removeWhere((element) => element.productType != 'RECHARGE');
+      r.removeWhere((element) => element.productType != 'RECHARGE' && element.productType != 'VARIABLECARD');
       Logger().d(r.length);
       return r;
     },

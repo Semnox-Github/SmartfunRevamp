@@ -18,11 +18,12 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentOptionsPage extends StatelessWidget {
-  const PaymentOptionsPage({Key? key, required this.transactionResponse, required this.cardProduct, this.cardDetails, required this.transactionType}) : super(key: key);
+  const PaymentOptionsPage({Key? key, required this.transactionResponse, required this.cardProduct, this.cardDetails, required this.transactionType, this.finalPrice}) : super(key: key);
   final EstimateTransactionResponse transactionResponse;
   final CardProduct cardProduct;
   final CardDetails? cardDetails;
   final String transactionType;
+  final double? finalPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,7 @@ class PaymentOptionsPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '\$${transactionResponse.transactionNetAmount}',
+                    '\$${cardProduct.productType == "VARIABLECARD" ? finalPrice : transactionResponse.transactionNetAmount}',
                     style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -93,7 +94,7 @@ class PaymentOptionsPage extends StatelessWidget {
                       ),
                       loading: () => const CircularProgressIndicator(),
                       data: (data) {
-                        return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse, cardDetails: cardDetails, transactionType: transactionType);
+                        return PaymentOptionsWidged(paymentOptionsList: data, cardProduct: cardProduct, transactionResponse: transactionResponse, cardDetails: cardDetails, transactionType: transactionType, finalPrice: finalPrice);
                       },
                     );
               },
@@ -128,12 +129,13 @@ List<Item> generateItems(List<PaymentMode> paymentOptionsList) {
 }
 
 class PaymentOptionsWidged extends StatefulWidget {
-  const PaymentOptionsWidged({super.key, required this.paymentOptionsList, required this.transactionResponse, required this.cardProduct, this.cardDetails, required this.transactionType});
+  const PaymentOptionsWidged({super.key, required this.paymentOptionsList, required this.transactionResponse, required this.cardProduct, this.cardDetails, required this.transactionType, this.finalPrice});
   final List<PaymentMode> paymentOptionsList;
   final EstimateTransactionResponse transactionResponse;
   final CardProduct cardProduct;
   final CardDetails? cardDetails;
   final String transactionType;
+  final double? finalPrice;
 
   @override
   State<PaymentOptionsWidged> createState() => _PaymentOptionsWidgedState();
@@ -182,7 +184,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
             builder: (context, ref, child) {
               return ref
                   .watch(PaymentOptionsProvider.hostedPaymentGatewayProvider(
-                      HostedPaymentGatewayRequest(hostedPaymentGateway: item.expandedValue, amount: widget.transactionResponse.transactionNetAmount, transactionId: widget.transactionResponse.transactionId)))
+                      HostedPaymentGatewayRequest(hostedPaymentGateway: item.expandedValue, amount: widget.cardProduct.productType == "VARIABLECARD" ? widget.finalPrice! : widget.transactionResponse.transactionNetAmount, transactionId: widget.transactionResponse.transactionId)))
                   .maybeWhen(
                     orElse: () => Container(
                       height: 20.0,

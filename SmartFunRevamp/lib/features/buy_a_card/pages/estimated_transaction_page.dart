@@ -19,12 +19,14 @@ class EstimatedTransactionPage extends ConsumerWidget {
     this.cardSelected,
     required this.transactionType,
     required this.qty,
+    this.finalPrice
   }) : super(key: key);
 
   final CardProduct cardProduct;
   final CardDetails? cardSelected;
   final String transactionType;
   final int qty;
+  final double? finalPrice;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -100,7 +102,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                '\$${cardProduct.finalPrice * qty}',
+                                '\$${cardProduct.productType == "VARIABLECARD" ? finalPrice : cardProduct.finalPrice * qty}',
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -123,7 +125,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             ),
                             BillDetailRow(
                               description: SplashScreenNotifier.getLanguageLabel('Recharge Amount'),
-                              amount: '${transactionResponse.transactionAmount}',
+                              amount: '${cardProduct.productType == "VARIABLECARD" ? finalPrice : transactionResponse.transactionAmount}',
                             ),
                             BillDetailRow(
                               description: SplashScreenNotifier.getLanguageLabel('Tax'),
@@ -154,7 +156,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  '\$ ${transactionResponse.transactionNetAmount}',
+                                  '\$ ${cardProduct.productType == "VARIABLECARD" ? finalPrice : transactionResponse.transactionNetAmount}',
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -172,7 +174,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '\$ ${transactionResponse.transactionNetAmount}',
+                                  '\$ ${cardProduct.productType == "VARIABLECARD" ? finalPrice : transactionResponse.transactionNetAmount}',
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -197,6 +199,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                       cardProduct: cardProduct,
                                       cardDetails: cardSelected,
                                       transactionType: transactionType,
+                                      finalPrice: finalPrice,
                                     ),
                                   ),
                                 );

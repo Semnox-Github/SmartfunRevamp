@@ -129,7 +129,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                                 });
                                 if(offer.productType == "VARIABLECARD"){
                                   amountSelectorDialog(context);
-                                } else{
+                                } else if (offer.QuantityPrompt == "Y"){
                                   qtySelectorDialog(context);
                                 }
                               },

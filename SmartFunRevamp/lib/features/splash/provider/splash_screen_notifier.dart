@@ -89,7 +89,8 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
 
   static final parafaitLanguagesProvider = FutureProvider<LanguageContainerDTO>((ref) async{
     final GetParafaitLanguagesUseCase getParafaitLanguagesUseCase = Get.find<GetParafaitLanguagesUseCase>();
-    final response = await getParafaitLanguagesUseCase(siteId: (ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010).toString());
+    //Request language list always to master site
+    final response = await getParafaitLanguagesUseCase(siteId: "1010");
     Logger().d(response);
     return response.fold(
       (l) => throw l,
@@ -99,7 +100,8 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
 
   static final getStringForLocalization = FutureProvider.autoDispose.family<void, String>((ref, languageId) async {
     final GetStringForLocalizationUseCase getStringForLocalizationUseCase = Get.find<GetStringForLocalizationUseCase>();
-    final response = await getStringForLocalizationUseCase(siteId: (ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010).toString(), languageId: languageId);
+    //Request language strings always with master site
+    final response = await getStringForLocalizationUseCase(siteId: "1010", languageId: languageId);
     // get the language Json from the assets
     String defaultLanguageStrings = await rootBundle.loadString("assets/localization/strings.json");
     final jsonDefaultLanguageStrings = jsonDecode(defaultLanguageStrings); 

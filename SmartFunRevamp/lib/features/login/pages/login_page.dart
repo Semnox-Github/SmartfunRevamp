@@ -89,7 +89,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
+                    // onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
+                    onPressed: () {
+                      throw Exception();
+                    },
                     child: Text(
                       SplashScreenNotifier.getLanguageLabel('SIGN UP'),
                       style: GoogleFonts.mulish(

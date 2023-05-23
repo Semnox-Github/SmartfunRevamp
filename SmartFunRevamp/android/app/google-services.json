@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "910123612775",
+    "project_id": "smartfun-3bc95",
+    "storage_bucket": "smartfun-3bc95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910123612775:android:ad9854f9f4b352f44eb2c2",
+        "android_client_info": {
+          "package_name": "com.example.semnox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910123612775-cl28odc25v12cqn3959h86839hecq28j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuo8egN5Qzt02P2T8XylVGOcAN8rbNq7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "910123612775-cl28odc25v12cqn3959h86839hecq28j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "910123612775-gtdc14l5vsrihvu9u2n2h7tb0elurf76.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.giga.smartfun"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

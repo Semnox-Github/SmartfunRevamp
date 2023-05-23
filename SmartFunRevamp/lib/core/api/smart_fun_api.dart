@@ -9,10 +9,13 @@ import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
+import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/lookups/lookups_dto.dart';
+import 'package:semnox/core/domain/entities/membership/membership_info.dart';
+import 'package:semnox/core/domain/entities/membership/membership_tier.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
@@ -31,8 +34,8 @@ abstract class SmartFunApi {
       PrettyDioLogger(
         requestBody: true,
         responseBody: true,
-        requestHeader: false,
-        responseHeader: false,
+        requestHeader: true,
+        responseHeader: true,
         request: true,
         error: true,
         compact: true,
@@ -94,7 +97,11 @@ abstract class SmartFunApi {
   });
 
   @GET('ParafaitEnvironment/ExecutionContext')
-  Future<HttpResponse> getExecutionController(@Query('siteId') int siteId, {@Query('languageCode') String languageCode = 'en-US', @Query('posMachineName') String posMachineName = 'CustomerApp'});
+  Future<HttpResponse> getExecutionController(
+    @Query('siteId') int siteId, {
+    @Query('languageCode') String languageCode = 'en-US',
+    @Query('posMachineName') String posMachineName = 'CustomerApp',
+  });
 
   @POST('Transaction/Transactions')
   Future<Data<EstimateTransactionResponse>> estimateTransaction(@Body() Map<String, dynamic> body);
@@ -238,13 +245,22 @@ abstract class SmartFunApi {
   Future<void> deleteProfile(@Path('CustomerId') int customerId);
 
   @GET('Customer/{CustomerId}/Summary')
-  Future<void> getMembershipInfo(@Path('CustomerId') int customerId);
-  @GET('Customer/Membership/MembershipsContainer')
-  Future<void> getMembershipContainer(@Query('siteId') int siteId, {@Query('rebuildCache') bool rebuildCachec = false});
+  Future<Data<MembershipInfo>> getMembershipInfo(@Path('CustomerId') int customerId);
 
   @GET('Lookups/LookupsContainer')
-  Future<Data<LookupsContainer>> getLookups(
-    @Query('siteId') String siteId,
-    @Query('rebuildCache') bool rebuildCache
-  );
+  Future<Data<LookupsContainer>> getLookups(@Query('siteId') String siteId, @Query('rebuildCache') bool rebuildCache);
+  Future<MembershipContainerResponse> getMembershipContainer(
+    @Query('siteId') int siteId, {
+    @Query('rebuildCache') bool rebuildCachec = false,
+  });
+
+  @GET('CustomerApp/CustomerAppConfiguration')
+  Future<void> getAppConfiguration(@Query('siteId') int siteId);
+
+  @GET('Customer/FeedbackSurvey/FeedbackSurveys')
+  Future<ListDataWrapper<SurveyDetailsResponse>> getCustomerFeedbackActions({
+    @Query('loadActiveChild') bool loadActiveChild = true,
+    @Query('buildChildRecords') bool buildChildRecords = true,
+    @Query('posMachine') String posMachine = 'CustomerApp',
+  });
 }

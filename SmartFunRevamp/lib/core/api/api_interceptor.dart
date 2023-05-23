@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 
@@ -7,9 +5,7 @@ class AuthorizationInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.baseUrl = '${Get.find<String>(tag: 'baseURL')}/api/';
-    if (Get.isRegistered<String>(tag: 'Token')) {
-      options.headers[HttpHeaders.authorizationHeader] = Get.find<String>(tag: 'Token');
-    }
+
     super.onRequest(options, handler);
   }
 

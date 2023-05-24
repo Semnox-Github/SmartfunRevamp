@@ -7,6 +7,7 @@ import 'package:semnox/core/api/parafait_api.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/splash_screen/get_base_url_response.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/domain/repositories/splash_screen_repositories.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils.dart';
@@ -111,25 +112,9 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
   }
 
   @override
-  Future<Either<Failure, void>> getHomePageCMS({required String moduleName, required String isActive, required String buildChildRecords, required String activeChildRecords}) async {
+  Future<Either<Failure, void>> getParafaitDefaults({required String siteId, required String userPkId, required String machineId, required String token}) async {
     try {
-      final response = await _api.getHomePageCMS(moduleName, isActive, buildChildRecords, activeChildRecords);
-      Logger().d(response);
-      return const Right(null);
-    } on DioError catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> getParafaitDefaults({required String siteId, required String userPkId, required String machineId}) async {
-    try {
-      final response = await _api.getParafaitDefaults(siteId, userPkId, machineId);
+      final response = await _api.getParafaitDefaults(siteId, userPkId, machineId, token);
       Logger().d(response);
       return const Right(null);
     } on DioError catch (e) {
@@ -164,6 +149,25 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       final response = await _api.getStringsForLocalization(siteId, languageId, outputForm);
       Logger().d(response);
       return const Right(null);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CMSContent>>> getHomePageCMS(String moduleName, String token) async {
+    try {
+      final response = await _api.getHomePageCMS(moduleName, 'Bearer $token');
+      final content = <CMSContent>[];
+      response.data.first.cmsModulePages.first.cmsPages.map((e) {
+        content.addAll([...e.cmsContent, ...e.pageContent]);
+      }).toList();
+      return Right(content);
     } on DioError catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {

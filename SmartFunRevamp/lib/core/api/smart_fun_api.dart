@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
@@ -18,6 +20,7 @@ import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 part 'smart_fun_api.g.dart';
@@ -104,6 +107,7 @@ abstract class SmartFunApi {
     @Query('siteId') String siteId,
     @Query('userPkId') String userPkId,
     @Query('machineId') String machineId,
+    @Header(HttpHeaders.authorizationHeader) String token,
   );
 
   @GET('Configuration/LanguageContainer')
@@ -127,13 +131,14 @@ abstract class SmartFunApi {
   @GET('Customer/ContactTypes')
   Future<HttpResponse> getContactType();
 
-  @GET('api/WebCMS/CMSModules')
-  Future<HttpResponse> getHomePageCMS(
+  @GET('WebCMS/CMSModules')
+  Future<ListDataWrapper<HomePageCMSResponse>> getHomePageCMS(
     @Query('moduleName') String moduleName,
-    @Query('isActive') String isActive,
-    @Query('buildChildRecords') String buildChildRecords,
-    @Query('activeChildRecords') String activeChildRecords,
-  );
+    @Header(HttpHeaders.authorizationHeader) String token, {
+    @Query('isActive') int isActive = 1,
+    @Query('buildChildRecords') bool buildChildRecords = true,
+    @Query('activeChildRecords') bool activeChildRecords = true,
+  });
 
   @GET('Organization/SiteContainer')
   Future<Data<GetAllSitesResponse>> getAllSites();

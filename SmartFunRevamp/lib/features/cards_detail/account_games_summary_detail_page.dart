@@ -12,7 +12,7 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
   AccountGamesSummaryDetailPage({Key? key, required this.summary}) : super(key: key);
   final AccountGameDTOList summary;
 
-  late final List<AccountGameExtendedDTOList> gamesIncExcDetail = summary.accountGameExtendedDTOList;
+  late final List<AccountGameExtendedDTOList> gamesIncExcDetail = summary.accountGameExtendedDTOList ?? [];
 
   late final List<AccountGameExtendedDTOList> gamesIncluded = gamesIncExcDetail..removeWhere((element) => (!element.exclude));
   late final List<AccountGameExtendedDTOList> gamesExcluded = gamesIncExcDetail..removeWhere((element) => (element.exclude));

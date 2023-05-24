@@ -34,8 +34,8 @@ abstract class SmartFunApi {
       PrettyDioLogger(
         requestBody: true,
         responseBody: true,
-        requestHeader: true,
-        responseHeader: true,
+        requestHeader: false,
+        responseHeader: false,
         request: true,
         error: true,
         compact: true,
@@ -249,6 +249,8 @@ abstract class SmartFunApi {
 
   @GET('Lookups/LookupsContainer')
   Future<Data<LookupsContainer>> getLookups(@Query('siteId') String siteId, @Query('rebuildCache') bool rebuildCache);
+
+  @GET('Customer/Membership/MembershipsContainer')
   Future<MembershipContainerResponse> getMembershipContainer(
     @Query('siteId') int siteId, {
     @Query('rebuildCache') bool rebuildCachec = false,

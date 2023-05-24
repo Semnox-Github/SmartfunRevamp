@@ -9,17 +9,9 @@ class AccountGameDTOList {
   final int balanceGames;
   final int gameId;
   final int gameProfileId;
-  final List<AccountGameExtendedDTOList> accountGameExtendedDTOList;
+  final List<AccountGameExtendedDTOList>? accountGameExtendedDTOList;
 
-  AccountGameDTOList(
-    this.fromDate,
-    this.expiryDate,
-    this.quantity,
-    this.balanceGames,
-    this.gameId,
-    this.gameProfileId,
-    this.accountGameExtendedDTOList
-  );
+  AccountGameDTOList(this.fromDate, this.expiryDate, this.quantity, this.balanceGames, this.gameId, this.gameProfileId, this.accountGameExtendedDTOList);
 
   factory AccountGameDTOList.fromJson(Map<String, dynamic> json) => _$AccountGameDTOListFromJson(json);
   Map<String, dynamic> toJson() => _$AccountGameDTOListToJson(this);
@@ -32,13 +24,8 @@ class AccountGameExtendedDTOList {
   late final bool exclude;
   final int? playLimitPerGame;
 
-  AccountGameExtendedDTOList(
-    this.gameProfileId, 
-    this.gameId, 
-    this.exclude, 
-    this.playLimitPerGame
-  );
-  
+  AccountGameExtendedDTOList(this.gameProfileId, this.gameId, this.exclude, this.playLimitPerGame);
+
   factory AccountGameExtendedDTOList.fromJson(Map<String, dynamic> json) => _$AccountGameExtendedDTOListFromJson(json);
   Map<String, dynamic> toJson() => _$AccountGameExtendedDTOListToJson(this);
 }

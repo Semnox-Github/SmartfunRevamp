@@ -10,6 +10,7 @@ class CardProduct {
   final int? productId;
   final double credits;
   final String productType;
+  final String QuantityPrompt;
 
   CardProduct(
     this.finalPrice,
@@ -19,6 +20,7 @@ class CardProduct {
     this.productId,
     this.credits,
     this.productType,
+    this.QuantityPrompt
   );
   factory CardProduct.fromJson(Map<String, dynamic> json) => _$CardProductFromJson(json);
   Map<String, dynamic> toJson() => _$CardProductToJson(this);

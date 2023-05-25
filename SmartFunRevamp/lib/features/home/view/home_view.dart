@@ -96,7 +96,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       ),
                       const Spacer(),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.pushNamed(context, Routes.kSearch),
                         icon: const Icon(
                           Icons.search_outlined,
                           color: CustomColors.customBlue,

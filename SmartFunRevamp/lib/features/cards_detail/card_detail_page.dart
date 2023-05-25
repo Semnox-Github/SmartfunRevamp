@@ -68,7 +68,7 @@ class CardDetailPage extends StatelessWidget {
                           builder: (context) => BonusSummaryPage(
                             cardNumber: cardDetails.accountNumber ?? '',
                             creditPlusType: 5,
-                            pageTitle: SplashScreenNotifier.getLanguageLabel("Bonus"),
+                            pageTitle: SplashScreenNotifier.getLanguageLabel("Bonus Balance"),
                           ),
                         ),
                       );
@@ -86,7 +86,7 @@ class CardDetailPage extends StatelessWidget {
                           builder: (context) => BonusSummaryPage(
                             cardNumber: cardDetails.accountNumber ?? '',
                             creditPlusType: 6,
-                            pageTitle: SplashScreenNotifier.getLanguageLabel("Time"),
+                            pageTitle: SplashScreenNotifier.getLanguageLabel("Time Balance"),
                           ),
                         ),
                       );
@@ -103,8 +103,8 @@ class CardDetailPage extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => BonusSummaryPage(
                             cardNumber: cardDetails.accountNumber ?? '',
-                            creditPlusType: 0,
-                            pageTitle: SplashScreenNotifier.getLanguageLabel("Ticket"),
+                            creditPlusType: 2,
+                            pageTitle: SplashScreenNotifier.getLanguageLabel("Ticket Balance"),
                           ),
                         ),
                       );
@@ -128,7 +128,7 @@ class CardDetailPage extends StatelessWidget {
                           builder: (context) => BonusSummaryPage(
                             cardNumber: cardDetails.accountNumber ?? '',
                             creditPlusType: 1,
-                            pageTitle: SplashScreenNotifier.getLanguageLabel("Loyalty"),
+                            pageTitle: SplashScreenNotifier.getLanguageLabel("Loyalty Balance"),
                           ),
                         ),
                       );
@@ -138,7 +138,7 @@ class CardDetailPage extends StatelessWidget {
                     color: CustomColors.customLigthBlue,
                     image: 'card_time',
                     amount: '${cardDetails.totalGamesBalance?.toStringAsFixed(0)}',
-                    desc: 'Card Games',
+                    desc: 'Card Games Balance',
                     onTap: () {
                       Navigator.push(
                         context,

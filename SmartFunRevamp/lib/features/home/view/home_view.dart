@@ -294,7 +294,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       QuickLinkItem(
                         color: CustomColors.customPink,
                         image: 'new_card',
-                        text: 'Link A card',
+                        text: 'Link A Card',
                         onTap: () {
                           showDialog(
                             context: context,

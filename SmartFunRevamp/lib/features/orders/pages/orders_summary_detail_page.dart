@@ -35,7 +35,17 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
             return ref.watch(OrdersProviders.orderSummaryDetailProvider).maybeWhen(
                   orElse: () => Container(),
                   error: (_) {
-                    return Container();
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MulishText(
+                          text: "Can't load the detail of this transaction",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                      ]
+                    );
                   },
                   inProgress: () => const Center(child: CircularProgressIndicator()),
                   successOrderDetail: (responseData) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/features/buy_a_card/provider/buy_card/buy_card_notifier.dart';
@@ -10,7 +11,12 @@ import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class BuyCardListPage extends StatelessWidget {
-  const BuyCardListPage({super.key});
+  const BuyCardListPage({
+    Key? key,
+    this.filterStr,
+  }) : super(key: key);
+
+  final String? filterStr;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +69,9 @@ class BuyCardListPage extends StatelessWidget {
                         success: (responseCards) {
                           List<CardProduct> cards = List.from(responseCards);
                           cards = cards..removeWhere((element) => (element.productType != "CARDSALE" && element.productType != "NEW"));
+                          if (!filterStr.isNullOrEmpty()){
+                            cards = cards.where((element) => (element.productName.toLowerCase().contains(filterStr.toString().toLowerCase()))).toList();
+                          }
                           if (cards.isEmpty) {
                             return Center(
                               child: Text(SplashScreenNotifier.getLanguageLabel('No cards found')),

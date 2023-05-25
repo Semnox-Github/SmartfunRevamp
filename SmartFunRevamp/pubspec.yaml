@@ -14,6 +14,7 @@ dependencies:
   badges: ^3.0.2
   barcode_widget: ^2.0.3
   blurrycontainer: ^1.0.2
+  cached_network_image: ^3.2.3
   carousel_slider: ^4.2.1
   collection: ^1.17.0
   crypto: ^3.0.2
@@ -31,6 +32,7 @@ dependencies:
   flutter_native_splash: ^2.2.16
   flutter_otp_text_field: ^1.1.1
   flutter_riverpod: ^2.1.1
+  flutter_spinbox: ^0.13.1
   flutter_svg: ^1.1.6
   flutter_widget_from_html: ^0.9.1
   fluttertoast: ^8.1.2

@@ -9,11 +9,13 @@ class GetParafaitDefaultsUseCase {
     required String siteId,
     required String userPkId,
     required String machineId,
+    required String token,
   }) async {
     return await _repository.getParafaitDefaults(
       siteId: siteId,
       userPkId: userPkId,
       machineId: machineId,
+      token: token,
     );
   }
 }

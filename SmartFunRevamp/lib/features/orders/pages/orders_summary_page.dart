@@ -43,18 +43,16 @@ class OrdersSummaryPage extends ConsumerWidget {
                             itemCount: data.length,
                             itemBuilder: (context, index) {
                               final summary = data[index];
-                              return Container(
-                                margin: const EdgeInsets.only(bottom: 10.0),
+                              return Container(                                
                                 padding: const EdgeInsets.only(bottom: 10.0),
-                                width: double.infinity,
-                               
+                                width: double.infinity,                               
                                 child: Column(
                                   children: [
                                     Container(
                                       width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
                                       decoration: BoxDecoration(
-                                        color: CustomColors.customOrange,
+                                        color: CustomColors.customLigthGray,
                                         borderRadius: BorderRadius.circular(12.0),
                                       ),
                                       child: Row(

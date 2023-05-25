@@ -297,15 +297,17 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       QuickLinkItem(
                         color: CustomColors.customPink,
                         image: 'new_card',
-                        text: 'Link card',
+                        text: 'Link A Card',
                         onTap: () {
-                          showModalBottomSheet(
+                          showDialog(
                             context: context,
                             builder: (context) {
-                              return Container(
-                                height: 215,
-                                padding: const EdgeInsets.all(10),
-                                child: LinkACard(),
+                              return Dialog(
+                                child: Container(
+                                  height: 245,
+                                  padding: const EdgeInsets.all(10),
+                                  child: LinkACard(),
+                                ),
                               );
                             },
                           );

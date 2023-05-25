@@ -71,6 +71,20 @@ class MoreView extends StatelessWidget {
               title: 'Notifications',
             ),
             MoreOptions(
+              desc: '',
+              iconBgColor: CustomColors.customLigthGreen,
+              iconPath: 'note',
+              onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrdersSummaryPage(customerId: user.id.toString()),
+                        ),
+                      );
+                    },
+              title: 'My Orders',
+            ),
+            MoreOptions(
               desc: 'Read FAQs or Get in touch',
               iconBgColor: const Color(0xFFE0F0D3),
               iconPath: 'help',
@@ -83,7 +97,7 @@ class MoreView extends StatelessWidget {
                 );
               },
               title: 'Help',
-            ),
+            ),            
             MoreOptions(
               desc: 'Term of use and Privacy Policy',
               iconBgColor: CustomColors.customOrange,
@@ -97,21 +111,7 @@ class MoreView extends StatelessWidget {
                 );
               },
               title: 'Legal',
-            ),
-            MoreOptions(
-              desc: '',
-              iconBgColor: CustomColors.customOrange,
-              iconPath: 'note',
-              onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OrdersSummaryPage(customerId: user.id.toString()),
-                        ),
-                      );
-                    },
-              title: 'My Orders',
-            ),
+            ),            
             MoreOptions(
               desc: 'Rate us in the App Store',
               iconBgColor: const Color(0xFFFCD3DF),

@@ -19,7 +19,7 @@ class AccountGamesSummaryPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //TODO:Whenever the app rebuilds this is called again remove hardcoded Account Number
 
-    ref.read(CardsProviders.accountGamesSummaryProvider.notifier).getSummary('CCD23CCE');
+    ref.read(CardsProviders.accountGamesSummaryProvider.notifier).getSummary(cardNumber);
     return Scaffold(
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel("Card Games"),

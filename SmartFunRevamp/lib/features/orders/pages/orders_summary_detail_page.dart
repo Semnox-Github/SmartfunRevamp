@@ -1,10 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:open_filex/open_filex.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
+import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/orders/provider/orders_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -76,6 +83,7 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                                 child: MulishText(
                                   text: SplashScreenNotifier.getLanguageLabel("Reference Id"),
                                   fontSize: 14.0,
+                                  fontWeight: FontWeight.bold,
                                   textAlign: TextAlign.start,
                                 ),
                               ),
@@ -111,6 +119,7 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                                 child: MulishText(
                                   text: transactionLines.productName.toString(),
                                   fontSize: 14.0,
+                                  fontWeight: FontWeight.bold,
                                   textAlign: TextAlign.start
                                 ),
                               ),
@@ -151,6 +160,7 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                                 child: MulishText(                              
                                   text: 'Total',
                                   fontSize: 14.0,
+                                  fontWeight: FontWeight.bold,
                                   textAlign: TextAlign.start,
                                 ),
                               ),
@@ -164,9 +174,13 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                             ],
                           ),
                         ),
+                        if(responseData.receipt != null)
+                        CustomButton(
+                          onTap: () => _createFileFromString(responseData.receipt.toString(), responseData.transactionId.toString()),
+                          label: SplashScreenNotifier.getLanguageLabel('DOWNLOAD'),
+                        )
+                        
                       ],
-
-                     
                     );
                   },
                 );
@@ -175,38 +189,14 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
       ),
     );
   }
+  
+  void _createFileFromString(String receipt, String fileName) async {  
+    var base64 = receipt;
+    var bytes = base64Decode(base64);
+    final output = await getTemporaryDirectory();
+    final file = File("${output.path}/$fileName.pdf");
+    await file.writeAsBytes(bytes.buffer.asUint8List());
+    debugPrint("${output.path}/$fileName.pdf");
+    await OpenFilex.open("${output.path}/$fileName.pdf");
+  }
 }
-
-// class TotalBonusBalance extends StatelessWidget {
-//   const TotalBonusBalance({
-//     Key? key,
-//     required this.totalBonus,
-//   }) : super(key: key);
-
-//   final int totalBonus;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: const EdgeInsets.all(20.0),
-//       margin: const EdgeInsets.symmetric(vertical: 20.0),
-//       decoration: BoxDecoration(
-//         color: CustomColors.customYellow,
-//         borderRadius: BorderRadius.circular(20.0),
-//       ),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           const MulishText(
-//             text: 'Total Bonus Balance',
-//             fontWeight: FontWeight.bold,
-//           ),
-//           MulishText(
-//             text: '$totalBonus',
-//             fontWeight: FontWeight.bold,
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

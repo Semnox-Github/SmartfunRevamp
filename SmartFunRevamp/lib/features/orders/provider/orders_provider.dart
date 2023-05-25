@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
-import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
 import 'package:semnox/core/domain/use_cases/orders/get_customer_transactions_use_case.dart';
 import 'package:semnox/core/domain/use_cases/orders/get_transaction_detail_use_case.dart';
@@ -56,3 +55,4 @@ class OrderSummaryDetailProvider extends StateNotifier<OrdersState> {
     );
   }
 }
+

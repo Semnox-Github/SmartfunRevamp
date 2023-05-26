@@ -7,6 +7,7 @@ import 'package:semnox/di/gameplays_dependencies.dart';
 import 'package:semnox/di/home_dependecies.dart';
 import 'package:semnox/di/membership_dependencies.dart';
 import 'package:semnox/di/notifications_dependecies.dart';
+import 'package:semnox/di/orders_dependencies.dart';
 import 'package:semnox/di/products_price_dependecies.dart';
 import 'package:semnox/di/select_location_dependecies.dart';
 import 'package:semnox/di/payment_dependencies.dart';
@@ -29,6 +30,7 @@ Future<void> init() async {
   homeDependecies();
   notificationsDependecies();
   membershipDependencies();
+  ordersDependencies();
 }
 
 void authenticateApi(SystemUser systemUser, String baseURL) {

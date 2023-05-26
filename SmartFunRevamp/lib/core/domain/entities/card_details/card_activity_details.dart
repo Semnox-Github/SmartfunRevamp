@@ -7,6 +7,7 @@ class CardActivityDetails {
   final int transactionId;
   final String transactionOTP;
   final String? receiptHTML;
+  final String? receipt;
   final DateTime? transactionDate;
   final List<TransactionLinesDTO>? transactionLinesDTOList;
   final List<TrxPaymentsDTOList>? trxPaymentDTOList;
@@ -18,6 +19,7 @@ class CardActivityDetails {
     this.transactionLinesDTOList,
     this.trxPaymentDTOList,
     this.receiptHTML,
+    this.receipt
   );
   factory CardActivityDetails.fromJson(Map<String, dynamic> json) => _$CardActivityDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$CardActivityDetailsToJson(this);

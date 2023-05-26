@@ -65,9 +65,9 @@ class BonusSummaryPage extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        TotalBonusBalance(totalBonus: totalBonus),
-                        const MulishText(
-                          text: 'Bonus Balance Details',
+                        TotalBonusBalance(totalBonus: totalBonus, pageTitle: pageTitle),
+                        MulishText(
+                          text: '$pageTitle Details',
                           fontWeight: FontWeight.bold,
                         ),
                         Expanded(
@@ -136,7 +136,7 @@ class BonusSummaryPage extends ConsumerWidget {
                                             onPressed: () => Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => BonusSummaryDetailPage(summary: summary),
+                                                builder: (context) => BonusSummaryDetailPage(summary: summary, pageTitle: pageTitle,),
                                               ),
                                             ),
                                             icon: const Icon(
@@ -167,9 +167,11 @@ class TotalBonusBalance extends StatelessWidget {
   const TotalBonusBalance({
     Key? key,
     required this.totalBonus,
+    required this.pageTitle
   }) : super(key: key);
 
   final int totalBonus;
+  final String pageTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -183,8 +185,8 @@ class TotalBonusBalance extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const MulishText(
-            text: 'Total Bonus Balance',
+          MulishText(
+            text: 'Total $pageTitle Balance',
             fontWeight: FontWeight.bold,
           ),
           MulishText(

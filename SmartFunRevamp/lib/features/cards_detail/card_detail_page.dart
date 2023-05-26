@@ -138,7 +138,7 @@ class CardDetailPage extends StatelessWidget {
                     color: CustomColors.customLigthBlue,
                     image: 'card_time',
                     amount: '${cardDetails.totalGamesBalance?.toStringAsFixed(0)}',
-                    desc: 'Card Games Balance',
+                    desc: 'Card Games',
                     onTap: () {
                       Navigator.push(
                         context,

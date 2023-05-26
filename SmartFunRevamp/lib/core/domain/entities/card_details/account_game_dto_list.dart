@@ -9,7 +9,7 @@ class AccountGameDTOList {
   final int balanceGames;
   final int gameId;
   final int gameProfileId;
-  final List<AccountGameExtendedDTOList> accountGameExtendedDTOList;
+  final List<AccountGameExtendedDTOList>? accountGameExtendedDTOList;
 
   AccountGameDTOList(
     this.fromDate,

@@ -9,8 +9,9 @@ import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class BonusSummaryDetailPage extends StatelessWidget {
-  const BonusSummaryDetailPage({Key? key, required this.summary}) : super(key: key);
+  const BonusSummaryDetailPage({Key? key, required this.summary, required this.pageTitle}) : super(key: key);
   final AccountCreditPlusDTOList summary;
+  final String pageTitle;
   
 
   @override
@@ -86,6 +87,7 @@ class BonusSummaryDetailPage extends StatelessWidget {
             ),
             TotalBonusBalance(
               totalBonus: summary.creditPlusBalance.toInt(),
+              pageTitle: pageTitle,
             ),
             const SizedBox(height: 10.0),
             Container(

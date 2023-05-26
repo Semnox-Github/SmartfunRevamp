@@ -12,10 +12,10 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
   AccountGamesSummaryDetailPage({Key? key, required this.summary}) : super(key: key);
   final AccountGameDTOList summary;
 
-  late final List<AccountGameExtendedDTOList> gamesIncExcDetail = summary.accountGameExtendedDTOList;
+  late final List<AccountGameExtendedDTOList>? gamesIncExcDetail = summary.accountGameExtendedDTOList;
+  late List<AccountGameExtendedDTOList>? gamesIncluded = gamesIncExcDetail?..removeWhere((element) => (!element.exclude));
+  late List<AccountGameExtendedDTOList>? gamesExcluded = gamesIncExcDetail?..removeWhere((element) => (element.exclude));
 
-  late final List<AccountGameExtendedDTOList> gamesIncluded = gamesIncExcDetail..removeWhere((element) => (!element.exclude));
-  late final List<AccountGameExtendedDTOList> gamesExcluded = gamesIncExcDetail..removeWhere((element) => (element.exclude));
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +90,7 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
             ),
             TotalBonusBalance(
               totalBonus: summary.balanceGames.toInt(),
+              pageTitle: SplashScreenNotifier.getLanguageLabel('Can be used to play below games'),
             ),
             const SizedBox(height: 10.0),
             Container(
@@ -149,12 +150,12 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                   ),
                 ],
                 rows: List<DataRow>.generate(
-                  gamesIncluded.isEmpty ? 1 : gamesIncluded.length,
+                  gamesIncluded!.isEmpty ? 1 : gamesIncluded!.length,
                   (int index) => DataRow(
                     cells: <DataCell>[
-                      DataCell(Text(gamesIncluded.isEmpty ? '--' : gamesIncluded[index].gameProfileId.toString())),
-                      DataCell(Text(gamesIncluded.isEmpty ? '--' : gamesIncluded[index].gameId.toString())),
-                      DataCell(Text(gamesIncluded.isEmpty ? '--' : gamesIncluded[index].playLimitPerGame.toString())),
+                      DataCell(Text(gamesIncluded!.isEmpty ? '--' : gamesIncluded![index].gameProfileId.toString())),
+                      DataCell(Text(gamesIncluded!.isEmpty ? '--' : gamesIncluded![index].gameId.toString())),
+                      DataCell(Text(gamesIncluded!.isEmpty ? '--' : gamesIncluded![index].playLimitPerGame.toString())),
                     ],
                   ),
                 ),
@@ -218,12 +219,12 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                   ),
                 ],
                 rows: List<DataRow>.generate(
-                  gamesExcluded.isEmpty ? 1 : gamesExcluded.length,
+                  gamesExcluded!.isEmpty ? 1 : gamesExcluded!.length,
                   (int index) => DataRow(
                     cells: <DataCell>[
-                      DataCell(Text(gamesExcluded.isEmpty ? '--' : gamesExcluded[index].gameProfileId.toString())),
-                      DataCell(Text(gamesExcluded.isEmpty ? '--' : gamesExcluded[index].gameId.toString())),
-                      DataCell(Text(gamesExcluded.isEmpty ? '--' : gamesExcluded[index].playLimitPerGame.toString())),
+                      DataCell(Text(gamesExcluded!.isEmpty ? '--' : gamesExcluded![index].gameProfileId.toString())),
+                      DataCell(Text(gamesExcluded!.isEmpty ? '--' : gamesExcluded![index].gameId.toString())),
+                      DataCell(Text(gamesExcluded!.isEmpty ? '--' : gamesExcluded![index].playLimitPerGame.toString())),
                     ],
                   ),
                 ),

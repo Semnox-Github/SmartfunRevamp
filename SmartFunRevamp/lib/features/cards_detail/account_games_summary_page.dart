@@ -19,10 +19,10 @@ class AccountGamesSummaryPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //TODO:Whenever the app rebuilds this is called again remove hardcoded Account Number
 
-    ref.read(CardsProviders.accountGamesSummaryProvider.notifier).getSummary('CCD23CCE');
+    ref.read(CardsProviders.accountGamesSummaryProvider.notifier).getSummary(cardNumber);
     return Scaffold(
       appBar: CustomAppBar(
-        title: SplashScreenNotifier.getLanguageLabel("Card Games"),
+        title: SplashScreenNotifier.getLanguageLabel("Card Games Balance"),
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -64,7 +64,7 @@ class AccountGamesSummaryPage extends ConsumerWidget {
                         ),
                         TotalBonusBalance(totalBonus: totalBonus),
                         const MulishText(
-                          text: 'Bonus Balance Details',
+                          text: 'Card Games Balance Details',
                           fontWeight: FontWeight.bold,
                         ),
                         Expanded(
@@ -181,7 +181,7 @@ class TotalBonusBalance extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const MulishText(
-            text: 'Total Bonus Balance',
+            text: 'Total Card Games Balance',
             fontWeight: FontWeight.bold,
           ),
           MulishText(

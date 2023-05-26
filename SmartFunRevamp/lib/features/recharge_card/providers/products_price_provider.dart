@@ -11,7 +11,20 @@ final rechargeProductsProvider = FutureProvider.autoDispose.family<List<CardProd
     (l) => throw l,
     (r) {
       Logger().d(r.length);
-      r.removeWhere((element) => element.productType != 'RECHARGE');
+      r.removeWhere((element) => element.productType != 'RECHARGE' && element.productType != 'VARIABLECARD');
+      Logger().d(r.length);
+      return r;
+    },
+  );
+});
+
+final allProductsProvider = FutureProvider.autoDispose.family<List<CardProduct>, int>((ref, siteId) async {
+  final GetProductsPriceUseCase getProductsPriceUseCase = Get.find<GetProductsPriceUseCase>();
+  final response = await getProductsPriceUseCase(siteId);
+  return response.fold(
+    (l) => throw l,
+    (r) {
+      Logger().d(r.length);
       Logger().d(r.length);
       return r;
     },

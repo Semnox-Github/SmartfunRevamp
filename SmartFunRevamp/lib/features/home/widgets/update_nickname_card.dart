@@ -25,19 +25,24 @@ class UpdateNicknameCard extends ConsumerWidget {
           orElse: () => {},
           success: () async {
             context.loaderOverlay.hide();
-            AwesomeDialog(
-              context: context,
-              dialogType: DialogType.success,
-              animType: AnimType.scale,
-              title: SplashScreenNotifier.getLanguageLabel('Update Nickname'),
-              desc: SplashScreenNotifier.getLanguageLabel('Nickname successfully updated'),
-              onDismissCallback: (_) {
-                // TODO: here we should call to something that updates the interface, we could load all cards again from API or just update the visible nickcname on card
-                ref.invalidate(CardsProviders.userCardsProvider);
-                ref.read(CardsProviders.userCardsProvider);
-                Navigator.of(context).pop();
-              },
-            ).show();
+            Navigator.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(SplashScreenNotifier.getLanguageLabel('Nickname successfully updated')),
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                margin: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height - 200,
+                  right: 20,
+                  left: 20,
+                ),
+              ),
+            );
+            // TODO: here we should call to something that updates the interface, we could load all cards again from API or just update the visible nickcname on card
+            ref.invalidate(CardsProviders.userCardsProvider);
+            ref.read(CardsProviders.userCardsProvider);
           },
           error: (e) {
             context.loaderOverlay.hide();
@@ -45,7 +50,7 @@ class UpdateNicknameCard extends ConsumerWidget {
               context: context,
               dialogType: DialogType.error,
               animType: AnimType.scale,
-              title: SplashScreenNotifier.getLanguageLabel('Link A Card'),
+              title: SplashScreenNotifier.getLanguageLabel('Update Nickname'),
               desc: e,
               btnOkOnPress: () {},
             ).show();
@@ -61,7 +66,7 @@ class UpdateNicknameCard extends ConsumerWidget {
         color: Colors.purple.shade500,
         borderRadius: BorderRadius.circular(20.0),
       ),
-      height: 170,
+      height: 180,
       child: Form(
         key: _formKey,
         child: Column(

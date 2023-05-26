@@ -17,6 +17,7 @@ import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/lookups/lookups_dto.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
+import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway.dart';
@@ -97,7 +98,11 @@ abstract class SmartFunApi {
   });
 
   @GET('ParafaitEnvironment/ExecutionContext')
-  Future<HttpResponse> getExecutionController(@Query('siteId') int siteId, {@Query('languageCode') String languageCode = 'en-US', @Query('posMachineName') String posMachineName = 'CustomerApp'});
+  Future<HttpResponse> getExecutionController({
+    @Query('siteId') int? siteId,
+    @Query('languageCode') String languageCode = 'en-US',
+    @Query('posMachineName') String posMachineName = 'CustomerApp',
+  });
 
   @POST('Transaction/Transactions')
   Future<Data<EstimateTransactionResponse>> estimateTransaction(@Body() Map<String, dynamic> body);
@@ -248,8 +253,8 @@ abstract class SmartFunApi {
   Future<void> getMembershipContainer(@Query('siteId') int siteId, {@Query('rebuildCache') bool rebuildCachec = false});
 
   @GET('Lookups/LookupsContainer')
-  Future<Data<LookupsContainer>> getLookups(
-    @Query('siteId') String siteId,
-    @Query('rebuildCache') bool rebuildCache
-  );
+  Future<Data<LookupsContainer>> getLookups(@Query('siteId') String siteId, @Query('rebuildCache') bool rebuildCache);
+
+  @GET('CustomerApp/CustomerAppConfiguration')
+  Future<Data<AppConfigResponse>> getAppConfiguration(@Query('siteId') int siteId);
 }

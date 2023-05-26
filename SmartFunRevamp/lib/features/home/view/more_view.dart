@@ -6,6 +6,7 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
+import 'package:semnox/features/orders/pages/orders_summary_page.dart';
 import 'package:semnox/features/sign_up/pages/help_page.dart';
 import 'package:semnox/features/sign_up/pages/terms_of_use_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -70,6 +71,20 @@ class MoreView extends StatelessWidget {
               title: 'Notifications',
             ),
             MoreOptions(
+              desc: '',
+              iconBgColor: CustomColors.customLigthGreen,
+              iconPath: 'note',
+              onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrdersSummaryPage(customerId: user.id.toString()),
+                        ),
+                      );
+                    },
+              title: 'My Orders',
+            ),
+            MoreOptions(
               desc: 'Read FAQs or Get in touch',
               iconBgColor: const Color(0xFFE0F0D3),
               iconPath: 'help',
@@ -82,7 +97,7 @@ class MoreView extends StatelessWidget {
                 );
               },
               title: 'Help',
-            ),
+            ),            
             MoreOptions(
               desc: 'Term of use and Privacy Policy',
               iconBgColor: CustomColors.customOrange,
@@ -96,7 +111,7 @@ class MoreView extends StatelessWidget {
                 );
               },
               title: 'Legal',
-            ),
+            ),            
             MoreOptions(
               desc: 'Rate us in the App Store',
               iconBgColor: const Color(0xFFFCD3DF),

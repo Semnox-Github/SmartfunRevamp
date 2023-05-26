@@ -16,6 +16,7 @@ import 'package:semnox/core/domain/entities/language/language_container_dto.dart
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/lookups/lookups_dto.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
+import 'package:semnox/core/domain/entities/orders/order_details.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
@@ -218,7 +219,21 @@ abstract class SmartFunApi {
   @GET('Transaction/Transactions')
   Future<ListDataWrapper<CardActivityDetails>> getTransactionDetail(
     @Query('transactionId') String transactionId, {
-    @Query('buildReceipt') bool buildReceipt = false,
+    @Query('buildReceipt') bool buildReceipt = true,
+    @Query('buildChildRecords') bool buildChildRecords = true,
+  });
+
+  @GET('Transaction/Transactions')
+  Future<ListDataWrapper<OrderDetails>> getTransactionByTransactionId(
+    @Query('transactionId') String transactionId, {
+    @Query('buildReceipt') bool buildReceipt = true,
+    @Query('buildChildRecords') bool buildChildRecords = true,
+  });
+
+  @GET('Transaction/Transactions')
+  Future<ListDataWrapper<OrderDetails>> getCustomerTransactions(
+    @Query('customerId') String customerId, {
+    @Query('buildChildRecords') bool buildChildRecords = true,
   });
 
   @POST('Customer/Account/AccountService/TransferBalances')

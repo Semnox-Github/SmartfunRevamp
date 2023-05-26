@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/payment/pages/payment_options_page.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
@@ -18,16 +19,21 @@ class EstimatedTransactionPage extends ConsumerWidget {
     required this.cardProduct,
     this.cardSelected,
     required this.transactionType,
+    required this.qty,
+    this.finalPrice
   }) : super(key: key);
 
   final CardProduct cardProduct;
   final CardDetails? cardSelected;
   final String transactionType;
+  final int qty;
+  final double? finalPrice;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     /* Ver card number acount Numbre*/
-    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : ''); 
+    final siteId = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010;
+    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : '', quantity: qty, siteId: siteId); 
     ref.listen(estimateStateProvider, (previous, next) {
       next.maybeWhen(
         orElse: () => {},
@@ -98,7 +104,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                '\$${cardProduct.finalPrice}',
+                                '\$${cardProduct.productType == "VARIABLECARD" ? finalPrice : cardProduct.finalPrice * qty}',
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -121,7 +127,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             ),
                             BillDetailRow(
                               description: SplashScreenNotifier.getLanguageLabel('Recharge Amount'),
-                              amount: '${transactionResponse.transactionAmount}',
+                              amount: '${cardProduct.productType == "VARIABLECARD" ? finalPrice : transactionResponse.transactionAmount}',
                             ),
                             BillDetailRow(
                               description: SplashScreenNotifier.getLanguageLabel('Tax'),
@@ -152,7 +158,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  '\$ ${transactionResponse.transactionAmount}',
+                                  '\$ ${cardProduct.productType == "VARIABLECARD" ? finalPrice : transactionResponse.transactionNetAmount}',
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -170,7 +176,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '\$ ${transactionResponse.transactionAmount}',
+                                  '\$ ${cardProduct.productType == "VARIABLECARD" ? finalPrice : transactionResponse.transactionNetAmount}',
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -195,6 +201,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                       cardProduct: cardProduct,
                                       cardDetails: cardSelected,
                                       transactionType: transactionType,
+                                      finalPrice: finalPrice,
                                     ),
                                   ),
                                 );

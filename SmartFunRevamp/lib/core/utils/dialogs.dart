@@ -162,10 +162,7 @@ class Dialogs {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => EstimatedTransactionPage(
-                                cardProduct: card,
-                                transactionType: "newcard",
-                              ),
+                              builder: (context) => EstimatedTransactionPage(cardProduct: card, transactionType: "newcard", qty: 1),
                             ),
                           );
                         },

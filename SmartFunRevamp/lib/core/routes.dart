@@ -15,6 +15,7 @@ import 'package:semnox/features/notifications/pages/notifications_settings_page.
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/reset_password/pages/forgot_password_page.dart';
 import 'package:semnox/features/reset_password/pages/reset_password_page.dart';
+import 'package:semnox/features/search/pages/search_page.dart';
 import 'package:semnox/features/select_location/pages/enable_location_page.dart';
 import 'package:semnox/features/select_location/pages/map_page.dart';
 import 'package:semnox/features/select_location/pages/select_location_manually_page.dart';
@@ -49,6 +50,7 @@ class Routes {
   static const kMembershipInfo = '/membership_info';
   static const kLoyaltyPointsDetails = '/loyalty_points_detail';
   static const kMembershipRewards = '/membership_rewards';
+  static const kSearch = '/search';
 
   static String get initialRoute => kSplashScreenPage;
 
@@ -77,6 +79,7 @@ class Routes {
       kMembershipInfo: (BuildContext context) => const MembershipInfoPage(),
       kLoyaltyPointsDetails: (BuildContext context) => const LoyaltyPointsInfoPage(),
       kMembershipRewards: (BuildContext context) => const MembershipRewardsPage(),
+      kSearch: (BuildContext context) => const SearchPage(),
     };
   }
 }

@@ -16,7 +16,7 @@ class AfterSplashScreen extends ConsumerStatefulWidget {
 }
 
 class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
-  String dropdownValue = "90";
+  String dropdownValue = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,6 +74,9 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                             ),
                             loading: () => const CircularProgressIndicator(),
                             data: (data) {
+                              
+                              dropdownValue = dropdownValue.isEmpty? data.languageContainerDTOList[0].languageId.toString() : dropdownValue;
+                              
                               return DropdownButton<String>(
                                 isExpanded: true,
                                 value: dropdownValue,

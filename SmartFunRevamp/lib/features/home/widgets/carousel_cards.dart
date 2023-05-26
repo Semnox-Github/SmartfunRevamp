@@ -104,10 +104,11 @@ class _CarouselCardsState extends State<CarouselCards> {
                               const SizedBox(height: 7.0),
                               GestureDetector(
                                 onTap: () {
-                                  showModalBottomSheet(
+                                  showDialog(
                                     context: context,
-                                    builder: (context) => UpdateNicknameCard(cardDetails: card),
-                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return Dialog(child: UpdateNicknameCard(cardDetails: card));
+                                    },
                                   );
                                 },
                                 child: Row(

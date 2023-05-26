@@ -1,10 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
-import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -93,7 +94,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       ),
                       const Spacer(),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.pushNamed(context, Routes.kSearch),
                         icon: const Icon(
                           Icons.search_outlined,
                           color: CustomColors.customBlue,
@@ -231,25 +232,27 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10.0),
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    decoration: BoxDecoration(
-                      gradient: CustomGradients.myFirstCircularGradient,
-                      borderRadius: BorderRadius.circular(
-                        20.0,
-                      ),
-                    ),
-                    child: CarouselSlider(
-                      options: CarouselOptions(height: 150.0),
-                      items: [1, 2, 3, 4, 5].map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Image.asset('assets/home/carousel_test.png');
-                          },
-                        );
-                      }).toList(),
-                    ),
+                  Builder(
+                    builder: (context) {
+                      final promos = Get.find<List<CMSContent>>().where((element) => element.contentURL.contains('promo')).toList();
+                      return CarouselSlider(
+                        options: CarouselOptions(height: 200.0),
+                        items: promos.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: CachedNetworkImage(
+                                  imageUrl: "https://map.afmcloud.my${i.contentURL}",
+                                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      );
+                    },
                   ),
                   const MulishText(
                     text: 'More Actions',
@@ -266,15 +269,17 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       QuickLinkItem(
                         color: CustomColors.customPink,
                         image: 'new_card',
-                        text: 'Link card',
+                        text: 'Link A Card',
                         onTap: () {
-                          showModalBottomSheet(
+                          showDialog(
                             context: context,
                             builder: (context) {
-                              return Container(
-                                height: 215,
-                                padding: const EdgeInsets.all(10),
-                                child: LinkACard(),
+                              return Dialog(
+                                child: Container(
+                                  height: 245,
+                                  padding: const EdgeInsets.all(10),
+                                  child: LinkACard(),
+                                ),
                               );
                             },
                           );

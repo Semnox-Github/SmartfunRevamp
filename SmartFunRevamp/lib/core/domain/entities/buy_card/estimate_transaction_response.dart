@@ -72,6 +72,7 @@ class TransactionLinesDTO {
   final String cardNumber;
   final String? productName;
   final num? taxAmount;
+  final num? amount;
 
   TransactionLinesDTO({
     required this.productId,
@@ -81,6 +82,7 @@ class TransactionLinesDTO {
     this.cardNumber = '',
     this.productName,
     this.taxAmount,
+    this.amount
   });
   factory TransactionLinesDTO.fromJson(Map<String, dynamic> json) => _$TransactionLinesDTOFromJson(json);
   Map<String, dynamic> toJson() => _$TransactionLinesDTOToJson(this);

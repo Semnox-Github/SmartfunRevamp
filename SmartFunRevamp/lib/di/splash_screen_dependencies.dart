@@ -21,9 +21,7 @@ void splashScreenDependencies() {
       Get.find<ParafaitApi>(),
     ),
   );
-  Get.lazyPut<InitialLoadRepository>(
-    () => InitialLoadRepositoryImpl(Get.find<SmartFunApi>()),
-  );
+  Get.lazyPut<InitialLoadRepository>(() => InitialLoadRepositoryImpl(Get.find<SmartFunApi>()));
   //Use Cases
   Get.lazyPut<GetBaseURLUseCase>(() => GetBaseURLUseCase(Get.find()));
   Get.lazyPut<AuthenticateBaseURLUseCase>(() => AuthenticateBaseURLUseCase(Get.find()));

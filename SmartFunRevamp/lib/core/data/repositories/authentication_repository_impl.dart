@@ -5,10 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
+import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/repositories/authentication_repository.dart';
-import 'package:semnox/features/home/widgets/more_view_widgets/user_info.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
@@ -108,11 +108,27 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, String>> getExecutionController(int siteId) async {
+  Future<Either<Failure, String>> getUserExecutionController(int siteId) async {
     try {
-      final response = await _api.getExecutionController(siteId);
+      final response = await _api.getExecutionController(siteId: siteId);
       final token = response.response.headers.value(HttpHeaders.authorizationHeader) ?? '';
       return Right(token);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> getConfigExecutionController() async {
+    try {
+      final response = await _api.getExecutionController();
+      final data = Map.from(response.data);
+      return Right(data['data']['SiteId'] as int);
     } on DioError catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
@@ -145,11 +161,21 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<Either<Failure, void>> deleteProfile() async {
     try {
       final user = Get.find<CustomerDTO>();
-      final int id =  user.id?.toInt() ?? 0;
+      final int id = user.id?.toInt() ?? 0;
       await _api.deleteProfile(id);
       return const Right(null);
     } catch (e) {
       return Left(ServerFailure('User not found'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AppConfigResponse>> getAppConfig(int siteId) async {
+    try {
+      final response = await _api.getAppConfiguration(siteId);
+      return Right(response.data);
+    } catch (e) {
+      return Left(ServerFailure('Config Not Found'));
     }
   }
 }

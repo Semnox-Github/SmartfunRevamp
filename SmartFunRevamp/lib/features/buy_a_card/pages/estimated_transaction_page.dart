@@ -33,7 +33,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     /* Ver card number acount Numbre*/
     final siteId = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010;
-    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : '', quantity: qty, siteId: siteId); 
+    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : '', quantity: qty, siteId: siteId, finalPrice : finalPrice!); 
     ref.listen(estimateStateProvider, (previous, next) {
       next.maybeWhen(
         orElse: () => {},
@@ -127,7 +127,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             ),
                             BillDetailRow(
                               description: SplashScreenNotifier.getLanguageLabel('Recharge Amount'),
-                              amount: '${cardProduct.productType == "VARIABLECARD" ? finalPrice : transactionResponse.transactionAmount}',
+                              amount: '${transactionResponse.transactionAmount}',
                             ),
                             BillDetailRow(
                               description: SplashScreenNotifier.getLanguageLabel('Tax'),
@@ -158,7 +158,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  '\$ ${cardProduct.productType == "VARIABLECARD" ? finalPrice : transactionResponse.transactionNetAmount}',
+                                  '\$${transactionResponse.transactionNetAmount}',
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -176,7 +176,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '\$ ${cardProduct.productType == "VARIABLECARD" ? finalPrice : transactionResponse.transactionNetAmount}',
+                                  '\$${transactionResponse.transactionNetAmount}',
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,

@@ -6,6 +6,6 @@ class GetExecutionContextUseCase {
   final AuthenticationRepository _repository;
   GetExecutionContextUseCase(this._repository);
   Future<Either<Failure, String>> call(int siteId) async {
-    return await _repository.getExecutionController(siteId);
+    return await _repository.getUserExecutionController(siteId);
   }
 }

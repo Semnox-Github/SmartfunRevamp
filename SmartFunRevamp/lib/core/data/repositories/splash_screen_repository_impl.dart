@@ -177,4 +177,20 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       return Left(ServerFailure(message['data']));
     }
   }
+
+  @override
+  Future<Either<Failure, int>> getConfigExecutionController() async {
+    try {
+      final response = await _api.getExecutionController();
+      final data = Map<String, dynamic>.from(response.data);
+      return Right(data['data']['SiteId'] as int);
+    } on DioError catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    }
+  }
 }

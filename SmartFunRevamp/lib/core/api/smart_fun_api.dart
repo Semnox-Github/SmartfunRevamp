@@ -19,7 +19,9 @@ import 'package:semnox/core/domain/entities/lookups/lookups_dto.dart';
 import 'package:semnox/core/domain/entities/membership/membership_info.dart';
 import 'package:semnox/core/domain/entities/membership/membership_tier.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
+import 'package:semnox/core/domain/entities/orders/order_details.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
+import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway.dart';
@@ -100,8 +102,8 @@ abstract class SmartFunApi {
   });
 
   @GET('ParafaitEnvironment/ExecutionContext')
-  Future<HttpResponse> getExecutionController(
-    @Query('siteId') int siteId, {
+  Future<HttpResponse> getExecutionController({
+    @Query('siteId') int? siteId,
     @Query('languageCode') String languageCode = 'en-US',
     @Query('posMachineName') String posMachineName = 'CustomerApp',
   });
@@ -225,7 +227,21 @@ abstract class SmartFunApi {
   @GET('Transaction/Transactions')
   Future<ListDataWrapper<CardActivityDetails>> getTransactionDetail(
     @Query('transactionId') String transactionId, {
-    @Query('buildReceipt') bool buildReceipt = false,
+    @Query('buildReceipt') bool buildReceipt = true,
+    @Query('buildChildRecords') bool buildChildRecords = true,
+  });
+
+  @GET('Transaction/Transactions')
+  Future<ListDataWrapper<OrderDetails>> getTransactionByTransactionId(
+    @Query('transactionId') String transactionId, {
+    @Query('buildReceipt') bool buildReceipt = true,
+    @Query('buildChildRecords') bool buildChildRecords = true,
+  });
+
+  @GET('Transaction/Transactions')
+  Future<ListDataWrapper<OrderDetails>> getCustomerTransactions(
+    @Query('customerId') String customerId, {
+    @Query('buildChildRecords') bool buildChildRecords = true,
   });
 
   @POST('Customer/Account/AccountService/TransferBalances')
@@ -261,13 +277,12 @@ abstract class SmartFunApi {
     @Query('rebuildCache') bool rebuildCachec = false,
   });
 
-  @GET('CustomerApp/CustomerAppConfiguration')
-  Future<void> getAppConfiguration(@Query('siteId') int siteId);
-
   @GET('Customer/FeedbackSurvey/FeedbackSurveys')
   Future<ListDataWrapper<SurveyDetailsResponse>> getCustomerFeedbackActions({
     @Query('loadActiveChild') bool loadActiveChild = true,
     @Query('buildChildRecords') bool buildChildRecords = true,
     @Query('posMachine') String posMachine = 'CustomerApp',
   });
+  @GET('CustomerApp/CustomerAppConfiguration')
+  Future<Data<AppConfigResponse>> getAppConfiguration(@Query('siteId') int siteId);
 }

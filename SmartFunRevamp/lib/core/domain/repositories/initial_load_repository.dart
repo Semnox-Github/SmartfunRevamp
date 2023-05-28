@@ -19,5 +19,3 @@ abstract class InitialLoadRepository {
     bool rebuildCache = true,
   });
 }
-
-

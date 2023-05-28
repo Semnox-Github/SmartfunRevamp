@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
-import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/routes.dart';
-import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
@@ -21,7 +19,6 @@ class MoreView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = Get.find<CustomerDTO>();
     final localDatasource = Get.find<LocalDataSource>();
-    final InAppReview inAppReview = InAppReview.instance;
 
     return Container(
       color: Colors.white,
@@ -74,14 +71,7 @@ class MoreView extends ConsumerWidget {
                             desc: 'View the rewards you have earned',
                             iconBgColor: CustomColors.customLigthGray,
                             iconPath: 'membership',
-
-                            // onTap: () async {
-                            //   Logger().d(await inAppReview.isAvailable());
-                            //   if (await inAppReview.isAvailable()) {
-                            //     inAppReview.requestReview();
-                            //   }
-                            // },
-                            onTap: () => Dialogs.showTransactionFeedbackDialog(context, () {}),
+                            onTap: () => {},
                             title: 'Rewards',
                           ),
                         ],

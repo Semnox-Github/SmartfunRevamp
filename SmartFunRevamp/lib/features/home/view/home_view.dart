@@ -40,6 +40,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     //TODO:Update when linked a new card
     var cardsWatch = ref.watch(CardsProviders.userCardsProvider.select((asyncValue) => asyncValue));
+
     return SingleChildScrollView(
       child: Container(
         color: Colors.white,

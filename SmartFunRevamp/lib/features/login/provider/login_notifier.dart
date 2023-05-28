@@ -1,7 +1,5 @@
 // ignore_for_file: unused_field
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
@@ -16,7 +14,6 @@ import 'package:semnox/core/domain/use_cases/authentication/verify_otp_use_case.
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:semnox/di/injection_container.dart';
-import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 part 'login_state.dart';

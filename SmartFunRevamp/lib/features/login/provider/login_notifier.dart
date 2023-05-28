@@ -151,10 +151,12 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   void resendDeleteOtp() async {
+    // ignore: unused_local_variable
     final response = await _sendOTPUseCase({_phone.contains('@') ? 'EmailId' : 'Phone': _phone, 'Source': 'Customer_Delete_Otp_Event'});
   }
 
   void deleteProfile() async {
+    // ignore: unused_local_variable
     final response = await _deleteProfileUseCase();
   }
 

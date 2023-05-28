@@ -117,6 +117,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     final jsonDefaultLanguageStrings = jsonDecode(defaultLanguageStrings);
 
     //get the language json from the api
+    // ignore: prefer_typing_uninitialized_variables
     late final jsonLanguageAPIResult;
     response.forEach((r) {
       jsonLanguageAPIResult = r;

@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
-import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
 
 import 'package:semnox/core/domain/repositories/orders_repository.dart';
@@ -14,7 +13,7 @@ class OrdersRepositoryImpl implements OrdersRepository {
   final SmartFunApi _api;
 
   OrdersRepositoryImpl(this._api);
- 
+
   @override
   Future<Either<Failure, List<OrderDetails>>> getCustomerTransactions(String customerId) async {
     try {
@@ -51,5 +50,4 @@ class OrdersRepositoryImpl implements OrdersRepository {
       return Left(ServerFailure(''));
     }
   }
- 
 }

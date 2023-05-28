@@ -162,7 +162,12 @@ class Dialogs {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => EstimatedTransactionPage(cardProduct: card, transactionType: "newcard", qty: 1, finalPrice: 0,),
+                              builder: (context) => EstimatedTransactionPage(
+                                cardProduct: card,
+                                transactionType: "newcard",
+                                qty: 1,
+                                finalPrice: 0,
+                              ),
                             ),
                           );
                         },
@@ -391,6 +396,7 @@ class Dialogs {
     // );
   }
 
+  // ignore: unused_element
   static void _showAppRatingDialog(BuildContext context, Function() onSubmitted) {
     final isIOS = Platform.isIOS;
     showDialog(

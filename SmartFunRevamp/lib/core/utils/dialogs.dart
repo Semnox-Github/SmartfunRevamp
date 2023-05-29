@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
@@ -13,6 +16,7 @@ import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/features/payment/provider/feedback_provider.dart';
 
 class Dialogs {
   static void couponSuccessDialog(BuildContext context, double couponValue) {
@@ -158,7 +162,12 @@ class Dialogs {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => EstimatedTransactionPage(cardProduct: card, transactionType: "newcard", qty: 1, finalPrice: 0,),
+                              builder: (context) => EstimatedTransactionPage(
+                                cardProduct: card,
+                                transactionType: "newcard",
+                                qty: 1,
+                                finalPrice: 0,
+                              ),
                             ),
                           );
                         },
@@ -301,18 +310,17 @@ class Dialogs {
                 ),
                 const SizedBox(height: 10.0),
                 OtpPinField(
-                  onSubmit: (otp) => {},
-                  onChange: (code) => otp = code,
-                  keyboardType: TextInputType.number,
-                  otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
-                  otpPinFieldStyle: const OtpPinFieldStyle(
-                    defaultFieldBorderColor: CustomColors.customOrange,
-                    activeFieldBorderColor: CustomColors.hardOrange,
-                  ),
-                  maxLength: 6,
-                  fieldHeight: MediaQuery.of(context).size.width * 0.12,
-                  fieldWidth: MediaQuery.of(context).size.width * 0.12
-                ),
+                    onSubmit: (otp) => {},
+                    onChange: (code) => otp = code,
+                    keyboardType: TextInputType.number,
+                    otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
+                    otpPinFieldStyle: const OtpPinFieldStyle(
+                      defaultFieldBorderColor: CustomColors.customOrange,
+                      activeFieldBorderColor: CustomColors.hardOrange,
+                    ),
+                    maxLength: 6,
+                    fieldHeight: MediaQuery.of(context).size.width * 0.12,
+                    fieldWidth: MediaQuery.of(context).size.width * 0.12),
                 const SizedBox(height: 10.0),
                 const MulishText(
                   text: "Didn't Receive?",
@@ -339,5 +347,86 @@ class Dialogs {
         ],
       ),
     ).show();
+  }
+
+  static void showTransactionFeedbackDialog(BuildContext context, Function() onSubmitted) {
+    AwesomeDialog(
+        context: context,
+        body: Consumer(
+          builder: (context, ref, child) {
+            return ref.watch(surveyDetailsProvider).when(
+                  loading: () => const CircularProgressIndicator(),
+                  error: (_, __) => const MulishText(text: 'Error loading feedback questions'),
+                  data: (surveyDetail) {
+                    return MulishText(text: surveyDetail.first.question);
+                  },
+                );
+          },
+        )).show();
+    // showDialog(
+    //   context: context,
+    //   barrierDismissible: true,
+    //   builder: (context) {
+    //     return RatingDialog(
+    //       initialRating: 1.0,
+    //       title: const Text(
+    //         'Your feedback',
+    //         textAlign: TextAlign.center,
+    //         style: TextStyle(
+    //           fontSize: 25,
+    //           fontWeight: FontWeight.bold,
+    //         ),
+    //       ),
+    //       message: const Text(
+    //         'Please rate your experience on this transaction',
+    //         textAlign: TextAlign.center,
+    //         style: TextStyle(fontSize: 15),
+    //       ),
+    //       submitButtonText: 'Submit',
+    //       commentHint: ' Do you have any other feedback?',
+    //       onCancelled: () {},
+    //       onSubmitted: (response) {
+    //         Logger().d('rating: ${response.rating}, comment: ${response.comment}');
+    //         if (response.rating == 5.0) {
+    //           _showAppRatingDialog(context, onSubmitted);
+    //         }
+    //       },
+    //     );
+    //   },
+    // );
+  }
+
+  // ignore: unused_element
+  static void _showAppRatingDialog(BuildContext context, Function() onSubmitted) {
+    final isIOS = Platform.isIOS;
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return RatingDialog(
+          enableComment: false,
+          initialRating: 1.0,
+          title: const Text(
+            'Enjoying Parafait SmartFun?',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          image: Image.asset('assets/home/logo.png'),
+          message: Text(
+            'Tap a star to rate it on the ${isIOS ? 'App Store' : 'Play Store'}',
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 15),
+          ),
+          submitButtonText: 'Submit',
+          onCancelled: () {},
+          onSubmitted: (response) {
+            onSubmitted();
+          },
+        );
+      },
+    );
   }
 }

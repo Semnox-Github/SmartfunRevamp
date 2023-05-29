@@ -3,6 +3,7 @@ import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/di/authentication_dependecies.dart';
+import 'package:semnox/di/feedback_dependecies.dart';
 import 'package:semnox/di/gameplays_dependencies.dart';
 import 'package:semnox/di/home_dependecies.dart';
 import 'package:semnox/di/membership_dependencies.dart';
@@ -30,6 +31,7 @@ Future<void> init() async {
   homeDependecies();
   notificationsDependecies();
   membershipDependencies();
+  feedbackDependencies();
   ordersDependencies();
 }
 

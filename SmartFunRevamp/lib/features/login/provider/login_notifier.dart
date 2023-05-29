@@ -53,6 +53,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
   String _phone = '';
   String otpId = '';
+  String? previousUserId;
   SiteViewDTO? selectedSite;
   String get phone => _phone;
 
@@ -64,17 +65,20 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (l) => Logger().e('No site has been selected'),
       (r) => selectedSite = SiteViewDTO.fromJson(r),
     );
+    previousUserId = await _localDataSource.retrieveValue<String>(LocalDataSource.kUserId);
     final loginResponse = await _loginUserUseCase(
       {
         "UserName": loginId,
         "Password": password,
       },
     );
+    //TODO:Execution context no changing token
     loginResponse.fold(
       (l) => state = _Error(l.message),
-      (customerDTO) {
+      (customerDTO) async {
         registerUser(customerDTO);
-        if (selectedSite == null) {
+        await _localDataSource.saveValue(LocalDataSource.kUserId, customerDTO.id.toString());
+        if (selectedSite == null || previousUserId != customerDTO.id.toString()) {
           state = const _SelectLocationNeeded();
         } else {
           getNewToken();
@@ -97,7 +101,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
       },
       (r) async {
         registerUser(r);
-        if (selectedSite == null) {
+        await _localDataSource.saveValue(LocalDataSource.kUserId, r.id.toString());
+        if (selectedSite == null || previousUserId != r.id.toString()) {
           state = const _SelectLocationNeeded();
         } else {
           getNewToken();
@@ -146,10 +151,12 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   void resendDeleteOtp() async {
+    // ignore: unused_local_variable
     final response = await _sendOTPUseCase({_phone.contains('@') ? 'EmailId' : 'Phone': _phone, 'Source': 'Customer_Delete_Otp_Event'});
   }
 
   void deleteProfile() async {
+    // ignore: unused_local_variable
     final response = await _deleteProfileUseCase();
   }
 

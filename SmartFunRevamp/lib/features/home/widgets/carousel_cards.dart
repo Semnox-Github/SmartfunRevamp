@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
@@ -12,6 +13,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/update_nickname_card.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CarouselCards extends StatefulWidget {
@@ -32,6 +34,7 @@ class CarouselCards extends StatefulWidget {
 class _CarouselCardsState extends State<CarouselCards> {
   int currentPosition = 0;
   late List<CardDetails> _cards;
+  late int userId = Get.find<CustomerDTO>().id ?? 0;
   @override
   void initState() {
     _cards = List<CardDetails>.from(widget.cards);
@@ -160,6 +163,17 @@ class _CarouselCardsState extends State<CarouselCards> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
+                      if (card.customerId != userId && card.customerId != -1)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const [
+                            Icon(
+                              Icons.link,
+                              color: Colors.white,
+                              size: 30.0,
+                            )
+                          ],
+                        )
                     ],
                   ),
                 ),

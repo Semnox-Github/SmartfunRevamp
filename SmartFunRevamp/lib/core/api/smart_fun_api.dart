@@ -11,10 +11,13 @@ import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/data.dart';
+import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
 import 'package:semnox/core/domain/entities/lookups/lookups_dto.dart';
+import 'package:semnox/core/domain/entities/membership/membership_info.dart';
+import 'package:semnox/core/domain/entities/membership/membership_tier.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
@@ -263,13 +266,23 @@ abstract class SmartFunApi {
   Future<void> deleteProfile(@Path('CustomerId') int customerId);
 
   @GET('Customer/{CustomerId}/Summary')
-  Future<void> getMembershipInfo(@Path('CustomerId') int customerId);
-  @GET('Customer/Membership/MembershipsContainer')
-  Future<void> getMembershipContainer(@Query('siteId') int siteId, {@Query('rebuildCache') bool rebuildCachec = false});
+  Future<Data<MembershipInfo>> getMembershipInfo(@Path('CustomerId') int customerId);
 
   @GET('Lookups/LookupsContainer')
   Future<Data<LookupsContainer>> getLookups(@Query('siteId') String siteId, @Query('rebuildCache') bool rebuildCache);
 
+  @GET('Customer/Membership/MembershipsContainer')
+  Future<MembershipContainerResponse> getMembershipContainer(
+    @Query('siteId') int siteId, {
+    @Query('rebuildCache') bool rebuildCachec = false,
+  });
+
+  @GET('Customer/FeedbackSurvey/FeedbackSurveys')
+  Future<ListDataWrapper<SurveyDetailsResponse>> getCustomerFeedbackActions({
+    @Query('loadActiveChild') bool loadActiveChild = true,
+    @Query('buildChildRecords') bool buildChildRecords = true,
+    @Query('posMachine') String posMachine = 'CustomerApp',
+  });
   @GET('CustomerApp/CustomerAppConfiguration')
   Future<Data<AppConfigResponse>> getAppConfiguration(@Query('siteId') int siteId);
 }

@@ -70,7 +70,8 @@ class CardsRepositoryImpl implements CardsRepository {
       final message = json.decode(e.response.toString());
       return Left(ServerFailure(message['data']));
     } catch (e) {
-      rethrow;
+      Logger().e(e);
+      return Left(ServerFailure(''));
     }
   }
 

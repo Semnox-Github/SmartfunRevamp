@@ -22,7 +22,7 @@ class SelectLocationManuallyPage extends ConsumerWidget {
       selectLocationStateProvider,
       (_, next) {
         next.maybeWhen(
-          orElse: () => {},
+          orElse: () => context.loaderOverlay.hide(),
           error: (message) {
             context.loaderOverlay.hide();
             Dialogs.showErrorMessage(context, message);

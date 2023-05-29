@@ -61,6 +61,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           TextFormField(
+            key: UniqueKey(),
             keyboardType: TextInputType.none,
             controller: _controller,
             readOnly: true,

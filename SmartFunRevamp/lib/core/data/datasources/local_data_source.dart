@@ -9,11 +9,15 @@ abstract class LocalDataSource {
   static String kSitesListKey = 'sites_list';
   static String kFirstTime = 'first_time';
   static String kSelectedSite = 'selected_site';
+  static String kUserId = 'userId';
   Future<void> saveSites(List<SiteViewDTO> sites);
   Future<List<SiteViewDTO>> retrieveSites();
-  Future<void> saveBool(String key, bool value);
-  Future<bool> retrieveBool(String key);
+  // Future<bool> retrieveBool(String key);
+  Future<void> saveValue(String key, dynamic value);
+  Future<T?> retrieveValue<T>(String key);
+  Future<void> deleteValue(String key);
   Future<void> saveCustomClass(String key, Map<String, dynamic> json);
+  Future<void> deleteCustomClass(String key);
   Future<Either<Failure, Map<String, dynamic>>> retrieveCustomClass(String key);
 }
 
@@ -40,20 +44,28 @@ class GluttonLocalDataSource implements LocalDataSource {
   }
 
   @override
-  Future<bool> retrieveBool(String key) async {
+  Future<void> saveValue(String key, dynamic value) async {
     try {
-      return await Glutton.vomit(key, false);
+      await Glutton.eat(key, value);
     } catch (e) {
       Logger().e(e);
-      return false;
     }
   }
 
   @override
-  Future<void> saveBool(String key, bool value) async {
+  Future<T?> retrieveValue<T>(String key) async {
     try {
-      final result = await Glutton.eat(key, value);
-      Logger().d('Result->$result');
+      return await Glutton.vomit(key) as T;
+    } catch (e) {
+      Logger().e(e);
+      return null;
+    }
+  }
+
+  @override
+  Future<void> deleteValue(String key) async {
+    try {
+      await Glutton.digest(key);
     } catch (e) {
       Logger().e(e);
     }
@@ -62,8 +74,7 @@ class GluttonLocalDataSource implements LocalDataSource {
   @override
   Future<void> saveCustomClass(String key, Map<String, dynamic> json) async {
     try {
-      final result = await Glutton.eat(key, json);
-      Logger().d('Result->$result');
+      await Glutton.eat(key, json);
     } catch (e) {
       Logger().e(e);
     }
@@ -76,6 +87,15 @@ class GluttonLocalDataSource implements LocalDataSource {
     } catch (e) {
       Logger().e(e);
       return Left(LocalDataSourceFailure('Error Retrieving Key'));
+    }
+  }
+
+  @override
+  Future<void> deleteCustomClass(String key) async {
+    try {
+      await Glutton.digest(key);
+    } catch (e) {
+      Logger().e(e);
     }
   }
 }

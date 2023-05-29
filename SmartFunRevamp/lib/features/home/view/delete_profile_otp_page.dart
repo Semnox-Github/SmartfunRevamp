@@ -21,21 +21,20 @@ String censorPhoneNumber(String phoneNumber) {
 class DeleteProfileOTPPage extends ConsumerStatefulWidget {
   const DeleteProfileOTPPage({Key? key}) : super(key: key);
 
-   @override
+  @override
   ConsumerState<ConsumerStatefulWidget> createState() => _DeleteProfileOTPPageState();
 }
+
 class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
   late String otp;
   @override
   void initState() {
     super.initState();
     otp = "";
-  
   }
 
   @override
   Widget build(BuildContext context) {
-    
     String phoneNumber = censorPhoneNumber(ref.read(loginProvider.notifier).phone);
     ref.read(loginProvider.notifier).resendDeleteOtp();
     ref.listen<LoginState>(loginProvider, (_, next) {
@@ -53,7 +52,7 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
         },
       );
     });
-    
+
     return Scaffold(
       appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('OTP Verification')),
       body: SafeArea(
@@ -64,7 +63,7 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                SplashScreenNotifier.getLanguageLabel('We have sent an OTP to your mobile number &1.\nPlease enter the OTP to delete the customer profile.').replaceAll('&1', phoneNumber),
+                phoneNumber.contains('@') ? SplashScreenNotifier.getLanguageLabel('We have mailed you an OTP') : SplashScreenNotifier.getLanguageLabel('We have sent an OTP to your mobile number'),
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.bold,
                   fontSize: 14.0,
@@ -91,7 +90,7 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
                 ),
               ),
               const MulishText(
-                text: "Didn't receive OTP?",
+                text: "Didnt receive the OTP?",
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.bold,
               ),
@@ -107,13 +106,12 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
                   } else {
                     try {
                       ref.read(loginProvider.notifier).verifyDeleteOTP(otp);
-                    }
-                    catch(e){
+                    } catch (e) {
                       null;
                     }
                   }
                 },
-                label: SplashScreenNotifier.getLanguageLabel('Verify & Procced'),
+                label: SplashScreenNotifier.getLanguageLabel('VERIFY & PROCEED'),
               )
             ],
           ),

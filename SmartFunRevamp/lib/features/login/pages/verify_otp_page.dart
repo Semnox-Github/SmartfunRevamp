@@ -20,23 +20,23 @@ String censorPhoneNumber(String phoneNumber) {
 
 class VerifyOtpPage extends ConsumerStatefulWidget {
   const VerifyOtpPage({Key? key}) : super(key: key);
-  
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _VerifyOtpPageState();
 }
+
 class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
   late String otp;
   @override
   void initState() {
     super.initState();
     otp = "";
-  
   }
-  
+
   @override
   Widget build(BuildContext context) {
     String phoneNumber = censorPhoneNumber(ref.read(loginProvider.notifier).phone);
-    
+
     ref.listen<LoginState>(loginProvider, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),
@@ -61,7 +61,9 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                SplashScreenNotifier.getLanguageLabel('We have sent an OTP to your mobile number &1.\nEnter the OTP to verify.').replaceAll('&1', phoneNumber),
+                ref.read(loginProvider.notifier).phone.contains('@')
+                    ? SplashScreenNotifier.getLanguageLabel('We have mailed you an OTP')
+                    : SplashScreenNotifier.getLanguageLabel('We have sent an OTP to your mobile number'),
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.bold,
                   fontSize: 14.0,
@@ -70,7 +72,6 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 40.0),
                 child: OtpPinField(
-    
                   onSubmit: (otp) => {},
                   onChange: (code) => {
                     setState(() {
@@ -106,7 +107,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                     ref.read(loginProvider.notifier).verifyOTP(otp);
                   }
                 },
-                label: SplashScreenNotifier.getLanguageLabel('Verify & Procced'),
+                label: SplashScreenNotifier.getLanguageLabel('VERIFY & PROCEED'),
               )
             ],
           ),

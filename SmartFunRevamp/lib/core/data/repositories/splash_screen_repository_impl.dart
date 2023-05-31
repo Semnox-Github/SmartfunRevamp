@@ -112,22 +112,6 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
   }
 
   @override
-  Future<Either<Failure, void>> getParafaitDefaults({required String siteId, required String userPkId, required String machineId, required String token}) async {
-    try {
-      final response = await _api.getParafaitDefaults(siteId, userPkId, machineId, token);
-      Logger().d(response);
-      return const Right(null);
-    } on DioError catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
-    }
-  }
-
-  @override
   Future<Either<Failure, void>> getParafaitLanguages({required String siteId}) async {
     try {
       final response = await _api.getParafaitLanguages(siteId);

@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import '../../core/widgets/mulish_text.dart';
+
+final parafaitDefaultsProvider = FutureProvider<ParafaitDefaultsResponse>((ref) async {
+  final getDefaults = Get.find<GetParafaitDefaultsUseCase>();
+  final response = await getDefaults();
+  return response.fold(
+    (l) => throw l,
+    (r) => r,
+  );
+});
 
 class AfterSplashScreen extends ConsumerStatefulWidget {
   const AfterSplashScreen({Key? key}) : super(key: key);
@@ -17,8 +29,10 @@ class AfterSplashScreen extends ConsumerStatefulWidget {
 
 class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
   String dropdownValue = "";
+
   @override
   Widget build(BuildContext context) {
+    final _ = ref.watch(parafaitDefaultsProvider);
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(10.0),
@@ -74,9 +88,8 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                             ),
                             loading: () => const CircularProgressIndicator(),
                             data: (data) {
-                              
-                              dropdownValue = dropdownValue.isEmpty? data.languageContainerDTOList[0].languageId.toString() : dropdownValue;
-                              
+                              dropdownValue = dropdownValue.isEmpty ? data.languageContainerDTOList[0].languageId.toString() : dropdownValue;
+
                               return DropdownButton<String>(
                                 isExpanded: true,
                                 value: dropdownValue,
@@ -89,7 +102,6 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     dropdownValue = value.toString();
-                                    
                                   });
 
                                   ref.read(SplashScreenNotifier.getStringForLocalization(value.toString()));
@@ -106,7 +118,7 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                                   // data: (data) {}
                                   // );
                                 },
-                             );
+                              );
                             },
                           );
                     },

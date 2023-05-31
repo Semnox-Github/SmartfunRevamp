@@ -25,7 +25,7 @@ final _executionContextProvider = FutureProvider<int>((ref) async {
     (r) => r,
   );
 });
-final _preConfigProvider = FutureProvider<AppConfigResponse>((ref) async {
+final preConfigProvider = FutureProvider<AppConfigResponse>((ref) async {
   final getAppConfig = Get.find<GetAppConfigUseCase>();
   final siteId = ref.watch(_executionContextProvider).value;
   final response = await getAppConfig(siteId!);
@@ -47,7 +47,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final configExecutionContext = ref.watch(_preConfigProvider);
+    final configExecutionContext = ref.watch(preConfigProvider);
     ref.listen<LoginState>(loginProvider, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),

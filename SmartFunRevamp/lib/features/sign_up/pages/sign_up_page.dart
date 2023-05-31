@@ -3,27 +3,40 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/sign_up/sign_up_entity.dart';
+import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
+import 'package:semnox/core/domain/use_cases/authentication/get_user_metadata_use_case.dart';
+import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
-import 'package:semnox/core/widgets/custom_date_picker.dart';
-import 'package:semnox/core/widgets/password_field.dart';
+import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
+import 'package:semnox/features/login/widgets/social_logins_container.dart';
 import 'package:semnox/features/sign_up/pages/privacy_policy_page.dart';
 import 'package:semnox/features/sign_up/pages/terms_of_use_page.dart';
 import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+
+final uiMetaDataProvider = FutureProvider<List<CustomerUIMetaData>>((ref) async {
+  final getUiMetaData = Get.find<GetUserMetaDataUseCase>();
+  final response = await getUiMetaData();
+  return response.fold(
+    (l) => throw l,
+    (r) => r,
+  );
+});
 
 class SignUpPage extends ConsumerWidget {
   SignUpPage({Key? key}) : super(key: key);
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    SignUpEntity request = SignUpEntity();
+    Map<String, dynamic> request = {};
     ref.listen<SignUpState>(signUpNotifier, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),
@@ -74,7 +87,8 @@ class SignUpPage extends ConsumerWidget {
         },
       );
     });
-
+    final metaData = ref.watch(uiMetaDataProvider);
+    final configExecutionContext = ref.watch(preConfigProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.customLigthBlue,
@@ -97,6 +111,7 @@ class SignUpPage extends ConsumerWidget {
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
           child: Form(
             key: _key,
             child: Column(
@@ -105,103 +120,63 @@ class SignUpPage extends ConsumerWidget {
                   'Hi There,\nComplete the following details to setup your account and continue using Smartfun app.',
                 ),
                 const SizedBox(height: 20.0),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Title',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                metaData.when(
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (_, __) => const Center(
+                    child: Icon(
+                      Icons.error,
+                      color: Colors.red,
                     ),
-                    DropdownButtonFormField<String>(
-                      value: request.title,
-                      items: ['Mr.', 'Mrs.', 'Ms.'].map((title) {
-                        return DropdownMenuItem<String>(
-                          value: title,
-                          child: Text(title),
+                  ),
+                  data: (metadata) {
+                    return Column(
+                      children: metadata.map((field) {
+                        Logger().d(field.toJson());
+                        if (field.customerFieldValues is List) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                field.entityFieldCaption,
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              DropdownButtonFormField<String>(
+                                value: request[field.customerFieldName],
+                                items: List<String>.from(field.customerFieldValues).map((title) {
+                                  return DropdownMenuItem<String>(
+                                    value: title,
+                                    child: Text(title),
+                                  );
+                                }).toList(),
+                                onChanged: (title) => request[field.customerFieldName] = title,
+                              ),
+                            ],
+                          );
+                        }
+                        return CustomTextField(
+                          onSaved: (value) => request[field.customerFieldName] = value,
+                          label: field.entityFieldCaption,
+                          margins: const EdgeInsets.symmetric(vertical: 10.0),
                         );
                       }).toList(),
-                      onChanged: (title) => request.title = title,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20.0),
-                CustomTextField(
-                  onSaved: (firstname) => request.firstName = firstname,
-                  label: 'First Name',
-                ),
-                const SizedBox(height: 20.0),
-                CustomTextField(
-                  onSaved: (lastName) => request.lastName = lastName,
-                  label: 'Last Name',
-                ),
-                const SizedBox(height: 20.0),
-                CustomTextField(
-                  onSaved: (email) {
-                    request.email = email;
-                    request.username = email;
+                    );
                   },
-                  label: 'Email Address',
-                  inputType: TextInputType.emailAddress,
                 ),
-                const SizedBox(height: 20.0),
-                CustomTextField(
-                  onSaved: (phoneNumber) => request.phoneNumber = phoneNumber,
-                  label: 'Mobile Number',
-                  inputType: TextInputType.phone,
-                ),
-                const SizedBox(height: 20.0),
-                CustomDatePicker(
-                  labelText: 'Date of birth',
-                  format: 'MM-dd-yyyy',
-                  onItemSelected: (dob) => request.dateOfBirth = dob.toIso8601String(),
-                ),
-                const SizedBox(height: 20.0),
-                PasswordField(
-                  onSaved: (password) => request.password = password,
-                  borderColor: Colors.black,
-                  fillColor: Colors.transparent,
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 20.0),
-                  margin: const EdgeInsets.symmetric(vertical: 20.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(
-                      color: CustomColors.customLigthGray,
-                      width: 1.0,
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        children: const [
-                          Text(
-                            'Or Continue with social Logins',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/login/google.svg',
-                          ),
-                          SvgPicture.asset(
-                            'assets/login/apple.svg',
-                          ),
-                          SvgPicture.asset(
-                            'assets/login/facebook.svg',
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                configExecutionContext.when(
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (error, _) {
+                    if (error is Failure) {
+                      return const Icon(Icons.error, color: Colors.red);
+                    }
+                    return Container();
+                  },
+                  data: (config) {
+                    if (config.socialLayout) {
+                      return const SocialLoginsContainer();
+                    }
+                    return Container();
+                  },
                 ),
                 RichText(
                   textAlign: TextAlign.center,
@@ -215,26 +190,7 @@ class SignUpPage extends ConsumerWidget {
                         text: 'By Logging in you agree to our ',
                       ),
                       TextSpan(
-                        text: 'Terms of Service ',
-                        style: const TextStyle(
-                          color: CustomColors.hardOrange,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const TermsOfUsePage(),
-                                ),
-                              );
-                            }
-                        
-                      ),
-                      const TextSpan(
-                        text: 'and ',
-                      ),
-                      TextSpan(
-                          text: 'Privacy Policy',
+                          text: 'Terms of Service ',
                           style: const TextStyle(
                             color: CustomColors.hardOrange,
                           ),
@@ -243,10 +199,28 @@ class SignUpPage extends ConsumerWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const PrivacyPolicyPage(),
+                                  builder: (context) => const TermsOfUsePage(),
                                 ),
                               );
                             }),
+                      const TextSpan(
+                        text: 'and ',
+                      ),
+                      TextSpan(
+                        text: 'Privacy Policy',
+                        style: const TextStyle(
+                          color: CustomColors.hardOrange,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const PrivacyPolicyPage(),
+                              ),
+                            );
+                          },
+                      ),
                     ],
                   ),
                 ),
@@ -255,7 +229,7 @@ class SignUpPage extends ConsumerWidget {
                   onTap: () {
                     if (_key.currentState!.validate()) {
                       _key.currentState!.save();
-                      ref.read(signUpNotifier.notifier).signUpUser(request);
+                      ref.read(signUpNotifier.notifier).signUpUser(SignUpEntity.fromMetaData(request));
                     }
                   },
                   label: 'SIGN UP',

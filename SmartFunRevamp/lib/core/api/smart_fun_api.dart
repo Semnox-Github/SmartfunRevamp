@@ -21,6 +21,7 @@ import 'package:semnox/core/domain/entities/membership/membership_tier.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
+import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
@@ -159,7 +160,7 @@ abstract class SmartFunApi {
   );
 
   @GET('Customer/CustomerUIMetadataContainer')
-  Future<HttpResponse> getSignUpMetadata({
+  Future<Data<UserMetaDataResponse>> getSignUpMetadata({
     @Query('siteId') String siteId = '1010',
     @Query('hash') String? hash,
     @Query('rebuildCache') bool rebuildCache = false,

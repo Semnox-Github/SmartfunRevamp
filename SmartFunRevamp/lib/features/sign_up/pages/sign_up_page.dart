@@ -1,4 +1,3 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,13 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/sign_up/sign_up_entity.dart';
 import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_user_metadata_use_case.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
@@ -37,31 +36,31 @@ class SignUpPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Map<String, dynamic> request = {};
+    final isPasswordDisabled = ref.watch(isPasswordDisabledProvider);
     ref.listen<SignUpState>(signUpNotifier, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),
         orElse: () => context.loaderOverlay.hide(),
         success: (signUpEntity) {
-          ref.read(loginProvider.notifier).loginUser(signUpEntity.email!, signUpEntity.password!);
+          if (isPasswordDisabled) {
+            ref.read(loginProvider.notifier).loginUserWithOTP(signUpEntity.email ?? '');
+          } else {
+            ref.read(loginProvider.notifier).loginUser(signUpEntity.email!, signUpEntity.password!);
+          }
         },
         error: (message) {
           context.loaderOverlay.hide();
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.error,
-            headerAnimationLoop: false,
-            animType: AnimType.bottomSlide,
-            title: 'Error',
-            desc: message,
-            btnCancelOnPress: () {},
-            btnOkOnPress: () {},
-          ).show();
+          Dialogs.showErrorMessage(context, message);
         },
       );
     });
     ref.listen<LoginState>(loginProvider, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),
+        otpGenerated: () {
+          context.loaderOverlay.hide();
+          Navigator.pushNamed(context, Routes.kVerifyOTP);
+        },
         orElse: () => context.loaderOverlay.hide(),
         success: () {
           context.loaderOverlay.hide();
@@ -73,17 +72,7 @@ class SignUpPage extends ConsumerWidget {
         },
         error: (message) {
           context.loaderOverlay.hide();
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.error,
-            headerAnimationLoop: false,
-            animType: AnimType.bottomSlide,
-            title: 'Error',
-            desc: message,
-            btnCancelOnPress: () {},
-            useRootNavigator: true,
-            btnOkOnPress: () {},
-          ).show();
+          Dialogs.showErrorMessage(context, message);
         },
       );
     });
@@ -131,7 +120,6 @@ class SignUpPage extends ConsumerWidget {
                   data: (metadata) {
                     return Column(
                       children: metadata.map((field) {
-                        Logger().d(field.toJson());
                         if (field.customerFieldValues is List) {
                           return Column(
                             mainAxisSize: MainAxisSize.min,

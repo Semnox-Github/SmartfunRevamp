@@ -1,19 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'sign_up_entity.g.dart';
 
-// {
-//   "TITLE": "Mr.",
-//   "LAST_NAME": "aaaaaaaaaaaa",
-//   "CONTACT_PHONE": "aaaaaaaa",
-//   "WECHAT_ACCESS_TOKEN": "aaaaaaaa",
-//   "TAXCODE": "aaaaaaa",
-//   "EMAIL": "aaaaaaa",
-//   "USERNAME": "aaaaaaaa"
-// }
-
 enum MetaDataKeys {
   title('TITLE'),
-  firstName('FIRST_NAME'),
+  firstName('CUSTOMER_NAME'),
   lastName('LAST_NAME'),
   contactPhone('CONTACT_PHONE'),
   weChatAccessToken('WECHAT_ACCESS_TOKEN'),

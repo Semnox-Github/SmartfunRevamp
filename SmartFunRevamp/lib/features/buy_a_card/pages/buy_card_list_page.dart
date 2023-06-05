@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
@@ -8,6 +9,7 @@ import 'package:semnox/features/buy_a_card/provider/buy_card/buy_card_notifier.d
 import 'package:semnox/features/buy_a_card/widgets/card_type.dart';
 import 'package:semnox/features/buy_a_card/widgets/drawer_filter.dart';
 import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class BuyCardListPage extends StatelessWidget {
@@ -53,7 +55,10 @@ class BuyCardListPage extends StatelessWidget {
           children: [
             Consumer(
               builder: (_, ref, __) {
+                final defaults = ref.watch(parafaitDefaultsProvider).value;
+                final isOnlineRechargeEnabled = defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) != 'N';
                 return SitesAppBarDropdown(
+                  isEnabled: isOnlineRechargeEnabled,
                   onChanged: (selectedSite) {
                     ref.read(buyCardNotifier.notifier).getCards(selectedSite!.siteId ?? -1);
                   },
@@ -69,7 +74,7 @@ class BuyCardListPage extends StatelessWidget {
                         success: (responseCards) {
                           List<CardProduct> cards = List.from(responseCards);
                           cards = cards..removeWhere((element) => (element.productType != "CARDSALE" && element.productType != "NEW"));
-                          if (!filterStr.isNullOrEmpty()){
+                          if (!filterStr.isNullOrEmpty()) {
                             cards = cards.where((element) => (element.productName.toLowerCase().contains(filterStr.toString().toLowerCase()))).toList();
                           }
                           if (cards.isEmpty) {

@@ -1,12 +1,28 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import '../../core/widgets/mulish_text.dart';
+
+final cmsProvider = FutureProvider<HomePageCMSResponse?>((ref) async {
+  try {
+    final String response = await rootBundle.loadString('assets/json/example_cms.json');
+    final data = Map<String, dynamic>.from(await json.decode(response));
+    return HomePageCMSResponse.fromJson(data);
+  } catch (e) {
+    Logger().e(e);
+    return null;
+  }
+});
 
 class AfterSplashScreen extends ConsumerStatefulWidget {
   const AfterSplashScreen({Key? key}) : super(key: key);
@@ -19,6 +35,7 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
   String dropdownValue = "";
   @override
   Widget build(BuildContext context) {
+    final _ = ref.watch(cmsProvider);
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(10.0),
@@ -74,9 +91,8 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                             ),
                             loading: () => const CircularProgressIndicator(),
                             data: (data) {
-                              
-                              dropdownValue = dropdownValue.isEmpty? data.languageContainerDTOList[0].languageId.toString() : dropdownValue;
-                              
+                              dropdownValue = dropdownValue.isEmpty ? data.languageContainerDTOList[0].languageId.toString() : dropdownValue;
+
                               return DropdownButton<String>(
                                 isExpanded: true,
                                 value: dropdownValue,
@@ -89,7 +105,6 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     dropdownValue = value.toString();
-                                    
                                   });
 
                                   ref.read(SplashScreenNotifier.getStringForLocalization(value.toString()));
@@ -106,7 +121,7 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                                   // data: (data) {}
                                   // );
                                 },
-                             );
+                              );
                             },
                           );
                     },

@@ -93,3 +93,4 @@ flutter:
     - assets/select_location/
     - assets/card_details/
     - assets/membership/
+    - assets/json/

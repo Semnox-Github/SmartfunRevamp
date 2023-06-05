@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
-import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -19,9 +18,16 @@ import 'package:semnox/features/login/widgets/profile_picture.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:shimmer/shimmer.dart';
+
+final promoImagesProvider = Provider<List<String>>((ref) {
+  final cms = ref.watch(cmsProvider).value;
+  final promos = cms?.cmsModulePages?.where((element) => element.displaySection == 'IMAGE').toList();
+  return promos?.map((e) => e.contentURL).toList() ?? [];
+});
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
@@ -40,7 +46,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     //TODO:Update when linked a new card
     var cardsWatch = ref.watch(CardsProviders.userCardsProvider.select((asyncValue) => asyncValue));
-
+    final promoImages = ref.watch(promoImagesProvider);
     return SingleChildScrollView(
       child: Container(
         color: Colors.white,
@@ -235,16 +241,15 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   ),
                   Builder(
                     builder: (context) {
-                      final promos = Get.find<List<CMSContent>>().where((element) => element.contentURL.contains('promo')).toList();
                       return CarouselSlider(
                         options: CarouselOptions(height: 200.0),
-                        items: promos.map((i) {
+                        items: promoImages.map((i) {
                           return Builder(
                             builder: (BuildContext context) {
                               return Container(
                                 margin: const EdgeInsets.symmetric(horizontal: 10.0),
                                 child: CachedNetworkImage(
-                                  imageUrl: "https://map.afmcloud.my${i.contentURL}",
+                                  imageUrl: i,
                                   placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                                   errorWidget: (context, url, error) => const Icon(Icons.error),
                                 ),

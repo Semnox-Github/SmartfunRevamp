@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
+import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_home_page_cms_use_case.dart';
@@ -25,8 +26,14 @@ final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashS
     Get.find<GetBaseURLUseCase>(),
     Get.find<AuthenticateBaseURLUseCase>(),
     Get.find<GetHomePageCMSUseCase>(),
+    (systemUser) {
+      ref.watch(systemUserProvider.notifier).update((_) => systemUser);
+    },
   ),
 );
+final systemUserProvider = StateProvider<SystemUser?>((ref) {
+  return null;
+});
 
 final homePageCMSProvider = Provider<String?>((ref) {
   return null;
@@ -41,8 +48,14 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
   final GetBaseURLUseCase _getBaseURL;
   final AuthenticateBaseURLUseCase _authenticateBaseURLUseCase;
   final GetHomePageCMSUseCase _getHomePageCMSUseCase;
+  final Function(SystemUser?) _onUrlAuthenticated;
 
-  SplashScreenNotifier(this._getBaseURL, this._authenticateBaseURLUseCase, this._getHomePageCMSUseCase) : super(const _Initial());
+  SplashScreenNotifier(
+    this._getBaseURL,
+    this._authenticateBaseURLUseCase,
+    this._getHomePageCMSUseCase,
+    this._onUrlAuthenticated,
+  ) : super(const _Initial());
 
   static String getUrl(String site) {
     String responseUrl = "";
@@ -66,7 +79,6 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
       (l) => Logger().e(l.message),
       (r) async {
         Get.put<String>(r.gateWayURL, tag: 'baseURL');
-
         authenticateBaseURL(r.gateWayURL);
       },
     );
@@ -78,6 +90,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
       (l) => state = _Error(l.message),
       (r) {
         authenticateApi(r, baseUrl);
+        _onUrlAuthenticated(r);
         getAppCMS(r.webApiToken);
       },
     );

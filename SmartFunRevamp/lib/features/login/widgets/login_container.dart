@@ -33,7 +33,7 @@ class LoginContainer extends StatelessWidget {
           ),
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 150),
-            child: !isOTPLogin
+            child: isOTPLogin
                 ? LoginWithEmail(key: UniqueKey())
                 : LoginWithOTP(
                     key: UniqueKey(),

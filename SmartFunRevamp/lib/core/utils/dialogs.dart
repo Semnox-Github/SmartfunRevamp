@@ -9,12 +9,15 @@ import 'package:rating_dialog/rating_dialog.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/features/payment/provider/feedback_provider.dart';
 
@@ -156,22 +159,29 @@ class Dialogs {
                         fontSize: 14.0,
                         textAlign: TextAlign.start,
                       ),
-                      CustomButton(
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EstimatedTransactionPage(
-                                cardProduct: card,
-                                transactionType: "newcard",
-                                qty: 1,
-                                finalPrice: 0,
-                              ),
-                            ),
+                      Consumer(
+                        builder: (context, ref, child) {
+                          final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+                          final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
+                          final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
+                          return CustomButton(
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EstimatedTransactionPage(
+                                    cardProduct: card,
+                                    transactionType: "newcard",
+                                    qty: 1,
+                                    finalPrice: 0,
+                                  ),
+                                ),
+                              );
+                            },
+                            label: 'BUY NOW @ ${card.finalPrice.toCurrency(currency, format)}',
                           );
                         },
-                        label: 'BUY NOW @ ${card.finalPrice.toStringAsFixed(0)}',
                       ),
                     ],
                   ),

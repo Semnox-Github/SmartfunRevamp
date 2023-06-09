@@ -164,20 +164,21 @@ class CardDetailPage extends StatelessWidget {
                       text: 'More Actions',
                       fontWeight: FontWeight.bold,
                     ),
-                    MoreActionListTile(
-                      color: CustomColors.customOrange,
-                      subTitle: 'Report your lost card and get replacement',
-                      title: 'Lost Card',
-                      svgImage: 'assets/home/lost_card.svg',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SelectedCardLostPage(cardDetails: cardDetails),
-                          ),
-                        );
-                      },
-                    ),
+                    if (!cardDetails.isBlocked() && !cardDetails.isExpired())
+                      MoreActionListTile(
+                        color: CustomColors.customOrange,
+                        subTitle: 'Report your lost card and get replacement',
+                        title: 'Lost Card',
+                        svgImage: 'assets/home/lost_card.svg',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SelectedCardLostPage(cardDetails: cardDetails),
+                            ),
+                          );
+                        },
+                      ),
                     MoreActionListTile(
                       color: CustomColors.customPurple,
                       subTitle: 'Transfer credits from one card to another',

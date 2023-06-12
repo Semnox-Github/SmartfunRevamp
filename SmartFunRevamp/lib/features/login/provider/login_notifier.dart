@@ -72,7 +72,6 @@ class LoginNotifier extends StateNotifier<LoginState> {
         "Password": password,
       },
     );
-    //TODO:Execution context no changing token
     loginResponse.fold(
       (l) => state = _Error(l.message),
       (customerDTO) async {

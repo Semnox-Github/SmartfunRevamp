@@ -9,7 +9,6 @@ import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_home_page_cms_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_parafait_languages_use_case.dart';
-import 'package:semnox/core/domain/use_cases/splash_screen/get_parfait_defaults_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_string_for_localization_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_lookups_use_case.dart';
 
@@ -28,6 +27,6 @@ void splashScreenDependencies() {
   Get.lazyPut<GetParafaitLanguagesUseCase>(() => GetParafaitLanguagesUseCase(Get.find()));
   Get.lazyPut<GetStringForLocalizationUseCase>(() => GetStringForLocalizationUseCase(Get.find()));
   Get.lazyPut<GetHomePageCMSUseCase>(() => GetHomePageCMSUseCase(Get.find()));
-  Get.lazyPut<GetParafaitDefaultsUseCase>(() => GetParafaitDefaultsUseCase(Get.find()));
+
   Get.lazyPut<GetLookupsUseCase>(() => GetLookupsUseCase(Get.find()));
 }

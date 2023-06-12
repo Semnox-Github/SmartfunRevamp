@@ -13,13 +13,6 @@ abstract class SplashScreenRepository {
 
   Future<Either<Failure, SystemUser>> authenticateBaseURL();
 
-  Future<Either<Failure, void>> getParafaitDefaults({
-    required String siteId,
-    required String userPkId,
-    required String machineId,
-    required String token,
-  });
-
   Future<Either<Failure, void>> getParafaitLanguages({
     required String siteId,
   });

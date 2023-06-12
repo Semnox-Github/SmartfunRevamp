@@ -10,6 +10,7 @@ import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto
 import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
@@ -21,6 +22,7 @@ import 'package:semnox/core/domain/entities/membership/membership_tier.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
+import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
@@ -112,11 +114,10 @@ abstract class SmartFunApi {
   Future<Data<EstimateTransactionResponse>> estimateTransaction(@Body() Map<String, dynamic> body);
 
   @GET('Configuration/ParafaitDefaultContainer')
-  Future<HttpResponse> getParafaitDefaults(
+  Future<Data<ParafaitDefaultsResponse>> getParafaitDefaults(
     @Query('siteId') String siteId,
-    @Query('userPkId') String userPkId,
-    @Query('machineId') String machineId,
-    @Header(HttpHeaders.authorizationHeader) String token,
+    @Query('userPkId') int userPkId,
+    @Query('machineId') int machineId,
   );
 
   @GET('Configuration/LanguageContainer')
@@ -159,7 +160,7 @@ abstract class SmartFunApi {
   );
 
   @GET('Customer/CustomerUIMetadataContainer')
-  Future<HttpResponse> getSignUpMetadata({
+  Future<Data<UserMetaDataResponse>> getSignUpMetadata({
     @Query('siteId') String siteId = '1010',
     @Query('hash') String? hash,
     @Query('rebuildCache') bool rebuildCache = false,

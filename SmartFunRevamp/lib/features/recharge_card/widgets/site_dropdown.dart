@@ -11,8 +11,10 @@ class SitesAppBarDropdown extends ConsumerStatefulWidget {
   const SitesAppBarDropdown({
     Key? key,
     this.onChanged,
+    this.isEnabled = true,
   }) : super(key: key);
   final Function(SiteViewDTO?)? onChanged;
+  final bool isEnabled;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SitesAppBarDropdownState();
@@ -44,7 +46,7 @@ class _SitesAppBarDropdownState extends ConsumerState<SitesAppBarDropdown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: widget.isEnabled ? 50 : 0,
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 20.0),
       decoration: const BoxDecoration(
@@ -57,9 +59,10 @@ class _SitesAppBarDropdownState extends ConsumerState<SitesAppBarDropdown> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.location_on_outlined,
-          ),
+          if (widget.isEnabled)
+            const Icon(
+              Icons.location_on_outlined,
+            ),
           DropdownButton<SiteViewDTO>(
             value: _selectedSite,
             icon: const Icon(Icons.expand_more),

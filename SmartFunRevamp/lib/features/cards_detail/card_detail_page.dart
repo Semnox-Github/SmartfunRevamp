@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
@@ -17,6 +18,7 @@ class CardDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Logger().d(cardDetails.toJson());
     return Scaffold(
       appBar: AppBar(
         title: const MulishText(
@@ -59,7 +61,7 @@ class CardDetailPage extends StatelessWidget {
                   CardDetailItem(
                     color: CustomColors.customOrange,
                     image: 'bonus_points',
-                    amount: '${cardDetails.bonus?.toStringAsFixed(0)}',
+                    amount: '${cardDetails.creditPlusBonus?.toStringAsFixed(0)}',
                     desc: 'Bonus',
                     onTap: () {
                       Navigator.push(
@@ -77,7 +79,7 @@ class CardDetailPage extends StatelessWidget {
                   CardDetailItem(
                     color: CustomColors.customGreen,
                     image: 'playtime',
-                    amount: '${cardDetails.time?.toStringAsFixed(0)}',
+                    amount: '${cardDetails.creditPlusTime?.toStringAsFixed(0)}',
                     desc: 'Time',
                     onTap: () {
                       Navigator.push(
@@ -95,7 +97,7 @@ class CardDetailPage extends StatelessWidget {
                   CardDetailItem(
                     color: CustomColors.customPurple,
                     image: 'ticket_count',
-                    amount: '${cardDetails.ticketCount}',
+                    amount: '${cardDetails.creditPlusTickets?.toStringAsFixed(0)}',
                     desc: 'Tickets',
                     onTap: () {
                       Navigator.push(
@@ -113,13 +115,13 @@ class CardDetailPage extends StatelessWidget {
                   CardDetailItem(
                     color: CustomColors.customYellow,
                     image: 'courtesy',
-                    amount: '${cardDetails.courtesy?.toStringAsFixed(0)}',
+                    amount: '${cardDetails.totalCourtesyBalance?.toStringAsFixed(0)}',
                     desc: 'Courtesy',
                   ),
                   CardDetailItem(
                     color: CustomColors.customPink,
                     image: 'loyalty',
-                    amount: '${cardDetails.loyaltyPoints?.toStringAsFixed(0)}',
+                    amount: '${cardDetails.creditPlusLoyaltyPoints?.toStringAsFixed(0)}',
                     desc: 'Loyalty',
                     onTap: () {
                       Navigator.push(

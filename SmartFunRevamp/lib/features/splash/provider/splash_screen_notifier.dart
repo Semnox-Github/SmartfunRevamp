@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
+import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_lookups_use_case.dart';
@@ -22,6 +23,9 @@ part 'splash_screen_notifier.freezed.dart';
 final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashScreenState>(
   (ref) => SplashScreenNotifier(Get.find<GetBaseURLUseCase>(), Get.find<AuthenticateBaseURLUseCase>()),
 );
+final systemUserProvider = StateProvider<SystemUser?>((ref) {
+  return null;
+});
 
 final homePageCMSProvider = Provider<String?>((ref) {
   return null;
@@ -60,7 +64,6 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
       (l) => Logger().e(l.message),
       (r) async {
         Get.put<String>(r.gateWayURL, tag: 'baseURL');
-
         authenticateBaseURL(r.gateWayURL);
       },
     );

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
+import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
@@ -46,11 +47,13 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, void>> getUserMetaData() async {
+  Future<Either<Failure, List<CustomerUIMetaData>>> getUserMetaData() async {
     try {
       final response = await _api.getSignUpMetadata();
-      Logger().d(response);
-      return const Right(null);
+      final uiMetadataList = response.data.customerUIMetadataContainerDTOList;
+      uiMetadataList.removeWhere((element) => element.customerFieldName == 'TestDownload');
+      uiMetadataList.sort((a, b) => a.customerFieldOrder.compareTo(b.customerFieldOrder));
+      return Right(uiMetadataList);
     } on DioError catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
@@ -58,6 +61,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       }
       final message = json.decode(e.response.toString());
       return Left(ServerFailure(message['data']));
+    } catch (e) {
+      Logger().e(e);
+      return Left(ServerFailure(''));
     }
   }
 

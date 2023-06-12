@@ -3,15 +3,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-
-import '../../core/widgets/mulish_text.dart';
 
 final cmsProvider = FutureProvider<HomePageCMSResponse?>((ref) async {
   try {
@@ -23,6 +25,14 @@ final cmsProvider = FutureProvider<HomePageCMSResponse?>((ref) async {
     return null;
   }
 });
+final parafaitDefaultsProvider = FutureProvider<ParafaitDefaultsResponse>((ref) async {
+  final getDefaults = Get.find<GetParafaitDefaultsUseCase>();
+  final response = await getDefaults();
+  return response.fold(
+    (l) => throw l,
+    (r) => r,
+  );
+});
 
 class AfterSplashScreen extends ConsumerStatefulWidget {
   const AfterSplashScreen({Key? key}) : super(key: key);
@@ -33,9 +43,11 @@ class AfterSplashScreen extends ConsumerStatefulWidget {
 
 class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
   String dropdownValue = "";
+
   @override
   Widget build(BuildContext context) {
     final _ = ref.watch(cmsProvider);
+    final __ = ref.watch(parafaitDefaultsProvider);
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(10.0),
@@ -106,20 +118,7 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                                   setState(() {
                                     dropdownValue = value.toString();
                                   });
-
                                   ref.read(SplashScreenNotifier.getStringForLocalization(value.toString()));
-                                  // ref.watch(SplashScreenNotifier.getStringForLocalization(value.toString())).maybeWhen(
-                                  //   orElse: () => Container(
-                                  //   height: 20.0,
-                                  //   width: 20.0,
-                                  //   color: Colors.red,
-                                  // ),
-                                  // error: (e, s) => MulishText(
-                                  //   text: 'An error has ocurred $e',
-                                  // ),
-                                  // loading: () => const CircularProgressIndicator(),
-                                  // data: (data) {}
-                                  // );
                                 },
                               );
                             },

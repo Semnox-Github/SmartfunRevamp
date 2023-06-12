@@ -70,7 +70,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
       bottomSheet: BottomSheetButton(
         label: offerSelected == null
             ? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')
-            : '${SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')} \$${(qty * finalPrice).toCurrency(currency, format)}',
+            : '${SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')} \$ ${(qty * finalPrice).toCurrency(currency, format)}',
         onTap: () {
           Logger().d(offerSelected);
           if (offerSelected != null) {

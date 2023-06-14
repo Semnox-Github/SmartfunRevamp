@@ -89,9 +89,9 @@ class SignUpPage extends ConsumerWidget {
           ),
         ),
         centerTitle: false,
-        title: const Text(
-          'Set Your Account',
-          style: TextStyle(
+        title: Text(
+          SplashScreenNotifier.getLanguageLabel('Set Your Account'),
+          style: const TextStyle(
             color: CustomColors.customBlue,
           ),
         ),
@@ -105,8 +105,8 @@ class SignUpPage extends ConsumerWidget {
             key: _key,
             child: Column(
               children: [
-                const Text(
-                  'Hi There,\nComplete the following details to setup your account and continue using Smartfun app.',
+                Text(
+                  SplashScreenNotifier.getLanguageLabel('Hi There, Complete the following details to setup your accound and coitinue using Smartfun App.'),
                 ),
                 const SizedBox(height: 20.0),
                 metaData.when(
@@ -126,7 +126,7 @@ class SignUpPage extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                field.entityFieldCaption,
+                                SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption),
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                               DropdownButtonFormField<String>(
@@ -134,7 +134,7 @@ class SignUpPage extends ConsumerWidget {
                                 items: List<String>.from(field.customerFieldValues).map((title) {
                                   return DropdownMenuItem<String>(
                                     value: title,
-                                    child: Text(title),
+                                    child: Text(SplashScreenNotifier.getLanguageLabel(title)),
                                   );
                                 }).toList(),
                                 onChanged: (title) => request[field.customerFieldName] = title,
@@ -144,7 +144,7 @@ class SignUpPage extends ConsumerWidget {
                         }
                         return CustomTextField(
                           onSaved: (value) => request[field.customerFieldName] = value,
-                          label: field.entityFieldCaption,
+                          label: SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption),
                           margins: const EdgeInsets.symmetric(vertical: 10.0),
                         );
                       }).toList(),
@@ -174,11 +174,11 @@ class SignUpPage extends ConsumerWidget {
                       color: CustomColors.customLigthBlack,
                     ),
                     children: [
-                      const TextSpan(
-                        text: 'By Logging in you agree to our ',
+                      TextSpan(
+                        text: '${SplashScreenNotifier.getLanguageLabel('By Logging in you agree to our')} ',
                       ),
                       TextSpan(
-                          text: 'Terms of Service ',
+                          text: SplashScreenNotifier.getLanguageLabel('Terms of Service'),
                           style: const TextStyle(
                             color: CustomColors.hardOrange,
                           ),
@@ -191,11 +191,13 @@ class SignUpPage extends ConsumerWidget {
                                 ),
                               );
                             }),
-                      const TextSpan(
-                        text: 'and ',
-                      ),
+                      const TextSpan(text: ' '),
                       TextSpan(
-                        text: 'Privacy Policy',
+                        text: SplashScreenNotifier.getLanguageLabel('and'),
+                      ),
+                      const TextSpan(text: ' '),
+                      TextSpan(
+                        text: SplashScreenNotifier.getLanguageLabel('Privacy Policy'),
                         style: const TextStyle(
                           color: CustomColors.hardOrange,
                         ),
@@ -220,7 +222,7 @@ class SignUpPage extends ConsumerWidget {
                       ref.read(signUpNotifier.notifier).signUpUser(SignUpEntity.fromMetaData(request));
                     }
                   },
-                  label: 'SIGN UP',
+                  label: SplashScreenNotifier.getLanguageLabel('SIGN UP'),
                 )
               ],
             ),

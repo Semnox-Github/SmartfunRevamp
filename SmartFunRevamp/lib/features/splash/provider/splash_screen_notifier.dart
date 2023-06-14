@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -82,7 +83,12 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
 
   static String getLanguageLabel(String labelKey) {
     String? languageLabel = languageLabels[labelKey];
-    return languageLabel.isNullOrEmpty() ? labelKey : languageLabel.toString();
+    if (languageLabel.isNullOrEmpty()) {
+      debugPrint('Label not found for key: "$labelKey"');
+      return labelKey;
+    } else {
+      return languageLabel.toString();
+    }
   }
 
   static final parafaitLanguagesProvider = FutureProvider<LanguageContainerDTO>((ref) async {

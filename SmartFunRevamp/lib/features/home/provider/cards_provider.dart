@@ -87,7 +87,10 @@ class CardsProviders {
   static final lostCardProvider = FutureProvider.autoDispose.family<void, CardDetails>((ref, cardDetails) async {
     final LostCardUseCase lostCardUseCase = Get.find<LostCardUseCase>();
     final response = await lostCardUseCase({
-      "SourceAccountDTO": {"AccountId": cardDetails.accountId, "TagNumber": cardDetails.accountNumber}
+      "SourceAccountDTO": {
+        "AccountId": cardDetails.accountId,
+        "TagNumber": cardDetails.accountNumber,
+      }
     });
     return response.fold(
       (l) => throw l,

@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/splash_screen/get_base_url_response.dart';
-import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/errors/failures.dart';
 
 abstract class SplashScreenRepository {
@@ -31,7 +30,7 @@ abstract class SplashScreenRepository {
 
   Future<Either<Failure, void>> getContactType();
 
-  Future<Either<Failure, List<CMSContent>>> getHomePageCMS(String moduleName, String token);
+  Future<Either<Failure, void>> getHomePageCMS(String moduleName, String token);
 
   Future<Either<Failure, void>> getAppProductsImages({
     required String imageType,

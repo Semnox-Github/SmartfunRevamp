@@ -141,8 +141,7 @@ class CardsRepositoryImpl implements CardsRepository {
   @override
   Future<Either<Failure, void>> lostCard(Map<String, dynamic> body) async {
     try {
-      final response = await _api.lostCard(body);
-      Logger().d(response.data);
+      await _api.lostCard(body);
       return const Right(null);
     } on DioError catch (e) {
       Logger().e(e);

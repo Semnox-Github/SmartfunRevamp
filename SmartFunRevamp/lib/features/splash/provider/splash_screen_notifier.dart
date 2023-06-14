@@ -8,7 +8,6 @@ import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
-import 'package:semnox/core/domain/use_cases/splash_screen/get_home_page_cms_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_lookups_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_parafait_languages_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_string_for_localization_use_case.dart';
@@ -22,14 +21,7 @@ part 'splash_screen_state.dart';
 part 'splash_screen_notifier.freezed.dart';
 
 final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashScreenState>(
-  (ref) => SplashScreenNotifier(
-    Get.find<GetBaseURLUseCase>(),
-    Get.find<AuthenticateBaseURLUseCase>(),
-    Get.find<GetHomePageCMSUseCase>(),
-    (systemUser) {
-      ref.watch(systemUserProvider.notifier).update((_) => systemUser);
-    },
-  ),
+  (ref) => SplashScreenNotifier(Get.find<GetBaseURLUseCase>(), Get.find<AuthenticateBaseURLUseCase>()),
 );
 final systemUserProvider = StateProvider<SystemUser?>((ref) {
   return null;
@@ -47,15 +39,8 @@ String termsUrl = "";
 class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
   final GetBaseURLUseCase _getBaseURL;
   final AuthenticateBaseURLUseCase _authenticateBaseURLUseCase;
-  final GetHomePageCMSUseCase _getHomePageCMSUseCase;
-  final Function(SystemUser?) _onUrlAuthenticated;
 
-  SplashScreenNotifier(
-    this._getBaseURL,
-    this._authenticateBaseURLUseCase,
-    this._getHomePageCMSUseCase,
-    this._onUrlAuthenticated,
-  ) : super(const _Initial());
+  SplashScreenNotifier(this._getBaseURL, this._authenticateBaseURLUseCase) : super(const _Initial());
 
   static String getUrl(String site) {
     String responseUrl = "";
@@ -90,19 +75,9 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
       (l) => state = _Error(l.message),
       (r) {
         authenticateApi(r, baseUrl);
-        _onUrlAuthenticated(r);
-        getAppCMS(r.webApiToken);
+        state = const _Success();
       },
     );
-  }
-
-  void getAppCMS(String token) async {
-    final response = await _getHomePageCMSUseCase(token: token);
-    response.fold(
-      (l) => state = _Error(l.message),
-      (r) => registerCMS(r),
-    );
-    state = const _Success();
   }
 
   static String getLanguageLabel(String labelKey) {

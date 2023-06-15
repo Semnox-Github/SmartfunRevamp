@@ -5,6 +5,7 @@ import 'package:get/instance_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/use_cases/cards/get_card_activity_transaction_detail_use_case.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils/extensions.dart';
@@ -12,6 +13,7 @@ import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/activity/card_activity_receipt_page.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 final _getTrxDetail = FutureProvider.autoDispose.family<CardActivityDetails, String>((ref, transactionId) async {
@@ -23,12 +25,15 @@ final _getTrxDetail = FutureProvider.autoDispose.family<CardActivityDetails, Str
   );
 });
 
-class CardActivityDetailPage extends StatelessWidget {
+class CardActivityDetailPage extends ConsumerWidget {
   const CardActivityDetailPage({super.key, required this.transactionId});
   final String transactionId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+    final currencySymbol = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
+    final currencyFormat = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     return Scaffold(
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel('Transaction Details'),
@@ -136,7 +141,7 @@ class CardActivityDetailPage extends StatelessWidget {
                               text: 'Variable App Recharge',
                             ),
                             MulishText(
-                              text: '\$${data.transactionLinesDTOList?.first.taxAmount ?? 0}',
+                              text: '${data.transactionLinesDTOList?.first.taxAmount.toCurrency(currencySymbol, currencyFormat)}',
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -149,7 +154,7 @@ class CardActivityDetailPage extends StatelessWidget {
                               text: 'Tax',
                             ),
                             MulishText(
-                              text: '\$${data.transactionLinesDTOList?.first.taxAmount ?? 0}',
+                              text: '${data.transactionLinesDTOList?.first.taxAmount.toCurrency(currencySymbol, currencyFormat)}',
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),

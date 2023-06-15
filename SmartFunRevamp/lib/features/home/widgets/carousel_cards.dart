@@ -12,7 +12,6 @@ import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/update_nickname_card.dart';
-import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -136,23 +135,6 @@ class _CarouselCardsState extends State<CarouselCards> {
                             ),
                           )
                         ],
-                      ),
-                      const SizedBox(height: 10.0),
-                      OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          side: const BorderSide(width: 1.0, color: Colors.white),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                        ),
-                        child: Text(
-                          SplashScreenNotifier.getLanguageLabel('Get Balance'),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
                       ),
                       const SizedBox(height: 10.0),
                       Text(

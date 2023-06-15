@@ -27,7 +27,6 @@ class CardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
-        
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,13 +89,9 @@ class CardWidget extends StatelessWidget {
               ),
             ],
           ),
-          Text(
-            validPeriod,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12.0,
-              fontWeight: FontWeight.w500,
-            ),
+          MulishText(
+            text: validPeriod,
+            fontColor: Colors.white,
           ),
         ],
       ),

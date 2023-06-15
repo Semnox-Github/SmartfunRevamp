@@ -5,6 +5,8 @@ part 'parafait_defaults_response.g.dart';
 class ParafaitDefaultsResponse {
   static const String passwordKey = 'ENABLE_PASSWORD_ON_SMARTFUN';
   static const String onlineRechargeEnabledKey = 'ALLOW_ONLINE_RECHARGE_LOCATION_OVERIDE';
+  static const String currencySymbol = 'CURRENCY_SYMBOL';
+  static const String currencyFormat = 'AMOUNT_FORMAT';
   @JsonKey(name: 'ParafaitDefaultContainerDTOList')
   final List<ParafaitDefault> parafaitsDefaults;
 

@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class RechargeCardWidget extends StatelessWidget {
+class RechargeCardWidget extends ConsumerWidget {
   const RechargeCardWidget({Key? key, required this.cardProduct}) : super(key: key);
   final CardProduct cardProduct;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+    final currencySymbol = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
+    final currencyFormat = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     double discount = ((cardProduct.basePrice - cardProduct.finalPrice) * 100) / cardProduct.basePrice;
     return Container(
       width: double.infinity,
@@ -26,11 +33,11 @@ class RechargeCardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                cardProduct.productName.substring(0, cardProduct.productName.length < 16 ? cardProduct.productName.length : 16),
+                cardProduct.productName,
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.w600,
                   fontSize: 16.0,
@@ -38,10 +45,11 @@ class RechargeCardWidget extends StatelessWidget {
                 ),
               ),
               Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    '\$${cardProduct.finalPrice.toStringAsFixed(0)}',
+                    cardProduct.finalPrice.toCurrency(currencySymbol, currencyFormat),
                     style: GoogleFonts.mulish(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -50,7 +58,7 @@ class RechargeCardWidget extends StatelessWidget {
                   ),
                   const SizedBox(width: 5.0),
                   Text(
-                    '\$${cardProduct.basePrice.toStringAsFixed(0)}',
+                    cardProduct.basePrice.toCurrency(currencySymbol, currencyFormat),
                     style: GoogleFonts.mulish(
                       color: CustomColors.customLigthGray,
                       fontWeight: FontWeight.w600,
@@ -66,7 +74,7 @@ class RechargeCardWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                '${discount.toStringAsFixed(0)} % ${SplashScreenNotifier.getLanguageLabel('OFF')}',
+                '$discount % ${SplashScreenNotifier.getLanguageLabel('OFF')}',
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.w600,
                   fontSize: 14.0,

@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
@@ -14,6 +15,7 @@ import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
@@ -48,6 +50,9 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
 
   @override
   Widget build(BuildContext context) {
+    final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+    final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
+    final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFCFF8FF),
@@ -63,7 +68,9 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
         ),
       ),
       bottomSheet: BottomSheetButton(
-        label: offerSelected == null ? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW') : '${SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')} \$${qty * finalPrice}',
+        label: offerSelected == null
+            ? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')
+            : '${SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')} \$ ${(qty * finalPrice).toCurrency(currency, format)}',
         onTap: () {
           Logger().d(offerSelected);
           if (offerSelected != null) {

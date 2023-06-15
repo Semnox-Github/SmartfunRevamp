@@ -31,6 +31,16 @@ extension DateTimeExtension on DateTime? {
   }
 }
 
+extension NumExtension on num? {
+  String toCurrency(String currency, String format) {
+    if (this == null) {
+      return '$currency 0.0 ';
+    }
+    final numberFormat = NumberFormat(format);
+    return '$currency ${numberFormat.format(this)}';
+  }
+}
+
 extension MapExtension on Map<dynamic, List> {
   String countItems() {
     int count = 0;

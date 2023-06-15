@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class PaymentSuccessPage extends StatelessWidget {
+class PaymentSuccessPage extends ConsumerWidget {
   const PaymentSuccessPage({Key? key, this.cardNumber, required this.amount, required this.transactionType}) : super(key: key);
   final String? cardNumber;
   final double amount;
   final String transactionType;
   @override
-  Widget build(BuildContext context) {
-    final String fixedAmount = amount.toStringAsFixed(2);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+    final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
+    final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
+    final String fixedAmount = amount.toCurrency(currency, format);
     final DateTime dateToday = DateTime.now();
     final DateTime dateOneYearLater = DateTime(dateToday.year + 1, dateToday.month, dateToday.day);
     if (transactionType == "newcard") {
@@ -104,7 +111,7 @@ class PaymentSuccessPage extends StatelessWidget {
                               scale: 0.8,
                             ),
                             Text(
-                              '  \$ $fixedAmount',
+                              fixedAmount,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 32.0,
@@ -189,7 +196,7 @@ class PaymentSuccessPage extends StatelessWidget {
               ),
               MulishText(
                 textAlign: TextAlign.center,
-                text: 'You have successfully recharged \$$fixedAmount on to your $cardNumber',
+                text: 'You have successfully recharged $fixedAmount on to your $cardNumber',
                 fontColor: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,

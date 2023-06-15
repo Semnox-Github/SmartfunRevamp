@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/payment/pages/payment_options_page.dart';
 import 'package:semnox/core/utils/dialogs.dart';
@@ -11,17 +13,11 @@ import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
 import 'package:semnox/features/buy_a_card/widgets/bill_detail_row.dart';
 import 'package:semnox/features/buy_a_card/widgets/coupon_container.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class EstimatedTransactionPage extends ConsumerWidget {
-  const EstimatedTransactionPage({
-    Key? key,
-    required this.cardProduct,
-    this.cardSelected,
-    required this.transactionType,
-    required this.qty,
-    this.finalPrice
-  }) : super(key: key);
+  const EstimatedTransactionPage({Key? key, required this.cardProduct, this.cardSelected, required this.transactionType, required this.qty, this.finalPrice}) : super(key: key);
 
   final CardProduct cardProduct;
   final CardDetails? cardSelected;
@@ -33,7 +29,9 @@ class EstimatedTransactionPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     /* Ver card number acount Numbre*/
     final siteId = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010;
-    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : '', quantity: qty, siteId: siteId, finalPrice : finalPrice!); 
+    ref
+        .read(estimateStateProvider.notifier)
+        .getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : '', quantity: qty, siteId: siteId, finalPrice: finalPrice!);
     ref.listen(estimateStateProvider, (previous, next) {
       next.maybeWhen(
         orElse: () => {},
@@ -54,6 +52,9 @@ class EstimatedTransactionPage extends ConsumerWidget {
         },
       );
     });
+    final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+    final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
+    final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFCFF8FF),
@@ -104,7 +105,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                '\$${cardProduct.productType == "VARIABLECARD" ? finalPrice : cardProduct.finalPrice * qty}',
+                                cardProduct.productType == "VARIABLECARD" ? finalPrice.toCurrency(currency, format) : (cardProduct.finalPrice * qty).toCurrency(currency, format),
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -127,20 +128,20 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             ),
                             BillDetailRow(
                               description: SplashScreenNotifier.getLanguageLabel('Recharge Amount'),
-                              amount: '${transactionResponse.transactionAmount}',
+                              amount: transactionResponse.transactionAmount.toCurrency(currency, format),
                             ),
                             BillDetailRow(
                               description: SplashScreenNotifier.getLanguageLabel('Tax'),
-                              amount: '${transactionResponse.taxAmount}',
+                              amount: transactionResponse.taxAmount.toCurrency(currency, format),
                             ),
                             BillDetailRow(
                               description: SplashScreenNotifier.getLanguageLabel('Discount (Offer)'),
-                              amount: '${transactionResponse.transactionDiscountAmount}',
+                              amount: transactionResponse.transactionDiscountAmount.toCurrency(currency, format),
                             ),
                             if (transactionResponse.couponDiscountAmount != null)
                               BillDetailRow(
                                 description: SplashScreenNotifier.getLanguageLabel('Discount (Coupon)'),
-                                amount: '${transactionResponse.couponDiscountAmount}',
+                                amount: transactionResponse.couponDiscountAmount.toCurrency(currency, format),
                               ),
                             const Divider(
                               color: CustomColors.customLigthBlue,
@@ -158,7 +159,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  '\$${transactionResponse.transactionNetAmount}',
+                                  transactionResponse.transactionNetAmount.toCurrency(currency, format),
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -176,7 +177,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '\$${transactionResponse.transactionNetAmount}',
+                                  transactionResponse.transactionNetAmount.toCurrency(currency, format),
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,

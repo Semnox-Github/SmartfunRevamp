@@ -76,7 +76,7 @@ class PaymentSuccessPage extends ConsumerWidget {
                                 ),
                                 const SizedBox(height: 7.0),
                                 Text(
-                                  SplashScreenNotifier.getLanguageLabel('Add nickname'),
+                                  SplashScreenNotifier.getLanguageLabel('+Add nickname'),
                                   style: const TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Colors.white,

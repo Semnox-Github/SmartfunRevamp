@@ -1,10 +1,13 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/instance_manager.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
@@ -12,8 +15,10 @@ import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+
+import 'provider/splash_screen_notifier.dart';
 
 final cmsProvider = FutureProvider<HomePageCMSResponse?>((ref) async {
   try {
@@ -33,21 +38,27 @@ final parafaitDefaultsProvider = FutureProvider<ParafaitDefaultsResponse>((ref) 
     (r) => r,
   );
 });
+final currentLanguageProvider = StateProvider<String?>((ref) => null);
 
-class AfterSplashScreen extends ConsumerStatefulWidget {
-  const AfterSplashScreen({Key? key}) : super(key: key);
-
-  @override
-  ConsumerState<AfterSplashScreen> createState() => _AfterSplashScreenState();
-}
-
-class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
-  String dropdownValue = "";
+class AfterSplashScreen extends ConsumerWidget {
+  const AfterSplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final _ = ref.watch(cmsProvider);
-    final __ = ref.watch(parafaitDefaultsProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(cmsProvider);
+    ref.watch(parafaitDefaultsProvider);
+    ref.watch(SplashScreenNotifier.getInitialData);
+    final currenLang = ref.watch(currentLanguageProvider);
+
+    ref.watch(getStringForLocalization).maybeWhen(
+      orElse: () {
+        context.loaderOverlay.hide();
+      },
+      loading: () {
+        context.loaderOverlay.show();
+      },
+    );
+
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(10.0),
@@ -56,7 +67,8 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
             Image.asset('assets/splash_screen/after_splash.png'),
             const SizedBox(height: 10.0),
             Text(
-              SplashScreenNotifier.getLanguageLabel('QUICK CARD RECHARGES'),
+              SplashScreenNotifier.getLanguageLabel('Invalid value for Desired Units'),
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 color: CustomColors.customBlack,
                 fontSize: 20.0,
@@ -64,14 +76,11 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
               ),
             ),
             const SizedBox(height: 10.0),
-            Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.mulish(
-                color: CustomColors.customBlack,
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
-              ),
+            const MulishText(
+              text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+              fontSize: 16.0,
+              fontColor: CustomColors.customBlack,
+              fontWeight: FontWeight.w500,
             ),
             const Spacer(),
             Padding(
@@ -80,34 +89,26 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    SplashScreenNotifier.getLanguageLabel('Preferred Language to be used in the app'),
+                  MulishText(
+                    text: SplashScreenNotifier.getLanguageLabel('Preferred Language to be used in the app'),
                     textAlign: TextAlign.start,
-                    style: GoogleFonts.mulish(
-                      color: CustomColors.customBlack,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    fontColor: CustomColors.customBlack,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
                   ),
                   Consumer(
                     builder: (context, ref, child) {
-                      ref.read(SplashScreenNotifier.getInitialData);
                       return ref.watch(SplashScreenNotifier.parafaitLanguagesProvider).maybeWhen(
-                            orElse: () => Container(
-                              height: 20.0,
-                              width: 20.0,
-                              color: Colors.red,
-                            ),
+                            orElse: () => Container(),
                             error: (e, s) => MulishText(
                               text: 'An error has ocurred $e',
                             ),
-                            loading: () => const CircularProgressIndicator(),
+                            loading: () => const Center(child: CircularProgressIndicator()),
                             data: (data) {
-                              dropdownValue = dropdownValue.isEmpty ? data.languageContainerDTOList[0].languageId.toString() : dropdownValue;
-
                               return DropdownButton<String>(
                                 isExpanded: true,
-                                value: dropdownValue,
+                                value: currenLang,
+                                hint: const MulishText(text: 'Select a language'),
                                 items: data.languageContainerDTOList.map((item) {
                                   return DropdownMenuItem<String>(
                                     value: item.languageId.toString(),
@@ -115,10 +116,7 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                                   );
                                 }).toList(),
                                 onChanged: (value) {
-                                  setState(() {
-                                    dropdownValue = value.toString();
-                                  });
-                                  ref.read(SplashScreenNotifier.getStringForLocalization(value.toString()));
+                                  ref.read(currentLanguageProvider.notifier).state = value.toString();
                                 },
                               );
                             },
@@ -135,14 +133,11 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        SplashScreenNotifier.getLanguageLabel("Have an account?"),
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.mulish(
-                          color: CustomColors.customBlack,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      MulishText(
+                        text: SplashScreenNotifier.getLanguageLabel("Have an account?"),
+                        fontColor: CustomColors.customBlack,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
                       ),
                       Container(
                         width: double.infinity,
@@ -152,7 +147,7 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                         ),
                         margin: const EdgeInsets.all(3),
                         child: TextButton(
-                          onPressed: () => Navigator.pushReplacementNamed(context, Routes.kLogInPage),
+                          onPressed: () => currenLang.isNullOrEmpty() ? Fluttertoast.showToast(msg: 'Please select a language') : Navigator.pushReplacementNamed(context, Routes.kLogInPage),
                           child: Text(
                             SplashScreenNotifier.getLanguageLabel('LOGIN'),
                             style: const TextStyle(
@@ -170,14 +165,12 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        SplashScreenNotifier.getLanguageLabel('New to SmartFun?'),
+                      MulishText(
+                        text: SplashScreenNotifier.getLanguageLabel('New to SmartFun?'),
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.mulish(
-                          color: CustomColors.customBlack,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        fontColor: CustomColors.customBlack,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
                       ),
                       Container(
                         width: double.infinity,
@@ -192,7 +185,7 @@ class _AfterSplashScreenState extends ConsumerState<AfterSplashScreen> {
                           ),
                           margin: const EdgeInsets.all(3),
                           child: TextButton(
-                            onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
+                            onPressed: () => currenLang.isNullOrEmpty() ? Fluttertoast.showToast(msg: 'Please select a language') : Navigator.pushNamed(context, Routes.kSignUpPage),
                             child: Text(
                               SplashScreenNotifier.getLanguageLabel('SIGN UP'),
                               style: const TextStyle(

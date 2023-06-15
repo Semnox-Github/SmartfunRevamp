@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class MulishText extends StatelessWidget {
   const MulishText({
@@ -21,7 +20,7 @@ class MulishText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      SplashScreenNotifier.getLanguageLabel(text),
+      text,
       textAlign: textAlign,
       style: GoogleFonts.mulish(
         color: fontColor,

@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 extension StringExtension on String? {
@@ -47,5 +48,17 @@ extension MapExtension on Map<dynamic, List> {
       count += list.length;
     });
     return count.toString();
+  }
+}
+
+extension MapKeyExtension on Map<dynamic, dynamic> {
+  String getKey(String labelKey) {
+    String? languageLabel = this[labelKey];
+    if (languageLabel.isNullOrEmpty()) {
+      Logger().e('Label not found for key: "$labelKey"');
+      return labelKey;
+    } else {
+      return languageLabel.toString();
+    }
   }
 }

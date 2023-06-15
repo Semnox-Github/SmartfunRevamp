@@ -5,6 +5,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CardWidget extends StatelessWidget {
   CardWidget({Key? key, required this.cardDetails}) : super(key: key);
@@ -26,66 +27,77 @@ class CardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
+        
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
-                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(children: [
-                    MulishText(
-                      text: cardDetails.accountNumber ?? '',
-                      fontColor: Colors.white,
+                  Text(
+                    cardDetails.accountNumber ?? '',
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      color: Colors.white,
+                      fontSize: 22,
                     ),
-                  ]),
-                  const SizedBox(width: 10.0),
-                  Row(children: [
-                    !cardDetails.accountIdentifier.isNullOrEmpty()
-                        ? MulishText(
-                            text: cardDetails.accountIdentifier ?? '',
-                            fontColor: Colors.white,
-                          )
-                        : const MulishText(
-                            text: '+Add Nickname',
-                            textDecoration: TextDecoration.underline,
-                            fontColor: Colors.white,
-                          ),
-                  ]),
+                  ),
+                  const SizedBox(height: 7.0),
+                  Text(
+                    SplashScreenNotifier.getLanguageLabel('+Add nickname'),
+                    style: const TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
                 ],
               ),
               GestureDetector(
-                onTap: () => Dialogs.showBarcodeTempCard(context, cardDetails.accountNumber!),
+                onTap: () => Dialogs.showBarcodeTempCard(context, cardDetails.accountNumber ?? ''),
                 child: Image.asset(
                   'assets/home/QR.png',
-                  height: 42,
+                  height: 42.0,
                 ),
               )
             ],
           ),
-          OutlinedButton(
-            onPressed: () {},
-            style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              side: const BorderSide(
-                width: 1.5,
-                color: Colors.white,
-              ),
-            ),
-            child: const MulishText(
-              text: 'Get Balance',
-              fontColor: Colors.white,
+          const SizedBox(height: 10.0),
+          Text(
+            validPeriod,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14.0,
+              fontWeight: FontWeight.w500,
             ),
           ),
-          MulishText(
-            text: validPeriod,
-            fontColor: Colors.white,
-          )
+          const SizedBox(height: 20.0),
+          Row(
+            children: [
+              Image.asset(
+                'assets/payment/coin.png',
+                scale: 0.8,
+              ),
+              Text(
+                '  \$ ${cardDetails.totalGamePlayCreditsBalance!.toStringAsFixed(2)}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 32.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          Text(
+            validPeriod,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12.0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
     );

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -17,12 +17,16 @@ import 'package:semnox/di/injection_container.dart';
 
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 
 part 'splash_screen_state.dart';
 part 'splash_screen_notifier.freezed.dart';
 
 final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashScreenState>(
-  (ref) => SplashScreenNotifier(Get.find<GetBaseURLUseCase>(), Get.find<AuthenticateBaseURLUseCase>()),
+  (ref) => SplashScreenNotifier(
+    Get.find<GetBaseURLUseCase>(),
+    Get.find<AuthenticateBaseURLUseCase>(),
+  ),
 );
 final systemUserProvider = StateProvider<SystemUser?>((ref) {
   return null;
@@ -31,8 +35,31 @@ final systemUserProvider = StateProvider<SystemUser?>((ref) {
 final homePageCMSProvider = Provider<String?>((ref) {
   return null;
 });
+final getStringForLocalization = FutureProvider<Map<dynamic, dynamic>>((ref) async {
+  final GetStringForLocalizationUseCase getStringForLocalizationUseCase = Get.find<GetStringForLocalizationUseCase>();
+  final langId = ref.watch(currentLanguageProvider);
+  //Request language strings always with master site
+  final response = await getStringForLocalizationUseCase(siteId: "1010", languageId: langId ?? '2');
+  // get the language Json from the assets
+  String defaultLanguageStrings = await rootBundle.loadString("assets/localization/strings.json");
+  final jsonDefaultLanguageStrings = jsonDecode(defaultLanguageStrings);
 
-Map<dynamic, dynamic> languageLabels = {};
+  //get the language json from the api
+  // ignore: prefer_typing_uninitialized_variables
+  late final jsonLanguageAPIResult;
+  response.forEach((r) {
+    jsonLanguageAPIResult = r;
+  });
+
+  //Combining both language json objects
+  final combinedMap = {};
+  combinedMap
+    ..addAll(jsonDefaultLanguageStrings)
+    ..addAll(jsonLanguageAPIResult);
+  languageLabes = combinedMap;
+  return combinedMap;
+});
+Map<dynamic, dynamic> languageLabes = {};
 String helpUrl = "";
 String privacyPolicyUrl = "";
 String termsUrl = "";
@@ -82,7 +109,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
   }
 
   static String getLanguageLabel(String labelKey) {
-    String? languageLabel = languageLabels[labelKey];
+    String? languageLabel = languageLabes[labelKey];
     if (languageLabel.isNullOrEmpty()) {
       debugPrint('Label not found for key: "$labelKey"');
       return labelKey;
@@ -100,30 +127,6 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
       (l) => throw l,
       (r) => r,
     );
-  });
-
-  static final getStringForLocalization = FutureProvider.autoDispose.family<void, String>((ref, languageId) async {
-    final GetStringForLocalizationUseCase getStringForLocalizationUseCase = Get.find<GetStringForLocalizationUseCase>();
-    //Request language strings always with master site
-    final response = await getStringForLocalizationUseCase(siteId: "1010", languageId: languageId);
-    // get the language Json from the assets
-    String defaultLanguageStrings = await rootBundle.loadString("assets/localization/strings.json");
-    final jsonDefaultLanguageStrings = jsonDecode(defaultLanguageStrings);
-
-    //get the language json from the api
-    // ignore: prefer_typing_uninitialized_variables
-    late final jsonLanguageAPIResult;
-    response.forEach((r) {
-      jsonLanguageAPIResult = r;
-    });
-
-    //Combining both language json objects
-    final combinedMap = {};
-    combinedMap
-      ..addAll(jsonDefaultLanguageStrings)
-      ..addAll(jsonLanguageAPIResult);
-    languageLabels = combinedMap;
-    Logger().d(combinedMap);
   });
 
   static final getInitialData = FutureProvider.autoDispose<void>((ref) async {

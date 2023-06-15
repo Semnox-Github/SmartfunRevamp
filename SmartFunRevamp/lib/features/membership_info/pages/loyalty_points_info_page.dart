@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 
 class LoyaltyPointsInfoPage extends ConsumerWidget {
   const LoyaltyPointsInfoPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+    final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
+    final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     final cards = ref.watch(CardsProviders.loyaltyPointsDetailProvider);
     return Scaffold(
       appBar: const CustomAppBar(
@@ -58,7 +63,7 @@ class LoyaltyPointsInfoPage extends ConsumerWidget {
                                 text: 'TrxId: ${transaction.refId}',
                               ),
                               MulishText(
-                                text: '\$${transaction.amount}',
+                                text: transaction.amount.toCurrency(currency, format),
                               ),
                             ],
                           ),

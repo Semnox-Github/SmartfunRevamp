@@ -66,22 +66,6 @@ class CardWidget extends StatelessWidget {
               )
             ],
           ),
-          OutlinedButton(
-            onPressed: () {},
-            style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              side: const BorderSide(
-                width: 1.5,
-                color: Colors.white,
-              ),
-            ),
-            child: const MulishText(
-              text: 'Get Balance',
-              fontColor: Colors.white,
-            ),
-          ),
           MulishText(
             text: validPeriod,
             fontColor: Colors.white,

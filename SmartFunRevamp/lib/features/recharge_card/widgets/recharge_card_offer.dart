@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class RechargeCardOffer extends StatelessWidget {
+class RechargeCardOffer extends ConsumerWidget {
   const RechargeCardOffer({
     Key? key,
     required this.offer,
@@ -18,8 +22,11 @@ class RechargeCardOffer extends StatelessWidget {
   final Function() onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     double discount = offer.basePrice != 0 ? (((offer.basePrice - offer.finalPrice) * 100) / offer.basePrice) : 0;
+    final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+    final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
+    final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -87,7 +94,7 @@ class RechargeCardOffer extends StatelessWidget {
                             ? Row(
                                 children: [
                                   Text(
-                                    '\$${offer.basePrice.toStringAsFixed(0)}',
+                                    offer.basePrice.toCurrency(currency, format),
                                     style: GoogleFonts.mulish(
                                       color: CustomColors.discountColor,
                                       fontWeight: FontWeight.w600,
@@ -108,7 +115,7 @@ class RechargeCardOffer extends StatelessWidget {
                               )
                             : Row(),
                         Text(
-                          '\$${offer.finalPrice.toStringAsFixed(0)}',
+                          offer.finalPrice.toCurrency(currency, format),
                           style: GoogleFonts.mulish(
                             fontWeight: FontWeight.w800,
                             fontSize: 20.0,

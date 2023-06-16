@@ -19,7 +19,7 @@ part 'cards_state.dart';
 part 'cards_provider.freezed.dart';
 
 class CardsProviders {
-  static final userCardsProvider = FutureProvider.autoDispose<List<CardDetails>>((ref) async {
+  static final userCardsProvider = FutureProvider<List<CardDetails>>((ref) async {
     final GetUserCardsUseCase getUserCardsUseCase = Get.find<GetUserCardsUseCase>();
     final userId = Get.find<CustomerDTO>().id;
     final response = await getUserCardsUseCase(userId.toString());

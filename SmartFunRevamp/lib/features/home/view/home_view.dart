@@ -44,8 +44,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO:Update when linked a new card
-    var cardsWatch = ref.watch(CardsProviders.userCardsProvider.select((asyncValue) => asyncValue));
+    final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     final promoImages = ref.watch(promoImagesProvider);
     return SingleChildScrollView(
       child: Container(
@@ -113,6 +112,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 10.0),
                     child: cardsWatch.when(
+                      skipLoadingOnRefresh: false,
                       loading: () => const ShimmerLoading(height: 200),
                       error: (_, __) => const Center(
                         child: MulishText(text: 'No Cards found'),

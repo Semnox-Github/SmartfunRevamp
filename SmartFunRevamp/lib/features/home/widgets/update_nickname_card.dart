@@ -40,9 +40,7 @@ class UpdateNicknameCard extends ConsumerWidget {
                 ),
               ),
             );
-            // TODO: here we should call to something that updates the interface, we could load all cards again from API or just update the visible nickcname on card
             ref.invalidate(CardsProviders.userCardsProvider);
-            ref.read(CardsProviders.userCardsProvider);
           },
           error: (e) {
             context.loaderOverlay.hide();

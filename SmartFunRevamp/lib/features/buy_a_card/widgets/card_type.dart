@@ -153,28 +153,13 @@ class CardType extends ConsumerWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       MulishText(
                         text: card.productName,
                         fontWeight: FontWeight.bold,
                         fontSize: 12.0,
                       ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/buy_card/coin.svg',
-                            color: Colors.white,
-                          ),
-                          const SizedBox(width: 5.0),
-                          MulishText(
-                            text: card.credits.toString(),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22.0,
-                          ),
-                        ],
-                      )
                     ],
                   ),
                 ),

@@ -19,7 +19,7 @@ class ListOfCard extends StatelessWidget {
       items: data.map((i) {
         bool hasBlocked = i.accountNumber!.startsWith('T') ? true : false;
         late final DateTime timeNow = DateTime.now();
-        late final DateTime expirationDate = i.expiryDate!= null ? DateTime.parse(i.expiryDate.toString()) : timeNow;
+        late final DateTime expirationDate = i.expiryDate != null ? DateTime.parse(i.expiryDate.toString()) : timeNow;
         late final int daysUntilExpiration = (expirationDate.difference(timeNow).inHours / 24).round();
         return Builder(
           builder: (BuildContext context) {
@@ -62,31 +62,9 @@ class ListOfCard extends StatelessWidget {
                         child: Image.asset(
                           'assets/home/QR.png',
                           height: 42.0,
-                          ),
+                        ),
                       )
                     ],
-                  ),
-                  const SizedBox(height: 10.0),
-                  OutlinedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          side: const BorderSide(
-                            width: 1.5,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      SplashScreenNotifier.getLanguageLabel('Get Balance'),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
                   ),
                   const SizedBox(height: 10.0),
                   Text(

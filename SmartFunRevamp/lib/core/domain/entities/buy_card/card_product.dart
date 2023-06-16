@@ -5,7 +5,7 @@ part 'card_product.g.dart';
 class CardProduct {
   final String productName;
   final double basePrice;
-  final String imageFileName;
+  final String? imageFileName;
   final double finalPrice;
   final int? productId;
   final double credits;

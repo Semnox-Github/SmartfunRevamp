@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -13,7 +12,6 @@ class BlockedCardWidget extends StatelessWidget {
   final CardDetails cardDetails;
   @override
   Widget build(BuildContext context) {
-    Logger().d(cardDetails.toJson());
     return Stack(children: [
       Container(
         margin: const EdgeInsets.all(5.0),
@@ -64,37 +62,10 @@ class BlockedCardWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10.0),
-            OutlinedButton(
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                side: const BorderSide(
-                  width: 1.5,
-                  color: Colors.white,
-                ),
-              ),
-              child: const MulishText(
-                text: 'Get Balance',
-                fontColor: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Builder(
-              builder: (context) {
-                late String expiryDate;
-                if (cardDetails.expiryDate != null) {
-                  expiryDate = '- ${formatter.format(DateTime.parse(cardDetails.expiryDate!))}';
-                } else {
-                  expiryDate = '';
-                }
-                return MulishText(
-                  text: '${formatter.format(cardDetails.issueDate ?? DateTime.now())} $expiryDate',
-                  fontColor: Colors.white,
-                );
-              },
-            ),
+            MulishText(
+              text: '${formatter.format(cardDetails.issueDate ?? DateTime.now())} -${formatter.format(DateTime.parse(cardDetails.expiryDate.toString()))}',
+              fontColor: Colors.white,
+            )
           ],
         ),
       ),

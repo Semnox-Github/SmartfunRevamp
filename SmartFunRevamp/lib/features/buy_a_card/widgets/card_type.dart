@@ -1,8 +1,10 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
@@ -10,6 +12,7 @@ import 'package:semnox/core/domain/entities/config/parafait_defaults_response.da
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
@@ -74,6 +77,7 @@ class CardType extends ConsumerWidget {
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     final CardValue value = randomCard();
     double discount = ((card.basePrice - card.finalPrice) * 100) / card.basePrice;
+    final String baseUrl = Get.find<String>(tag: 'baseURL');
     return GestureDetector(
       onTap: () => Dialogs.showCardInfo(context, card),
       child: Stack(
@@ -134,36 +138,46 @@ class CardType extends ConsumerWidget {
             ),
             child: Container(
               margin: const EdgeInsets.all(3.0),
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
               height: MediaQuery.of(context).size.height * 0.1,
               width: MediaQuery.of(context).size.width * 0.37,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 gradient: value.colorGradient,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MulishText(
-                    text: card.productName,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12.0,
-                  ),
-                  Row(
+              child: CachedNetworkImage(
+                imageUrl: '$baseUrl/APP_PRODUCT_IMAGES_FOLDER/${card.imageFileName?.trim()}',
+                fit: BoxFit.cover,
+                placeholder: (_, __) => const ShimmerLoading(height: 100),
+                errorWidget: (_, __, ___) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SvgPicture.asset('assets/buy_card/coin.svg'),
-                      const SizedBox(width: 5.0),
                       MulishText(
-                        text: card.credits.toString(),
+                        text: card.productName,
                         fontWeight: FontWeight.bold,
-                        fontSize: 22.0,
+                        fontSize: 12.0,
                       ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/buy_card/coin.svg',
+                            color: Colors.white,
+                          ),
+                          const SizedBox(width: 5.0),
+                          MulishText(
+                            text: card.credits.toString(),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22.0,
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             ),
           ),

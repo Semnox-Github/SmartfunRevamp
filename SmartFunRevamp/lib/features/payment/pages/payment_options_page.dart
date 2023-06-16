@@ -222,7 +222,11 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => PaymentSuccessPage(
-                                          amount: widget.transactionResponse.transactionNetAmount, cardNumber: widget.transactionResponse.primaryCard, transactionType: widget.transactionType),
+                                        amount: widget.transactionResponse.transactionNetAmount, 
+                                        cardNumber: widget.transactionResponse.primaryCard, 
+                                        transactionType: widget.transactionType,
+                                        productName: widget.cardProduct.productName,
+                                      ),
                                     ),
                                   );
                                   return NavigationDecision.navigate;

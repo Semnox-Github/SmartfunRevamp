@@ -11,10 +11,11 @@ import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class PaymentSuccessPage extends ConsumerWidget {
-  const PaymentSuccessPage({Key? key, this.cardNumber, required this.amount, required this.transactionType}) : super(key: key);
+  const PaymentSuccessPage({Key? key, this.cardNumber, required this.amount, required this.transactionType, required this.productName}) : super(key: key);
   final String? cardNumber;
   final double amount;
   final String transactionType;
+  final String productName;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
@@ -196,7 +197,7 @@ class PaymentSuccessPage extends ConsumerWidget {
               ),
               MulishText(
                 textAlign: TextAlign.center,
-                text: 'You have successfully recharged $fixedAmount on to your $cardNumber',
+                text: 'You have successfully recharged $productName on to your $cardNumber',
                 fontColor: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,

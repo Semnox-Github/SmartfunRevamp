@@ -83,24 +83,6 @@ class RechargeCardWidget extends ConsumerWidget {
               )
             ],
           ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(
-                'assets/buy_card/coin.svg',
-                color: Colors.white,
-              ),
-              const SizedBox(width: 5.0),
-              Text(
-                '${cardProduct.credits.toStringAsFixed(0)} ${SplashScreenNotifier.getLanguageLabel('CREDITS')}',
-                style: GoogleFonts.mulish(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22.0,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
           const SizedBox(height: 10.0),
           Text(
             SplashScreenNotifier.getLanguageLabel('Valid for 11 months from date of purchase'),

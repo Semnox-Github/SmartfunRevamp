@@ -98,7 +98,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '${cardProduct.credits} ${SplashScreenNotifier.getLanguageLabel('play credit')}',
+                                cardProduct.productName,
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,

@@ -25,7 +25,7 @@ class ResetPasswordPage extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.3,
                   ),
                   const MulishText(
-                    text: 'Reset Password link is sent your registered mobile number.',
+                    text: 'Reset Password link is sent to your registered email.',
                     fontWeight: FontWeight.w500,
                     fontSize: 16.0,
                     textAlign: TextAlign.center,

@@ -5,6 +5,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/input_text_field.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/provider/update_card_nickname/update_card_nickname_provider.dart';
@@ -12,8 +13,9 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class UpdateNicknameCard extends ConsumerWidget {
   final CardDetails cardDetails;
-  UpdateNicknameCard({super.key, required this.cardDetails});
+  UpdateNicknameCard({super.key, required this.cardDetails, required this.onUpdate});
   final _formKey = GlobalKey<FormState>();
+  final Function(String) onUpdate;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,9 +42,8 @@ class UpdateNicknameCard extends ConsumerWidget {
                 ),
               ),
             );
-            // TODO: here we should call to something that updates the interface, we could load all cards again from API or just update the visible nickcname on card
+            onUpdate(cardNickname);
             ref.invalidate(CardsProviders.userCardsProvider);
-            ref.read(CardsProviders.userCardsProvider);
           },
           error: (e) {
             context.loaderOverlay.hide();
@@ -97,7 +98,7 @@ class UpdateNicknameCard extends ConsumerWidget {
               children: [
                 Expanded(
                   child: InputTextField(
-                    initialValue: '',
+                    initialValue: cardDetails.accountIdentifier.isNullOrEmpty() ? cardDetails.customerName! : cardDetails.accountIdentifier!.characters.take(15).toString(),
                     onSaved: (newNickname) => cardNickname = newNickname,
                     hintText: SplashScreenNotifier.getLanguageLabel('Choose nickname'),
                     prefixIcon: IconButton(

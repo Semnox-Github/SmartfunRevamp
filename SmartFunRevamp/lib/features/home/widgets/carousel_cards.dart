@@ -39,8 +39,6 @@ class _CarouselCardsState extends State<CarouselCards> {
   @override
   void initState() {
     _cards = List<CardDetails>.from(widget.cards);
-
-    _cards.sort((a, b) => a.isBlocked() || a.isExpired() ? 1 : -1);
     Logger().d(_cards.length);
     super.initState();
   }

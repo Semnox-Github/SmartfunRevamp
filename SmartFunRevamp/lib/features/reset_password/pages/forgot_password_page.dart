@@ -39,7 +39,7 @@ class ForgotPasswordPage extends ConsumerWidget {
           child: Column(
             children: [
               const MulishText(
-                text: 'Enter your registered email or mobile below to receive password reset instructions.',
+                text: 'Enter your registered email below to receive password reset instructions.',
                 fontSize: 16.0,
                 fontWeight: FontWeight.w500,
               ),
@@ -48,7 +48,7 @@ class ForgotPasswordPage extends ConsumerWidget {
                 onSaved: (emailOrPhone) {
                   ref.read(resetPasswordStateProvider.notifier).sendEmail(emailOrPhone);
                 },
-                label: SplashScreenNotifier.getLanguageLabel('Enter registered phone number or email'),
+                label: SplashScreenNotifier.getLanguageLabel('Enter registered phone number'),
               ),
               const Spacer(),
               CustomButton(

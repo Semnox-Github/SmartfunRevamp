@@ -173,24 +173,12 @@ class EstimatedTransactionPage extends ConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  transactionResponse.transactionNetAmount.toCurrency(currency, format),
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  SplashScreenNotifier.getLanguageLabel('View Details'),
-                                  style: const TextStyle(
-                                    color: CustomColors.hardOrange,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              ],
+                            Text(
+                              transactionResponse.transactionNetAmount.toCurrency(currency, format),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             CustomButton(
                               onTap: () {

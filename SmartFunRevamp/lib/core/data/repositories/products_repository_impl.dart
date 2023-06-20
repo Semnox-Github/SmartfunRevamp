@@ -20,7 +20,7 @@ class ProductsRepositoryImpl implements ProductsRepository {
       final cards = response.data;
       cards.removeWhere((element) => element.productId == null);
       return Right(cards);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -35,7 +35,7 @@ class ProductsRepositoryImpl implements ProductsRepository {
     try {
       final response = await _api.estimateTransaction(body);
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -56,7 +56,7 @@ class ProductsRepositoryImpl implements ProductsRepository {
       final cards = response.data;
       cards.removeWhere((element) => element.productId == null);
       return Right(cards);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));

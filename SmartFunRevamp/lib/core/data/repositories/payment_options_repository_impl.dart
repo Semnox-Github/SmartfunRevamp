@@ -15,44 +15,35 @@ class PaymentOptionsRepositoryImpl implements PaymentOptionsRepository {
   PaymentOptionsRepositoryImpl(this._api);
 
   @override
-    Future<Either<Failure, List<PaymentMode>>> getPaymentModes(
-      String siteId,
-    ) async {
-      try {
-        final response = await _api.getPaymentModes(siteId: siteId);
-        final paymentModes = response.data..removeWhere((element) => element.paymentGateway == null);
-        return Right(paymentModes);
-      } on DioError catch (e) {
-        Logger().e(e);
-        if (e.response?.statusCode == 404) {
-          return Left(ServerFailure('Not Found'));
-        }
-        final message = json.decode(e.response.toString());
-        return Left(ServerFailure(message['data']));
+  Future<Either<Failure, List<PaymentMode>>> getPaymentModes(
+    String siteId,
+  ) async {
+    try {
+      final response = await _api.getPaymentModes(siteId: siteId);
+      final paymentModes = response.data..removeWhere((element) => element.paymentGateway == null);
+      return Right(paymentModes);
+    } on DioException catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
       }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
     }
+  }
 
   @override
-    Future<Either<Failure, HostedPaymentGateway>> getHostedPaymentGateways({
-      required String hostedPaymentGateway, 
-      required double amount, 
-      required int transactionId
-    }) async {
-      try {
-        final response = await _api.getHostedPaymentGateways(
-          hostedPaymentGateway,
-          amount,
-          transactionId
-        );
-        return Right(response.data);
-      } on DioError catch (e) {
-        Logger().e(e);
-        if (e.response?.statusCode == 404) {
-          return Left(ServerFailure('Not Found'));
-        }
-        final message = json.decode(e.response.toString());
-        return Left(ServerFailure(message['data']));
+  Future<Either<Failure, HostedPaymentGateway>> getHostedPaymentGateways({required String hostedPaymentGateway, required double amount, required int transactionId}) async {
+    try {
+      final response = await _api.getHostedPaymentGateways(hostedPaymentGateway, amount, transactionId);
+      return Right(response.data);
+    } on DioException catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
       }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
     }
-    
+  }
 }

@@ -56,7 +56,7 @@ class ParafaitServer {
 
       Response response = await dio.get(getFormattedPath(path), queryParameters: params);
       return APIResponse(data: response.data, header: response.headers.map);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       handelException(e);
     } catch (e) {
       throw AppException(e.toString(), "");
@@ -82,7 +82,7 @@ class ParafaitServer {
       ''');
       Response response = await dio.post(getFormattedPath(path), data: body, queryParameters: queryParameters);
       return APIResponse(data: response.data, header: response.headers.map);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       // handelException(e);
       if (e.response?.statusCode == 404) {
         throw AppException('Not Found');
@@ -108,19 +108,19 @@ class ParafaitServer {
     return path;
   }
 
-  void handelException(DioError e) {
+  void handelException(DioException e) {
     // log(e.message);
     switch (e.type) {
-      case DioErrorType.connectTimeout:
+      case DioExceptionType.connectionTimeout:
         throw AppException("Connection Timeout while reaching server", "Connection Timeout : ");
 
-      case DioErrorType.sendTimeout:
+      case DioExceptionType.sendTimeout:
         throw AppException("Connection Timeout while Sending data to server", "Send Timeout : ");
 
-      case DioErrorType.receiveTimeout:
+      case DioExceptionType.receiveTimeout:
         throw AppException("Connection Timeout while recieving data from server", "Recieve Timeout : ");
 
-      case DioErrorType.response:
+      case DioExceptionType.badResponse:
         switch (e.response?.statusCode) {
           case 400:
             throw BadRequestException(e.response?.data["data"]?.toString() ?? e.response?.statusMessage ?? "");
@@ -137,11 +137,16 @@ class ParafaitServer {
             throw FetchDataException('Error occurred while Communication with Server: ${e.message}');
         }
 
-      case DioErrorType.cancel:
+      case DioExceptionType.cancel:
         throw AppException("Request was canceled", "Cancel:");
 
-      case DioErrorType.other:
+      case DioExceptionType.unknown:
         throw FetchDataException(e.error?.toString() ?? "Unknown Error occured while Requesting");
+      case DioExceptionType.badCertificate:
+        throw Exception("Bad Request");
+
+      case DioExceptionType.connectionError:
+        throw Exception("Connection Error");
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_performance_dio/firebase_performance_dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
@@ -47,13 +48,14 @@ abstract class SmartFunApi {
         error: true,
         compact: true,
         maxWidth: 150,
-      )
+      ),
+      DioFirebasePerformanceInterceptor(),
     ]);
 
     dio.options = BaseOptions(
       baseUrl: baseUrl,
-      receiveTimeout: 40000,
-      connectTimeout: 40000,
+      receiveTimeout: const Duration(seconds: 20),
+      connectTimeout: const Duration(seconds: 20),
       headers: {
         'Authorization': token,
         'content-type': 'application/json',

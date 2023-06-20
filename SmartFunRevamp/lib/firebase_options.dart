@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAuo8egN5Qzt02P2T8XylVGOcAN8rbNq7E',
-    appId: '1:910123612775:android:ad9854f9f4b352f44eb2c2',
-    messagingSenderId: '910123612775',
-    projectId: 'smartfun-3bc95',
-    storageBucket: 'smartfun-3bc95.appspot.com',
+    apiKey: 'AIzaSyCwmsrxfrBgHWNilNsquC8qTH8H1KwCvCA',
+    appId: '1:391215867828:android:8286d03210a676739cb4e1',
+    messagingSenderId: '391215867828',
+    projectId: 'smartfungiga',
+    storageBucket: 'smartfungiga.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBJCuGmB8v3XzMzIlaHM9ul7UfX1EjlY0s',
-    appId: '1:910123612775:ios:cecadcf08465b6a04eb2c2',
-    messagingSenderId: '910123612775',
-    projectId: 'smartfun-3bc95',
-    storageBucket: 'smartfun-3bc95.appspot.com',
-    iosClientId: '910123612775-gtdc14l5vsrihvu9u2n2h7tb0elurf76.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAuYpjzEeDYlTthOXnrIAIZibvepDkwBwY',
+    appId: '1:391215867828:ios:d6ceb6c3826e31129cb4e1',
+    messagingSenderId: '391215867828',
+    projectId: 'smartfungiga',
+    storageBucket: 'smartfungiga.appspot.com',
+    iosClientId: '391215867828-aman6eae36cbubfm8pmrgu3ctubfdp9p.apps.googleusercontent.com',
     iosBundleId: 'com.giga.smartfun',
   );
 }

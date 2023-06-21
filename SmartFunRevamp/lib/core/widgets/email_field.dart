@@ -15,7 +15,7 @@ class EmailTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          SplashScreenNotifier.getLanguageLabel('Enter registered phone number or email'),
+          SplashScreenNotifier.getLanguageLabel('Enter registered email'),
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 5.0),

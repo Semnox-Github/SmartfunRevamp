@@ -139,7 +139,7 @@ class CardDetailPage extends StatelessWidget {
                   CardDetailItem(
                     color: CustomColors.customLigthBlue,
                     image: 'bonus_points',
-                    amount: '${cardDetails.creditPlusRefundableBalance?.toStringAsFixed(0)}',
+                    amount: '${cardDetails.creditPlusCardBalance?.toStringAsFixed(0)}',
                     desc: 'Credits',
                     onTap: () {
                       Navigator.push(

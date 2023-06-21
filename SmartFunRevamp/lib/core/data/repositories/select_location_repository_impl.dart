@@ -28,7 +28,7 @@ class SelectLocationRepositoryImpl implements SelectLocationRepository {
         list.removeWhere((site) => !site.onlineEnabled!);
         return Right(list);
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));

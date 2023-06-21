@@ -20,7 +20,7 @@ class OrdersRepositoryImpl implements OrdersRepository {
       final response = await _api.getCustomerTransactions(customerId);
       Logger().d('Transactions ${response.data.length}');
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -38,7 +38,7 @@ class OrdersRepositoryImpl implements OrdersRepository {
       final response = await _api.getTransactionByTransactionId(transactionId);
       Logger().d('Transaction Detail ${response.data.length}');
       return Right(response.data.first);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));

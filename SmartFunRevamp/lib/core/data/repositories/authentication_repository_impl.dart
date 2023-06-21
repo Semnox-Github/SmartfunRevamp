@@ -21,7 +21,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     try {
       final response = await _api.loginUser(body);
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -36,7 +36,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     try {
       final response = await _api.signUpUser(body);
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -54,7 +54,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       uiMetadataList.removeWhere((element) => element.customerFieldName == 'TestDownload');
       uiMetadataList.sort((a, b) => a.customerFieldOrder.compareTo(b.customerFieldOrder));
       return Right(uiMetadataList);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -73,7 +73,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       final response = await _api.sendOTP(body);
       Logger().d(response.data.toJson());
       return Right(response.data.id.toString());
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -88,7 +88,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     try {
       await _api.validateOTP(body, otpId);
       return const Right(true);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Invalid OTP'));
@@ -103,7 +103,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     try {
       final response = await _api.getCustomerByPhoneorEmail(phoneOrEmail);
       return Right(response.data.first);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -119,7 +119,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       final response = await _api.getExecutionController(siteId: siteId);
       final token = response.response.headers.value(HttpHeaders.authorizationHeader) ?? '';
       return Right(token);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -135,7 +135,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       final response = await _api.getExecutionController();
       final data = Map.from(response.data);
       return Right(data['data']['SiteId'] as int);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -151,7 +151,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       final userInfo = await _api.getCustomerByPhoneorEmail(phoneOrEmail);
       await _api.sendResetPasswordLink({"UserName": userInfo.data.first.email});
       return const Right(null);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));

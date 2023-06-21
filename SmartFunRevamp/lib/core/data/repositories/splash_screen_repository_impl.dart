@@ -32,7 +32,7 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
         },
       );
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -52,7 +52,7 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
         },
       );
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -68,7 +68,7 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       final response = await _api.getAppImages(imageType, lastModifiedDate);
       Logger().d(response);
       return const Right(null);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -84,7 +84,7 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       final response = await _api.getAppProductsImages(lastModifiedDate, imageType);
       Logger().d(response);
       return const Right(null);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -100,7 +100,7 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       final response = await _api.getContactType();
       Logger().d(response);
       return const Right(null);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -116,7 +116,7 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       final response = await _api.getParafaitLanguages(siteId);
       Logger().d(response);
       return const Right(null);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -132,7 +132,7 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       final response = await _api.getStringsForLocalization(siteId, languageId, outputForm);
       Logger().d(response);
       return const Right(null);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -147,7 +147,7 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     try {
       await _api.getHomePageCMS(moduleName, 'Bearer $token');
       return const Right(null);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));

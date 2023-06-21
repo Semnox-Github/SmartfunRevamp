@@ -20,7 +20,7 @@ class CardGameplaysRepositoryImpl implements CardGameplaysRepository {
       final response = await _api.getAccountGamePlays(accountId);
       Logger().d(response.data);
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       switch (e.response?.statusCode) {
         case 404:

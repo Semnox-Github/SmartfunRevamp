@@ -18,7 +18,7 @@ class FeedbackRepositoryImpl implements FeedbackRepository {
     try {
       final response = await _api.getCustomerFeedbackActions();
       return Right(response.data.first.surveyDetails);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));

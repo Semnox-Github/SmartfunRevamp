@@ -21,7 +21,7 @@ class ConfigRepositoryImpl implements ConfigRepository {
       final response = await _api.getParafaitDefaults(systemUser.userId, systemUser.userPKId, systemUser.machineId);
       Logger().d(response.data);
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));

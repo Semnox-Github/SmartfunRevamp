@@ -18,7 +18,7 @@ class MembershipRepositoryImpl implements MembershipRepository {
     try {
       final response = await _api.getMembershipInfo(customerId);
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -40,7 +40,7 @@ class MembershipRepositoryImpl implements MembershipRepository {
         (a, b) => a.nextMembershipIdList.first.compareTo(b.nextMembershipIdList.first),
       );
       return Right(response.membershipContainerDTOList);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));

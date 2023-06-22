@@ -23,7 +23,7 @@ class CardsRepositoryImpl implements CardsRepository {
       final response = await _api.getUserCards(userId);
       Logger().d('Tarjetas ${response.data.length}');
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -42,7 +42,7 @@ class CardsRepositoryImpl implements CardsRepository {
       final response = await _api.getCardDetails(accountNumber);
       Logger().d('Tarjetas ${response.data.length}');
       return Right(response.data.first);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -62,7 +62,7 @@ class CardsRepositoryImpl implements CardsRepository {
       final cleanList = response.data.first.accountCreditPlusDTOList;
       cleanList?.removeWhere((element) => element.periodFrom == null);
       return Right(cleanList ?? []);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -83,7 +83,7 @@ class CardsRepositoryImpl implements CardsRepository {
       cleanList?.removeWhere((element) => element.fromDate == null);
       Logger().d(response.data);
       return Right(cleanList ?? []);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -108,7 +108,7 @@ class CardsRepositoryImpl implements CardsRepository {
       });
       Logger().d(response.data);
       return const Right(null);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -125,7 +125,7 @@ class CardsRepositoryImpl implements CardsRepository {
     try {
       final response = await _api.getCardActivityDetail(cardId);
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -143,7 +143,7 @@ class CardsRepositoryImpl implements CardsRepository {
     try {
       await _api.lostCard(body);
       return const Right(null);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -161,7 +161,7 @@ class CardsRepositoryImpl implements CardsRepository {
     try {
       final response = await _api.getTransactionDetail(transactionId, buildReceipt: buildReceipt);
       return Right(response.data.first);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -183,7 +183,7 @@ class CardsRepositoryImpl implements CardsRepository {
       final response = await _api.transferBalance(transferBalance.toJson());
 
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -208,7 +208,7 @@ class CardsRepositoryImpl implements CardsRepository {
       );
       // Logger().d(response.data);
       return const Right(null);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));

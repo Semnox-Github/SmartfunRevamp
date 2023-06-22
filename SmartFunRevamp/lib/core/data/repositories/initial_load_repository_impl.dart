@@ -21,7 +21,7 @@ class InitialLoadRepositoryImpl implements InitialLoadRepository {
       final response = await _api.getParafaitLanguages(siteId);
       Logger().d(response);
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -36,9 +36,9 @@ class InitialLoadRepositoryImpl implements InitialLoadRepository {
     try {
       final response = await _api.getStringsForLocalization(siteId, languageId, outputForm);
       Logger().d(response);
-      
+
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));
@@ -54,7 +54,7 @@ class InitialLoadRepositoryImpl implements InitialLoadRepository {
       final response = await _api.getLookups(siteId, rebuildCache);
 
       return Right(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(ServerFailure('Not Found'));

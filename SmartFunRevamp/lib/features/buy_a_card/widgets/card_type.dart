@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';

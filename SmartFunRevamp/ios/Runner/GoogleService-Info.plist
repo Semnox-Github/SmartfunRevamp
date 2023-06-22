@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>910123612775-gtdc14l5vsrihvu9u2n2h7tb0elurf76.apps.googleusercontent.com</string>
+	<string>391215867828-aman6eae36cbubfm8pmrgu3ctubfdp9p.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.910123612775-gtdc14l5vsrihvu9u2n2h7tb0elurf76</string>
+	<string>com.googleusercontent.apps.391215867828-aman6eae36cbubfm8pmrgu3ctubfdp9p</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBJCuGmB8v3XzMzIlaHM9ul7UfX1EjlY0s</string>
+	<string>AIzaSyAuYpjzEeDYlTthOXnrIAIZibvepDkwBwY</string>
 	<key>GCM_SENDER_ID</key>
-	<string>910123612775</string>
+	<string>391215867828</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.giga.smartfun</string>
 	<key>PROJECT_ID</key>
-	<string>smartfun-3bc95</string>
+	<string>smartfungiga</string>
 	<key>STORAGE_BUCKET</key>
-	<string>smartfun-3bc95.appspot.com</string>
+	<string>smartfungiga.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:910123612775:ios:cecadcf08465b6a04eb2c2</string>
+	<string>1:391215867828:ios:d6ceb6c3826e31129cb4e1</string>
 </dict>
 </plist>

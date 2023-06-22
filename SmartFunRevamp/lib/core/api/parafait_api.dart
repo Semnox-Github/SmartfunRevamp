@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_performance_dio/firebase_performance_dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/domain/entities/data.dart';
@@ -24,12 +25,13 @@ abstract class ParafaitApi {
         error: true,
         compact: true,
         maxWidth: 150,
-      )
+      ),
+      DioFirebasePerformanceInterceptor(),
     ]);
 
     dio.options = BaseOptions(
-      receiveTimeout: 20000,
-      connectTimeout: 20000,
+      receiveTimeout: const Duration(seconds: 20),
+      connectTimeout: const Duration(seconds: 20),
       headers: {
         HttpHeaders.authorizationHeader: token,
         HttpHeaders.contentTypeHeader: 'application/json',

@@ -138,14 +138,21 @@ class CardDetailPage extends StatelessWidget {
                   ),
                   CardDetailItem(
                     color: CustomColors.customLigthBlue,
-                    image: 'card_time',
-                    amount: '${cardDetails.totalGamesBalance?.toStringAsFixed(0)}',
-                    desc: 'Card Games',
+                    image: 'bonus_points',
+                    amount: '${cardDetails.creditPlusCardBalance?.toStringAsFixed(0)}',
+                    desc: 'Credits',
                     onTap: () {
                       Navigator.push(
                         context,
+                        // MaterialPageRoute(
+                        //   builder: (context) => AccountGamesSummaryPage(cardNumber: cardDetails.accountNumber ?? ''),
+                        // ),
                         MaterialPageRoute(
-                          builder: (context) => AccountGamesSummaryPage(cardNumber: cardDetails.accountNumber ?? ''),
+                          builder: (context) => BonusSummaryPage(
+                            cardNumber: cardDetails.accountNumber ?? '',
+                            creditPlusType: 0,
+                            pageTitle: SplashScreenNotifier.getLanguageLabel("Credits Balance"),
+                          ),
                         ),
                       );
                     },

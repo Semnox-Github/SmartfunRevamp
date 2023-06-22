@@ -80,7 +80,7 @@ class CardWidget extends StatelessWidget {
                 scale: 0.8,
               ),
               Text(
-                '  \$ ${cardDetails.totalGamePlayCreditsBalance!.toStringAsFixed(2)}',
+                '  \$ ${cardDetails.creditPlusCardBalance!.toStringAsFixed(2)}',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 32.0,

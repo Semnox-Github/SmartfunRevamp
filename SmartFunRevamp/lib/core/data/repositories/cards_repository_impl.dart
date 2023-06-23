@@ -99,6 +99,9 @@ class CardsRepositoryImpl implements CardsRepository {
   Future<Either<Failure, void>> linkCardToUser(String cardNumber, String userId) async {
     try {
       final cardDetail = await _api.getCardDetails(cardNumber);
+      if (cardDetail.data.isEmpty) {
+        return Left(ServerFailure('Card has no info'));
+      }
       if (cardDetail.data.first.customerId != -1) {
         return Left(ServerFailure('Card is already linked to another user'));
       }

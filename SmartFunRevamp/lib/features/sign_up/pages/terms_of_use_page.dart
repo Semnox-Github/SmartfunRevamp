@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class TermsOfUsePage extends StatefulWidget {
   const TermsOfUsePage({Key? key}) : super(key: key);
@@ -12,9 +11,9 @@ class TermsOfUsePage extends StatefulWidget {
 }
 
 class _TermsOfUsePageState extends State<TermsOfUsePage> {
-  final gestureRecognizers = {
-    Factory(() => EagerGestureRecognizer()),
-  };
+  final webviewController = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..loadRequest(Uri.parse(SplashScreenNotifier.getUrl("Terms")));
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +38,7 @@ class _TermsOfUsePageState extends State<TermsOfUsePage> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.80,
-              // TODO: refactor webview to new version
-              // child: WebView(
-              //   gestureRecognizers: gestureRecognizers,
-              //   initialUrl: SplashScreenNotifier.getUrl("Terms"),
-              //   javascriptMode: JavascriptMode.unrestricted,
-              // ),
+              child: WebViewWidget(controller: webviewController),
             ),
             const SizedBox(height: 10.0),
             const Spacer(),

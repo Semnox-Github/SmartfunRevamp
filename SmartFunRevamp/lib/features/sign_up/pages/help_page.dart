@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class HelpPage extends StatefulWidget {
   const HelpPage({Key? key}) : super(key: key);
@@ -12,9 +11,9 @@ class HelpPage extends StatefulWidget {
 }
 
 class _HelpPageState extends State<HelpPage> {
-  final gestureRecognizers = {
-    Factory(() => EagerGestureRecognizer()),
-  };
+  final webviewController = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..loadRequest(Uri.parse(SplashScreenNotifier.getUrl("Help")));
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +38,7 @@ class _HelpPageState extends State<HelpPage> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.80,
-              // TODO: refactor webview to new version
-              // child: WebView(
-              //   gestureRecognizers: gestureRecognizers,
-              //   initialUrl: SplashScreenNotifier.getUrl("Help"),
-              //   javascriptMode: JavascriptMode.unrestricted,
-              // ),
+              child: WebViewWidget(controller: webviewController),
             ),
             const SizedBox(height: 10.0),
             const Spacer(),

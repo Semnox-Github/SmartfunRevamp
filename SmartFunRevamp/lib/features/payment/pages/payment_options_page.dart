@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
@@ -11,9 +11,12 @@ import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway_reque
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/payment/pages/payment_failed_page.dart';
+import 'package:semnox/features/payment/pages/payment_success_page.dart';
 import 'package:semnox/features/payment/provider/payment_options_provider.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentOptionsPage extends ConsumerWidget {
   const PaymentOptionsPage({Key? key, required this.transactionResponse, required this.cardProduct, this.cardDetails, required this.transactionType, this.finalPrice}) : super(key: key);
@@ -28,6 +31,7 @@ class PaymentOptionsPage extends ConsumerWidget {
     final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
     final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFCFF8FF),
@@ -152,9 +156,26 @@ class PaymentOptionsWidged extends StatefulWidget {
 class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
   List<Item> _data = [];
 
-  final gestureRecognizers = {
-    Factory(() => EagerGestureRecognizer()),
-  };
+  final webviewController = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    // ..setBackgroundColor(const Color(0x00000000))
+    ..setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (int progress) {
+          // Update loading bar.
+        },
+        onPageStarted: (String url) {},
+        onPageFinished: (String url) {},
+        onWebResourceError: (WebResourceError error) {},
+        onNavigationRequest: (NavigationRequest request) {
+          if (request.url.startsWith('https://www.youtube.com/')) {
+            return NavigationDecision.prevent;
+          }
+          return NavigationDecision.navigate;
+        },
+      ),
+    )
+    ..loadRequest(Uri.parse('https://flutter.dev'));
 
   @override
   void initState() {
@@ -207,48 +228,56 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                       //for some payment options the html string comes in GatewayRequestFormString instead of GatewayRequestString
                       final htmlString = data.gatewayRequestFormString ?? data.gatewayRequestString;
                       if (htmlString.isNotEmpty) {
+                        webviewController.loadRequest(Uri.parse(
+                          Uri.dataFromString(htmlString, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString(),
+                        ));
+                        webviewController.setNavigationDelegate(
+                          NavigationDelegate(
+                            onProgress: (int progress) {
+                              // Update loading bar.
+                            },
+                            onPageStarted: (String url) {},
+                            onPageFinished: (String url) {},
+                            onWebResourceError: (WebResourceError error) {},
+                            onNavigationRequest: (NavigationRequest request) {
+                              if (request.url.contains(data.successURL)) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PaymentSuccessPage(
+                                      amount: widget.transactionResponse.transactionNetAmount,
+                                      cardNumber: widget.transactionResponse.primaryCard,
+                                      transactionType: widget.transactionType,
+                                      productName: widget.cardProduct.productName,
+                                    ),
+                                  ),
+                                );
+                                return NavigationDecision.navigate;
+                              } else if (request.url.contains(data.failureURL)) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const PaymentFailedPage(),
+                                  ),
+                                );
+                                return NavigationDecision.prevent;
+                              } else if (request.url.contains(data.cancelURL)) {
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     // builder: (context) => const PaymentSuccessPage(amount: 10, cardNumber: '123',),
+                                //     builder: (context) => const PaymentFailedPage(),
+                                //   ),
+                                // );
+                                return NavigationDecision.prevent;
+                              }
+                              return NavigationDecision.navigate;
+                            },
+                          ),
+                        );
                         return SizedBox(
                           height: (MediaQuery.of(context).size.height * 0.70) - 150,
-                          child: const Text(
-                              'test'), /* WebView(
-                              gestureRecognizers: gestureRecognizers,
-                              navigationDelegate: (NavigationRequest request) {
-                                if (request.url.contains(data.successURL)) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => PaymentSuccessPage(
-                                        amount: widget.transactionResponse.transactionNetAmount, 
-                                        cardNumber: widget.transactionResponse.primaryCard, 
-                                        transactionType: widget.transactionType,
-                                        productName: widget.cardProduct.productName,
-                                      ),
-                                    ),
-                                  );
-                                  return NavigationDecision.navigate;
-                                } else if (request.url.contains(data.failureURL)) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const PaymentFailedPage(),
-                                    ),
-                                  );
-                                  return NavigationDecision.prevent;
-                                } else if (request.url.contains(data.cancelURL)) {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     // builder: (context) => const PaymentSuccessPage(amount: 10, cardNumber: '123',),
-                                  //     builder: (context) => const PaymentFailedPage(),
-                                  //   ),
-                                  // );
-                                  return NavigationDecision.prevent;
-                                }
-
-                                return NavigationDecision.navigate;
-                              },
-                              initialUrl: Uri.dataFromString(htmlString, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString(),
-                              javascriptMode: JavascriptMode.unrestricted), */
+                          child: WebViewWidget(controller: webviewController),
                         );
                       } else {
                         return Text(SplashScreenNotifier.getLanguageLabel("This payment mode is not available"));

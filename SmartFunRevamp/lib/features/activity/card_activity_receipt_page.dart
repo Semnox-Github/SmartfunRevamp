@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:document_file_save_plus/document_file_save_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+// import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:logger/logger.dart';
@@ -65,7 +65,8 @@ class CardActivityReceiptPage extends StatelessWidget {
                     }
                     return Column(
                       children: [
-                        const HtmlWidget(testHTML),
+                        // TODO: enable this again when the wakelock issue is solved or find another packaged that does not depend on wakelock
+                        // const HtmlWidget(testHTML),
                         const Spacer(),
                         CustomIconButton(
                           onTap: () async {

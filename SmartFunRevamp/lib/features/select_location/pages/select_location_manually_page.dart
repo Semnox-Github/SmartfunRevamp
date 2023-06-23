@@ -77,9 +77,9 @@ class SelectLocationManuallyPage extends ConsumerWidget {
                     25.0,
                   ),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     MulishText(
                       text: 'Locate nearest store using GPS',
                       fontColor: CustomColors.hardOrange,

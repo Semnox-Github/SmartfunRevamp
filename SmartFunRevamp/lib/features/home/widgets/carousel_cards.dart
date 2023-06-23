@@ -217,9 +217,9 @@ class CarouselCardItemState extends State<CarouselCardItem> {
                 ),
               ),
               if (card.customerId != userId && card.customerId != -1)
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
+                  children: [
                     Icon(
                       Icons.link,
                       color: Colors.white,

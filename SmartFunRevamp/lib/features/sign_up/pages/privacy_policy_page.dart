@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class PrivacyPolicyPage extends StatefulWidget {
   const PrivacyPolicyPage({Key? key}) : super(key: key);
@@ -40,11 +39,12 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.80,
-              child: WebView(
-                gestureRecognizers: gestureRecognizers,
-                initialUrl: SplashScreenNotifier.getUrl("Privacy"),
-                javascriptMode: JavascriptMode.unrestricted,
-              ),
+              // TODO: refactor webview to new version
+              // child: WebView(
+              //   gestureRecognizers: gestureRecognizers,
+              //   initialUrl: SplashScreenNotifier.getUrl("Privacy"),
+              //   javascriptMode: JavascriptMode.unrestricted,
+              // ),
             ),
             const SizedBox(height: 10.0),
             const Spacer(),

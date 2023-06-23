@@ -113,7 +113,7 @@ class RechargeCardOffer extends ConsumerWidget {
                                   ),
                                 ],
                               )
-                            : Row(),
+                            : const Row(),
                         Text(
                           offer.finalPrice.toCurrency(currency, format),
                           style: GoogleFonts.mulish(

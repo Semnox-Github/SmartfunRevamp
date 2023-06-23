@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class TermsOfUsePage extends StatefulWidget {
   const TermsOfUsePage({Key? key}) : super(key: key);
@@ -40,11 +39,12 @@ class _TermsOfUsePageState extends State<TermsOfUsePage> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.80,
-              child: WebView(
-                gestureRecognizers: gestureRecognizers,
-                initialUrl: SplashScreenNotifier.getUrl("Terms"),
-                javascriptMode: JavascriptMode.unrestricted,
-              ),
+              // TODO: refactor webview to new version
+              // child: WebView(
+              //   gestureRecognizers: gestureRecognizers,
+              //   initialUrl: SplashScreenNotifier.getUrl("Terms"),
+              //   javascriptMode: JavascriptMode.unrestricted,
+              // ),
             ),
             const SizedBox(height: 10.0),
             const Spacer(),

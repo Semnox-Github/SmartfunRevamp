@@ -80,7 +80,7 @@ class CardActivityReceiptPage extends StatelessWidget {
                               margins: PdfMargins.px(top: 55, bottom: 55, right: 55, left: 55),
                             );
                             File fileDef = File(result!);
-                            DocumentFileSavePlus.saveFile(fileDef.readAsBytesSync(), 'receipt.pdf', 'application/pdf');
+                            DocumentFileSavePlus().saveFile(fileDef.readAsBytesSync(), 'receipt.pdf', 'application/pdf');
                           },
                           label: SplashScreenNotifier.getLanguageLabel('DOWNLOAD'),
                           icon: const Icon(

@@ -17,6 +17,10 @@ class _PlayViewState extends State<PlayView> {
     Factory(() => EagerGestureRecognizer()),
   };
 
+  final controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..loadRequest(Uri.parse('https://google.com'));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,11 +44,7 @@ class _PlayViewState extends State<PlayView> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.75,
-              child: WebView(
-                gestureRecognizers: gestureRecognizers,
-                initialUrl: "https://google.com",
-                javascriptMode: JavascriptMode.unrestricted,
-              ),
+              child: WebViewWidget(controller: controller),
             ),
             const SizedBox(height: 10.0),
             const Spacer(),

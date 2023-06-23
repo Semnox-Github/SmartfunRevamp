@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +11,9 @@ import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway_reque
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/payment/pages/payment_failed_page.dart';
-import 'package:semnox/features/payment/pages/payment_success_page.dart';
 import 'package:semnox/features/payment/provider/payment_options_provider.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentOptionsPage extends ConsumerWidget {
   const PaymentOptionsPage({Key? key, required this.transactionResponse, required this.cardProduct, this.cardDetails, required this.transactionType, this.finalPrice}) : super(key: key);
@@ -214,7 +209,8 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                       if (htmlString.isNotEmpty) {
                         return SizedBox(
                           height: (MediaQuery.of(context).size.height * 0.70) - 150,
-                          child: WebView(
+                          child: const Text(
+                              'test'), /* WebView(
                               gestureRecognizers: gestureRecognizers,
                               navigationDelegate: (NavigationRequest request) {
                                 if (request.url.contains(data.successURL)) {
@@ -252,7 +248,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                                 return NavigationDecision.navigate;
                               },
                               initialUrl: Uri.dataFromString(htmlString, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString(),
-                              javascriptMode: JavascriptMode.unrestricted),
+                              javascriptMode: JavascriptMode.unrestricted), */
                         );
                       } else {
                         return Text(SplashScreenNotifier.getLanguageLabel("This payment mode is not available"));

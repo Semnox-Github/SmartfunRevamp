@@ -164,9 +164,9 @@ class CardActivityDetailPage extends ConsumerWidget {
                           thickness: 1.5,
                           color: CustomColors.customLigthBlue,
                         ),
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
+                          children: [
                             MulishText(
                               text: 'Payed Amount',
                               fontWeight: FontWeight.bold,

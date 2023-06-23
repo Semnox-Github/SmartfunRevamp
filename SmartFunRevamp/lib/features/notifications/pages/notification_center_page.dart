@@ -106,12 +106,12 @@ class NotificationCenterPage extends StatelessWidget {
                                   margin: const EdgeInsets.symmetric(vertical: 20.0),
                                   child: Dismissible(
                                     key: UniqueKey(),
-                                    background: Row(
+                                    background: const Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
-                                          children: const [
+                                          children: [
                                             Icon(
                                               Icons.delete_outline,
                                               color: CustomColors.hardOrange,

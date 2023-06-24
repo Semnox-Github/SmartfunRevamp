@@ -5,6 +5,7 @@ import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/use_cases/authentication/delete_profile_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_user_by_phone_or_email_use_case.dart';
@@ -13,6 +14,8 @@ import 'package:semnox/core/domain/use_cases/authentication/send_otp_use_case.da
 import 'package:semnox/core/domain/use_cases/authentication/verify_otp_use_case.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
@@ -28,6 +31,7 @@ final loginProvider = StateNotifierProvider<LoginNotifier, LoginState>(
     Get.find<GetExecutionContextUseCase>(),
     Get.find<LocalDataSource>(),
     Get.find<DeleteProfileUseCase>(),
+    Get.find<GetParafaitDefaultsUseCase>()
   ),
 );
 
@@ -38,6 +42,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   final LoginUserUseCase _loginUserUseCase;
   final GetExecutionContextUseCase _getExecutionContextUseCase;
   final DeleteProfileUseCase _deleteProfileUseCase;
+  final GetParafaitDefaultsUseCase? _getParafaitDefaultsUseCase;
 
   final LocalDataSource _localDataSource;
 
@@ -49,6 +54,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
     this._getExecutionContextUseCase,
     this._localDataSource,
     this._deleteProfileUseCase,
+    this._getParafaitDefaultsUseCase
   ) : super(const _Initial());
 
   String _phone = '';
@@ -56,8 +62,11 @@ class LoginNotifier extends StateNotifier<LoginState> {
   String? previousUserId;
   SiteViewDTO? selectedSite;
   String get phone => _phone;
+  ParafaitDefaultsResponse? parafaitDefault;
+  String? defaultSiteId;
 
   void loginUser(String loginId, String password) async {
+    setDefaultSite();    
     state = const _InProgress();
     _phone = loginId;
     final selectedLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
@@ -77,7 +86,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (customerDTO) async {
         registerUser(customerDTO);
         await _localDataSource.saveValue(LocalDataSource.kUserId, customerDTO.id.toString());
-        if (selectedSite == null || previousUserId != customerDTO.id.toString()) {
+        if (selectedSite == null || previousUserId != customerDTO.id.toString() && defaultSiteId.isNullOrEmpty()) {
           state = const _SelectLocationNeeded();
         } else {
           getNewToken();
@@ -86,7 +95,25 @@ class LoginNotifier extends StateNotifier<LoginState> {
     );
   }
 
+  void setDefaultSite() async {
+    //reading defaults
+    final defaults = await _getParafaitDefaultsUseCase!();
+
+    defaults.fold(
+      (l) => null, 
+      (r) => parafaitDefault = r,
+    );
+    //reading default site
+    defaultSiteId = parafaitDefault?.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
+    //if the default site is set then save it
+    if (!defaultSiteId.isNullOrEmpty()){
+      selectedSite = SiteViewDTO(siteId: int.parse(defaultSiteId!), openDate: DateTime.now(), closureDate: DateTime.now());
+      await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite!.toJson());
+    }
+  }
+
   void _getUserInfo(String phoneOrEmail) async {
+    setDefaultSite();
     final selectedLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
     selectedLocationResponse.fold(
       (l) => Logger().e('No site has been selected'),
@@ -101,7 +128,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (r) async {
         registerUser(r);
         await _localDataSource.saveValue(LocalDataSource.kUserId, r.id.toString());
-        if (selectedSite == null || previousUserId != r.id.toString()) {
+        if (selectedSite == null || previousUserId != r.id.toString() && defaultSiteId.isNullOrEmpty()) {
           state = const _SelectLocationNeeded();
         } else {
           getNewToken();

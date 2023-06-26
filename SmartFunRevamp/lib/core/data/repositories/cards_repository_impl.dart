@@ -21,8 +21,25 @@ class CardsRepositoryImpl implements CardsRepository {
   Future<Either<Failure, List<CardDetails>>> getCards(String userId) async {
     try {
       final response = await _api.getUserCards(userId);
+      List<CardDetails> allCards = response.data;
+      //sorting all cards by date (descending)
+      allCards.sort((b, a) => a.expiryDate!.compareTo(b.expiryDate!));
+      //creating 3 copies of the sorted list
+      final List<CardDetails> blockedCards = [...allCards];
+      final List<CardDetails> expiredCards = [...allCards];
+      final List<CardDetails> activeCards = [...allCards];
+      //removing all non expired cards
+      expiredCards.removeWhere((element) => (!element.isExpired()));
+      //removing all expired and non blocked cards
+      blockedCards.removeWhere((element) => (!element.isBlocked()));
+      blockedCards.removeWhere((element) => (element.isExpired()));
+      //removing all expired and blocked cards
+      activeCards.removeWhere((element) => (element.isExpired() || element.isBlocked()));
+      //adding in desired group order
+      final List<CardDetails> sortedCards = [...activeCards, ...blockedCards, ...expiredCards];
+
       Logger().d('Tarjetas ${response.data.length}');
-      return Right(response.data);
+      return Right(sortedCards);
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {

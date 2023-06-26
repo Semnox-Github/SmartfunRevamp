@@ -53,20 +53,6 @@ class RechargeCardOffer extends ConsumerWidget {
                         fontSize: 12.0,
                       ),
                     ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset('assets/buy_card/coin.svg'),
-                        const SizedBox(width: 5.0),
-                        Text(
-                          offer.credits.toStringAsFixed(0),
-                          style: GoogleFonts.mulish(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),

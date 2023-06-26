@@ -15,8 +15,6 @@ import 'package:semnox/features/home/widgets/update_nickname_card.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../splash/provider/splash_screen_notifier.dart';
-
 class CarouselCards extends StatefulWidget {
   const CarouselCards({
     Key? key,
@@ -191,22 +189,22 @@ class CarouselCardItemState extends State<CarouselCardItem> {
                 ],
               ),
               const SizedBox(height: 10.0),
-              OutlinedButton(
-                onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(width: 1.0, color: Colors.white),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
-                child: Text(
-                  SplashScreenNotifier.getLanguageLabel('Get Balance'),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+              // OutlinedButton(
+              //   onPressed: () {},
+              //   style: OutlinedButton.styleFrom(
+              //     side: const BorderSide(width: 1.0, color: Colors.white),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(12.0),
+              //     ),
+              //   ),
+              //   child: Text(
+              //     SplashScreenNotifier.getLanguageLabel('Get Balance'),
+              //     style: const TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              // ),
               const SizedBox(height: 10.0),
               Text(
                 '${card.issueDate != null ? DateFormat('dd  MMM yyyy').format(card.issueDate as DateTime) : ''} ${card.expiryDate != null ? DateFormat('- dd  MMM yyyy').format(DateTime.parse(card.expiryDate.toString())) : ''}',

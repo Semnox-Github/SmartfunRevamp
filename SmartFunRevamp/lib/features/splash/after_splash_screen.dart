@@ -67,7 +67,7 @@ class AfterSplashScreen extends ConsumerWidget {
             Image.asset('assets/splash_screen/after_splash.png'),
             const SizedBox(height: 10.0),
             Text(
-              SplashScreenNotifier.getLanguageLabel('Invalid value for Desired Units'),
+              SplashScreenNotifier.getLanguageLabel('QUICK CARD RECHARGES'),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: CustomColors.customBlack,

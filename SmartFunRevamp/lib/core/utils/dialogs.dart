@@ -133,31 +133,11 @@ class Dialogs {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const MulishText(
-                        text: 'Features & Terms',
+                      MulishText(
+                        text: card.description,
                         fontWeight: FontWeight.w800,
                         textAlign: TextAlign.start,
                         fontSize: 20.0,
-                      ),
-                      const MulishText(
-                        text: '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                        fontSize: 14.0,
-                        textAlign: TextAlign.start,
-                      ),
-                      const MulishText(
-                        text: '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                        fontSize: 14.0,
-                        textAlign: TextAlign.start,
-                      ),
-                      const MulishText(
-                        text: '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                        fontSize: 14.0,
-                        textAlign: TextAlign.start,
-                      ),
-                      const MulishText(
-                        text: '\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-                        fontSize: 14.0,
-                        textAlign: TextAlign.start,
                       ),
                       Consumer(
                         builder: (context, ref, child) {

@@ -2,9 +2,9 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/widgets/input_text_field.dart';
+import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/provider/link_card/link_card_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
@@ -29,6 +29,9 @@ class LinkACard extends ConsumerWidget {
               title: SplashScreenNotifier.getLanguageLabel('Link A Card'),
               desc: SplashScreenNotifier.getLanguageLabel('Card linked successfully.'),
               btnOkOnPress: () {},
+              onDismissCallback: (_) {
+                ref.invalidate(CardsProviders.userCardsProvider);
+              },
             ).show();
           },
           error: (e) {
@@ -104,7 +107,6 @@ class LinkACard extends ConsumerWidget {
                     child: TextButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          Logger().d('Linking');
                           _formKey.currentState!.save();
                           ref.read(linkCardProvider.notifier).linkCard(mCardNumber);
                         }

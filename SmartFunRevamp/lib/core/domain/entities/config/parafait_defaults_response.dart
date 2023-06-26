@@ -7,6 +7,7 @@ class ParafaitDefaultsResponse {
   static const String onlineRechargeEnabledKey = 'ALLOW_ONLINE_RECHARGE_LOCATION_OVERIDE';
   static const String currencySymbol = 'CURRENCY_SYMBOL';
   static const String currencyFormat = 'AMOUNT_FORMAT';
+  static const String virtualStoreSiteId = "VIRTUAL_STORE_SITE_ID";
   @JsonKey(name: 'ParafaitDefaultContainerDTOList')
   final List<ParafaitDefault> parafaitsDefaults;
 

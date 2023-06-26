@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
@@ -46,6 +47,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     final promoImages = ref.watch(promoImagesProvider);
+    cardsWatch.maybeWhen(
+      orElse: () => context.loaderOverlay.hide(),
+      loading: () => context.loaderOverlay.show(),
+      skipLoadingOnRefresh: false,
+    );
     return SingleChildScrollView(
       child: Container(
         color: Colors.white,

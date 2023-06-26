@@ -23,7 +23,7 @@ class CardsRepositoryImpl implements CardsRepository {
       final response = await _api.getUserCards(userId);
       List<CardDetails> allCards = response.data;
       //sorting all cards by date (descending)
-      allCards.sort((b, a) => a.expiryDate!.compareTo(b.expiryDate!));
+      allCards.sort((b, a) => (a.expiryDate ?? DateTime.now().toIso8601String()).compareTo(b.expiryDate ?? DateTime.now().toIso8601String()));
       //creating 3 copies of the sorted list
       final List<CardDetails> blockedCards = [...allCards];
       final List<CardDetails> expiredCards = [...allCards];

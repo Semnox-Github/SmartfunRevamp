@@ -23,7 +23,7 @@ class LoginWithOTP extends ConsumerWidget {
             label: SplashScreenNotifier.getLanguageLabel('Enter registered phone number or email'),
             inputType: TextInputType.phone,
             fillColor: Colors.white,
-            initialValue: '988789987',
+            initialValue: 'gkodaja@gmail.com',
           ),
           const SizedBox(height: 20.0),
           CustomButton(

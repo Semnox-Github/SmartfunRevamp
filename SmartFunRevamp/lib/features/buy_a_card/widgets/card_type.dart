@@ -126,7 +126,7 @@ class CardType extends ConsumerWidget {
                           ),
                         ],
                       )
-                    : Row()
+                    : const Row()
               ],
             ),
           ),

@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -13,9 +11,9 @@ class PlayView extends StatefulWidget {
 }
 
 class _PlayViewState extends State<PlayView> {
-  final gestureRecognizers = {
-    Factory(() => EagerGestureRecognizer()),
-  };
+  final controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..loadRequest(Uri.parse('https://google.com'));
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +38,7 @@ class _PlayViewState extends State<PlayView> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.75,
-              child: WebView(
-                gestureRecognizers: gestureRecognizers,
-                initialUrl: "https://google.com",
-                javascriptMode: JavascriptMode.unrestricted,
-              ),
+              child: WebViewWidget(controller: controller),
             ),
             const SizedBox(height: 10.0),
             const Spacer(),

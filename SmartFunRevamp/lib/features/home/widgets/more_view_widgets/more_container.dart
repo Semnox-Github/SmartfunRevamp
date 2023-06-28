@@ -17,8 +17,8 @@ class MoreContainer extends StatelessWidget {
           bottom: Radius.circular(20.0),
         ),
       ),
-      child: Row(
-        children: const [
+      child: const Row(
+        children: [
           MulishText(
             text: 'More',
             fontWeight: FontWeight.bold,

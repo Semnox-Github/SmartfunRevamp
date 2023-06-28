@@ -7,7 +7,6 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/cards_detail/account_games_summary_page.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';

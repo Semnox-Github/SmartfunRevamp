@@ -35,8 +35,8 @@ class MoreView extends ConsumerWidget {
             ),
             child: Column(
               children: [
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     MulishText(
                       text: 'More',
                       fontWeight: FontWeight.bold,

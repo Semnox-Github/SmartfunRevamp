@@ -11,12 +11,16 @@ class HomePageCMSResponse {
   @JsonKey(name: 'CMSModuleMenuDTOList')
   final List<CMSModuleMenuDTOList>? cmsModuleMenu;
 
+  @JsonKey(name: 'images')
+  final CMSImages cmsImages;
+
   HomePageCMSResponse(
     this.moduleId,
     this.description,
     this.title,
     this.cmsModulePages,
     this.cmsModuleMenu,
+    this.cmsImages,
   );
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
@@ -58,4 +62,15 @@ class CMSMenuItem {
   CMSMenuItem(this.itemName, this.displayName);
   factory CMSMenuItem.fromJson(Map<String, dynamic> json) => _$CMSMenuItemFromJson(json);
   Map<String, dynamic> toJson() => _$CMSMenuItemToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.pascal)
+class CMSImages {
+  @JsonKey(name: 'splash_screen_image_path')
+  final String splashScreenPath;
+  @JsonKey(name: 'language_pick_image_path')
+  final String languagePickImagePath;
+  CMSImages(this.splashScreenPath, this.languagePickImagePath);
+  factory CMSImages.fromJson(Map<String, dynamic> json) => _$CMSImagesFromJson(json);
+  Map<String, dynamic> toJson() => _$CMSImagesToJson(this);
 }

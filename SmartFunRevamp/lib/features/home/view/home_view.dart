@@ -19,8 +19,8 @@ import 'package:semnox/features/login/widgets/profile_picture.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
-import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/features/splash/splashscreen.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -53,6 +53,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
       skipLoadingOnRefresh: false,
     );
     return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
       child: Container(
         color: Colors.white,
         child: Column(
@@ -257,7 +258,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 child: CachedNetworkImage(
                                   imageUrl: i,
                                   placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                                  errorWidget: (context, url, error) => const Icon(
+                                    Icons.error,
+                                    color: Colors.red,
+                                  ),
                                 ),
                               );
                             },

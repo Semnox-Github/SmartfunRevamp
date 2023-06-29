@@ -22,9 +22,11 @@ class SelectCardRechargePage extends ConsumerStatefulWidget {
   const SelectCardRechargePage({
     Key? key,
     this.filterStr,
+    this.cardDetails
   }) : super(key: key);
 
   final String? filterStr;
+  final CardDetails? cardDetails;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SelectCardRechargePageState();
@@ -40,8 +42,17 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
   @override
   void initState() {
     super.initState();
-    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
-    cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+    //if a card was selected from home screen
+    if (widget.cardDetails != null) {
+    //is added to cards list as the only card  
+      List<CardDetails> selectedCard = [];
+      selectedCard.add(widget.cardDetails!);
+      cards = selectedCard;
+    } else {
+      //if no card was selected, i.e. when landed from Search, get all the user cards
+      cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+      cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+    }
     selectedCardNumber = cards.first;
     userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010;
     qty = 1;

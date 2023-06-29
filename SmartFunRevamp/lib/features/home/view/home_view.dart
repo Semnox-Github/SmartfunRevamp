@@ -18,6 +18,7 @@ import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
 import 'package:semnox/features/login/widgets/profile_picture.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
+import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -199,7 +200,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             image: 'recharge',
                             text: 'Recharge',
                             onTap: () => hasCard
-                                ? Navigator.pushNamed(context, Routes.kRechargePageCard)
+                                ? Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
+                                  ),
+                                )
                                 : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Recharge Card'), msgCardNoLink),
                           ),
                           QuickLinkItem(

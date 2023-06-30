@@ -125,6 +125,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         child: MulishText(text: 'No Cards found'),
                       ),
                       data: (data) {
+                        if (data.isNotEmpty && _cardIndex != data.length) {
+                          cardDetails = data.first;
+                        }
                         return Column(
                           children: [
                             data.isNotEmpty

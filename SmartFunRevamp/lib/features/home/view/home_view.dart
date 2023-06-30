@@ -199,14 +199,30 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             color: CustomColors.customYellow,
                             image: 'recharge',
                             text: 'Recharge',
-                            onTap: () => hasCard
-                                ? Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
-                                  ),
-                                )
-                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Recharge Card'), msgCardNoLink),
+                            onTap: () => ({
+                              //if there is not a card selected then show alert dialog
+                              if (!hasCard) {
+                                Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Recharge Card'), msgCardNoLink)
+                              } else {
+                                //if there is a card selected and is not blocked or expired then navigate
+                                if (!(cardDetails!.isBlocked() || cardDetails!.isExpired())) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
+                                    ),
+                                  ) 
+                                } else {
+                                  //else show dialog
+                                  Dialogs.showMessageInfo(
+                                    context,
+                                    SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                    SplashScreenNotifier.getLanguageLabel("Temporary or expired cards can't be recharged"),
+                                  )
+                                }
+                                
+                              }
+                            }),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customPink,

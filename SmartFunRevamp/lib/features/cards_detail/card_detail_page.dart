@@ -159,6 +159,7 @@ class CardDetailPage extends StatelessWidget {
                   ),
                 ],
               ),
+              if(!(cardDetails.isBlocked() || cardDetails.isExpired()))
               CustomButton(
                 onTap: () => Navigator.push(
                       context,

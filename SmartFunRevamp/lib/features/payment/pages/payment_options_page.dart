@@ -99,6 +99,8 @@ class PaymentOptionsPage extends ConsumerWidget {
                       ),
                       loading: () => const CircularProgressIndicator(),
                       data: (data) {
+                        data.removeAt(2);
+                        
                         return PaymentOptionsWidged(
                             paymentOptionsList: data,
                             cardProduct: cardProduct,
@@ -122,7 +124,7 @@ class Item {
   Item({
     required this.expandedValue,
     required this.headerValue,
-    this.isExpanded = false,
+    required this.isExpanded,
   });
 
   String expandedValue;
@@ -135,6 +137,8 @@ List<Item> generateItems(List<PaymentMode> paymentOptionsList) {
     return Item(
       headerValue: paymentOptionsList[index].paymentMode,
       expandedValue: (paymentOptionsList[index].paymentGateway as Map)["LookupValue"].toString(),
+      // if there is only 1 payment option show expanded
+      isExpanded: paymentOptionsList.length == 1 ? true : false
     );
   });
 }
@@ -157,6 +161,7 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
   List<Item> _data = [];
 
   final webviewController = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted);
+  
 
   @override
   void initState() {

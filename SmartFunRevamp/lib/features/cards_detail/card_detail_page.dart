@@ -9,6 +9,7 @@ import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
+import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CardDetailPage extends StatelessWidget {
@@ -158,8 +159,14 @@ class CardDetailPage extends StatelessWidget {
                   ),
                 ],
               ),
+              if(!(cardDetails.isBlocked() || cardDetails.isExpired()))
               CustomButton(
-                onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
+                onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
+                      ),
+                    ),
                 label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
                 margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               ),

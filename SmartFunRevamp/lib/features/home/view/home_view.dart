@@ -18,6 +18,7 @@ import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
 import 'package:semnox/features/login/widgets/profile_picture.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
+import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/features/splash/splashscreen.dart';
@@ -124,7 +125,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       error: (_, __) => const Center(
                         child: MulishText(text: 'No Cards found'),
                       ),
-                      data: (data) {
+                      data: (data) {     
+                        // set first card as selected when landing home
+                        setState(() {
+                        if (data.isNotEmpty && cardDetails == null && _cardIndex < data.length) {
+                            cardDetails = data.first;
+                        }
+                        });               
                         return Column(
                           children: [
                             data.isNotEmpty
@@ -134,6 +141,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                       setState(() {
                                         if (cardIndex != data.length) {
                                           cardDetails = data[cardIndex];
+                                        }
+                                        else {
+                                          cardDetails = null;
                                         }
                                         _cardIndex = cardIndex;
                                       });
@@ -199,9 +209,37 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             color: CustomColors.customYellow,
                             image: 'recharge',
                             text: 'Recharge',
-                            onTap: () => hasCard
-                                ? Navigator.pushNamed(context, Routes.kRechargePageCard)
-                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Recharge Card'), msgCardNoLink),
+                            onTap: () => ({
+                              //if there is not a card selected then show alert dialog
+                              if (!hasCard) {
+                                Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Recharge Card'), msgCardNoLink)
+                              } else {
+                                //if the user has no card selected show dialog
+                                if (cardDetails == null) {
+                                  Dialogs.showMessageInfo(
+                                    context,
+                                    SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                    SplashScreenNotifier.getLanguageLabel("Please select a card to recharge."),
+                                  )
+                                  //if there is a card selected and is not blocked or expired then navigate
+                                } else if (!(cardDetails!.isBlocked() || cardDetails!.isExpired())) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
+                                    ),
+                                  ) 
+                                } else {
+                                  //else show dialog
+                                  Dialogs.showMessageInfo(
+                                    context,
+                                    SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                    SplashScreenNotifier.getLanguageLabel("Temporary or expired cards can't be recharged."),
+                                  )
+                                }
+                                
+                              }
+                            }),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customPink,

@@ -100,7 +100,7 @@ class PaymentOptionsPage extends ConsumerWidget {
                         text: 'An error has ocurred $e',
                       ),
                       loading: () => const CircularProgressIndicator(),
-                      data: (data) {               
+                      data: (data) {
                         return PaymentOptionsWidged(
                             paymentOptionsList: data,
                             cardProduct: cardProduct,
@@ -159,9 +159,6 @@ class PaymentOptionsWidged extends StatefulWidget {
 
 class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
   List<Item> _data = [];
-
-  
-  
 
   @override
   void initState() {
@@ -273,7 +270,8 @@ class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
                       ),
                     );
                     return SizedBox(
-                       height: (MediaQuery.of(context).size.height * 0.70) - 150,
+                      //If only one payment method then make the box bigger
+                      height: _data.length == 1 ? (MediaQuery.of(context).size.height * 0.80) - 150 : (MediaQuery.of(context).size.height * 0.70) - 150,
                       child: WebViewWidget(controller: webviewController, gestureRecognizers: gestureRecognizers,),
                     );                                     
                   } else {

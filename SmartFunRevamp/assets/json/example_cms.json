@@ -71,7 +71,6 @@
                   "ObjectTranslationsDTOList": [],
                   "IsChanged": false
                 },
-
                 {
                   "ItemId": 108,
                   "MenuId": 20,
@@ -97,7 +96,6 @@
                   "ObjectTranslationsDTOList": [],
                   "IsChanged": false
                 },
-
                 {
                   "ItemId": 109,
                   "MenuId": 20,
@@ -190,7 +188,7 @@
                   "ItemName": "PLAY",
                   "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftPlay.png",
                   "Target": "https://virtualarcadeplay.pixgrammer.com?customerId=@customerId&url=parafaitapivirtualarcade.parafait.com",
-                  "Active": true,
+                  "Active": false,
                   "IsHeader": false,
                   "ParentItemId": -1,
                   "DisplayOrder": 2,
@@ -218,7 +216,7 @@
                   "Active": true,
                   "IsHeader": false,
                   "ParentItemId": -1,
-                  "DisplayOrder": 3,
+                  "DisplayOrder": 0,
                   "Guid": "1b2371a2-01a8-492d-86ea-664a26d3b63e",
                   "SynchStatus": false,
                   "Site_id": 1010,
@@ -234,7 +232,6 @@
                   "ObjectTranslationsDTOList": [],
                   "IsChanged": true
                 },
-
                 {
                   "ItemId": 302,
                   "MenuId": 53,
@@ -441,7 +438,6 @@
           "ObjectTranslationsDTOList": [],
           "IsChanged": true
         },
-
         {
           "ContentId": 343,
           "PageId": 50,

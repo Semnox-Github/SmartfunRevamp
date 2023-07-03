@@ -24,6 +24,19 @@ class HomePageCMSResponse {
   );
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
+
+  List<CMSMenuItem> getFooterMenuItems() {
+    List<CMSMenuItem> cmsMenuItems = [];
+    for (CMSModuleMenu moduleMenu in cmsModuleMenu) {
+      for (CMSMenu menu in moduleMenu.cmsMenus) {
+        if (menu.type == 'FOOTER') {
+          cmsMenuItems = menu.cmsMenuItems;
+        }
+      }
+    }
+    cmsMenuItems.sort((a, b) => a.displayOrder < b.displayOrder ? -1 : 1);
+    return cmsMenuItems;
+  }
 }
 
 @JsonSerializable(fieldRename: FieldRename.pascal)

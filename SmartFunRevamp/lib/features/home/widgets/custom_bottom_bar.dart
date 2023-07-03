@@ -19,7 +19,7 @@ class CustomBottomBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cms = ref.watch(cmsProvider).value;
-    final items = getFooterMenuItems(cms);
+    final items = cms?.getFooterMenuItems() ?? [];
     return ClipRRect(
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(25.0),
@@ -34,37 +34,23 @@ class CustomBottomBar extends ConsumerWidget {
         onTap: (value) => onTap(value),
         items: [
           for (CMSMenuItem item in items)
-            BottomNavigationBarItem(
-              icon: CustomBottomNavigationBarItem(
-                key: Key(item.displayName),
-                currentIndex: currentPage,
-                index: items.indexOf(item),
-                icon: CachedNetworkImage(
-                  imageUrl: item.itemUrl,
-                  placeholder: (context, url) => const SizedBox.shrink(),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+            if (item.active)
+              BottomNavigationBarItem(
+                icon: CustomBottomNavigationBarItem(
+                  key: Key(item.displayName),
+                  currentIndex: currentPage,
+                  index: items.indexOf(item),
+                  icon: CachedNetworkImage(
+                    imageUrl: item.itemUrl,
+                    placeholder: (context, url) => const SizedBox.shrink(),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ),
+                  text: SplashScreenNotifier.getLanguageLabel(item.displayName),
                 ),
-                text: SplashScreenNotifier.getLanguageLabel(item.displayName),
+                label: '',
               ),
-              label: '',
-            ),
         ],
       ),
     );
-  }
-
-  List<CMSMenuItem> getFooterMenuItems(HomePageCMSResponse? cms) {
-    List<CMSMenuItem> cmsMenuItems = [];
-    if (cms == null) {
-      return cmsMenuItems;
-    }
-    for (CMSModuleMenu moduleMenu in cms.cmsModuleMenu) {
-      for (CMSMenu menu in moduleMenu.cmsMenus) {
-        if (menu.type == 'FOOTER') {
-          return menu.cmsMenuItems;
-        }
-      }
-    }
-    return cmsMenuItems;
   }
 }

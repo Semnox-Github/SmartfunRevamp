@@ -1,35 +1,22 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'dart:convert';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
-import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/splashscreen.dart';
 
 import 'provider/splash_screen_notifier.dart';
 
-final cmsProvider = FutureProvider<HomePageCMSResponse?>((ref) async {
-  try {
-    final String response = await rootBundle.loadString('assets/json/example_cms.json');
-    final data = Map<String, dynamic>.from(await json.decode(response));
-    return HomePageCMSResponse.fromJson(data);
-  } catch (e) {
-    Logger().e(e);
-    return null;
-  }
-});
 final parafaitDefaultsProvider = FutureProvider<ParafaitDefaultsResponse>((ref) async {
   final getDefaults = Get.find<GetParafaitDefaultsUseCase>();
   final response = await getDefaults();
@@ -45,7 +32,6 @@ class AfterSplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(cmsProvider);
     ref.watch(parafaitDefaultsProvider);
     ref.watch(SplashScreenNotifier.getInitialData);
     final currenLang = ref.watch(currentLanguageProvider);
@@ -58,13 +44,27 @@ class AfterSplashScreen extends ConsumerWidget {
         context.loaderOverlay.show();
       },
     );
-
+    final imagePath = ref.watch(cmsProvider).value?.cmsImages.languagePickImagePath;
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Image.asset('assets/splash_screen/after_splash.png'),
+            // Image.asset('assets/splash_screen/after_splash.png'),
+            CachedNetworkImage(
+              imageUrl: imagePath ?? "",
+              height: MediaQuery.of(context).size.height * 0.40,
+              placeholder: (_, __) => const Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) {
+                return const Center(
+                  child: Icon(
+                    Icons.error,
+                    color: Colors.red,
+                    size: 50.0,
+                  ),
+                );
+              },
+            ),
             const SizedBox(height: 10.0),
             Text(
               SplashScreenNotifier.getLanguageLabel('QUICK CARD RECHARGES'),

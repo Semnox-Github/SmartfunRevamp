@@ -5,6 +5,7 @@ import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/cards_detail/card_detail_page.dart';
+import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class RechargeCardDetailsButton extends StatelessWidget {
@@ -66,7 +67,12 @@ class RechargeCardDetailsButton extends StatelessWidget {
                   ),
                   margin: const EdgeInsets.all(3),
                   child: TextButton(
-                    onPressed: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
+                      ),
+                    ),
                     child: Text(
                       SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
                       style: const TextStyle(

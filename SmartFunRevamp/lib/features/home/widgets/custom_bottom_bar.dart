@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
@@ -21,7 +20,6 @@ class CustomBottomBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cms = ref.watch(cmsProvider).value;
     final items = getFooterMenuItems(cms);
-    inspect(cms);
     return ClipRRect(
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(25.0),
@@ -35,53 +33,21 @@ class CustomBottomBar extends ConsumerWidget {
         unselectedFontSize: 0.0,
         onTap: (value) => onTap(value),
         items: [
-          //   for (CMSMenuItem item in items)
-          //     BottomNavigationBarItem(
-          //       icon: CustomBottomNavigationBarItem(
-          //         key: Key(item.displayName),
-          //         currentIndex: currentPage,
-          //         index: items.indexOf(item),
-          //         icon: 'assets/home/play-circle.svg',
-          //         text: SplashScreenNotifier.getLanguageLabel(item.displayName),
-          //       ),
-          //       label: '',
-          //     ),
-          BottomNavigationBarItem(
-            icon: CustomBottomNavigationBarItem(
-              currentIndex: currentPage,
-              index: 0,
-              icon: 'assets/home/home.svg',
-              text: SplashScreenNotifier.getLanguageLabel('Home'),
+          for (CMSMenuItem item in items)
+            BottomNavigationBarItem(
+              icon: CustomBottomNavigationBarItem(
+                key: Key(item.displayName),
+                currentIndex: currentPage,
+                index: items.indexOf(item),
+                icon: CachedNetworkImage(
+                  imageUrl: item.itemUrl,
+                  placeholder: (context, url) => const SizedBox.shrink(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+                text: SplashScreenNotifier.getLanguageLabel(item.displayName),
+              ),
+              label: '',
             ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: CustomBottomNavigationBarItem(
-              currentIndex: currentPage,
-              index: 1,
-              icon: 'assets/home/play-circle.svg',
-              text: SplashScreenNotifier.getLanguageLabel('Play'),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: CustomBottomNavigationBarItem(
-              currentIndex: currentPage,
-              index: 2,
-              icon: 'assets/home/calendar.svg',
-              text: SplashScreenNotifier.getLanguageLabel('Bookings'),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: CustomBottomNavigationBarItem(
-              currentIndex: currentPage,
-              index: 3,
-              icon: 'assets/home/more.svg',
-              text: SplashScreenNotifier.getLanguageLabel('More'),
-            ),
-            label: '',
-          ),
         ],
       ),
     );

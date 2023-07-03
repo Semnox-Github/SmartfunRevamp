@@ -48,6 +48,7 @@ class _HomePageState extends State<HomePage> {
           controller: _pageController,
           onPageChanged: (index) {
             setState(() {
+              debugPrint('going to page index: $index');
               _currentPage = index;
             });
           },

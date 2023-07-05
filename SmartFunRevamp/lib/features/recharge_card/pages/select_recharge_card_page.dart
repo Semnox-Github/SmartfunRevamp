@@ -65,7 +65,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
     final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     return Scaffold(
-      appBar: AppBar(
+      appBar: widget.filterStr == null ? AppBar(
         backgroundColor: const Color(0xFFCFF8FF),
         elevation: 0.0,
         centerTitle: false,
@@ -77,7 +77,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
             fontWeight: FontWeight.bold,
           ),
         ),
-      ),
+      ) : null,
       bottomSheet: BottomSheetButton(
         label: offerSelected == null
             ? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')

@@ -76,8 +76,8 @@ class AfterSplashScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 10.0),
-            const MulishText(
-              text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            MulishText(
+              text: SplashScreenNotifier.getLanguageLabel('QUICK CARD RECHARGES DETAIL'),
               fontSize: 16.0,
               fontColor: CustomColors.customBlack,
               fontWeight: FontWeight.w500,

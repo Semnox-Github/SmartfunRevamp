@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
@@ -13,6 +14,7 @@ import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/payment/pages/payment_failed_page.dart';
 import 'package:semnox/features/payment/pages/payment_success_page.dart';
+import 'package:semnox/features/payment/provider/hosted_payment_provider/hosted_payment_provider.dart';
 import 'package:semnox/features/payment/provider/payment_options_provider.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -86,29 +88,25 @@ class PaymentOptionsPage extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 10.0),
-            Consumer(
-              builder: (context, ref, child) {
-                return ref.watch(PaymentOptionsProvider.paymentModesProvider).maybeWhen(
-                      orElse: () => Container(
-                        height: 20.0,
-                        width: 20.0,
-                        color: Colors.red,
-                      ),
-                      error: (e, s) => MulishText(
-                        text: 'An error has ocurred $e',
-                      ),
-                      loading: () => const CircularProgressIndicator(),
-                      data: (data) {
-                        return PaymentOptionsWidged(
-                            paymentOptionsList: data,
-                            cardProduct: cardProduct,
+            Expanded(
+              child: Consumer(
+                builder: (context, ref, child) {
+                  return ref.watch(PaymentOptionsProvider.paymentModesProvider).when(
+                        error: (e, s) => MulishText(text: 'An error has ocurred $e'),
+                        loading: () => const Center(child: CircularProgressIndicator()),
+                        data: (data) {
+                          return ExpansionPaymentMethodsList(
+                            paymentsMode: data,
                             transactionResponse: transactionResponse,
-                            cardDetails: cardDetails,
+                            cardProduct: cardProduct,
                             transactionType: transactionType,
-                            finalPrice: finalPrice);
-                      },
-                    );
-              },
+                            cardDetails: cardDetails,
+                            finalPrice: finalPrice,
+                          );
+                        },
+                      );
+                },
+              ),
             ),
           ],
         ),
@@ -117,159 +115,150 @@ class PaymentOptionsPage extends ConsumerWidget {
   }
 }
 
-// stores ExpansionPanel state information
-class Item {
-  Item({
-    required this.expandedValue,
-    required this.headerValue,
+class PanelItem {
+  PanelItem({
+    required this.paymentMode,
     this.isExpanded = false,
   });
 
-  String expandedValue;
-  String headerValue;
+  PaymentMode paymentMode;
   bool isExpanded;
 }
 
-List<Item> generateItems(List<PaymentMode> paymentOptionsList) {
-  return List<Item>.generate(paymentOptionsList.length, (int index) {
-    return Item(
-      headerValue: paymentOptionsList[index].paymentMode,
-      expandedValue: (paymentOptionsList[index].paymentGateway as Map)["LookupValue"].toString(),
-    );
+class ExpansionPaymentMethodsList extends StatefulWidget {
+  const ExpansionPaymentMethodsList({
+    super.key,
+    required this.paymentsMode,
+    required this.transactionResponse,
+    required this.cardProduct,
+    this.cardDetails,
+    required this.transactionType,
+    this.finalPrice,
   });
-}
-
-class PaymentOptionsWidged extends StatefulWidget {
-  const PaymentOptionsWidged(
-      {super.key, required this.paymentOptionsList, required this.transactionResponse, required this.cardProduct, this.cardDetails, required this.transactionType, this.finalPrice});
-  final List<PaymentMode> paymentOptionsList;
+  final List<PaymentMode> paymentsMode;
   final EstimateTransactionResponse transactionResponse;
   final CardProduct cardProduct;
   final CardDetails? cardDetails;
   final String transactionType;
   final double? finalPrice;
-
   @override
-  State<PaymentOptionsWidged> createState() => _PaymentOptionsWidgedState();
+  State<ExpansionPaymentMethodsList> createState() => _ExpansionPaymentMethodsListState();
 }
 
-class _PaymentOptionsWidgedState extends State<PaymentOptionsWidged> {
-  List<Item> _data = [];
-
+class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsList> {
+  List<PanelItem> _data = [];
   final webviewController = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted);
-
   @override
   void initState() {
-    _data = generateItems(widget.paymentOptionsList);
     super.initState();
+    _data = widget.paymentsMode.map((e) => PanelItem(paymentMode: e)).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.70,
-      child: SingleChildScrollView(
-        child: Container(
-          child: _buildPanel(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPanel() {
-    return ExpansionPanelList(
-      expansionCallback: (int index, bool isExpanded) {
-        setState(() {
-          _data[index].isExpanded = !isExpanded;
-        });
-      },
-      children: _data.map<ExpansionPanel>((Item item) {
-        return ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-              title: Text(item.headerValue),
-            );
-          },
-          body: Consumer(
-            builder: (context, ref, child) {
-              return ref
-                  .watch(PaymentOptionsProvider.hostedPaymentGatewayProvider(HostedPaymentGatewayRequest(
-                      hostedPaymentGateway: item.expandedValue, amount: widget.transactionResponse.transactionNetAmount, transactionId: widget.transactionResponse.transactionId)))
-                  .maybeWhen(
-                    orElse: () => Container(
-                      height: 20.0,
-                      width: 20.0,
-                      color: Colors.red,
-                    ),
-                    error: (e, s) => MulishText(
-                      text: 'An error has ocurred $e',
-                    ),
-                    loading: () => const CircularProgressIndicator(),
-                    data: (data) {
-                      //for some payment options the html string comes in GatewayRequestFormString instead of GatewayRequestString
-                      final htmlString = data.gatewayRequestFormString ?? data.gatewayRequestString;
-                      if (htmlString.isNotEmpty) {
-                        webviewController.loadRequest(Uri.parse(
-                          Uri.dataFromString(htmlString, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString(),
-                        ));
-                        webviewController.setNavigationDelegate(
-                          NavigationDelegate(
-                            onProgress: (int progress) {
-                              // Update loading bar.
-                            },
-                            onPageStarted: (String url) {},
-                            onPageFinished: (String url) {},
-                            onWebResourceError: (WebResourceError error) {},
-                            onNavigationRequest: (NavigationRequest request) {
-                              if (request.url.contains(data.successURL)) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PaymentSuccessPage(
-                                      amount: widget.transactionResponse.transactionNetAmount,
-                                      cardNumber: widget.transactionResponse.primaryCard,
-                                      transactionType: widget.transactionType,
-                                      productName: widget.cardProduct.productName,
-                                    ),
-                                  ),
-                                );
-                                return NavigationDecision.navigate;
-                              } else if (request.url.contains(data.failureURL)) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const PaymentFailedPage(),
-                                  ),
-                                );
-                                return NavigationDecision.prevent;
-                              } else if (request.url.contains(data.cancelURL)) {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     // builder: (context) => const PaymentSuccessPage(amount: 10, cardNumber: '123',),
-                                //     builder: (context) => const PaymentFailedPage(),
-                                //   ),
-                                // );
-                                return NavigationDecision.prevent;
-                              }
-                              return NavigationDecision.navigate;
-                            },
-                          ),
-                        );
-                        return SizedBox(
-                          height: (MediaQuery.of(context).size.height * 0.70) - 150,
-                          child: WebViewWidget(controller: webviewController),
-                        );
+    return Consumer(
+      builder: (context, ref, __) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.70,
+          child: SingleChildScrollView(
+            child: ExpansionPanelList(
+              expansionCallback: (panelIndex, _) {
+                setState(
+                  () {
+                    for (var i = 0; i < _data.length; i++) {
+                      if (i == panelIndex && _data[i].isExpanded == false) {
+                        _data[i].isExpanded = true;
+                        ref.read(hostedPaymentProvider.notifier).getHtml(
+                              HostedPaymentGatewayRequest(
+                                hostedPaymentGateway: _data[panelIndex].paymentMode.paymentGateway?.lookupValue ?? '',
+                                amount: widget.transactionResponse.transactionAmount,
+                                transactionId: widget.transactionResponse.transactionId,
+                              ),
+                            );
                       } else {
-                        return Text(SplashScreenNotifier.getLanguageLabel("This payment mode is not available"));
+                        _data[i].isExpanded = false;
                       }
-                    },
+                    }
+                  },
+                );
+              },
+              children: _data.map(
+                (panelItem) {
+                  return ExpansionPanel(
+                    isExpanded: panelItem.isExpanded,
+                    headerBuilder: (_, __) => ListTile(
+                      title: MulishText(
+                        text: panelItem.paymentMode.paymentMode,
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                    body: ref.watch(hostedPaymentProvider).when(
+                          initial: () => Container(),
+                          inProgress: () => const CircularProgressIndicator(),
+                          error: (msg) => const Icon(Icons.error, color: Colors.green, size: 30.0),
+                          success: (data) {
+                            final htmlString = data.gatewayRequestFormString ?? data.gatewayRequestString;
+                            if (htmlString.isNotEmpty) {
+                              final uri = Uri.parse(Uri.dataFromString(htmlString, mimeType: 'text/html', encoding: Encoding.getByName('UTF-8')).toString());
+                              webviewController.loadRequest(uri);
+                              webviewController.setNavigationDelegate(
+                                NavigationDelegate(
+                                  onNavigationRequest: (NavigationRequest request) {
+                                    Logger().e(request.url);
+                                    if (request.url.contains(data.successURL)) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => PaymentSuccessPage(
+                                            amount: widget.transactionResponse.transactionNetAmount,
+                                            cardNumber: widget.transactionResponse.primaryCard,
+                                            transactionType: widget.transactionType,
+                                            productName: widget.cardProduct.productName,
+                                          ),
+                                        ),
+                                      );
+                                      return NavigationDecision.navigate;
+                                    } else if (request.url.contains(data.failureURL)) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const PaymentFailedPage(),
+                                        ),
+                                      );
+                                      return NavigationDecision.prevent;
+                                    } else if (request.url.contains(data.cancelURL)) {
+                                      return NavigationDecision.prevent;
+                                    }
+                                    return NavigationDecision.navigate;
+                                  },
+                                ),
+                              );
+                              return SizedBox(
+                                height: (MediaQuery.of(context).size.height * 0.70) - 150,
+                                child: WebViewWidget(controller: webviewController),
+                              );
+                            } else {
+                              return Column(
+                                children: [
+                                  const Icon(
+                                    Icons.error,
+                                    color: Colors.red,
+                                  ),
+                                  MulishText(
+                                    text: SplashScreenNotifier.getLanguageLabel("This payment mode is not available"),
+                                  ),
+                                ],
+                              );
+                            }
+                          },
+                        ),
                   );
-            },
+                },
+              ).toList(),
+            ),
           ),
-          isExpanded: item.isExpanded,
         );
-      }).toList(),
+      },
     );
   }
 }

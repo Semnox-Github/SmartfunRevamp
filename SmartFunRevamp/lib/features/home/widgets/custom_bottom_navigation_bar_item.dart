@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/features/home/widgets/gradient_wrapper.dart';
@@ -14,7 +13,7 @@ class CustomBottomNavigationBarItem extends StatelessWidget {
   }) : super(key: key);
   final int currentIndex;
   final int index;
-  final String icon;
+  final Widget icon;
   final String text;
   @override
   Widget build(BuildContext context) {
@@ -22,12 +21,7 @@ class CustomBottomNavigationBarItem extends StatelessWidget {
       gradient: currentIndex == index ? CustomGradients.linearGradient : CustomGradients.disabledGradient,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(
-            icon,
-          ),
-          Text(text)
-        ],
+        children: [icon, Text(text)],
       ),
     );
   }

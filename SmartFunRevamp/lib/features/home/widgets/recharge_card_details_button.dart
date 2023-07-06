@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
-import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/cards_detail/card_detail_page.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -15,11 +14,10 @@ class RechargeCardDetailsButton extends StatelessWidget {
   }) : super(key: key);
   late final CardDetails cardDetails;
   late final DateTime timeNow = DateTime.now();
-  late final DateTime expirationDate = cardDetails.expiryDate!= null ? DateTime.parse(cardDetails.expiryDate.toString()) : timeNow;
+  late final DateTime expirationDate = cardDetails.expiryDate != null ? DateTime.parse(cardDetails.expiryDate.toString()) : timeNow;
   late final int daysUntilExpiration = (expirationDate.difference(timeNow).inHours / 24).round();
 
   @override
-  
   Widget build(BuildContext context) {
     if (daysUntilExpiration < 0) {
       return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
@@ -32,7 +30,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
-                  color: Colors.red
+                  color: Colors.red,
                 ),
               ),
               Text(
@@ -47,8 +45,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
           ),
         ),
       ]);
-    }
-    else if (!cardDetails.accountNumber!.startsWith('T')) {
+    } else if (!cardDetails.accountNumber!.startsWith('T')) {
       return Padding(
         padding: const EdgeInsets.all(5.0),
         child: Row(
@@ -170,7 +167,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
                               builder: (context) => CardDetailPage(cardDetails: cardDetails),
                             ),
                           ),
-                          child:  Text(
+                          child: Text(
                             SplashScreenNotifier.getLanguageLabel('CARD DETAILS'),
                             style: const TextStyle(
                               color: CustomColors.hardOrange,

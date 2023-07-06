@@ -27,7 +27,11 @@ class RechargeCardDetailsButton extends StatelessWidget {
               Text(
                 '${SplashScreenNotifier.getLanguageLabel('This card has expired on')} ${DateFormat('dd MMM yyyy').format(expirationDate)}\n',
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.red),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: Colors.red,
+                ),
               ),
               Text(
                 SplashScreenNotifier.getLanguageLabel('You will no longer be able to use this card. But you can still view the Gameplay history and Activity details.'),

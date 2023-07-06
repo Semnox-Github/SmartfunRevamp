@@ -9,7 +9,7 @@ class HomePageCMSResponse {
   @JsonKey(name: 'CMSModulePageDTOList')
   final List<CMSModulePage>? cmsModulePages;
   @JsonKey(name: 'CMSModuleMenuDTOList')
-  final List<CMSModuleMenuDTOList>? cmsModuleMenu;
+  final List<CMSModuleMenu> cmsModuleMenu;
 
   @JsonKey(name: 'images')
   final CMSImages cmsImages;
@@ -24,6 +24,19 @@ class HomePageCMSResponse {
   );
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
+
+  List<CMSMenuItem> getFooterMenuItems() {
+    List<CMSMenuItem> cmsMenuItems = [];
+    for (CMSModuleMenu moduleMenu in cmsModuleMenu) {
+      for (CMSMenu menu in moduleMenu.cmsMenus) {
+        if (menu.type == 'FOOTER') {
+          cmsMenuItems = menu.cmsMenuItems;
+        }
+      }
+    }
+    cmsMenuItems.sort((a, b) => a.displayOrder < b.displayOrder ? -1 : 1);
+    return cmsMenuItems;
+  }
 }
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
@@ -33,33 +46,65 @@ class CMSModulePage {
   final String displaySection;
   final int displayOrder;
   final String contentURL;
+  CMSModulePage(
+    this.pageId,
+    this.contentId,
+    this.displaySection,
+    this.displayOrder,
+    this.contentURL,
+  );
+
   Map<String, dynamic> toJson() => _$CMSModulePageToJson(this);
 
   factory CMSModulePage.fromJson(Map<String, dynamic> json) => _$CMSModulePageFromJson(json);
-  CMSModulePage(this.pageId, this.contentId, this.displaySection, this.displayOrder, this.contentURL);
 }
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
-class CMSModuleMenuDTOList {
+class CMSModuleMenu {
+  @JsonKey(name: 'CMSMenusDTOList')
+  final List<CMSMenu> cmsMenus;
+  final int moduleId;
+  final String guid;
+  CMSModuleMenu(
+    this.cmsMenus,
+    this.moduleId,
+    this.guid,
+  );
+  factory CMSModuleMenu.fromJson(Map<String, dynamic> json) => _$CMSModuleMenuFromJson(json);
+  Map<String, dynamic> toJson() => _$CMSModuleMenuToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.pascal)
+class CMSMenu {
   @JsonKey(name: 'CMSMenuItemsDTOList')
-  final List<CMSMenuItem>? cmsMenusList;
-  final String? name;
-  final String? type;
-  CMSModuleMenuDTOList(
-    this.cmsMenusList,
+  final List<CMSMenuItem> cmsMenuItems;
+  final String name;
+  final String type;
+  final bool active;
+  CMSMenu(
+    this.cmsMenuItems,
     this.name,
+    this.active,
     this.type,
   );
-  factory CMSModuleMenuDTOList.fromJson(Map<String, dynamic> json) => _$CMSModuleMenuDTOListFromJson(json);
-  Map<String, dynamic> toJson() => _$CMSModuleMenuDTOListToJson(this);
+  factory CMSMenu.fromJson(Map<String, dynamic> json) => _$CMSMenuFromJson(json);
+  Map<String, dynamic> toJson() => _$CMSMenuToJson(this);
 }
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
 class CMSMenuItem {
-  final String? itemName;
-  final String? displayName;
-
-  CMSMenuItem(this.itemName, this.displayName);
+  final String itemName;
+  final String displayName;
+  final bool active;
+  final int displayOrder;
+  final String itemUrl;
+  CMSMenuItem(
+    this.itemName,
+    this.displayName,
+    this.active,
+    this.displayOrder,
+    this.itemUrl,
+  );
   factory CMSMenuItem.fromJson(Map<String, dynamic> json) => _$CMSMenuItemFromJson(json);
   Map<String, dynamic> toJson() => _$CMSMenuItemToJson(this);
 }

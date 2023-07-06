@@ -12,7 +12,6 @@ void selectLocationDependecies() {
   Get.lazyPut<SelectLocationRepository>(
     () => SelectLocationRepositoryImpl(
       Get.find<SmartFunApi>(),
-      Get.find<LocalDataSource>(),
     ),
   );
 

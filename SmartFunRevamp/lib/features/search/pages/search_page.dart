@@ -99,7 +99,7 @@ Widget _tabSection(BuildContext context, String? filterStr) {
         ]),
         SizedBox(
           //Add this to give height
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height * 0.8,
           child: TabBarView(children: [SelectCardRechargePage(filterStr: filterStr), BuyCardListPage(filterStr: filterStr)]),
         ),
       ],

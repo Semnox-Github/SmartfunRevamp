@@ -24,7 +24,7 @@ class BuyCardListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       endDrawer: const FilterDrawer(),
-      appBar: AppBar(
+      appBar: filterStr == null ? AppBar(
         backgroundColor: const Color(0xFFCFF8FF),
         elevation: 0.0,
         centerTitle: false,
@@ -49,7 +49,7 @@ class BuyCardListPage extends StatelessWidget {
             },
           ),
         ],
-      ),
+      ) : null,
       body: SafeArea(
         child: Column(
           children: [

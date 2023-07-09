@@ -181,15 +181,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
               ),
               const SizedBox(height: 3.0),
               Text(
-                SplashScreenNotifier.getLanguageLabel('Your card &1 has been blocked, based on your request. You no longer will be to use it.').replaceAll('&1', cardDetails.accountNumber.toString()),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 8,
-                ),
-              ),
-              Text(
-                ' ${SplashScreenNotifier.getLanguageLabel('This card will be removed from smartfun once you get the new physical card.')}',
+                SplashScreenNotifier.getLanguageLabel('This card can not be used for any further transactions. Exchange virtual card for a new physical card at site.'),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,

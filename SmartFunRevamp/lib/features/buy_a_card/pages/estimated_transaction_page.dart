@@ -62,7 +62,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          SplashScreenNotifier.getLanguageLabel('Recharge'),
+          SplashScreenNotifier.getLanguageLabel(transactionType == "newcard" ? "Buy a Card" : "Recharge"),
           style: const TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,

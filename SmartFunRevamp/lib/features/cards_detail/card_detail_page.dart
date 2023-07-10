@@ -1,8 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
@@ -11,14 +14,18 @@ import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/features/splash/splashscreen.dart';
 
-class CardDetailPage extends StatelessWidget {
+class CardDetailPage extends ConsumerWidget {
   const CardDetailPage({Key? key, required this.cardDetails}) : super(key: key);
   final CardDetails cardDetails;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Logger().d(cardDetails.toJson());
+    final cms = ref.watch(cmsProvider).value;
+    final items = cms?.getCardDetailMenuItems() ?? [];
+
     return Scaffold(
       appBar: AppBar(
         title: const MulishText(
@@ -58,118 +65,21 @@ class CardDetailPage extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  CardDetailItem(
-                    color: CustomColors.customOrange,
-                    image: 'bonus_points',
-                    amount: '${cardDetails.creditPlusBonus?.toStringAsFixed(0)}',
-                    desc: 'Bonus',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(
-                            cardNumber: cardDetails.accountNumber ?? '',
-                            creditPlusType: 5,
-                            pageTitle: SplashScreenNotifier.getLanguageLabel("Bonus Balance"),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  CardDetailItem(
-                    color: CustomColors.customGreen,
-                    image: 'playtime',
-                    amount: '${cardDetails.creditPlusTime?.toStringAsFixed(0)}',
-                    desc: 'Time',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(
-                            cardNumber: cardDetails.accountNumber ?? '',
-                            creditPlusType: 6,
-                            pageTitle: SplashScreenNotifier.getLanguageLabel("Time Balance"),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  CardDetailItem(
-                    color: CustomColors.customPurple,
-                    image: 'ticket_count',
-                    amount: '${cardDetails.creditPlusTickets?.toStringAsFixed(0)}',
-                    desc: 'Tickets',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(
-                            cardNumber: cardDetails.accountNumber ?? '',
-                            creditPlusType: 2,
-                            pageTitle: SplashScreenNotifier.getLanguageLabel("Ticket Balance"),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  CardDetailItem(
-                    color: CustomColors.customYellow,
-                    image: 'courtesy',
-                    amount: '${cardDetails.totalCourtesyBalance?.toStringAsFixed(0)}',
-                    desc: 'Courtesy',
-                  ),
-                  CardDetailItem(
-                    color: CustomColors.customPink,
-                    image: 'loyalty',
-                    amount: '${cardDetails.creditPlusLoyaltyPoints?.toStringAsFixed(0)}',
-                    desc: 'Loyalty',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(
-                            cardNumber: cardDetails.accountNumber ?? '',
-                            creditPlusType: 1,
-                            pageTitle: SplashScreenNotifier.getLanguageLabel("Loyalty Balance"),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  CardDetailItem(
-                    color: CustomColors.customLigthBlue,
-                    image: 'bonus_points',
-                    amount: '${cardDetails.creditPlusCardBalance?.toStringAsFixed(0)}',
-                    desc: 'Credits',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        // MaterialPageRoute(
-                        //   builder: (context) => AccountGamesSummaryPage(cardNumber: cardDetails.accountNumber ?? ''),
-                        // ),
-                        MaterialPageRoute(
-                          builder: (context) => BonusSummaryPage(
-                            cardNumber: cardDetails.accountNumber ?? '',
-                            creditPlusType: 0,
-                            pageTitle: SplashScreenNotifier.getLanguageLabel("Credits Balance"),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                  for (final item in items)
+                    if (item.active) CardDetailItemFromCMS(item: item, cardDetails: cardDetails),
                 ],
               ),
-              if(!(cardDetails.isBlocked() || cardDetails.isExpired()))
-              CustomButton(
-                onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
-                      ),
+              if (!(cardDetails.isBlocked() || cardDetails.isExpired()))
+                CustomButton(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
                     ),
-                label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
-                margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              ),
+                  ),
+                  label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
+                  margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -300,45 +210,181 @@ class CardDetailItem extends StatelessWidget {
     required this.color,
     required this.image,
     required this.amount,
-    required this.desc,
+    required this.item,
     this.onTap,
   }) : super(key: key);
   final Color color;
   final String image;
-  final String desc;
   final String amount;
   final Function()? onTap;
+  final CMSMenuItem item;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              color: color,
+      child: LayoutBuilder(builder: (context, constrains) {
+        return Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: color,
+              ),
+              padding: const EdgeInsets.all(13.0),
+              child: CachedNetworkImage(
+                imageUrl: item.itemUrl,
+                height: constrains.maxHeight * 0.3,
+                width: constrains.maxHeight * 0.3,
+                placeholder: (context, url) => const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => SvgPicture.asset('assets/card_details/$image.svg'),
+              ),
             ),
-            padding: const EdgeInsets.all(13.0),
-            child: SvgPicture.asset('assets/card_details/$image.svg'),
-          ),
-          const SizedBox(height: 10.0),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              MulishText(
-                text: amount,
-                fontWeight: FontWeight.bold,
-              ),
-              MulishText(
-                text: desc,
-                fontColor: CustomColors.customBlack,
-              ),
-            ],
-          ),
-        ],
-      ),
+            const SizedBox(height: 10.0),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                MulishText(
+                  text: amount,
+                  fontWeight: FontWeight.bold,
+                ),
+                MulishText(
+                  text: SplashScreenNotifier.getLanguageLabel(item.displayName),
+                  fontColor: CustomColors.customBlack,
+                ),
+              ],
+            ),
+          ],
+        );
+      }),
     );
+  }
+}
+
+class CardDetailItemFromCMS extends StatelessWidget {
+  const CardDetailItemFromCMS({
+    Key? key,
+    required this.item,
+    required this.cardDetails,
+  }) : super(key: key);
+  final CMSMenuItem item;
+  final CardDetails cardDetails;
+
+  @override
+  Widget build(BuildContext context) {
+    switch (item.itemName) {
+      case "BONUS":
+        return CardDetailItem(
+          item: item,
+          color: CustomColors.customOrange,
+          image: 'bonus_points',
+          amount: '${cardDetails.creditPlusBonus?.toStringAsFixed(0)}',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BonusSummaryPage(
+                  cardNumber: cardDetails.accountNumber ?? '',
+                  creditPlusType: 5,
+                  pageTitle: SplashScreenNotifier.getLanguageLabel("Bonus Balance"),
+                ),
+              ),
+            );
+          },
+        );
+
+      case "TIME":
+        return CardDetailItem(
+          item: item,
+          color: CustomColors.customGreen,
+          image: 'playtime',
+          amount: '${cardDetails.creditPlusTime?.toStringAsFixed(0)}',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BonusSummaryPage(
+                  cardNumber: cardDetails.accountNumber ?? '',
+                  creditPlusType: 6,
+                  pageTitle: SplashScreenNotifier.getLanguageLabel("Time Balance"),
+                ),
+              ),
+            );
+          },
+        );
+
+      case "TICKETS":
+        return CardDetailItem(
+          item: item,
+          color: CustomColors.customPurple,
+          image: 'ticket_count',
+          amount: '${cardDetails.creditPlusTickets?.toStringAsFixed(0)}',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BonusSummaryPage(
+                  cardNumber: cardDetails.accountNumber ?? '',
+                  creditPlusType: 2,
+                  pageTitle: SplashScreenNotifier.getLanguageLabel("Ticket Balance"),
+                ),
+              ),
+            );
+          },
+        );
+
+      case "COURTESY":
+        return CardDetailItem(
+          item: item,
+          color: CustomColors.customYellow,
+          image: 'courtesy',
+          amount: '${cardDetails.totalCourtesyBalance?.toStringAsFixed(0)}',
+        );
+
+      case "LOYALTY":
+        return CardDetailItem(
+          item: item,
+          color: CustomColors.customPink,
+          image: 'loyalty',
+          amount: '${cardDetails.creditPlusLoyaltyPoints?.toStringAsFixed(0)}',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BonusSummaryPage(
+                  cardNumber: cardDetails.accountNumber ?? '',
+                  creditPlusType: 1,
+                  pageTitle: SplashScreenNotifier.getLanguageLabel("Loyalty Balance"),
+                ),
+              ),
+            );
+          },
+        );
+
+      case "CREDITS":
+        return CardDetailItem(
+          item: item,
+          color: CustomColors.customLigthBlue,
+          image: 'bonus_points',
+          amount: '${cardDetails.creditPlusCardBalance?.toStringAsFixed(0)}',
+          onTap: () {
+            Navigator.push(
+              context,
+              // MaterialPageRoute(
+              //   builder: (context) => AccountGamesSummaryPage(cardNumber: cardDetails.accountNumber ?? ''),
+              // ),
+              MaterialPageRoute(
+                builder: (context) => BonusSummaryPage(
+                  cardNumber: cardDetails.accountNumber ?? '',
+                  creditPlusType: 0,
+                  pageTitle: SplashScreenNotifier.getLanguageLabel("Credits Balance"),
+                ),
+              ),
+            );
+          },
+        );
+      default:
+        return Text("${item.displayName} is not implemented");
+    }
   }
 }

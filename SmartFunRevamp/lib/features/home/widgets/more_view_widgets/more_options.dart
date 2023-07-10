@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
@@ -40,10 +41,16 @@ class MoreOptions extends StatelessWidget {
               color: iconBgColor,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Image.asset(
-              'assets/home/$iconPath.png',
-              height: 36.0,
-              width: 36.0,
+            child: CachedNetworkImage(
+              imageUrl: item.itemUrl,
+              height: 36,
+              width: 36,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Image.asset(
+                'assets/home/$iconPath.png',
+                height: 36.0,
+                width: 36.0,
+              ),
             ),
           ),
           const SizedBox(width: 10.0),

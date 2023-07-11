@@ -151,6 +151,13 @@ class SignUpPage extends ConsumerWidget {
                     );
                   },
                 ),
+                if(!isPasswordDisabled)
+                   CustomTextField(
+                    onSaved: (value) => request["password"] = value,
+                    label: SplashScreenNotifier.getLanguageLabel("Password"),
+                    margins: const EdgeInsets.symmetric(vertical: 10.0),
+                  )
+                ,
                 configExecutionContext.when(
                   loading: () => const Center(child: CircularProgressIndicator()),
                   error: (error, _) {

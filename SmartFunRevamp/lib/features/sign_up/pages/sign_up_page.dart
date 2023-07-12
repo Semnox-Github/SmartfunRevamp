@@ -164,36 +164,49 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                   },
                 ),
                 if(!isPasswordDisabled)
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    obscureText: !_passwordVisible,//This will obscure text dynamically
-                    decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Enter your password',
-                        // Here is key idea
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            // Based on passwordVisible state choose the icon
-                            _passwordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                            color: Theme.of(context).primaryColorDark,
-                            ),
-                            onPressed: () {
-                              // Update the state i.e. toogle the state of passwordVisible variable
-                              setState(() {
-                                  _passwordVisible = !_passwordVisible;
-                              });
-                            },
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Password",
+                        style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.0,
                         ),
                       ),
-                    onChanged: (password) { 
-                      setState(() {
-                        userPassword = password;
-                      });                      
-                    },
-                    )
-                  
+                      const SizedBox(height: 5.0),
+                      TextFormField(
+                        keyboardType: TextInputType.text,
+                        obscureText: !_passwordVisible,//This will obscure text dynamically
+                        decoration: InputDecoration(
+                            labelText: 'Password',
+                            hintText: 'Enter your password',
+                            // Here is key idea
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                // Based on passwordVisible state choose the icon
+                                _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                                color: Theme.of(context).primaryColorDark,
+                                ),
+                                onPressed: () {
+                                  // Update the state i.e. toogle the state of passwordVisible variable
+                                  setState(() {
+                                      _passwordVisible = !_passwordVisible;
+                                  });
+                                },
+                            ),
+                          ),
+                        onChanged: (password) { 
+                          setState(() {
+                            userPassword = password;
+                          });                      
+                        },
+                      )
+                    ]
+                  )                  
                 ,
                 configExecutionContext.when(
                   loading: () => const Center(child: CircularProgressIndicator()),

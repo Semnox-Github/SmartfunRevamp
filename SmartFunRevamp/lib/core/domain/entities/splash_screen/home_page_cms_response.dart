@@ -25,17 +25,29 @@ class HomePageCMSResponse {
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
 
-  List<CMSMenuItem> getFooterMenuItems() {
+  List<CMSMenuItem> geMenuItems(String type) {
     List<CMSMenuItem> cmsMenuItems = [];
     for (CMSModuleMenu moduleMenu in cmsModuleMenu) {
       for (CMSMenu menu in moduleMenu.cmsMenus) {
-        if (menu.type == 'FOOTER') {
+        if (menu.type == type) {
           cmsMenuItems = menu.cmsMenuItems;
         }
       }
     }
     cmsMenuItems.sort((a, b) => a.displayOrder < b.displayOrder ? -1 : 1);
     return cmsMenuItems;
+  }
+
+  List<CMSMenuItem> getFooterMenuItems() {
+    return geMenuItems('FOOTER');
+  }
+
+  List<CMSMenuItem> getCardDetailMenuItems() {
+    return geMenuItems('CARD_DETAILS');
+  }
+
+  List<CMSMenuItem> getMoreMenuItems() {
+    return geMenuItems('MORE');
   }
 }
 
@@ -63,12 +75,8 @@ class CMSModulePage {
 class CMSModuleMenu {
   @JsonKey(name: 'CMSMenusDTOList')
   final List<CMSMenu> cmsMenus;
-  final int moduleId;
-  final String guid;
   CMSModuleMenu(
     this.cmsMenus,
-    this.moduleId,
-    this.guid,
   );
   factory CMSModuleMenu.fromJson(Map<String, dynamic> json) => _$CMSModuleMenuFromJson(json);
   Map<String, dynamic> toJson() => _$CMSModuleMenuToJson(this);

@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class MoreOptions extends StatelessWidget {
   const MoreOptions({
@@ -8,14 +11,16 @@ class MoreOptions extends StatelessWidget {
     required this.iconPath,
     required this.iconBgColor,
     required this.onTap,
-    required this.title,
+    this.title,
     required this.desc,
+    required this.item,
   });
   final String iconPath;
   final Color iconBgColor;
-  final Function() onTap;
-  final String title;
+  final Function()? onTap;
+  final String? title;
   final String desc;
+  final CMSMenuItem item;
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +41,16 @@ class MoreOptions extends StatelessWidget {
               color: iconBgColor,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Image.asset(
-              'assets/home/$iconPath.png',
-              height: 36.0,
-              width: 36.0,
+            child: CachedNetworkImage(
+              imageUrl: item.itemUrl,
+              height: 36,
+              width: 36,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Image.asset(
+                'assets/home/$iconPath.png',
+                height: 36.0,
+                width: 36.0,
+              ),
             ),
           ),
           const SizedBox(width: 10.0),
@@ -47,7 +58,7 @@ class MoreOptions extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MulishText(
-                text: title,
+                text: SplashScreenNotifier.getLanguageLabel(title ?? item.displayName),
                 fontWeight: FontWeight.bold,
                 fontColor: CustomColors.customPantone,
                 fontSize: 16.0,
@@ -61,7 +72,15 @@ class MoreOptions extends StatelessWidget {
           ),
           const Spacer(),
           IconButton(
-            onPressed: onTap,
+            onPressed: onTap ??
+                () {
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${item.displayName} not implemented yet'),
+                    ),
+                  );
+                },
             icon: const Icon(Icons.arrow_forward_ios),
           ),
         ],

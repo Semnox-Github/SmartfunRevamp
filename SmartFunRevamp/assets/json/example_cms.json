@@ -71,7 +71,6 @@
                   "ObjectTranslationsDTOList": [],
                   "IsChanged": false
                 },
-
                 {
                   "ItemId": 108,
                   "MenuId": 20,
@@ -97,7 +96,6 @@
                   "ObjectTranslationsDTOList": [],
                   "IsChanged": false
                 },
-
                 {
                   "ItemId": 109,
                   "MenuId": 20,
@@ -234,7 +232,6 @@
                   "ObjectTranslationsDTOList": [],
                   "IsChanged": true
                 },
-
                 {
                   "ItemId": 302,
                   "MenuId": 53,
@@ -270,6 +267,112 @@
           ],
           "IsChanged": true,
           "IsChangedRecursive": true
+        },
+        {
+          "CMSMenusDTOList": [
+            {
+              "Name": "SMARTFUN_MENU_CARD_DETAILS",
+              "Active": true,
+              "Type": "CARD_DETAILS",
+              "CMSMenuItemsDTOList": [
+                {
+                  "ItemName": "BONUS",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 1,
+                  "DisplayName": "Bonus"
+                },
+                {
+                  "ItemName": "TIME",
+                  "ItemUrl": "https://w7.pngwing.com/pngs/789/188/png-transparent-round-black-analog-clock-illustration-clock-time-icon-time-noun-project-symbol-scalable-vector-graphics-thumbnail.png",
+                  "Active": true,
+                  "DisplayOrder": 2,
+                  "DisplayName": "Time"
+                },
+                {
+                  "ItemName": "TICKETS",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 3,
+                  "DisplayName": "Tickets"
+                },
+                {
+                  "ItemName": "COURTESY",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 4,
+                  "DisplayName": "Courtesy"
+                },
+                {
+                  "ItemName": "LOYALTY",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 5,
+                  "DisplayName": "Loyalty"
+                },
+                {
+                  "ItemName": "CREDITS",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 6,
+                  "DisplayName": "Credits"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "CMSMenusDTOList": [
+            {
+              "Name": "SMARTFUN_MENU_MORE",
+              "Active": true,
+              "Type": "MORE",
+              "CMSMenuItemsDTOList": [
+                {
+                  "ItemName": "BASE_MEMBERSHIP",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 1,
+                  "DisplayName": "Base Membership"
+                },
+                {
+                  "ItemName": "REWARDS",
+                  "ItemUrl": "https://w7.pngwing.com/pngs/789/188/png-transparent-round-black-analog-clock-illustration-clock-time-icon-time-noun-project-symbol-scalable-vector-graphics-thumbnail.png",
+                  "Active": true,
+                  "DisplayOrder": 2,
+                  "DisplayName": "Rewards"
+                },
+                {
+                  "ItemName": "NOTIFICATIONS",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 3,
+                  "DisplayName": "Notifications"
+                },
+                {
+                  "ItemName": "HELP",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 4,
+                  "DisplayName": "Help"
+                },
+                {
+                  "ItemName": "LEGAL",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 5,
+                  "DisplayName": "Legal"
+                },
+                {
+                  "ItemName": "LIKE",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 6,
+                  "DisplayName": "Like the App?"
+                }
+              ]
+            }
+          ]
         }
       ],
       "CMSModulePageDTOList": [
@@ -441,7 +544,6 @@
           "ObjectTranslationsDTOList": [],
           "IsChanged": true
         },
-
         {
           "ContentId": 343,
           "PageId": 50,

@@ -19,6 +19,7 @@ dependencies:
   collection: ^1.17.0
   crypto: ^3.0.2
   cupertino_icons: ^1.0.2
+  dart_jsonwebtoken: ^2.8.2
   dartz: ^0.10.1
   device_info_plus: ^9.0.2
   dio: ^5.2.1+1

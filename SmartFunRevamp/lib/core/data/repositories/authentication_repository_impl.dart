@@ -116,7 +116,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<Either<Failure, String>> getUserExecutionController(int siteId) async {
     try {
-      final response = await _api.getExecutionController(siteId: siteId);
+      final response = await _api.getExecutionContext(siteId: siteId);
       final token = response.response.headers.value(HttpHeaders.authorizationHeader) ?? '';
       return Right(token);
     } on DioException catch (e) {
@@ -132,7 +132,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<Either<Failure, int>> getConfigExecutionController() async {
     try {
-      final response = await _api.getExecutionController();
+      final response = await _api.getExecutionContext();
       final data = Map.from(response.data);
       return Right(data['data']['SiteId'] as int);
     } on DioException catch (e) {

@@ -30,12 +30,24 @@ final uiMetaDataProvider = FutureProvider<List<CustomerUIMetaData>>((ref) async 
   );
 });
 
-class SignUpPage extends ConsumerWidget {
-  SignUpPage({Key? key}) : super(key: key);
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+class SignUpPage extends ConsumerStatefulWidget {
+  const SignUpPage({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    Map<String, dynamic> request = {};
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpPage();
+}
+
+class _SignUpPage extends ConsumerState<SignUpPage> {
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  Map<String, dynamic> request = {};
+  String? userPassword;
+
+  // Initially password is obscure
+  bool _passwordVisible = false;
+
+  @override
+  Widget build(BuildContext context) {
+    
     final isPasswordDisabled = ref.watch(isPasswordDisabledProvider);
     ref.listen<SignUpState>(signUpNotifier, (_, next) {
       next.maybeWhen(
@@ -152,11 +164,36 @@ class SignUpPage extends ConsumerWidget {
                   },
                 ),
                 if(!isPasswordDisabled)
-                   CustomTextField(
-                    onSaved: (value) => request["password"] = value,
-                    label: SplashScreenNotifier.getLanguageLabel("Password"),
-                    margins: const EdgeInsets.symmetric(vertical: 10.0),
-                  )
+                  TextFormField(
+                    keyboardType: TextInputType.text,
+                    obscureText: !_passwordVisible,//This will obscure text dynamically
+                    decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: 'Enter your password',
+                        // Here is key idea
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            // Based on passwordVisible state choose the icon
+                            _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                            color: Theme.of(context).primaryColorDark,
+                            ),
+                            onPressed: () {
+                              // Update the state i.e. toogle the state of passwordVisible variable
+                              setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                              });
+                            },
+                        ),
+                      ),
+                    onChanged: (password) { 
+                      setState(() {
+                        userPassword = password;
+                      });                      
+                    },
+                    )
+                  
                 ,
                 configExecutionContext.when(
                   loading: () => const Center(child: CircularProgressIndicator()),
@@ -226,7 +263,7 @@ class SignUpPage extends ConsumerWidget {
                   onTap: () {
                     if (_key.currentState!.validate()) {
                       _key.currentState!.save();
-                      ref.read(signUpNotifier.notifier).signUpUser(SignUpEntity.fromMetaData(request));
+                      ref.read(signUpNotifier.notifier).signUpUser(SignUpEntity.fromMetaData(request), userPassword);
                     }
                   },
                   label: SplashScreenNotifier.getLanguageLabel('SIGN UP'),

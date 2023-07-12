@@ -224,7 +224,7 @@ abstract class SmartFunApi {
   @POST('Customer/Account/{accountId}/AccountIdentifier')
   Future<void> updateCardNickname(@Path('accountId') String accountId, @Body() Map<String, dynamic> body);
 
-  @GET('Customer/Account/{accountId}/AccountActivityView')
+  @GET('Customer/Account/{accountId}/AccountActivity')
   Future<ListDataWrapper<CardActivity>> getCardActivityDetail(@Path('accountId') @Query('accountId') String accountId);
 
   @GET('Transaction/Transactions')

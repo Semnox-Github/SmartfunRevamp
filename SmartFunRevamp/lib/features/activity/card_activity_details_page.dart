@@ -183,8 +183,8 @@ class CardActivityDetailPage extends ConsumerWidget {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const CardActivityReceiptPage(
-                                transactionId: '140432',
+                              builder: (context) => CardActivityReceiptPage(
+                                transactionId: transactionId,
                               ),
                             ),
                           ),

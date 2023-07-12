@@ -188,8 +188,8 @@ class CardsRepositoryImpl implements CardsRepository {
       }
       final message = json.decode(e.response.toString());
       return Left(ServerFailure(message['data']));
-    } catch (e) {
-      Logger().e(e);
+    } catch (e, s) {
+      Logger().e(s);
       return Left(ServerFailure('This Activity has no details'));
     }
   }

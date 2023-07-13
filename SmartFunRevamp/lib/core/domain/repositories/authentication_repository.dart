@@ -18,4 +18,5 @@ abstract class AuthenticationRepository {
   Future<Either<Failure, void>> deleteProfile();
   Future<Either<Failure, AppConfigResponse>> getAppConfig(int siteId);
   Future<Either<Failure, HomePageCMSResponse>> getHomePageCMS();
+  Future<Either<Failure, bool>> validateEmail(String email);
 }

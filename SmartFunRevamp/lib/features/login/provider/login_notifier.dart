@@ -11,6 +11,7 @@ import 'package:semnox/core/domain/use_cases/authentication/get_execution_contex
 import 'package:semnox/core/domain/use_cases/authentication/get_user_by_phone_or_email_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/login_user_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/send_otp_use_case.dart';
+import 'package:semnox/core/domain/use_cases/authentication/verify_email_exists_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/verify_otp_use_case.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -31,7 +32,8 @@ final loginProvider = StateNotifierProvider<LoginNotifier, LoginState>(
     Get.find<GetExecutionContextUseCase>(),
     Get.find<LocalDataSource>(),
     Get.find<DeleteProfileUseCase>(),
-    Get.find<GetParafaitDefaultsUseCase>()
+    Get.find<GetParafaitDefaultsUseCase>(),
+    Get.find<VerifyEmailExistsUseCase>(),
   ),
 );
 
@@ -43,6 +45,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   final GetExecutionContextUseCase _getExecutionContextUseCase;
   final DeleteProfileUseCase _deleteProfileUseCase;
   final GetParafaitDefaultsUseCase? _getParafaitDefaultsUseCase;
+  final VerifyEmailExistsUseCase _verifyEmailExistsUseCase;
 
   final LocalDataSource _localDataSource;
 
@@ -54,7 +57,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
     this._getExecutionContextUseCase,
     this._localDataSource,
     this._deleteProfileUseCase,
-    this._getParafaitDefaultsUseCase
+    this._getParafaitDefaultsUseCase,
+    this._verifyEmailExistsUseCase,
   ) : super(const _Initial());
 
   String _phone = '';
@@ -66,7 +70,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   String? defaultSiteId;
 
   void loginUser(String loginId, String password) async {
-    setDefaultSite();    
+    setDefaultSite();
     state = const _InProgress();
     _phone = loginId;
     final selectedLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
@@ -100,13 +104,13 @@ class LoginNotifier extends StateNotifier<LoginState> {
     final defaults = await _getParafaitDefaultsUseCase!();
 
     defaults.fold(
-      (l) => null, 
+      (l) => null,
       (r) => parafaitDefault = r,
     );
     //reading default site
     defaultSiteId = parafaitDefault?.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
     //if the default site is set then save it
-    if (!defaultSiteId.isNullOrEmpty()){
+    if (!defaultSiteId.isNullOrEmpty()) {
       selectedSite = SiteViewDTO(siteId: int.parse(defaultSiteId!), openDate: DateTime.now(), closureDate: DateTime.now());
       await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite!.toJson());
     }
@@ -151,9 +155,24 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
 //NOTE:925961 Default OTP
-  void loginUserWithOTP(String phoneOrEmail) async {
+  void validateEmailOrPhoneExists(String phoneOrEmail) async {
     state = const _InProgress();
     _phone = phoneOrEmail;
+    final userExists = await _verifyEmailExistsUseCase(phoneOrEmail);
+    userExists.fold(
+      (l) => state = _Error('${phoneOrEmail.contains('@') ? 'Email' : 'Phone'} not registered'),
+      (r) {
+        if (r) {
+          loginUserWithOTP(phoneOrEmail);
+        } else {
+          state = _Error('${phoneOrEmail.contains('@') ? 'Email' : 'Phone'} not registered');
+        }
+      },
+    );
+  }
+
+  void loginUserWithOTP(String phoneOrEmail) async {
+    state = const _InProgress();
     final response = await _sendOTPUseCase({phoneOrEmail.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail, 'Source': 'LOGIN_OTP_EVENT'});
     state = response.fold(
       (l) {

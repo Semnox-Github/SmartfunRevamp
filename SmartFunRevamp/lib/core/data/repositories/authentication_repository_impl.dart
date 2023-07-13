@@ -191,6 +191,16 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     try {
       final response = await _api.getHomePageCMS();
       return Right(response.data.first);
+    } catch (e) {
+      return Left(ServerFailure('Email not found'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> validateEmail(String email) async {
+    try {
+      final userInfo = await _api.getCustomerByPhoneorEmail(email);
+      return Right(userInfo.data.isNotEmpty);
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
@@ -198,6 +208,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       }
       final message = json.decode(e.response.toString());
       return Left(ServerFailure(message['data']));
+    } catch (e) {
+      return Left(ServerFailure('Email not found'));
     }
   }
 }

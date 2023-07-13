@@ -16,4 +16,5 @@ abstract class AuthenticationRepository {
   Future<Either<Failure, void>> sendResetPasswordLink(String phoneOrEmail);
   Future<Either<Failure, void>> deleteProfile();
   Future<Either<Failure, AppConfigResponse>> getAppConfig(int siteId);
+  Future<Either<Failure, bool>> validateEmail(String email);
 }

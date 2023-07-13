@@ -18,7 +18,7 @@ final membershipContainerProvider = FutureProvider<List<MembershipTier>>(
     );
   },
 );
-final membershipInfoProvider = FutureProvider<MembershipInfo>(
+final membershipInfoProvider = FutureProvider.autoDispose<MembershipInfo>(
   (ref) async {
     final userId = Get.find<CustomerDTO>().id;
     final getMemberShipInfoUseCase = Get.find<GetMembershipInfoUseCase>();

@@ -184,4 +184,21 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return Left(ServerFailure('Config Not Found'));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> validateEmail(String email) async {
+    try {
+      final userInfo = await _api.getCustomerByPhoneorEmail(email);
+      return Right(userInfo.data.isNotEmpty);
+    } on DioException catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    } catch (e) {
+      return Left(ServerFailure('Email not found'));
+    }
+  }
 }

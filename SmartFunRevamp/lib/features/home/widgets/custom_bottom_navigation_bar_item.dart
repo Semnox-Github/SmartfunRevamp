@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:semnox/colors/gradients.dart';
-import 'package:semnox/features/home/widgets/gradient_wrapper.dart';
-
 class CustomBottomNavigationBarItem extends StatelessWidget {
   const CustomBottomNavigationBarItem({
     Key? key,
@@ -17,12 +14,17 @@ class CustomBottomNavigationBarItem extends StatelessWidget {
   final String text;
   @override
   Widget build(BuildContext context) {
-    return GradientWrapper(
-      gradient: currentIndex == index ? CustomGradients.linearGradient : CustomGradients.disabledGradient,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [icon, Text(text)],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        icon,
+        Text(
+          text,
+          style: TextStyle(
+            color: currentIndex == index ? Colors.white : Colors.grey,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -34,7 +34,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       },
     );
 
-    return const Text('loading');
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/splash_screen/splash_screen.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
 
     // return Scaffold(
     //   body: ref.watch(cmsProvider).when(

@@ -40,10 +40,15 @@ class CustomBottomBar extends ConsumerWidget {
                   key: Key(item.displayName),
                   currentIndex: currentPage,
                   index: items.indexOf(item),
-                  icon: CachedNetworkImage(
-                    imageUrl: item.itemUrl,
-                    placeholder: (context, url) => const SizedBox.shrink(),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  icon: Container(
+                    padding: const EdgeInsets.only(top: 10),
+                    height: 45,
+                    width: 45,
+                    child: CachedNetworkImage(
+                      imageUrl: item.itemUrl,
+                      placeholder: (context, url) => const SizedBox.shrink(),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    ),
                   ),
                   text: SplashScreenNotifier.getLanguageLabel(item.displayName),
                 ),

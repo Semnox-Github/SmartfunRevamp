@@ -50,19 +50,23 @@ class AfterSplashScreen extends ConsumerWidget {
         minimum: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            CachedNetworkImage(
-              imageUrl: imagePath ?? "",
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.40,
-              placeholder: (_, __) => const Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) {
-                return const Center(
-                  child: Icon(
-                    Icons.error,
-                    color: Colors.red,
-                    size: 50.0,
-                  ),
-                );
-              },
+              child: imagePath == null
+                  ? const SizedBox.shrink()
+                  : CachedNetworkImage(
+                      imageUrl: imagePath,
+                      placeholder: (_, __) => const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) {
+                        return const Center(
+                          child: Icon(
+                            Icons.error,
+                            color: Colors.red,
+                            size: 50.0,
+                          ),
+                        );
+                      },
+                    ),
             ),
             const SizedBox(height: 10.0),
             Text(
@@ -75,8 +79,8 @@ class AfterSplashScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 10.0),
-            const MulishText(
-              text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            MulishText(
+              text: SplashScreenNotifier.getLanguageLabel('QUICK CARD RECHARGES DETAIL'),
               fontSize: 16.0,
               fontColor: CustomColors.customBlack,
               fontWeight: FontWeight.w500,

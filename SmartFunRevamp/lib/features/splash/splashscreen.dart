@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
+import 'package:semnox/core/domain/use_cases/splash_screen/get_home_page_cms_use_case.dart';
 import 'package:semnox/core/routes.dart';
 
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -13,11 +12,15 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 final cmsProvider = FutureProvider<HomePageCMSResponse?>((ref) async {
   try {
     Logger().d('CMS Readed');
-    final String response = await rootBundle.loadString('assets/json/example_cms.json');
-    final cmsJSON = Map<String, dynamic>.from(await json.decode(response));
-    final data = List<Map<String, dynamic>>.from(cmsJSON['data']).first;
-    Logger().d(data);
-    return HomePageCMSResponse.fromJson(data);
+
+    final getHomePageCms = Get.find<GetHomePageCMSUseCase>();
+    final apiResponse = await getHomePageCms();
+    return apiResponse.fold(
+      (l) => throw l,
+      (r) => r,
+    );
+
+    // Logger().d(data);
   } catch (e) {
     Logger().e(e);
     return null;
@@ -53,6 +56,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         );
       },
     );
+
+    return const Text('loading');
 
     return Scaffold(
       body: ref.watch(cmsProvider).when(

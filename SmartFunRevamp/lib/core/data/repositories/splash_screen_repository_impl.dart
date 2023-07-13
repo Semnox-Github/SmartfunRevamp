@@ -7,6 +7,7 @@ import 'package:semnox/core/api/parafait_api.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/splash_screen/get_base_url_response.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/domain/repositories/splash_screen_repositories.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils.dart';
@@ -143,10 +144,10 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
   }
 
   @override
-  Future<Either<Failure, void>> getHomePageCMS(String moduleName, String token) async {
+  Future<Either<Failure, HomePageCMSResponse>> getHomePageCMS() async {
     try {
-      await _api.getHomePageCMS(moduleName, 'Bearer $token');
-      return const Right(null);
+      final response = await _api.getHomePageCMS();
+      return Right(response.data);
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {

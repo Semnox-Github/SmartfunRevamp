@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:firebase_performance_dio/firebase_performance_dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -143,13 +141,13 @@ abstract class SmartFunApi {
   @GET('Customer/ContactTypes')
   Future<HttpResponse> getContactType();
 
-  @GET('WebCMS/CMSModules')
-  Future<ListDataWrapper<HomePageCMSResponse>> getHomePageCMS(
-    @Query('moduleName') String moduleName,
-    @Header(HttpHeaders.authorizationHeader) String token, {
-    @Query('isActive') int isActive = 1,
-    @Query('buildChildRecords') bool buildChildRecords = true,
-    @Query('activeChildRecords') bool activeChildRecords = true,
+  //{{URL}}/api/Common/FileResource?defaultValueName=IMAGE_DIRECTORY&fileName=CMSSmartFun.json&secure=true
+
+  @GET('Common/FileResource')
+  Future<Data<HomePageCMSResponse>> getHomePageCMS({
+    @Query('defaultValueName') String defaultValueName = 'IMAGE_DIRECTORY',
+    @Query('fileName') String fileName = 'CMSSmartFun.json',
+    @Query('secure') bool secure = true,
   });
 
   @GET('Organization/SiteContainer')

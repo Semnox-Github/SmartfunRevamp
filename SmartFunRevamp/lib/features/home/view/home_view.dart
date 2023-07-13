@@ -125,13 +125,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       error: (_, __) => const Center(
                         child: MulishText(text: 'No Cards found'),
                       ),
-                      data: (data) {     
+                      data: (data) {
                         // set first card as selected when landing home
                         setState(() {
-                        if (data.isNotEmpty && cardDetails == null && _cardIndex < data.length) {
+                          if (data.isNotEmpty && cardDetails == null && _cardIndex < data.length) {
                             cardDetails = data.first;
-                        }
-                        });               
+                          }
+                        });
                         return Column(
                           children: [
                             data.isNotEmpty
@@ -141,8 +141,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                       setState(() {
                                         if (cardIndex != data.length) {
                                           cardDetails = data[cardIndex];
-                                        }
-                                        else {
+                                        } else {
                                           cardDetails = null;
                                         }
                                         _cardIndex = cardIndex;
@@ -211,34 +210,39 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             text: 'Recharge',
                             onTap: () => ({
                               //if there is not a card selected then show alert dialog
-                              if (!hasCard) {
-                                Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Recharge Card'), msgCardNoLink)
-                              } else {
-                                //if the user has no card selected show dialog
-                                if (cardDetails == null) {
-                                  Dialogs.showMessageInfo(
-                                    context,
-                                    SplashScreenNotifier.getLanguageLabel('Recharge Card'),
-                                    SplashScreenNotifier.getLanguageLabel("Please select a card to recharge."),
-                                  )
-                                  //if there is a card selected and is not blocked or expired then navigate
-                                } else if (!(cardDetails!.isBlocked() || cardDetails!.isExpired())) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
-                                    ),
-                                  ) 
-                                } else {
-                                  //else show dialog
-                                  Dialogs.showMessageInfo(
-                                    context,
-                                    SplashScreenNotifier.getLanguageLabel('Recharge Card'),
-                                    SplashScreenNotifier.getLanguageLabel("Temporary or expired cards can't be recharged."),
-                                  )
+                              if (!hasCard)
+                                {Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Recharge Card'), msgCardNoLink)}
+                              else
+                                {
+                                  //if the user has no card selected show dialog
+                                  if (cardDetails == null)
+                                    {
+                                      Dialogs.showMessageInfo(
+                                        context,
+                                        SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                        SplashScreenNotifier.getLanguageLabel("Please select a card to recharge."),
+                                      )
+                                      //if there is a card selected and is not blocked or expired then navigate
+                                    }
+                                  else if (!(cardDetails!.isBlocked() || cardDetails!.isExpired()))
+                                    {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
+                                        ),
+                                      )
+                                    }
+                                  else
+                                    {
+                                      //else show dialog
+                                      Dialogs.showMessageInfo(
+                                        context,
+                                        SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                        SplashScreenNotifier.getLanguageLabel("Temporary or expired cards can't be recharged."),
+                                      )
+                                    }
                                 }
-                                
-                              }
                             }),
                           ),
                           QuickLinkItem(

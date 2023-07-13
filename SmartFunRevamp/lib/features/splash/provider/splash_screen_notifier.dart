@@ -36,10 +36,14 @@ final homePageCMSProvider = Provider<String?>((ref) {
   return null;
 });
 final getStringForLocalization = FutureProvider<Map<dynamic, dynamic>>((ref) async {
+  final currentLang = ref.watch(currentLanguageProvider);
+  if (currentLang == null) {
+    return {};
+  }
   final GetStringForLocalizationUseCase getStringForLocalizationUseCase = Get.find<GetStringForLocalizationUseCase>();
-  final langId = ref.watch(currentLanguageProvider);
+  final langId = currentLang.languageId.toString();
   //Request language strings always with master site
-  final response = await getStringForLocalizationUseCase(siteId: "1010", languageId: langId ?? '2');
+  final response = await getStringForLocalizationUseCase(siteId: "1010", languageId: langId);
   // get the language Json from the assets
   String defaultLanguageStrings = await rootBundle.loadString("assets/localization/strings.json");
   final jsonDefaultLanguageStrings = jsonDecode(defaultLanguageStrings);

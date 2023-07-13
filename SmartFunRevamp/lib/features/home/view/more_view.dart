@@ -11,7 +11,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
-import 'package:semnox/features/splash/splashscreen.dart';
+import 'package:semnox/features/splash/cms_provider.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class MoreView extends ConsumerWidget {

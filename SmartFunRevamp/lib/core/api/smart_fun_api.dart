@@ -144,7 +144,7 @@ abstract class SmartFunApi {
   //{{URL}}/api/Common/FileResource?defaultValueName=IMAGE_DIRECTORY&fileName=CMSSmartFun.json&secure=true
 
   @GET('Common/FileResource')
-  Future<Data<HomePageCMSResponse>> getHomePageCMS({
+  Future<ListDataWrapper<HomePageCMSResponse>> getHomePageCMS({
     @Query('defaultValueName') String defaultValueName = 'IMAGE_DIRECTORY',
     @Query('fileName') String fileName = 'CMSSmartFun.json',
     @Query('secure') bool secure = true,

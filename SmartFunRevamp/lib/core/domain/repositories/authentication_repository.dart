@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
@@ -16,4 +17,5 @@ abstract class AuthenticationRepository {
   Future<Either<Failure, void>> sendResetPasswordLink(String phoneOrEmail);
   Future<Either<Failure, void>> deleteProfile();
   Future<Either<Failure, AppConfigResponse>> getAppConfig(int siteId);
+  Future<Either<Failure, HomePageCMSResponse>> getHomePageCMS();
 }

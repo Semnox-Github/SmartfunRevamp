@@ -13,6 +13,7 @@ import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_cas
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/cms_provider.dart';
 
 import 'provider/splash_screen_notifier.dart';
 
@@ -43,14 +44,12 @@ class AfterSplashScreen extends ConsumerWidget {
         context.loaderOverlay.show();
       },
     );
-    // final imagePath = ref.watch(cmsProvider).value?.cmsImages.languagePickImagePath;
-    const imagePath = 'https://i.imgur.com/MbqH9I4.png';
+    final imagePath = ref.watch(cmsProvider).value?.cmsImages.languagePickImagePath;
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            // Image.asset('assets/splash_screen/after_splash.png'),
             CachedNetworkImage(
               imageUrl: imagePath ?? "",
               height: MediaQuery.of(context).size.height * 0.40,

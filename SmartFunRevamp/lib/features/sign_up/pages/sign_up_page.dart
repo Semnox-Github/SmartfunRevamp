@@ -156,8 +156,9 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                         }
                         return CustomTextField(
                           onSaved: (value) => request[field.customerFieldName] = value,
-                          label: SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption),
+                          label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
                           margins: const EdgeInsets.symmetric(vertical: 10.0),
+                          required: field.validationType == "M",
                         );
                       }).toList(),
                     );
@@ -169,7 +170,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Password",
+                        "${SplashScreenNotifier.getLanguageLabel("Password")}*",
                         style: GoogleFonts.mulish(
                           fontWeight: FontWeight.bold,
                           fontSize: 14.0,
@@ -204,7 +205,8 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                             userPassword = password;
                           });                      
                         },
-                      )
+                      ),
+                      const SizedBox(height: 10.0),
                     ]
                   )                  
                 ,
@@ -301,6 +303,7 @@ class CustomTextField extends StatelessWidget {
     this.initialValue,
     this.padding = EdgeInsets.zero,
     this.margins = EdgeInsets.zero,
+    this.required = true,
   }) : super(key: key);
   final Function(String) onSaved;
   final String label;
@@ -310,6 +313,7 @@ class CustomTextField extends StatelessWidget {
   final List<TextInputFormatter>? formatters;
   final EdgeInsets padding;
   final EdgeInsets margins;
+  final bool required;
 
   @override
   Widget build(BuildContext context) {
@@ -332,7 +336,7 @@ class CustomTextField extends StatelessWidget {
             initialValue: initialValue,
             inputFormatters: formatters,
             onSaved: (newValue) => onSaved(newValue!),
-            validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+            validator: (value) => value!.isEmpty && required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(

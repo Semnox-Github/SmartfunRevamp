@@ -140,8 +140,6 @@ abstract class SmartFunApi {
   @GET('Customer/ContactTypes')
   Future<HttpResponse> getContactType();
 
-  //{{URL}}/api/Common/FileResource?defaultValueName=IMAGE_DIRECTORY&fileName=CMSSmartFun.json&secure=true
-
   @GET('Common/FileResource')
   Future<ListDataWrapper<HomePageCMSResponse>> getHomePageCMS({
     @Query('defaultValueName') String defaultValueName = 'IMAGE_DIRECTORY',

@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:semnox/colors/colors.dart';
@@ -30,14 +31,53 @@ class SocialLoginsContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              SvgPicture.asset(
-                'assets/login/google.svg',
+              InkWell(
+                onTap: () => AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.info,
+                  body: Container(
+                    margin: const EdgeInsets.all(10.0),
+                    child: const MulishText(
+                      text: 'Coming Soon!',
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ).show(),
+                child: SvgPicture.asset(
+                  'assets/login/google.svg',
+                ),
               ),
-              SvgPicture.asset(
-                'assets/login/apple.svg',
+              InkWell(
+                onTap: () => AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.info,
+                  body: Container(
+                    margin: const EdgeInsets.all(10.0),
+                    child: const MulishText(
+                      text: 'Coming Soon!',
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ).show(),
+                child: SvgPicture.asset(
+                  'assets/login/apple.svg',
+                ),
               ),
-              SvgPicture.asset(
-                'assets/login/facebook.svg',
+              InkWell(
+                onTap: () => AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.info,
+                  body: Container(
+                    margin: const EdgeInsets.all(10.0),
+                    child: const MulishText(
+                      text: 'Coming Soon!',
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ).show(),
+                child: SvgPicture.asset(
+                  'assets/login/facebook.svg',
+                ),
               ),
             ],
           )

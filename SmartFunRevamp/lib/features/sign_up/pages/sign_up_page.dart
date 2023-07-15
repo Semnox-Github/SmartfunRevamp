@@ -42,9 +42,6 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
   Map<String, dynamic> request = {};
   String? userPassword;
 
-  // Initially password is obscure
-  bool _passwordVisible = false;
-
   @override
   Widget build(BuildContext context) {
     
@@ -169,44 +166,12 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "${SplashScreenNotifier.getLanguageLabel("Password")}*",
-                        style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
-                        ),
+                      CustomPasswordTextField(
+                        onSaved: (value) => request["PASSWORD"] = value,
+                        label: '${SplashScreenNotifier.getLanguageLabel("Password")}*',
+                        margins: const EdgeInsets.symmetric(vertical: 10.0),
+                        required: true,
                       ),
-                      const SizedBox(height: 5.0),
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        obscureText: !_passwordVisible,//This will obscure text dynamically
-                        decoration: InputDecoration(
-                            labelText: 'Password',
-                            hintText: 'Enter your password',
-                            // Here is key idea
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                // Based on passwordVisible state choose the icon
-                                _passwordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                                color: Theme.of(context).primaryColorDark,
-                                ),
-                                onPressed: () {
-                                  // Update the state i.e. toogle the state of passwordVisible variable
-                                  setState(() {
-                                      _passwordVisible = !_passwordVisible;
-                                  });
-                                },
-                            ),
-                          ),
-                        onChanged: (password) { 
-                          setState(() {
-                            userPassword = password;
-                          });                      
-                        },
-                      ),
-                      const SizedBox(height: 10.0),
                     ]
                   )                  
                 ,
@@ -278,7 +243,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                   onTap: () {
                     if (_key.currentState!.validate()) {
                       _key.currentState!.save();
-                      ref.read(signUpNotifier.notifier).signUpUser(SignUpEntity.fromMetaData(request), userPassword);
+                      ref.read(signUpNotifier.notifier).signUpUser(SignUpEntity.fromMetaData(request));
                     }
                   },
                   label: SplashScreenNotifier.getLanguageLabel('SIGN UP'),
@@ -363,3 +328,101 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
+
+class CustomPasswordTextField extends StatefulWidget {
+  const CustomPasswordTextField({
+    Key? key,
+    required this.onSaved,
+    required this.label,
+    this.inputType = TextInputType.name,
+    this.fillColor = Colors.transparent,
+    this.formatters,
+    this.initialValue,
+    this.padding = EdgeInsets.zero,
+    this.margins = EdgeInsets.zero,
+    this.required = true,
+  }) : super(key: key);
+  final Function(String) onSaved;
+  final String label;
+  final String? initialValue;
+  final TextInputType inputType;
+  final Color fillColor;
+  final List<TextInputFormatter>? formatters;
+  final EdgeInsets padding;
+  final EdgeInsets margins;
+  final bool required;
+
+  @override
+  State<CustomPasswordTextField> createState() => _CustomPasswordTextFieldState();
+}
+
+class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
+  bool _passwordVisible = false;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: widget.padding,
+      margin: widget.margins,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.label,
+            style: GoogleFonts.mulish(
+              fontWeight: FontWeight.bold,
+              fontSize: 14.0,
+            ),
+          ),
+          const SizedBox(height: 5.0),
+          TextFormField(
+            initialValue: widget.initialValue,
+            inputFormatters: widget.formatters,
+            onSaved: (newValue) => widget.onSaved(newValue!),
+            validator: (value) => value!.isEmpty && widget.required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+            cursorColor: Colors.black,
+            keyboardType: TextInputType.emailAddress,
+            obscureText: !_passwordVisible,//This will obscure text dynamically
+            decoration: InputDecoration(
+              hintText: SplashScreenNotifier.getLanguageLabel('Enter your password'),
+              // Here is key idea
+              suffixIcon: IconButton(
+                icon: Icon(
+                  // Based on passwordVisible state choose the icon
+                  _passwordVisible
+                  ? Icons.visibility
+                  : Icons.visibility_off,
+                  color: Theme.of(context).primaryColorDark,
+                  ),
+                  onPressed: () {
+                    // Update the state i.e. toogle the state of passwordVisible variable
+                    setState(() {
+                        _passwordVisible = !_passwordVisible;
+                    });
+                  },
+              ),
+              isDense: true,
+              fillColor: widget.fillColor,
+              filled: true,
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(
+                  color: Colors.black,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+

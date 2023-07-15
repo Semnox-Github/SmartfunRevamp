@@ -11,6 +11,7 @@ import 'package:semnox/core/domain/use_cases/authentication/login_user_use_case.
 import 'package:semnox/core/domain/use_cases/authentication/send_link_reset_password_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/send_otp_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/sign_up_user_use_case.dart';
+import 'package:semnox/core/domain/use_cases/authentication/verify_email_exists_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/verify_otp_use_case.dart';
 import 'package:semnox_core/modules/customer/bl/customer_usecases.dart';
 import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
@@ -32,4 +33,5 @@ void authenticaionDependecies() {
   Get.lazyPut<DeleteProfileUseCase>(() => DeleteProfileUseCase(Get.find()));
   Get.lazyPut<GetAppConfigUseCase>(() => GetAppConfigUseCase(Get.find()));
   Get.lazyPut<GetConfigExecutionContextUseCase>(() => GetConfigExecutionContextUseCase(Get.find()));
+  Get.lazyPut<VerifyEmailExistsUseCase>(() => VerifyEmailExistsUseCase(Get.find()));
 }

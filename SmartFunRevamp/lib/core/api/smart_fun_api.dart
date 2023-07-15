@@ -51,7 +51,6 @@ abstract class SmartFunApi {
       ),
       DioFirebasePerformanceInterceptor(),
     ]);
-
     dio.options = BaseOptions(
       baseUrl: baseUrl,
       receiveTimeout: const Duration(seconds: 20),

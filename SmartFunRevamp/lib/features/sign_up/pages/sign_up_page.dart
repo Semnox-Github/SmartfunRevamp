@@ -30,12 +30,24 @@ final uiMetaDataProvider = FutureProvider<List<CustomerUIMetaData>>((ref) async 
   );
 });
 
-class SignUpPage extends ConsumerWidget {
-  SignUpPage({Key? key}) : super(key: key);
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+class SignUpPage extends ConsumerStatefulWidget {
+  const SignUpPage({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    Map<String, dynamic> request = {};
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpPage();
+}
+
+class _SignUpPage extends ConsumerState<SignUpPage> {
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  Map<String, dynamic> request = {};
+  String? userPassword;
+
+  // Initially password is obscure
+  bool _passwordVisible = false;
+
+  @override
+  Widget build(BuildContext context) {
+    
     final isPasswordDisabled = ref.watch(isPasswordDisabledProvider);
     ref.listen<SignUpState>(signUpNotifier, (_, next) {
       next.maybeWhen(
@@ -144,13 +156,60 @@ class SignUpPage extends ConsumerWidget {
                         }
                         return CustomTextField(
                           onSaved: (value) => request[field.customerFieldName] = value,
-                          label: SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption),
+                          label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
                           margins: const EdgeInsets.symmetric(vertical: 10.0),
+                          required: field.validationType == "M",
                         );
                       }).toList(),
                     );
                   },
                 ),
+                if(!isPasswordDisabled)
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${SplashScreenNotifier.getLanguageLabel("Password")}*",
+                        style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                      const SizedBox(height: 5.0),
+                      TextFormField(
+                        keyboardType: TextInputType.text,
+                        obscureText: !_passwordVisible,//This will obscure text dynamically
+                        decoration: InputDecoration(
+                            labelText: 'Password',
+                            hintText: 'Enter your password',
+                            // Here is key idea
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                // Based on passwordVisible state choose the icon
+                                _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                                color: Theme.of(context).primaryColorDark,
+                                ),
+                                onPressed: () {
+                                  // Update the state i.e. toogle the state of passwordVisible variable
+                                  setState(() {
+                                      _passwordVisible = !_passwordVisible;
+                                  });
+                                },
+                            ),
+                          ),
+                        onChanged: (password) { 
+                          setState(() {
+                            userPassword = password;
+                          });                      
+                        },
+                      ),
+                      const SizedBox(height: 10.0),
+                    ]
+                  )                  
+                ,
                 configExecutionContext.when(
                   loading: () => const Center(child: CircularProgressIndicator()),
                   error: (error, _) {
@@ -219,7 +278,7 @@ class SignUpPage extends ConsumerWidget {
                   onTap: () {
                     if (_key.currentState!.validate()) {
                       _key.currentState!.save();
-                      ref.read(signUpNotifier.notifier).signUpUser(SignUpEntity.fromMetaData(request));
+                      ref.read(signUpNotifier.notifier).signUpUser(SignUpEntity.fromMetaData(request), userPassword);
                     }
                   },
                   label: SplashScreenNotifier.getLanguageLabel('SIGN UP'),
@@ -244,6 +303,7 @@ class CustomTextField extends StatelessWidget {
     this.initialValue,
     this.padding = EdgeInsets.zero,
     this.margins = EdgeInsets.zero,
+    this.required = true,
   }) : super(key: key);
   final Function(String) onSaved;
   final String label;
@@ -253,6 +313,7 @@ class CustomTextField extends StatelessWidget {
   final List<TextInputFormatter>? formatters;
   final EdgeInsets padding;
   final EdgeInsets margins;
+  final bool required;
 
   @override
   Widget build(BuildContext context) {
@@ -275,7 +336,7 @@ class CustomTextField extends StatelessWidget {
             initialValue: initialValue,
             inputFormatters: formatters,
             onSaved: (newValue) => onSaved(newValue!),
-            validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+            validator: (value) => value!.isEmpty && required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(

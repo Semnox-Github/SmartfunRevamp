@@ -51,7 +51,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     try {
       final response = await _api.getSignUpMetadata();
       final uiMetadataList = response.data.customerUIMetadataContainerDTOList;
-      uiMetadataList.removeWhere((element) => element.customerFieldName == 'TestDownload');
+      // uiMetadataList.removeWhere((element) => element.customerFieldName == 'TestDownload');
+      uiMetadataList.removeWhere((element) => element.customerFieldName == 'USERNAME');
       uiMetadataList.sort((a, b) => a.customerFieldOrder.compareTo(b.customerFieldOrder));
       return Right(uiMetadataList);
     } on DioException catch (e) {

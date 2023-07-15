@@ -342,6 +342,8 @@ class Dialogs {
   static void showTransactionFeedbackDialog(BuildContext context, Function() onSubmitted) {
     AwesomeDialog(
         context: context,
+        dismissOnTouchOutside: true,
+        onDismissCallback: (type) => onSubmitted(),
         body: Consumer(
           builder: (context, ref, child) {
             return ref.watch(surveyDetailsProvider).when(

@@ -299,11 +299,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 margin: const EdgeInsets.symmetric(horizontal: 10.0),
                                 child: CachedNetworkImage(
                                   imageUrl: i,
-                                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                                  errorWidget: (context, url, error) => const Icon(
-                                    Icons.error,
-                                    color: Colors.red,
+                                  placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator(),
                                   ),
+                                  errorWidget: (_, __, ___) => Image.asset('assets/home/no_promo_image.png'),
                                 ),
                               );
                             },

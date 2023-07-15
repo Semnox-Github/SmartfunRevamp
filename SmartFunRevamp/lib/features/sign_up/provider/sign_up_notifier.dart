@@ -32,9 +32,8 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
   String? defaultSiteId;
   SignUpNotifier(this._executionContextDTO, this._signUpUserUseCase) : super(const _Initial());
 
-  void signUpUser(SignUpEntity signUpEntity, String? password) async {
+  void signUpUser(SignUpEntity signUpEntity) async {
     
-    signUpEntity.password=password;
     state = const _InProgress();
     final profileDTO = ProfileDTO(
       siteId: _executionContextDTO.siteId,
@@ -54,7 +53,7 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       ],
       addressDtoList: [],
       dateOfBirth: signUpEntity.dateOfBirth,
-      password: password,
+      password: signUpEntity.password,
       userName: signUpEntity.username,
       lastName: signUpEntity.lastName,
       firstName: signUpEntity.firstName,

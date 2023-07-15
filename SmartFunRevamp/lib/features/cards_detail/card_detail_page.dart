@@ -13,8 +13,8 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
+import 'package:semnox/features/splash/cms_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:semnox/features/splash/splashscreen.dart';
 
 class CardDetailPage extends ConsumerWidget {
   const CardDetailPage({Key? key, required this.cardDetails}) : super(key: key);

@@ -141,19 +141,4 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       return Left(ServerFailure(message['data']));
     }
   }
-
-  @override
-  Future<Either<Failure, void>> getHomePageCMS(String moduleName, String token) async {
-    try {
-      await _api.getHomePageCMS(moduleName, 'Bearer $token');
-      return const Right(null);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
-    }
-  }
 }

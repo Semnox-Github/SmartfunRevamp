@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/features/home/widgets/custom_bottom_navigation_bar_item.dart';
+import 'package:semnox/features/splash/cms_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:semnox/features/splash/splashscreen.dart';
 
 class CustomBottomBar extends ConsumerWidget {
   const CustomBottomBar({
@@ -40,10 +40,15 @@ class CustomBottomBar extends ConsumerWidget {
                   key: Key(item.displayName),
                   currentIndex: currentPage,
                   index: items.indexOf(item),
-                  icon: CachedNetworkImage(
-                    imageUrl: item.itemUrl,
-                    placeholder: (context, url) => const SizedBox.shrink(),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  icon: Container(
+                    padding: const EdgeInsets.only(top: 10),
+                    height: 45,
+                    width: 45,
+                    child: CachedNetworkImage(
+                      imageUrl: item.itemUrl,
+                      placeholder: (context, url) => const SizedBox.shrink(),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    ),
                   ),
                   text: SplashScreenNotifier.getLanguageLabel(item.displayName),
                 ),

@@ -58,7 +58,7 @@ class Routes {
     return {
       kHomePage: (BuildContext context) => const HomePage(),
       kLogInPage: (BuildContext context) => const LoginPage(),
-      kSignUpPage: (BuildContext context) => SignUpPage(),
+      kSignUpPage: (BuildContext context) => const SignUpPage(),
       kAfterSplashScreenPage: (BuildContext context) => const AfterSplashScreen(),
       kBuyACard: (BuildContext context) => const BuyCardListPage(),
       kVerifyOTP: (BuildContext context) => const VerifyOtpPage(),

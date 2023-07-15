@@ -33,7 +33,7 @@ final currentLanguageProvider = StateProvider<LanguageContainerDTOList?>((ref) {
     return null;
   }
   return languageList.languageContainerDTOList.firstWhereOrNull((element) => element.languageCode == Platform.localeName) ??
-      languageList.languageContainerDTOList.firstWhere((element) => element.languageCode == 'th-TH');
+      languageList.languageContainerDTOList.firstWhere((element) => element.languageCode == 'en-US');
 });
 
 class AfterSplashScreen extends ConsumerWidget {

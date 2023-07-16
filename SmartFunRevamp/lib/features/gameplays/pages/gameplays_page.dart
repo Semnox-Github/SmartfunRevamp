@@ -12,7 +12,12 @@ import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class GameplaysPage extends ConsumerStatefulWidget {
-  const GameplaysPage({super.key});
+  const GameplaysPage({
+    Key? key,
+    this.cardDetails
+  }) : super(key: key);
+
+  final CardDetails? cardDetails;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _GameplaysPageState();
@@ -23,7 +28,16 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
   late List<CardDetails> cards;
   @override
   void initState() {
-    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+    if (widget.cardDetails != null) {
+    //is added to cards list as the only card  
+      List<CardDetails> selectedCard = [];
+      selectedCard.add(widget.cardDetails!);
+      cards = selectedCard;
+    } else {
+      //if no card was selected, i.e. when landed from Search, get all the user cards
+      cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+      cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+    }
     selectedCard = cards.first;
     super.initState();
   }

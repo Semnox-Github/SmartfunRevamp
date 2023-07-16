@@ -9,6 +9,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
@@ -256,7 +257,15 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             image: 'activities',
                             text: 'Activities',
                             onTap: () =>
-                                hasCard ? Navigator.pushNamed(context, Routes.kActivities) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
+                              hasCard ? 
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
+                                  ),
+                                ) 
+                                : 
+                                Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customOrange,

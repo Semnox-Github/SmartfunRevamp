@@ -10,11 +10,14 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
+import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/features/transfer/transfer_page.dart';
 
 class CardDetailPage extends ConsumerWidget {
   const CardDetailPage({Key? key, required this.cardDetails}) : super(key: key);
@@ -109,21 +112,36 @@ class CardDetailPage extends ConsumerWidget {
                       subTitle: 'Transfer credits from one card to another',
                       title: 'Tranfer Credit',
                       svgImage: 'assets/home/transfer_credit.svg',
-                      onPressed: () => Navigator.pushNamed(context, Routes.kTransfers),
+                      onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TransferPage(cardDetails: cardDetails),
+                                ),
+                              ),
                     ),
                     MoreActionListTile(
                       color: CustomColors.customGreen,
                       subTitle: 'View all your gameplay records',
                       title: 'Game Plays',
                       svgImage: 'assets/home/gameplays.svg',
-                      onPressed: () => Navigator.pushNamed(context, Routes.kGameplays),
+                      onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GameplaysPage(cardDetails: cardDetails),
+                                ),
+                              ),
                     ),
                     MoreActionListTile(
                       color: CustomColors.customYellow,
                       subTitle: 'View Transactions, Recharges and more.',
                       title: 'Activity',
                       svgImage: 'assets/home/activities.svg',
-                      onPressed: () => Navigator.pushNamed(context, Routes.kActivities),
+                      onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
+                                ),
+                              ),
                     )
                   ],
                 ),

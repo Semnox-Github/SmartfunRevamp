@@ -19,6 +19,7 @@ import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
 import 'package:semnox/features/login/widgets/profile_picture.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
+import 'package:semnox/features/lost_card/pages/select_lost_card_page.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
@@ -274,7 +275,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             image: 'lost_card',
                             text: 'Lost Card',
                             onTap: () =>
-                                hasCard ? Navigator.pushNamed(context, Routes.kLostPageCard) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
+                                hasCard ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SelectCardLostPage(cardDetails: cardDetails),
+                                ),
+                              )   
+                              : 
+                              Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customGreen,

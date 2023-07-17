@@ -6,7 +6,6 @@ import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
-import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';

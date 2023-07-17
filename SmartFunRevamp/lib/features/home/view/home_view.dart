@@ -9,6 +9,8 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/activity/card_activity_log_page.dart';
+import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
@@ -22,6 +24,7 @@ import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.da
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/features/transfer/transfer_page.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -256,7 +259,15 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             image: 'activities',
                             text: 'Activities',
                             onTap: () =>
-                                hasCard ? Navigator.pushNamed(context, Routes.kActivities) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
+                              hasCard ? 
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
+                                  ),
+                                ) 
+                                : 
+                                Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customOrange,
@@ -270,14 +281,30 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             image: 'gameplays',
                             text: 'Game Plays',
                             onTap: () =>
-                                hasCard ? Navigator.pushNamed(context, Routes.kGameplays) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
+                              hasCard ? 
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GameplaysPage(cardDetails: cardDetails),
+                                ),
+                              )  
+                              : 
+                              Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customPurple,
                             image: 'transfer_credit',
                             text: 'Transfer Credit',
                             onTap: () =>
-                                hasCard ? Navigator.pushNamed(context, Routes.kTransfers) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
+                              hasCard ? 
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TransferPage(cardDetails: cardDetails),
+                                ),
+                              )   
+                              : 
+                              Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
                           ),
                         ],
                       );

@@ -24,6 +24,7 @@ import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.da
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/features/transfer/transfer_page.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -280,7 +281,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             image: 'gameplays',
                             text: 'Game Plays',
                             onTap: () =>
-                              hasCard ? Navigator.push(
+                              hasCard ? 
+                                Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => GameplaysPage(cardDetails: cardDetails),
@@ -294,7 +296,15 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             image: 'transfer_credit',
                             text: 'Transfer Credit',
                             onTap: () =>
-                                hasCard ? Navigator.pushNamed(context, Routes.kTransfers) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
+                              hasCard ? 
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TransferPage(cardDetails: cardDetails),
+                                ),
+                              )   
+                              : 
+                              Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
                           ),
                         ],
                       );

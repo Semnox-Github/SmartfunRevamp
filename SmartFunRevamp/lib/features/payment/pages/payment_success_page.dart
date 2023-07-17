@@ -164,7 +164,14 @@ class PaymentSuccessPage extends ConsumerWidget {
               Dialogs.showTransactionFeedbackDialog(
                 context,
                 () {
-                  Navigator.popUntil(context, (route) => route.isFirst);
+                  
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomePage(),
+                    ),
+                  );
+                  
                 },
               );
             },

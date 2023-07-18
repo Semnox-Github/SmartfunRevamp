@@ -76,7 +76,7 @@ class AfterSplashScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 10.0),
             Text(
-              SplashScreenNotifier.getLanguageLabel('Transaction Line(s) Cancelled'),
+              SplashScreenNotifier.getLanguageLabel('QUICK CARD RECHARGES'),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: CustomColors.customBlack,

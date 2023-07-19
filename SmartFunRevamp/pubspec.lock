@@ -119,7 +119,7 @@ packages:
       path: "."
       ref: master
       resolved-ref: "795ce32c4a9678d8b943f12ff25a00d8aa74c9eb"
-      url: "https://github.com/nitinpai-semnox/Parafait-BarCodeReader"
+      url: "git@github.com:nitinpai-semnox/Parafait-BarCodeReader.git"
     source: git
     version: "0.0.1"
   barcode_widget:
@@ -1253,7 +1253,7 @@ packages:
       path: "."
       ref: main
       resolved-ref: ca4ac8282095928595b0a3b0fbb981a53d4e9da7
-      url: "https://github.com/nitinpai-semnox/Parafait-NFC"
+      url: "git@github.com:nitinpai-semnox/Parafait-NFC.git"
     source: git
     version: "0.0.1"
   nfc_manager:

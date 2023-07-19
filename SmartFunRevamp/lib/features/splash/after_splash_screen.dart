@@ -194,7 +194,7 @@ class AfterSplashScreen extends ConsumerWidget {
                           ),
                           margin: const EdgeInsets.all(3),
                           child: TextButton(
-                            onPressed: () => currenLang == null ? null : () => Navigator.pushNamed(context, Routes.kSignUpPage),
+                            onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
                             child: Text(
                               SplashScreenNotifier.getLanguageLabel('SIGN UP'),
                               style: const TextStyle(

@@ -14,9 +14,10 @@ class FeedbackRepositoryImpl implements FeedbackRepository {
   FeedbackRepositoryImpl(this._api);
 
   @override
-  Future<Either<Failure, List<SurveyQuestion>>> getFeedbackActions() async {
+  Future<Either<Failure, List<SurveyDetails>>> getFeedbackActions() async {
     try {
       final response = await _api.getCustomerFeedbackActions();
+      Logger().d(response);
       return Right(response.data.first.surveyDetails);
     } on DioException catch (e) {
       Logger().e(e);

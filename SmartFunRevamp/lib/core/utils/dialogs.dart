@@ -10,6 +10,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
@@ -341,51 +342,55 @@ class Dialogs {
 
   static void showTransactionFeedbackDialog(BuildContext context, Function() onSubmitted) {
     AwesomeDialog(
-        context: context,
-        dismissOnTouchOutside: true,
-        onDismissCallback: (type) => onSubmitted(),
-        body: Consumer(
-          builder: (context, ref, child) {
-            return ref.watch(surveyDetailsProvider).when(
-                  loading: () => const CircularProgressIndicator(),
-                  error: (_, __) => const MulishText(text: 'Error loading feedback questions'),
-                  data: (surveyDetail) {
-                    return MulishText(text: surveyDetail.first.question);
-                  },
-                );
-          },
-        )).show();
-    // showDialog(
-    //   context: context,
-    //   barrierDismissible: true,
-    //   builder: (context) {
-    //     return RatingDialog(
-    //       initialRating: 1.0,
-    //       title: const Text(
-    //         'Your feedback',
-    //         textAlign: TextAlign.center,
-    //         style: TextStyle(
-    //           fontSize: 25,
-    //           fontWeight: FontWeight.bold,
-    //         ),
-    //       ),
-    //       message: const Text(
-    //         'Please rate your experience on this transaction',
-    //         textAlign: TextAlign.center,
-    //         style: TextStyle(fontSize: 15),
-    //       ),
-    //       submitButtonText: 'Submit',
-    //       commentHint: ' Do you have any other feedback?',
-    //       onCancelled: () {},
-    //       onSubmitted: (response) {
-    //         Logger().d('rating: ${response.rating}, comment: ${response.comment}');
-    //         if (response.rating == 5.0) {
-    //           _showAppRatingDialog(context, onSubmitted);
-    //         }
-    //       },
-    //     );
-    //   },
-    // );
+      context: context,
+      dismissOnTouchOutside: true,
+      onDismissCallback: (type) => onSubmitted(),
+      body: Consumer(
+        builder: (context, ref, child) {
+          return ref.watch(surveyDetailsProvider).when(
+                loading: () => const CircularProgressIndicator(),
+                error: (error, stacktrace) {
+                  return const Icon(
+                    Icons.error_outline,
+                    color: Colors.red,
+                    size: 40.0,
+                  );
+                },
+                data: (surveyDetail) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: Column(
+                      children: [
+                        ...surveyDetail.map(
+                          (surveyQuestion) {
+                            final responseValues = surveyQuestion.surveyQuestion.questionResponse.responseValues;
+                            return Column(
+                              children: [
+                                MulishText(
+                                  text: surveyQuestion.surveyQuestion.question,
+                                ),
+                                responseValues != null
+                                    ? FeedbackValueOption(
+                                        responseValues: responseValues,
+                                      )
+                                    : const TextField(),
+                              ],
+                            );
+                          },
+                        ).toList(),
+                        CustomButton(
+                          onTap: () {},
+                          label: 'Send Feedback',
+                          margin: const EdgeInsets.only(top: 10.0),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              );
+        },
+      ),
+    ).show();
   }
 
   // ignore: unused_element
@@ -419,6 +424,43 @@ class Dialogs {
           },
         );
       },
+    );
+  }
+}
+
+class FeedbackValueOption extends StatefulWidget {
+  const FeedbackValueOption({super.key, required this.responseValues});
+  final List<CustomerFeedbackResponseValues> responseValues;
+
+  @override
+  State<FeedbackValueOption> createState() => _FeedbackValueOptionState();
+}
+
+class _FeedbackValueOptionState extends State<FeedbackValueOption> {
+  String selected = '';
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: widget.responseValues.reversed.map(
+        (e) {
+          return FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: selected == e.responseValue ? Colors.red : Colors.transparent,
+              padding: const EdgeInsets.all(0.0),
+            ),
+            onPressed: () {
+              setState(() {
+                selected = e.responseValue;
+              });
+            },
+            child: MulishText(
+              text: e.responseValue,
+              fontColor: Colors.black,
+            ),
+          );
+        },
+      ).toList(),
     );
   }
 }

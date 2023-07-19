@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'survey_details.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.screamingSnake)
+@JsonSerializable(fieldRename: FieldRename.pascal)
 class CustomerFeedbackResponseValues {
   final String responseValue;
   final double score;
@@ -16,10 +16,10 @@ class CustomerFeedbackResponseValues {
   Map<String, dynamic> toJson() => _$CustomerFeedbackResponseValuesToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.screamingSnake)
+@JsonSerializable(fieldRename: FieldRename.pascal)
 class QuestionResponse {
   @JsonKey(name: 'CustomerFeedbackResponseValuesDTOList')
-  final List<CustomerFeedbackResponseValues> responseValues;
+  final List<CustomerFeedbackResponseValues>? responseValues;
   final bool isActive;
 
   QuestionResponse(this.responseValues, this.isActive);
@@ -27,21 +27,31 @@ class QuestionResponse {
   Map<String, dynamic> toJson() => _$QuestionResponseToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.screamingSnake)
+@JsonSerializable(fieldRename: FieldRename.pascal)
 class SurveyQuestion {
   final QuestionResponse questionResponse;
-  final int questionNo;
+  final String questionNo;
   final String question;
   final bool isActive;
 
   SurveyQuestion(this.questionResponse, this.questionNo, this.question, this.isActive);
   factory SurveyQuestion.fromJson(Map<String, dynamic> json) => _$SurveyQuestionFromJson(json);
+
   Map<String, dynamic> toJson() => _$SurveyQuestionToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.screamingSnake)
+@JsonSerializable(fieldRename: FieldRename.pascal)
+class SurveyDetails {
+  final SurveyQuestion surveyQuestion;
+
+  SurveyDetails(this.surveyQuestion);
+  factory SurveyDetails.fromJson(Map<String, dynamic> json) => _$SurveyDetailsFromJson(json);
+  Map<String, dynamic> toJson() => _$SurveyDetailsToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.pascal)
 class SurveyDetailsResponse {
-  final List<SurveyQuestion> surveyDetails;
+  final List<SurveyDetails> surveyDetails;
 
   SurveyDetailsResponse(this.surveyDetails);
 

@@ -7,12 +7,12 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
-import 'package:semnox/features/payment/pages/payment_options_page.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
 import 'package:semnox/features/buy_a_card/widgets/bill_detail_row.dart';
 import 'package:semnox/features/buy_a_card/widgets/coupon_container.dart';
+import 'package:semnox/features/payment/pages/payment_options_page.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 

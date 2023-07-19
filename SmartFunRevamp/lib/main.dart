@@ -15,6 +15,13 @@ import 'package:semnox/features/splash/splashscreen.dart';
 import 'package:semnox/firebase_options.dart';
 import 'di/injection_container.dart' as di;
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid || Platform.isIOS) {
@@ -32,6 +39,7 @@ void main() async {
     };
   }
   di.init();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -58,6 +66,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
     return ProviderScope(
       child: GlobalLoaderOverlay(
         useDefaultLoading: false,

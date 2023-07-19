@@ -13,6 +13,7 @@ import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
+import 'package:semnox/features/recharge_card/widgets/disabled_bottom_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
@@ -78,7 +79,8 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
           ),
         ),
       ) : null,
-      bottomSheet: BottomSheetButton(
+      bottomSheet: offerSelected != null ?
+        BottomSheetButton(
         label: offerSelected == null
             ? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')
             : '${SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')} \$ ${(qty * finalPrice).toCurrency(currency, format)}',
@@ -100,7 +102,10 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
             );
           }
         },
-      ),
+      )
+      :
+      DisabledBottomButton(label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'))
+      ,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

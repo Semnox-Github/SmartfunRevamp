@@ -7,8 +7,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
+import 'package:semnox/core/domain/use_cases/splash_screen/get_home_page_cms_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_lookups_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_parafait_languages_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_string_for_localization_use_case.dart';
@@ -32,7 +34,7 @@ final systemUserProvider = StateProvider<SystemUser?>((ref) {
   return null;
 });
 
-final homePageCMSProvider = Provider<String?>((ref) {
+final homePageCMSProvider = Provider<HomePageCMSResponse?>((ref) {
   return null;
 });
 final getStringForLocalization = FutureProvider<Map<dynamic, dynamic>>((ref) async {
@@ -72,7 +74,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
   final GetBaseURLUseCase _getBaseURL;
   final AuthenticateBaseURLUseCase _authenticateBaseURLUseCase;
 
-  SplashScreenNotifier(this._getBaseURL, this._authenticateBaseURLUseCase) : super(const _Initial());
+  SplashScreenNotifier(this._getBaseURL, this._authenticateBaseURLUseCase) : super(const _InProgress());
 
   static String getUrl(String site) {
     String responseUrl = "";
@@ -107,8 +109,17 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
       (l) => state = _Error(l.message),
       (r) {
         authenticateApi(r, baseUrl);
-        state = const _Success();
+        getHomePageCMS();
       },
+    );
+  }
+
+  void getHomePageCMS() async {
+    final useCase = Get.find<GetHomePageCMSUseCase>();
+    final response = await useCase();
+    state = response.fold(
+      (l) => _Error(l.message),
+      (r) => state = _Success(r),
     );
   }
 

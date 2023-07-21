@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'home_page_cms_response.g.dart';
 
@@ -48,6 +49,26 @@ class HomePageCMSResponse {
 
   List<CMSMenuItem> getMoreMenuItems() {
     return geMenuItems('MORE');
+  }
+
+  Uri playUrl() {
+    const playUrlFromCMS = 'https://virtualarcadecontent.parafait.com/?customerId=@customerID&langCode=@langCode&siteID=@siteID&posMachine=@posMachine&userID=@userID&url=@apiURL';
+    final Map<String, String> replacements = {
+      'customerID': '5133',
+      'langCode': 'en-US',
+      'siteID': '1010',
+      'posMachine': 'CustomerApp',
+      'userID': 'SmartFun',
+      'apiURL': 'smartfungigademo.parafait.com',
+    };
+
+    String playUrl = playUrlFromCMS;
+    replacements.forEach((key, value) {
+      playUrl = playUrl.replaceAll('@$key', value);
+    });
+
+    debugPrint('thisistheplayurl: $playUrl');
+    return Uri.parse(playUrl);
   }
 }
 
@@ -106,12 +127,14 @@ class CMSMenuItem {
   final bool active;
   final int displayOrder;
   final String itemUrl;
+  final String? target;
   CMSMenuItem(
     this.itemName,
     this.displayName,
     this.active,
     this.displayOrder,
     this.itemUrl,
+    this.target,
   );
   factory CMSMenuItem.fromJson(Map<String, dynamic> json) => _$CMSMenuItemFromJson(json);
   Map<String, dynamic> toJson() => _$CMSMenuItemToJson(this);

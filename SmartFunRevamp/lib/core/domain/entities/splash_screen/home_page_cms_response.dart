@@ -10,9 +10,12 @@ class HomePageCMSResponse {
   final List<CMSModulePage>? cmsModulePages;
   @JsonKey(name: 'CMSModuleMenuDTOList')
   final List<CMSModuleMenu> cmsModuleMenu;
-
   @JsonKey(name: 'images')
   final CMSImages cmsImages;
+  @JsonKey(name: 'CMSModuleColorsHome')
+  final CMSModuleColorsHome cmsModuleColorsHome;
+  @JsonKey(name: 'CardsColor')
+  final CardsColor cardsColor;
 
   HomePageCMSResponse(
     this.moduleId,
@@ -21,6 +24,8 @@ class HomePageCMSResponse {
     this.cmsModulePages,
     this.cmsModuleMenu,
     this.cmsImages,
+    this.cmsModuleColorsHome,
+    this.cardsColor,
   );
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
@@ -49,6 +54,35 @@ class HomePageCMSResponse {
   List<CMSMenuItem> getMoreMenuItems() {
     return geMenuItems('MORE');
   }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CardsColor {
+  final String? regular;
+  final String? expired;
+  final String? virtual;
+
+  CardsColor(this.regular, this.expired, this.virtual);
+  factory CardsColor.fromJson(Map<String, dynamic> json) => _$CardsColorFromJson(json);
+  Map<String, dynamic> toJson() => _$CardsColorToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+class CMSModuleColorsHome {
+  final String upperHalf;
+  final String middle;
+  final String bottomHalf;
+  @JsonKey(name: "profile_picture_gradient")
+  final List<String> profilePictureGradient;
+
+  CMSModuleColorsHome(
+    this.upperHalf,
+    this.middle,
+    this.bottomHalf,
+    this.profilePictureGradient,
+  );
+  factory CMSModuleColorsHome.fromJson(Map<String, dynamic> json) => _$CMSModuleColorsHomeFromJson(json);
+  Map<String, dynamic> toJson() => _$CMSModuleColorsHomeToJson(this);
 }
 
 @JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)

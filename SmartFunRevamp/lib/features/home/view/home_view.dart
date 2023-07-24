@@ -6,8 +6,10 @@ import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
@@ -34,6 +36,10 @@ final promoImagesProvider = Provider<List<String>>((ref) {
   final promos = cms?.cmsModulePages?.where((element) => element.displaySection == 'IMAGE').toList();
   return promos?.map((e) => e.contentURL).toList() ?? [];
 });
+final homeColors = Provider<CMSModuleColorsHome?>((ref) {
+  final cms = ref.watch(cmsProvider).value;
+  return cms?.cmsModuleColorsHome;
+});
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
@@ -52,7 +58,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     final promoImages = ref.watch(promoImagesProvider);
-
+    final homeColor = ref.watch(homeColors);
     cardsWatch.maybeWhen(
       orElse: () => context.loaderOverlay.hide(),
       loading: () => context.loaderOverlay.show(),
@@ -67,9 +73,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              decoration: const BoxDecoration(
-                color: CustomColors.customLigthBlue,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: HexColor.fromHex(homeColor?.upperHalf) ?? CustomColors.customLigthBlue,
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(15.0),
                   bottomRight: Radius.circular(15.0),
                 ),

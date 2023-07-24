@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/home/widgets/custom_bottom_navigation_bar_item.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -20,6 +21,7 @@ class CustomBottomBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cms = ref.watch(cmsProvider).value;
     final items = cms?.getFooterMenuItems() ?? [];
+    final barColor = cms?.cmsModuleColorsHome.bottomHalf;
     return ClipRRect(
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(25.0),
@@ -28,7 +30,7 @@ class CustomBottomBar extends ConsumerWidget {
       child: BottomNavigationBar(
         currentIndex: currentPage,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: CustomColors.customBlack,
+        backgroundColor: HexColor.fromHex(barColor) ?? CustomColors.customBlack,
         selectedFontSize: 0.0,
         unselectedFontSize: 0.0,
         onTap: (value) => onTap(value),

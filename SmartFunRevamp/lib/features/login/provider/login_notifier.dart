@@ -44,7 +44,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   final LoginUserUseCase _loginUserUseCase;
   final GetExecutionContextUseCase _getExecutionContextUseCase;
   final DeleteProfileUseCase _deleteProfileUseCase;
-  final GetParafaitDefaultsUseCase? _getParafaitDefaultsUseCase;
+  final GetParafaitDefaultsUseCase _getParafaitDefaultsUseCase;
   final VerifyEmailExistsUseCase _verifyEmailExistsUseCase;
 
   final LocalDataSource _localDataSource;
@@ -101,8 +101,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
   void setDefaultSite() async {
     //reading defaults
-    final defaults = await _getParafaitDefaultsUseCase!();
-
+    final defaults = await _getParafaitDefaultsUseCase();
     defaults.fold(
       (l) => null,
       (r) => parafaitDefault = r,

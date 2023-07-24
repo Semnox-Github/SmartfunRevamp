@@ -14,7 +14,7 @@ import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
-import 'package:semnox/features/home/widgets/home_view_widgets/notification_button.dart';
+import 'package:semnox/features/home/widgets/home_view_widgets/home_top_bar_icons.dart';
 import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
 import 'package:semnox/features/login/widgets/profile_picture.dart';
@@ -52,6 +52,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     final promoImages = ref.watch(promoImagesProvider);
+
     cardsWatch.maybeWhen(
       orElse: () => context.loaderOverlay.hide(),
       loading: () => context.loaderOverlay.show(),
@@ -111,14 +112,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         ],
                       ),
                       const Spacer(),
-                      IconButton(
-                        onPressed: () => Navigator.pushNamed(context, Routes.kSearch),
-                        icon: const Icon(
-                          Icons.search_outlined,
-                          color: CustomColors.customBlue,
-                        ),
+                      HomeTopBarIcons(
+                        onSearchTap: () => Navigator.pushNamed(context, Routes.kSearch),
                       ),
-                      const NotificationsButton(),
                     ],
                   ),
                   Container(
@@ -259,60 +255,53 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             color: CustomColors.customLigthBlue,
                             image: 'activities',
                             text: 'Activities',
-                            onTap: () =>
-                              hasCard ? 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
-                                  ),
-                                ) 
-                                : 
-                                Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
+                            onTap: () => hasCard
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
+                                    ),
+                                  )
+                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customOrange,
                             image: 'lost_card',
                             text: 'Lost Card',
-                            onTap: () =>
-                                hasCard ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SelectCardLostPage(cardDetails: cardDetails),
-                                ),
-                              )   
-                              : 
-                              Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
+                            onTap: () => hasCard
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SelectCardLostPage(cardDetails: cardDetails),
+                                    ),
+                                  )
+                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customGreen,
                             image: 'gameplays',
                             text: 'Game Plays',
-                            onTap: () =>
-                              hasCard ? 
-                                Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => GameplaysPage(cardDetails: cardDetails),
-                                ),
-                              )  
-                              : 
-                              Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
+                            onTap: () => hasCard
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => GameplaysPage(cardDetails: cardDetails),
+                                    ),
+                                  )
+                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customPurple,
                             image: 'transfer_credit',
                             text: 'Transfer Credit',
-                            onTap: () =>
-                              hasCard ? 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TransferPage(cardDetails: cardDetails),
-                                ),
-                              )   
-                              : 
-                              Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
+                            onTap: () => hasCard
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => TransferPage(cardDetails: cardDetails),
+                                    ),
+                                  )
+                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
                           ),
                         ],
                       );

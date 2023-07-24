@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'home_page_cms_response.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class HomePageCMSResponse {
   final int? moduleId;
   final String? description;
@@ -51,7 +51,7 @@ class HomePageCMSResponse {
   }
 }
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class CMSModulePage {
   final int pageId;
   final int contentId;
@@ -71,7 +71,7 @@ class CMSModulePage {
   factory CMSModulePage.fromJson(Map<String, dynamic> json) => _$CMSModulePageFromJson(json);
 }
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class CMSModuleMenu {
   @JsonKey(name: 'CMSMenusDTOList')
   final List<CMSMenu> cmsMenus;
@@ -82,7 +82,7 @@ class CMSModuleMenu {
   Map<String, dynamic> toJson() => _$CMSModuleMenuToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class CMSMenu {
   @JsonKey(name: 'CMSMenuItemsDTOList')
   final List<CMSMenuItem> cmsMenuItems;
@@ -99,7 +99,7 @@ class CMSMenu {
   Map<String, dynamic> toJson() => _$CMSMenuToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class CMSMenuItem {
   final String itemName;
   final String displayName;
@@ -117,7 +117,7 @@ class CMSMenuItem {
   Map<String, dynamic> toJson() => _$CMSMenuItemToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class CMSImages {
   @JsonKey(name: 'splash_screen_image_path')
   final String splashScreenPath;

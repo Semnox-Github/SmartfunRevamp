@@ -175,7 +175,7 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                         ref.read(hostedPaymentProvider.notifier).getHtml(
                               HostedPaymentGatewayRequest(
                                 hostedPaymentGateway: _data[panelIndex].paymentMode.paymentGateway?.lookupValue ?? '',
-                                amount: widget.transactionResponse.transactionAmount,
+                                amount: widget.transactionResponse.transactionNetAmount,
                                 transactionId: widget.transactionResponse.transactionId,
                               ),
                             );

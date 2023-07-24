@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:logger/logger.dart';
@@ -220,7 +221,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
 
   Future<void> amountSelectorDialog(BuildContext context) {
     TextEditingController txt = TextEditingController();
-    txt.text = finalPrice.toString();
+    txt.text = "";
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -228,6 +229,9 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
           title: Text(SplashScreenNotifier.getLanguageLabel('Enter the variable amount')),
           content: TextField(
             keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ], // Only numbers can be entered
             controller: txt,
             decoration: InputDecoration(hintText: SplashScreenNotifier.getLanguageLabel('Please enter the amount you wish to recharge')),
             onChanged: (amount) {

@@ -164,14 +164,12 @@ class PaymentSuccessPage extends ConsumerWidget {
               Dialogs.showTransactionFeedbackDialog(
                 context,
                 () {
-                  
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const HomePage(),
                     ),
-                  );
-                  
+                  ); 
                 },
               );
             },

@@ -8,7 +8,7 @@ import 'package:semnox/features/home/view/more_view.dart';
 import 'package:semnox/features/home/view/play_view.dart';
 
 import 'package:semnox/features/home/widgets/custom_bottom_bar.dart';
-import 'package:semnox/features/splash/splashscreen.dart';
+import 'package:semnox/features/splash/cms_provider.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);

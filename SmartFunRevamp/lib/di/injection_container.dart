@@ -27,7 +27,6 @@ Future<void> init() async {
   gameplaysDependencies();
   paymentDependencies();
   productsPriceDependecies();
-  selectLocationDependecies();
   homeDependecies();
   notificationsDependecies();
   membershipDependencies();

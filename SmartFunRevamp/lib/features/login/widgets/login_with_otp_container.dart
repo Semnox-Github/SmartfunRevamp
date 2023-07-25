@@ -37,7 +37,7 @@ class LoginWithOTPContainer extends StatelessWidget {
           TextButton(
             onPressed: onTap,
             child: Text(
-              isLoginWithOTP ? SplashScreenNotifier.getLanguageLabel('LOGIN WITH PASSWORD') : SplashScreenNotifier.getLanguageLabel('LOGIN WITH OTP'),
+              isLoginWithOTP ? SplashScreenNotifier.getLanguageLabel('LOGIN WITH OTP') : SplashScreenNotifier.getLanguageLabel('LOGIN WITH PASSWORD'),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: CustomColors.hardOrange,

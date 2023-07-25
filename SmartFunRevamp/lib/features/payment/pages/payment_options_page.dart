@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -95,6 +97,7 @@ class PaymentOptionsPage extends ConsumerWidget {
                         error: (e, s) => MulishText(text: 'An error has ocurred $e'),
                         loading: () => const Center(child: CircularProgressIndicator()),
                         data: (data) {
+                          
                           return ExpansionPaymentMethodsList(
                             paymentsMode: data,
                             transactionResponse: transactionResponse,
@@ -118,7 +121,7 @@ class PaymentOptionsPage extends ConsumerWidget {
 class PanelItem {
   PanelItem({
     required this.paymentMode,
-    this.isExpanded = false,
+    required this.isExpanded,
   });
 
   PaymentMode paymentMode;
@@ -151,13 +154,14 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
   @override
   void initState() {
     super.initState();
-    _data = widget.paymentsMode.map((e) => PanelItem(paymentMode: e)).toList();
+    _data = widget.paymentsMode.map((e) => PanelItem(paymentMode: e, isExpanded: widget.paymentsMode.length == 1 ? true : false)).toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    
     return Consumer(
-      builder: (context, ref, __) {
+      builder: (context, ref, __) {        
         return SizedBox(
           height: MediaQuery.of(context).size.height * 0.70,
           child: SingleChildScrollView(
@@ -171,7 +175,7 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                         ref.read(hostedPaymentProvider.notifier).getHtml(
                               HostedPaymentGatewayRequest(
                                 hostedPaymentGateway: _data[panelIndex].paymentMode.paymentGateway?.lookupValue ?? '',
-                                amount: widget.transactionResponse.transactionAmount,
+                                amount: widget.transactionResponse.transactionNetAmount,
                                 transactionId: widget.transactionResponse.transactionId,
                               ),
                             );
@@ -198,7 +202,8 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                           error: (msg) => const Icon(Icons.error, color: Colors.green, size: 30.0),
                           success: (data) {
                             final htmlString = data.gatewayRequestFormString ?? data.gatewayRequestString;
-                            if (htmlString.isNotEmpty) {
+                            final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {Factory(() => EagerGestureRecognizer())};
+                            if (htmlString.isNotEmpty && panelItem.isExpanded) {
                               final uri = Uri.parse(Uri.dataFromString(htmlString, mimeType: 'text/html', encoding: Encoding.getByName('UTF-8')).toString());
                               webviewController.loadRequest(uri);
                               webviewController.setNavigationDelegate(
@@ -234,8 +239,8 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                                 ),
                               );
                               return SizedBox(
-                                height: (MediaQuery.of(context).size.height * 0.70) - 150,
-                                child: WebViewWidget(controller: webviewController),
+                                height: _data.length > 1 ? (MediaQuery.of(context).size.height * 0.70) - 150 : (MediaQuery.of(context).size.height * 0.80) - 150,
+                                child: WebViewWidget(controller: webviewController, gestureRecognizers: gestureRecognizers,),
                               );
                             } else {
                               return Column(
@@ -252,6 +257,7 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                             }
                           },
                         ),
+                        
                   );
                 },
               ).toList(),

@@ -30,8 +30,6 @@ abstract class SplashScreenRepository {
 
   Future<Either<Failure, void>> getContactType();
 
-  Future<Either<Failure, void>> getHomePageCMS(String moduleName, String token);
-
   Future<Either<Failure, void>> getAppProductsImages({
     required String imageType,
     required String lastModifiedDate,

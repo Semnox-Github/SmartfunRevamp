@@ -15,6 +15,13 @@ import 'package:semnox/firebase_options.dart';
 import 'di/injection_container.dart' as di;
 import 'features/splash/splashscreen.dart';
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid || Platform.isIOS) {
@@ -24,6 +31,7 @@ void main() async {
     );
     FlutterError.onError = (errorDetails) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
     };
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
@@ -31,6 +39,7 @@ void main() async {
     };
   }
   di.init();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 

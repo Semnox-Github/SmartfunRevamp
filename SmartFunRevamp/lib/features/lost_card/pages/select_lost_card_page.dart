@@ -13,8 +13,12 @@ import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_butt
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SelectCardLostPage extends ConsumerStatefulWidget {
-  const SelectCardLostPage({super.key});
+  const SelectCardLostPage({
+    Key? key,
+    this.cardDetails
+  }) : super(key: key);
 
+  final CardDetails? cardDetails;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SelectCardLostPageState();
 }
@@ -25,8 +29,16 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
 
   @override
   void initState() {
-    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
-    cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+    if (widget.cardDetails != null) {
+    //is added to cards list as the only card  
+      List<CardDetails> selectedCard = [];
+      selectedCard.add(widget.cardDetails!);
+      cards = selectedCard;
+    } else {
+      //if no card was selected, i.e. when landed from Search, get all the user cards
+      cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+      cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+    }
     selectedCard = cards.first;
     super.initState();
   }

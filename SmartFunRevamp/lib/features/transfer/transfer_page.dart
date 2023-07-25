@@ -15,7 +15,12 @@ import 'package:semnox/features/transfer/widgets/from_selection_container.dart';
 import 'package:semnox/features/transfer/widgets/to_selection_container.dart';
 
 class TransferPage extends ConsumerStatefulWidget {
-  const TransferPage({super.key});
+  const TransferPage({
+    Key? key,
+    this.cardDetails
+  }) : super(key: key);
+
+  final CardDetails? cardDetails;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _TransferPageState();
@@ -29,12 +34,20 @@ class _TransferPageState extends ConsumerState<TransferPage> {
   CardDetails? cardFrom;
   CardDetails? cardTo;
   late List<CardDetails> cards;
+  late List<CardDetails> cardsFrom;
   @override
   void initState() {
     super.initState();
+    cardsFrom = [];
     cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
-    cardFrom = cards.first;
+    if (widget.cardDetails != null) {
+    //is added to cards list as the only card  
+      cardsFrom.add(widget.cardDetails!);
+    } else {
+      cardsFrom = cards;
+    }
+    cardFrom=cardsFrom.first;
     cardTo = cards.first;
   }
 
@@ -69,7 +82,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                         onSaved: (newValue) => amount = num.tryParse(newValue!) ?? 0,
                       ),
                       FromSelectionContainer(
-                        cards: cards,
+                        cards: cardsFrom,
                         onCardChanged: (index) {
                           cardFrom = cards[index];
                         },

@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/repositories/authentication_repository.dart';
@@ -51,7 +52,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     try {
       final response = await _api.getSignUpMetadata();
       final uiMetadataList = response.data.customerUIMetadataContainerDTOList;
-      uiMetadataList.removeWhere((element) => element.customerFieldName == 'TestDownload');
+      // uiMetadataList.removeWhere((element) => element.customerFieldName == 'TestDownload');
+      uiMetadataList.removeWhere((element) => element.customerFieldName == 'USERNAME');
       uiMetadataList.sort((a, b) => a.customerFieldOrder.compareTo(b.customerFieldOrder));
       return Right(uiMetadataList);
     } on DioException catch (e) {
@@ -182,6 +184,33 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return Right(response.data);
     } catch (e) {
       return Left(ServerFailure('Config Not Found'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, HomePageCMSResponse>> getHomePageCMS() async {
+    try {
+      final response = await _api.getHomePageCMS();
+      return Right(response.data.first);
+    } catch (e) {
+      return Left(ServerFailure('Email not found'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> validateEmail(String email) async {
+    try {
+      final userInfo = await _api.getCustomerByPhoneorEmail(email);
+      return Right(userInfo.data.isNotEmpty);
+    } on DioException catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    } catch (e) {
+      return Left(ServerFailure('Email not found'));
     }
   }
 }

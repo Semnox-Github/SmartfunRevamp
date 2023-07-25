@@ -30,12 +30,21 @@ final uiMetaDataProvider = FutureProvider<List<CustomerUIMetaData>>((ref) async 
   );
 });
 
-class SignUpPage extends ConsumerWidget {
-  SignUpPage({Key? key}) : super(key: key);
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+class SignUpPage extends ConsumerStatefulWidget {
+  const SignUpPage({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    Map<String, dynamic> request = {};
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpPage();
+}
+
+class _SignUpPage extends ConsumerState<SignUpPage> {
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  Map<String, dynamic> request = {};
+  String? userPassword;
+
+  @override
+  Widget build(BuildContext context) {
+    
     final isPasswordDisabled = ref.watch(isPasswordDisabledProvider);
     ref.listen<SignUpState>(signUpNotifier, (_, next) {
       next.maybeWhen(
@@ -144,13 +153,28 @@ class SignUpPage extends ConsumerWidget {
                         }
                         return CustomTextField(
                           onSaved: (value) => request[field.customerFieldName] = value,
-                          label: SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption),
+                          label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
                           margins: const EdgeInsets.symmetric(vertical: 10.0),
+                          required: field.validationType == "M",
                         );
                       }).toList(),
                     );
                   },
                 ),
+                if(!isPasswordDisabled)
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomPasswordTextField(
+                        onSaved: (value) => request["PASSWORD"] = value,
+                        label: '${SplashScreenNotifier.getLanguageLabel("Password")}*',
+                        margins: const EdgeInsets.symmetric(vertical: 10.0),
+                        required: true,
+                      ),
+                    ]
+                  )                  
+                ,
                 configExecutionContext.when(
                   loading: () => const Center(child: CircularProgressIndicator()),
                   error: (error, _) {
@@ -244,6 +268,7 @@ class CustomTextField extends StatelessWidget {
     this.initialValue,
     this.padding = EdgeInsets.zero,
     this.margins = EdgeInsets.zero,
+    this.required = true,
   }) : super(key: key);
   final Function(String) onSaved;
   final String label;
@@ -253,6 +278,7 @@ class CustomTextField extends StatelessWidget {
   final List<TextInputFormatter>? formatters;
   final EdgeInsets padding;
   final EdgeInsets margins;
+  final bool required;
 
   @override
   Widget build(BuildContext context) {
@@ -275,7 +301,7 @@ class CustomTextField extends StatelessWidget {
             initialValue: initialValue,
             inputFormatters: formatters,
             onSaved: (newValue) => onSaved(newValue!),
-            validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+            validator: (value) => value!.isEmpty && required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
@@ -302,3 +328,101 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
+
+class CustomPasswordTextField extends StatefulWidget {
+  const CustomPasswordTextField({
+    Key? key,
+    required this.onSaved,
+    required this.label,
+    this.inputType = TextInputType.name,
+    this.fillColor = Colors.transparent,
+    this.formatters,
+    this.initialValue,
+    this.padding = EdgeInsets.zero,
+    this.margins = EdgeInsets.zero,
+    this.required = true,
+  }) : super(key: key);
+  final Function(String) onSaved;
+  final String label;
+  final String? initialValue;
+  final TextInputType inputType;
+  final Color fillColor;
+  final List<TextInputFormatter>? formatters;
+  final EdgeInsets padding;
+  final EdgeInsets margins;
+  final bool required;
+
+  @override
+  State<CustomPasswordTextField> createState() => _CustomPasswordTextFieldState();
+}
+
+class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
+  bool _passwordVisible = false;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: widget.padding,
+      margin: widget.margins,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.label,
+            style: GoogleFonts.mulish(
+              fontWeight: FontWeight.bold,
+              fontSize: 14.0,
+            ),
+          ),
+          const SizedBox(height: 5.0),
+          TextFormField(
+            initialValue: widget.initialValue,
+            inputFormatters: widget.formatters,
+            onSaved: (newValue) => widget.onSaved(newValue!),
+            validator: (value) => value!.isEmpty && widget.required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+            cursorColor: Colors.black,
+            keyboardType: TextInputType.emailAddress,
+            obscureText: !_passwordVisible,//This will obscure text dynamically
+            decoration: InputDecoration(
+              hintText: SplashScreenNotifier.getLanguageLabel('Enter your password'),
+              // Here is key idea
+              suffixIcon: IconButton(
+                icon: Icon(
+                  // Based on passwordVisible state choose the icon
+                  _passwordVisible
+                  ? Icons.visibility
+                  : Icons.visibility_off,
+                  color: Theme.of(context).primaryColorDark,
+                  ),
+                  onPressed: () {
+                    // Update the state i.e. toogle the state of passwordVisible variable
+                    setState(() {
+                        _passwordVisible = !_passwordVisible;
+                    });
+                  },
+              ),
+              isDense: true,
+              fillColor: widget.fillColor,
+              filled: true,
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(
+                  color: Colors.black,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+

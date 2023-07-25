@@ -1,19 +1,19 @@
-// ignore_for_file: non_constant_identifier_names
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
 import 'package:semnox/core/routes.dart';
-import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/splash/splashscreen.dart';
+import 'package:semnox/features/splash/cms_provider.dart';
 
 import 'provider/splash_screen_notifier.dart';
 
@@ -25,7 +25,14 @@ final parafaitDefaultsProvider = FutureProvider<ParafaitDefaultsResponse>((ref) 
     (r) => r,
   );
 });
-final currentLanguageProvider = StateProvider<String?>((ref) => null);
+final currentLanguageProvider = StateProvider<LanguageContainerDTOList?>((ref) {
+  final languageList = ref.watch(SplashScreenNotifier.parafaitLanguagesProvider).valueOrNull;
+  if (languageList == null) {
+    return null;
+  }
+  return languageList.languageContainerDTOList.firstWhereOrNull((element) => element.languageCode == Platform.localeName) ??
+      languageList.languageContainerDTOList.firstWhere((element) => element.languageCode == 'en-US');
+});
 
 class AfterSplashScreen extends ConsumerWidget {
   const AfterSplashScreen({super.key});
@@ -35,7 +42,6 @@ class AfterSplashScreen extends ConsumerWidget {
     ref.watch(parafaitDefaultsProvider);
     ref.watch(SplashScreenNotifier.getInitialData);
     final currenLang = ref.watch(currentLanguageProvider);
-
     ref.watch(getStringForLocalization).maybeWhen(
       orElse: () {
         context.loaderOverlay.hide();
@@ -50,20 +56,23 @@ class AfterSplashScreen extends ConsumerWidget {
         minimum: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            // Image.asset('assets/splash_screen/after_splash.png'),
-            CachedNetworkImage(
-              imageUrl: imagePath ?? "",
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.40,
-              placeholder: (_, __) => const Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) {
-                return const Center(
-                  child: Icon(
-                    Icons.error,
-                    color: Colors.red,
-                    size: 50.0,
-                  ),
-                );
-              },
+              child: imagePath == null
+                  ? const SizedBox.shrink()
+                  : CachedNetworkImage(
+                      imageUrl: imagePath,
+                      placeholder: (_, __) => const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) {
+                        return const Center(
+                          child: Icon(
+                            Icons.error,
+                            color: Colors.red,
+                            size: 50.0,
+                          ),
+                        );
+                      },
+                    ),
             ),
             const SizedBox(height: 10.0),
             Text(
@@ -76,8 +85,8 @@ class AfterSplashScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 10.0),
-            const MulishText(
-              text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            MulishText(
+              text: SplashScreenNotifier.getLanguageLabel('QUICK CARD RECHARGES DETAIL'),
               fontSize: 16.0,
               fontColor: CustomColors.customBlack,
               fontWeight: FontWeight.w500,
@@ -105,18 +114,18 @@ class AfterSplashScreen extends ConsumerWidget {
                             ),
                             loading: () => const Center(child: CircularProgressIndicator()),
                             data: (data) {
-                              return DropdownButton<String>(
+                              return DropdownButton<LanguageContainerDTOList>(
                                 isExpanded: true,
                                 value: currenLang,
                                 hint: const MulishText(text: 'Select a language'),
                                 items: data.languageContainerDTOList.map((item) {
-                                  return DropdownMenuItem<String>(
-                                    value: item.languageId.toString(),
+                                  return DropdownMenuItem<LanguageContainerDTOList>(
+                                    value: item,
                                     child: Text(item.languageName),
                                   );
                                 }).toList(),
                                 onChanged: (value) {
-                                  ref.read(currentLanguageProvider.notifier).state = value.toString();
+                                  ref.read(currentLanguageProvider.notifier).state = value;
                                 },
                               );
                             },
@@ -143,11 +152,11 @@ class AfterSplashScreen extends ConsumerWidget {
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12.0),
-                          gradient: CustomGradients.linearGradient,
+                          gradient: currenLang == null ? CustomGradients.disabledGradient : CustomGradients.linearGradient,
                         ),
                         margin: const EdgeInsets.all(3),
                         child: TextButton(
-                          onPressed: () => currenLang.isNullOrEmpty() ? Fluttertoast.showToast(msg: 'Please select a language') : Navigator.pushReplacementNamed(context, Routes.kLogInPage),
+                          onPressed: currenLang == null ? null : () => Navigator.pushReplacementNamed(context, Routes.kLogInPage),
                           child: Text(
                             SplashScreenNotifier.getLanguageLabel('LOGIN'),
                             style: const TextStyle(
@@ -175,17 +184,17 @@ class AfterSplashScreen extends ConsumerWidget {
                       Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          gradient: CustomGradients.linearGradient,
+                          gradient: currenLang == null ? CustomGradients.disabledGradient : CustomGradients.linearGradient,
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12.0),
-                            color: Colors.white,
+                            color: currenLang == null ? Colors.grey : Colors.white,
                           ),
                           margin: const EdgeInsets.all(3),
                           child: TextButton(
-                            onPressed: () => currenLang.isNullOrEmpty() ? Fluttertoast.showToast(msg: 'Please select a language') : Navigator.pushNamed(context, Routes.kSignUpPage),
+                            onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
                             child: Text(
                               SplashScreenNotifier.getLanguageLabel('SIGN UP'),
                               style: const TextStyle(

@@ -6,9 +6,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
+import 'package:semnox/core/domain/use_cases/splash_screen/get_home_page_cms_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_lookups_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_parafait_languages_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_string_for_localization_use_case.dart';
@@ -26,20 +29,25 @@ final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashS
   (ref) => SplashScreenNotifier(
     Get.find<GetBaseURLUseCase>(),
     Get.find<AuthenticateBaseURLUseCase>(),
+    Get.find<LocalDataSource>(),
   ),
 );
 final systemUserProvider = StateProvider<SystemUser?>((ref) {
   return null;
 });
 
-final homePageCMSProvider = Provider<String?>((ref) {
+final homePageCMSProvider = Provider<HomePageCMSResponse?>((ref) {
   return null;
 });
 final getStringForLocalization = FutureProvider<Map<dynamic, dynamic>>((ref) async {
+  final currentLang = ref.watch(currentLanguageProvider);
+  if (currentLang == null) {
+    return {};
+  }
   final GetStringForLocalizationUseCase getStringForLocalizationUseCase = Get.find<GetStringForLocalizationUseCase>();
-  final langId = ref.watch(currentLanguageProvider);
+  final langId = currentLang.languageId.toString();
   //Request language strings always with master site
-  final response = await getStringForLocalizationUseCase(siteId: "1010", languageId: langId ?? '2');
+  final response = await getStringForLocalizationUseCase(siteId: "1010", languageId: langId);
   // get the language Json from the assets
   String defaultLanguageStrings = await rootBundle.loadString("assets/localization/strings.json");
   final jsonDefaultLanguageStrings = jsonDecode(defaultLanguageStrings);
@@ -67,8 +75,9 @@ String termsUrl = "";
 class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
   final GetBaseURLUseCase _getBaseURL;
   final AuthenticateBaseURLUseCase _authenticateBaseURLUseCase;
-
-  SplashScreenNotifier(this._getBaseURL, this._authenticateBaseURLUseCase) : super(const _Initial());
+  final LocalDataSource _localDataSource;
+  late String? splashScreenImgURL = '';
+  SplashScreenNotifier(this._getBaseURL, this._authenticateBaseURLUseCase, this._localDataSource) : super(const _InProgress());
 
   static String getUrl(String site) {
     String responseUrl = "";
@@ -87,6 +96,11 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
   }
 
   void getBaseUrl() async {
+    splashScreenImgURL = await _localDataSource.retrieveValue<String>(LocalDataSource.kSplashScreenURL);
+    Logger().d(splashScreenImgURL);
+    if (!splashScreenImgURL.isNullOrEmpty()) {
+      state = _RetrievedSplashImageURL(splashScreenImgURL);
+    }
     final response = await _getBaseURL();
     response.fold(
       (l) => Logger().e(l.message),
@@ -101,8 +115,27 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     final response = await _authenticateBaseURLUseCase();
     response.fold(
       (l) => state = _Error(l.message),
-      (r) {
+      (r) async {
         authenticateApi(r, baseUrl);
+        if (splashScreenImgURL.isNullOrEmpty()) {
+          getHomePageCMS();
+        } else {
+          await Future.delayed(const Duration(seconds: 3));
+          state = const _Success();
+        }
+      },
+    );
+  }
+
+  void getHomePageCMS() async {
+    final useCase = Get.find<GetHomePageCMSUseCase>();
+    final response = await useCase();
+    response.fold(
+      (l) => state = _Error(l.message),
+      (r) async {
+        _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
+        splashScreenImgURL = r.cmsImages.splashScreenPath;
+        await Future.delayed(const Duration(seconds: 3));
         state = const _Success();
       },
     );

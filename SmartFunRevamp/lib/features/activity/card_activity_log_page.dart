@@ -24,7 +24,12 @@ final _getActivityLog = FutureProvider.autoDispose.family<List<CardActivity>, St
 });
 
 class CardActivityLogPage extends ConsumerStatefulWidget {
-  const CardActivityLogPage({super.key});
+  const CardActivityLogPage({
+    Key? key,
+    this.cardDetails
+  }) : super(key: key);
+
+  final CardDetails? cardDetails;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CardActivityLogPageState();
@@ -36,7 +41,16 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
   @override
   void initState() {
     super.initState();
-    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+    if (widget.cardDetails != null) {
+    //is added to cards list as the only card  
+      List<CardDetails> selectedCard = [];
+      selectedCard.add(widget.cardDetails!);
+      cards = selectedCard;
+    } else {
+      //if no card was selected, i.e. when landed from Search, get all the user cards
+      cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+      cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+    }
     selectedCard = cards.first;
   }
 

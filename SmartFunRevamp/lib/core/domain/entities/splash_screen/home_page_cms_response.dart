@@ -13,9 +13,9 @@ class HomePageCMSResponse {
   @JsonKey(name: 'images')
   final CMSImages cmsImages;
   @JsonKey(name: 'CMSModuleColorsHome')
-  final CMSModuleColorsHome cmsModuleColorsHome;
+  final CMSModuleColorsHome? cmsModuleColorsHome;
   @JsonKey(name: 'CardsColor')
-  final CardsColor cardsColor;
+  final CardsColor? cardsColor;
 
   HomePageCMSResponse(
     this.moduleId,

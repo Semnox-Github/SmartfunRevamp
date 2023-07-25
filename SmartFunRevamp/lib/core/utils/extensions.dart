@@ -5,6 +5,9 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 extension HexColor on Color {
   static Color? fromHex(String? hexString) {
+    if (hexString.isNullOrEmpty()) {
+      return null;
+    }
     final buffer = StringBuffer();
     if (hexString?.length == 6 || hexString?.length == 7) buffer.write('ff');
     buffer.write(hexString?.replaceFirst('#', ''));

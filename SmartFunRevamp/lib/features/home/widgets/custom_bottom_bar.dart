@@ -21,7 +21,7 @@ class CustomBottomBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cms = ref.watch(cmsProvider).value;
     final items = cms?.getFooterMenuItems() ?? [];
-    final barColor = cms?.cmsModuleColorsHome.bottomHalf;
+    final barColor = cms?.cmsModuleColorsHome?.bottomHalf;
     return ClipRRect(
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(25.0),

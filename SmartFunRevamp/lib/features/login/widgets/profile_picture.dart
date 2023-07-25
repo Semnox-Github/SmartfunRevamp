@@ -17,14 +17,13 @@ class ProfilePicture extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final fInitial = customerDTO.firstName!.isNotEmpty ? '${customerDTO.firstName?[0]}' : '';
     final lInitial = customerDTO.lastName!.isNotEmpty ? '${customerDTO.lastName?[0]}' : '';
-    final noImageColor = ref.watch(cmsProvider).value?.cmsModuleColorsHome.profilePictureGradient;
+    final noImageColor = ref.watch(cmsProvider).value?.cmsModuleColorsHome?.profilePictureGradient;
 
     return InkWell(
       onTap: () async {},
       child: Container(
         padding: const EdgeInsets.all(2.5),
         decoration: BoxDecoration(
-          // gradient: CustomGradients.goldenGradient,
           gradient: LinearGradient(
             colors: [
               HexColor.fromHex(noImageColor?[0]) ?? const Color(0xFFFFF2AD),

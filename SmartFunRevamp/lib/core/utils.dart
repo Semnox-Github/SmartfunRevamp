@@ -5,6 +5,7 @@ import 'package:crypto/crypto.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:logger/logger.dart';
+import 'package:semnox/core/utils/extensions.dart';
 
 Future<String> generateHashCode({
   required String generatedTime,
@@ -33,7 +34,8 @@ Future<String?> _getId() async {
 }
 
 Future<String> jwtGenerator({String secretKey = "gUkXp2s5u8x/A?D(G+KbPeShVmYq3t6w"}) async {
-  final dateTime = DateTime.now().toUtc().toString();
+  // final dateTime = "${DateTime.now().toUtc().formatDate("EEE, dd MMM yyyy hh:mm:ss")} GMT";
+  final dateTime = DateTime.now().toUtc().toIso8601String();
   final jwt = JWT(
     // Payload
     {

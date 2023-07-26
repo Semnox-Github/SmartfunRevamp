@@ -10,6 +10,7 @@ abstract class LocalDataSource {
   static String kFirstTime = 'first_time';
   static String kSelectedSite = 'selected_site';
   static String kUserId = 'userId';
+  static String kSplashScreenURL = 'splash_image_url';
   Future<void> saveSites(List<SiteViewDTO> sites);
   Future<List<SiteViewDTO>> retrieveSites();
   // Future<bool> retrieveBool(String key);

@@ -6,16 +6,12 @@ import 'package:semnox/core/domain/use_cases/splash_screen/get_home_page_cms_use
 
 final cmsProvider = FutureProvider<HomePageCMSResponse?>((ref) async {
   try {
-    Logger().d('CMS Readed');
-
     final getHomePageCms = Get.find<GetHomePageCMSUseCase>();
     final apiResponse = await getHomePageCms();
     return apiResponse.fold(
       (l) => throw l,
       (r) => r,
     );
-
-    // Logger().d(data);
   } catch (e) {
     Logger().e(e);
     return null;

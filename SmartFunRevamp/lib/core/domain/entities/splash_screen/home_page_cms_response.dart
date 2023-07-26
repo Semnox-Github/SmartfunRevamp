@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 part 'home_page_cms_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
@@ -48,6 +52,33 @@ class HomePageCMSResponse {
 
   List<CMSMenuItem> getMoreMenuItems() {
     return geMenuItems('MORE');
+  }
+
+  Uri? playUrl({required LanguageContainerDTOList? currentLang}) {
+    final footerItems = geMenuItems('FOOTER');
+    final playUrlFromCMS = footerItems.firstWhereOrNull((element) => element.itemName == 'PLAY')?.target;
+    debugPrint('thisistheplayurl from CMS: $playUrlFromCMS');
+    if (playUrlFromCMS == null) {
+      return null;
+    }
+    final customer = Get.find<CustomerDTO>();
+    final Map<String, String> replacements = {
+      'customerId': customer.id.toString(),
+      'customerID': customer.id.toString(),
+      'langCode': currentLang?.languageCode ?? 'en-US',
+      'siteID': '1010',
+      'posMachine': 'CustomerApp',
+      'userID': 'SmartFun',
+      'apiURL': 'smartfungigademo.parafait.com',
+    };
+
+    String playUrl = playUrlFromCMS;
+    replacements.forEach((key, value) {
+      playUrl = playUrl.replaceAll('@$key', value);
+    });
+
+    debugPrint('thisistheplayurl: $playUrl');
+    return Uri.parse(playUrl);
   }
 }
 
@@ -106,12 +137,14 @@ class CMSMenuItem {
   final bool active;
   final int displayOrder;
   final String itemUrl;
+  final String? target;
   CMSMenuItem(
     this.itemName,
     this.displayName,
     this.active,
     this.displayOrder,
     this.itemUrl,
+    this.target,
   );
   factory CMSMenuItem.fromJson(Map<String, dynamic> json) => _$CMSMenuItemFromJson(json);
   Map<String, dynamic> toJson() => _$CMSMenuItemToJson(this);

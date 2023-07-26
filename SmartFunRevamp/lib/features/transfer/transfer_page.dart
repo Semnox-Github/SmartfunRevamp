@@ -67,7 +67,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                   onChanged: (selected) {
                     setState(() {
                       isAmountVisible = true;
-                      entitlement = selected?.toLowerCase() ?? '';
+                      entitlement = selected ?? '';
                     });
                   },
                 ),
@@ -126,6 +126,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                   loading: () => context.loaderOverlay.show(),
                   data: (_) {
                     context.loaderOverlay.hide();
+                    ref.invalidate(CardsProviders.userCardsProvider);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

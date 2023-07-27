@@ -24,66 +24,78 @@ class MoreOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      padding: const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(
-          color: CustomColors.customLigthGray,
+    return InkWell(
+      onTap: onTap ??
+          () {
+            ScaffoldMessenger.of(context).clearSnackBars();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('${item.displayName} not implemented yet'),
+              ),
+            );
+          },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        padding: const EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
+          border: Border.all(
+            color: CustomColors.customLigthGray,
+          ),
         ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: iconBgColor,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: CachedNetworkImage(
-              imageUrl: item.itemUrl,
-              height: 36,
-              width: 36,
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Image.asset(
-                'assets/home/$iconPath.png',
-                height: 36.0,
-                width: 36.0,
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: iconBgColor,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: CachedNetworkImage(
+                imageUrl: item.itemUrl,
+                height: 36,
+                width: 36,
+                placeholder: (context, url) => const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Image.asset(
+                  'assets/home/$iconPath.png',
+                  height: 36.0,
+                  width: 36.0,
+                ),
               ),
             ),
-          ),
-          const SizedBox(width: 10.0),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              MulishText(
-                text: SplashScreenNotifier.getLanguageLabel(title ?? item.displayName),
-                fontWeight: FontWeight.bold,
-                fontColor: CustomColors.customPantone,
-                fontSize: 16.0,
-              ),
-              MulishText(
-                text: desc,
-                fontColor: CustomColors.customPantone,
-                fontSize: 12,
-              ),
-            ],
-          ),
-          const Spacer(),
-          IconButton(
-            onPressed: onTap ??
-                () {
-                  ScaffoldMessenger.of(context).clearSnackBars();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('${item.displayName} not implemented yet'),
-                    ),
-                  );
-                },
-            icon: const Icon(Icons.arrow_forward_ios),
-          ),
-        ],
+            const SizedBox(width: 10.0),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MulishText(
+                  text: SplashScreenNotifier.getLanguageLabel(title ?? item.displayName),
+                  fontWeight: FontWeight.bold,
+                  fontColor: CustomColors.customPantone,
+                  fontSize: 16.0,
+                ),
+                MulishText(
+                  text: desc,
+                  fontColor: CustomColors.customPantone,
+                  fontSize: 12,
+                ),
+              ],
+            ),
+            const Spacer(),
+            const Icon(Icons.arrow_forward_ios)
+            // IconButton(
+            //   onPressed: onTap ??
+            //       () {
+            //         ScaffoldMessenger.of(context).clearSnackBars();
+            //         ScaffoldMessenger.of(context).showSnackBar(
+            //           SnackBar(
+            //             content: Text('${item.displayName} not implemented yet'),
+            //           ),
+            //         );
+            //       },
+            //   icon: const Icon(Icons.arrow_forward_ios),
+            // ),
+          ],
+        ),
       ),
     );
   }

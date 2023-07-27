@@ -41,8 +41,8 @@ abstract class SmartFunApi {
       AuthorizationInterceptor(),
       PrettyDioLogger(
         requestBody: false,
-        responseBody: true,
-        requestHeader: true,
+        responseBody: false,
+        requestHeader: false,
         responseHeader: false,
         request: true,
         error: true,

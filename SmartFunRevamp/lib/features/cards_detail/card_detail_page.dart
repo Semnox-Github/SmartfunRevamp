@@ -112,11 +112,11 @@ class CardDetailPage extends ConsumerWidget {
                       title: 'Tranfer Credit',
                       svgImage: 'assets/home/transfer_credit.svg',
                       onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TransferPage(cardDetails: cardDetails),
-                                ),
-                              ),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TransferPage(cardDetails: cardDetails),
+                        ),
+                      ),
                     ),
                     MoreActionListTile(
                       color: CustomColors.customGreen,
@@ -124,11 +124,11 @@ class CardDetailPage extends ConsumerWidget {
                       title: 'Game Plays',
                       svgImage: 'assets/home/gameplays.svg',
                       onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => GameplaysPage(cardDetails: cardDetails),
-                                ),
-                              ),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GameplaysPage(cardDetails: cardDetails),
+                        ),
+                      ),
                     ),
                     MoreActionListTile(
                       color: CustomColors.customYellow,
@@ -136,11 +136,11 @@ class CardDetailPage extends ConsumerWidget {
                       title: 'Activity',
                       svgImage: 'assets/home/activities.svg',
                       onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
-                                ),
-                              ),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
+                        ),
+                      ),
                     )
                   ],
                 ),
@@ -170,53 +170,53 @@ class MoreActionListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              height: 50.0,
-              width: 50.0,
-              margin: const EdgeInsets.only(right: 20.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-                color: color,
+    return InkWell(
+      onTap: onPressed,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                height: 50.0,
+                width: 50.0,
+                margin: const EdgeInsets.only(right: 20.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  color: color,
+                ),
+                padding: const EdgeInsets.all(13.0),
+                child: SvgPicture.asset(svgImage),
               ),
-              padding: const EdgeInsets.all(13.0),
-              child: SvgPicture.asset(svgImage),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MulishText(
-                    text: title,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  MulishText(
-                    text: subTitle,
-                    fontSize: 10.0,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MulishText(
+                      text: title,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    MulishText(
+                      text: subTitle,
+                      fontSize: 10.0,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            IconButton(
-              onPressed: onPressed,
-              icon: const Icon(
+              const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: Color(0xFF292D32),
               ),
-            )
-          ],
-        ),
-        const Divider(
-          color: CustomColors.customLigthGray,
-          thickness: 1.5,
-        ),
-      ],
+            ],
+          ),
+          const Divider(
+            color: CustomColors.customLigthGray,
+            thickness: 1.5,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -387,9 +387,6 @@ class CardDetailItemFromCMS extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              // MaterialPageRoute(
-              //   builder: (context) => AccountGamesSummaryPage(cardNumber: cardDetails.accountNumber ?? ''),
-              // ),
               MaterialPageRoute(
                 builder: (context) => BonusSummaryPage(
                   cardNumber: cardDetails.accountNumber ?? '',

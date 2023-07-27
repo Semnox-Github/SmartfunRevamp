@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_home_page_cms_use_case.dart';

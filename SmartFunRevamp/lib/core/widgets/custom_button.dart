@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/themes/custom_button_theme.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 
 class CustomCancelButton extends StatelessWidget {
-  const CustomCancelButton({super.key, required this.label, required this.onPressed});
+  const CustomCancelButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    this.width = double.infinity,
+  });
   final String label;
   final Function() onPressed;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: width,
       decoration: BoxDecoration(
         gradient: CustomGradients.linearGradient,
         borderRadius: BorderRadius.circular(15.0),
@@ -53,18 +61,19 @@ class CustomButton extends StatelessWidget {
     return Container(
       width: width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        gradient: CustomGradients.linearGradient,
+        borderRadius: kCustomButtoBorderRaduis,
+        gradient: LinearGradient(colors: [
+          kCustomButtonTheme.colorScheme.primary,
+          kCustomButtonTheme.colorScheme.secondary,
+        ]),
       ),
       margin: margin,
       child: TextButton(
         onPressed: onTap,
-        child: Text(
-          label,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+        child: MulishText(
+          text: label,
+          fontColor: kCustomButtonTheme.textTheme.bodySmall?.color,
+          fontWeight: kCustomButtonTheme.textTheme.bodySmall?.fontWeight,
         ),
       ),
     );

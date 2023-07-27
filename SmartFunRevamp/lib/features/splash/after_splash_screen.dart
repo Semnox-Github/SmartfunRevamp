@@ -7,11 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
-import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
-import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
 
@@ -144,71 +143,103 @@ class AfterSplashScreen extends ConsumerWidget {
                     children: [
                       MulishText(
                         text: SplashScreenNotifier.getLanguageLabel("Have an account?"),
-                        fontColor: CustomColors.customBlack,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
                       ),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          gradient: currenLang == null ? CustomGradients.disabledGradient : CustomGradients.linearGradient,
-                        ),
-                        margin: const EdgeInsets.all(3),
-                        child: TextButton(
-                          onPressed: currenLang == null ? null : () => Navigator.pushReplacementNamed(context, Routes.kLogInPage),
-                          child: Text(
-                            SplashScreenNotifier.getLanguageLabel('LOGIN'),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+                      CustomButton(
+                        onTap: () {},
+                        label: SplashScreenNotifier.getLanguageLabel("Have an account?"),
+                      )
                     ],
                   ),
                 ),
-                const SizedBox(width: 5.0),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MulishText(
                         text: SplashScreenNotifier.getLanguageLabel('New to SmartFun?'),
-                        textAlign: TextAlign.center,
-                        fontColor: CustomColors.customBlack,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
                       ),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          gradient: currenLang == null ? CustomGradients.disabledGradient : CustomGradients.linearGradient,
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0),
-                            color: currenLang == null ? Colors.grey : Colors.white,
-                          ),
-                          margin: const EdgeInsets.all(3),
-                          child: TextButton(
-                            onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
-                            child: Text(
-                              SplashScreenNotifier.getLanguageLabel('SIGN UP'),
-                              style: const TextStyle(
-                                color: CustomColors.hardOrange,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      CustomCancelButton(
+                        onPressed: () {},
+                        label: SplashScreenNotifier.getLanguageLabel('SIGN UP'),
+                      )
                     ],
                   ),
-                ),
+                )
               ],
-            )
+            ),
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: Column(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           MulishText(
+            //             text: SplashScreenNotifier.getLanguageLabel("Have an account?"),
+            //             fontColor: CustomColors.customBlack,
+            //             fontSize: 16.0,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //           Container(
+            //             width: double.infinity,
+            //             decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(12.0),
+            //               gradient: currenLang == null ? CustomGradients.disabledGradient : CustomGradients.linearGradient,
+            //             ),
+            //             margin: const EdgeInsets.all(3),
+            //             child: TextButton(
+            //               onPressed: currenLang == null ? null : () => Navigator.pushReplacementNamed(context, Routes.kLogInPage),
+            //               child: Text(
+            //                 SplashScreenNotifier.getLanguageLabel('LOGIN'),
+            //                 style: const TextStyle(
+            //                   color: Colors.white,
+            //                   fontWeight: FontWeight.bold,
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //     const SizedBox(width: 5.0),
+            //     Expanded(
+            //       child: Column(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           MulishText(
+            //             text: SplashScreenNotifier.getLanguageLabel('New to SmartFun?'),
+            //             textAlign: TextAlign.center,
+            //             fontColor: CustomColors.customBlack,
+            //             fontSize: 16.0,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //           Container(
+            //             width: double.infinity,
+            //             decoration: BoxDecoration(
+            //               gradient: currenLang == null ? CustomGradients.disabledGradient : CustomGradients.linearGradient,
+            //               borderRadius: BorderRadius.circular(15.0),
+            //             ),
+            //             child: Container(
+            //               decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(12.0),
+            //                 color: currenLang == null ? Colors.grey : Colors.white,
+            //               ),
+            //               margin: const EdgeInsets.all(3),
+            //               child: TextButton(
+            //                 onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
+            //                 child: Text(
+            //                   SplashScreenNotifier.getLanguageLabel('SIGN UP'),
+            //                   style: const TextStyle(
+            //                     color: CustomColors.hardOrange,
+            //                   ),
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ],
+            // )
           ],
         ),
       ),

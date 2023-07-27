@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/utils/extensions.dart';
@@ -59,7 +58,6 @@ class BuyCardListPage extends StatelessWidget {
             Consumer(
               builder: (_, ref, __) {
                 final defaults = ref.watch(parafaitDefaultsProvider).value;
-                Logger().d(defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey));
                 final isOnlineRechargeEnabled = defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) == 'Y';
                 return SitesAppBarDropdown(
                   isEnabled: isOnlineRechargeEnabled,

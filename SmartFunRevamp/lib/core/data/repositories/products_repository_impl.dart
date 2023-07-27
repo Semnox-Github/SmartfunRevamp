@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -14,9 +15,14 @@ class ProductsRepositoryImpl implements ProductsRepository {
 
   ProductsRepositoryImpl(this._api);
   @override
-  Future<Either<Failure, List<CardProduct>>> getProductPrice() async {
+  Future<Either<Failure, List<CardProduct>>> getProductPrice(int siteId) async {
     try {
-      final response = await _api.getProductsPrices(DateTime.now().toIso8601String());
+      final siteTokenResponse = await _api.getExecutionController(siteId: siteId);
+      final siteToken = siteTokenResponse.response.headers.value(HttpHeaders.authorizationHeader) ?? '';
+      final response = await _api.getProductsPrices(
+        DateTime.now().toIso8601String(),
+        siteToken,
+      );
       final cards = response.data;
       cards.removeWhere((element) => element.productId == null);
       return Right(cards);
@@ -43,23 +49,6 @@ class ProductsRepositoryImpl implements ProductsRepository {
       if (e.response?.statusCode == 500) {
         final message = json.decode(e.response.toString());
         return Left(InvalidCouponFailure(message['data']));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<CardProduct>>> getProductPriceBySite(int siteId) async {
-    try {
-      final response = await _api.getProductsPricesBySite(DateTime.now().toIso8601String());
-      final cards = response.data;
-      cards.removeWhere((element) => element.productId == null);
-      return Right(cards);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
       }
       final message = json.decode(e.response.toString());
       return Left(ServerFailure(message['data']));

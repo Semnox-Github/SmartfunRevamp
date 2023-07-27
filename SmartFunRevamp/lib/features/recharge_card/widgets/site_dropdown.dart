@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
@@ -28,16 +27,12 @@ class _SitesAppBarDropdownState extends ConsumerState<SitesAppBarDropdown> {
   void initState() {
     super.initState();
     sites = List<SiteViewDTO>.from(ref.read(getAllSitesProvider).value ?? []);
-    for (var element in sites) {
-      Logger().d(element.siteId);
-    }
 
     final userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 0;
     _selectedSite = sites.firstWhere(
       (element) => element.siteId == userSite,
       orElse: () => sites.first,
     );
-    Logger().d(userSite);
     if (widget.onChanged != null) {
       widget.onChanged!(_selectedSite);
     }

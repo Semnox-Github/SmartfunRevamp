@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:firebase_performance_dio/firebase_performance_dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -40,7 +42,7 @@ abstract class SmartFunApi {
       PrettyDioLogger(
         requestBody: false,
         responseBody: true,
-        requestHeader: false,
+        requestHeader: true,
         responseHeader: false,
         request: true,
         error: true,
@@ -72,15 +74,8 @@ abstract class SmartFunApi {
 
   @GET('Product/ProductPrice')
   Future<ListDataWrapper<CardProduct>> getProductsPrices(
-    @Query('dateTime') String dateTime, {
-    @Query('menuType') String menuType = 'O',
-    @Query('transactionProfileId') int transactionProfileId = -1,
-    @Query('membershipId') int membershipId = -1,
-  });
-
-  @GET('Product/ProductPrice')
-  Future<ListDataWrapper<CardProduct>> getProductsPricesBySite(
-    @Query('dateTime') String dateTime, {
+    @Query('dateTime') String dateTime,
+    @Header(HttpHeaders.authorizationHeader) String token, {
     @Query('menuType') String menuType = 'O',
     @Query('transactionProfileId') int transactionProfileId = -1,
     @Query('membershipId') int membershipId = -1,

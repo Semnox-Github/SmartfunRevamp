@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
+import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 part 'home_page_cms_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
@@ -66,7 +67,7 @@ class HomePageCMSResponse {
       'customerId': customer.id.toString(),
       'customerID': customer.id.toString(),
       'langCode': currentLang?.languageCode ?? 'en-US',
-      'siteID': '1010',
+      'siteID': Get.find<ExecutionContextDTO>().siteId.toString(),
       'posMachine': 'CustomerApp',
       'userID': 'SmartFun',
       'apiURL': 'smartfungigademo.parafait.com',

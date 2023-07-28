@@ -630,8 +630,8 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
-  Future<Data<UserMetaDataResponse>> getSignUpMetadata({
-    String siteId = '1010',
+  Future<Data<UserMetaDataResponse>> getSignUpMetadata(
+    String siteId, {
     String? hash,
     bool rebuildCache = false,
   }) async {
@@ -669,8 +669,8 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
-  Future<ListDataWrapper<PaymentMode>> getPaymentModes({
-    String siteId = "1010",
+  Future<ListDataWrapper<PaymentMode>> getPaymentModes(
+    String siteId, {
     int isActive = 1,
     String paymentChannel = 'CUSTOMER_APP_PAYMENT',
   }) async {

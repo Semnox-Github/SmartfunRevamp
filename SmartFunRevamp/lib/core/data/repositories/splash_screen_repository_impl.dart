@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -47,11 +48,19 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     try {
       final response = await _api.authenticateSystemUser(
         {
-          "LoginId": "ParafaitPOS",
-          "Password": "semnoX!1",
+          "LoginId": "CustomerApp",
+          "Password": "",
+          "LoginToken": await jwtGenerator(),
         },
       );
-      return Right(response.data);
+      final token = response.response.headers.value(HttpHeaders.authorizationHeader);
+      final systemUserResponse = await _api.getExecutionContext(
+        token: token,
+      );
+      final systemUser = SystemUser.fromJson(Map<String, dynamic>.from(systemUserResponse.response.data)['data']);
+      systemUser.webApiToken = token;
+      Logger().d(systemUser.toJson());
+      return Right(systemUser);
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
@@ -131,21 +140,6 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     try {
       final response = await _api.getStringsForLocalization(siteId, languageId, outputForm);
       Logger().d(response);
-      return const Right(null);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> getHomePageCMS(String moduleName, String token) async {
-    try {
-      await _api.getHomePageCMS(moduleName, 'Bearer $token');
       return const Right(null);
     } on DioException catch (e) {
       Logger().e(e);

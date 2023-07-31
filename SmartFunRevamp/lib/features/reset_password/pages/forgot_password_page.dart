@@ -48,7 +48,7 @@ class ForgotPasswordPage extends ConsumerWidget {
                 onSaved: (emailOrPhone) {
                   ref.read(resetPasswordStateProvider.notifier).sendEmail(emailOrPhone);
                 },
-                label: SplashScreenNotifier.getLanguageLabel('Enter registered phone number'),
+                label: SplashScreenNotifier.getLanguageLabel('Enter registered email id'),
               ),
               const Spacer(),
               CustomButton(

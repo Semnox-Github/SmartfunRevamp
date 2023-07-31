@@ -1,20 +1,22 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
-import 'package:semnox/features/payment/pages/payment_options_page.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
 import 'package:semnox/features/buy_a_card/widgets/bill_detail_row.dart';
 import 'package:semnox/features/buy_a_card/widgets/coupon_container.dart';
+import 'package:semnox/features/payment/pages/payment_options_page.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
 class EstimatedTransactionPage extends ConsumerWidget {
   const EstimatedTransactionPage({Key? key, required this.cardProduct, this.cardSelected, required this.transactionType, required this.qty, this.finalPrice}) : super(key: key);
@@ -28,10 +30,10 @@ class EstimatedTransactionPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     /* Ver card number acount Numbre*/
-    final siteId = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010;
+    final siteId = ref.read(loginProvider.notifier).selectedSite?.siteId ?? Get.find<ExecutionContextDTO>().siteId;
     ref
         .read(estimateStateProvider.notifier)
-        .getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : '', quantity: qty, siteId: siteId, finalPrice: finalPrice!);
+        .getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : '', quantity: qty, siteId: siteId!, finalPrice: finalPrice!);
     ref.listen(estimateStateProvider, (previous, next) {
       next.maybeWhen(
         orElse: () => {},
@@ -62,7 +64,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          SplashScreenNotifier.getLanguageLabel('Recharge'),
+          SplashScreenNotifier.getLanguageLabel(transactionType == "newcard" ? "Buy a Card" : "Recharge"),
           style: const TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,

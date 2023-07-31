@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -11,6 +12,7 @@ import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.da
 import 'package:semnox/features/select_location/pages/select_location_manually_page.dart';
 
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -36,7 +38,7 @@ class _SearchPageState extends ConsumerState<SearchPage> with TickerProviderStat
     cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     selectedCardNumber = cards.first;
-    userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010;
+    userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? Get.find<ExecutionContextDTO>().siteId!;
     tabController = TabController(initialIndex: 0, length: 2, vsync: this);
   }
 
@@ -99,7 +101,7 @@ Widget _tabSection(BuildContext context, String? filterStr) {
         ]),
         SizedBox(
           //Add this to give height
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height * 0.8,
           child: TabBarView(children: [SelectCardRechargePage(filterStr: filterStr), BuyCardListPage(filterStr: filterStr)]),
         ),
       ],

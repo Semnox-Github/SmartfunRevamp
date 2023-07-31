@@ -11,9 +11,16 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
-import 'package:semnox/features/splash/splashscreen.dart';
 import 'package:semnox/firebase_options.dart';
 import 'di/injection_container.dart' as di;
+import 'features/splash/splashscreen.dart';
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +31,7 @@ void main() async {
     );
     FlutterError.onError = (errorDetails) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
     };
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
@@ -31,6 +39,7 @@ void main() async {
     };
   }
   di.init();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -57,6 +66,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
     return ProviderScope(
       child: GlobalLoaderOverlay(
         useDefaultLoading: false,

@@ -71,6 +71,41 @@ class CustomButton extends StatelessWidget {
   }
 }
 
+class CustomDisabledButton extends StatelessWidget {
+  final String label;
+  final double width;
+  final EdgeInsets margin;
+
+  const CustomDisabledButton({
+    super.key,
+    required this.label,
+    this.width = double.infinity,
+    this.margin = const EdgeInsets.all(3),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.0),
+        gradient: CustomGradients.disabledGradient,
+      ),
+      margin: margin,
+      child: TextButton(
+        onPressed: null,
+        child: Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class CustomIconButton extends StatelessWidget {
   final Function() onTap;
   final String label;

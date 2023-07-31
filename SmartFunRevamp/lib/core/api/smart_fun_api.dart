@@ -25,7 +25,6 @@ import 'package:semnox/core/domain/entities/orders/order_details.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
-import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
@@ -40,8 +39,8 @@ abstract class SmartFunApi {
     dio.interceptors.addAll([
       AuthorizationInterceptor(),
       PrettyDioLogger(
-        requestBody: true,
-        responseBody: true,
+        requestBody: false,
+        responseBody: false,
         requestHeader: false,
         responseHeader: false,
         request: true,
@@ -51,7 +50,6 @@ abstract class SmartFunApi {
       ),
       DioFirebasePerformanceInterceptor(),
     ]);
-
     dio.options = BaseOptions(
       baseUrl: baseUrl,
       receiveTimeout: const Duration(seconds: 20),
@@ -64,8 +62,8 @@ abstract class SmartFunApi {
     return _SmartFunApi(dio);
   }
 
-  @POST('Login/AuthenticateSystemUsers')
-  Future<Data<SystemUser>> authenticateSystemUser(@Body() Map<String, dynamic> body);
+  @POST('Login/AuthenticateUsers')
+  Future<HttpResponse> authenticateSystemUser(@Body() Map<String, dynamic> body);
 
   @POST('Customer/CustomerLogin')
   Future<Data<CustomerDTO>> loginUser(@Body() Map<String, dynamic> body);
@@ -106,8 +104,9 @@ abstract class SmartFunApi {
   });
 
   @GET('ParafaitEnvironment/ExecutionContext')
-  Future<HttpResponse> getExecutionController({
+  Future<HttpResponse> getExecutionContext({
     @Query('siteId') int? siteId,
+    @Header(HttpHeaders.authorizationHeader) String? token,
     @Query('languageCode') String languageCode = 'en-US',
     @Query('posMachineName') String posMachineName = 'CustomerApp',
   });
@@ -143,13 +142,11 @@ abstract class SmartFunApi {
   @GET('Customer/ContactTypes')
   Future<HttpResponse> getContactType();
 
-  @GET('WebCMS/CMSModules')
-  Future<ListDataWrapper<HomePageCMSResponse>> getHomePageCMS(
-    @Query('moduleName') String moduleName,
-    @Header(HttpHeaders.authorizationHeader) String token, {
-    @Query('isActive') int isActive = 1,
-    @Query('buildChildRecords') bool buildChildRecords = true,
-    @Query('activeChildRecords') bool activeChildRecords = true,
+  @GET('Common/FileResource')
+  Future<ListDataWrapper<HomePageCMSResponse>> getHomePageCMS({
+    @Query('defaultValueName') String defaultValueName = 'IMAGE_DIRECTORY',
+    @Query('fileName') String fileName = 'CMSSmartFun.json',
+    @Query('secure') bool secure = true,
   });
 
   @GET('Organization/SiteContainer')
@@ -162,8 +159,8 @@ abstract class SmartFunApi {
   );
 
   @GET('Customer/CustomerUIMetadataContainer')
-  Future<Data<UserMetaDataResponse>> getSignUpMetadata({
-    @Query('siteId') String siteId = '1010',
+  Future<Data<UserMetaDataResponse>> getSignUpMetadata(
+    @Query('siteId') String siteId, {
     @Query('hash') String? hash,
     @Query('rebuildCache') bool rebuildCache = false,
   });
@@ -171,8 +168,8 @@ abstract class SmartFunApi {
   //----- Transaction -----// ->
 
   @GET('Transaction/PaymentModes')
-  Future<ListDataWrapper<PaymentMode>> getPaymentModes({
-    @Query('siteId') String siteId = "1010",
+  Future<ListDataWrapper<PaymentMode>> getPaymentModes(
+    @Query('siteId') String siteId, {
     @Query('isActive') int isActive = 1,
     @Query('paymentChannel') String paymentChannel = 'CUSTOMER_APP_PAYMENT',
   });
@@ -224,7 +221,7 @@ abstract class SmartFunApi {
   @POST('Customer/Account/{accountId}/AccountIdentifier')
   Future<void> updateCardNickname(@Path('accountId') String accountId, @Body() Map<String, dynamic> body);
 
-  @GET('Customer/Account/{accountId}/AccountActivityView')
+  @GET('Customer/Account/{accountId}/AccountActivity')
   Future<ListDataWrapper<CardActivity>> getCardActivityDetail(@Path('accountId') @Query('accountId') String accountId);
 
   @GET('Transaction/Transactions')

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:get/instance_manager.dart';
+import 'package:get/utils.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
@@ -13,10 +16,12 @@ import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
+import 'package:semnox/features/recharge_card/widgets/disabled_bottom_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
   const SelectCardRechargePage({
@@ -54,7 +59,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
       cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     }
     selectedCardNumber = cards.first;
-    userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010;
+    userSite = (ref.read(loginProvider.notifier).selectedSite?.siteId ?? Get.find<ExecutionContextDTO>().siteId)!;
     qty = 1;
     finalPrice = 0;
   }
@@ -65,7 +70,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
     final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     return Scaffold(
-      appBar: AppBar(
+      appBar: widget.filterStr == null ? AppBar(
         backgroundColor: const Color(0xFFCFF8FF),
         elevation: 0.0,
         centerTitle: false,
@@ -77,8 +82,9 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
             fontWeight: FontWeight.bold,
           ),
         ),
-      ),
-      bottomSheet: BottomSheetButton(
+      ) : null,
+      bottomSheet: offerSelected != null ?
+        BottomSheetButton(
         label: offerSelected == null
             ? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')
             : '${SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')} \$ ${(qty * finalPrice).toCurrency(currency, format)}',
@@ -100,7 +106,10 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
             );
           }
         },
-      ),
+      )
+      :
+      DisabledBottomButton(label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'))
+      ,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,7 +224,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
 
   Future<void> amountSelectorDialog(BuildContext context) {
     TextEditingController txt = TextEditingController();
-    txt.text = finalPrice.toString();
+    txt.text = "";
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -223,6 +232,9 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
           title: Text(SplashScreenNotifier.getLanguageLabel('Enter the variable amount')),
           content: TextField(
             keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ], // Only numbers can be entered
             controller: txt,
             decoration: InputDecoration(hintText: SplashScreenNotifier.getLanguageLabel('Please enter the amount you wish to recharge')),
             onChanged: (amount) {

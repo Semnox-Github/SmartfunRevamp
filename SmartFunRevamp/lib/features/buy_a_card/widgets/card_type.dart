@@ -77,93 +77,103 @@ class CardType extends ConsumerWidget {
     final CardValue value = randomCard();
     double discount = ((card.basePrice - card.finalPrice) * 100) / card.basePrice;
     final String baseUrl = Get.find<String>(tag: 'baseURL');
-    return GestureDetector(
+    return InkWell(
       onTap: () => Dialogs.showCardInfo(context, card),
       child: Stack(
         children: [
-          Container(
-            height: 100,
-            padding: const EdgeInsets.only(
-              left: 80.0,
-            ),
-            margin: const EdgeInsets.only(left: 80.0, right: 10.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.0),
-              border: Border.all(
-                color: CustomColors.customLigthGray,
-                width: 1.5,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    MulishText(
-                      text: card.finalPrice.toCurrency(currency, format),
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20.0,
+          Row(
+            children: [
+              const Spacer(),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.12,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.0),
+                    border: Border.all(
+                      color: CustomColors.customLigthGray,
+                      width: 1.5,
                     ),
-                  ],
+                  ),
                 ),
-                card.basePrice == card.finalPrice
-                    ? Row(
+              )
+            ],
+          ),
+          Row(
+            children: [
+              Card(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Container(
+                  margin: const EdgeInsets.all(3.0),
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: MediaQuery.of(context).size.width * 0.37,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    gradient: value.colorGradient,
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: '$baseUrl/APP_PRODUCT_IMAGES_FOLDER/${card.imageFileName?.trim()}',
+                    fit: BoxFit.cover,
+                    placeholder: (_, __) => const ShimmerLoading(height: 100),
+                    errorWidget: (_, __, ___) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           MulishText(
-                            text: card.basePrice.toCurrency(currency, format),
-                            fontColor: CustomColors.discountColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.0,
-                            textDecoration: TextDecoration.lineThrough,
-                          ),
-                          const SizedBox(width: 8.0),
-                          MulishText(
-                            text: '${discount.toStringAsFixed(0)}% ${SplashScreenNotifier.getLanguageLabel('OFF')}',
-                            fontColor: CustomColors.discountPercentColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.0,
+                            text: card.productName,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12.0,
                           ),
                         ],
-                      )
-                    : const Row()
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: Container(
-              margin: const EdgeInsets.all(3.0),
-              height: MediaQuery.of(context).size.height * 0.1,
-              width: MediaQuery.of(context).size.width * 0.37,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                gradient: value.colorGradient,
-              ),
-              child: CachedNetworkImage(
-                imageUrl: '$baseUrl/APP_PRODUCT_IMAGES_FOLDER/${card.imageFileName?.trim()}',
-                fit: BoxFit.cover,
-                placeholder: (_, __) => const ShimmerLoading(height: 100),
-                errorWidget: (_, __, ___) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      MulishText(
-                        text: card.productName,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12.0,
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
+              const SizedBox(width: 10.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      MulishText(
+                        text: card.finalPrice.toCurrency(currency, format),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20.0,
+                      ),
+                    ],
+                  ),
+                  card.basePrice == card.finalPrice
+                      ? Row(
+                          children: [
+                            MulishText(
+                              text: card.basePrice.toCurrency(currency, format),
+                              fontColor: CustomColors.discountColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0,
+                              textDecoration: TextDecoration.lineThrough,
+                            ),
+                            const SizedBox(width: 8.0),
+                            MulishText(
+                              text: '${discount.toStringAsFixed(0)}% ${SplashScreenNotifier.getLanguageLabel('OFF')}',
+                              fontColor: CustomColors.discountPercentColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0,
+                            ),
+                          ],
+                        )
+                      : const Row()
+                ],
+              ),
+            ],
           ),
         ],
       ),

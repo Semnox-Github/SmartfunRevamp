@@ -27,7 +27,6 @@ Future<void> init() async {
   gameplaysDependencies();
   paymentDependencies();
   productsPriceDependecies();
-  selectLocationDependecies();
   homeDependecies();
   notificationsDependecies();
   membershipDependencies();
@@ -37,7 +36,7 @@ Future<void> init() async {
 }
 
 void authenticateApi(SystemUser systemUser, String baseURL) {
-  Get.replace(SmartFunApi(baseURL, systemUser.webApiToken));
+  Get.replace(SmartFunApi(baseURL, systemUser.webApiToken ?? ''));
   Get.put<SystemUser>(systemUser);
   ExecutionContextDTO executionDTO = ExecutionContextDTO(
     apiUrl: baseURL,

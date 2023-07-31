@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/utils/extensions.dart';
@@ -24,39 +25,42 @@ class BuyCardListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       endDrawer: const FilterDrawer(),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFCFF8FF),
-        elevation: 0.0,
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: Text(
-          SplashScreenNotifier.getLanguageLabel('Buy a Card'),
-          style: const TextStyle(
-            color: CustomColors.customBlue,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: [
-          Builder(
-            builder: (context) {
-              return IconButton(
-                onPressed: () => Scaffold.of(context).openEndDrawer(),
-                icon: const Icon(
-                  Icons.filter_list,
-                  color: Colors.black,
+      appBar: filterStr == null
+          ? AppBar(
+              backgroundColor: const Color(0xFFCFF8FF),
+              elevation: 0.0,
+              centerTitle: false,
+              iconTheme: const IconThemeData(color: Colors.black),
+              title: Text(
+                SplashScreenNotifier.getLanguageLabel('Buy a Card'),
+                style: const TextStyle(
+                  color: CustomColors.customBlue,
+                  fontWeight: FontWeight.bold,
                 ),
-              );
-            },
-          ),
-        ],
-      ),
+              ),
+              actions: [
+                Builder(
+                  builder: (context) {
+                    return IconButton(
+                      onPressed: () => Scaffold.of(context).openEndDrawer(),
+                      icon: const Icon(
+                        Icons.filter_list,
+                        color: Colors.black,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            )
+          : null,
       body: SafeArea(
         child: Column(
           children: [
             Consumer(
               builder: (_, ref, __) {
                 final defaults = ref.watch(parafaitDefaultsProvider).value;
-                final isOnlineRechargeEnabled = defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) != 'N';
+                Logger().d(defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey));
+                final isOnlineRechargeEnabled = defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) == 'Y';
                 return SitesAppBarDropdown(
                   isEnabled: isOnlineRechargeEnabled,
                   onChanged: (selectedSite) {

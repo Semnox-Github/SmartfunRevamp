@@ -19,22 +19,22 @@ class _SmartFunApi implements SmartFunApi {
   String? baseUrl;
 
   @override
-  Future<Data<SystemUser>> authenticateSystemUser(
+  Future<HttpResponse<dynamic>> authenticateSystemUser(
       Map<String, dynamic> body) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<Data<SystemUser>>(Options(
+    final _result =
+        await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              'Login/AuthenticateSystemUsers',
+              'Login/AuthenticateUsers',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -43,11 +43,9 @@ class _SmartFunApi implements SmartFunApi {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = Data<SystemUser>.fromJson(
-      _result.data!,
-      (json) => SystemUser.fromJson(json as Map<String, dynamic>),
-    );
-    return value;
+    final value = _result.data;
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
   }
 
   @override
@@ -292,8 +290,9 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
-  Future<HttpResponse<dynamic>> getExecutionController({
+  Future<HttpResponse<dynamic>> getExecutionContext({
     int? siteId,
+    String? token,
     String languageCode = 'en-US',
     String posMachineName = 'CustomerApp',
   }) async {
@@ -304,7 +303,8 @@ class _SmartFunApi implements SmartFunApi {
       r'posMachineName': posMachineName,
     };
     queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'authorization': token};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(

@@ -8,7 +8,7 @@ part of 'authenticate_system_user.dart';
 
 SystemUser _$SystemUserFromJson(Map<String, dynamic> json) => SystemUser(
       json['PosMachineGuid'] as String,
-      json['WebApiToken'] as String,
+      json['WebApiToken'] as String?,
       json['Token'] as String?,
       json['LanguageId'] as int,
       json['IsCorporate'] as bool,
@@ -24,7 +24,6 @@ SystemUser _$SystemUserFromJson(Map<String, dynamic> json) => SystemUser(
 Map<String, dynamic> _$SystemUserToJson(SystemUser instance) {
   final val = <String, dynamic>{
     'PosMachineGuid': instance.posMachineGuid,
-    'WebApiToken': instance.webApiToken,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -33,6 +32,7 @@ Map<String, dynamic> _$SystemUserToJson(SystemUser instance) {
     }
   }
 
+  writeNotNull('WebApiToken', instance.webApiToken);
   writeNotNull('Token', instance.token);
   val['LanguageId'] = instance.languageId;
   val['IsCorporate'] = instance.isCorporate;

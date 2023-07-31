@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:firebase_performance_dio/firebase_performance_dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -23,7 +25,6 @@ import 'package:semnox/core/domain/entities/orders/order_details.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
-import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
@@ -61,8 +62,8 @@ abstract class SmartFunApi {
     return _SmartFunApi(dio);
   }
 
-  @POST('Login/AuthenticateSystemUsers')
-  Future<Data<SystemUser>> authenticateSystemUser(@Body() Map<String, dynamic> body);
+  @POST('Login/AuthenticateUsers')
+  Future<HttpResponse> authenticateSystemUser(@Body() Map<String, dynamic> body);
 
   @POST('Customer/CustomerLogin')
   Future<Data<CustomerDTO>> loginUser(@Body() Map<String, dynamic> body);
@@ -103,8 +104,9 @@ abstract class SmartFunApi {
   });
 
   @GET('ParafaitEnvironment/ExecutionContext')
-  Future<HttpResponse> getExecutionController({
+  Future<HttpResponse> getExecutionContext({
     @Query('siteId') int? siteId,
+    @Header(HttpHeaders.authorizationHeader) String? token,
     @Query('languageCode') String languageCode = 'en-US',
     @Query('posMachineName') String posMachineName = 'CustomerApp',
   });

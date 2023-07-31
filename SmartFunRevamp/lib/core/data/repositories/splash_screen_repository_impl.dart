@@ -48,7 +48,7 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     try {
       final response = await _api.authenticateSystemUser(
         {
-          "LoginId": "SmartFun",
+          "LoginId": "CustomerApp",
           "Password": "",
           "LoginToken": await jwtGenerator(),
         },

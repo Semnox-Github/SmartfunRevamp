@@ -6,6 +6,7 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:uuid/uuid.dart';
 
 Future<String> generateHashCode({
   required String generatedTime,
@@ -27,15 +28,17 @@ Future<String?> _getId() async {
 
     return iosDeviceInfo.identifierForVendor;
   } else if (Platform.isAndroid) {
-    final androidInfo = await deviceInfo.androidInfo;
-    return androidInfo.id;
+    var uuid = const Uuid();
+    String guid = uuid.v1();
+
+    return guid;
   }
   return null;
 }
 
 Future<String> jwtGenerator({String secretKey = "gUkXp2s5u8x/A?D(G+KbPeShVmYq3t6w"}) async {
   // final dateTime = "${DateTime.now().toUtc().formatDate("EEE, dd MMM yyyy hh:mm:ss")} GMT";
-  final dateTime = DateTime.now().toUtc().toIso8601String();
+  final dateTime = DateTime.now().toUtc().toString();
   final jwt = JWT(
     // Payload
     {

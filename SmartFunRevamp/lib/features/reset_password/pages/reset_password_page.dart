@@ -10,7 +10,7 @@ class ResetPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Reset Password'),
+      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Reset Password')),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: Stack(
@@ -24,8 +24,8 @@ class ResetPasswordPage extends StatelessWidget {
                     'assets/login/reset_password_success.png',
                     height: MediaQuery.of(context).size.height * 0.3,
                   ),
-                  const MulishText(
-                    text: 'Reset Password link is sent to your registered email.',
+                  MulishText(
+                    text: SplashScreenNotifier.getLanguageLabel('Reset Password link is sent to your registered email.'),
                     fontWeight: FontWeight.w500,
                     fontSize: 16.0,
                     textAlign: TextAlign.center,

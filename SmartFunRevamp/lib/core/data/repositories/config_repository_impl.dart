@@ -9,6 +9,7 @@ import 'package:semnox/core/domain/entities/config/parafait_defaults_response.da
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/core/domain/repositories/config_reposity.dart';
 import 'package:semnox/core/errors/failures.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class ConfigRepositoryImpl implements ConfigRepository {
   final SmartFunApi _api;
@@ -24,10 +25,10 @@ class ConfigRepositoryImpl implements ConfigRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 }

@@ -8,6 +8,7 @@ import 'package:semnox/core/domain/entities/membership/membership_info.dart';
 import 'package:semnox/core/domain/entities/membership/membership_tier.dart';
 import 'package:semnox/core/domain/repositories/membership_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class MembershipRepositoryImpl implements MembershipRepository {
   final SmartFunApi _api;
@@ -21,13 +22,13 @@ class MembershipRepositoryImpl implements MembershipRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       Logger().e(e);
-      return Left(ServerFailure('This card has no activities'));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('This card has no activities')));
     }
   }
 
@@ -43,13 +44,13 @@ class MembershipRepositoryImpl implements MembershipRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       Logger().e(e);
-      return Left(ServerFailure('This card has no activities'));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('This card has no activities')));
     }
   }
 }

@@ -9,6 +9,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/membership_info/widgets/membership_options.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CurrentMembershipTier extends StatelessWidget {
   const CurrentMembershipTier({super.key, required this.userMembershipInfo});
@@ -41,7 +42,7 @@ class CurrentMembershipTier extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 MulishText(
-                  text: '${userMembershipInfo?.memberShipName}',
+                  text: SplashScreenNotifier.getLanguageLabel('${userMembershipInfo?.memberShipName}'),
                   fontWeight: FontWeight.bold,
                   fontSize: 16.0,
                 ),
@@ -49,12 +50,16 @@ class CurrentMembershipTier extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     MulishText(
-                      text: 'Since ${userMembershipInfo?.membershipValidity.formatDate('dd MMM yyyy')}',
+                      // text: 'Since ${}',
+                      text: SplashScreenNotifier.getLanguageLabel('Since &1').replaceAll(
+                        '&1',
+                        userMembershipInfo?.membershipValidity.formatDate('dd MMM yyyy') ?? '',
+                      ),
                       fontWeight: FontWeight.bold,
                     ),
                     const SizedBox(width: 10.0),
-                    const MulishText(
-                      text: 'More >>',
+                    MulishText(
+                      text: '${SplashScreenNotifier.getLanguageLabel('More')} >>',
                       fontWeight: FontWeight.bold,
                       fontColor: CustomColors.hardOrange,
                       textDecoration: TextDecoration.underline,
@@ -97,8 +102,8 @@ class CurrentMembershipTier extends StatelessWidget {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const MulishText(
-                              text: 'Loyalty Points Earned',
+                            MulishText(
+                              text: SplashScreenNotifier.getLanguageLabel('Loyalty Points Earned'),
                               fontWeight: FontWeight.w600,
                             ),
                             MulishText(
@@ -123,8 +128,8 @@ class CurrentMembershipTier extends StatelessWidget {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const MulishText(
-                              text: 'Balance',
+                            MulishText(
+                              text: SplashScreenNotifier.getLanguageLabel('Balance'),
                               fontWeight: FontWeight.w600,
                             ),
                             Consumer(
@@ -145,21 +150,30 @@ class CurrentMembershipTier extends StatelessWidget {
                 ),
                 MembershipOptions(
                   color: const Color(0xFFD0D5FF),
-                  title: 'Loyalty Points Details',
+                  title: SplashScreenNotifier.getLanguageLabel('Loyalty Points Details'),
                   svgImage: 'assets/membership/loyalty_points.svg',
                   onTap: () => Navigator.pushNamed(context, Routes.kLoyaltyPointsDetails),
                 ),
                 MembershipOptions(
                   color: const Color(0xFFCFF8FF),
-                  title: 'Membership Rewards',
+                  title: SplashScreenNotifier.getLanguageLabel('Membership Rewards'),
                   svgImage: 'assets/membership/membership_rewards.svg',
                   onTap: () => Navigator.pushNamed(context, Routes.kMembershipRewards),
                 ),
                 MembershipOptions(
                   color: const Color(0xFFD1FFD0),
-                  title: 'Membership F&Q',
+                  title: SplashScreenNotifier.getLanguageLabel('Membership F&Q'),
                   svgImage: 'assets/membership/faq.svg',
-                  onTap: () {},
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: MulishText(
+                          text: 'not implemented yet',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

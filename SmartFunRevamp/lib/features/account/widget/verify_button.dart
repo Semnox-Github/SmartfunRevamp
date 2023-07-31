@@ -47,8 +47,8 @@ class VerifyButton extends ConsumerWidget {
       child: Consumer(
         builder: (context, ref, child) {
           return ref.watch(sendOtpStateProvider).maybeWhen(
-                orElse: () => const MulishText(
-                  text:'Verify',
+                orElse: () => MulishText(
+                  text: SplashScreenNotifier.getLanguageLabel('Verify'),
                   fontColor: CustomColors.hardOrange,
                   fontWeight: FontWeight.bold,
                 ),

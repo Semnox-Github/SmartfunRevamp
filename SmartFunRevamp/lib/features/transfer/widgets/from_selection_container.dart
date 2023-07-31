@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class FromSelectionContainer extends StatelessWidget {
   const FromSelectionContainer({
@@ -19,8 +20,8 @@ class FromSelectionContainer extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MulishText(
-          text: 'Transfer From',
+        MulishText(
+          text: SplashScreenNotifier.getLanguageLabel('Transfer From'),
           fontWeight: FontWeight.bold,
           fontSize: 20.0,
           textAlign: TextAlign.start,

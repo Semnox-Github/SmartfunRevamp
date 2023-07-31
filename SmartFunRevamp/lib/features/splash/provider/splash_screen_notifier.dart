@@ -22,6 +22,7 @@ import 'package:semnox/core/domain/entities/language/language_container_dto.dart
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'splash_screen_state.dart';
 part 'splash_screen_notifier.freezed.dart';
@@ -145,11 +146,32 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
   static String getLanguageLabel(String labelKey) {
     String? languageLabel = languageLabes[labelKey];
     if (languageLabel.isNullOrEmpty()) {
-      debugPrint('Label not found for key: "$labelKey"');
-      return labelKey;
+      logNonExistentLanguageLabel(labelKey);
+      return '_${labelKey}_';
     } else {
       return languageLabel.toString();
     }
+  }
+
+  static logNonExistentLanguageLabel(String label) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // await prefs.remove('labels');
+    final labels = prefs.getStringList('labels');
+    if (labels == null) {
+      await prefs.setStringList('labels', [label]);
+    } else {
+      if (!labels.contains(label)) {
+        labels.add(label);
+        await prefs.setStringList('labels', labels);
+      }
+    }
+    Logger().d(labels);
+  }
+
+  static Future<List<String>> getNonExistentLanguageLabel() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final labels = prefs.getStringList('labels');
+    return labels ?? [];
   }
 
   static final parafaitLanguagesProvider = FutureProvider<LanguageContainerDTO>((ref) async {

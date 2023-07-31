@@ -179,7 +179,7 @@ class CardActivityDetailPage extends ConsumerWidget {
                           ],
                         ),
                         const Spacer(),
-                        CustomIconButton(
+                        CustomButton(
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(

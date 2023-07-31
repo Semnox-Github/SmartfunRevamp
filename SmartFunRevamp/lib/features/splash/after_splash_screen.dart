@@ -146,7 +146,7 @@ class AfterSplashScreen extends ConsumerWidget {
                       ),
                       CustomButton(
                         onTap: () {},
-                        label: SplashScreenNotifier.getLanguageLabel("Have an account?"),
+                        label: SplashScreenNotifier.getLanguageLabel("LOGIN"),
                       )
                     ],
                   ),
@@ -167,79 +167,6 @@ class AfterSplashScreen extends ConsumerWidget {
                 )
               ],
             ),
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: Column(
-            //         crossAxisAlignment: CrossAxisAlignment.start,
-            //         children: [
-            //           MulishText(
-            //             text: SplashScreenNotifier.getLanguageLabel("Have an account?"),
-            //             fontColor: CustomColors.customBlack,
-            //             fontSize: 16.0,
-            //             fontWeight: FontWeight.bold,
-            //           ),
-            //           Container(
-            //             width: double.infinity,
-            //             decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.circular(12.0),
-            //               gradient: currenLang == null ? CustomGradients.disabledGradient : CustomGradients.linearGradient,
-            //             ),
-            //             margin: const EdgeInsets.all(3),
-            //             child: TextButton(
-            //               onPressed: currenLang == null ? null : () => Navigator.pushReplacementNamed(context, Routes.kLogInPage),
-            //               child: Text(
-            //                 SplashScreenNotifier.getLanguageLabel('LOGIN'),
-            //                 style: const TextStyle(
-            //                   color: Colors.white,
-            //                   fontWeight: FontWeight.bold,
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     const SizedBox(width: 5.0),
-            //     Expanded(
-            //       child: Column(
-            //         crossAxisAlignment: CrossAxisAlignment.start,
-            //         children: [
-            //           MulishText(
-            //             text: SplashScreenNotifier.getLanguageLabel('New to SmartFun?'),
-            //             textAlign: TextAlign.center,
-            //             fontColor: CustomColors.customBlack,
-            //             fontSize: 16.0,
-            //             fontWeight: FontWeight.bold,
-            //           ),
-            //           Container(
-            //             width: double.infinity,
-            //             decoration: BoxDecoration(
-            //               gradient: currenLang == null ? CustomGradients.disabledGradient : CustomGradients.linearGradient,
-            //               borderRadius: BorderRadius.circular(15.0),
-            //             ),
-            //             child: Container(
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(12.0),
-            //                 color: currenLang == null ? Colors.grey : Colors.white,
-            //               ),
-            //               margin: const EdgeInsets.all(3),
-            //               child: TextButton(
-            //                 onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
-            //                 child: Text(
-            //                   SplashScreenNotifier.getLanguageLabel('SIGN UP'),
-            //                   style: const TextStyle(
-            //                     color: CustomColors.hardOrange,
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ],
-            // )
           ],
         ),
       ),

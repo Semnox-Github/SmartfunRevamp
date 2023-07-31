@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MulishText extends StatelessWidget {
   const MulishText({
@@ -22,7 +21,7 @@ class MulishText extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign,
-      style: GoogleFonts.mulish(
+      style: TextStyle(
         color: fontColor,
         fontSize: fontSize,
         fontWeight: fontWeight,

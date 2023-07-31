@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:semnox/colors/colors.dart';
 
-final kCustomButtoBorderRaduis = BorderRadius.circular(12.0);
+final kCustomButtoBorderRadius = BorderRadius.circular(12.0);
 ThemeData kCustomButtonTheme = ThemeData(
   brightness: Brightness.light,
   colorScheme: const ColorScheme.light(
@@ -10,6 +11,10 @@ ThemeData kCustomButtonTheme = ThemeData(
   textTheme: const TextTheme(
     bodySmall: TextStyle(
       color: Colors.white,
+      fontWeight: FontWeight.bold,
+    ),
+    bodyMedium: TextStyle(
+      color: CustomColors.hardOrange,
       fontWeight: FontWeight.bold,
     ),
   ),

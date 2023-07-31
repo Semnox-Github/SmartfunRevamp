@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:semnox/colors/colors.dart';
@@ -84,6 +85,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             useMaterial3: true,
             iconTheme: const IconThemeData(color: CustomColors.customBlue),
+            textTheme: GoogleFonts.mulishTextTheme(),
             inputDecorationTheme: InputDecorationTheme(
               isDense: true,
               fillColor: Colors.transparent,

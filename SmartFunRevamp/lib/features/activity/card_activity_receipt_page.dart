@@ -82,7 +82,7 @@ class CardActivityReceiptPage extends StatelessWidget {
                             onViewCreated: (PDFViewController pdfViewController) {},
                           ),
                         ),
-                        CustomIconButton(
+                        CustomButton(
                           onTap: () async {
                             File fileDef = File(path);
                             DocumentFileSavePlus().saveFile(fileDef.readAsBytesSync(), 'receipt.pdf', 'application/pdf');

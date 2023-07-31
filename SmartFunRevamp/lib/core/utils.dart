@@ -37,7 +37,6 @@ Future<String?> _getId() async {
 }
 
 Future<String> jwtGenerator({String secretKey = "gUkXp2s5u8x/A?D(G+KbPeShVmYq3t6w"}) async {
-  // final dateTime = "${DateTime.now().toUtc().formatDate("EEE, dd MMM yyyy hh:mm:ss")} GMT";
   final dateTime = DateTime.now().toUtc().toString();
   final jwt = JWT(
     // Payload

@@ -19,7 +19,7 @@ class PaymentOptionsRepositoryImpl implements PaymentOptionsRepository {
     String siteId,
   ) async {
     try {
-      final response = await _api.getPaymentModes(siteId: siteId);
+      final response = await _api.getPaymentModes(siteId);
       final paymentModes = response.data..removeWhere((element) => element.paymentGateway == null);
       return Right(paymentModes);
     } on DioException catch (e) {

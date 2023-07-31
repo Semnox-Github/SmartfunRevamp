@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -10,7 +9,9 @@ import 'package:badges/badges.dart' as badges;
 class NotificationsButton extends StatelessWidget {
   const NotificationsButton({
     super.key,
+    required this.notificationIcon,
   });
+  final Widget notificationIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -18,17 +19,11 @@ class NotificationsButton extends StatelessWidget {
       builder: (context, ref, child) {
         return ref.watch(NotificationsProvider.notificationsStateProvider).maybeWhen(
               orElse: () => Container(),
-              inProgress: () => const Icon(
-                Icons.notifications_none_outlined,
-                color: CustomColors.customBlue,
-              ),
+              inProgress: () => const CircularProgressIndicator.adaptive(),
               success: (data) {
                 if (data.isEmpty) {
                   return InkWell(
-                    child: const Icon(
-                      Icons.notifications_none_outlined,
-                      color: CustomColors.customBlue,
-                    ),
+                    child: notificationIcon,
                     onTap: () => Navigator.pushNamed(context, Routes.kNotifications),
                   );
                 }
@@ -39,10 +34,7 @@ class NotificationsButton extends StatelessWidget {
                     fontColor: Colors.white,
                   ),
                   child: InkWell(
-                    child: const Icon(
-                      Icons.notifications_none_outlined,
-                      color: CustomColors.customBlue,
-                    ),
+                    child: notificationIcon,
                     onTap: () => Navigator.pushNamed(context, Routes.kNotifications),
                   ),
                 );

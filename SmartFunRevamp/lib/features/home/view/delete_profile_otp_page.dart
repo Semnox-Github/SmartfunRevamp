@@ -44,7 +44,12 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
         otpVerified: () {
           context.loaderOverlay.hide();
           ref.read(loginProvider.notifier).deleteProfile();
-          Navigator.popAndPushNamed(context, Routes.kLogInPage);
+          Dialogs.deleteProfileSuccessDialog(
+                context,
+                () {
+                  Navigator.popAndPushNamed(context, Routes.kLogInPage);
+                },
+              );
         },
         otpVerificationError: (message) {
           context.loaderOverlay.hide();

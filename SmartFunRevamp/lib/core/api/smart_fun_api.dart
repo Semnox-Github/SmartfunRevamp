@@ -39,8 +39,8 @@ abstract class SmartFunApi {
     dio.interceptors.addAll([
       AuthorizationInterceptor(),
       PrettyDioLogger(
-        requestBody: true,
-        responseBody: true,
+        requestBody: false,
+        responseBody: false,
         requestHeader: false,
         responseHeader: false,
         request: true,
@@ -159,8 +159,8 @@ abstract class SmartFunApi {
   );
 
   @GET('Customer/CustomerUIMetadataContainer')
-  Future<Data<UserMetaDataResponse>> getSignUpMetadata({
-    @Query('siteId') String siteId = '1010',
+  Future<Data<UserMetaDataResponse>> getSignUpMetadata(
+    @Query('siteId') String siteId, {
     @Query('hash') String? hash,
     @Query('rebuildCache') bool rebuildCache = false,
   });
@@ -168,8 +168,8 @@ abstract class SmartFunApi {
   //----- Transaction -----// ->
 
   @GET('Transaction/PaymentModes')
-  Future<ListDataWrapper<PaymentMode>> getPaymentModes({
-    @Query('siteId') String siteId = "1010",
+  Future<ListDataWrapper<PaymentMode>> getPaymentModes(
+    @Query('siteId') String siteId, {
     @Query('isActive') int isActive = 1,
     @Query('paymentChannel') String paymentChannel = 'CUSTOMER_APP_PAYMENT',
   });

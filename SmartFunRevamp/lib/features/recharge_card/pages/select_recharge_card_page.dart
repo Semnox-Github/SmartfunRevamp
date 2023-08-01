@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -18,6 +19,7 @@ import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_butt
 import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
   const SelectCardRechargePage({Key? key, this.filterStr, this.cardDetails}) : super(key: key);
@@ -51,7 +53,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
       cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     }
     selectedCardNumber = cards.first;
-    userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010;
+    userSite = (ref.read(loginProvider.notifier).selectedSite?.siteId ?? Get.find<ExecutionContextDTO>().siteId)!;
     qty = 1;
     finalPrice = 0;
   }

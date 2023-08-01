@@ -20,7 +20,6 @@ class BonusSummaryPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //TODO:Whenever the app rebuilds this is called again remove hardcoded card
     ref.read(CardsProviders.bonusSummaryProvider.notifier).getSummary(cardNumber);
     return Scaffold(
       appBar: CustomAppBar(
@@ -76,80 +75,91 @@ class BonusSummaryPage extends ConsumerWidget {
                             itemCount: data.length,
                             itemBuilder: (context, index) {
                               final summary = data[index];
-                              return Container(
-                                margin: const EdgeInsets.only(bottom: 10.0),
-                                padding: const EdgeInsets.only(bottom: 10.0),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: CustomColors.customLigthGray),
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                                      decoration: BoxDecoration(
-                                        color: CustomColors.customOrange,
-                                        borderRadius: BorderRadius.circular(12.0),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          MulishText(
-                                            text: summary.remarks,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          MulishText(
-                                            text: '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
-                                            fontSize: 10.0,
-                                          ),
-                                        ],
-                                      ),
+                              return InkWell(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BonusSummaryDetailPage(
+                                      summary: summary,
+                                      pageTitle: pageTitle,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            children: [
-                                              const MulishText(
-                                                text: 'Value Loaded',
-                                              ),
-                                              MulishText(
-                                                text: '${summary.creditPlus.toInt()}',
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              const MulishText(
-                                                text: 'Balance',
-                                              ),
-                                              MulishText(
-                                                text: '${summary.creditPlusBalance.toInt()}',
-                                              ),
-                                            ],
-                                          ),
-                                          IconButton(
-                                            onPressed: () => Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => BonusSummaryDetailPage(
-                                                  summary: summary,
-                                                  pageTitle: pageTitle,
-                                                ),
-                                              ),
+                                  ),
+                                ),
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 10.0),
+                                  padding: const EdgeInsets.only(bottom: 10.0),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: CustomColors.customLigthGray),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                                        decoration: BoxDecoration(
+                                          color: CustomColors.customOrange,
+                                          borderRadius: BorderRadius.circular(12.0),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            MulishText(
+                                              text: summary.remarks,
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                            icon: const Icon(
-                                              Icons.arrow_forward_ios_outlined,
+                                            MulishText(
+                                              text: '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
+                                              fontSize: 10.0,
                                             ),
-                                          )
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    )
-                                  ],
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                const MulishText(
+                                                  text: 'Value Loaded',
+                                                ),
+                                                MulishText(
+                                                  text: '${summary.creditPlus.toInt()}',
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                const MulishText(
+                                                  text: 'Balance',
+                                                ),
+                                                MulishText(
+                                                  text: '${summary.creditPlusBalance.toInt()}',
+                                                ),
+                                              ],
+                                            ),
+                                            const Icon(
+                                              Icons.arrow_forward_ios_outlined,
+                                            )
+                                            // IconButton(
+                                            //   onPressed: () => Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //       builder: (context) => BonusSummaryDetailPage(summary: summary, pageTitle: pageTitle,),
+                                            //     ),
+                                            //   ),
+                                            //   icon: const Icon(
+                                            //     Icons.arrow_forward_ios_outlined,
+                                            //   ),
+                                            // )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
                             },

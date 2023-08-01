@@ -426,6 +426,20 @@ class Dialogs {
       },
     );
   }
+
+  static void deleteProfileSuccessDialog(BuildContext context, Function() onSubmitted) {
+   AwesomeDialog(
+      context: context,
+      dismissOnTouchOutside: true,
+      onDismissCallback: (type) => onSubmitted(),
+      title: SplashScreenNotifier.getLanguageLabel('Delete Profile'),
+      desc: SplashScreenNotifier.getLanguageLabel('Profile deleted successfully.'),
+      descTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
+      ),
+   ).show();
+  }
 }
 
 class FeedbackValueOption extends StatefulWidget {

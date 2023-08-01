@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
+import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 part 'home_page_cms_response.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class HomePageCMSResponse {
   final int? moduleId;
   final String? description;
@@ -14,9 +15,12 @@ class HomePageCMSResponse {
   final List<CMSModulePage>? cmsModulePages;
   @JsonKey(name: 'CMSModuleMenuDTOList')
   final List<CMSModuleMenu> cmsModuleMenu;
-
   @JsonKey(name: 'images')
   final CMSImages cmsImages;
+  @JsonKey(name: 'CMSModuleColorsHome')
+  final CMSModuleColorsHome? cmsModuleColorsHome;
+  @JsonKey(name: 'CardsColor')
+  final CardsColor? cardsColor;
 
   HomePageCMSResponse(
     this.moduleId,
@@ -25,6 +29,8 @@ class HomePageCMSResponse {
     this.cmsModulePages,
     this.cmsModuleMenu,
     this.cmsImages,
+    this.cmsModuleColorsHome,
+    this.cardsColor,
   );
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
@@ -66,7 +72,7 @@ class HomePageCMSResponse {
       'customerId': customer.id.toString(),
       'customerID': customer.id.toString(),
       'langCode': currentLang?.languageCode ?? 'en-US',
-      'siteID': '1010',
+      'siteID': Get.find<ExecutionContextDTO>().siteId.toString(),
       'posMachine': 'CustomerApp',
       'userID': 'SmartFun',
       'apiURL': 'smartfungigademo.parafait.com',
@@ -82,7 +88,36 @@ class HomePageCMSResponse {
   }
 }
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(explicitToJson: true)
+class CardsColor {
+  final String? regular;
+  final String? expired;
+  final String? virtual;
+
+  CardsColor(this.regular, this.expired, this.virtual);
+  factory CardsColor.fromJson(Map<String, dynamic> json) => _$CardsColorFromJson(json);
+  Map<String, dynamic> toJson() => _$CardsColorToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+class CMSModuleColorsHome {
+  final String upperHalf;
+  final String middle;
+  final String bottomHalf;
+  @JsonKey(name: "profile_picture_gradient")
+  final List<String> profilePictureGradient;
+
+  CMSModuleColorsHome(
+    this.upperHalf,
+    this.middle,
+    this.bottomHalf,
+    this.profilePictureGradient,
+  );
+  factory CMSModuleColorsHome.fromJson(Map<String, dynamic> json) => _$CMSModuleColorsHomeFromJson(json);
+  Map<String, dynamic> toJson() => _$CMSModuleColorsHomeToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class CMSModulePage {
   final int pageId;
   final int contentId;
@@ -102,7 +137,7 @@ class CMSModulePage {
   factory CMSModulePage.fromJson(Map<String, dynamic> json) => _$CMSModulePageFromJson(json);
 }
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class CMSModuleMenu {
   @JsonKey(name: 'CMSMenusDTOList')
   final List<CMSMenu> cmsMenus;
@@ -113,7 +148,7 @@ class CMSModuleMenu {
   Map<String, dynamic> toJson() => _$CMSModuleMenuToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class CMSMenu {
   @JsonKey(name: 'CMSMenuItemsDTOList')
   final List<CMSMenuItem> cmsMenuItems;
@@ -130,7 +165,7 @@ class CMSMenu {
   Map<String, dynamic> toJson() => _$CMSMenuToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class CMSMenuItem {
   final String itemName;
   final String displayName;
@@ -150,7 +185,7 @@ class CMSMenuItem {
   Map<String, dynamic> toJson() => _$CMSMenuItemToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.pascal)
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class CMSImages {
   @JsonKey(name: 'splash_screen_image_path')
   final String splashScreenPath;

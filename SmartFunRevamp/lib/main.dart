@@ -11,10 +11,10 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
-import 'package:semnox/features/splash/splashscreen.dart';
 import 'package:semnox/firebase_options.dart';
 import 'package:semnox/themes/main_theme.dart';
 import 'di/injection_container.dart' as di;
+import 'features/splash/splashscreen.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override

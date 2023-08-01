@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -12,7 +11,6 @@ import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.da
 import 'package:semnox/features/select_location/pages/select_location_manually_page.dart';
 
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({Key? key}) : super(key: key);

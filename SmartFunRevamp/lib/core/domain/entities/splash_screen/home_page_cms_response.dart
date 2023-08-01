@@ -4,7 +4,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
-import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 part 'home_page_cms_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)

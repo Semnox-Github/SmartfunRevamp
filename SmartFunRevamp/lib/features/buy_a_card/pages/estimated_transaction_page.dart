@@ -1,7 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -16,7 +15,6 @@ import 'package:semnox/features/buy_a_card/widgets/coupon_container.dart';
 import 'package:semnox/features/payment/pages/payment_options_page.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
 class EstimatedTransactionPage extends ConsumerWidget {
   const EstimatedTransactionPage({Key? key, required this.cardProduct, this.cardSelected, required this.transactionType, required this.qty, this.finalPrice}) : super(key: key);

@@ -5,7 +5,6 @@ import 'package:crypto/crypto.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:logger/logger.dart';
-import 'package:semnox/core/utils/extensions.dart';
 import 'package:uuid/uuid.dart';
 
 Future<String> generateHashCode({

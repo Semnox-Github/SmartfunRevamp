@@ -21,7 +21,6 @@ import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
-import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
 part 'splash_screen_state.dart';
 part 'splash_screen_notifier.freezed.dart';

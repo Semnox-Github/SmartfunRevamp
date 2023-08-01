@@ -29,4 +29,21 @@ class SelectLocationRepositoryImpl implements SelectLocationRepository {
       return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
+
+  @override
+  Future<Either<Failure, List<SiteViewDTO>>> getMasterSite() async {
+    try {
+      final response = await _api.getAllSites();
+      final list = response.data.siteContainerDTOList;
+      list.removeWhere((site) => !site.isMasterSite!);
+      return Right(list);
+    } on DioException catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(ServerFailure('Not Found'));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(message['data']));
+    }
+  }
 }

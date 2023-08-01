@@ -72,6 +72,7 @@ Map<dynamic, dynamic> languageLabes = {};
 String helpUrl = "";
 String privacyPolicyUrl = "";
 String termsUrl = "";
+int? masterSiteId;
 
 class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
   final GetBaseURLUseCase _getBaseURL;
@@ -110,6 +111,15 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
         authenticateBaseURL(r.gateWayURL);
       },
     );
+  }
+
+  static void setMasterSite(int? siteId) async {
+    masterSiteId = siteId;
+  }
+
+  static int getMasterSite() {
+    return masterSiteId!;
+
   }
 
   void authenticateBaseURL(String baseUrl) async {

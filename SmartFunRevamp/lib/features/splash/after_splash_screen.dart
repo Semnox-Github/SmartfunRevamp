@@ -11,9 +11,11 @@ import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
+import 'package:semnox/core/domain/use_cases/select_location/get_master_site_use_case.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
+import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 import 'provider/splash_screen_notifier.dart';
 
@@ -25,6 +27,16 @@ final parafaitDefaultsProvider = FutureProvider<ParafaitDefaultsResponse>((ref) 
     (r) => r,
   );
 });
+
+final masterSiteProvider = FutureProvider<List<SiteViewDTO>>((ref) async {
+  final getMasterSite = Get.find<GetMasterSiteUseCase>();
+  final response = await getMasterSite();
+  return response.fold(
+    (l) => throw l,
+    (r) => r,
+  );
+});
+
 final currentLanguageProvider = StateProvider<LanguageContainerDTOList?>((ref) {
   final languageList = ref.watch(SplashScreenNotifier.parafaitLanguagesProvider).valueOrNull;
   if (languageList == null) {
@@ -39,6 +51,12 @@ class AfterSplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(masterSiteProvider).maybeWhen(
+      orElse: () => {},
+      data: (data) => {
+        SplashScreenNotifier.setMasterSite(data[0].siteId)
+      }
+    );
     ref.watch(parafaitDefaultsProvider);
     ref.watch(SplashScreenNotifier.getInitialData);
     final currenLang = ref.watch(currentLanguageProvider);

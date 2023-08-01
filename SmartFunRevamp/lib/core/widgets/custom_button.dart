@@ -75,7 +75,7 @@ class CustomButton extends StatelessWidget {
       margin: margin,
       child: TextButton.icon(
         onPressed: onTap,
-        icon: icon ?? Container(),
+        icon: icon ?? const SizedBox.shrink(),
         label: Text(
           label,
           style: TextStyle(

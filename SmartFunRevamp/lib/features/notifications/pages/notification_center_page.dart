@@ -24,9 +24,6 @@ class NotificationCenterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
-        iconTheme: const IconThemeData(color: CustomColors.customBlue),
-        backgroundColor: CustomColors.customLigthBlue,
         title: const MulishText(
           text: 'Notification',
           fontWeight: FontWeight.bold,

@@ -88,7 +88,6 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
     final configExecutionContext = ref.watch(preConfigProvider);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: CustomColors.customLigthBlue,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(
@@ -96,14 +95,12 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
             color: CustomColors.customBlue,
           ),
         ),
-        centerTitle: false,
         title: Text(
           SplashScreenNotifier.getLanguageLabel('Set Your Account'),
           style: const TextStyle(
             color: CustomColors.customBlue,
           ),
         ),
-        elevation: 0.0,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
@@ -298,24 +295,6 @@ class CustomTextField extends StatelessWidget {
             validator: (value) => value!.isEmpty && required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              isDense: true,
-              fillColor: fillColor,
-              filled: true,
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.0),
-                borderSide: const BorderSide(
-                  color: Colors.black,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.0),
-                borderSide: const BorderSide(
-                  color: Colors.black,
-                ),
-              ),
-            ),
           )
         ],
       ),

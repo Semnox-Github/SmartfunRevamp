@@ -57,10 +57,6 @@ class EstimatedTransactionPage extends ConsumerWidget {
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFCFF8FF),
-        elevation: 0.0,
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
           SplashScreenNotifier.getLanguageLabel(transactionType == "newcard" ? "Buy a Card" : "Recharge"),
           style: const TextStyle(

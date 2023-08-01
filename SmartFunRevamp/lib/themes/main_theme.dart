@@ -7,6 +7,17 @@ final kMainTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
   iconTheme: const IconThemeData(color: CustomColors.customBlue),
   textTheme: GoogleFonts.mulishTextTheme(),
+  appBarTheme: const AppBarTheme(
+    elevation: 0.0,
+    centerTitle: true,
+    iconTheme: IconThemeData(color: CustomColors.customBlue),
+    backgroundColor: CustomColors.customLigthBlue,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        bottom: Radius.circular(20),
+      ),
+    ),
+  ),
   inputDecorationTheme: InputDecorationTheme(
     isDense: true,
     fillColor: Colors.transparent,
@@ -15,13 +26,34 @@ final kMainTheme = ThemeData(
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12.0),
       borderSide: const BorderSide(
-        color: Colors.black,
+        color: Colors.pink,
       ),
     ),
-    focusedBorder: OutlineInputBorder(
+    //The normal state of the widget
+    enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12.0),
       borderSide: const BorderSide(
         color: Colors.black,
+      ),
+    ),
+    //When the user clicks on the Widget
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide: const BorderSide(
+        color: Colors.blue,
+      ),
+    ),
+
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide: const BorderSide(
+        color: Colors.red,
+      ),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide: const BorderSide(
+        color: Colors.red,
       ),
     ),
   ),

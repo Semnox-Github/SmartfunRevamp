@@ -38,10 +38,6 @@ class PaymentOptionsPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFCFF8FF),
-        elevation: 0.0,
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
           SplashScreenNotifier.getLanguageLabel('Payment Options'),
           style: const TextStyle(

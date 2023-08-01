@@ -38,10 +38,6 @@ class SelectLocationManuallyPage extends ConsumerWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: CustomColors.customLigthBlue,
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: CustomColors.customBlue),
         title: const MulishText(
           text: 'Select Location',
           fontWeight: FontWeight.bold,

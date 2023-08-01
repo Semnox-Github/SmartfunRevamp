@@ -27,10 +27,6 @@ class BuyCardListPage extends StatelessWidget {
       endDrawer: const FilterDrawer(),
       appBar: filterStr == null
           ? AppBar(
-              backgroundColor: const Color(0xFFCFF8FF),
-              elevation: 0.0,
-              centerTitle: false,
-              iconTheme: const IconThemeData(color: Colors.black),
               title: Text(
                 SplashScreenNotifier.getLanguageLabel('Buy a Card'),
                 style: const TextStyle(

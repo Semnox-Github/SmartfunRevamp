@@ -10,6 +10,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
@@ -113,7 +114,7 @@ class AfterSplashScreen extends ConsumerWidget {
                             ),
                             loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                             data: (data) {
-                              return DropdownButton<LanguageContainerDTOList>(
+                              return DropdownButtonFormField<LanguageContainerDTOList>(
                                 isExpanded: true,
                                 value: currenLang,
                                 hint: const MulishText(text: 'Select a language'),
@@ -145,7 +146,7 @@ class AfterSplashScreen extends ConsumerWidget {
                         text: SplashScreenNotifier.getLanguageLabel("Have an account?"),
                       ),
                       CustomButton(
-                        onTap: () {},
+                        onTap: () => Navigator.pushReplacementNamed(context, Routes.kLogInPage),
                         label: SplashScreenNotifier.getLanguageLabel("LOGIN"),
                       )
                     ],
@@ -159,7 +160,7 @@ class AfterSplashScreen extends ConsumerWidget {
                         text: SplashScreenNotifier.getLanguageLabel('New to SmartFun?'),
                       ),
                       CustomCancelButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
                         label: SplashScreenNotifier.getLanguageLabel('SIGN UP'),
                       )
                     ],

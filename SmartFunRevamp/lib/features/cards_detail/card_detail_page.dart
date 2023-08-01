@@ -35,10 +35,6 @@ class CardDetailPage extends ConsumerWidget {
           fontColor: CustomColors.customBlue,
           fontWeight: FontWeight.bold,
         ),
-        centerTitle: false,
-        backgroundColor: CustomColors.customLigthBlue,
-        elevation: 0.0,
-        iconTheme: const IconThemeData(color: CustomColors.customBlue),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

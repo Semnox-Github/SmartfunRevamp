@@ -29,8 +29,8 @@ AppConfigResponse _$AppConfigResponseFromJson(Map<String, dynamic> json) =>
       json['ShowTicketsOnCard'] as bool,
       json['ShowLoyaltyOnCard'] as bool,
       json['ShowCourtesyOnCard'] as bool,
-      (json['CustomLinks'] as List<dynamic>)
-          .map((e) => CustomLinks.fromJson(e as Map<String, dynamic>))
+      (json['CustomLinks'] as List<dynamic>?)
+          ?.map((e) => CustomLinks.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['EnableVirtualSite'] as bool,
       json['VirtualSiteId'] as int,
@@ -89,31 +89,6 @@ Map<String, dynamic> _$AppConfigResponseToJson(AppConfigResponse instance) {
     'ShowTicketsOnCard': instance.showTicketsOnCard,
     'ShowLoyaltyOnCard': instance.showLoyaltyOnCard,
     'ShowCourtesyOnCard': instance.showCourtesyOnCard,
-    'CustomLinks': instance.customLinks,
-    'EnableVirtualSite': instance.enableVirtualSite,
-    'VirtualSiteId': instance.virtualSiteId,
-    'EnableGamePlay': instance.enableGamePlay,
-    'PlayBoxLink': instance.playBoxLink,
-    'EnableMembership': instance.enableMembership,
-    'NumberFormat': instance.numberFormat,
-    'PromoImageFolderURL': instance.promoImageFolderURL,
-    'AgeOfMajority': instance.ageOfMajority,
-    'DefaultLanguage': instance.defaultLanguage,
-    'WaiverDeactivationNeedsManagerApproval':
-        instance.waiverDeactivationNeedsManagerApproval,
-    'WaiverCodeIsMandatoryToFetchCustomer':
-        instance.waiverCodeIsMandatoryToFetchCustomer,
-    'CheckWaiverRegistrationCountForTransaction':
-        instance.checkWaiverRegistrationCountForTransaction,
-    'OtpCheckRequiredForWaiverRegistration':
-        instance.otpCheckRequiredForWaiverRegistration,
-    'ValidityPeriodForWaiverRegistrationOTP':
-        instance.validityPeriodForWaiverRegistrationOTP,
-    'EnableWaiverSignInKiosk': instance.enableWaiverSignInKiosk,
-    'WaiverOverrideNeedsManagerApproval':
-        instance.waiverOverrideNeedsManagerApproval,
-    'AllowWaiverOverride': instance.allowWaiverOverride,
-    'OverrideSiteForTransaction': instance.overrideSiteForTransaction,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -122,6 +97,31 @@ Map<String, dynamic> _$AppConfigResponseToJson(AppConfigResponse instance) {
     }
   }
 
+  writeNotNull('CustomLinks', instance.customLinks);
+  val['EnableVirtualSite'] = instance.enableVirtualSite;
+  val['VirtualSiteId'] = instance.virtualSiteId;
+  val['EnableGamePlay'] = instance.enableGamePlay;
+  val['PlayBoxLink'] = instance.playBoxLink;
+  val['EnableMembership'] = instance.enableMembership;
+  val['NumberFormat'] = instance.numberFormat;
+  val['PromoImageFolderURL'] = instance.promoImageFolderURL;
+  val['AgeOfMajority'] = instance.ageOfMajority;
+  val['DefaultLanguage'] = instance.defaultLanguage;
+  val['WaiverDeactivationNeedsManagerApproval'] =
+      instance.waiverDeactivationNeedsManagerApproval;
+  val['WaiverCodeIsMandatoryToFetchCustomer'] =
+      instance.waiverCodeIsMandatoryToFetchCustomer;
+  val['CheckWaiverRegistrationCountForTransaction'] =
+      instance.checkWaiverRegistrationCountForTransaction;
+  val['OtpCheckRequiredForWaiverRegistration'] =
+      instance.otpCheckRequiredForWaiverRegistration;
+  val['ValidityPeriodForWaiverRegistrationOTP'] =
+      instance.validityPeriodForWaiverRegistrationOTP;
+  val['EnableWaiverSignInKiosk'] = instance.enableWaiverSignInKiosk;
+  val['WaiverOverrideNeedsManagerApproval'] =
+      instance.waiverOverrideNeedsManagerApproval;
+  val['AllowWaiverOverride'] = instance.allowWaiverOverride;
+  val['OverrideSiteForTransaction'] = instance.overrideSiteForTransaction;
   writeNotNull('WaiverSetSelectionOptions', instance.waiverSetSelectionOptions);
   val['ShowCustomAttributesOnWaiver'] = instance.showCustomAttributesOnWaiver;
   writeNotNull('PromotionLayoutURL', instance.promotionLayoutURL);

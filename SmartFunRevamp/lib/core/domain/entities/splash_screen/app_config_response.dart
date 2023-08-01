@@ -29,7 +29,7 @@ class AppConfigResponse {
   final bool showTicketsOnCard;
   final bool showLoyaltyOnCard;
   final bool showCourtesyOnCard;
-  final List<CustomLinks> customLinks;
+  final List<CustomLinks>? customLinks;
   final bool enableVirtualSite;
   final int virtualSiteId;
   final bool enableGamePlay;

@@ -30,8 +30,8 @@ class CardDetailPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const MulishText(
-          text: 'Card Details',
+        title: MulishText(
+          text: SplashScreenNotifier.getLanguageLabel('Card Details'),
           fontColor: CustomColors.customBlue,
           fontWeight: FontWeight.bold,
         ),
@@ -87,15 +87,15 @@ class CardDetailPage extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const MulishText(
-                      text: 'More Actions',
+                    MulishText(
+                      text: SplashScreenNotifier.getLanguageLabel('More Actions'),
                       fontWeight: FontWeight.bold,
                     ),
                     if (!cardDetails.isBlocked() && !cardDetails.isExpired())
                       MoreActionListTile(
                         color: CustomColors.customOrange,
-                        subTitle: 'Report your lost card and get replacement',
-                        title: 'Lost Card',
+                        subTitle: SplashScreenNotifier.getLanguageLabel('Report your lost card and get replacement'),
+                        title: SplashScreenNotifier.getLanguageLabel('Lost Card'),
                         svgImage: 'assets/home/lost_card.svg',
                         onPressed: () {
                           Navigator.push(
@@ -108,8 +108,8 @@ class CardDetailPage extends ConsumerWidget {
                       ),
                     MoreActionListTile(
                       color: CustomColors.customPurple,
-                      subTitle: 'Transfer credits from one card to another',
-                      title: 'Tranfer Credit',
+                      subTitle: SplashScreenNotifier.getLanguageLabel('Transfer credits from one card to another'),
+                      title: SplashScreenNotifier.getLanguageLabel('Transfer Credit'),
                       svgImage: 'assets/home/transfer_credit.svg',
                       onPressed: () => Navigator.push(
                         context,
@@ -120,8 +120,8 @@ class CardDetailPage extends ConsumerWidget {
                     ),
                     MoreActionListTile(
                       color: CustomColors.customGreen,
-                      subTitle: 'View all your gameplay records',
-                      title: 'Game Plays',
+                      subTitle: SplashScreenNotifier.getLanguageLabel('View all your gameplay records'),
+                      title: SplashScreenNotifier.getLanguageLabel('Game Plays'),
                       svgImage: 'assets/home/gameplays.svg',
                       onPressed: () => Navigator.push(
                         context,
@@ -132,8 +132,8 @@ class CardDetailPage extends ConsumerWidget {
                     ),
                     MoreActionListTile(
                       color: CustomColors.customYellow,
-                      subTitle: 'View Transactions, Recharges and more.',
-                      title: 'Activity',
+                      subTitle: SplashScreenNotifier.getLanguageLabel('View Transactions, Recharges and more.'),
+                      title: SplashScreenNotifier.getLanguageLabel('Activity'),
                       svgImage: 'assets/home/activities.svg',
                       onPressed: () => Navigator.push(
                         context,

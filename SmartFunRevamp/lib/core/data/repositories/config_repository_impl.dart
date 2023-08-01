@@ -29,10 +29,10 @@ class ConfigRepositoryImpl implements ConfigRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 }

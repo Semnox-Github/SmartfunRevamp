@@ -90,12 +90,15 @@ Widget _tabSection(BuildContext context, String? filterStr) {
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const TabBar(tabs: [
+        TabBar(tabs: [
           MulishText(
-            text: "Recharge",
+            text: SplashScreenNotifier.getLanguageLabel("Recharge"),
             fontSize: 14,
           ),
-          MulishText(text: "New Card", fontSize: 14),
+          MulishText(
+            text: SplashScreenNotifier.getLanguageLabel("New Card"),
+            fontSize: 14,
+          ),
         ]),
         SizedBox(
           //Add this to give height

@@ -11,6 +11,7 @@ import 'package:semnox/core/domain/entities/splash_screen/get_base_url_response.
 import 'package:semnox/core/domain/repositories/splash_screen_repositories.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SplashScreenRepositoryImpl implements SplashScreenRepository {
   final SmartFunApi _api;
@@ -36,10 +37,10 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -64,10 +65,10 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -80,10 +81,10 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -96,10 +97,10 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -112,10 +113,10 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -128,10 +129,10 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -144,10 +145,10 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 }

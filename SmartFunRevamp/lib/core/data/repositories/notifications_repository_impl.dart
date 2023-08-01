@@ -11,6 +11,7 @@ import 'package:semnox/core/domain/repositories/notifications_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:collection/collection.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class NotificationsRepositoryImpl implements NotificationsRepository {
   final SmartFunApi _api;
@@ -32,7 +33,7 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       if (kDebugMode) {
         final today = DateTime.now();
@@ -49,7 +50,7 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
         return Right(notificationsGrouped);
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       Logger().e(e);
       return Left(ServerFailure(''));

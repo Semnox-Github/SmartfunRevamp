@@ -66,7 +66,7 @@ class CardActivityDetailPage extends ConsumerWidget {
                             children: [
                               const SizedBox(height: 10.0),
                               MulishText(
-                                text: data.transactionLinesDTOList?.first.productName ?? 'Variable App Recharge',
+                                text: data.transactionLinesDTOList?.first.productName ?? SplashScreenNotifier.getLanguageLabel('Variable App Recharge'),
                                 fontWeight: FontWeight.bold,
                                 fontColor: Colors.white,
                                 fontSize: 20.0,
@@ -90,8 +90,8 @@ class CardActivityDetailPage extends ConsumerWidget {
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const MulishText(
-                                          text: 'OTP',
+                                        MulishText(
+                                          text: SplashScreenNotifier.getLanguageLabel('OTP'),
                                           fontColor: Colors.white,
                                         ),
                                         const SizedBox(height: 10.0),
@@ -114,8 +114,8 @@ class CardActivityDetailPage extends ConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const MulishText(
-                              text: 'Reference Id',
+                            MulishText(
+                              text: SplashScreenNotifier.getLanguageLabel('Reference Id'),
                             ),
                             Column(
                               mainAxisSize: MainAxisSize.min,
@@ -137,8 +137,8 @@ class CardActivityDetailPage extends ConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const MulishText(
-                              text: 'Variable App Recharge',
+                            MulishText(
+                              text: SplashScreenNotifier.getLanguageLabel('Variable App Recharge'),
                             ),
                             MulishText(
                               text: '${data.transactionLinesDTOList?.first.taxAmount.toCurrency(currencySymbol, currencyFormat)}',
@@ -150,8 +150,8 @@ class CardActivityDetailPage extends ConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const MulishText(
-                              text: 'Tax',
+                            MulishText(
+                              text: SplashScreenNotifier.getLanguageLabel('Tax'),
                             ),
                             MulishText(
                               text: '${data.transactionLinesDTOList?.first.taxAmount.toCurrency(currencySymbol, currencyFormat)}',
@@ -164,14 +164,14 @@ class CardActivityDetailPage extends ConsumerWidget {
                           thickness: 1.5,
                           color: CustomColors.customLigthBlue,
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             MulishText(
-                              text: 'Payed Amount',
+                              text: SplashScreenNotifier.getLanguageLabel('Payed Amount'),
                               fontWeight: FontWeight.bold,
                             ),
-                            MulishText(
+                            const MulishText(
                               text: '\$0',
                               fontWeight: FontWeight.bold,
                               fontSize: 15,

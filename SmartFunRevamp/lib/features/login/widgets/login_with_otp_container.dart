@@ -29,8 +29,8 @@ class LoginWithOTPContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (!isLoginWithOTP)
-            const MulishText(
-              text: "Don't worry about password",
+            MulishText(
+              text: SplashScreenNotifier.getLanguageLabel("Don't worry about password"),
               fontWeight: FontWeight.bold,
             ),
           const SizedBox(height: 10.0),

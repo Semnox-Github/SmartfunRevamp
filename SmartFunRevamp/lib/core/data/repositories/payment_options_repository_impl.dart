@@ -8,6 +8,7 @@ import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway.dart';
 import 'package:semnox/core/domain/repositories/payment_options_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class PaymentOptionsRepositoryImpl implements PaymentOptionsRepository {
   final SmartFunApi _api;
@@ -19,16 +20,16 @@ class PaymentOptionsRepositoryImpl implements PaymentOptionsRepository {
     String siteId,
   ) async {
     try {
-      final response = await _api.getPaymentModes(siteId: siteId);
+      final response = await _api.getPaymentModes(siteId);
       final paymentModes = response.data..removeWhere((element) => element.paymentGateway == null);
       return Right(paymentModes);
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -40,10 +41,10 @@ class PaymentOptionsRepositoryImpl implements PaymentOptionsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 }

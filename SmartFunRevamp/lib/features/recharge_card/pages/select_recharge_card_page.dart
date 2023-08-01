@@ -109,10 +109,10 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
             CarouselCardItem(
               card: selectedCardNumber ?? CardDetails(),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 10.0, bottom: 10.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
               child: MulishText(
-                text: 'Exclusive Offers on Recharges',
+                text: SplashScreenNotifier.getLanguageLabel('Exclusive Offers on Recharges'),
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.bold,
               ),

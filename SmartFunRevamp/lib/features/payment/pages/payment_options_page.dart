@@ -94,10 +94,11 @@ class PaymentOptionsPage extends ConsumerWidget {
               child: Consumer(
                 builder: (context, ref, child) {
                   return ref.watch(PaymentOptionsProvider.paymentModesProvider).when(
-                        error: (e, s) => MulishText(text: 'An error has ocurred $e'),
+                        error: (e, s) => MulishText(
+                          text: '${SplashScreenNotifier.getLanguageLabel('An error has ocurred')} $e',
+                        ),
                         loading: () => const Center(child: CircularProgressIndicator()),
                         data: (data) {
-                          
                           return ExpansionPaymentMethodsList(
                             paymentsMode: data,
                             transactionResponse: transactionResponse,
@@ -159,9 +160,8 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
 
   @override
   Widget build(BuildContext context) {
-    
     return Consumer(
-      builder: (context, ref, __) {        
+      builder: (context, ref, __) {
         return SizedBox(
           height: MediaQuery.of(context).size.height * 0.70,
           child: SingleChildScrollView(
@@ -240,7 +240,10 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                               );
                               return SizedBox(
                                 height: _data.length > 1 ? (MediaQuery.of(context).size.height * 0.70) - 150 : (MediaQuery.of(context).size.height * 0.80) - 150,
-                                child: WebViewWidget(controller: webviewController, gestureRecognizers: gestureRecognizers,),
+                                child: WebViewWidget(
+                                  controller: webviewController,
+                                  gestureRecognizers: gestureRecognizers,
+                                ),
                               );
                             } else {
                               return Column(
@@ -257,7 +260,6 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                             }
                           },
                         ),
-                        
                   );
                 },
               ).toList(),

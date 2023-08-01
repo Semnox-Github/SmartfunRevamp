@@ -38,8 +38,8 @@ class ForgotPasswordPage extends ConsumerWidget {
           key: _formKey,
           child: Column(
             children: [
-              const MulishText(
-                text: 'Enter your registered email below to receive password reset instructions.',
+              MulishText(
+                text: SplashScreenNotifier.getLanguageLabel('Enter your registered email below to receive password reset instructions.'),
                 fontSize: 16.0,
                 fontWeight: FontWeight.w500,
               ),

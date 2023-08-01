@@ -19,6 +19,7 @@ dependencies:
   collection: ^1.17.0
   crypto: ^3.0.2
   cupertino_icons: ^1.0.2
+  dart_jsonwebtoken: ^2.8.2
   dartz: ^0.10.1
   device_info_plus: ^9.0.2
   dio: ^5.2.1+1
@@ -66,6 +67,7 @@ dependencies:
   retrofit: ^4.0.1
   semnox_core:
     path: ../semnox_core
+  shared_preferences: ^2.2.0
   shimmer: ^3.0.0
   smooth_page_indicator: ^1.1.0
   uuid: ^3.0.7

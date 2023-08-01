@@ -36,7 +36,7 @@ class _SearchPageState extends ConsumerState<SearchPage> with TickerProviderStat
     cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     selectedCardNumber = cards.first;
-    userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010;
+    userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? SplashScreenNotifier.getMasterSite();
     tabController = TabController(initialIndex: 0, length: 2, vsync: this);
   }
 
@@ -90,12 +90,15 @@ Widget _tabSection(BuildContext context, String? filterStr) {
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const TabBar(tabs: [
+        TabBar(tabs: [
           MulishText(
-            text: "Recharge",
+            text: SplashScreenNotifier.getLanguageLabel("Recharge"),
             fontSize: 14,
           ),
-          MulishText(text: "New Card", fontSize: 14),
+          MulishText(
+            text: SplashScreenNotifier.getLanguageLabel("New Card"),
+            fontSize: 14,
+          ),
         ]),
         SizedBox(
           //Add this to give height

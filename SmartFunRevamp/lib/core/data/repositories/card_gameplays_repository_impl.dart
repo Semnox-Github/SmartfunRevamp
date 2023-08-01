@@ -8,6 +8,7 @@ import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
 
 import 'package:semnox/core/domain/repositories/card_gameplays_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CardGameplaysRepositoryImpl implements CardGameplaysRepository {
   final SmartFunApi _api;
@@ -24,16 +25,16 @@ class CardGameplaysRepositoryImpl implements CardGameplaysRepository {
       Logger().e(e);
       switch (e.response?.statusCode) {
         case 404:
-          return Left(ServerFailure('Not Found'));
+          return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
         case 200:
           return Left(ServerFailure('Gameplays Not Found'));
         default:
           final message = json.decode(e.response.toString());
-          return Left(ServerFailure(message['data']));
+          return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
       }
     } catch (e) {
       Logger().e(e);
-      return Left(ServerFailure('Gameplays Not Found'));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Gameplays Not Found')));
     }
   }
 }

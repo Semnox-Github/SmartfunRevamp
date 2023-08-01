@@ -28,7 +28,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     /* Ver card number acount Numbre*/
-    final siteId = ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010;
+    final siteId = ref.read(loginProvider.notifier).selectedSite?.siteId ?? SplashScreenNotifier.getMasterSite();
     ref
         .read(estimateStateProvider.notifier)
         .getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : '', quantity: qty, siteId: siteId, finalPrice: finalPrice!);
@@ -62,7 +62,9 @@ class EstimatedTransactionPage extends ConsumerWidget {
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          SplashScreenNotifier.getLanguageLabel(transactionType == "newcard" ? "Buy a Card" : "Recharge"),
+          SplashScreenNotifier.getLanguageLabel(
+            transactionType == "newcard" ? "Buy a Card" : "Recharge",
+          ),
           style: const TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,

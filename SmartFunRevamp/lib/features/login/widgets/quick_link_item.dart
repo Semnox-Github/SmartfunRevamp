@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class QuickLinkItem extends StatelessWidget {
   const QuickLinkItem({
@@ -8,12 +7,12 @@ class QuickLinkItem extends StatelessWidget {
     required this.color,
     required this.image,
     required this.text,
-    this.onTap,
+    required this.onTap,
   }) : super(key: key);
   final Color color;
   final String image;
   final String text;
-  final Function()? onTap;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,7 @@ class QuickLinkItem extends StatelessWidget {
           ),
           const SizedBox(height: 10.0),
           Text(
-            SplashScreenNotifier.getLanguageLabel(text),
+            text,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),

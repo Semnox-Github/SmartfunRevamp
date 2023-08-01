@@ -6,6 +6,7 @@ import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
 import 'package:semnox/core/domain/use_cases/products/estimate_transaction_use_case.dart';
 import 'package:semnox/core/errors/failures.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
@@ -43,10 +44,10 @@ class EstimateStateProvider extends StateNotifier<EstimateState> {
     state = _TransactionEstimated(_estimateTransactionResponse);
   }
 
-  void getEstimateTransaction(CardProduct card, {DiscountApplicationHistoryDTOList? dtoList, String? cardNumber, int quantity = 1, int siteId = 1010, double finalPrice = 0}) async {
+  void getEstimateTransaction(CardProduct card, {DiscountApplicationHistoryDTOList? dtoList, String? cardNumber, int quantity = 1, int? siteId, double finalPrice = 0}) async {
     final response = await _estimateTransactionUseCase(
       EstimateTransactionRequest(
-        siteId: siteId,
+        siteId: siteId ?? SplashScreenNotifier.getMasterSite(),
         customerId: _customer.id!,
         userName: "CustomerApp",
         customerName: _customer.userName!,

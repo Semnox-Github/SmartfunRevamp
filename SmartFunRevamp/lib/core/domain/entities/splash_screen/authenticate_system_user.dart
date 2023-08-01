@@ -5,7 +5,7 @@ part 'authenticate_system_user.g.dart';
 @JsonSerializable(fieldRename: FieldRename.pascal)
 class SystemUser {
   final String posMachineGuid;
-  final String webApiToken;
+  String? webApiToken;
   final String? token;
   final int languageId;
   final bool isCorporate;

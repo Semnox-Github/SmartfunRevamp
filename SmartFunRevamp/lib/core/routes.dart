@@ -7,6 +7,7 @@ import 'package:semnox/features/home/pages/home_page.dart';
 import 'package:semnox/features/home/view/delete_profile_otp_page.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/login/pages/verify_otp_page.dart';
+import 'package:semnox/features/lost_card/pages/select_lost_card_page.dart';
 import 'package:semnox/features/membership_info/pages/loyalty_points_info_page.dart';
 import 'package:semnox/features/membership_info/pages/membership_info_page.dart';
 import 'package:semnox/features/membership_info/pages/membership_rewards_page.dart';
@@ -22,8 +23,6 @@ import 'package:semnox/features/select_location/pages/select_location_manually_p
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/transfer/transfer_page.dart';
-
-import '../features/lost_card/pages/select_lost_card_page.dart';
 
 class Routes {
   static const kHomePage = '/home';
@@ -59,7 +58,7 @@ class Routes {
       kHomePage: (BuildContext context) => const HomePage(),
       kLogInPage: (BuildContext context) => const LoginPage(),
       kSignUpPage: (BuildContext context) => const SignUpPage(),
-      kAfterSplashScreenPage: (BuildContext context) => GetMasterSiteScreen(),
+      kAfterSplashScreenPage: (BuildContext context) => const GetMasterSiteScreen(),
       kBuyACard: (BuildContext context) => const BuyCardListPage(),
       kVerifyOTP: (BuildContext context) => const VerifyOtpPage(),
       kDeleteOTP: (BuildContext context) => const DeleteProfileOTPPage(),

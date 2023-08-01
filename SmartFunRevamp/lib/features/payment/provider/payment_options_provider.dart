@@ -8,6 +8,7 @@ import 'package:semnox/core/domain/entities/payment/payment_mode.dart';
 import 'package:semnox/core/domain/use_cases/payment/get_hosted_payment_gateways_use_case.dart';
 import 'package:semnox/core/domain/use_cases/payment/get_payment_options_use_case.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
@@ -28,7 +29,7 @@ class PaymentOptionsProvider {
   static final paymentModesProvider = FutureProvider.autoDispose<List<PaymentMode>>((ref) async {
     final GetPaymentOptionsUseCase getPaymentOptionsUseCase = Get.find<GetPaymentOptionsUseCase>();
     final siteId = Get.find<CustomerDTO>().siteId;
-    final response = await getPaymentOptionsUseCase(ref.read(loginProvider.notifier).selectedSite?.siteId ?? Get.find<ExecutionContextDTO>().siteId!);
+    final response = await getPaymentOptionsUseCase(ref.read(loginProvider.notifier).selectedSite?.siteId ?? SplashScreenNotifier.getMasterSite());
     return response.fold(
       (l) => throw l,
       (r) => r,

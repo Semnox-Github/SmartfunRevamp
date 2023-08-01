@@ -59,7 +59,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
       cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     }
     selectedCardNumber = cards.first;
-    userSite = (ref.read(loginProvider.notifier).selectedSite?.siteId ?? Get.find<ExecutionContextDTO>().siteId)!;
+    userSite = (ref.read(loginProvider.notifier).selectedSite?.siteId ?? SplashScreenNotifier.getMasterSite());
     qty = 1;
     finalPrice = 0;
   }

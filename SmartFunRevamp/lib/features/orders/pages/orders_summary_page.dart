@@ -30,7 +30,7 @@ class OrdersSummaryPage extends ConsumerWidget {
                   error: (_) {
                     return Container();
                   },
-                  inProgress: () => const Center(child: CircularProgressIndicator()),
+                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                   success: (responseData) {
                     List<OrderDetails> data = List.from(responseData);
                     data.removeWhere((element) => element.transactionLinesDTOList == null);
@@ -43,9 +43,9 @@ class OrdersSummaryPage extends ConsumerWidget {
                             itemCount: data.length,
                             itemBuilder: (context, index) {
                               final summary = data[index];
-                              return Container(                                
+                              return Container(
                                 padding: const EdgeInsets.only(bottom: 10.0),
-                                width: double.infinity,                               
+                                width: double.infinity,
                                 child: Column(
                                   children: [
                                     Container(
@@ -78,7 +78,6 @@ class OrdersSummaryPage extends ConsumerWidget {
                                               Icons.arrow_forward_ios_outlined,
                                             ),
                                           )
-                                          
                                         ],
                                       ),
                                     )
@@ -89,7 +88,6 @@ class OrdersSummaryPage extends ConsumerWidget {
                           ),
                         )
                       ],
-                     
                     );
                   },
                 );

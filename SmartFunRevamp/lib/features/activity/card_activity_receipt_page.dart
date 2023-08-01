@@ -48,7 +48,7 @@ class CardActivityReceiptPage extends StatelessWidget {
           builder: (context, ref, child) {
             return ref.watch(_getReceipt(transactionId)).maybeWhen(
                   orElse: () => Container(),
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                   error: (error, stackTrace) => const Center(
                     child: MulishText(
                       text: "We couldn't generate the receipt please try later.",

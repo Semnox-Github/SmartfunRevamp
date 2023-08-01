@@ -75,7 +75,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
           builder: (context, ref, child) {
             return ref.watch(estimateStateProvider).maybeWhen(
                   orElse: () => Container(),
-                  inProgress: () => const Center(child: CircularProgressIndicator()),
+                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                   transactionEstimated: (transactionResponse) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

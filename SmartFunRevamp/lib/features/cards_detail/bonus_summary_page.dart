@@ -35,7 +35,7 @@ class BonusSummaryPage extends ConsumerWidget {
                   error: (_) {
                     return Container();
                   },
-                  inProgress: () => const Center(child: CircularProgressIndicator()),
+                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                   success: (responseData) {
                     List<AccountCreditPlusDTOList> data = List.from(responseData);
                     data = data..removeWhere((element) => (element.creditPlusType != creditPlusType && creditPlusType != null));
@@ -136,7 +136,10 @@ class BonusSummaryPage extends ConsumerWidget {
                                             onPressed: () => Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => BonusSummaryDetailPage(summary: summary, pageTitle: pageTitle,),
+                                                builder: (context) => BonusSummaryDetailPage(
+                                                  summary: summary,
+                                                  pageTitle: pageTitle,
+                                                ),
                                               ),
                                             ),
                                             icon: const Icon(
@@ -164,11 +167,7 @@ class BonusSummaryPage extends ConsumerWidget {
 }
 
 class TotalBonusBalance extends StatelessWidget {
-  const TotalBonusBalance({
-    Key? key,
-    required this.totalBonus,
-    required this.pageTitle
-  }) : super(key: key);
+  const TotalBonusBalance({Key? key, required this.totalBonus, required this.pageTitle}) : super(key: key);
 
   final int totalBonus;
   final String pageTitle;

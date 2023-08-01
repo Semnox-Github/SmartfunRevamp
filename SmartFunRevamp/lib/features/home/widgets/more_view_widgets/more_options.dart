@@ -45,7 +45,7 @@ class MoreOptions extends StatelessWidget {
               imageUrl: item.itemUrl,
               height: 36,
               width: 36,
-              placeholder: (context, url) => const CircularProgressIndicator(),
+              placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
               errorWidget: (context, url, error) => Image.asset(
                 'assets/home/$iconPath.png',
                 height: 36.0,

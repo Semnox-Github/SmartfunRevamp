@@ -78,7 +78,7 @@ class MoreView extends ConsumerWidget {
                   future: PackageInfo.fromPlatform(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
+                      return const CircularProgressIndicator.adaptive();
                     }
                     final info = snapshot.data;
                     return MulishText(
@@ -121,7 +121,7 @@ class MoreOptionItemFromCMS extends StatelessWidget {
                     );
                   },
                   error: (_, __) => Container(),
-                  loading: () => const CircularProgressIndicator(),
+                  loading: () => const CircularProgressIndicator.adaptive(),
                 );
           },
         );
@@ -143,7 +143,7 @@ class MoreOptionItemFromCMS extends StatelessWidget {
                     );
                   },
                   error: (_, __) => Container(),
-                  loading: () => const CircularProgressIndicator(),
+                  loading: () => const CircularProgressIndicator.adaptive(),
                 );
           },
         );

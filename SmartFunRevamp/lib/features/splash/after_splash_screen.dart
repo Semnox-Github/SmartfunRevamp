@@ -61,7 +61,7 @@ class AfterSplashScreen extends ConsumerWidget {
                   ? const SizedBox.shrink()
                   : CachedNetworkImage(
                       imageUrl: imagePath,
-                      placeholder: (_, __) => const Center(child: CircularProgressIndicator()),
+                      placeholder: (_, __) => const Center(child: CircularProgressIndicator.adaptive()),
                       errorWidget: (context, url, error) {
                         return const Center(
                           child: Icon(
@@ -111,7 +111,7 @@ class AfterSplashScreen extends ConsumerWidget {
                             error: (e, s) => MulishText(
                               text: 'An error has ocurred $e',
                             ),
-                            loading: () => const Center(child: CircularProgressIndicator()),
+                            loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                             data: (data) {
                               return DropdownButton<LanguageContainerDTOList>(
                                 isExpanded: true,

@@ -95,9 +95,8 @@ class PaymentOptionsPage extends ConsumerWidget {
                 builder: (context, ref, child) {
                   return ref.watch(PaymentOptionsProvider.paymentModesProvider).when(
                         error: (e, s) => MulishText(text: 'An error has ocurred $e'),
-                        loading: () => const Center(child: CircularProgressIndicator()),
+                        loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                         data: (data) {
-                          
                           return ExpansionPaymentMethodsList(
                             paymentsMode: data,
                             transactionResponse: transactionResponse,
@@ -159,9 +158,8 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
 
   @override
   Widget build(BuildContext context) {
-    
     return Consumer(
-      builder: (context, ref, __) {        
+      builder: (context, ref, __) {
         return SizedBox(
           height: MediaQuery.of(context).size.height * 0.70,
           child: SingleChildScrollView(
@@ -198,7 +196,7 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                     ),
                     body: ref.watch(hostedPaymentProvider).when(
                           initial: () => Container(),
-                          inProgress: () => const CircularProgressIndicator(),
+                          inProgress: () => const CircularProgressIndicator.adaptive(),
                           error: (msg) => const Icon(Icons.error, color: Colors.green, size: 30.0),
                           success: (data) {
                             final htmlString = data.gatewayRequestFormString ?? data.gatewayRequestString;
@@ -240,7 +238,10 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                               );
                               return SizedBox(
                                 height: _data.length > 1 ? (MediaQuery.of(context).size.height * 0.70) - 150 : (MediaQuery.of(context).size.height * 0.80) - 150,
-                                child: WebViewWidget(controller: webviewController, gestureRecognizers: gestureRecognizers,),
+                                child: WebViewWidget(
+                                  controller: webviewController,
+                                  gestureRecognizers: gestureRecognizers,
+                                ),
                               );
                             } else {
                               return Column(
@@ -257,7 +258,6 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                             }
                           },
                         ),
-                        
                   );
                 },
               ).toList(),

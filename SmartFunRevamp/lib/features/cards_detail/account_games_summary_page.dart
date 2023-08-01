@@ -33,7 +33,7 @@ class AccountGamesSummaryPage extends ConsumerWidget {
                   error: (_) {
                     return Container();
                   },
-                  inProgress: () => const Center(child: CircularProgressIndicator()),
+                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                   accountGamesSuccess: (responseData) {
                     List<AccountGameDTOList> data = List.from(responseData);
                     int totalBonus = 0;

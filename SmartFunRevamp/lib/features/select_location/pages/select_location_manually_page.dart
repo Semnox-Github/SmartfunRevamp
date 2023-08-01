@@ -123,7 +123,7 @@ class _LocationListViewState extends State<LocationListView> {
         return ref.watch(selectLocationStateProvider).maybeWhen(
               orElse: () => Container(),
               inProgress: () => const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(),
               ),
               success: (data) {
                 return ListView.separated(

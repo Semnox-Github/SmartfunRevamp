@@ -74,7 +74,7 @@ class BuyCardListPage extends StatelessWidget {
                 builder: (context, ref, child) {
                   return ref.watch(buyCardNotifier).maybeWhen(
                         orElse: () => Container(),
-                        inProgress: () => const Center(child: CircularProgressIndicator()),
+                        inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                         success: (responseCards) {
                           List<CardProduct> cards = List.from(responseCards);
                           cards = cards..removeWhere((element) => (element.productType != "CARDSALE" && element.productType != "NEW"));

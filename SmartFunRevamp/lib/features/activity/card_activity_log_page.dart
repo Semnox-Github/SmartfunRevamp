@@ -24,10 +24,7 @@ final _getActivityLog = FutureProvider.autoDispose.family<List<CardActivity>, St
 });
 
 class CardActivityLogPage extends ConsumerStatefulWidget {
-  const CardActivityLogPage({
-    Key? key,
-    this.cardDetails
-  }) : super(key: key);
+  const CardActivityLogPage({Key? key, this.cardDetails}) : super(key: key);
 
   final CardDetails? cardDetails;
 
@@ -42,7 +39,7 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
   void initState() {
     super.initState();
     if (widget.cardDetails != null) {
-    //is added to cards list as the only card  
+      //is added to cards list as the only card
       List<CardDetails> selectedCard = [];
       selectedCard.add(widget.cardDetails!);
       cards = selectedCard;
@@ -92,7 +89,7 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
                         ),
                       );
                     },
-                    loading: () => const Center(child: CircularProgressIndicator()),
+                    loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                     data: (data) {
                       return ListView.builder(
                         itemCount: data.length,

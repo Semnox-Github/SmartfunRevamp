@@ -44,7 +44,6 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    
     final isPasswordDisabled = ref.watch(isPasswordDisabledProvider);
     ref.listen<SignUpState>(signUpNotifier, (_, next) {
       next.maybeWhen(
@@ -119,7 +118,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                 ),
                 const SizedBox(height: 20.0),
                 metaData.when(
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                   error: (_, __) => const Center(
                     child: Icon(
                       Icons.error,
@@ -161,22 +160,17 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                     );
                   },
                 ),
-                if(!isPasswordDisabled)
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomPasswordTextField(
-                        onSaved: (value) => request["PASSWORD"] = value,
-                        label: '${SplashScreenNotifier.getLanguageLabel("Password")}*',
-                        margins: const EdgeInsets.symmetric(vertical: 10.0),
-                        required: true,
-                      ),
-                    ]
-                  )                  
-                ,
+                if (!isPasswordDisabled)
+                  Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    CustomPasswordTextField(
+                      onSaved: (value) => request["PASSWORD"] = value,
+                      label: '${SplashScreenNotifier.getLanguageLabel("Password")}*',
+                      margins: const EdgeInsets.symmetric(vertical: 10.0),
+                      required: true,
+                    ),
+                  ]),
                 configExecutionContext.when(
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                   error: (error, _) {
                     if (error is Failure) {
                       return const Icon(Icons.error, color: Colors.red);
@@ -382,24 +376,22 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
             validator: (value) => value!.isEmpty && widget.required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
-            obscureText: !_passwordVisible,//This will obscure text dynamically
+            obscureText: !_passwordVisible, //This will obscure text dynamically
             decoration: InputDecoration(
               hintText: SplashScreenNotifier.getLanguageLabel('Enter your password'),
               // Here is key idea
               suffixIcon: IconButton(
                 icon: Icon(
                   // Based on passwordVisible state choose the icon
-                  _passwordVisible
-                  ? Icons.visibility
-                  : Icons.visibility_off,
+                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
                   color: Theme.of(context).primaryColorDark,
-                  ),
-                  onPressed: () {
-                    // Update the state i.e. toogle the state of passwordVisible variable
-                    setState(() {
-                        _passwordVisible = !_passwordVisible;
-                    });
-                  },
+                ),
+                onPressed: () {
+                  // Update the state i.e. toogle the state of passwordVisible variable
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
               ),
               isDense: true,
               fillColor: widget.fillColor,
@@ -424,5 +416,3 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
     );
   }
 }
-
-

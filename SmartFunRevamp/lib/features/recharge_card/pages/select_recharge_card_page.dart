@@ -21,11 +21,7 @@ import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
-  const SelectCardRechargePage({
-    Key? key,
-    this.filterStr,
-    this.cardDetails
-  }) : super(key: key);
+  const SelectCardRechargePage({Key? key, this.filterStr, this.cardDetails}) : super(key: key);
 
   final String? filterStr;
   final CardDetails? cardDetails;
@@ -46,7 +42,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
     super.initState();
     //if a card was selected from home screen
     if (widget.cardDetails != null) {
-    //is added to cards list as the only card  
+      //is added to cards list as the only card
       List<CardDetails> selectedCard = [];
       selectedCard.add(widget.cardDetails!);
       cards = selectedCard;
@@ -67,46 +63,46 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
     final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     return Scaffold(
-      appBar: widget.filterStr == null ? AppBar(
-        backgroundColor: const Color(0xFFCFF8FF),
-        elevation: 0.0,
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: Text(
-          SplashScreenNotifier.getLanguageLabel('Recharge a Card'),
-          style: const TextStyle(
-            color: CustomColors.customBlue,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ) : null,
-      bottomSheet: offerSelected != null ?
-        BottomSheetButton(
-        label: offerSelected == null
-            ? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')
-            : '${SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')} \$ ${(qty * finalPrice).toCurrency(currency, format)}',
-        onTap: () {
-          Logger().d(offerSelected);
-          if (offerSelected != null) {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EstimatedTransactionPage(
-                  cardProduct: offerSelected!,
-                  cardSelected: selectedCardNumber,
-                  transactionType: "recharge",
-                  qty: qty,
-                  finalPrice: finalPrice,
+      appBar: widget.filterStr == null
+          ? AppBar(
+              backgroundColor: const Color(0xFFCFF8FF),
+              elevation: 0.0,
+              centerTitle: false,
+              iconTheme: const IconThemeData(color: Colors.black),
+              title: Text(
+                SplashScreenNotifier.getLanguageLabel('Recharge a Card'),
+                style: const TextStyle(
+                  color: CustomColors.customBlue,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            );
-          }
-        },
-      )
-      :
-      DisabledBottomButton(label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'))
-      ,
+            )
+          : null,
+      bottomSheet: offerSelected != null
+          ? BottomSheetButton(
+              label: offerSelected == null
+                  ? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')
+                  : '${SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')} \$ ${(qty * finalPrice).toCurrency(currency, format)}',
+              onTap: () {
+                Logger().d(offerSelected);
+                if (offerSelected != null) {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EstimatedTransactionPage(
+                        cardProduct: offerSelected!,
+                        cardSelected: selectedCardNumber,
+                        transactionType: "recharge",
+                        qty: qty,
+                        finalPrice: finalPrice,
+                      ),
+                    ),
+                  );
+                }
+              },
+            )
+          : DisabledBottomButton(label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,7 +129,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                   builder: (context, ref, child) {
                     return ref.watch(rechargeProductsProvider(userSite)).maybeWhen(
                           orElse: () => Container(),
-                          loading: () => const Center(child: CircularProgressIndicator()),
+                          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                           error: (error, stackTrace) => const MulishText(text: 'Error'),
                           data: (offers) {
                             List<CardProduct> offersFiltered = offers;
@@ -229,9 +225,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
           title: Text(SplashScreenNotifier.getLanguageLabel('Enter the variable amount')),
           content: TextField(
             keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly
-            ], // Only numbers can be entered
+            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], // Only numbers can be entered
             controller: txt,
             decoration: InputDecoration(hintText: SplashScreenNotifier.getLanguageLabel('Please enter the amount you wish to recharge')),
             onChanged: (amount) {

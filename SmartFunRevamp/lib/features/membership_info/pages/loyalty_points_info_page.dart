@@ -25,7 +25,7 @@ class LoyaltyPointsInfoPage extends ConsumerWidget {
       ),
       body: cards.when(
         error: (_, __) => Container(),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: CircularProgressIndicator.adaptive()),
         data: (data) {
           if (data.isEmpty) {
             return const Center(

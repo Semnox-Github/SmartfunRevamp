@@ -259,60 +259,53 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             color: CustomColors.customLigthBlue,
                             image: 'activities',
                             text: 'Activities',
-                            onTap: () =>
-                              hasCard ? 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
-                                  ),
-                                ) 
-                                : 
-                                Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
+                            onTap: () => hasCard
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
+                                    ),
+                                  )
+                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customOrange,
                             image: 'lost_card',
                             text: 'Lost Card',
-                            onTap: () =>
-                                hasCard ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SelectCardLostPage(cardDetails: cardDetails),
-                                ),
-                              )   
-                              : 
-                              Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
+                            onTap: () => hasCard
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SelectCardLostPage(cardDetails: cardDetails),
+                                    ),
+                                  )
+                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customGreen,
                             image: 'gameplays',
                             text: 'Game Plays',
-                            onTap: () =>
-                              hasCard ? 
-                                Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => GameplaysPage(cardDetails: cardDetails),
-                                ),
-                              )  
-                              : 
-                              Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
+                            onTap: () => hasCard
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => GameplaysPage(cardDetails: cardDetails),
+                                    ),
+                                  )
+                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customPurple,
                             image: 'transfer_credit',
                             text: 'Transfer Credit',
-                            onTap: () =>
-                              hasCard ? 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TransferPage(cardDetails: cardDetails),
-                                ),
-                              )   
-                              : 
-                              Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
+                            onTap: () => hasCard
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => TransferPage(cardDetails: cardDetails),
+                                    ),
+                                  )
+                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
                           ),
                         ],
                       );
@@ -335,7 +328,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 child: CachedNetworkImage(
                                   imageUrl: i,
                                   placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(),
+                                    child: CircularProgressIndicator.adaptive(),
                                   ),
                                   errorWidget: (_, __, ___) => Image.asset('assets/home/no_promo_image.png'),
                                 ),

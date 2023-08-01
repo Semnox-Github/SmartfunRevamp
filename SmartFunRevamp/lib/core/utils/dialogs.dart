@@ -348,7 +348,7 @@ class Dialogs {
       body: Consumer(
         builder: (context, ref, child) {
           return ref.watch(surveyDetailsProvider).when(
-                loading: () => const CircularProgressIndicator(),
+                loading: () => const CircularProgressIndicator.adaptive(),
                 error: (error, stacktrace) {
                   return const Icon(
                     Icons.error_outline,

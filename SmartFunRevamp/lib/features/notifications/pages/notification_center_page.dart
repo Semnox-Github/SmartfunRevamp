@@ -64,7 +64,7 @@ class NotificationCenterPage extends StatelessWidget {
                     ),
                   ),
                   inProgress: () => const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator.adaptive(),
                   ),
                   success: (data) {
                     if (data.isEmpty) {

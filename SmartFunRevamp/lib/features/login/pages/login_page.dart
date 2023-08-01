@@ -93,7 +93,7 @@ class LoginPage extends ConsumerWidget {
                 ),
               const SizedBox(height: 10.0),
               configExecutionContext.when(
-                loading: () => const Center(child: CircularProgressIndicator()),
+                loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                 error: (error, _) {
                   if (error is Failure) {
                     return const Icon(Icons.error, color: Colors.red);

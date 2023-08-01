@@ -112,11 +112,11 @@ class CardDetailPage extends ConsumerWidget {
                       title: 'Tranfer Credit',
                       svgImage: 'assets/home/transfer_credit.svg',
                       onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TransferPage(cardDetails: cardDetails),
-                                ),
-                              ),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TransferPage(cardDetails: cardDetails),
+                        ),
+                      ),
                     ),
                     MoreActionListTile(
                       color: CustomColors.customGreen,
@@ -124,11 +124,11 @@ class CardDetailPage extends ConsumerWidget {
                       title: 'Game Plays',
                       svgImage: 'assets/home/gameplays.svg',
                       onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => GameplaysPage(cardDetails: cardDetails),
-                                ),
-                              ),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GameplaysPage(cardDetails: cardDetails),
+                        ),
+                      ),
                     ),
                     MoreActionListTile(
                       color: CustomColors.customYellow,
@@ -136,11 +136,11 @@ class CardDetailPage extends ConsumerWidget {
                       title: 'Activity',
                       svgImage: 'assets/home/activities.svg',
                       onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
-                                ),
-                              ),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
+                        ),
+                      ),
                     )
                   ],
                 ),
@@ -253,7 +253,7 @@ class CardDetailItem extends StatelessWidget {
                 imageUrl: item.itemUrl,
                 height: constrains.maxHeight * 0.3,
                 width: constrains.maxHeight * 0.3,
-                placeholder: (context, url) => const CircularProgressIndicator(),
+                placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
                 errorWidget: (context, url, error) => SvgPicture.asset('assets/card_details/$image.svg'),
               ),
             ),

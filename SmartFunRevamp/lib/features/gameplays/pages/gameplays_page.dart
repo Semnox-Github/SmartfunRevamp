@@ -12,10 +12,7 @@ import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class GameplaysPage extends ConsumerStatefulWidget {
-  const GameplaysPage({
-    Key? key,
-    this.cardDetails
-  }) : super(key: key);
+  const GameplaysPage({Key? key, this.cardDetails}) : super(key: key);
 
   final CardDetails? cardDetails;
 
@@ -29,7 +26,7 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
   @override
   void initState() {
     if (widget.cardDetails != null) {
-    //is added to cards list as the only card  
+      //is added to cards list as the only card
       List<CardDetails> selectedCard = [];
       selectedCard.add(widget.cardDetails!);
       cards = selectedCard;
@@ -78,7 +75,7 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                   builder: (context, ref, child) {
                     return ref.watch(GameplaysProvider.accountGameplaysProvider(selectedCard.accountId ?? 0)).maybeWhen(
                           orElse: () => Container(),
-                          loading: () => const Center(child: CircularProgressIndicator()),
+                          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                           error: (error, stackTrace) => const Center(
                             child: MulishText(
                               text: 'No Gameplays Found',

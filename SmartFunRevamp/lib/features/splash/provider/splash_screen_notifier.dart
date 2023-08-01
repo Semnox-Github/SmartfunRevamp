@@ -155,7 +155,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     String? languageLabel = languageLabes[labelKey];
     if (languageLabel.isNullOrEmpty()) {
       logNonExistentLanguageLabel(labelKey);
-      return '_${labelKey}_';
+      return labelKey;
     } else {
       return languageLabel.toString();
     }

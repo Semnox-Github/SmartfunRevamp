@@ -26,13 +26,12 @@ Future<String?> _getId() async {
     final iosDeviceInfo = await deviceInfo.iosInfo;
 
     return iosDeviceInfo.identifierForVendor;
-  } else if (Platform.isAndroid) {
+  } else {
     var uuid = const Uuid();
     String guid = uuid.v1();
 
     return guid;
   }
-  return null;
 }
 
 Future<String> jwtGenerator({String secretKey = "gUkXp2s5u8x/A?D(G+KbPeShVmYq3t6w"}) async {

@@ -11,8 +11,8 @@ import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response
 import 'package:semnox/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/repositories/authentication_repository.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
-import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final SmartFunApi _api;
@@ -51,7 +51,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<Either<Failure, List<CustomerUIMetaData>>> getUserMetaData() async {
     try {
-      final response = await _api.getSignUpMetadata(Get.find<ExecutionContextDTO>().siteId.toString());
+      final response = await _api.getSignUpMetadata(SplashScreenNotifier.getMasterSite().toString());
       final uiMetadataList = response.data.customerUIMetadataContainerDTOList;
       // uiMetadataList.removeWhere((element) => element.customerFieldName == 'TestDownload');
       uiMetadataList.removeWhere((element) => element.customerFieldName == 'USERNAME');

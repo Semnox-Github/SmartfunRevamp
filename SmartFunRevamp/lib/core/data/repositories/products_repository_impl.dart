@@ -18,7 +18,7 @@ class ProductsRepositoryImpl implements ProductsRepository {
   @override
   Future<Either<Failure, List<CardProduct>>> getProductPrice(int siteId) async {
     try {
-      final siteTokenResponse = await _api.getExecutionController(siteId: siteId);
+      final siteTokenResponse = await _api.getExecutionContext(siteId: siteId);
       final siteToken = siteTokenResponse.response.headers.value(HttpHeaders.authorizationHeader) ?? '';
       final response = await _api.getProductsPrices(
         DateTime.now().toIso8601String(),

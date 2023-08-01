@@ -10,7 +10,6 @@ import 'package:semnox/core/domain/entities/config/parafait_defaults_response.da
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
-import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/disabled_bottom_button.dart';
@@ -19,10 +18,6 @@ import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart'
 import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-
-final selectedProvider = StateProvider<int>((ref) {
-  return -1;
-});
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
   const SelectCardRechargePage({Key? key, this.filterStr, this.cardDetails}) : super(key: key);
@@ -36,26 +31,14 @@ class SelectCardRechargePage extends ConsumerStatefulWidget {
 
 class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage> {
   CardProduct? offerSelected;
-  late CardDetails selectedCardNumber;
-  late List<CardDetails> cards;
+  late CardDetails? selectedCardNumber;
 
   late int qty;
   late double finalPrice;
   @override
   void initState() {
     super.initState();
-    //if a card was selected from home screen
-    if (widget.cardDetails != null) {
-      //is added to cards list as the only card
-      List<CardDetails> selectedCard = [];
-      selectedCard.add(widget.cardDetails!);
-      cards = selectedCard;
-    } else {
-      //if no card was selected, i.e. when landed from Search, get all the user cards
-      cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
-      cards.removeWhere((element) => element.isBlocked() || element.isExpired());
-    }
-    selectedCardNumber = cards.first;
+    selectedCardNumber = widget.cardDetails;
     qty = 1;
     finalPrice = 0;
   }
@@ -118,17 +101,13 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                 return SitesAppBarDropdown(
                   isEnabled: isOnlineRechargeEnabled,
                   onChanged: (selectedSite) {
-                    ref.read(selectedProvider.notifier).update((state) => state = selectedSite?.siteId ?? -1);
+                    ref.read(selectedSiteIdProvider.notifier).update((state) => state = selectedSite?.siteId ?? -1);
                   },
                 );
               },
             ),
-            CarouselCards(
-              cards: cards,
-              onCardChanged: (index) {
-                selectedCardNumber = cards[index];
-              },
-              showLinkCard: false,
+            CarouselCardItem(
+              card: selectedCardNumber ?? CardDetails(),
             ),
             const Padding(
               padding: EdgeInsets.only(left: 10.0, bottom: 10.0),
@@ -143,15 +122,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                 margin: const EdgeInsets.only(bottom: 100.0),
                 child: Consumer(
                   builder: (context, ref, child) {
-                    final selectedSite = ref.watch(selectedProvider);
-                    if (selectedSite == -1) {
-                      return Container(
-                        height: 100,
-                        width: 100,
-                        color: Colors.red,
-                      );
-                    }
-                    return ref.watch(rechargeProductsProvider(selectedSite)).maybeWhen(
+                    return ref.watch(rechargeProductsProvider).maybeWhen(
                           orElse: () => Container(),
                           loading: () => const Center(child: CircularProgressIndicator()),
                           error: (error, stackTrace) => const MulishText(text: 'Error'),

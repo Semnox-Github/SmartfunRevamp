@@ -33,9 +33,6 @@ class _SitesAppBarDropdownState extends ConsumerState<SitesAppBarDropdown> {
       (element) => element.siteId == userSite,
       orElse: () => sites.first,
     );
-    if (widget.onChanged != null) {
-      widget.onChanged!(_selectedSite);
-    }
   }
 
   @override

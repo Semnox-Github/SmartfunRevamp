@@ -40,8 +40,8 @@ abstract class SmartFunApi {
     dio.interceptors.addAll([
       AuthorizationInterceptor(),
       PrettyDioLogger(
-        requestBody: false,
-        responseBody: false,
+        requestBody: true,
+        responseBody: true,
         requestHeader: false,
         responseHeader: false,
         request: true,

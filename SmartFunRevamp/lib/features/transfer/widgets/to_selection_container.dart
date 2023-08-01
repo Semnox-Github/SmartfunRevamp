@@ -49,8 +49,8 @@ class _ToSelectionContainerState extends State<ToSelectionContainer> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MulishText(
-          text: 'Transfer To',
+        MulishText(
+          text: SplashScreenNotifier.getLanguageLabel('Transfer To'),
           fontWeight: FontWeight.bold,
           fontSize: 20.0,
         ),
@@ -86,8 +86,8 @@ class _ToSelectionContainerState extends State<ToSelectionContainer> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const MulishText(
-                text: 'Enter card number',
+              MulishText(
+                text: SplashScreenNotifier.getLanguageLabel('Enter card number'),
                 fontWeight: FontWeight.bold,
               ),
               const SizedBox(height: 10.0),

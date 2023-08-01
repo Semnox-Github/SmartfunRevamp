@@ -7,6 +7,7 @@ import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
 import 'package:semnox/core/domain/repositories/feedback_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class FeedbackRepositoryImpl implements FeedbackRepository {
   final SmartFunApi _api;
@@ -22,10 +23,10 @@ class FeedbackRepositoryImpl implements FeedbackRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       rethrow;
     }

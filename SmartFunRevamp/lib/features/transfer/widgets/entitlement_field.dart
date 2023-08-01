@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/core/widgets/custom_native_dropdown.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class EntitlementField extends StatelessWidget {
   const EntitlementField({super.key, required this.onChanged});
@@ -12,8 +13,8 @@ class EntitlementField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const MulishText(
-          text: 'Select Entitlement',
+        MulishText(
+          text: SplashScreenNotifier.getLanguageLabel('Select Entitlement'),
           fontWeight: FontWeight.bold,
         ),
         const SizedBox(height: 10.0),

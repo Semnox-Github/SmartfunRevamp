@@ -8,6 +8,7 @@ import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class LoyaltyPointsInfoPage extends ConsumerWidget {
   const LoyaltyPointsInfoPage({super.key});
@@ -19,8 +20,8 @@ class LoyaltyPointsInfoPage extends ConsumerWidget {
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     final cards = ref.watch(CardsProviders.loyaltyPointsDetailProvider);
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Loyalty Points Earning Detail',
+      appBar: CustomAppBar(
+        title: SplashScreenNotifier.getLanguageLabel('Loyalty Points Earning Detail'),
         fontSize: 18.0,
       ),
       body: cards.when(
@@ -28,9 +29,9 @@ class LoyaltyPointsInfoPage extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         data: (data) {
           if (data.isEmpty) {
-            return const Center(
+            return Center(
               child: MulishText(
-                text: 'No transaction details',
+                text: SplashScreenNotifier.getLanguageLabel('No transaction details'),
                 fontSize: 30.0,
               ),
             );
@@ -60,7 +61,10 @@ class LoyaltyPointsInfoPage extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               MulishText(
-                                text: 'TrxId: ${transaction.refId}',
+                                text: SplashScreenNotifier.getLanguageLabel('TrxId: &1').replaceAll(
+                                  '&1',
+                                  transaction.refId.toString(),
+                                ),
                               ),
                               MulishText(
                                 text: transaction.amount.toCurrency(currency, format),
@@ -82,7 +86,7 @@ class LoyaltyPointsInfoPage extends ConsumerWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const MulishText(text: 'Loyalty Points Earned'),
+                          MulishText(text: SplashScreenNotifier.getLanguageLabel('Loyalty Points Earned')),
                           MulishText(text: '${transaction.loyaltyPoints!.toInt()}'),
                         ],
                       ),

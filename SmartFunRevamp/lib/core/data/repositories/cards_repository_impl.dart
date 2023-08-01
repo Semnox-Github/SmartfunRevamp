@@ -12,6 +12,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/domain/repositories/cards_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CardsRepositoryImpl implements CardsRepository {
   final SmartFunApi _api;
@@ -43,10 +44,10 @@ class CardsRepositoryImpl implements CardsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       Logger().e(e);
       return Left(ServerFailure(''));
@@ -62,10 +63,10 @@ class CardsRepositoryImpl implements CardsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       Logger().e(e);
       return Left(ServerFailure(''));
@@ -82,10 +83,10 @@ class CardsRepositoryImpl implements CardsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       Logger().e(e);
       return Left(ServerFailure(''));
@@ -103,10 +104,10 @@ class CardsRepositoryImpl implements CardsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       rethrow;
     }
@@ -131,10 +132,10 @@ class CardsRepositoryImpl implements CardsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       rethrow;
     }
@@ -148,13 +149,13 @@ class CardsRepositoryImpl implements CardsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       Logger().e(e);
-      return Left(ServerFailure('This card has no activities'));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('This card has no activities')));
     }
   }
 
@@ -166,13 +167,13 @@ class CardsRepositoryImpl implements CardsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       Logger().e(e);
-      return Left(ServerFailure('This card has no activities'));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('This card has no activities')));
     }
   }
 
@@ -184,13 +185,13 @@ class CardsRepositoryImpl implements CardsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e, s) {
       Logger().e(s);
-      return Left(ServerFailure('This Activity has no details'));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('This Activity has no details')));
     }
   }
 
@@ -206,13 +207,13 @@ class CardsRepositoryImpl implements CardsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       Logger().e(e);
-      return Left(ServerFailure('This Activity has no details'));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('This Activity has no details')));
     }
   }
 
@@ -231,10 +232,10 @@ class CardsRepositoryImpl implements CardsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       rethrow;
     }

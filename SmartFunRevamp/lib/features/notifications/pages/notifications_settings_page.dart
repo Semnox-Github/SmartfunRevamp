@@ -20,19 +20,52 @@ class NotificationsSettingsPage extends StatelessWidget {
         child: Column(
           children: [
             NotificationSetting(
-              title: 'Promotional Notifications',
-              description: 'Receive push notifications about new offers and deals on your mobile phone',
-              onChanged: (_) {},
+              title: SplashScreenNotifier.getLanguageLabel('Promotional Notifications'),
+              description: SplashScreenNotifier.getLanguageLabel('Receive push notifications about new offers and deals on your mobile phone'),
+              onChanged: (_) {
+                ScaffoldMessenger.of(context).clearSnackBars();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: MulishText(
+                      text: 'Not implemented yet',
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                );
+              },
             ),
             NotificationSetting(
-              title: 'Transactional Notifications',
-              description: 'Receive push notifications about new transactions made.',
-              onChanged: (_) {},
+              title: SplashScreenNotifier.getLanguageLabel('Transactional Notifications'),
+              description: SplashScreenNotifier.getLanguageLabel('Receive push notifications about new transactions made.'),
+              onChanged: (_) {
+                ScaffoldMessenger.of(context).clearSnackBars();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: MulishText(
+                      text: 'Not implemented yet',
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                );
+              },
             ),
             NotificationSetting(
-              title: 'Email Notifications',
-              description: 'Receive emails about new offers and deals',
-              onChanged: (_) {},
+              title: SplashScreenNotifier.getLanguageLabel('Email Notifications'),
+              description: SplashScreenNotifier.getLanguageLabel('Receive emails about new offers and deals'),
+              onChanged: (_) {
+                ScaffoldMessenger.of(context).clearSnackBars();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: MulishText(
+                      text: 'Not implemented yet',
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

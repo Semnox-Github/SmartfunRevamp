@@ -12,10 +12,7 @@ import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class GameplaysPage extends ConsumerStatefulWidget {
-  const GameplaysPage({
-    Key? key,
-    this.cardDetails
-  }) : super(key: key);
+  const GameplaysPage({Key? key, this.cardDetails}) : super(key: key);
 
   final CardDetails? cardDetails;
 
@@ -29,7 +26,7 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
   @override
   void initState() {
     if (widget.cardDetails != null) {
-    //is added to cards list as the only card  
+      //is added to cards list as the only card
       List<CardDetails> selectedCard = [];
       selectedCard.add(widget.cardDetails!);
       cards = selectedCard;
@@ -87,9 +84,9 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                           ),
                           data: (data) {
                             if (data.isEmpty) {
-                              return const Center(
+                              return Center(
                                 child: MulishText(
-                                  text: 'This cards has no gameplays',
+                                  text: SplashScreenNotifier.getLanguageLabel('This card has no gameplays'),
                                   fontSize: 30.0,
                                 ),
                               );
@@ -154,8 +151,8 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                                             text: '${item.game}',
                                             fontWeight: FontWeight.bold,
                                           ),
-                                          const MulishText(
-                                            text: "Balance consumed during gameplay",
+                                          MulishText(
+                                            text: SplashScreenNotifier.getLanguageLabel("Balance consumed during gameplay"),
                                             fontSize: 12,
                                             fontColor: Colors.grey,
                                           ),
@@ -191,8 +188,8 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                                                             fontColor: Colors.black,
                                                             fontWeight: FontWeight.bold,
                                                           ),
-                                                          const MulishText(
-                                                            text: "Credits",
+                                                          MulishText(
+                                                            text: SplashScreenNotifier.getLanguageLabel("Credits"),
                                                             fontSize: 14,
                                                             fontColor: Colors.grey,
                                                           ),
@@ -219,8 +216,8 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                                                             fontColor: Colors.black,
                                                             fontWeight: FontWeight.bold,
                                                           ),
-                                                          const MulishText(
-                                                            text: "Bonus",
+                                                          MulishText(
+                                                            text: SplashScreenNotifier.getLanguageLabel("Bonus"),
                                                             fontSize: 14,
                                                             fontColor: Colors.grey,
                                                           ),
@@ -247,8 +244,8 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                                                             fontColor: Colors.black,
                                                             fontWeight: FontWeight.bold,
                                                           ),
-                                                          const MulishText(
-                                                            text: "Time",
+                                                          MulishText(
+                                                            text: SplashScreenNotifier.getLanguageLabel("Time"),
                                                             fontSize: 14,
                                                             fontColor: Colors.grey,
                                                           ),
@@ -275,8 +272,8 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                                                             fontColor: Colors.black,
                                                             fontWeight: FontWeight.bold,
                                                           ),
-                                                          const MulishText(
-                                                            text: "Card Game",
+                                                          MulishText(
+                                                            text: SplashScreenNotifier.getLanguageLabel("Card Game"),
                                                             fontSize: 14,
                                                             fontColor: Colors.grey,
                                                           ),
@@ -299,8 +296,8 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                                                 child: Container(
                                                   height: 40,
                                                   alignment: Alignment.center,
-                                                  child: const MulishText(
-                                                    text: "Done",
+                                                  child: MulishText(
+                                                    text: SplashScreenNotifier.getLanguageLabel("Done"),
                                                     fontColor: Colors.white,
                                                     fontSize: 18,
                                                   ),

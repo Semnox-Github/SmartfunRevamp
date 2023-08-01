@@ -24,12 +24,10 @@ Future<String?> _getId() async {
   var deviceInfo = DeviceInfoPlugin();
   if (Platform.isIOS) {
     final iosDeviceInfo = await deviceInfo.iosInfo;
-
     return iosDeviceInfo.identifierForVendor;
   } else {
     var uuid = const Uuid();
     String guid = uuid.v1();
-
     return guid;
   }
 }

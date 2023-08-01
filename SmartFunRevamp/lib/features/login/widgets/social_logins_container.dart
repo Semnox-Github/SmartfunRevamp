@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SocialLoginsContainer extends StatelessWidget {
   const SocialLoginsContainer({
@@ -23,8 +24,8 @@ class SocialLoginsContainer extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const MulishText(
-            text: 'Or Continue with social Logins',
+          MulishText(
+            text: SplashScreenNotifier.getLanguageLabel('Or Continue with social Logins'),
             fontWeight: FontWeight.bold,
           ),
           const SizedBox(height: 10.0),

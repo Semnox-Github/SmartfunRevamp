@@ -59,7 +59,7 @@ class Routes {
       kHomePage: (BuildContext context) => const HomePage(),
       kLogInPage: (BuildContext context) => const LoginPage(),
       kSignUpPage: (BuildContext context) => const SignUpPage(),
-      kAfterSplashScreenPage: (BuildContext context) => const AfterSplashScreen(),
+      kAfterSplashScreenPage: (BuildContext context) => GetMasterSiteScreen(),
       kBuyACard: (BuildContext context) => const BuyCardListPage(),
       kVerifyOTP: (BuildContext context) => const VerifyOtpPage(),
       kDeleteOTP: (BuildContext context) => const DeleteProfileOTPPage(),

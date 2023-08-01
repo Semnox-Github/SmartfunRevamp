@@ -46,17 +46,29 @@ final currentLanguageProvider = StateProvider<LanguageContainerDTOList?>((ref) {
       languageList.languageContainerDTOList.firstWhere((element) => element.languageCode == 'en-US');
 });
 
+class GetMasterSiteScreen extends ConsumerWidget{
+  const GetMasterSiteScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+   return ref.watch(masterSiteProvider).when(
+      loading: () { return const Center(child: CircularProgressIndicator());},
+      data: (data) {
+        SplashScreenNotifier.setMasterSite(data[0].siteId);
+        return const AfterSplashScreen();
+      }, 
+      error: (Object error, StackTrace stackTrace) { return const Scaffold(body: Text("error"),);}
+    );
+  }
+
+}
+
 class AfterSplashScreen extends ConsumerWidget {
   const AfterSplashScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(masterSiteProvider).maybeWhen(
-      orElse: () => {},
-      data: (data) => {
-        SplashScreenNotifier.setMasterSite(data[0].siteId)
-      }
-    );
+    
     ref.watch(parafaitDefaultsProvider);
     ref.watch(SplashScreenNotifier.getInitialData);
     final currenLang = ref.watch(currentLanguageProvider);

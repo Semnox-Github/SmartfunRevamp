@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:semnox/colors/inputs_decorations.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -34,10 +33,6 @@ class AmountFormField extends StatelessWidget {
             onSaved: onSaved,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: InputDecoration(
-              enabledBorder: CustomInputDecorations.k12RoundedCustomBlue,
-              focusedBorder: CustomInputDecorations.k12RoundedCustomBlue,
-              errorBorder: CustomInputDecorations.k12RoundedError,
-              focusedErrorBorder: CustomInputDecorations.k12RoundedError,
               hintText: SplashScreenNotifier.getLanguageLabel('Amount'),
             ),
           ),

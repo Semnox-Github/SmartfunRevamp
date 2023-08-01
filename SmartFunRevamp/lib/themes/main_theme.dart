@@ -7,6 +7,9 @@ final kMainTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
   iconTheme: const IconThemeData(color: CustomColors.customBlue),
   textTheme: GoogleFonts.mulishTextTheme(),
+  radioTheme: RadioThemeData(
+    fillColor: MaterialStateColor.resolveWith((states) => CustomColors.hardOrange),
+  ),
   appBarTheme: const AppBarTheme(
     elevation: 0.0,
     centerTitle: true,

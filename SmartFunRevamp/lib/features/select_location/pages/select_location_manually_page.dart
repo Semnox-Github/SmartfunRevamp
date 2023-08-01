@@ -173,12 +173,6 @@ class SearchTextField extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         hintText: SplashScreenNotifier.getLanguageLabel('Search'),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-        ),
         suffixIcon: Container(
           margin: const EdgeInsets.all(5.0),
           decoration: const BoxDecoration(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:group_radio_button/group_radio_button.dart';
-import 'package:semnox/colors/colors.dart';
-import 'package:semnox/colors/inputs_decorations.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -57,7 +55,6 @@ class _ToSelectionContainerState extends State<ToSelectionContainer> {
         const SizedBox(height: 10.0),
         RadioGroup<TransferType>.builder(
           groupValue: transferType,
-          activeColor: CustomColors.hardOrange,
           direction: Axis.horizontal,
           onChanged: (value) {
             setState(() {
@@ -95,10 +92,6 @@ class _ToSelectionContainerState extends State<ToSelectionContainer> {
                 validator: (value) => value.isNullOrEmpty() ? SplashScreenNotifier.getLanguageLabel('Required') : null,
                 onSaved: widget.onAccountNumberSaved,
                 decoration: InputDecoration(
-                  enabledBorder: CustomInputDecorations.k12RoundedCustomBlue,
-                  focusedBorder: CustomInputDecorations.k12RoundedCustomBlue,
-                  errorBorder: CustomInputDecorations.k12RoundedError,
-                  focusedErrorBorder: CustomInputDecorations.k12RoundedError,
                   hintText: SplashScreenNotifier.getLanguageLabel('Enter card number'),
                 ),
               ),

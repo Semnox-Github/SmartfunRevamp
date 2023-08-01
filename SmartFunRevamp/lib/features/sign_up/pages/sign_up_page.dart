@@ -295,6 +295,12 @@ class CustomTextField extends StatelessWidget {
             validator: (value) => value!.isEmpty && required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              isDense: true,
+              fillColor: fillColor,
+              filled: true,
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+            ),
           )
         ],
       ),
@@ -376,18 +382,6 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
               fillColor: widget.fillColor,
               filled: true,
               floatingLabelBehavior: FloatingLabelBehavior.never,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.0),
-                borderSide: const BorderSide(
-                  color: Colors.black,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.0),
-                borderSide: const BorderSide(
-                  color: Colors.black,
-                ),
-              ),
             ),
           )
         ],

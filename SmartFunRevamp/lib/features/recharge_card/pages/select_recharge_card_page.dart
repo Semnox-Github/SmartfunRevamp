@@ -221,7 +221,9 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], // Only numbers can be entered
             controller: txt,
-            decoration: InputDecoration(hintText: SplashScreenNotifier.getLanguageLabel('Please enter the amount you wish to recharge')),
+            decoration: InputDecoration(
+              hintText: SplashScreenNotifier.getLanguageLabel('Please enter the amount you wish to recharge'),
+            ),
             onChanged: (amount) {
               setState(() {
                 finalPrice = double.tryParse(amount) == null ? 0 : double.parse(amount);

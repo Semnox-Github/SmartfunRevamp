@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/get_utils.dart';
-import 'package:semnox/colors/inputs_decorations.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -64,10 +63,6 @@ class _CustomCupertinoPickerState extends State<CustomCupertinoPicker> {
       controller: _controller,
       decoration: InputDecoration(
         hintText: SplashScreenNotifier.getLanguageLabel('Select'),
-        enabledBorder: CustomInputDecorations.k12RoundedCustomBlue,
-        focusedBorder: CustomInputDecorations.k12RoundedCustomBlue,
-        errorBorder: CustomInputDecorations.k12RoundedError,
-        focusedErrorBorder: CustomInputDecorations.k12RoundedError,
       ),
       validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
       onTap: () {
@@ -121,10 +116,6 @@ class CustomAndroidPicker extends StatelessWidget {
       validator: (value) => value!.toString().isNullOrEmpty() ? SplashScreenNotifier.getLanguageLabel('Required') : null,
       decoration: InputDecoration(
         hintText: SplashScreenNotifier.getLanguageLabel('Select'),
-        enabledBorder: CustomInputDecorations.k20RoundedCustomBlue,
-        focusedBorder: CustomInputDecorations.k20RoundedCustomBlue,
-        errorBorder: CustomInputDecorations.k20RoundedError,
-        focusedErrorBorder: CustomInputDecorations.k20RoundedError,
       ),
       items: items
           .map(

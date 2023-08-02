@@ -21,6 +21,7 @@ import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'splash_screen_state.dart';
 part 'splash_screen_notifier.freezed.dart';
@@ -47,7 +48,7 @@ final getStringForLocalization = FutureProvider<Map<dynamic, dynamic>>((ref) asy
   final GetStringForLocalizationUseCase getStringForLocalizationUseCase = Get.find<GetStringForLocalizationUseCase>();
   final langId = currentLang.languageId.toString();
   //Request language strings always with master site
-  final response = await getStringForLocalizationUseCase(siteId: "1010", languageId: langId);
+  final response = await getStringForLocalizationUseCase(siteId: SplashScreenNotifier.getMasterSite().toString(), languageId: langId);
   // get the language Json from the assets
   String defaultLanguageStrings = await rootBundle.loadString("assets/localization/strings.json");
   final jsonDefaultLanguageStrings = jsonDecode(defaultLanguageStrings);
@@ -71,6 +72,7 @@ Map<dynamic, dynamic> languageLabes = {};
 String helpUrl = "";
 String privacyPolicyUrl = "";
 String termsUrl = "";
+int? masterSiteId;
 
 class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
   final GetBaseURLUseCase _getBaseURL;
@@ -111,6 +113,14 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     );
   }
 
+  static void setMasterSite(int? siteId) async {
+    masterSiteId = siteId;
+  }
+
+  static int getMasterSite() {
+    return masterSiteId!;
+  }
+
   void authenticateBaseURL(String baseUrl) async {
     final response = await _authenticateBaseURLUseCase();
     response.fold(
@@ -144,17 +154,38 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
   static String getLanguageLabel(String labelKey) {
     String? languageLabel = languageLabes[labelKey];
     if (languageLabel.isNullOrEmpty()) {
-      debugPrint('Label not found for key: "$labelKey"');
+      logNonExistentLanguageLabel(labelKey);
       return labelKey;
     } else {
       return languageLabel.toString();
     }
   }
 
+  static logNonExistentLanguageLabel(String label) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // await prefs.remove('labels');
+    final labels = prefs.getStringList('labels');
+    if (labels == null) {
+      await prefs.setStringList('labels', [label]);
+    } else {
+      if (!labels.contains(label)) {
+        labels.add(label);
+        await prefs.setStringList('labels', labels);
+      }
+    }
+    Logger().d(labels);
+  }
+
+  static Future<List<String>> getNonExistentLanguageLabel() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final labels = prefs.getStringList('labels');
+    return labels ?? [];
+  }
+
   static final parafaitLanguagesProvider = FutureProvider<LanguageContainerDTO>((ref) async {
     final GetParafaitLanguagesUseCase getParafaitLanguagesUseCase = Get.find<GetParafaitLanguagesUseCase>();
     //Request language list always to master site
-    final response = await getParafaitLanguagesUseCase(siteId: "1010");
+    final response = await getParafaitLanguagesUseCase(siteId: SplashScreenNotifier.getMasterSite().toString());
     Logger().d(response);
     return response.fold(
       (l) => throw l,
@@ -164,7 +195,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
 
   static final getInitialData = FutureProvider.autoDispose<void>((ref) async {
     final GetLookupsUseCase getLookupsUseCase = Get.find<GetLookupsUseCase>();
-    final response = await getLookupsUseCase(siteId: (ref.read(loginProvider.notifier).selectedSite?.siteId ?? 1010).toString());
+    final response = await getLookupsUseCase(siteId: (ref.read(loginProvider.notifier).selectedSite?.siteId ?? SplashScreenNotifier.getMasterSite()).toString());
     const infoLookupName = "SELFSERVICEAPP_CUSTOMLINKS";
     response.forEach((r) {
       for (var element in r.lookupsContainerDTOList) {

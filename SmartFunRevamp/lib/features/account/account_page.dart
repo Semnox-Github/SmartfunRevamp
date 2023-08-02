@@ -89,11 +89,21 @@ class _AccountPage extends ConsumerState<AccountPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: MulishText(
+                              text: 'Not implemented yet',
+                              fontSize: 20.0,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      },
                       icon: const Icon(Icons.edit_square),
                       color: CustomColors.hardOrange,
                     ),
-                    const MulishText(text: 'Edit Photo')
+                    MulishText(text: SplashScreenNotifier.getLanguageLabel('Edit Photo'))
                   ],
                 ),
 

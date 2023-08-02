@@ -49,18 +49,18 @@ class CardActivityReceiptPage extends StatelessWidget {
             return ref.watch(_getReceipt(transactionId)).maybeWhen(
                   orElse: () => Container(),
                   loading: () => const Center(child: CircularProgressIndicator()),
-                  error: (error, stackTrace) => const Center(
+                  error: (error, stackTrace) => Center(
                     child: MulishText(
-                      text: "We couldn't generate the receipt please try later.",
+                      text: SplashScreenNotifier.getLanguageLabel("We couldn't generate the receipt please try later."),
                       fontSize: 30.0,
                       textAlign: TextAlign.center,
                     ),
                   ),
                   data: (path) {
                     if (path.isNullOrEmpty()) {
-                      return const Center(
+                      return Center(
                         child: MulishText(
-                          text: "We couldn't generate the receipt please try later.",
+                          text: SplashScreenNotifier.getLanguageLabel("We couldn't generate the receipt please try later."),
                           fontSize: 30.0,
                           textAlign: TextAlign.center,
                         ),
@@ -87,7 +87,7 @@ class CardActivityReceiptPage extends StatelessWidget {
                             File fileDef = File(path);
                             DocumentFileSavePlus().saveFile(fileDef.readAsBytesSync(), 'receipt.pdf', 'application/pdf');
                             if (Platform.isAndroid) {
-                              Fluttertoast.showToast(msg: 'Receipt Downloaded');
+                              Fluttertoast.showToast(msg: SplashScreenNotifier.getLanguageLabel('Receipt Downloaded'));
                             }
                           },
                           label: SplashScreenNotifier.getLanguageLabel('DOWNLOAD'),

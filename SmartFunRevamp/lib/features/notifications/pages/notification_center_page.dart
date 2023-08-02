@@ -5,6 +5,7 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/notifications/provider/notifications_provider.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class NotificationCenterPage extends StatelessWidget {
   const NotificationCenterPage({super.key});
@@ -68,9 +69,9 @@ class NotificationCenterPage extends StatelessWidget {
                   ),
                   success: (data) {
                     if (data.isEmpty) {
-                      return const Center(
+                      return Center(
                         child: MulishText(
-                          text: "You don't have any notifications",
+                          text: SplashScreenNotifier.getLanguageLabel("You don't have any notifications"),
                           fontSize: 30.0,
                           textAlign: TextAlign.center,
                         ),

@@ -13,19 +13,21 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import '../../core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 
 class BonusSummaryPage extends ConsumerWidget {
-  const BonusSummaryPage({Key? key, required this.cardNumber, required this.creditPlusType, required this.pageTitle}) : super(key: key);
+  const BonusSummaryPage({
+    Key? key,
+    required this.cardNumber,
+    required this.creditPlusType,
+    required this.pageTitle,
+  }) : super(key: key);
   final String cardNumber;
   final int? creditPlusType;
   final String pageTitle;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //TODO:Whenever the app rebuilds this is called again remove hardcoded card
     ref.read(CardsProviders.bonusSummaryProvider.notifier).getSummary(cardNumber);
     return Scaffold(
-      appBar: CustomAppBar(
-        title: pageTitle,
-      ),
+      appBar: CustomAppBar(title: pageTitle),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Consumer(
@@ -49,8 +51,8 @@ class BonusSummaryPage extends ConsumerWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const MulishText(
-                              text: 'Expiring By',
+                            MulishText(
+                              text: SplashScreenNotifier.getLanguageLabel('Expiring By'),
                               fontWeight: FontWeight.bold,
                             ),
                             CustomDatePicker(
@@ -67,7 +69,7 @@ class BonusSummaryPage extends ConsumerWidget {
                         ),
                         TotalBonusBalance(totalBonus: totalBonus, pageTitle: pageTitle),
                         MulishText(
-                          text: '$pageTitle Details',
+                          text: SplashScreenNotifier.getLanguageLabel('&1 Details').replaceAll('&1', pageTitle),
                           fontWeight: FontWeight.bold,
                         ),
                         Expanded(
@@ -76,77 +78,91 @@ class BonusSummaryPage extends ConsumerWidget {
                             itemCount: data.length,
                             itemBuilder: (context, index) {
                               final summary = data[index];
-                              return Container(
-                                margin: const EdgeInsets.only(bottom: 10.0),
-                                padding: const EdgeInsets.only(bottom: 10.0),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: CustomColors.customLigthGray),
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                                      decoration: BoxDecoration(
-                                        color: CustomColors.customOrange,
-                                        borderRadius: BorderRadius.circular(12.0),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          MulishText(
-                                            text: summary.remarks,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          MulishText(
-                                            text: '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
-                                            fontSize: 10.0,
-                                          ),
-                                        ],
-                                      ),
+                              return InkWell(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BonusSummaryDetailPage(
+                                      summary: summary,
+                                      pageTitle: pageTitle,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            children: [
-                                              const MulishText(
-                                                text: 'Value Loaded',
-                                              ),
-                                              MulishText(
-                                                text: '${summary.creditPlus.toInt()}',
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              const MulishText(
-                                                text: 'Balance',
-                                              ),
-                                              MulishText(
-                                                text: '${summary.creditPlusBalance.toInt()}',
-                                              ),
-                                            ],
-                                          ),
-                                          IconButton(
-                                            onPressed: () => Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => BonusSummaryDetailPage(summary: summary, pageTitle: pageTitle,),
-                                              ),
+                                  ),
+                                ),
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 10.0),
+                                  padding: const EdgeInsets.only(bottom: 10.0),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: CustomColors.customLigthGray),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                                        decoration: BoxDecoration(
+                                          color: CustomColors.customOrange,
+                                          borderRadius: BorderRadius.circular(12.0),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            MulishText(
+                                              text: summary.remarks,
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                            icon: const Icon(
-                                              Icons.arrow_forward_ios_outlined,
+                                            MulishText(
+                                              text: '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
+                                              fontSize: 10.0,
                                             ),
-                                          )
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    )
-                                  ],
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                const MulishText(
+                                                  text: 'Value Loaded',
+                                                ),
+                                                MulishText(
+                                                  text: '${summary.creditPlus.toInt()}',
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                const MulishText(
+                                                  text: 'Balance',
+                                                ),
+                                                MulishText(
+                                                  text: '${summary.creditPlusBalance.toInt()}',
+                                                ),
+                                              ],
+                                            ),
+                                            const Icon(
+                                              Icons.arrow_forward_ios_outlined,
+                                            )
+                                            // IconButton(
+                                            //   onPressed: () => Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //       builder: (context) => BonusSummaryDetailPage(summary: summary, pageTitle: pageTitle,),
+                                            //     ),
+                                            //   ),
+                                            //   icon: const Icon(
+                                            //     Icons.arrow_forward_ios_outlined,
+                                            //   ),
+                                            // )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
                             },
@@ -164,11 +180,7 @@ class BonusSummaryPage extends ConsumerWidget {
 }
 
 class TotalBonusBalance extends StatelessWidget {
-  const TotalBonusBalance({
-    Key? key,
-    required this.totalBonus,
-    required this.pageTitle
-  }) : super(key: key);
+  const TotalBonusBalance({Key? key, required this.totalBonus, required this.pageTitle}) : super(key: key);
 
   final int totalBonus;
   final String pageTitle;
@@ -186,7 +198,7 @@ class TotalBonusBalance extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           MulishText(
-            text: 'Total $pageTitle Balance',
+            text: SplashScreenNotifier.getLanguageLabel('Total &1 Balance').replaceAll('&1', pageTitle),
             fontWeight: FontWeight.bold,
           ),
           MulishText(

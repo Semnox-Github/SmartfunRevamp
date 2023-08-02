@@ -28,7 +28,7 @@ class Dialogs {
       context: context,
       dialogType: DialogType.noHeader,
       animType: AnimType.scale,
-      title: 'Error',
+      title: SplashScreenNotifier.getLanguageLabel('Error'),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -47,8 +47,8 @@ class Dialogs {
                 )
               ],
             ),
-            const MulishText(
-              text: 'Saved on the bill with the coupon',
+            MulishText(
+              text: SplashScreenNotifier.getLanguageLabel('Saved on the bill with the coupon'),
               fontColor: CustomColors.couponTextColor,
             )
           ],
@@ -69,8 +69,8 @@ class Dialogs {
         child: TextFormField(
           validator: (value) => value!.isNotEmpty ? null : 'Required',
           onSaved: (newValue) => coupon = newValue!,
-          decoration: const InputDecoration(
-            hintText: 'Coupon',
+          decoration: InputDecoration(
+            hintText: SplashScreenNotifier.getLanguageLabel('Coupon'),
           ),
         ),
       ),
@@ -160,7 +160,7 @@ class Dialogs {
                                 ),
                               );
                             },
-                            label: 'BUY NOW @ ${card.finalPrice.toCurrency(currency, format)}',
+                            label: SplashScreenNotifier.getLanguageLabel('BUY NOW @ &1').replaceAll("&1", card.finalPrice.toCurrency(currency, format)),
                           );
                         },
                       ),
@@ -187,7 +187,7 @@ class Dialogs {
         fontSize: 18,
       ),
       btnOkOnPress: () {},
-      btnOkText: 'OK',
+      btnOkText: SplashScreenNotifier.getLanguageLabel('OK'),
       btnOkColor: Colors.blue,
     ).show();
   }
@@ -197,14 +197,14 @@ class Dialogs {
       context: context,
       dialogType: DialogType.error,
       animType: AnimType.scale,
-      title: 'Error',
+      title: SplashScreenNotifier.getLanguageLabel('Error'),
       desc: message,
       descTextStyle: const TextStyle(
         fontWeight: FontWeight.w400,
         fontSize: 18,
       ),
       btnOkOnPress: () {},
-      btnOkText: 'OK',
+      btnOkText: SplashScreenNotifier.getLanguageLabel('OK'),
       btnOkColor: Colors.red,
     ).show();
   }
@@ -313,24 +313,26 @@ class Dialogs {
                     fieldHeight: MediaQuery.of(context).size.width * 0.12,
                     fieldWidth: MediaQuery.of(context).size.width * 0.12),
                 const SizedBox(height: 10.0),
-                const MulishText(
-                  text: "Didn't Receive?",
+                MulishText(
+                  text: SplashScreenNotifier.getLanguageLabel("Didn't Receive?"),
                   textAlign: TextAlign.start,
                 ),
                 RichText(
-                  text: const TextSpan(children: [
-                    WidgetSpan(
-                      child: MulishText(
-                        text: 'RESEND',
-                        fontWeight: FontWeight.bold,
+                  text: TextSpan(
+                    children: [
+                      WidgetSpan(
+                        child: MulishText(
+                          text: SplashScreenNotifier.getLanguageLabel('RESEND'),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    WidgetSpan(
-                      child: MulishText(
-                        text: ' in 30 seconds',
-                      ),
-                    )
-                  ]),
+                      WidgetSpan(
+                        child: MulishText(
+                          text: SplashScreenNotifier.getLanguageLabel(' in 30 seconds'),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -380,7 +382,7 @@ class Dialogs {
                         ).toList(),
                         CustomButton(
                           onTap: () {},
-                          label: 'Send Feedback',
+                          label: SplashScreenNotifier.getLanguageLabel('Send Feedback'),
                           margin: const EdgeInsets.only(top: 10.0),
                         )
                       ],
@@ -403,21 +405,23 @@ class Dialogs {
         return RatingDialog(
           enableComment: false,
           initialRating: 1.0,
-          title: const Text(
-            'Enjoying Parafait SmartFun?',
+          title: Text(
+            SplashScreenNotifier.getLanguageLabel('Enjoying Parafait SmartFun?'),
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
             ),
           ),
           image: Image.asset('assets/home/logo.png'),
           message: Text(
-            'Tap a star to rate it on the ${isIOS ? 'App Store' : 'Play Store'}',
+            // 'Tap a star to rate it on the ${isIOS ? 'App Store' : 'Play Store'}',
+            SplashScreenNotifier.getLanguageLabel('Tap a star to rate it on the &1')
+                .replaceAll('&1', isIOS ? SplashScreenNotifier.getLanguageLabel('App Store') : SplashScreenNotifier.getLanguageLabel('Play Store')),
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 15),
           ),
-          submitButtonText: 'Submit',
+          submitButtonText: SplashScreenNotifier.getLanguageLabel('Submit'),
           onCancelled: () {},
           onSubmitted: (response) {
             onSubmitted();
@@ -425,6 +429,20 @@ class Dialogs {
         );
       },
     );
+  }
+
+  static void deleteProfileSuccessDialog(BuildContext context, Function() onSubmitted) {
+    AwesomeDialog(
+      context: context,
+      dismissOnTouchOutside: true,
+      onDismissCallback: (type) => onSubmitted(),
+      title: SplashScreenNotifier.getLanguageLabel('Delete Profile'),
+      desc: SplashScreenNotifier.getLanguageLabel('Profile deleted successfully.'),
+      descTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
+      ),
+    ).show();
   }
 }
 

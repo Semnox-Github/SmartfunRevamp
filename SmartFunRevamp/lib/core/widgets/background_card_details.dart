@@ -1,11 +1,25 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/cms_provider.dart';
 
-class BackgroundCard extends StatelessWidget {
+Color _cardColor(bool isVirtual, bool isExpired, CardsColor? colors) {
+  if (isExpired) {
+    return HexColor.fromHex(colors?.expired) ?? Colors.grey;
+  }
+  if (isVirtual) {
+    return HexColor.fromHex(colors?.virtual) ?? Colors.pink;
+  }
+  return HexColor.fromHex(colors?.regular) ?? Colors.purple;
+}
+
+class BackgroundCard extends ConsumerWidget {
   const BackgroundCard({
     Key? key,
     required this.child,
@@ -19,7 +33,8 @@ class BackgroundCard extends StatelessWidget {
   final bool isExpired;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cardColors = ref.watch(cmsProvider).value?.cardsColor;
     return Stack(alignment: AlignmentDirectional.center, children: [
       GestureDetector(
         onTap: !isVirtual ? () {} : () => Dialogs.showBarcodeTempCard(context, cardNumber),
@@ -29,7 +44,7 @@ class BackgroundCard extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           margin: const EdgeInsets.symmetric(horizontal: 5.0),
           decoration: BoxDecoration(
-            color: isVirtual ? Colors.purple.shade400.withOpacity(0.5) : Colors.purple.shade400,
+            color: _cardColor(isVirtual, isExpired, cardColors),
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: child,

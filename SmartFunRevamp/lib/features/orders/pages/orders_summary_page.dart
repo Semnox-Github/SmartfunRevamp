@@ -43,53 +43,51 @@ class OrdersSummaryPage extends ConsumerWidget {
                             itemCount: data.length,
                             itemBuilder: (context, index) {
                               final summary = data[index];
-                              return Container(                                
-                                padding: const EdgeInsets.only(bottom: 10.0),
-                                width: double.infinity,                               
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                                      decoration: BoxDecoration(
-                                        color: CustomColors.customLigthGray,
-                                        borderRadius: BorderRadius.circular(12.0),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          MulishText(
-                                            text: '${summary.transactionDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.transactionDate.formatDate(DateFormat.HOUR_MINUTE)}',
-                                            fontSize: 10,
-                                          ),
-                                          MulishText(
-                                            text: '${SplashScreenNotifier.getLanguageLabel("Reference")} ${summary.transactionId.toString()}',
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 10,
-                                          ),
-                                          IconButton(
-                                            onPressed: () => Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => OrdersSummaryDetailPage(transactionId: summary.transactionId.toString()),
-                                              ),
+                              return InkWell(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OrdersSummaryDetailPage(transactionId: summary.transactionId.toString()),
+                                  ),
+                                ),
+                                child: Container(
+                                  padding: const EdgeInsets.only(bottom: 10.0),
+                                  width: double.infinity,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                                        decoration: BoxDecoration(
+                                          color: CustomColors.customLigthGray,
+                                          borderRadius: BorderRadius.circular(12.0),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            MulishText(
+                                              text: '${summary.transactionDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.transactionDate.formatDate(DateFormat.HOUR_MINUTE)}',
+                                              fontSize: 10,
                                             ),
-                                            icon: const Icon(
+                                            MulishText(
+                                              text: '${SplashScreenNotifier.getLanguageLabel("Reference")} ${summary.transactionId.toString()}',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 10,
+                                            ),
+                                            const Icon(
                                               Icons.arrow_forward_ios_outlined,
-                                            ),
-                                          )
-                                          
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
                             },
                           ),
                         )
                       ],
-                     
                     );
                   },
                 );

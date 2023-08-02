@@ -24,10 +24,7 @@ final _getActivityLog = FutureProvider.autoDispose.family<List<CardActivity>, St
 });
 
 class CardActivityLogPage extends ConsumerStatefulWidget {
-  const CardActivityLogPage({
-    Key? key,
-    this.cardDetails
-  }) : super(key: key);
+  const CardActivityLogPage({Key? key, this.cardDetails}) : super(key: key);
 
   final CardDetails? cardDetails;
 
@@ -42,7 +39,7 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
   void initState() {
     super.initState();
     if (widget.cardDetails != null) {
-    //is added to cards list as the only card  
+      //is added to cards list as the only card
       List<CardDetails> selectedCard = [];
       selectedCard.add(widget.cardDetails!);
       cards = selectedCard;
@@ -73,10 +70,10 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
                 });
               },
             ),
-            const Padding(
-              padding: EdgeInsets.all(10.0),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
               child: MulishText(
-                text: 'Card Activities',
+                text: SplashScreenNotifier.getLanguageLabel('Card Activities'),
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0,
               ),
@@ -85,9 +82,9 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
               child: ref.watch(_getActivityLog(selectedCard.accountId.toString())).maybeWhen(
                     orElse: () => Container(),
                     error: (error, stackTrace) {
-                      return const Center(
+                      return Center(
                         child: MulishText(
-                          text: 'No activities on this Card',
+                          text: SplashScreenNotifier.getLanguageLabel('No activities on this Card'),
                           fontSize: 20.0,
                         ),
                       );
@@ -101,48 +98,48 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
                         itemBuilder: (context, index) {
                           final activity = data[index];
                           return Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10.0),
+                            margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                             decoration: BoxDecoration(
                               border: Border.all(color: CustomColors.customLigthBlue),
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    MulishText(
-                                      text: '${activity.activityType}',
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    MulishText(text: '${activity.site}'),
-                                    MulishText(text: 'Ref: ${activity.refId}'),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    MulishText(
-                                      text: '${activity.date?.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)}, ${activity.date?.formatDate(DateFormat.HOUR_MINUTE)}',
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => CardActivityDetailPage(transactionId: activity.refId.toString()),
-                                          ),
-                                        );
-                                      },
-                                      icon: const Icon(
-                                        Icons.arrow_forward_ios_outlined,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CardActivityDetailPage(transactionId: activity.refId.toString()),
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      MulishText(
+                                        text: '${activity.activityType}',
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                      MulishText(text: '${activity.site}'),
+                                      MulishText(text: 'Ref: ${activity.refId}'),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      MulishText(
+                                        text: '${activity.date?.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)}, ${activity.date?.formatDate(DateFormat.HOUR_MINUTE)}',
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_forward_ios_outlined,
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           );
                         },

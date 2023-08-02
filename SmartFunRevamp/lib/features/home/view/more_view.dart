@@ -10,6 +10,7 @@ import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
@@ -69,6 +70,7 @@ class MoreView extends ConsumerWidget {
                     localDatasource.deleteValue(LocalDataSource.kUserId).then(
                           (value) => Navigator.popAndPushNamed(context, Routes.kLogInPage),
                         );
+                    ref.invalidate(CardsProviders.userCardsProvider);
                   },
                   child: MulishText(
                     text: SplashScreenNotifier.getLanguageLabel('Logout'),

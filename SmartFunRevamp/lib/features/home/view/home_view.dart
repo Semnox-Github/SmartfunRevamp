@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
@@ -35,6 +39,32 @@ final promoImagesProvider = Provider<List<String>>((ref) {
   final cms = ref.watch(cmsProvider).value;
   final promos = cms?.cmsModulePages?.where((element) => element.displaySection == 'IMAGE').toList();
   return promos?.map((e) => e.contentURL).toList() ?? [];
+});
+
+final safePromoImagesProvider = FutureProvider<List<String>>((ref) async {
+  final cms = ref.watch(cmsProvider).value;
+  final promos = cms?.cmsModulePages?.where((element) => element.displaySection == 'IMAGE').toList();
+  final promoImagesUrl = promos?.map((e) => e.contentURL).toList() ?? [];
+  final safeUrls = <String>[];
+  final dio = Dio();
+  try {
+    for (var path in promoImagesUrl) {
+      final response = await dio.get(
+        path,
+        options: Options(
+          validateStatus: (status) => true,
+        ),
+      );
+      Logger().d('$path -> ${response.statusCode}');
+      if (response.statusCode == HttpStatus.ok) {
+        safeUrls.add(path);
+      }
+    }
+    return safeUrls;
+  } catch (e) {
+    Logger().e(e);
+    return [];
+  }
 });
 final homeColors = Provider<CMSModuleColorsHome?>((ref) {
   final cms = ref.watch(cmsProvider).value;
@@ -318,29 +348,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
                   ),
-                  Builder(
-                    builder: (context) {
-                      return CarouselSlider(
-                        options: CarouselOptions(height: 200.0),
-                        items: promoImages.map((i) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                                child: CachedNetworkImage(
-                                  imageUrl: i,
-                                  placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                  errorWidget: (_, __, ___) => Image.asset('assets/home/no_promo_image.png'),
-                                ),
-                              );
-                            },
-                          );
-                        }).toList(),
-                      );
-                    },
-                  ),
+                  PromoImages(promoImages: promoImages),
                   MulishText(
                     text: SplashScreenNotifier.getLanguageLabel('More Actions'),
                     fontWeight: FontWeight.bold,
@@ -420,6 +428,59 @@ class _HomeViewState extends ConsumerState<HomeView> {
         ),
       ),
     );
+  }
+}
+
+class PromoImages extends ConsumerWidget {
+  const PromoImages({
+    super.key,
+    required this.promoImages,
+  });
+
+  final List<String> promoImages;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ref.watch(safePromoImagesProvider).when(
+          error: (error, stacktrace) {
+            Logger().e('Hubo un error', error, stacktrace);
+            return const Center(
+              child: Icon(
+                Icons.error,
+                color: Colors.red,
+              ),
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+          data: (images) {
+            if (images.isEmpty) {
+              return Image.asset('assets/home/no_promo_image.png');
+            }
+            return CarouselSlider(
+              options: CarouselOptions(
+                height: 200.0,
+                enableInfiniteScroll: images.length > 1,
+                enlargeCenterPage: true,
+              ),
+              items: images.map((imageLink) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: CachedNetworkImage(
+                        imageUrl: imageLink,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (_, __, ___) => Container(),
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+            );
+          },
+        );
   }
 }
 

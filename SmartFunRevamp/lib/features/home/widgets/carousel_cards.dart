@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -38,7 +37,6 @@ class _CarouselCardsState extends State<CarouselCards> {
   @override
   void initState() {
     _cards = List<CardDetails>.from(widget.cards);
-    Logger().d(_cards.length);
     super.initState();
   }
 

@@ -20,31 +20,34 @@ class RechargeCardDetailsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (daysUntilExpiration < 0) {
-      return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        Expanded(
-          child: Column(
-            children: [
-              Text(
-                '${SplashScreenNotifier.getLanguageLabel('This card has expired on')} ${DateFormat('dd MMM yyyy').format(expirationDate)}\n',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: Colors.red,
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                Text(
+                  '${SplashScreenNotifier.getLanguageLabel('This card has expired on')} ${DateFormat('dd MMM yyyy').format(expirationDate)}\n',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    color: Colors.red,
+                  ),
                 ),
-              ),
-              Text(
-                SplashScreenNotifier.getLanguageLabel('You will no longer be able to use this card. But you can still view the Gameplay history and Activity details.'),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
+                Text(
+                  SplashScreenNotifier.getLanguageLabel('You will no longer be able to use this card. But you can still view the Gameplay history and Activity details.'),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ]);
+        ],
+      );
     } else if (!cardDetails.accountNumber!.startsWith('T')) {
       return Padding(
         padding: const EdgeInsets.all(5.0),
@@ -122,32 +125,6 @@ class RechargeCardDetailsButton extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  // Expanded(
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //       gradient: CustomGradients.linearGradient,
-                  //       borderRadius: BorderRadius.circular(15.0),
-                  //     ),
-                  //     child: Container(
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(12.0),
-                  //         gradient: CustomGradients.linearGradient,
-                  //       ),
-                  //       margin: const EdgeInsets.all(3),
-                  //       child: TextButton(
-                  //         onPressed: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
-                  //         child: const Text(
-                  //           'RECHARGE NOW',
-                  //           style: TextStyle(
-                  //             color: Colors.white,
-                  //             fontWeight: FontWeight.bold,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // const SizedBox(width: 20.0),
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(

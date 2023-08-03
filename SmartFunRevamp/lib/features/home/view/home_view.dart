@@ -235,7 +235,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
+                                          builder: (context) => SelectCardRechargePage(
+                                            cardDetails: cardDetails,
+                                          ),
                                         ),
                                       )
                                     }

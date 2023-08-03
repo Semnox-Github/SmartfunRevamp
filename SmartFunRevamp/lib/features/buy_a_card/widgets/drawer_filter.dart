@@ -93,7 +93,7 @@ class FilterDrawer extends ConsumerWidget {
             child: CustomButton(
               onTap: () {
                 Scaffold.of(context).closeEndDrawer();
-                ref.read(buyCardNotifier.notifier).filter(filters);
+                ref.read(filterProvider.notifier).update((_) => filters);
               },
               label: SplashScreenNotifier.getLanguageLabel('Apply Filters'),
             ),

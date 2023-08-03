@@ -4,63 +4,64 @@ part 'app_config_response.g.dart';
 @JsonSerializable(fieldRename: FieldRename.pascal)
 class AppConfigResponse {
   @JsonKey(name: 'GoogleRegistration')
-  final bool isGoogleRegistrationEnabled;
+  final bool? isGoogleRegistrationEnabled;
   @JsonKey(name: 'FbRegistration')
-  final bool isFBRegistrationEnabled;
+  final bool? isFBRegistrationEnabled;
   @JsonKey(name: 'PromotionLayout')
-  final bool showPromotionLayout;
+  final bool? showPromotionLayout;
   @JsonKey(name: 'TopGameLayout')
-  final bool showTopGameLayout;
+  final bool? showTopGameLayout;
   @JsonKey(name: 'TopEventLayout')
-  final bool showTopEventLayout;
-  final bool enableNewCard;
-  final bool enableLinkCard;
-  final bool enableRedeemCard;
-  final bool enableRechargeCard;
-  final bool enableTransferCredits;
-  final bool enableLostCard;
-  final int idleTimeout;
-  final int hQRefreshThreshold;
-  final int appValidityCheckDelay;
-  final String currencyCode;
-  final bool showCreditsOnCard;
-  final bool showBonusOnCard;
-  final bool showTimeOnCard;
-  final bool showTicketsOnCard;
-  final bool showLoyaltyOnCard;
-  final bool showCourtesyOnCard;
+  final bool? showTopEventLayout;
+  final bool? enableNewCard;
+  final bool? enableLinkCard;
+  final bool? enableRedeemCard;
+  final bool? enableRechargeCard;
+  final bool? enableTransferCredits;
+  final bool? enableLostCard;
+  final int? idleTimeout;
+  final int? hQRefreshThreshold;
+  final int? appValidityCheckDelay;
+  final String? currencyCode;
+  final bool? showCreditsOnCard;
+  final bool? showBonusOnCard;
+  final bool? showTimeOnCard;
+  final bool? showTicketsOnCard;
+  final bool? showLoyaltyOnCard;
+  final bool? showCourtesyOnCard;
   final List<CustomLinks>? customLinks;
-  final bool enableVirtualSite;
-  final int virtualSiteId;
-  final bool enableGamePlay;
-  final String playBoxLink;
-  final bool enableMembership;
-  final String numberFormat;
-  final String promoImageFolderURL;
-  final int ageOfMajority;
-  final int defaultLanguage;
-  final bool waiverDeactivationNeedsManagerApproval;
-  final bool waiverCodeIsMandatoryToFetchCustomer;
-  final bool checkWaiverRegistrationCountForTransaction;
-  final bool otpCheckRequiredForWaiverRegistration;
-  final int validityPeriodForWaiverRegistrationOTP;
-  final bool enableWaiverSignInKiosk;
-  final bool waiverOverrideNeedsManagerApproval;
-  final bool allowWaiverOverride;
-  final bool overrideSiteForTransaction;
+  final bool? enableVirtualSite;
+  final int? virtualSiteId;
+  final bool? enableGamePlay;
+  final String? playBoxLink;
+  final bool? enableMembership;
+  final String? numberFormat;
+  final String? promoImageFolderURL;
+  final int? ageOfMajority;
+  final int? defaultLanguage;
+  final bool? waiverDeactivationNeedsManagerApproval;
+  final bool? waiverCodeIsMandatoryToFetchCustomer;
+  final bool? checkWaiverRegistrationCountForTransaction;
+  final bool? otpCheckRequiredForWaiverRegistration;
+  final int? validityPeriodForWaiverRegistrationOTP;
+  final bool? enableWaiverSignInKiosk;
+  final bool? waiverOverrideNeedsManagerApproval;
+  final bool? allowWaiverOverride;
+  final bool? overrideSiteForTransaction;
   final String? waiverSetSelectionOptions;
-  final bool showCustomAttributesOnWaiver;
+  final bool? showCustomAttributesOnWaiver;
   final String? promotionLayoutURL;
+  @JsonKey(defaultValue: false)
   final bool socialLayout;
-  final bool storeLocatorLayout;
+  final bool? storeLocatorLayout;
   final String? storeLocatorURL;
-  final bool showCardExpiry;
-  final bool showCardIssued;
+  final bool? showCardExpiry;
+  final bool? showCardIssued;
   final String? supportContactNumber;
   final String? supportEmail;
   final String? supportMessageText;
   @JsonKey(name: 'CMSSocialLinksDTO')
-  final List<CMSSocialLinksDTO> cmsSocialLinksDTO;
+  final List<CMSSocialLinksDTO>? cmsSocialLinksDTO;
 
   AppConfigResponse(
     this.isGoogleRegistrationEnabled,

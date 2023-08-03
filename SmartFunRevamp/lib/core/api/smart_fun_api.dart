@@ -39,8 +39,8 @@ abstract class SmartFunApi {
     dio.interceptors.addAll([
       AuthorizationInterceptor(),
       PrettyDioLogger(
-        requestBody: false,
-        responseBody: false,
+        requestBody: true,
+        responseBody: true,
         requestHeader: false,
         responseHeader: false,
         request: true,
@@ -73,15 +73,8 @@ abstract class SmartFunApi {
 
   @GET('Product/ProductPrice')
   Future<ListDataWrapper<CardProduct>> getProductsPrices(
-    @Query('dateTime') String dateTime, {
-    @Query('menuType') String menuType = 'O',
-    @Query('transactionProfileId') int transactionProfileId = -1,
-    @Query('membershipId') int membershipId = -1,
-  });
-
-  @GET('Product/ProductPrice')
-  Future<ListDataWrapper<CardProduct>> getProductsPricesBySite(
-    @Query('dateTime') String dateTime, {
+    @Query('dateTime') String dateTime,
+    @Header(HttpHeaders.authorizationHeader) String token, {
     @Query('menuType') String menuType = 'O',
     @Query('transactionProfileId') int transactionProfileId = -1,
     @Query('membershipId') int membershipId = -1,

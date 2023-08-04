@@ -11,6 +11,7 @@ import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/membership_info/provider/membership_rewards_provider.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class MembershipRewardsPage extends ConsumerStatefulWidget {
   const MembershipRewardsPage({super.key});
@@ -210,7 +211,7 @@ class CardCustomWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 7.0),
                   Text(
-                    '${card.accountIdentifier == '' ? '+ Add nickname' : card.accountIdentifier?.substring(0, 15)}',
+                    '${card.accountIdentifier == '' ? '+ ${SplashScreenNotifier.getLanguageLabel('Add nickname')}' : card.accountIdentifier?.substring(0, 15)}',
                     style: const TextStyle(
                       decoration: TextDecoration.underline,
                       color: Colors.white,

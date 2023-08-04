@@ -13,11 +13,11 @@ import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_cas
 import 'package:semnox/core/domain/use_cases/select_location/get_master_site_use_case.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
-
-import 'provider/splash_screen_notifier.dart';
 
 final parafaitDefaultsProvider = FutureProvider<ParafaitDefaultsResponse>((ref) async {
   final getDefaults = Get.find<GetParafaitDefaultsUseCase>();
@@ -38,29 +38,30 @@ final masterSiteProvider = FutureProvider<List<SiteViewDTO>>((ref) async {
 });
 
 final currentLanguageProvider = StateProvider<LanguageContainerDTOList?>((ref) {
-  final languageList = ref.watch(SplashScreenNotifier.parafaitLanguagesProvider).valueOrNull;
-  if (languageList == null) {
+  final languageContainerDTO = ref.watch(SplashScreenNotifier.parafaitLanguagesProvider).valueOrNull;
+  if (languageContainerDTO == null || languageContainerDTO.languageContainerDTOList.isEmpty) {
     return null;
   }
-  return languageList.languageContainerDTOList.firstWhereOrNull((element) => element.languageCode == Platform.localeName) ??
-      languageList.languageContainerDTOList.firstWhere((element) => element.languageCode == 'en-US');
+  return languageContainerDTO.languageContainerDTOList.firstWhereOrNull((element) => element.languageCode == Platform.localeName.replaceAll('_', '-')) ??
+      languageContainerDTO.languageContainerDTOList.firstWhereOrNull((element) => element.languageCode == 'en-US');
 });
 
-class GetMasterSiteScreen extends ConsumerWidget{
+class GetMasterSiteScreen extends ConsumerWidget {
   const GetMasterSiteScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-   return ref.watch(masterSiteProvider).when(
-      loading: () { return const Center(child: CircularProgressIndicator());},
-      data: (data) {
-        SplashScreenNotifier.setMasterSite(data[0].siteId);
-        return const AfterSplashScreen();
-      }, 
-      error: (Object error, StackTrace stackTrace) { return const Scaffold(body: Text("error"),);}
-    );
+    return ref.watch(masterSiteProvider).when(loading: () {
+      return const Center(child: CircularProgressIndicator());
+    }, data: (data) {
+      SplashScreenNotifier.setMasterSite(data[0].siteId);
+      return const AfterSplashScreen();
+    }, error: (Object error, StackTrace stackTrace) {
+      return const Scaffold(
+        body: Text("error"),
+      );
+    });
   }
-
 }
 
 class AfterSplashScreen extends ConsumerWidget {
@@ -68,10 +69,14 @@ class AfterSplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    
     ref.watch(parafaitDefaultsProvider);
     ref.watch(SplashScreenNotifier.getInitialData);
     final currenLang = ref.watch(currentLanguageProvider);
+    ref.listen(SplashScreenNotifier.parafaitLanguagesProvider, (previous, next) {
+      if (next.valueOrNull?.languageContainerDTOList.isEmpty ?? true) {
+        Dialogs.showErrorMessage(context, 'This site has no languages.Please contact your admin');
+      }
+    });
     ref.watch(getStringForLocalization).maybeWhen(
       orElse: () {
         context.loaderOverlay.hide();
@@ -81,6 +86,7 @@ class AfterSplashScreen extends ConsumerWidget {
       },
     );
     final imagePath = ref.watch(cmsProvider).value?.cmsImages.languagePickImagePath;
+
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(10.0),

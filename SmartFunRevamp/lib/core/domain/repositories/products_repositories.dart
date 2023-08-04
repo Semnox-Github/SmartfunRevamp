@@ -4,7 +4,6 @@ import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_respon
 import 'package:semnox/core/errors/failures.dart';
 
 abstract class ProductsRepository {
-  Future<Either<Failure, List<CardProduct>>> getProductPrice();
-  Future<Either<Failure, List<CardProduct>>> getProductPriceBySite(int siteId);
+  Future<Either<Failure, List<CardProduct>>> getProductPrice(int siteId);
   Future<Either<Failure, EstimateTransactionResponse>> getEstimateTransaction(Map<String, dynamic> body);
 }

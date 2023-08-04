@@ -33,14 +33,14 @@ class LoginWithEmail extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const MulishText(
-                text: 'Forgot Password?',
+              MulishText(
+                text: SplashScreenNotifier.getLanguageLabel('Forgot Password?'),
                 fontWeight: FontWeight.w600,
               ),
               TextButton(
                 onPressed: () => Navigator.pushNamed(context, Routes.kForgotPassword),
-                child: const MulishText(
-                  text: 'RESET NOW',
+                child: MulishText(
+                  text: SplashScreenNotifier.getLanguageLabel('RESET NOW'),
                   fontWeight: FontWeight.bold,
                   fontColor: CustomColors.hardOrange,
                 ),

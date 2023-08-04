@@ -57,8 +57,8 @@ class CountdownTextState extends State<CountdownText> {
           startTimer();
           widget.onPressed();
         },
-        child: const MulishText(
-          text: 'Resend OTP',
+        child: MulishText(
+          text: SplashScreenNotifier.getLanguageLabel('Resend OTP'),
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.start,
           fontColor: CustomColors.hardOrange,

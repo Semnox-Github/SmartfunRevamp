@@ -5,6 +5,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
 import 'package:semnox/features/membership_info/widgets/current_membership_tier.dart';
 import 'package:semnox/features/membership_info/widgets/other_tiers.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 enum MembershipTier { bronze, gold, diamond, platinum }
 
@@ -14,7 +15,7 @@ class MembershipInfoPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Membership'),
+      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Membership')),
       body: SafeArea(
         child: Consumer(
           builder: (context, ref, child) {

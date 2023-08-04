@@ -7,6 +7,6 @@ class GetProductsPriceUseCase {
   final ProductsRepository _repository;
   GetProductsPriceUseCase(this._repository);
   Future<Either<Failure, List<CardProduct>>> call(int siteId) async {
-    return await _repository.getProductPriceBySite(siteId);
+    return await _repository.getProductPrice(siteId);
   }
 }

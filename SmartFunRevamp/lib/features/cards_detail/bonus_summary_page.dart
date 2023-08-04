@@ -13,7 +13,12 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import '../../core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 
 class BonusSummaryPage extends ConsumerWidget {
-  const BonusSummaryPage({Key? key, required this.cardNumber, required this.creditPlusType, required this.pageTitle}) : super(key: key);
+  const BonusSummaryPage({
+    Key? key,
+    required this.cardNumber,
+    required this.creditPlusType,
+    required this.pageTitle,
+  }) : super(key: key);
   final String cardNumber;
   final int? creditPlusType;
   final String pageTitle;
@@ -22,9 +27,7 @@ class BonusSummaryPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.read(CardsProviders.bonusSummaryProvider.notifier).getSummary(cardNumber);
     return Scaffold(
-      appBar: CustomAppBar(
-        title: pageTitle,
-      ),
+      appBar: CustomAppBar(title: pageTitle),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Consumer(
@@ -48,8 +51,8 @@ class BonusSummaryPage extends ConsumerWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const MulishText(
-                              text: 'Expiring By',
+                            MulishText(
+                              text: SplashScreenNotifier.getLanguageLabel('Expiring By'),
                               fontWeight: FontWeight.bold,
                             ),
                             CustomDatePicker(
@@ -66,7 +69,7 @@ class BonusSummaryPage extends ConsumerWidget {
                         ),
                         TotalBonusBalance(totalBonus: totalBonus, pageTitle: pageTitle),
                         MulishText(
-                          text: '$pageTitle Details',
+                          text: SplashScreenNotifier.getLanguageLabel('&1 Details').replaceAll('&1', pageTitle),
                           fontWeight: FontWeight.bold,
                         ),
                         Expanded(
@@ -195,7 +198,7 @@ class TotalBonusBalance extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           MulishText(
-            text: 'Total $pageTitle Balance',
+            text: SplashScreenNotifier.getLanguageLabel('Total &1 Balance').replaceAll('&1', pageTitle),
             fontWeight: FontWeight.bold,
           ),
           MulishText(

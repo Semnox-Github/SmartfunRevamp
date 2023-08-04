@@ -89,8 +89,8 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                   fieldWidth: MediaQuery.of(context).size.width * 0.12,
                 ),
               ),
-              const MulishText(
-                text: "Didn't receive OTP?",
+              MulishText(
+                text: SplashScreenNotifier.getLanguageLabel("Didn't receive OTP?"),
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.bold,
               ),

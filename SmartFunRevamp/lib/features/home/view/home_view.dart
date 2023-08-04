@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
@@ -35,6 +39,32 @@ final promoImagesProvider = Provider<List<String>>((ref) {
   final cms = ref.watch(cmsProvider).value;
   final promos = cms?.cmsModulePages?.where((element) => element.displaySection == 'IMAGE').toList();
   return promos?.map((e) => e.contentURL).toList() ?? [];
+});
+
+final safePromoImagesProvider = FutureProvider<List<String>>((ref) async {
+  final cms = ref.watch(cmsProvider).value;
+  final promos = cms?.cmsModulePages?.where((element) => element.displaySection == 'IMAGE').toList();
+  final promoImagesUrl = promos?.map((e) => e.contentURL).toList() ?? [];
+  final safeUrls = <String>[];
+  final dio = Dio();
+  try {
+    for (var path in promoImagesUrl) {
+      final response = await dio.get(
+        path,
+        options: Options(
+          validateStatus: (status) => true,
+        ),
+      );
+      Logger().d('$path -> ${response.statusCode}');
+      if (response.statusCode == HttpStatus.ok) {
+        safeUrls.add(path);
+      }
+    }
+    return safeUrls;
+  } catch (e) {
+    Logger().e(e);
+    return [];
+  }
 });
 final homeColors = Provider<CMSModuleColorsHome?>((ref) {
   final cms = ref.watch(cmsProvider).value;
@@ -110,7 +140,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                     return Container();
                                   }
                                   return MulishText(
-                                    text: '${data.memberShipName}',
+                                    text: SplashScreenNotifier.getLanguageLabel('${data.memberShipName}'),
                                     fontWeight: FontWeight.bold,
                                   );
                                 },
@@ -128,8 +158,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     child: cardsWatch.when(
                       skipLoadingOnRefresh: false,
                       loading: () => const ShimmerLoading(height: 200),
-                      error: (_, __) => const Center(
-                        child: MulishText(text: 'No Cards found'),
+                      error: (_, __) => Center(
+                        child: MulishText(text: SplashScreenNotifier.getLanguageLabel('No Cards found')),
                       ),
                       data: (data) {
                         // set first card as selected when landing home
@@ -213,7 +243,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           QuickLinkItem(
                             color: CustomColors.customYellow,
                             image: 'recharge',
-                            text: 'Recharge',
+                            text: SplashScreenNotifier.getLanguageLabel('Recharge'),
                             onTap: () => ({
                               //if there is not a card selected then show alert dialog
                               if (!hasCard)
@@ -235,7 +265,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
+                                          builder: (context) => SelectCardRechargePage(
+                                            cardDetails: cardDetails,
+                                          ),
                                         ),
                                       )
                                     }
@@ -254,13 +286,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           QuickLinkItem(
                             color: CustomColors.customPink,
                             image: 'new_card',
-                            text: 'New Card',
+                            text: SplashScreenNotifier.getLanguageLabel('New Card'),
                             onTap: () => Navigator.pushNamed(context, Routes.kBuyACard),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customLigthBlue,
                             image: 'activities',
-                            text: 'Activities',
+                            text: SplashScreenNotifier.getLanguageLabel('Activities'),
                             onTap: () => hasCard
                                 ? Navigator.push(
                                     context,
@@ -273,7 +305,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           QuickLinkItem(
                             color: CustomColors.customOrange,
                             image: 'lost_card',
-                            text: 'Lost Card',
+                            text: SplashScreenNotifier.getLanguageLabel('Lost Card'),
                             onTap: () => hasCard
                                 ? Navigator.push(
                                     context,
@@ -286,7 +318,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           QuickLinkItem(
                             color: CustomColors.customGreen,
                             image: 'gameplays',
-                            text: 'Game Plays',
+                            text: SplashScreenNotifier.getLanguageLabel('Game Plays'),
                             onTap: () => hasCard
                                 ? Navigator.push(
                                     context,
@@ -299,7 +331,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           QuickLinkItem(
                             color: CustomColors.customPurple,
                             image: 'transfer_credit',
-                            text: 'Transfer Credit',
+                            text: SplashScreenNotifier.getLanguageLabel('Transfer Credit'),
                             onTap: () => hasCard
                                 ? Navigator.push(
                                     context,
@@ -313,36 +345,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       );
                     },
                   ),
-                  const MulishText(
-                    text: "Today's Offers",
+                  MulishText(
+                    text: SplashScreenNotifier.getLanguageLabel("Today's Offers"),
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
                   ),
-                  Builder(
-                    builder: (context) {
-                      return CarouselSlider(
-                        options: CarouselOptions(height: 200.0),
-                        items: promoImages.map((i) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                                child: CachedNetworkImage(
-                                  imageUrl: i,
-                                  placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator.adaptive(),
-                                  ),
-                                  errorWidget: (_, __, ___) => Image.asset('assets/home/no_promo_image.png'),
-                                ),
-                              );
-                            },
-                          );
-                        }).toList(),
-                      );
-                    },
-                  ),
-                  const MulishText(
-                    text: 'More Actions',
+                  PromoImages(promoImages: promoImages),
+                  MulishText(
+                    text: SplashScreenNotifier.getLanguageLabel('More Actions'),
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
                   ),
@@ -356,7 +366,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       QuickLinkItem(
                         color: CustomColors.customPink,
                         image: 'new_card',
-                        text: 'Link A Card',
+                        text: SplashScreenNotifier.getLanguageLabel('Link A Card'),
                         onTap: () {
                           showDialog(
                             context: context,
@@ -372,20 +382,44 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           );
                         },
                       ),
-                      const QuickLinkItem(
+                      QuickLinkItem(
                         color: CustomColors.customYellow,
                         image: 'tickets',
-                        text: 'Tickets',
+                        text: SplashScreenNotifier.getLanguageLabel('Tickets'),
+                        onTap: () {
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Not implemented'),
+                            ),
+                          );
+                        },
                       ),
-                      const QuickLinkItem(
+                      QuickLinkItem(
                         color: CustomColors.customOrange,
                         image: 'coupons',
-                        text: 'Coupons',
+                        text: SplashScreenNotifier.getLanguageLabel('Coupons'),
+                        onTap: () {
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Not implemented'),
+                            ),
+                          );
+                        },
                       ),
-                      const QuickLinkItem(
+                      QuickLinkItem(
                         color: CustomColors.customGreen,
                         image: 'events',
-                        text: 'Events',
+                        text: SplashScreenNotifier.getLanguageLabel('Events'),
+                        onTap: () {
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Not implemented'),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -396,6 +430,59 @@ class _HomeViewState extends ConsumerState<HomeView> {
         ),
       ),
     );
+  }
+}
+
+class PromoImages extends ConsumerWidget {
+  const PromoImages({
+    super.key,
+    required this.promoImages,
+  });
+
+  final List<String> promoImages;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ref.watch(safePromoImagesProvider).when(
+          error: (error, stacktrace) {
+            Logger().e('Hubo un error', error, stacktrace);
+            return const Center(
+              child: Icon(
+                Icons.error,
+                color: Colors.red,
+              ),
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+          data: (images) {
+            if (images.isEmpty) {
+              return Image.asset('assets/home/no_promo_image.png');
+            }
+            return CarouselSlider(
+              options: CarouselOptions(
+                height: 200.0,
+                enableInfiniteScroll: images.length > 1,
+                enlargeCenterPage: true,
+              ),
+              items: images.map((imageLink) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: CachedNetworkImage(
+                        imageUrl: imageLink,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (_, __, ___) => Container(),
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+            );
+          },
+        );
   }
 }
 

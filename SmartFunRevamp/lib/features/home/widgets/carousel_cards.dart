@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -12,6 +11,7 @@ import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/update_nickname_card.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -37,16 +37,15 @@ class _CarouselCardsState extends State<CarouselCards> {
   @override
   void initState() {
     _cards = List<CardDetails>.from(widget.cards);
-    Logger().d(_cards.length);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     if (_cards.isEmpty) {
-      return const Center(
+      return Center(
         child: MulishText(
-          text: "You don't have any card",
+          text: SplashScreenNotifier.getLanguageLabel("You don't have any notifications"),
           fontWeight: FontWeight.bold,
           fontSize: 20.0,
         ),

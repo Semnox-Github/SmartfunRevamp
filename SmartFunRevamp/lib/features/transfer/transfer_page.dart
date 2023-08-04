@@ -107,7 +107,10 @@ class _TransferPageState extends ConsumerState<TransferPage> {
           }
           formKey.currentState!.save();
           if (cardFrom!.isSameCard(cardTo)) {
-            Dialogs.showErrorMessage(context, SplashScreenNotifier.getLanguageLabel("You can't transfer from/to the same card"));
+            Dialogs.showErrorMessage(
+              context,
+              SplashScreenNotifier.getLanguageLabel("You can't transfer from/to the same card"),
+            );
           } else {
             TransferBalance transferBalance = TransferBalance(
               cardFrom!,

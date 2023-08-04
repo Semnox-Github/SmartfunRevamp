@@ -70,10 +70,10 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
                 });
               },
             ),
-            const Padding(
-              padding: EdgeInsets.all(10.0),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
               child: MulishText(
-                text: 'Card Activities',
+                text: SplashScreenNotifier.getLanguageLabel('Card Activities'),
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0,
               ),
@@ -82,9 +82,9 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
               child: ref.watch(_getActivityLog(selectedCard.accountId.toString())).maybeWhen(
                     orElse: () => Container(),
                     error: (error, stackTrace) {
-                      return const Center(
+                      return Center(
                         child: MulishText(
-                          text: 'No activities on this Card',
+                          text: SplashScreenNotifier.getLanguageLabel('No activities on this Card'),
                           fontSize: 20.0,
                         ),
                       );

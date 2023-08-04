@@ -58,7 +58,9 @@ class EstimatedTransactionPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          SplashScreenNotifier.getLanguageLabel(transactionType == "newcard" ? "Buy a Card" : "Recharge"),
+          SplashScreenNotifier.getLanguageLabel(
+            transactionType == "newcard" ? "Buy a Card" : "Recharge",
+          ),
           style: const TextStyle(
             color: CustomColors.customBlue,
             fontWeight: FontWeight.bold,

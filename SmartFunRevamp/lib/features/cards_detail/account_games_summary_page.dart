@@ -44,8 +44,8 @@ class AccountGamesSummaryPage extends ConsumerWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const MulishText(
-                              text: 'Expiring By',
+                            MulishText(
+                              text: SplashScreenNotifier.getLanguageLabel('Expiring By'),
                               fontWeight: FontWeight.bold,
                             ),
                             CustomDatePicker(

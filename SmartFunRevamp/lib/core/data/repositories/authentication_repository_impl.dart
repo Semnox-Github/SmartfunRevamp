@@ -26,10 +26,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -41,10 +41,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -60,10 +60,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       Logger().e(e);
       return Left(ServerFailure(''));
@@ -79,10 +79,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -94,10 +94,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Invalid OTP'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Invalid OTP')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -109,10 +109,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -125,10 +125,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -141,10 +141,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -157,12 +157,12 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
-      return Left(ServerFailure('Email not found'));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Email not found')));
     }
   }
 
@@ -174,7 +174,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       await _api.deleteProfile(id);
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure('User not found'));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('User not found')));
     }
   }
 
@@ -184,7 +184,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       final response = await _api.getAppConfiguration(siteId);
       return Right(response.data);
     } catch (e) {
-      return Left(ServerFailure('Config Not Found'));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Config Not Found')));
     }
   }
 
@@ -194,7 +194,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       final response = await _api.getHomePageCMS();
       return Right(response.data.first);
     } catch (e) {
-      return Left(ServerFailure('Email not found'));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Email not found')));
     }
   }
 
@@ -206,12 +206,12 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
+        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
-      return Left(ServerFailure('Email not found'));
+      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Email not found')));
     }
   }
 }

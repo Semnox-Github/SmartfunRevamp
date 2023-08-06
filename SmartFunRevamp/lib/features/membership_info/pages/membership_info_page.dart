@@ -21,12 +21,8 @@ class MembershipInfoPage extends ConsumerWidget {
           builder: (context, ref, child) {
             final userMemberShip = ref.read(membershipInfoProvider).value;
             return ref.watch(membershipContainerProvider).when(
-                  error: (_, __) => Center(
-                    child: MulishText(
-                      text: SplashScreenNotifier.getLanguageLabel('Error loading info'),
-                    ),
-                  ),
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (_, __) => const Center(child: MulishText(text: 'Error loading info')),
+                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                   data: (data) {
                     return ListView.builder(
                       itemCount: data.length,

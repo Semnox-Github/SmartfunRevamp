@@ -88,7 +88,7 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                         width: 100,
                         color: Colors.red,
                       ),
-                      inProgress: () => const Center(child: CircularProgressIndicator()),
+                      inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                       success: (data) {
                         if (data.isEmpty) {
                           return const Center(

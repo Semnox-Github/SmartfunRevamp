@@ -15,10 +15,6 @@ class SelectedCardLostPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFCFF8FF),
-        elevation: 0.0,
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
           SplashScreenNotifier.getLanguageLabel('Lost Card'),
           style: const TextStyle(
@@ -60,7 +56,8 @@ class SelectedCardLostPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    SplashScreenNotifier.getLanguageLabel('This Card cannot be used for any further transactions. A temporary will be issued, exachange the temporary card for a new physical carrd at site'),
+                    SplashScreenNotifier.getLanguageLabel(
+                        'This Card cannot be used for any further transactions. A temporary will be issued, exachange the temporary card for a new physical carrd at site'),
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       color: CustomColors.customBlack,

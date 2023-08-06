@@ -44,10 +44,6 @@ class _SearchPageState extends ConsumerState<SearchPage> with TickerProviderStat
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xFFCFF8FF),
-          elevation: 0.0,
-          centerTitle: false,
-          iconTheme: const IconThemeData(color: Colors.black),
           title: Column(
             children: [
               Text(

@@ -44,10 +44,6 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
     try {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xFFCFF8FF),
-          elevation: 0.0,
-          centerTitle: false,
-          iconTheme: const IconThemeData(color: Colors.black),
           title: Text(
             SplashScreenNotifier.getLanguageLabel('Game Plays'),
             style: const TextStyle(
@@ -75,7 +71,7 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                   builder: (context, ref, child) {
                     return ref.watch(GameplaysProvider.accountGameplaysProvider(selectedCard.accountId ?? 0)).maybeWhen(
                           orElse: () => Container(),
-                          loading: () => const Center(child: CircularProgressIndicator()),
+                          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                           error: (error, stackTrace) => const Center(
                             child: MulishText(
                               text: 'No Gameplays Found',

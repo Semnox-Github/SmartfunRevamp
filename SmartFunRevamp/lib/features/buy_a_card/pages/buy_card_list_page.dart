@@ -27,10 +27,6 @@ class BuyCardListPage extends StatelessWidget {
       endDrawer: const FilterDrawer(),
       appBar: filterStr == null
           ? AppBar(
-              backgroundColor: const Color(0xFFCFF8FF),
-              elevation: 0.0,
-              centerTitle: false,
-              iconTheme: const IconThemeData(color: Colors.black),
               title: Text(
                 SplashScreenNotifier.getLanguageLabel('Buy a Card'),
                 style: const TextStyle(
@@ -74,7 +70,7 @@ class BuyCardListPage extends StatelessWidget {
                 builder: (context, ref, child) {
                   return ref.watch(buyCardProvider).maybeWhen(
                         orElse: () => Container(),
-                        loading: () => const Center(child: CircularProgressIndicator()),
+                        loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                         data: (responseCards) {
                           List<CardProduct> cards = List.from(responseCards);
                           cards = cards..removeWhere((element) => (element.productType != "CARDSALE" && element.productType != "NEW"));

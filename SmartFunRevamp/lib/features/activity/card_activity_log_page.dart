@@ -89,7 +89,7 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
                         ),
                       );
                     },
-                    loading: () => const Center(child: CircularProgressIndicator()),
+                    loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                     data: (data) {
                       return ListView.builder(
                         itemCount: data.length,

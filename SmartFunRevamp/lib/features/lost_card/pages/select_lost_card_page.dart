@@ -13,10 +13,7 @@ import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_butt
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SelectCardLostPage extends ConsumerStatefulWidget {
-  const SelectCardLostPage({
-    Key? key,
-    this.cardDetails
-  }) : super(key: key);
+  const SelectCardLostPage({Key? key, this.cardDetails}) : super(key: key);
 
   final CardDetails? cardDetails;
   @override
@@ -30,7 +27,7 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
   @override
   void initState() {
     if (widget.cardDetails != null) {
-    //is added to cards list as the only card  
+      //is added to cards list as the only card
       List<CardDetails> selectedCard = [];
       selectedCard.add(widget.cardDetails!);
       cards = selectedCard;
@@ -47,10 +44,6 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFCFF8FF),
-        elevation: 0.0,
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
           SplashScreenNotifier.getLanguageLabel('Lost Card'),
           style: const TextStyle(

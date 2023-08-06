@@ -35,10 +35,6 @@ class CardDetailPage extends ConsumerWidget {
           fontColor: CustomColors.customBlue,
           fontWeight: FontWeight.bold,
         ),
-        centerTitle: false,
-        backgroundColor: CustomColors.customLigthBlue,
-        elevation: 0.0,
-        iconTheme: const IconThemeData(color: CustomColors.customBlue),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -253,7 +249,7 @@ class CardDetailItem extends StatelessWidget {
                 imageUrl: item.itemUrl,
                 height: constrains.maxHeight * 0.3,
                 width: constrains.maxHeight * 0.3,
-                placeholder: (context, url) => const CircularProgressIndicator(),
+                placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
                 errorWidget: (context, url, error) => SvgPicture.asset('assets/card_details/$image.svg'),
               ),
             ),

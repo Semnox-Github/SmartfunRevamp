@@ -44,7 +44,7 @@ class CardActivityDetailPage extends ConsumerWidget {
           builder: (context, ref, child) {
             return ref.watch(_getTrxDetail(transactionId)).maybeWhen(
                   orElse: () => Container(),
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                   error: (error, stackTrace) => Center(
                     child: MulishText(
                       text: (error as ServerFailure).message,
@@ -179,7 +179,7 @@ class CardActivityDetailPage extends ConsumerWidget {
                           ],
                         ),
                         const Spacer(),
-                        CustomIconButton(
+                        CustomButton(
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(

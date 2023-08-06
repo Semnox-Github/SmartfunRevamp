@@ -14,14 +14,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 0.0,
-      iconTheme: const IconThemeData(color: CustomColors.customBlue),
-      backgroundColor: CustomColors.customLigthBlue,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(20),
-        ),
-      ),
       title: MulishText(
         text: title,
         fontWeight: FontWeight.bold,

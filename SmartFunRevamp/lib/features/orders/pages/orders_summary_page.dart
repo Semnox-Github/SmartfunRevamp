@@ -30,7 +30,7 @@ class OrdersSummaryPage extends ConsumerWidget {
                   error: (_) {
                     return Container();
                   },
-                  inProgress: () => const Center(child: CircularProgressIndicator()),
+                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                   success: (responseData) {
                     List<OrderDetails> data = List.from(responseData);
                     data.removeWhere((element) => element.transactionLinesDTOList == null);

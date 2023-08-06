@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -52,10 +51,6 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
     return Scaffold(
       appBar: widget.filterStr == null
           ? AppBar(
-              backgroundColor: const Color(0xFFCFF8FF),
-              elevation: 0.0,
-              centerTitle: false,
-              iconTheme: const IconThemeData(color: Colors.black),
               title: Text(
                 SplashScreenNotifier.getLanguageLabel('Recharge a Card'),
                 style: const TextStyle(
@@ -71,7 +66,6 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                   ? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')
                   : '${SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')} \$ ${(qty * finalPrice).toCurrency(currency, format)}',
               onTap: () {
-                Logger().d(offerSelected);
                 if (offerSelected != null) {
                   Navigator.pop(context);
                   Navigator.push(
@@ -124,7 +118,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                   builder: (context, ref, child) {
                     return ref.watch(rechargeProductsProvider).maybeWhen(
                           orElse: () => Container(),
-                          loading: () => const Center(child: CircularProgressIndicator()),
+                          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                           error: (error, stackTrace) => const MulishText(text: 'Error'),
                           data: (offers) {
                             List<CardProduct> offersFiltered = offers;
@@ -222,7 +216,9 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], // Only numbers can be entered
             controller: txt,
-            decoration: InputDecoration(hintText: SplashScreenNotifier.getLanguageLabel('Please enter the amount you wish to recharge')),
+            decoration: InputDecoration(
+              hintText: SplashScreenNotifier.getLanguageLabel('Please enter the amount you wish to recharge'),
+            ),
             onChanged: (amount) {
               setState(() {
                 finalPrice = double.tryParse(amount) == null ? 0 : double.parse(amount);

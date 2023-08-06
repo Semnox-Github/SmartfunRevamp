@@ -117,6 +117,10 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     masterSiteId = siteId;
   }
 
+  static String baseUrl() {
+    return Get.find<String>(tag: 'baseURL');
+  }
+
   static int getMasterSite() {
     return masterSiteId!;
   }

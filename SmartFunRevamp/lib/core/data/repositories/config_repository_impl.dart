@@ -19,7 +19,11 @@ class ConfigRepositoryImpl implements ConfigRepository {
   Future<Either<Failure, ParafaitDefaultsResponse>> getParafaitDefaults() async {
     try {
       final systemUser = Get.find<SystemUser>();
-      final response = await _api.getParafaitDefaults(systemUser.userId, systemUser.userPKId, systemUser.machineId);
+      final response = await _api.getParafaitDefaults(
+        SplashScreenNotifier.getMasterSite().toString(),
+        systemUser.userPKId,
+        systemUser.machineId,
+      );
       Logger().d(response.data);
       return Right(response.data);
     } on DioException catch (e) {

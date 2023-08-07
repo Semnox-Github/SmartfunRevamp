@@ -42,6 +42,7 @@ dependencies:
   flutter_svg: ^2.0.7
   fluttertoast: ^8.1.2
   freezed_annotation: ^2.2.0
+  geolocator: ^9.0.2
   get: ^4.6.5
   glutton: ^2.0.0
   google_fonts: ^4.0.4

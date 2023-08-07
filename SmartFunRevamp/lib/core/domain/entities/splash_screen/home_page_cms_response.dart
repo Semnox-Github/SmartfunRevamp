@@ -75,9 +75,8 @@ class HomePageCMSResponse {
       'siteID': SplashScreenNotifier.getMasterSite().toString(),
       'posMachine': 'CustomerApp',
       'userID': 'SmartFun',
-      'apiURL': 'smartfungigademo.parafait.com',
+      'apiURL': SplashScreenNotifier.baseUrl(),
     };
-
     String playUrl = playUrlFromCMS;
     replacements.forEach((key, value) {
       playUrl = playUrl.replaceAll('@$key', value);

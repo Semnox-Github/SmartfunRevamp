@@ -14,20 +14,23 @@ class UserPresentationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 10.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      child: Container(
-        margin: const EdgeInsets.all(20.0),
-        child: Row(
-          children: [
-            RoundRectanglePicture(user: user),
-            Expanded(child: UserInfo(user: user)),
-            IconButton(
-              onPressed: () => Navigator.pushNamed(context, Routes.kAccount),
-              icon: const Icon(Icons.arrow_forward_ios),
-            ),
-          ],
+    return InkWell(
+      onTap: () => Navigator.pushNamed(context, Routes.kAccount),
+      child: Card(
+        elevation: 10.0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        child: Container(
+          margin: const EdgeInsets.all(20.0),
+          child: Row(
+            children: [
+              RoundRectanglePicture(user: user),
+              Expanded(child: UserInfo(user: user)),
+              IconButton(
+                onPressed: () => Navigator.pushNamed(context, Routes.kAccount),
+                icon: const Icon(Icons.arrow_forward_ios),
+              ),
+            ],
+          ),
         ),
       ),
     );

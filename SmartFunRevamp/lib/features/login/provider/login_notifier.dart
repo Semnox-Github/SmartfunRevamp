@@ -89,13 +89,12 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (l) => state = _Error(l.message),
       (customerDTO) async {
         registerUser(customerDTO);
-        state = const _SelectLocationNeeded();
-        // await _localDataSource.saveValue(LocalDataSource.kUserId, customerDTO.id.toString());
-        // if (selectedSite == null || previousUserId != customerDTO.id.toString() && defaultSiteId.isNullOrEmpty()) {
-        //   state = const _SelectLocationNeeded();
-        // } else {
-        //   getNewToken();
-        // }
+        await _localDataSource.saveValue(LocalDataSource.kUserId, customerDTO.id.toString());
+        if (selectedSite == null || previousUserId != customerDTO.id.toString() && defaultSiteId.isNullOrEmpty()) {
+          state = const _SelectLocationNeeded();
+        } else {
+          getNewToken();
+        }
       },
     );
   }

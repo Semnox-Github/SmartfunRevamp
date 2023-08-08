@@ -14,6 +14,7 @@ import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
+import 'package:semnox/features/orders/pages/orders_summary_page.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -184,6 +185,24 @@ class MoreOptionItemFromCMS extends StatelessWidget {
           iconBgColor: CustomColors.customOrange,
           iconPath: 'note',
           onTap: null,
+        );
+
+      case 'ORDERS':
+        return MoreOptions(
+          desc: '',
+          iconBgColor: CustomColors.customLigthGreen,
+          iconPath: 'note',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OrdersSummaryPage(
+                  customerId: Get.find<CustomerDTO>().id.toString(),
+                ),
+              ),
+            );
+          },
+          item: item,
         );
 
       case 'LIKE':

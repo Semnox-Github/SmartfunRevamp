@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
@@ -14,22 +15,26 @@ import 'package:semnox/features/select_location/provider/select_location_provide
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
+const CameraPosition kGooglePlex = CameraPosition(
+  target: LatLng(37.42796133580664, -122.085749655962),
+  zoom: 15,
+);
+
 final _locationProvider = FutureProvider.autoDispose<Position>((ref) async {
   final geolocator = GeolocatorPlatform.instance;
   LocationPermission permission = await geolocator.checkPermission();
+  Logger().d(permission);
   if (permission == LocationPermission.denied) {
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
       return Future.error('Location permissions are denied');
     }
   }
-
   return await geolocator.getCurrentPosition();
 });
 
 final userLocationProvider = StateProvider.autoDispose<Position?>((ref) {
   final position = ref.watch(_locationProvider).valueOrNull;
-
   return position;
 });
 
@@ -42,6 +47,7 @@ class MapPage extends ConsumerStatefulWidget {
 
 class _MapPageState extends ConsumerState<MapPage> {
   final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  late GoogleMapController _mapController;
   bool hasSelectedSite = false;
   late SiteViewDTO selectedSite;
   @override
@@ -81,18 +87,7 @@ class _MapPageState extends ConsumerState<MapPage> {
             Set<Marker> markers = {};
             final sites = ref.watch(getAllSitesProvider);
             final userLocation = ref.watch(userLocationProvider);
-            CameraPosition kGooglePlex = CameraPosition(
-              target: LatLng(userLocation?.latitude ?? 37.42796133580664, userLocation?.longitude ?? -122.085749655962),
-              zoom: 15,
-            );
-            if (userLocation != null) {
-              Marker resultMarker = Marker(
-                markerId: const MarkerId('You'),
-                infoWindow: const InfoWindow(title: "You"),
-                position: LatLng(userLocation.latitude, userLocation.longitude),
-              );
-              markers.add(resultMarker);
-            }
+
             return sites.when(
               loading: () => const Center(child: CircularProgressIndicator.adaptive()),
               error: (_, __) => Center(
@@ -126,11 +121,27 @@ class _MapPageState extends ConsumerState<MapPage> {
                     markers.add(resultMarker);
                   }
                 }
+
+                if (userLocation != null) {
+                  Marker resultMarker = Marker(
+                    markerId: const MarkerId('ME'),
+                    infoWindow: const InfoWindow(title: "Me"),
+                    position: LatLng(userLocation.latitude, userLocation.longitude),
+                  );
+                  markers.add(resultMarker);
+                }
                 return GoogleMap(
                   mapType: MapType.normal,
                   initialCameraPosition: kGooglePlex,
-                  onMapCreated: (mapController) => _controller.complete(mapController),
+                  onMapCreated: (mapController) {
+                    _mapController = mapController;
+                    if (userLocation != null) {
+                      _mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(userLocation.latitude, userLocation.longitude), 15));
+                    }
+                    _controller.complete(mapController);
+                  },
                   markers: markers,
+                  myLocationEnabled: true,
                 );
               },
             );

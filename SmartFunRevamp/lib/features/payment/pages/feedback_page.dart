@@ -37,40 +37,24 @@ class FeedbackPage extends ConsumerWidget {
               ],
             );
           },
-          data: (surveyDetail) {
-            return Column(
-              children: [
-                ...surveyDetail.map(
-                  (surveyQuestion) {
-                    final responseValues = surveyQuestion.surveyQuestion.questionResponse.responseValues;
-                    return Column(
-                      children: [
-                        MulishText(
-                          text: surveyQuestion.surveyQuestion.question,
-                        ),
-                        responseValues != null
-                            ? FeedbackValueOption(
-                                responseValues: responseValues,
-                              )
-                            : Container(
-                                padding: const EdgeInsets.symmetric(vertical: 5.0),
-                                child: const TextField(
-                                  maxLines: 8,
-                                ),
-                              ),
-                      ],
-                    );
-                  },
-                ).toList(),
-                const Spacer(),
-                CustomButton(
-                  onTap: () {
-                    Navigator.popUntil(context, (route) => route.isFirst);
-                  },
-                  label: SplashScreenNotifier.getLanguageLabel('Send Feedback'),
-                  margin: const EdgeInsets.only(top: 10.0),
-                )
-              ],
+          data: (surveyDetails) {
+            return SingleChildScrollView(
+              child: Column(
+                children: List.of([
+                  ...surveyDetails.map(
+                    (surveyDetail) {
+                      return FeedbackValueOption(surveyDetail: surveyDetail);
+                    },
+                  ).toList(),
+                  CustomButton(
+                    onTap: () {
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                    },
+                    label: SplashScreenNotifier.getLanguageLabel('Send Feedback'),
+                    margin: const EdgeInsets.only(top: 10.0),
+                  )
+                ]),
+              ),
             );
           },
         ),

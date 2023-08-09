@@ -10,7 +10,6 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
-import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
@@ -20,7 +19,6 @@ import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:semnox/features/payment/provider/feedback_provider.dart';
 
 class Dialogs {
   static void couponSuccessDialog(BuildContext context, double couponValue) {
@@ -342,59 +340,6 @@ class Dialogs {
     ).show();
   }
 
-  static void showTransactionFeedbackDialog(BuildContext context, Function() onSubmitted) {
-    AwesomeDialog(
-      context: context,
-      dismissOnTouchOutside: true,
-      onDismissCallback: (type) => onSubmitted(),
-      body: Consumer(
-        builder: (context, ref, child) {
-          return ref.watch(surveyDetailsProvider).when(
-                loading: () => const CircularProgressIndicator.adaptive(),
-                error: (error, stacktrace) {
-                  return const Icon(
-                    Icons.error_outline,
-                    color: Colors.red,
-                    size: 40.0,
-                  );
-                },
-                data: (surveyDetail) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Column(
-                      children: [
-                        ...surveyDetail.map(
-                          (surveyQuestion) {
-                            final responseValues = surveyQuestion.surveyQuestion.questionResponse.responseValues;
-                            return Column(
-                              children: [
-                                MulishText(
-                                  text: surveyQuestion.surveyQuestion.question,
-                                ),
-                                responseValues != null
-                                    ? FeedbackValueOption(
-                                        responseValues: responseValues,
-                                      )
-                                    : const TextField(),
-                              ],
-                            );
-                          },
-                        ).toList(),
-                        CustomButton(
-                          onTap: () {},
-                          label: SplashScreenNotifier.getLanguageLabel('Send Feedback'),
-                          margin: const EdgeInsets.only(top: 10.0),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              );
-        },
-      ),
-    ).show();
-  }
-
   // ignore: unused_element
   static void _showAppRatingDialog(BuildContext context, Function() onSubmitted) {
     final isIOS = Platform.isIOS;
@@ -443,42 +388,5 @@ class Dialogs {
         fontSize: 18,
       ),
     ).show();
-  }
-}
-
-class FeedbackValueOption extends StatefulWidget {
-  const FeedbackValueOption({super.key, required this.responseValues});
-  final List<CustomerFeedbackResponseValues> responseValues;
-
-  @override
-  State<FeedbackValueOption> createState() => _FeedbackValueOptionState();
-}
-
-class _FeedbackValueOptionState extends State<FeedbackValueOption> {
-  String selected = '';
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: widget.responseValues.reversed.map(
-        (e) {
-          return FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: selected == e.responseValue ? Colors.red : Colors.transparent,
-              padding: const EdgeInsets.all(0.0),
-            ),
-            onPressed: () {
-              setState(() {
-                selected = e.responseValue;
-              });
-            },
-            child: MulishText(
-              text: e.responseValue,
-              fontColor: Colors.black,
-            ),
-          );
-        },
-      ).toList(),
-    );
   }
 }

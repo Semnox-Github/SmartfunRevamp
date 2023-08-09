@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/home/pages/home_page.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
@@ -160,19 +160,7 @@ class PaymentSuccessPage extends ConsumerWidget {
           ),
           margin: const EdgeInsets.all(3),
           child: TextButton(
-            onPressed: () {
-              Dialogs.showTransactionFeedbackDialog(
-                context,
-                () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomePage(),
-                    ),
-                  ); 
-                },
-              );
-            },
+            onPressed: () => Navigator.pushReplacementNamed(context, Routes.kFeedback),
             child: const Text(
               'BACK TO HOME',
               style: TextStyle(
@@ -219,21 +207,7 @@ class PaymentSuccessPage extends ConsumerWidget {
           ),
           margin: const EdgeInsets.all(3),
           child: TextButton(
-            onPressed: () {
-              Dialogs.showTransactionFeedbackDialog(
-                context,
-                () {
-                  
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomePage(),
-                    ),
-                  );
-                  
-                },
-              );
-            },
+            onPressed: () => Navigator.pushReplacementNamed(context, Routes.kFeedback),
             child: const Text(
               'BACK TO HOME',
               style: TextStyle(

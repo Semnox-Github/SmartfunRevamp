@@ -230,8 +230,44 @@ class ProfileDTO {
     _gender = gender;
   }
 
+   set notes(String? notes) {
+    _notes = notes;
+  }
+
+  set designation(String? designation) {
+    _designation = designation;
+  }
+
   set anniversary(String? anniversary) {
     _anniversary = anniversary;
+  }
+
+  set uniqueIdentifier(String? uniqueIdentifier) {
+    _uniqueIdentifier = uniqueIdentifier;
+  }
+
+  set userName(String? userName) {
+    _userName = userName;
+  }
+
+  set rightHanded(bool? rightHanded) {
+    _rightHanded = rightHanded;
+  }
+
+  set password(String? password) {
+    _password = password;
+  }
+
+  set taxCode(String? taxCode) {
+    _taxCode = taxCode;
+  }
+
+  set company(String? company) {
+    _company = company;
+  }
+
+  set policyTermsAccepted(bool? policyTermsAccepted) {
+    _policyTermsAccepted = policyTermsAccepted;
   }
 
   set photoUrl(String? photoUrl) {
@@ -245,6 +281,7 @@ class ProfileDTO {
   set addressDtoList(List<AddressDTO>? addressDtoList) {
     _addressDtoList = addressDtoList;
   }
+
 
   factory ProfileDTO.fromJson(Map<String, dynamic> json) => ProfileDTO(
         id: json["Id"],
@@ -323,7 +360,8 @@ class ProfileDTO {
         "LastLoginTime": lastLoginTime,
         // "ContactDTOList": List<PhoneContactDTO>.from(contactDtoList!.map((x) => x.toJson())),
         "ContactDTOList": contactDtoList?.map((x) => x.toJson()).toList(),
-        "AddressDTOList": List<AddressDTO>.from(addressDtoList!.map((x) => x.toJson())),
+        // "AddressDTOList": List<AddressDTO>.from(addressDtoList!.map((x) => x.toJson())),
+        "AddressDTOList": addressDtoList?.map((x) => x.toJson()).toList(),
         "ProfileContentHistoryDTOList": profileContentHistoryDtoList,
         "OptInPromotions": optInPromotions,
         "OptInPromotionsMode": optInPromotionsMode,

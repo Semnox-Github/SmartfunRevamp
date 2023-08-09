@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/sign_up/sign_up_entity.dart';
@@ -13,6 +14,7 @@ import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
+import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/login/widgets/social_logins_container.dart';
@@ -146,8 +148,21 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                             ],
                           );
                         }
+                        if (field.customerFieldName == "BIRTH_DATE" || field.customerFieldType == "DATE") {
+                          return CustomDatePicker(
+                            margin: const EdgeInsets.symmetric(vertical: 10.0),
+                            labelText: SplashScreenNotifier.getLanguageLabel('Date of birth'),
+                            format: 'MM-dd-yyyy',
+                            onItemSelected: (dob) => request[field.customerFieldName] = {"value": DateFormat('MM-dd-yyyy').format(dob).toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                            suffixIcon: const Icon(
+                              Icons.date_range_outlined,
+                              color: CustomColors.hardOrange,
+                            ),
+                          );
+
+                        }
                         return CustomTextField(
-                          onSaved: (value) => request[field.customerFieldName] = {"value": value, "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                          onSaved: (value) => request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
                           label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
                           margins: const EdgeInsets.symmetric(vertical: 10.0),
                           required: field.validationType == "M",
@@ -160,7 +175,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                 if (!isPasswordDisabled)
                   Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
                     CustomPasswordTextField(
-                      onSaved: (value) => request["PASSWORD"] = value,
+                      onSaved: (value) => request["PASSWORD"] = {"value": value.toString(), "customAttributeId": -1 , "customerFieldType": "TEXT"},
                       label: '${SplashScreenNotifier.getLanguageLabel("Password")}*',
                       margins: const EdgeInsets.symmetric(vertical: 10.0),
                       required: true,

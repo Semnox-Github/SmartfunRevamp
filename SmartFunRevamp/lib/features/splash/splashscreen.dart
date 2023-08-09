@@ -83,7 +83,7 @@ class SplashScreenImage extends StatelessWidget {
       height: double.infinity,
       width: double.infinity,
       fit: BoxFit.fill,
-      placeholder: (_, __) => const Center(child: CircularProgressIndicator()),
+      placeholder: (_, __) => const Center(child: CircularProgressIndicator.adaptive()),
       errorWidget: (context, url, error) {
         return Container(
           decoration: const BoxDecoration(

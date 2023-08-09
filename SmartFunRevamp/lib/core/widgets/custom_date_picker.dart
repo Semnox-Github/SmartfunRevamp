@@ -79,18 +79,6 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
               filled: true,
               hintText: widget.hintText,
               floatingLabelBehavior: FloatingLabelBehavior.never,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.0),
-                borderSide: const BorderSide(
-                  color: Colors.black,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.0),
-                borderSide: const BorderSide(
-                  color: Colors.black,
-                ),
-              ),
             ),
           ),
         ],

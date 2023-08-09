@@ -51,18 +51,6 @@ class _PasswordFieldState extends State<PasswordField> {
                 color: Colors.black,
               ),
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.0),
-              borderSide: BorderSide(
-                color: widget.borderColor,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.0),
-              borderSide: BorderSide(
-                color: widget.borderColor,
-              ),
-            ),
           ),
         )
       ],

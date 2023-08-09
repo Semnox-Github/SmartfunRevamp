@@ -38,10 +38,6 @@ class PaymentOptionsPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFCFF8FF),
-        elevation: 0.0,
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
           SplashScreenNotifier.getLanguageLabel('Payment Options'),
           style: const TextStyle(
@@ -94,10 +90,8 @@ class PaymentOptionsPage extends ConsumerWidget {
               child: Consumer(
                 builder: (context, ref, child) {
                   return ref.watch(PaymentOptionsProvider.paymentModesProvider).when(
-                        error: (e, s) => MulishText(
-                          text: '${SplashScreenNotifier.getLanguageLabel('An error has ocurred')} $e',
-                        ),
-                        loading: () => const Center(child: CircularProgressIndicator()),
+                        error: (e, s) => MulishText(text: 'An error has ocurred $e'),
+                        loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                         data: (data) {
                           return ExpansionPaymentMethodsList(
                             paymentsMode: data,
@@ -198,7 +192,7 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                     ),
                     body: ref.watch(hostedPaymentProvider).when(
                           initial: () => Container(),
-                          inProgress: () => const CircularProgressIndicator(),
+                          inProgress: () => const CircularProgressIndicator.adaptive(),
                           error: (msg) => const Icon(Icons.error, color: Colors.green, size: 30.0),
                           success: (data) {
                             final htmlString = data.gatewayRequestFormString ?? data.gatewayRequestString;

@@ -38,10 +38,6 @@ class SelectLocationManuallyPage extends ConsumerWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: CustomColors.customLigthBlue,
-        centerTitle: false,
-        iconTheme: const IconThemeData(color: CustomColors.customBlue),
         title: const MulishText(
           text: 'Select Location',
           fontWeight: FontWeight.bold,
@@ -123,7 +119,7 @@ class _LocationListViewState extends State<LocationListView> {
         return ref.watch(selectLocationStateProvider).maybeWhen(
               orElse: () => Container(),
               inProgress: () => const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(),
               ),
               success: (data) {
                 return ListView.separated(
@@ -177,12 +173,6 @@ class SearchTextField extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         hintText: SplashScreenNotifier.getLanguageLabel('Search'),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25.0),
-        ),
         suffixIcon: Container(
           margin: const EdgeInsets.all(5.0),
           decoration: const BoxDecoration(

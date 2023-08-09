@@ -48,7 +48,7 @@ class CardActivityReceiptPage extends StatelessWidget {
           builder: (context, ref, child) {
             return ref.watch(_getReceipt(transactionId)).maybeWhen(
                   orElse: () => Container(),
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                   error: (error, stackTrace) => Center(
                     child: MulishText(
                       text: SplashScreenNotifier.getLanguageLabel("We couldn't generate the receipt please try later."),
@@ -82,7 +82,7 @@ class CardActivityReceiptPage extends StatelessWidget {
                             onViewCreated: (PDFViewController pdfViewController) {},
                           ),
                         ),
-                        CustomIconButton(
+                        CustomButton(
                           onTap: () async {
                             File fileDef = File(path);
                             DocumentFileSavePlus().saveFile(fileDef.readAsBytesSync(), 'receipt.pdf', 'application/pdf');

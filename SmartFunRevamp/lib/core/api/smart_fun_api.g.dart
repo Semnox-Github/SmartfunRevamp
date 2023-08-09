@@ -112,7 +112,8 @@ class _SmartFunApi implements SmartFunApi {
 
   @override
   Future<ListDataWrapper<CardProduct>> getProductsPrices(
-    String dateTime, {
+    String dateTime,
+    String token, {
     String menuType = 'O',
     int transactionProfileId = -1,
     int membershipId = -1,
@@ -124,47 +125,8 @@ class _SmartFunApi implements SmartFunApi {
       r'transactionProfileId': transactionProfileId,
       r'membershipId': membershipId,
     };
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ListDataWrapper<CardProduct>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              'Product/ProductPrice',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = ListDataWrapper<CardProduct>.fromJson(
-      _result.data!,
-      (json) => CardProduct.fromJson(json as Map<String, dynamic>),
-    );
-    return value;
-  }
-
-  @override
-  Future<ListDataWrapper<CardProduct>> getProductsPricesBySite(
-    String dateTime, {
-    String menuType = 'O',
-    int transactionProfileId = -1,
-    int membershipId = -1,
-  }) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'dateTime': dateTime,
-      r'menuType': menuType,
-      r'transactionProfileId': transactionProfileId,
-      r'membershipId': membershipId,
-    };
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'authorization': token};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ListDataWrapper<CardProduct>>(Options(

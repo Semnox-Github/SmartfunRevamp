@@ -7,17 +7,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
-import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
 import 'package:semnox/core/domain/use_cases/select_location/get_master_site_use_case.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/widgets/custom_button.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
-
-import 'provider/splash_screen_notifier.dart';
 
 final parafaitDefaultsProvider = FutureProvider<ParafaitDefaultsResponse>((ref) async {
   final getDefaults = Get.find<GetParafaitDefaultsUseCase>();
@@ -38,29 +38,30 @@ final masterSiteProvider = FutureProvider<List<SiteViewDTO>>((ref) async {
 });
 
 final currentLanguageProvider = StateProvider<LanguageContainerDTOList?>((ref) {
-  final languageList = ref.watch(SplashScreenNotifier.parafaitLanguagesProvider).valueOrNull;
-  if (languageList == null) {
+  final languageContainerDTO = ref.watch(SplashScreenNotifier.parafaitLanguagesProvider).valueOrNull;
+  if (languageContainerDTO == null || languageContainerDTO.languageContainerDTOList.isEmpty) {
     return null;
   }
-  return languageList.languageContainerDTOList.firstWhereOrNull((element) => element.languageCode == Platform.localeName) ??
-      languageList.languageContainerDTOList.firstWhere((element) => element.languageCode == 'en-US');
+  return languageContainerDTO.languageContainerDTOList.firstWhereOrNull((element) => element.languageCode == Platform.localeName.replaceAll('_', '-')) ??
+      languageContainerDTO.languageContainerDTOList.firstWhereOrNull((element) => element.languageCode == 'en-US');
 });
 
-class GetMasterSiteScreen extends ConsumerWidget{
+class GetMasterSiteScreen extends ConsumerWidget {
   const GetMasterSiteScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-   return ref.watch(masterSiteProvider).when(
-      loading: () { return const Center(child: CircularProgressIndicator());},
-      data: (data) {
-        SplashScreenNotifier.setMasterSite(data[0].siteId);
-        return const AfterSplashScreen();
-      }, 
-      error: (Object error, StackTrace stackTrace) { return const Scaffold(body: Text("error"),);}
-    );
+    return ref.watch(masterSiteProvider).when(loading: () {
+      return const Center(child: CircularProgressIndicator());
+    }, data: (data) {
+      SplashScreenNotifier.setMasterSite(data[0].siteId);
+      return const AfterSplashScreen();
+    }, error: (Object error, StackTrace stackTrace) {
+      return const Scaffold(
+        body: Text("error"),
+      );
+    });
   }
-
 }
 
 class AfterSplashScreen extends ConsumerWidget {
@@ -68,10 +69,14 @@ class AfterSplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    
     ref.watch(parafaitDefaultsProvider);
     ref.watch(SplashScreenNotifier.getInitialData);
     final currenLang = ref.watch(currentLanguageProvider);
+    ref.listen(SplashScreenNotifier.parafaitLanguagesProvider, (previous, next) {
+      if (next.valueOrNull?.languageContainerDTOList.isEmpty ?? true) {
+        Dialogs.showErrorMessage(context, 'This site has no languages.Please contact your admin');
+      }
+    });
     ref.watch(getStringForLocalization).maybeWhen(
       orElse: () {
         context.loaderOverlay.hide();
@@ -81,6 +86,7 @@ class AfterSplashScreen extends ConsumerWidget {
       },
     );
     final imagePath = ref.watch(cmsProvider).value?.cmsImages.languagePickImagePath;
+
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(10.0),
@@ -92,7 +98,7 @@ class AfterSplashScreen extends ConsumerWidget {
                   ? const SizedBox.shrink()
                   : CachedNetworkImage(
                       imageUrl: imagePath,
-                      placeholder: (_, __) => const Center(child: CircularProgressIndicator()),
+                      placeholder: (_, __) => const Center(child: CircularProgressIndicator.adaptive()),
                       errorWidget: (context, url, error) {
                         return const Center(
                           child: Icon(
@@ -142,9 +148,9 @@ class AfterSplashScreen extends ConsumerWidget {
                             error: (e, s) => MulishText(
                               text: 'An error has ocurred $e',
                             ),
-                            loading: () => const Center(child: CircularProgressIndicator()),
+                            loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                             data: (data) {
-                              return DropdownButton<LanguageContainerDTOList>(
+                              return DropdownButtonFormField<LanguageContainerDTOList>(
                                 isExpanded: true,
                                 value: currenLang,
                                 hint: const MulishText(text: 'Select a language'),
@@ -174,71 +180,30 @@ class AfterSplashScreen extends ConsumerWidget {
                     children: [
                       MulishText(
                         text: SplashScreenNotifier.getLanguageLabel("Have an account?"),
-                        fontColor: CustomColors.customBlack,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
                       ),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          gradient: currenLang == null ? CustomGradients.disabledGradient : CustomGradients.linearGradient,
-                        ),
-                        margin: const EdgeInsets.all(3),
-                        child: TextButton(
-                          onPressed: currenLang == null ? null : () => Navigator.pushReplacementNamed(context, Routes.kLogInPage),
-                          child: Text(
-                            SplashScreenNotifier.getLanguageLabel('LOGIN'),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+                      CustomButton(
+                        onTap: () => Navigator.pushReplacementNamed(context, Routes.kLogInPage),
+                        label: SplashScreenNotifier.getLanguageLabel("LOGIN"),
+                      )
                     ],
                   ),
                 ),
-                const SizedBox(width: 5.0),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MulishText(
                         text: SplashScreenNotifier.getLanguageLabel('New to SmartFun?'),
-                        textAlign: TextAlign.center,
-                        fontColor: CustomColors.customBlack,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
                       ),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          gradient: currenLang == null ? CustomGradients.disabledGradient : CustomGradients.linearGradient,
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0),
-                            color: currenLang == null ? Colors.grey : Colors.white,
-                          ),
-                          margin: const EdgeInsets.all(3),
-                          child: TextButton(
-                            onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
-                            child: Text(
-                              SplashScreenNotifier.getLanguageLabel('SIGN UP'),
-                              style: const TextStyle(
-                                color: CustomColors.hardOrange,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      CustomCancelButton(
+                        onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
+                        label: SplashScreenNotifier.getLanguageLabel('SIGN UP'),
+                      )
                     ],
                   ),
-                ),
+                )
               ],
-            )
+            ),
           ],
         ),
       ),

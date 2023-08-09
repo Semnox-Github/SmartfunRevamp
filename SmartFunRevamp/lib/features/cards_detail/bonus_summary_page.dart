@@ -37,7 +37,7 @@ class BonusSummaryPage extends ConsumerWidget {
                   error: (_) {
                     return Container();
                   },
-                  inProgress: () => const Center(child: CircularProgressIndicator()),
+                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                   success: (responseData) {
                     List<AccountCreditPlusDTOList> data = List.from(responseData);
                     data = data..removeWhere((element) => (element.creditPlusType != creditPlusType && creditPlusType != null));

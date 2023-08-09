@@ -25,23 +25,11 @@ class EmailTextField extends StatelessWidget {
           validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
           cursorColor: Colors.black,
           keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             isDense: true,
             fillColor: Colors.white,
             filled: true,
             floatingLabelBehavior: FloatingLabelBehavior.never,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.0),
-              borderSide: const BorderSide(
-                color: Colors.white,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.0),
-              borderSide: const BorderSide(
-                color: Colors.white,
-              ),
-            ),
           ),
         )
       ],

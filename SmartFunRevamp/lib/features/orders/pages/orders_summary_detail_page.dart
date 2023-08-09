@@ -45,7 +45,7 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                       ],
                     );
                   },
-                  inProgress: () => const Center(child: CircularProgressIndicator()),
+                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                   successOrderDetail: (responseData) {
                     TransactionLinesDTOList transactionLines = responseData.transactionLinesDTOList![0];
 

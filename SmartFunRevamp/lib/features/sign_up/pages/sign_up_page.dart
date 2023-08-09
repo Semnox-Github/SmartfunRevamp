@@ -139,23 +139,23 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                               DropdownButtonFormField<String>(
-                                value: request[field.customerFieldName],
                                 items: List<String>.from(field.customerFieldValues).map((title) {
                                   return DropdownMenuItem<String>(
                                     value: title,
                                     child: Text(SplashScreenNotifier.getLanguageLabel(title)),
                                   );
                                 }).toList(),
-                                onChanged: (title) => request[field.customerFieldName] = title,
+                                onChanged: (title) => request[field.customerFieldName] = {"value": title, "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
                               ),
                             ],
                           );
                         }
                         return CustomTextField(
-                          onSaved: (value) => request[field.customerFieldName] = value,
+                          onSaved: (value) => request[field.customerFieldName] = {"value": value, "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
                           label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
                           margins: const EdgeInsets.symmetric(vertical: 10.0),
                           required: field.validationType == "M",
+                          formatters: field.customerFieldName == "CONTACT_PHONE" || field.customerFieldType == "NUMBER" ? [FilteringTextInputFormatter.digitsOnly] : null,
                         );
                       }).toList(),
                     );
@@ -167,7 +167,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomPasswordTextField(
-                        onSaved: (value) => request["PASSWORD"] = value,
+                        onSaved: (value) => request["PASSWORD"] = {"value": value, "customAttributeId": -1, "customerFieldType": "TEXT" },
                         label: '${SplashScreenNotifier.getLanguageLabel("Password")}*',
                         margins: const EdgeInsets.symmetric(vertical: 10.0),
                         required: true,

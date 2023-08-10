@@ -20,6 +20,8 @@ class SiteViewDTO {
   String? _timeZoneName;
   String? _email;
   String? _phoneNumber;
+  double? _latitude;
+  double? _longitude;
 
   SiteViewDTO({
     int? siteId,
@@ -43,6 +45,8 @@ class SiteViewDTO {
     String? timeZoneName,
     String? email,
     String? phoneNumber,
+    double? latitude,
+    double? longitude,
   }) {
     _siteId = siteId;
     _siteName = siteName;
@@ -65,6 +69,8 @@ class SiteViewDTO {
     _timeZoneName = timeZoneName;
     _email = email;
     _phoneNumber = phoneNumber;
+    _longitude = longitude;
+    _latitude = latitude;
   }
 
   int? get siteId => _siteId;
@@ -88,6 +94,8 @@ class SiteViewDTO {
   String? get timeZoneName => _timeZoneName;
   String? get email => _email;
   String? get phoneNumber => _phoneNumber;
+  double? get longitude => _longitude;
+  double? get latitude => _latitude;
 
   factory SiteViewDTO.fromJson(Map<String, dynamic> json) => SiteViewDTO(
         siteId: json["SiteId"],
@@ -111,6 +119,8 @@ class SiteViewDTO {
         timeZoneName: json["TimeZoneName"],
         email: json["Email"],
         phoneNumber: json["PhoneNumber"],
+        latitude: json["Latitude"],
+        longitude: json["Longitude"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -135,6 +145,8 @@ class SiteViewDTO {
         "TimeZoneName": timeZoneName,
         "Email": email,
         "PhoneNumber": phoneNumber,
+        "Longitude": longitude,
+        "Latitude": latitude,
       };
 
   static List<SiteViewDTO>? getSiteDTOList(List<dynamic>? dtoList) {

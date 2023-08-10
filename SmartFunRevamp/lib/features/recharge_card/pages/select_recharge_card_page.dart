@@ -9,6 +9,7 @@ import 'package:semnox/core/domain/entities/config/parafait_defaults_response.da
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
+import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/disabled_bottom_button.dart';
@@ -31,13 +32,26 @@ class SelectCardRechargePage extends ConsumerStatefulWidget {
 class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage> {
   CardProduct? offerSelected;
   late CardDetails? selectedCardNumber;
-
+  late List<CardDetails> cards;
   late int qty;
   late double finalPrice;
   @override
   void initState() {
     super.initState();
-    selectedCardNumber = widget.cardDetails;
+    //if a card was selected from home screen
+    if (widget.cardDetails != null) {
+      //is added to cards list as the only card
+      List<CardDetails> selectedCard = [];
+      selectedCard.add(widget.cardDetails!);
+      cards = selectedCard;
+    } else {
+      //if no card was selected, i.e. when landed from Search, get all the user cards
+      cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+      cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+    }
+    if (cards.isNotEmpty) {
+      selectedCardNumber = cards.first;
+    }
     qty = 1;
     finalPrice = 0;
   }
@@ -60,7 +74,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
               ),
             )
           : null,
-      bottomSheet: offerSelected != null
+      bottomSheet: offerSelected != null && selectedCardNumber != null
           ? BottomSheetButton(
               label: offerSelected == null
                   ? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')
@@ -100,8 +114,17 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                 );
               },
             ),
+            widget.cardDetails != null ? 
             CarouselCardItem(
               card: selectedCardNumber ?? CardDetails(),
+            )
+            :
+            CarouselCards(
+              cards: cards,
+              onCardChanged: (index) {
+                selectedCardNumber = cards[index];
+              },
+              showLinkCard: false,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
@@ -128,15 +151,17 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                             return RechargeCardOffers(
                               offers: offersFiltered,
                               onOfferSelected: (offer) {
-                                setState(() {
-                                  offerSelected = offer;
-                                  finalPrice = offerSelected!.finalPrice;
-                                  qty = 1;
-                                });
-                                if (offer.productType == "VARIABLECARD") {
-                                  amountSelectorDialog(context);
-                                } else if (offer.QuantityPrompt == "Y") {
-                                  qtySelectorDialog(context);
+                                if(selectedCardNumber != null) {
+                                  setState(() {
+                                    offerSelected = offer;
+                                    finalPrice = offerSelected!.finalPrice;
+                                    qty = 1;
+                                  });
+                                  if (offer.productType == "VARIABLECARD") {
+                                    amountSelectorDialog(context);
+                                  } else if (offer.QuantityPrompt == "Y") {
+                                    qtySelectorDialog(context);
+                                  }
                                 }
                               },
                             );

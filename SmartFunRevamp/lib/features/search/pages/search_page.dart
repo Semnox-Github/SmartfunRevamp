@@ -35,7 +35,9 @@ class _SearchPageState extends ConsumerState<SearchPage> with TickerProviderStat
     super.initState();
     cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
-    selectedCardNumber = cards.first;
+    if (cards.isNotEmpty){
+      selectedCardNumber = cards.first;
+    }
     userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? SplashScreenNotifier.getMasterSite();
     tabController = TabController(initialIndex: 0, length: 2, vsync: this);
   }

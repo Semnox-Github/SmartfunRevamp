@@ -90,6 +90,6 @@ class CustomDataSetDTO {
         "IsChanged": isChanged,
         "IsChangedRecursive": isChangedRecursive,
         "CustomDataDTOList":
-            List<CustomDataDTO>.from(customDataDtoList!.map((x) => x.toJson())),
+            customDataDtoList,
       };
 }

@@ -24,17 +24,20 @@ Map<String, dynamic> _$UserMetaDataResponseToJson(
 CustomerUIMetaData _$CustomerUIMetaDataFromJson(Map<String, dynamic> json) =>
     CustomerUIMetaData(
       json['CustomerFieldOrder'] as int,
+      json['CustomAttributeId'] as int,
       json['CustomerFieldName'] as String,
       json['EntityFieldCaption'] as String,
       json['CustomerFieldValues'],
       json['CustomerFieldType'] as String,
       json['ValidationType'] as String,
+      json['CustomerFieldValue'] as String,
       json['FieldLength'] as String,
     );
 
 Map<String, dynamic> _$CustomerUIMetaDataToJson(CustomerUIMetaData instance) {
   final val = <String, dynamic>{
     'CustomerFieldOrder': instance.customerFieldOrder,
+    'CustomAttributeId': instance.customAttributeId,
     'CustomerFieldName': instance.customerFieldName,
     'EntityFieldCaption': instance.entityFieldCaption,
   };
@@ -48,6 +51,7 @@ Map<String, dynamic> _$CustomerUIMetaDataToJson(CustomerUIMetaData instance) {
   writeNotNull('CustomerFieldValues', instance.customerFieldValues);
   val['CustomerFieldType'] = instance.customerFieldType;
   val['ValidationType'] = instance.validationType;
+  val['CustomerFieldValue'] = instance.customerFieldValue;
   val['FieldLength'] = instance.fieldLength;
   return val;
 }

@@ -13,20 +13,24 @@ class UserMetaDataResponse {
 @JsonSerializable(fieldRename: FieldRename.pascal)
 class CustomerUIMetaData {
   final int customerFieldOrder;
+  final int customAttributeId;
   final String customerFieldName;
   final String entityFieldCaption;
   final dynamic customerFieldValues;
   final String customerFieldType;
   final String validationType;
+  final String customerFieldValue;
   final String fieldLength;
 
   CustomerUIMetaData(
     this.customerFieldOrder,
+    this.customAttributeId,
     this.customerFieldName,
     this.entityFieldCaption,
     this.customerFieldValues,
     this.customerFieldType,
     this.validationType,
+    this.customerFieldValue,
     this.fieldLength,
   );
   factory CustomerUIMetaData.fromJson(Map<String, dynamic> json) => _$CustomerUIMetaDataFromJson(json);

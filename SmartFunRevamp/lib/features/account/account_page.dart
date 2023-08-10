@@ -15,6 +15,7 @@ import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/account/provider/update_account/update_account_provider.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/round_rectangle_picture.dart';
+import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -22,12 +23,22 @@ import 'package:semnox_core/modules/customer/model/customer/phone_contact_dto.da
 
 import 'widget/custom_verify_textfiel.dart';
 
-class AccountPage extends ConsumerWidget {
-  AccountPage({super.key});
-  final _formKey = GlobalKey<FormState>();
+class AccountPage extends ConsumerStatefulWidget {
+  const AccountPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _AccountPage();
+}
+
+class _AccountPage extends ConsumerState<AccountPage> {
+  final _formKey = GlobalKey<FormState>();
+  Map<String, dynamic> request = {};
+  String? userPassword;
+
+  @override
+  Widget build(BuildContext context) {
+    final isPasswordDisabled = ref.watch(isPasswordDisabledProvider);
+    final metaData = ref.watch(uiMetaDataProvider);
     final user = Get.find<CustomerDTO>();
     String newEmail = '';
     String newPhone = '';
@@ -95,6 +106,64 @@ class AccountPage extends ConsumerWidget {
                     MulishText(text: SplashScreenNotifier.getLanguageLabel('Edit Photo'))
                   ],
                 ),
+
+
+                metaData.when(
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (_, __) => const Center(
+                    child: Icon(
+                      Icons.error,
+                      color: Colors.red,
+                    ),
+                  ),
+                  data: (metadata) {
+                    return Column(
+                      children: metadata.map((field) {
+                        if (field.customerFieldValues is List) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              DropdownButtonFormField<String>(
+                                value: request[field.customerFieldName],
+                                items: List<String>.from(field.customerFieldValues).map((title) {
+                                  return DropdownMenuItem<String>(
+                                    value: title,
+                                    child: Text(SplashScreenNotifier.getLanguageLabel(title)),
+                                  );
+                                }).toList(),
+                                onChanged: (title) => request[field.customerFieldName] = title,
+                              ),
+                            ],
+                          );
+                        }
+                        if (field.customerFieldName == "EMAIL" || field.customerFieldName == "CONTACT_PHONE") {
+                          return CustomVerifyTextField(
+                            onSaved: (value) => request[field.customerFieldName] = value,
+                            label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
+                            initialValue: user.phone,
+                            margins: const EdgeInsets.symmetric(vertical: 10.0),
+                            contactType: ContactType.phone,
+                            phoneOrEmail: user.phone ?? '',
+                          );
+                        }
+                        return CustomTextField(
+                          onSaved: (value) => request[field.customerFieldName] = value,
+                          label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
+                          margins: const EdgeInsets.symmetric(vertical: 10.0),
+                          required: field.validationType == "M",
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+
+
+
                 CustomTextField(
                   onSaved: (firstName) => user.profilefirtName = firstName,
                   label: SplashScreenNotifier.getLanguageLabel('First Name'),

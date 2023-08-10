@@ -25,6 +25,7 @@ class BonusSummaryPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final today = DateTime.now();
     ref.read(CardsProviders.bonusSummaryProvider.notifier).getSummary(cardNumber);
     return Scaffold(
       appBar: CustomAppBar(title: pageTitle),
@@ -60,9 +61,9 @@ class BonusSummaryPage extends ConsumerWidget {
                               format: DateFormat.YEAR_ABBR_MONTH_DAY,
                               onItemSelected: (dob) => ref.read(CardsProviders.bonusSummaryProvider.notifier).filter(dob),
                               hintText: SplashScreenNotifier.getLanguageLabel('Enter Date'),
-                              initialDateTime: DateTime.now(),
-                              maximunDateTime: DateTime(DateTime.now().year + 10),
-                              minimumDateTime: DateTime(DateTime.now().year - 1),
+                              initialDateTime: today,
+                              maximunDateTime: DateTime(today.year + 10),
+                              minimumDateTime: today,
                               suffixIcon: const Icon(
                                 Icons.date_range,
                                 color: CustomColors.hardOrange,

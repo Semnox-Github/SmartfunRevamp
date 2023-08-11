@@ -213,23 +213,23 @@ class _AccountPage extends ConsumerState<AccountPage> {
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      user.contactDtoList?.clear();
-                      user.profilecontactDtoList = [
-                        PhoneContactDTO(
-                          contactTypeId: ContactType.email.typeId,
-                          contactType: ContactType.email.type,
-                          attribute1: newEmail,
-                          isActive: true,
-                        ),
-                        PhoneContactDTO(
-                          contactTypeId: ContactType.phone.typeId,
-                          contactType: ContactType.phone.type,
-                          attribute1: newPhone,
-                          isActive: true,
-                        ),
-                      ];
-                      user.profileaddressDtoList = [];
-                      ref.read(updateAccountProvider.notifier).updateProfile(user);
+                      // user.contactDtoList?.clear();
+                      // user.profilecontactDtoList = [
+                      //   PhoneContactDTO(
+                      //     contactTypeId: ContactType.email.typeId,
+                      //     contactType: ContactType.email.type,
+                      //     attribute1: newEmail,
+                      //     isActive: true,
+                      //   ),
+                      //   PhoneContactDTO(
+                      //     contactTypeId: ContactType.phone.typeId,
+                      //     contactType: ContactType.phone.type,
+                      //     attribute1: newPhone,
+                      //     isActive: true,
+                      //   ),
+                      // ];
+                      // user.profileaddressDtoList = [];
+                      ref.read(updateAccountProvider.notifier).updateProfile(user, request);
                     }
                   },
                   label: SplashScreenNotifier.getLanguageLabel('SAVE'),

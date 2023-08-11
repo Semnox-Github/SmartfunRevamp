@@ -1,44 +1,48 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:semnox/core/widgets/custom_app_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/home/view/home_view.dart';
+import 'package:semnox/features/splash/cms_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class ResetPasswordPage extends StatelessWidget {
+class ResetPasswordPage extends ConsumerWidget {
   const ResetPasswordPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final imagePath = ref.watch(cmsProvider).value?.cmsImages.resetPasswordImagePath;
     return Scaffold(
-      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Reset Password')),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
-        child: Stack(
+        child: Column(
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    'assets/login/reset_password_success.png',
-                    height: MediaQuery.of(context).size.height * 0.3,
-                  ),
-                  MulishText(
-                    text: SplashScreenNotifier.getLanguageLabel('Reset Password link is sent to your registered email.'),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16.0,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
+            const Spacer(),
+            CachedNetworkImage(
+              imageUrl: imagePath ?? '',
+              placeholder: (context, url) => ShimmerLoading(height: MediaQuery.of(context).size.height * 0.3),
+              height: MediaQuery.of(context).size.height * 0.3,
+              errorWidget: (context, url, error) {
+                Logger().d(error);
+                return Image.asset(
+                  'assets/login/reset_password_success.png',
+                  height: MediaQuery.of(context).size.height * 0.3,
+                );
+              },
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: CustomButton(
-                onTap: () => Navigator.pop(context),
-                label: SplashScreenNotifier.getLanguageLabel('DONE'),
-              ),
+            const SizedBox(height: 20.0),
+            MulishText(
+              text: SplashScreenNotifier.getLanguageLabel('Reset Password link is sent to your registered email.'),
+              fontWeight: FontWeight.w500,
+              fontSize: 16.0,
+              textAlign: TextAlign.center,
+            ),
+            const Spacer(),
+            CustomButton(
+              onTap: () => Navigator.pop(context),
+              label: SplashScreenNotifier.getLanguageLabel('BACK TO LOGIN'),
             )
           ],
         ),

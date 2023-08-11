@@ -1,12 +1,15 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
-import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
+import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/gameplays/provider/gameplays_provider.dart';
+import 'package:semnox/features/gameplays/widgets/dialog_item.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -138,172 +141,7 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                                         )
                                       ],
                                     ),
-                                    onTap: () => showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) => AlertDialog(
-                                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
-                                        title: Column(children: <Widget>[
-                                          MulishText(
-                                            text: '${item.game}',
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          MulishText(
-                                            text: SplashScreenNotifier.getLanguageLabel("Balance consumed during gameplay"),
-                                            fontSize: 12,
-                                            fontColor: Colors.grey,
-                                          ),
-                                        ]),
-                                        content: SizedBox(
-                                          height: MediaQuery.of(context).size.height * 0.25,
-                                          width: MediaQuery.of(context).size.height * 0.30,
-                                          child: GridView(
-                                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                childAspectRatio: (100 / 70),
-                                                crossAxisSpacing: 10,
-                                                mainAxisSpacing: 20,
-                                              ),
-                                              shrinkWrap: true,
-                                              physics: const NeverScrollableScrollPhysics(),
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.0), color: CustomColors.hardOrange, gradient: CustomGradients.linearGradient),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(12.0),
-                                                        color: Colors.white,
-                                                      ),
-                                                      margin: const EdgeInsets.all(3),
-                                                      child: TextButton(
-                                                        onPressed: () {},
-                                                        child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-                                                          MulishText(
-                                                            text: item.credits.toInt().toString(),
-                                                            fontSize: 25,
-                                                            fontColor: Colors.black,
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
-                                                          MulishText(
-                                                            text: SplashScreenNotifier.getLanguageLabel("Credits"),
-                                                            fontSize: 14,
-                                                            fontColor: Colors.grey,
-                                                          ),
-                                                        ]),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.0), color: CustomColors.hardOrange, gradient: CustomGradients.linearGradient),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(12.0),
-                                                        color: Colors.white,
-                                                      ),
-                                                      margin: const EdgeInsets.all(3),
-                                                      child: TextButton(
-                                                        onPressed: () {},
-                                                        child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-                                                          MulishText(
-                                                            text: item.bonus.toInt().toString(),
-                                                            fontSize: 25,
-                                                            fontColor: Colors.black,
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
-                                                          MulishText(
-                                                            text: SplashScreenNotifier.getLanguageLabel("Bonus"),
-                                                            fontSize: 14,
-                                                            fontColor: Colors.grey,
-                                                          ),
-                                                        ]),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.0), color: CustomColors.hardOrange, gradient: CustomGradients.linearGradient),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(12.0),
-                                                        color: Colors.white,
-                                                      ),
-                                                      margin: const EdgeInsets.all(3),
-                                                      child: TextButton(
-                                                        onPressed: () {},
-                                                        child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-                                                          MulishText(
-                                                            text: item.time.toInt().toString(),
-                                                            fontSize: 25,
-                                                            fontColor: Colors.black,
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
-                                                          MulishText(
-                                                            text: SplashScreenNotifier.getLanguageLabel("Time"),
-                                                            fontSize: 14,
-                                                            fontColor: Colors.grey,
-                                                          ),
-                                                        ]),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.0), color: CustomColors.hardOrange, gradient: CustomGradients.linearGradient),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(12.0),
-                                                        color: Colors.white,
-                                                      ),
-                                                      margin: const EdgeInsets.all(3),
-                                                      child: TextButton(
-                                                        onPressed: () {},
-                                                        child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-                                                          MulishText(
-                                                            text: item.courtesy.toInt().toString(),
-                                                            fontSize: 25,
-                                                            fontColor: Colors.black,
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
-                                                          MulishText(
-                                                            text: SplashScreenNotifier.getLanguageLabel("Card Game"),
-                                                            fontSize: 14,
-                                                            fontColor: Colors.grey,
-                                                          ),
-                                                        ]),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ]),
-                                        ),
-                                        actions: <Widget>[
-                                          SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.80,
-                                            child: ElevatedButton(
-                                              onPressed: () => Navigator.pop(context, 'OK'),
-                                              style: ElevatedButton.styleFrom(
-                                                  padding: EdgeInsets.zero, backgroundColor: CustomColors.hardOrange, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                                              child: Ink(
-                                                decoration: BoxDecoration(color: CustomColors.hardOrange, gradient: CustomGradients.linearGradient, borderRadius: BorderRadius.circular(10)),
-                                                child: Container(
-                                                  height: 40,
-                                                  alignment: Alignment.center,
-                                                  child: MulishText(
-                                                    text: SplashScreenNotifier.getLanguageLabel("Done"),
-                                                    fontColor: Colors.white,
-                                                    fontSize: 18,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    onTap: () => showBalanceDialog(item),
                                   ),
                                 );
                               },
@@ -321,5 +159,64 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
       Logger().e(e);
       return Container();
     }
+  }
+
+  void showBalanceDialog(AccountGameplays item) {
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.noHeader,
+        dialogBackgroundColor: Theme.of(context).dialogBackgroundColor,
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        body: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            MulishText(
+              text: '${item.game}',
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0,
+            ),
+            MulishText(
+              text: SplashScreenNotifier.getLanguageLabel("Balance consumed during gameplay"),
+              fontSize: 12,
+              fontColor: Colors.grey,
+            ),
+            const SizedBox(height: 10.0),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.25,
+              child: GridView(
+                padding: EdgeInsets.zero,
+                physics: const ClampingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 16 / 9,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 20,
+                ),
+                children: [
+                  DialogItem(
+                    title: SplashScreenNotifier.getLanguageLabel("Credits"),
+                    value: item.credits.toStringAsFixed(0),
+                  ),
+                  DialogItem(
+                    title: SplashScreenNotifier.getLanguageLabel("Bonus"),
+                    value: item.bonus.toStringAsFixed(0),
+                  ),
+                  DialogItem(
+                    title: SplashScreenNotifier.getLanguageLabel("Time"),
+                    value: item.time.toStringAsFixed(0),
+                  ),
+                  DialogItem(
+                    title: SplashScreenNotifier.getLanguageLabel("Card Game"),
+                    value: item.courtesy.toStringAsFixed(0),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        btnOk: CustomButton(
+          onTap: () => Navigator.pop(context, 'OK'),
+          label: SplashScreenNotifier.getLanguageLabel("Done"),
+        )).show();
   }
 }

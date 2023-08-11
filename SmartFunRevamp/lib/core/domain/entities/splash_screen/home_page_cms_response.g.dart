@@ -167,9 +167,21 @@ Map<String, dynamic> _$CMSMenuItemToJson(CMSMenuItem instance) {
 CMSImages _$CMSImagesFromJson(Map<String, dynamic> json) => CMSImages(
       json['splash_screen_image_path'] as String,
       json['language_pick_image_path'] as String,
+      json['reset_password_image_path'] as String?,
     );
 
-Map<String, dynamic> _$CMSImagesToJson(CMSImages instance) => <String, dynamic>{
-      'splash_screen_image_path': instance.splashScreenPath,
-      'language_pick_image_path': instance.languagePickImagePath,
-    };
+Map<String, dynamic> _$CMSImagesToJson(CMSImages instance) {
+  final val = <String, dynamic>{
+    'splash_screen_image_path': instance.splashScreenPath,
+    'language_pick_image_path': instance.languagePickImagePath,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('reset_password_image_path', instance.resetPasswordImagePath);
+  return val;
+}

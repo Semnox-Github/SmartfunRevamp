@@ -131,12 +131,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
       (l) => state = _Error(l.message),
       (r) async {
         authenticateApi(r, baseUrl);
-        if (splashScreenImgURL.isNullOrEmpty()) {
-          getHomePageCMS();
-        } else {
-          await Future.delayed(const Duration(seconds: 3));
-          state = const _Success();
-        }
+        getHomePageCMS();
       },
     );
   }
@@ -147,8 +142,9 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     response.fold(
       (l) => state = _Error(l.message),
       (r) async {
-        _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
-        splashScreenImgURL = r.cmsImages.splashScreenPath;
+        if (splashScreenImgURL != r.cmsImages.splashScreenPath) {
+          _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
+        }
         await Future.delayed(const Duration(seconds: 3));
         state = const _Success();
       },
@@ -167,7 +163,6 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
 
   static logNonExistentLanguageLabel(String label) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // await prefs.remove('labels');
     final labels = prefs.getStringList('labels');
     if (labels == null) {
       await prefs.setStringList('labels', [label]);

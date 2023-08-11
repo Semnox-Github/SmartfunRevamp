@@ -9,12 +9,13 @@ class CustomDatePicker extends StatefulWidget {
   const CustomDatePicker({
     Key? key,
     required this.labelText,
+    required this.format,
+    required this.onItemSelected,
     this.hintText = "",
     this.initialText = '',
-    required this.format,
     this.initialDateTime,
     this.maximunDateTime,
-    required this.onItemSelected,
+    this.minimumDateTime,
     this.margin = EdgeInsets.zero,
     this.suffixIcon,
   }) : super(key: key);
@@ -24,6 +25,7 @@ class CustomDatePicker extends StatefulWidget {
   final String format;
   final DateTime? initialDateTime;
   final DateTime? maximunDateTime;
+  final DateTime? minimumDateTime;
   final Function(DateTime) onItemSelected;
   final EdgeInsetsGeometry margin;
   final Icon? suffixIcon;
@@ -90,7 +92,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: widget.initialDateTime ?? DateTime.now(),
-      firstDate: DateTime(1950),
+      firstDate: widget.minimumDateTime ?? DateTime(DateTime.now().year - 10),
       lastDate: widget.maximunDateTime ?? DateTime.now(),
     );
 
@@ -115,6 +117,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
               child: CupertinoDatePicker(
                   maximumYear: widget.maximunDateTime?.year ?? DateTime.now().year,
                   initialDateTime: widget.initialDateTime,
+                  minimumDate: widget.minimumDateTime,
                   mode: CupertinoDatePickerMode.date,
                   onDateTimeChanged: (date) {
                     setState(() {

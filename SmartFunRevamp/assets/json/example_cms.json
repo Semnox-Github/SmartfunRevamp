@@ -315,6 +315,7 @@
   },
   "images": {
     "splash_screen_image_path": "https://i.imgur.com/MbqH9I4.png",
-    "language_pick_image_path": "https://i.imgur.com/MbqH9I4.png"
+    "language_pick_image_path": "https://i.imgur.com/MbqH9I4.png",
+    "reset_password_image_path": "https://cdn-icons-png.flaticon.com/512/6146/6146587.png"
   }
 }

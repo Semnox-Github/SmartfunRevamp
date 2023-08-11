@@ -55,7 +55,6 @@ final safePromoImagesProvider = FutureProvider<List<String>>((ref) async {
           validateStatus: (status) => true,
         ),
       );
-      Logger().d('$path -> ${response.statusCode}');
       if (response.statusCode == HttpStatus.ok) {
         safeUrls.add(path);
       }

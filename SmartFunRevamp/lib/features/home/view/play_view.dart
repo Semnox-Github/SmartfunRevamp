@@ -25,13 +25,12 @@ class _PlayViewState extends ConsumerState<PlayView> {
     }
 
     return Scaffold(
-      body: SafeArea(
-        child: playUrl == null
-            ? const Center(
-                child: Text('play url not present in CMS json file'),
-              )
-            : WebViewWidget(controller: controller),
-      ),
+      appBar: AppBar(),
+      body: playUrl == null
+          ? const Center(
+              child: Text('play url not present in CMS json file'),
+            )
+          : WebViewWidget(controller: controller),
     );
   }
 }

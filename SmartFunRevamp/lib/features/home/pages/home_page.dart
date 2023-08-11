@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/home/view/bookings_view.dart';
 import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/view/more_view.dart';
@@ -20,11 +21,20 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   int _currentPage = 0;
   late PageController _pageController;
-
+  late List<CMSMenuItem> items;
   @override
   void initState() {
     _pageController = PageController(initialPage: _currentPage);
+
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final cms = ref.watch(cmsProvider).value;
+    items = cms?.getFooterMenuItems() ?? [];
+    items.removeWhere((element) => !element.active);
+    super.didChangeDependencies();
   }
 
   @override
@@ -35,17 +45,18 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final cms = ref.watch(cmsProvider).value;
-    final items = cms?.getFooterMenuItems() ?? [];
-
     return Scaffold(
       backgroundColor: CustomColors.customLigthBlue,
       bottomNavigationBar: CustomBottomBar(
         onTap: (page) {
-          setState(() {
-            _currentPage = page;
-          });
-          _pageController.jumpToPage(page);
+          if (items[page].itemName == 'PLAY') {
+            Navigator.pushNamed(context, Routes.kPlayPage);
+          } else {
+            setState(() {
+              _currentPage = page;
+            });
+            _pageController.jumpToPage(page);
+          }
         },
         currentPage: _currentPage,
       ),
@@ -54,9 +65,13 @@ class _HomePageState extends ConsumerState<HomePage> {
           physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
           onPageChanged: (index) {
-            setState(() {
-              _currentPage = index;
-            });
+            if (items[index].itemName == 'PLAY') {
+              Navigator.pushNamed(context, Routes.kPlayPage);
+            } else {
+              setState(() {
+                _currentPage = index;
+              });
+            }
           },
           children: childrenPages(items),
         ),
@@ -67,24 +82,22 @@ class _HomePageState extends ConsumerState<HomePage> {
   List<Widget> childrenPages(List<CMSMenuItem> items) {
     final List<Widget> pages = [];
     for (final item in items) {
-      if (item.active) {
-        switch (item.itemName) {
-          case "HOME":
-            pages.add(const HomeView());
-            break;
-          case "PLAY":
-            pages.add(const PlayView());
-            break;
-          case "BOOKINGS":
-            pages.add(const BookingsView());
-            break;
-          case "MORE":
-            pages.add(const MoreView());
-            break;
-          default:
-            pages.add(const HomeView());
-            break;
-        }
+      switch (item.itemName) {
+        case "HOME":
+          pages.add(const HomeView());
+          break;
+        case "PLAY":
+          pages.add(const PlayView());
+          break;
+        case "BOOKINGS":
+          pages.add(const BookingsView());
+          break;
+        case "MORE":
+          pages.add(const MoreView());
+          break;
+        default:
+          pages.add(const HomeView());
+          break;
       }
     }
     return pages;

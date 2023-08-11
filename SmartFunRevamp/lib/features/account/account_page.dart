@@ -36,11 +36,9 @@ class AccountPage extends ConsumerStatefulWidget {
 class _AccountPage extends ConsumerState<AccountPage> {
   final _formKey = GlobalKey<FormState>();
   Map<String, dynamic> request = {};
-  String? userPassword;
 
   @override
   Widget build(BuildContext context) {
-    final isPasswordDisabled = ref.watch(isPasswordDisabledProvider);
     final metaData = ref.watch(uiMetaDataProvider);
     final user = Get.find<CustomerDTO>();
     Map<String, dynamic> userToJson = {...user.toJson()};
@@ -172,22 +170,6 @@ class _AccountPage extends ConsumerState<AccountPage> {
                     );
                   },
                 ),
-                if(!isPasswordDisabled)
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomPasswordTextField(
-                        initialValue: returnValue("PASSWORD", -1).toString(),
-                        onSaved: (value) => request["PASSWORD"] = value,
-                        label: '${SplashScreenNotifier.getLanguageLabel("Password")}*',
-                        margins: const EdgeInsets.symmetric(vertical: 10.0),
-                        required: true,
-                      ),
-                    ]
-                  ),
-
-
                 // CustomTextField(
                 //   onSaved: (firstName) => user.profilefirtName = firstName,
                 //   label: SplashScreenNotifier.getLanguageLabel('First Name'),

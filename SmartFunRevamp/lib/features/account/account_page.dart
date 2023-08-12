@@ -17,12 +17,10 @@ import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/account/provider/update_account/update_account_provider.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/round_rectangle_picture.dart';
-import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
-import 'package:semnox_core/modules/customer/model/customer/phone_contact_dto.dart';
 
 import 'widget/custom_verify_textfiel.dart';
 
@@ -158,6 +156,28 @@ class _AccountPage extends ConsumerState<AccountPage> {
                           );
 
                         }
+                        if (field.customerFieldName == "CONTACT_PHONE"){
+                          return CustomVerifyTextField(
+                            onSaved: (value) => request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                            label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
+                            initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
+                            margins: const EdgeInsets.symmetric(vertical: 10.0),
+                            contactType: ContactType.phone,
+                            phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
+                          );
+                        }
+                        if (field.customerFieldName == "EMAIL"){
+                          return CustomVerifyTextField(
+                            onSaved: (value) => request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                            label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
+                            initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
+                            margins: const EdgeInsets.symmetric(vertical: 10.0),
+                            contactType: ContactType.email,
+                            phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
+                          );
+                          
+                        }
+                          
                         return CustomTextField(
                           initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
                           onSaved: (value) => request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
@@ -213,22 +233,6 @@ class _AccountPage extends ConsumerState<AccountPage> {
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      // user.contactDtoList?.clear();
-                      // user.profilecontactDtoList = [
-                      //   PhoneContactDTO(
-                      //     contactTypeId: ContactType.email.typeId,
-                      //     contactType: ContactType.email.type,
-                      //     attribute1: newEmail,
-                      //     isActive: true,
-                      //   ),
-                      //   PhoneContactDTO(
-                      //     contactTypeId: ContactType.phone.typeId,
-                      //     contactType: ContactType.phone.type,
-                      //     attribute1: newPhone,
-                      //     isActive: true,
-                      //   ),
-                      // ];
-                      // user.profileaddressDtoList = [];
                       ref.read(updateAccountProvider.notifier).updateProfile(user, request);
                     }
                   },

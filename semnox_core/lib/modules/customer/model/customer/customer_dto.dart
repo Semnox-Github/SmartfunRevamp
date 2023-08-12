@@ -161,6 +161,10 @@ class CustomerDTO {
     _phone = phone;
   }
 
+   set customDataSetDto (CustomDataSetDTO? customDataSetDto){
+    _customDataSetDto = customDataSetDto;
+  }
+
   factory CustomerDTO.fromJson(Map<String, dynamic> json) {
     return CustomerDTO(
       id: json["Id"],

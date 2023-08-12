@@ -254,6 +254,10 @@ class ProfileDTO {
     _rightHanded = rightHanded;
   }
 
+  set isChanged(bool? isChanged) {
+    _isChanged = isChanged;
+  }
+
   set password(String? password) {
     _password = password;
   }

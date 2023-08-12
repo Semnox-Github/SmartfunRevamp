@@ -12,20 +12,31 @@ class PlayView extends ConsumerStatefulWidget {
 }
 
 class _PlayViewState extends ConsumerState<PlayView> {
-  final controller = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted);
+  late WebViewController controller;
+  @override
+  void initState() {
+    controller = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted);
+    controller.setNavigationDelegate(NavigationDelegate(
+      onNavigationRequest: (request) => NavigationDecision.navigate,
+      onUrlChange: (change) {
+        if (change.url?.contains('exit') ?? false) {
+          Navigator.pop(context);
+        }
+      },
+    ));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final cms = ref.watch(cmsProvider).value;
     final currentLang = ref.watch(currentLanguageProvider);
     final playUrl = cms!.playUrl(currentLang: currentLang);
-
     if (playUrl != null) {
       controller.loadRequest(playUrl);
     }
 
     return Scaffold(
-      appBar: AppBar(),
       body: playUrl == null
           ? const Center(
               child: Text('play url not present in CMS json file'),

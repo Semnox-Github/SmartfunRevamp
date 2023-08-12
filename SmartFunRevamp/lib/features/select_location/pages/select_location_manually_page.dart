@@ -30,6 +30,7 @@ class SelectLocationManuallyPage extends ConsumerWidget {
           inProgress: () => context.loaderOverlay.show(),
           newContextSuccess: (selectedSite) {
             ref.read(loginProvider.notifier).selectedSite = selectedSite;
+            ref.read(loginProvider.notifier).saveSelectedSite();
             context.loaderOverlay.hide();
             Navigator.pushReplacementNamed(context, Routes.kHomePage);
           },

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
@@ -27,16 +28,16 @@ final _locationProvider = FutureProvider.autoDispose<Position>((ref) async {
   if (permission == LocationPermission.denied) {
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
-      return Future.error('Location permissions are denied');
+      throw Exception('Permission Denied');
     }
   }
   return await geolocator.getCurrentPosition();
 });
 
-final userLocationProvider = StateProvider.autoDispose<Position?>((ref) {
-  final position = ref.watch(_locationProvider).valueOrNull;
-  return position;
-});
+// final userLocationProvider = StateProvider.autoDispose<Position?>((ref) {
+//   final position = ref.watch(_locationProvider).valueOrNull;
+//   return position;
+// });
 
 class MapPage extends ConsumerStatefulWidget {
   const MapPage({super.key});
@@ -64,12 +65,38 @@ class _MapPageState extends ConsumerState<MapPage> {
           inProgress: () => context.loaderOverlay.show(),
           newContextSuccess: (selectedSite) {
             ref.read(loginProvider.notifier).selectedSite = selectedSite;
+            ref.read(loginProvider.notifier).saveSelectedSite();
             context.loaderOverlay.hide();
             Navigator.pushReplacementNamed(context, Routes.kHomePage);
           },
         );
       },
     );
+
+    ref.listen(_locationProvider, (_, next) {
+      next.maybeWhen(
+        orElse: () => {},
+        error: (_, __) {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.error,
+            animType: AnimType.scale,
+            title: SplashScreenNotifier.getLanguageLabel('Error'),
+            desc: 'No location permission granted',
+            descTextStyle: const TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 18,
+            ),
+            btnOkOnPress: () {
+              Navigator.pop(context);
+            },
+            useRootNavigator: true,
+            btnOkText: SplashScreenNotifier.getLanguageLabel('OK'),
+            btnOkColor: Colors.red,
+          ).show();
+        },
+      );
+    });
     return Scaffold(
       floatingActionButton: hasSelectedSite
           ? CustomButton(
@@ -84,67 +111,67 @@ class _MapPageState extends ConsumerState<MapPage> {
       body: SafeArea(
         child: Consumer(
           builder: (context, ref, _) {
-            Set<Marker> markers = {};
-            final sites = ref.watch(getAllSitesProvider);
-            final userLocation = ref.watch(userLocationProvider);
-
-            return sites.when(
-              loading: () => const Center(child: CircularProgressIndicator.adaptive()),
-              error: (_, __) => Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.error, color: Colors.red),
-                    MulishText(
-                      text: SplashScreenNotifier.getLanguageLabel('There was an error'),
-                    )
-                  ],
-                ),
-              ),
-              data: (sitesCoordinates) {
-                for (var site in sitesCoordinates) {
-                  if (site.latitude != null && site.longitude != null) {
+            return ref.watch(_locationProvider).when(
+                  error: (_, __) => const SizedBox.shrink(),
+                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  data: (data) {
+                    Set<Marker> markers = {};
                     Marker resultMarker = Marker(
-                      markerId: MarkerId(site.siteName ?? ''),
-                      infoWindow: InfoWindow(title: "${site.siteName}"),
-                      position: LatLng(site.latitude!, site.longitude!),
-                      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-                      onTap: () {
-                        selectedSite = site;
-                        if (!hasSelectedSite) {
-                          setState(() {
-                            hasSelectedSite = true;
-                          });
-                        }
-                      },
+                      markerId: const MarkerId('ME'),
+                      infoWindow: const InfoWindow(title: "Me"),
+                      position: LatLng(data.latitude, data.longitude),
                     );
                     markers.add(resultMarker);
-                  }
-                }
+                    final sites = ref.watch(getAllSitesProvider);
+                    return sites.when(
+                      loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                      error: (_, __) => Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.error, color: Colors.red),
+                            MulishText(
+                              text: SplashScreenNotifier.getLanguageLabel('There was an error'),
+                            )
+                          ],
+                        ),
+                      ),
+                      data: (sitesCoordinates) {
+                        for (var site in sitesCoordinates) {
+                          if (site.latitude != null && site.longitude != null) {
+                            Marker resultMarker = Marker(
+                              markerId: MarkerId(site.siteName ?? ''),
+                              infoWindow: InfoWindow(title: "${site.siteName}"),
+                              position: LatLng(site.latitude!, site.longitude!),
+                              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+                              onTap: () {
+                                selectedSite = site;
+                                if (!hasSelectedSite) {
+                                  setState(() {
+                                    hasSelectedSite = true;
+                                  });
+                                }
+                              },
+                            );
+                            markers.add(resultMarker);
+                          }
+                        }
 
-                if (userLocation != null) {
-                  Marker resultMarker = Marker(
-                    markerId: const MarkerId('ME'),
-                    infoWindow: const InfoWindow(title: "Me"),
-                    position: LatLng(userLocation.latitude, userLocation.longitude),
-                  );
-                  markers.add(resultMarker);
-                }
-                return GoogleMap(
-                  mapType: MapType.normal,
-                  initialCameraPosition: kGooglePlex,
-                  onMapCreated: (mapController) {
-                    _mapController = mapController;
-                    if (userLocation != null) {
-                      _mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(userLocation.latitude, userLocation.longitude), 15));
-                    }
-                    _controller.complete(mapController);
+                        return GoogleMap(
+                          mapType: MapType.normal,
+                          initialCameraPosition: kGooglePlex,
+                          onMapCreated: (mapController) {
+                            _mapController = mapController;
+                            _mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(data.latitude, data.longitude), 15));
+                            _controller.complete(mapController);
+                          },
+                          markers: markers,
+                          myLocationEnabled: true,
+                        );
+                      },
+                    );
                   },
-                  markers: markers,
-                  myLocationEnabled: true,
                 );
-              },
-            );
           },
         ),
       ),

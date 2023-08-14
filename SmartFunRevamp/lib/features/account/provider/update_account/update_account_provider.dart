@@ -19,7 +19,6 @@ class AccountProvider extends StateNotifier<UpdateAccountState> {
   final SignUpUserUseCase _updateUseCase;
   Future<void> updateProfile(CustomerDTO customerDTO, Map<String, dynamic> request) async {
 
-    List<PhoneContactDTO>? phoneContactDTOList = customerDTO.profileDto?.contactDtoList;
     List<PhoneContactDTO> newPhoneContactDTOList= [];
     List<CustomDataDTO> customDataDtoList = [];
 

@@ -130,7 +130,7 @@ class _AccountPage extends ConsumerState<AccountPage> {
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                               DropdownButtonFormField<String>(
-                                value: returnValue(field.customerFieldName, field.customAttributeId).toString(),
+                                value: returnValue(field.customerFieldName, field.customAttributeId).toString() == "" ? field.customerFieldValues.first : returnValue(field.customerFieldName, field.customAttributeId).toString(),
                                 items: List<String>.from(field.customerFieldValues).map((title) {
                                   return DropdownMenuItem<String>(
                                     value: title,
@@ -358,7 +358,7 @@ dynamic returnValue(String key, int customId) {
         }
         return returnValue;
       } catch (e) {
-        return null;
+        return "";
       }
       
 

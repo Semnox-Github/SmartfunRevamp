@@ -70,13 +70,16 @@ class LoginNotifier extends StateNotifier<LoginState> {
   String? defaultSiteId;
 
   void loginUser(String loginId, String password) async {
-    setDefaultSite();
+    // setDefaultSite();
     state = const _InProgress();
     _phone = loginId;
     final selectedLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
     selectedLocationResponse.fold(
       (l) => Logger().e('No site has been selected'),
-      (r) => selectedSite = SiteViewDTO.fromJson(r),
+      (r) {
+        Logger().d(r);
+        selectedSite = SiteViewDTO.fromJson(r);
+      },
     );
     previousUserId = await _localDataSource.retrieveValue<String>(LocalDataSource.kUserId);
     final loginResponse = await _loginUserUseCase(
@@ -90,7 +93,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (customerDTO) async {
         registerUser(customerDTO);
         await _localDataSource.saveValue(LocalDataSource.kUserId, customerDTO.id.toString());
-        if (selectedSite == null || previousUserId != customerDTO.id.toString() && defaultSiteId.isNullOrEmpty()) {
+        if (selectedSite?.siteName == null || previousUserId != customerDTO.id.toString() && defaultSiteId.isNullOrEmpty()) {
           state = const _SelectLocationNeeded();
         } else {
           getNewToken();
@@ -99,6 +102,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
     );
   }
 
+  //TODO:Ask what is this for
   void setDefaultSite() async {
     //reading defaults
     final defaults = await _getParafaitDefaultsUseCase();
@@ -115,8 +119,12 @@ class LoginNotifier extends StateNotifier<LoginState> {
     }
   }
 
+  void saveSelectedSite() async {
+    await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite!.toJson());
+  }
+
   void _getUserInfo(String phoneOrEmail) async {
-    setDefaultSite();
+    //setDefaultSite();
     final selectedLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
     selectedLocationResponse.fold(
       (l) => Logger().e('No site has been selected'),

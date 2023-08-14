@@ -4,6 +4,7 @@ import 'package:get/instance_manager.dart';
 import 'package:semnox/core/domain/use_cases/authentication/sign_up_user_use_case.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_dto.dart';
+import 'package:semnox_core/modules/customer/model/customer/custom_data_set_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/phone_contact_dto.dart';
 part 'update_account_state.dart';
@@ -76,6 +77,7 @@ class AccountProvider extends StateNotifier<UpdateAccountState> {
           customerDTO.profileDto?.policyTermsAccepted = value["value"];
           break;
         case "EMAIL":
+          customerDTO.profileDto?.userName = value["value"];
           customerDTO.email = value["value"];
           PhoneContactDTO email = PhoneContactDTO(
             contactTypeId: ContactType.email.typeId,
@@ -83,18 +85,6 @@ class AccountProvider extends StateNotifier<UpdateAccountState> {
             attribute1: value["value"],
             isActive: true,
           );
-          try {
-            if (phoneContactDTOList!.isNotEmpty) {
-              for (var element in phoneContactDTOList) {
-                if (element.contactTypeId == ContactType.email.type) {
-                  email = element;
-                  email.attribute1 = value["value"];                  
-                }
-              }
-            }
-          } catch (e) {
-           null;
-          }
           newPhoneContactDTOList.add(email);
           break;
         case "CONTACT_PHONE":
@@ -105,18 +95,6 @@ class AccountProvider extends StateNotifier<UpdateAccountState> {
             attribute1: value["value"],
             isActive: true,
           );
-          try {
-            if (phoneContactDTOList!.isNotEmpty) {
-              for (var element in phoneContactDTOList) {
-                if (element.contactTypeId == ContactType.phone.type) {
-                  phone = element;
-                  phone.attribute1 = value["value"];                  
-                }
-              }
-            }
-          } catch (e) {
-           null;
-          }
           newPhoneContactDTOList.add(phone);
           break;
 
@@ -127,18 +105,6 @@ class AccountProvider extends StateNotifier<UpdateAccountState> {
             attribute1: value["value"],
             isActive: true,
           );
-          try {
-            if (phoneContactDTOList!.isNotEmpty) {
-              for (var element in phoneContactDTOList) {
-                if (element.contactTypeId == ContactType.wechat.type) {
-                  weChat = element;
-                  weChat.attribute1 = value["value"];                  
-                }
-              }
-            }
-          } catch (e) {
-           null;
-          }
           newPhoneContactDTOList.add(weChat);
           break;
 
@@ -156,8 +122,8 @@ class AccountProvider extends StateNotifier<UpdateAccountState> {
 
     });
     customerDTO.profileDto?.contactDtoList = newPhoneContactDTOList;
-    customerDTO.customDataSetDto?.customDataDtoList = customDataDtoList;
-    var a;
+    customerDTO.profileDto?.isChanged = true;
+    customerDTO.customDataSetDto = CustomDataSetDTO(customDataDtoList: customDataDtoList); 
     state = const _Loading();
     final response = await _updateUseCase(customerDTO.toJson());
     state = response.fold(

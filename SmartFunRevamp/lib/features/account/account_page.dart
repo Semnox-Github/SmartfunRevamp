@@ -106,8 +106,6 @@ class _AccountPage extends ConsumerState<AccountPage> {
                     MulishText(text: SplashScreenNotifier.getLanguageLabel('Edit Photo'))
                   ],
                 ),
-
-
                 metaData.when(
                   loading: () => const Center(child: CircularProgressIndicator()),
                   error: (_, __) => const Center(
@@ -161,9 +159,6 @@ class _AccountPage extends ConsumerState<AccountPage> {
                     );
                   },
                 ),
-
-
-
                 CustomTextField(
                   onSaved: (firstName) => user.profilefirtName = firstName,
                   label: SplashScreenNotifier.getLanguageLabel('First Name'),

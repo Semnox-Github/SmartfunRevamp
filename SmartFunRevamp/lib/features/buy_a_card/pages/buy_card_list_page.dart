@@ -34,6 +34,7 @@ class BuyCardListPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              shape: const RoundedRectangleBorder(),
               actions: [
                 Builder(
                   builder: (context) {

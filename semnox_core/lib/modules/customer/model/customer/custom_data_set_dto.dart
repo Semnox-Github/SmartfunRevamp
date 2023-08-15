@@ -58,6 +58,10 @@ class CustomDataSetDTO {
   bool? _isChangedRecursive;
   List<CustomDataDTO>? _customDataDtoList;
 
+  set customDataDtoList(List<CustomDataDTO>? customDataDtoList) {
+    _customDataDtoList = customDataDtoList;
+  }
+
   factory CustomDataSetDTO.fromJson(Map<String, dynamic> json) =>
       CustomDataSetDTO(
         customDataSetId: json["CustomDataSetId"],

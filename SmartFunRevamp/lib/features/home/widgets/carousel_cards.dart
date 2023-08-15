@@ -45,7 +45,7 @@ class _CarouselCardsState extends State<CarouselCards> {
     if (_cards.isEmpty) {
       return Center(
         child: MulishText(
-          text: SplashScreenNotifier.getLanguageLabel("You don't have any notifications"),
+          text: SplashScreenNotifier.getLanguageLabel("You don't have any cards"),
           fontWeight: FontWeight.bold,
           fontSize: 20.0,
         ),

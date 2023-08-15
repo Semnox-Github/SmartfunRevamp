@@ -5,6 +5,7 @@ import 'package:semnox/features/buy_a_card/pages/buy_card_list_page.dart';
 import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/home/pages/home_page.dart';
 import 'package:semnox/features/home/view/delete_profile_otp_page.dart';
+import 'package:semnox/features/home/view/play_view.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/login/pages/verify_otp_page.dart';
 import 'package:semnox/features/lost_card/pages/select_lost_card_page.dart';
@@ -13,6 +14,7 @@ import 'package:semnox/features/membership_info/pages/membership_info_page.dart'
 import 'package:semnox/features/membership_info/pages/membership_rewards_page.dart';
 import 'package:semnox/features/notifications/pages/notification_center_page.dart';
 import 'package:semnox/features/notifications/pages/notifications_settings_page.dart';
+import 'package:semnox/features/payment/pages/feedback_page.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/reset_password/pages/forgot_password_page.dart';
 import 'package:semnox/features/reset_password/pages/reset_password_page.dart';
@@ -50,6 +52,8 @@ class Routes {
   static const kLoyaltyPointsDetails = '/loyalty_points_detail';
   static const kMembershipRewards = '/membership_rewards';
   static const kSearch = '/search';
+  static const kFeedback = '/feedback_page';
+  static const kPlayPage = '/play_page';
 
   static String get initialRoute => kSplashScreenPage;
 
@@ -72,13 +76,15 @@ class Routes {
       kLostPageCard: (BuildContext context) => const SelectCardLostPage(),
       kNotifications: (BuildContext context) => const NotificationCenterPage(),
       kNotificationsSettings: (BuildContext context) => const NotificationsSettingsPage(),
-      kAccount: (BuildContext context) => AccountPage(),
+      kAccount: (BuildContext context) => const AccountPage(),
       kForgotPassword: (BuildContext context) => ForgotPasswordPage(),
       kResetPassword: (BuildContext context) => const ResetPasswordPage(),
       kMembershipInfo: (BuildContext context) => const MembershipInfoPage(),
       kLoyaltyPointsDetails: (BuildContext context) => const LoyaltyPointsInfoPage(),
       kMembershipRewards: (BuildContext context) => const MembershipRewardsPage(),
       kSearch: (BuildContext context) => const SearchPage(),
+      kFeedback: (BuildContext context) => const FeedbackPage(),
+      kPlayPage: (BuildContext context) => const PlayView(),
     };
   }
 }

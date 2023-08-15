@@ -184,13 +184,18 @@ class CMSMenuItem {
   Map<String, dynamic> toJson() => _$CMSMenuItemToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class CMSImages {
   @JsonKey(name: 'splash_screen_image_path')
   final String splashScreenPath;
   @JsonKey(name: 'language_pick_image_path')
   final String languagePickImagePath;
-  CMSImages(this.splashScreenPath, this.languagePickImagePath);
+  final String? resetPasswordImagePath;
+  CMSImages(
+    this.splashScreenPath,
+    this.languagePickImagePath,
+    this.resetPasswordImagePath,
+  );
   factory CMSImages.fromJson(Map<String, dynamic> json) => _$CMSImagesFromJson(json);
   Map<String, dynamic> toJson() => _$CMSImagesToJson(this);
 }

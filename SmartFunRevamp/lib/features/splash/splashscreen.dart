@@ -23,7 +23,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final imageUrl = ref.watch(splashScreenProvider.notifier).splashScreenImgURL;
-    void nextPage() => Navigator.pushNamed(context, Routes.kAfterSplashScreenPage);
+    void nextPage() => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
     ref.listen<SplashScreenState>(
       splashScreenProvider,
       (_, next) {

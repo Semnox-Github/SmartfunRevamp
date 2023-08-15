@@ -96,6 +96,10 @@ class PhoneContactDTO {
   bool? _whatsAppEnabled;
   bool? _isChanged;
 
+  set attribute1 (String? attribute1) {
+    _attribute1 = attribute1;
+  }
+
   factory PhoneContactDTO.fromJson(Map<String, dynamic> json) =>
       PhoneContactDTO(
         id: json["Id"],

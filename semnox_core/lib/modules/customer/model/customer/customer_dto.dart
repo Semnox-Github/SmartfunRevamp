@@ -153,6 +153,18 @@ class CustomerDTO {
     _profileDto?.addressDtoList = addressDtoList;
   }
 
+  set email (String? email){
+    _email = email;
+  }
+
+  set phone (String? phone){
+    _phone = phone;
+  }
+
+   set customDataSetDto (CustomDataSetDTO? customDataSetDto){
+    _customDataSetDto = customDataSetDto;
+  }
+
   factory CustomerDTO.fromJson(Map<String, dynamic> json) {
     return CustomerDTO(
       id: json["Id"],

@@ -164,7 +164,8 @@ class _AccountPage extends ConsumerState<AccountPage> {
                             margins: const EdgeInsets.symmetric(vertical: 10.0),
                             contactType: ContactType.phone,
                             phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                            formatters: [FilteringTextInputFormatter.digitsOnly]
+                            formatters: [FilteringTextInputFormatter.digitsOnly],
+                            key: const Key("Phone"),
                           );
                         }
                         if (field.customerFieldName == "EMAIL"){
@@ -175,6 +176,7 @@ class _AccountPage extends ConsumerState<AccountPage> {
                             margins: const EdgeInsets.symmetric(vertical: 10.0),
                             contactType: ContactType.email,
                             phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
+                            key: const Key("Email"),
                           );
                           
                         }

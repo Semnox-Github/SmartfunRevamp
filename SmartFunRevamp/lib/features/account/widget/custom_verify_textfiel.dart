@@ -33,6 +33,8 @@ class CustomVerifyTextField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool emailVerifiedFlag = false;
+    bool phoneVerifiedFlag = false;
     return Container(
       padding: padding,
       margin: margins,
@@ -50,7 +52,7 @@ class CustomVerifyTextField extends ConsumerWidget {
           Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.grey.shade700,
+                color: contactType.valueString == "Phone" && phoneVerifiedFlag ? Colors.green : Colors.grey.shade700 ,
               ),
               borderRadius: BorderRadius.circular(12.0),
             ),
@@ -63,7 +65,25 @@ class CustomVerifyTextField extends ConsumerWidget {
                         initialValue: initialValue,
                         inputFormatters: formatters,
                         onSaved: (newValue) => onSaved(newValue!),
-                        validator: (value) => value!.isEmpty ? 'Required' : null,
+                        onChanged: (value) {
+                          switch (contactType.valueString) {
+                            case "Phone":
+                              phoneVerifiedFlag = false;
+                              break;
+                            case "Email":
+                              emailVerifiedFlag = false;
+                              break;
+                           }
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) { 
+                            return 'Required';
+                          } else if ((contactType.valueString == "Email" && !emailVerifiedFlag) || (contactType.valueString == "Phone" && !phoneVerifiedFlag)){
+                            return 'Please verify your ${contactType.valueString}';
+                          } else {
+                            return null;
+                          }
+                        }, 
                         cursorColor: Colors.black,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
@@ -81,8 +101,20 @@ class CustomVerifyTextField extends ConsumerWidget {
                       ),
                     ),
                     VerifyButton(
+                      key: Key(contactType.valueString),
                       contactType: contactType,
                       phoneOrEmail: phoneOrEmail,
+                      isVerified: () {
+                        switch (contactType.valueString) {
+                          case "Phone":
+                            phoneVerifiedFlag = true;
+                            break;
+                          case "Email":
+                            emailVerifiedFlag = true;
+                            break;
+                        }
+                        //verifiedFlag = true;
+                      }
                     ),
                   ],
                 ),

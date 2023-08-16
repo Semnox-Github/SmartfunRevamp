@@ -164,6 +164,7 @@ class _AccountPage extends ConsumerState<AccountPage> {
                             margins: const EdgeInsets.symmetric(vertical: 10.0),
                             contactType: ContactType.phone,
                             phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
+                            formatters: [FilteringTextInputFormatter.digitsOnly]
                           );
                         }
                         if (field.customerFieldName == "EMAIL"){
@@ -184,7 +185,7 @@ class _AccountPage extends ConsumerState<AccountPage> {
                           label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
                           margins: const EdgeInsets.symmetric(vertical: 10.0),
                           required: field.validationType == "M",
-                          formatters: field.customerFieldName == "CONTACT_PHONE" || field.customerFieldType == "NUMBER" ? [FilteringTextInputFormatter.digitsOnly] : null,
+                          formatters: field.customerFieldType == "NUMBER" ? [FilteringTextInputFormatter.digitsOnly] : null,
                         );
                       }).toList(),
                     );

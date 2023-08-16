@@ -92,7 +92,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: widget.initialDateTime ?? DateTime.now(),
-      firstDate: widget.minimumDateTime ?? DateTime(DateTime.now().year - 10),
+      firstDate: widget.minimumDateTime ?? DateTime(DateTime.now().year - 110),
       lastDate: widget.maximunDateTime ?? DateTime.now(),
     );
 

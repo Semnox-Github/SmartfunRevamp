@@ -145,6 +145,7 @@ class _AccountPage extends ConsumerState<AccountPage> {
                         if (field.customerFieldName == "BIRTH_DATE" || field.customerFieldType == "DATE") {
                           return CustomDatePicker(
                             initialText: returnValue(field.customerFieldName, field.customAttributeId).toString().cleanDate(),
+                            initialDateTime: DateTime.parse(returnValue(field.customerFieldName, field.customAttributeId).toString() == "" ? DateTime.now().toString() : returnValue(field.customerFieldName, field.customAttributeId).toString()),                                                        
                             margin: const EdgeInsets.symmetric(vertical: 10.0),
                             labelText: SplashScreenNotifier.getLanguageLabel('Date of birth'),
                             format: 'MM-dd-yyyy',
@@ -154,7 +155,6 @@ class _AccountPage extends ConsumerState<AccountPage> {
                               color: CustomColors.hardOrange,
                             ),
                           );
-
                         }
                         if (field.customerFieldName == "CONTACT_PHONE"){
                           return CustomVerifyTextField(

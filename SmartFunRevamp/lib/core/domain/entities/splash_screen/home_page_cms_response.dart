@@ -21,17 +21,10 @@ class HomePageCMSResponse {
   final CMSModuleColorsHome? cmsModuleColorsHome;
   @JsonKey(name: 'CardsColor')
   final CardsColor? cardsColor;
+  @JsonKey(name: 'quick_links_routes')
+  final QuickLinksRoutes? quickLinksRoutes;
 
-  HomePageCMSResponse(
-    this.moduleId,
-    this.description,
-    this.title,
-    this.cmsModulePages,
-    this.cmsModuleMenu,
-    this.cmsImages,
-    this.cmsModuleColorsHome,
-    this.cardsColor,
-  );
+  HomePageCMSResponse(this.moduleId, this.description, this.title, this.cmsModulePages, this.cmsModuleMenu, this.cmsImages, this.cmsModuleColorsHome, this.cardsColor, this.quickLinksRoutes);
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
 
@@ -198,4 +191,25 @@ class CMSImages {
   );
   factory CMSImages.fromJson(Map<String, dynamic> json) => _$CMSImagesFromJson(json);
   Map<String, dynamic> toJson() => _$CMSImagesToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+class QuickLinksRoutes {
+  final String? rechargePage;
+  final String? newCardPage;
+  final String? activitiesPage;
+  final String? lostCardPage;
+  final String? gameplaysPages;
+  final String? transferPage;
+
+  QuickLinksRoutes(
+    this.rechargePage,
+    this.newCardPage,
+    this.activitiesPage,
+    this.lostCardPage,
+    this.gameplaysPages,
+    this.transferPage,
+  );
+  factory QuickLinksRoutes.fromJson(Map<String, dynamic> json) => _$QuickLinksRoutesFromJson(json);
+  Map<String, dynamic> toJson() => _$QuickLinksRoutesToJson(this);
 }

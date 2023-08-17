@@ -10,6 +10,7 @@ import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/disabled_bottom_button.dart';
@@ -20,10 +21,8 @@ import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
-  const SelectCardRechargePage({Key? key, this.filterStr, this.cardDetails}) : super(key: key);
-
+  const SelectCardRechargePage({Key? key, this.filterStr}) : super(key: key);
   final String? filterStr;
-  final CardDetails? cardDetails;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SelectCardRechargePageState();
@@ -35,14 +34,16 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
   late List<CardDetails> cards;
   late int qty;
   late double finalPrice;
+  late CardDetails? cardDetails;
   @override
   void initState() {
     super.initState();
+    cardDetails = ref.read(currentCardProvider);
     //if a card was selected from home screen
-    if (widget.cardDetails != null) {
+    if (cardDetails != null) {
       //is added to cards list as the only card
       List<CardDetails> selectedCard = [];
-      selectedCard.add(widget.cardDetails!);
+      selectedCard.add(cardDetails!);
       cards = selectedCard;
     } else {
       //if no card was selected, i.e. when landed from Search, get all the user cards
@@ -114,18 +115,17 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                 );
               },
             ),
-            widget.cardDetails != null ? 
-            CarouselCardItem(
-              card: selectedCardNumber ?? CardDetails(),
-            )
-            :
-            CarouselCards(
-              cards: cards,
-              onCardChanged: (index) {
-                selectedCardNumber = cards[index];
-              },
-              showLinkCard: false,
-            ),
+            cardDetails != null
+                ? CarouselCardItem(
+                    card: selectedCardNumber ?? CardDetails(),
+                  )
+                : CarouselCards(
+                    cards: cards,
+                    onCardChanged: (index) {
+                      selectedCardNumber = cards[index];
+                    },
+                    showLinkCard: false,
+                  ),
             Padding(
               padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
               child: MulishText(
@@ -151,7 +151,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                             return RechargeCardOffers(
                               offers: offersFiltered,
                               onOfferSelected: (offer) {
-                                if(selectedCardNumber != null) {
+                                if (selectedCardNumber != null) {
                                   setState(() {
                                     offerSelected = offer;
                                     finalPrice = offerSelected!.finalPrice;

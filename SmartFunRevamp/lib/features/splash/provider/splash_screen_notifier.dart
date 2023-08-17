@@ -172,7 +172,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
         await prefs.setStringList('labels', labels);
       }
     }
-    Logger().d(labels);
+    // Logger().d(labels);
   }
 
   static Future<List<String>> getNonExistentLanguageLabel() async {

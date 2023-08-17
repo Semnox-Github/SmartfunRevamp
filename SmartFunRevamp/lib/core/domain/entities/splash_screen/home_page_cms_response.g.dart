@@ -25,6 +25,10 @@ HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
       json['CardsColor'] == null
           ? null
           : CardsColor.fromJson(json['CardsColor'] as Map<String, dynamic>),
+      json['quick_links_routes'] == null
+          ? null
+          : QuickLinksRoutes.fromJson(
+              json['quick_links_routes'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
@@ -46,6 +50,7 @@ Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
   val['images'] = instance.cmsImages.toJson();
   writeNotNull('CMSModuleColorsHome', instance.cmsModuleColorsHome?.toJson());
   writeNotNull('CardsColor', instance.cardsColor?.toJson());
+  writeNotNull('quick_links_routes', instance.quickLinksRoutes?.toJson());
   return val;
 }
 
@@ -183,5 +188,33 @@ Map<String, dynamic> _$CMSImagesToJson(CMSImages instance) {
   }
 
   writeNotNull('reset_password_image_path', instance.resetPasswordImagePath);
+  return val;
+}
+
+QuickLinksRoutes _$QuickLinksRoutesFromJson(Map<String, dynamic> json) =>
+    QuickLinksRoutes(
+      json['recharge_page'] as String?,
+      json['new_card_page'] as String?,
+      json['activities_page'] as String?,
+      json['lost_card_page'] as String?,
+      json['gameplays_pages'] as String?,
+      json['transfer_page'] as String?,
+    );
+
+Map<String, dynamic> _$QuickLinksRoutesToJson(QuickLinksRoutes instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('recharge_page', instance.rechargePage);
+  writeNotNull('new_card_page', instance.newCardPage);
+  writeNotNull('activities_page', instance.activitiesPage);
+  writeNotNull('lost_card_page', instance.lostCardPage);
+  writeNotNull('gameplays_pages', instance.gameplaysPages);
+  writeNotNull('transfer_page', instance.transferPage);
   return val;
 }

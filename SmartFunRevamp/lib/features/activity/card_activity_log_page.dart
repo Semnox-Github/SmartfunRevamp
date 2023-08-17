@@ -11,6 +11,7 @@ import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/activity/card_activity_details_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
@@ -24,9 +25,7 @@ final _getActivityLog = FutureProvider.autoDispose.family<List<CardActivity>, St
 });
 
 class CardActivityLogPage extends ConsumerStatefulWidget {
-  const CardActivityLogPage({Key? key, this.cardDetails}) : super(key: key);
-
-  final CardDetails? cardDetails;
+  const CardActivityLogPage({Key? key}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CardActivityLogPageState();
@@ -35,13 +34,15 @@ class CardActivityLogPage extends ConsumerStatefulWidget {
 class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
   late CardDetails selectedCard;
   late List<CardDetails> cards;
+  late CardDetails? cardDetails;
   @override
   void initState() {
     super.initState();
-    if (widget.cardDetails != null) {
+    cardDetails = ref.read(currentCardProvider);
+    if (cardDetails != null) {
       //is added to cards list as the only card
       List<CardDetails> selectedCard = [];
-      selectedCard.add(widget.cardDetails!);
+      selectedCard.add(cardDetails!);
       cards = selectedCard;
     } else {
       //if no card was selected, i.e. when landed from Search, get all the user cards

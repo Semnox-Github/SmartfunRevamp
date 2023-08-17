@@ -15,8 +15,6 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/activity/card_activity_log_page.dart';
-import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
@@ -25,13 +23,10 @@ import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
 import 'package:semnox/features/login/widgets/profile_picture.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
-import 'package:semnox/features/lost_card/pages/select_lost_card_page.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
-import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:semnox/features/transfer/transfer_page.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -70,6 +65,14 @@ final homeColors = Provider<CMSModuleColorsHome?>((ref) {
   return cms?.cmsModuleColorsHome;
 });
 
+final currentCardProvider = StateProvider<CardDetails?>((ref) {
+  final cardsList = ref.watch(CardsProviders.userCardsProvider);
+  return cardsList.maybeWhen(
+    orElse: () => null,
+    data: (data) => data.first,
+  );
+});
+
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
@@ -79,8 +82,6 @@ class HomeView extends ConsumerStatefulWidget {
 
 class _HomeViewState extends ConsumerState<HomeView> {
   final user = Get.find<CustomerDTO>();
-  CardDetails? cardDetails;
-
   int _cardIndex = -1;
 
   @override
@@ -88,6 +89,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     final promoImages = ref.watch(promoImagesProvider);
     final homeColor = ref.watch(homeColors);
+    final cardDetails = ref.watch(currentCardProvider);
+    final routes = ref.watch(cmsProvider).value?.quickLinksRoutes;
     cardsWatch.maybeWhen(
       orElse: () => context.loaderOverlay.hide(),
       loading: () => context.loaderOverlay.show(),
@@ -161,26 +164,18 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         child: MulishText(text: SplashScreenNotifier.getLanguageLabel('No Cards found')),
                       ),
                       data: (data) {
-                        // set first card as selected when landing home
-                        setState(() {
-                          if (data.isNotEmpty && cardDetails == null && _cardIndex < data.length) {
-                            cardDetails = data.first;
-                          }
-                        });
                         return Column(
                           children: [
                             data.isNotEmpty
                                 ? CarouselCards(
                                     cards: data,
                                     onCardChanged: (cardIndex) {
-                                      setState(() {
-                                        if (cardIndex != data.length) {
-                                          cardDetails = data[cardIndex];
-                                        } else {
-                                          cardDetails = null;
-                                        }
-                                        _cardIndex = cardIndex;
-                                      });
+                                      if (cardIndex != data.length) {
+                                        ref.read(currentCardProvider.notifier).update((state) => data[cardIndex]);
+                                      } else {
+                                        ref.read(currentCardProvider.notifier).update((state) => null);
+                                      }
+                                      _cardIndex = cardIndex;
                                     },
                                   )
                                 : LinkACard(),
@@ -259,17 +254,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                       )
                                       //if there is a card selected and is not blocked or expired then navigate
                                     }
-                                  else if (!(cardDetails!.isBlocked() || cardDetails!.isExpired()))
-                                    {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => SelectCardRechargePage(
-                                            cardDetails: cardDetails,
-                                          ),
-                                        ),
-                                      )
-                                    }
+                                  else if (!(cardDetails.isBlocked() || cardDetails.isExpired()))
+                                    {Navigator.pushNamed(context, routes?.rechargePage ?? Routes.kRechargePageCard)}
                                   else
                                     {
                                       //else show dialog
@@ -286,19 +272,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             color: CustomColors.customPink,
                             image: 'new_card',
                             text: SplashScreenNotifier.getLanguageLabel('New Card'),
-                            onTap: () => Navigator.pushNamed(context, Routes.kBuyACard),
+                            onTap: () => Navigator.pushNamed(context, routes?.newCardPage ?? Routes.kBuyACard),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customLigthBlue,
                             image: 'activities',
                             text: SplashScreenNotifier.getLanguageLabel('Activities'),
                             onTap: () => hasCard
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
-                                    ),
-                                  )
+                                ? Navigator.pushNamed(context, routes?.activitiesPage ?? Routes.kActivities)
                                 : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
                           ),
                           QuickLinkItem(
@@ -306,12 +287,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             image: 'lost_card',
                             text: SplashScreenNotifier.getLanguageLabel('Lost Card'),
                             onTap: () => hasCard
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SelectCardLostPage(cardDetails: cardDetails),
-                                    ),
-                                  )
+                                ? Navigator.pushNamed(context, routes?.lostCardPage ?? Routes.kLostPageCard)
                                 : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
                           ),
                           QuickLinkItem(
@@ -319,12 +295,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             image: 'gameplays',
                             text: SplashScreenNotifier.getLanguageLabel('Game Plays'),
                             onTap: () => hasCard
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => GameplaysPage(cardDetails: cardDetails),
-                                    ),
-                                  )
+                                ? Navigator.pushNamed(context, routes?.gameplaysPages ?? Routes.kGameplays)
                                 : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
                           ),
                           QuickLinkItem(
@@ -332,12 +303,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             image: 'transfer_credit',
                             text: SplashScreenNotifier.getLanguageLabel('Transfer Credit'),
                             onTap: () => hasCard
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => TransferPage(cardDetails: cardDetails),
-                                    ),
-                                  )
+                                ? Navigator.pushNamed(context, routes?.transferPage ?? Routes.kTransfers)
                                 : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
                           ),
                         ],

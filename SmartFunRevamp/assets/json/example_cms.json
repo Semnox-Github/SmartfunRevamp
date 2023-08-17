@@ -317,5 +317,13 @@
     "splash_screen_image_path": "https://i.imgur.com/MbqH9I4.png",
     "language_pick_image_path": "https://i.imgur.com/MbqH9I4.png",
     "reset_password_image_path": "https://cdn-icons-png.flaticon.com/512/6146/6146587.png"
+  },
+  "quick_links_routes": {
+    "recharge_page": "/recharge_card",
+    "new_card_page": "/buy_a_card",
+    "activities_page": "/activities",
+    "lost_card_page": "/lost_card",
+    "gameplays_page": "/gameplays",
+    "transfer_page": "/transfers"
   }
 }

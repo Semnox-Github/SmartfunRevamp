@@ -59,8 +59,10 @@ class VerifyButton extends ConsumerWidget {
                     isVerified();
                   }
                   return MulishText(
-                    text: type == contactType ? SplashScreenNotifier.getLanguageLabel('VERIFIED') : SplashScreenNotifier.getLanguageLabel('Verify'),
-                    fontColor: type == contactType ? Colors.green : CustomColors.hardOrange,
+                    // text: type == contactType ? SplashScreenNotifier.getLanguageLabel('VERIFIED') : SplashScreenNotifier.getLanguageLabel('Verify'),
+                    // fontColor: type == contactType ? Colors.green : CustomColors.hardOrange,
+                    text: SplashScreenNotifier.getLanguageLabel('Verify'),
+                    fontColor: CustomColors.hardOrange,
                     fontWeight: FontWeight.bold,
                   );
                 },

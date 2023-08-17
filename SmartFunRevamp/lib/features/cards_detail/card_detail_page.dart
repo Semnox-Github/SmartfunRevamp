@@ -27,7 +27,7 @@ class CardDetailPage extends ConsumerWidget {
     Logger().d(cardDetails.toJson());
     final cms = ref.watch(cmsProvider).value;
     final items = cms?.getCardDetailMenuItems() ?? [];
-    final routes = ref.watch(cmsProvider).value?.quickLinksRoutes;
+    final routes = ref.watch(cmsProvider).value?.routes;
     return Scaffold(
       appBar: AppBar(
         title: MulishText(

@@ -90,7 +90,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final promoImages = ref.watch(promoImagesProvider);
     final homeColor = ref.watch(homeColors);
     final cardDetails = ref.watch(currentCardProvider);
-    final routes = ref.watch(cmsProvider).value?.quickLinksRoutes;
+    final routes = ref.watch(cmsProvider).value?.routes;
     cardsWatch.maybeWhen(
       orElse: () => context.loaderOverlay.hide(),
       loading: () => context.loaderOverlay.show(),
@@ -352,12 +352,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         image: 'tickets',
                         text: SplashScreenNotifier.getLanguageLabel('Tickets'),
                         onTap: () {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Not implemented'),
-                            ),
-                          );
+                          Navigator.pushNamed(context, routes?.ticketsPage ?? Routes.kTicketsPage);
                         },
                       ),
                       QuickLinkItem(
@@ -365,12 +360,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         image: 'coupons',
                         text: SplashScreenNotifier.getLanguageLabel('Coupons'),
                         onTap: () {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Not implemented'),
-                            ),
-                          );
+                          Navigator.pushNamed(context, routes?.couponsPage ?? Routes.kCoupons);
                         },
                       ),
                       QuickLinkItem(
@@ -378,12 +368,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         image: 'events',
                         text: SplashScreenNotifier.getLanguageLabel('Events'),
                         onTap: () {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Not implemented'),
-                            ),
-                          );
+                          Navigator.pushNamed(context, routes?.eventsPage ?? Routes.kEvents);
                         },
                       ),
                     ],

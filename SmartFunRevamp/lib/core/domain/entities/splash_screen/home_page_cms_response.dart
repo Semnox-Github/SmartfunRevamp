@@ -21,10 +21,10 @@ class HomePageCMSResponse {
   final CMSModuleColorsHome? cmsModuleColorsHome;
   @JsonKey(name: 'CardsColor')
   final CardsColor? cardsColor;
-  @JsonKey(name: 'quick_links_routes')
-  final QuickLinksRoutes? quickLinksRoutes;
+  @JsonKey(name: 'routes')
+  final QuickLinksRoutes? routes;
 
-  HomePageCMSResponse(this.moduleId, this.description, this.title, this.cmsModulePages, this.cmsModuleMenu, this.cmsImages, this.cmsModuleColorsHome, this.cardsColor, this.quickLinksRoutes);
+  HomePageCMSResponse(this.moduleId, this.description, this.title, this.cmsModulePages, this.cmsModuleMenu, this.cmsImages, this.cmsModuleColorsHome, this.cardsColor, this.routes);
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
 
@@ -201,6 +201,9 @@ class QuickLinksRoutes {
   final String? lostCardPage;
   final String? gameplaysPages;
   final String? transferPage;
+  final String? ticketsPage;
+  final String? couponsPage;
+  final String? eventsPage;
 
   QuickLinksRoutes(
     this.rechargePage,
@@ -209,6 +212,9 @@ class QuickLinksRoutes {
     this.lostCardPage,
     this.gameplaysPages,
     this.transferPage,
+    this.ticketsPage,
+    this.couponsPage,
+    this.eventsPage,
   );
   factory QuickLinksRoutes.fromJson(Map<String, dynamic> json) => _$QuickLinksRoutesFromJson(json);
   Map<String, dynamic> toJson() => _$QuickLinksRoutesToJson(this);

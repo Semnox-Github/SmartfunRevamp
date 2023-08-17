@@ -21,7 +21,7 @@ class RechargeCardDetailsButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final routes = ref.watch(cmsProvider).value?.quickLinksRoutes;
+    final routes = ref.watch(cmsProvider).value?.routes;
     if (daysUntilExpiration < 0) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

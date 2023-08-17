@@ -54,6 +54,9 @@ class Routes {
   static const kSearch = '/search';
   static const kFeedback = '/feedback_page';
   static const kPlayPage = '/play_page';
+  static const kTicketsPage = '/tickets';
+  static const kCoupons = '/coupons';
+  static const kEvents = '/events';
 
   static String get initialRoute => kSplashScreenPage;
 

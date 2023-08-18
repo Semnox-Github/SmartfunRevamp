@@ -110,7 +110,6 @@ class _AccountPage extends ConsumerState<AccountPage> {
                             SplashScreenNotifier.getLanguageLabel('Edit Photo'))
                   ],
                 ),
-
                 metaData.when(
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),

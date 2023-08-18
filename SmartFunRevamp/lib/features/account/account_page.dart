@@ -107,8 +107,6 @@ class _AccountPage extends ConsumerState<AccountPage> {
                     MulishText(text: SplashScreenNotifier.getLanguageLabel('Edit Photo'))
                   ],
                 ),
-
-
                 metaData.when(
                   loading: () => const Center(child: CircularProgressIndicator()),
                   error: (_, __) => const Center(
@@ -130,7 +128,9 @@ class _AccountPage extends ConsumerState<AccountPage> {
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                               DropdownButtonFormField<String>(
-                                value: returnValue(field.customerFieldName, field.customAttributeId).toString() == "" ? field.customerFieldValues.first : returnValue(field.customerFieldName, field.customAttributeId).toString(),
+                                value: returnValue(field.customerFieldName, field.customAttributeId).toString() == ""
+                                    ? field.customerFieldValues.first
+                                    : returnValue(field.customerFieldName, field.customAttributeId).toString(),
                                 items: List<String>.from(field.customerFieldValues).map((title) {
                                   return DropdownMenuItem<String>(
                                     value: title,
@@ -148,17 +148,21 @@ class _AccountPage extends ConsumerState<AccountPage> {
                             margin: const EdgeInsets.symmetric(vertical: 10.0),
                             labelText: SplashScreenNotifier.getLanguageLabel('Date of birth'),
                             format: 'MM-dd-yyyy',
-                            onItemSelected: (dob) => request[field.customerFieldName] = {"value": DateFormat('MM-dd-yyyy').format(dob).toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                            onItemSelected: (dob) => request[field.customerFieldName] = {
+                              "value": DateFormat('MM-dd-yyyy').format(dob).toString(),
+                              "customAttributeId": field.customAttributeId,
+                              "customerFieldType": field.customerFieldType
+                            },
                             suffixIcon: const Icon(
                               Icons.date_range_outlined,
                               color: CustomColors.hardOrange,
                             ),
                           );
-
                         }
-                        if (field.customerFieldName == "CONTACT_PHONE"){
+                        if (field.customerFieldName == "CONTACT_PHONE") {
                           return CustomVerifyTextField(
-                            onSaved: (value) => request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                            onSaved: (value) =>
+                                request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
                             label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
                             initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
                             margins: const EdgeInsets.symmetric(vertical: 10.0),
@@ -166,21 +170,22 @@ class _AccountPage extends ConsumerState<AccountPage> {
                             phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
                           );
                         }
-                        if (field.customerFieldName == "EMAIL"){
+                        if (field.customerFieldName == "EMAIL") {
                           return CustomVerifyTextField(
-                            onSaved: (value) => request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                            onSaved: (value) =>
+                                request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
                             label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
                             initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
                             margins: const EdgeInsets.symmetric(vertical: 10.0),
                             contactType: ContactType.email,
                             phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
                           );
-                          
                         }
-                          
+
                         return CustomTextField(
                           initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                          onSaved: (value) => request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                          onSaved: (value) =>
+                              request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
                           label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
                           margins: const EdgeInsets.symmetric(vertical: 10.0),
                           required: field.validationType == "M",
@@ -279,13 +284,13 @@ class CustomPasswordTextField extends StatefulWidget {
 
 dynamic returnValue(String key, int customId) {
   final user = Get.find<CustomerDTO>();
-  switch(key) {
+  switch (key) {
     case "FIRST_NAME":
       return user.profileDto?.firstName;
     case "CUSTOMER_NAME":
       return user.profileDto?.firstName;
     case "MIDDLE_NAME":
-      return user.profileDto?.middleName; 
+      return user.profileDto?.middleName;
     case "LAST_NAME":
       return user.profileDto?.lastName;
     case "BIRTH_DATE":
@@ -303,19 +308,19 @@ dynamic returnValue(String key, int customId) {
     case "USERNAME":
       return user.profileDto?.userName;
     case "RIGHTHANDED":
-    return user.profileDto?.rightHanded;
+      return user.profileDto?.rightHanded;
     case "PASSWORD":
       return user.profileDto?.password;
     case "TAXCODE":
       return user.profileDto?.taxCode;
     case "COMPANY":
-     return user.profileDto?.company;
-      
+      return user.profileDto?.company;
+
     case "TITLE":
       return user.profileDto?.title;
     case "TERMS_AND_CONDITIONS":
       return user.profileDto?.policyTermsAccepted;
-    //   
+    //
     case "EMAIL":
       return user.email;
     //   phoneContactDTO.add(PhoneContactDTO(
@@ -325,7 +330,7 @@ dynamic returnValue(String key, int customId) {
     //     isActive: true,
     //   ));
     //   email = value["value"];
-    //   
+    //
     case "CONTACT_PHONE":
       return user.phone;
     //   phoneContactDTO.add(PhoneContactDTO(
@@ -335,7 +340,7 @@ dynamic returnValue(String key, int customId) {
     //     isActive: true,
     //   ));
     //   phone = value["value"];
-    //   
+    //
     case "WECHAT_ACCESS_TOKEN":
       try {
         var contactDtoList = user.contactDtoList!.where((element) => element.contactType == ContactType.wechat.type).first;
@@ -343,9 +348,9 @@ dynamic returnValue(String key, int customId) {
       } catch (e) {
         return "";
       }
-      
+
     default:
-    CustomDataDTO customDataDtoList;
+      CustomDataDTO customDataDtoList;
       dynamic returnValue;
       try {
         customDataDtoList = user.customDataSetDto!.customDataDtoList!.where((element) => element.customAttributeId == customId).first;
@@ -360,9 +365,7 @@ dynamic returnValue(String key, int customId) {
       } catch (e) {
         return "";
       }
-      
 
-      
     // //not included in case will be stored in custom data
     //   CustomDataDTO customDataDTO = CustomDataDTO(
     //     customAttributeId: value["customAttributeId"],
@@ -371,7 +374,6 @@ dynamic returnValue(String key, int customId) {
     //     customDataDate: value["customerFieldType"] == "DATE" ? DateTime.parse(value["value"]) : null
     //   );
     //   customDataDtoList.add(customDataDTO);
-
   }
 }
 
@@ -400,24 +402,22 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
             validator: (value) => value!.isEmpty && widget.required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
-            obscureText: !_passwordVisible,//This will obscure text dynamically
+            obscureText: !_passwordVisible, //This will obscure text dynamically
             decoration: InputDecoration(
               hintText: SplashScreenNotifier.getLanguageLabel('Enter your password'),
               // Here is key idea
               suffixIcon: IconButton(
                 icon: Icon(
                   // Based on passwordVisible state choose the icon
-                  _passwordVisible
-                  ? Icons.visibility
-                  : Icons.visibility_off,
+                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
                   color: Theme.of(context).primaryColorDark,
-                  ),
-                  onPressed: () {
-                    // Update the state i.e. toogle the state of passwordVisible variable
-                    setState(() {
-                        _passwordVisible = !_passwordVisible;
-                    });
-                  },
+                ),
+                onPressed: () {
+                  // Update the state i.e. toogle the state of passwordVisible variable
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
               ),
               isDense: true,
               fillColor: widget.fillColor,

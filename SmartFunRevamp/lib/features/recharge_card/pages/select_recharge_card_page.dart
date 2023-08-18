@@ -72,6 +72,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              shape: const RoundedRectangleBorder(),
             )
           : null,
       bottomSheet: offerSelected != null && selectedCardNumber != null
@@ -114,18 +115,17 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                 );
               },
             ),
-            widget.cardDetails != null ? 
-            CarouselCardItem(
-              card: selectedCardNumber ?? CardDetails(),
-            )
-            :
-            CarouselCards(
-              cards: cards,
-              onCardChanged: (index) {
-                selectedCardNumber = cards[index];
-              },
-              showLinkCard: false,
-            ),
+            widget.cardDetails != null
+                ? CarouselCardItem(
+                    card: selectedCardNumber ?? CardDetails(),
+                  )
+                : CarouselCards(
+                    cards: cards,
+                    onCardChanged: (index) {
+                      selectedCardNumber = cards[index];
+                    },
+                    showLinkCard: false,
+                  ),
             Padding(
               padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
               child: MulishText(
@@ -151,7 +151,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                             return RechargeCardOffers(
                               offers: offersFiltered,
                               onOfferSelected: (offer) {
-                                if(selectedCardNumber != null) {
+                                if (selectedCardNumber != null) {
                                   setState(() {
                                     offerSelected = offer;
                                     finalPrice = offerSelected!.finalPrice;

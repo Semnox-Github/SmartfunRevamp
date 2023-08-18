@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:rating_dialog/rating_dialog.dart';
@@ -46,7 +47,8 @@ class Dialogs {
               ],
             ),
             MulishText(
-              text: SplashScreenNotifier.getLanguageLabel('Saved on the bill with the coupon'),
+              text: SplashScreenNotifier.getLanguageLabel(
+                  'Saved on the bill with the coupon'),
               fontColor: CustomColors.couponTextColor,
             )
           ],
@@ -55,7 +57,8 @@ class Dialogs {
     ).show();
   }
 
-  static void getCoupongNumberDialog(BuildContext context, WidgetRef ref, CardProduct cardProduct) {
+  static void getCoupongNumberDialog(
+      BuildContext context, WidgetRef ref, CardProduct cardProduct) {
     final key = GlobalKey<FormState>();
     String coupon = '';
     AwesomeDialog(
@@ -132,24 +135,27 @@ class Dialogs {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MulishText(
-                        text: card.description,
-                        fontWeight: FontWeight.w800,
-                        textAlign: TextAlign.start,
-                        fontSize: 20.0,
+                      Html(
+                        data: card.webDescription,
                       ),
                       Consumer(
                         builder: (context, ref, child) {
-                          final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
-                          final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
-                          final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
+                          final parafaitDefault =
+                              ref.watch(parafaitDefaultsProvider).value;
+                          final currency = parafaitDefault?.getDefault(
+                                  ParafaitDefaultsResponse.currencySymbol) ??
+                              'USD';
+                          final format = parafaitDefault?.getDefault(
+                                  ParafaitDefaultsResponse.currencyFormat) ??
+                              '#,##0.00';
                           return CustomButton(
                             onTap: () {
                               Navigator.pop(context);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => EstimatedTransactionPage(
+                                  builder: (context) =>
+                                      EstimatedTransactionPage(
                                     cardProduct: card,
                                     transactionType: "newcard",
                                     qty: 1,
@@ -158,7 +164,12 @@ class Dialogs {
                                 ),
                               );
                             },
-                            label: SplashScreenNotifier.getLanguageLabel('BUY NOW @ &1').replaceAll("&1", card.finalPrice.toCurrency(currency, format)),
+                            label: SplashScreenNotifier.getLanguageLabel(
+                                    'BUY NOW @ &1')
+                                .replaceAll(
+                                    "&1",
+                                    card.finalPrice
+                                        .toCurrency(currency, format)),
                           );
                         },
                       ),
@@ -173,7 +184,8 @@ class Dialogs {
     );
   }
 
-  static void showMessageInfo(BuildContext context, String title, String meessge) {
+  static void showMessageInfo(
+      BuildContext context, String title, String meessge) {
     AwesomeDialog(
       context: context,
       dialogType: DialogType.infoReverse,
@@ -208,7 +220,9 @@ class Dialogs {
   }
 
   static void showBarcodeTempCard(BuildContext context, String accountNumber) {
-    String titleOfDialog = accountNumber.startsWith('T') ? SplashScreenNotifier.getLanguageLabel('Virtual Card') : SplashScreenNotifier.getLanguageLabel('Card');
+    String titleOfDialog = accountNumber.startsWith('T')
+        ? SplashScreenNotifier.getLanguageLabel('Virtual Card')
+        : SplashScreenNotifier.getLanguageLabel('Card');
     String cardCoachMark = 'BARCODE';
     showDialog(
       context: context,
@@ -235,7 +249,11 @@ class Dialogs {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(5),
                         child: BarcodeWidget(
-                          barcode: cardCoachMark == 'BARCODE' ? Barcode.code128() : Barcode.qrCode(errorCorrectLevel: BarcodeQRCorrectionLevel.high),
+                          barcode: cardCoachMark == 'BARCODE'
+                              ? Barcode.code128()
+                              : Barcode.qrCode(
+                                  errorCorrectLevel:
+                                      BarcodeQRCorrectionLevel.high),
                           data: accountNumber,
                           drawText: false,
                           height: MediaQuery.of(context).size.height * 0.2,
@@ -263,7 +281,8 @@ class Dialogs {
     );
   }
 
-  static void verifyDialog(BuildContext context, Function(String) onVerify, ContactType contactType) {
+  static void verifyDialog(BuildContext context, Function(String) onVerify,
+      ContactType contactType) {
     String otp = '';
     AwesomeDialog(
       context: context,
@@ -288,13 +307,16 @@ class Dialogs {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MulishText(
-                  text: '${SplashScreenNotifier.getLanguageLabel('Verify')} ${contactType.valueString}',
+                  text:
+                      '${SplashScreenNotifier.getLanguageLabel('Verify')} ${contactType.valueString}',
                   fontWeight: FontWeight.bold,
                   textAlign: TextAlign.start,
                 ),
                 const SizedBox(height: 10.0),
                 MulishText(
-                  text: SplashScreenNotifier.getLanguageLabel('We have mailed you an OTP.\nEnter the OTP to verify your &1').replaceAll("&1", contactType.valueString),
+                  text: SplashScreenNotifier.getLanguageLabel(
+                          'We have mailed you an OTP.\nEnter the OTP to verify your &1')
+                      .replaceAll("&1", contactType.valueString),
                   textAlign: TextAlign.start,
                 ),
                 const SizedBox(height: 10.0),
@@ -302,7 +324,8 @@ class Dialogs {
                     onSubmit: (otp) => {},
                     onChange: (code) => otp = code,
                     keyboardType: TextInputType.number,
-                    otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
+                    otpPinFieldDecoration:
+                        OtpPinFieldDecoration.defaultPinBoxDecoration,
                     otpPinFieldStyle: const OtpPinFieldStyle(
                       defaultFieldBorderColor: CustomColors.customOrange,
                       activeFieldBorderColor: CustomColors.hardOrange,
@@ -312,7 +335,8 @@ class Dialogs {
                     fieldWidth: MediaQuery.of(context).size.width * 0.12),
                 const SizedBox(height: 10.0),
                 MulishText(
-                  text: SplashScreenNotifier.getLanguageLabel("Didn't Receive?"),
+                  text:
+                      SplashScreenNotifier.getLanguageLabel("Didn't Receive?"),
                   textAlign: TextAlign.start,
                 ),
                 RichText(
@@ -326,7 +350,8 @@ class Dialogs {
                       ),
                       WidgetSpan(
                         child: MulishText(
-                          text: SplashScreenNotifier.getLanguageLabel(' in 30 seconds'),
+                          text: SplashScreenNotifier.getLanguageLabel(
+                              ' in 30 seconds'),
                         ),
                       )
                     ],
@@ -341,7 +366,8 @@ class Dialogs {
   }
 
   // ignore: unused_element
-  static void _showAppRatingDialog(BuildContext context, Function() onSubmitted) {
+  static void _showAppRatingDialog(
+      BuildContext context, Function() onSubmitted) {
     final isIOS = Platform.isIOS;
     showDialog(
       context: context,
@@ -351,7 +377,8 @@ class Dialogs {
           enableComment: false,
           initialRating: 1.0,
           title: Text(
-            SplashScreenNotifier.getLanguageLabel('Enjoying Parafait SmartFun?'),
+            SplashScreenNotifier.getLanguageLabel(
+                'Enjoying Parafait SmartFun?'),
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 25,
@@ -361,8 +388,13 @@ class Dialogs {
           image: Image.asset('assets/home/logo.png'),
           message: Text(
             // 'Tap a star to rate it on the ${isIOS ? 'App Store' : 'Play Store'}',
-            SplashScreenNotifier.getLanguageLabel('Tap a star to rate it on the &1')
-                .replaceAll('&1', isIOS ? SplashScreenNotifier.getLanguageLabel('App Store') : SplashScreenNotifier.getLanguageLabel('Play Store')),
+            SplashScreenNotifier.getLanguageLabel(
+                    'Tap a star to rate it on the &1')
+                .replaceAll(
+                    '&1',
+                    isIOS
+                        ? SplashScreenNotifier.getLanguageLabel('App Store')
+                        : SplashScreenNotifier.getLanguageLabel('Play Store')),
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 15),
           ),
@@ -376,13 +408,15 @@ class Dialogs {
     );
   }
 
-  static void deleteProfileSuccessDialog(BuildContext context, Function() onSubmitted) {
+  static void deleteProfileSuccessDialog(
+      BuildContext context, Function() onSubmitted) {
     AwesomeDialog(
       context: context,
       dismissOnTouchOutside: true,
       onDismissCallback: (type) => onSubmitted(),
       title: SplashScreenNotifier.getLanguageLabel('Delete Profile'),
-      desc: SplashScreenNotifier.getLanguageLabel('Profile deleted successfully.'),
+      desc: SplashScreenNotifier.getLanguageLabel(
+          'Profile deleted successfully.'),
       descTextStyle: const TextStyle(
         fontWeight: FontWeight.w400,
         fontSize: 18,

@@ -109,7 +109,6 @@ class _AccountPage extends ConsumerState<AccountPage> {
                     MulishText(text: SplashScreenNotifier.getLanguageLabel('Edit Photo'))
                   ],
                 ),
-
                 metaData.when(
                   loading: () => const Center(child: CircularProgressIndicator()),
                   error: (_, __) => const Center(

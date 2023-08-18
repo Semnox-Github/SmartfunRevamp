@@ -73,6 +73,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              shape: const RoundedRectangleBorder(),
             )
           : null,
       bottomSheet: offerSelected != null && selectedCardNumber != null

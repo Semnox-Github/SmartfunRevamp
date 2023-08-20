@@ -90,7 +90,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final promoImages = ref.watch(promoImagesProvider);
     final homeColor = ref.watch(homeColors);
     final cardDetails = ref.watch(currentCardProvider);
-    final routes = ref.watch(cmsProvider).value?.routes;
     cardsWatch.maybeWhen(
       orElse: () => context.loaderOverlay.hide(),
       loading: () => context.loaderOverlay.show(),
@@ -255,7 +254,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                       //if there is a card selected and is not blocked or expired then navigate
                                     }
                                   else if (!(cardDetails.isBlocked() || cardDetails.isExpired()))
-                                    {Navigator.pushNamed(context, routes?.rechargePage ?? Routes.kRechargePageCard)}
+                                    {Navigator.pushNamed(context, Routes.kRechargePageCard)}
                                   else
                                     {
                                       //else show dialog
@@ -272,39 +271,35 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             color: CustomColors.customPink,
                             image: 'new_card',
                             text: SplashScreenNotifier.getLanguageLabel('New Card'),
-                            onTap: () => Navigator.pushNamed(context, routes?.newCardPage ?? Routes.kBuyACard),
+                            onTap: () => Navigator.pushNamed(context, Routes.kBuyACard),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customLigthBlue,
                             image: 'activities',
                             text: SplashScreenNotifier.getLanguageLabel('Activities'),
-                            onTap: () => hasCard
-                                ? Navigator.pushNamed(context, routes?.activitiesPage ?? Routes.kActivities)
-                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
+                            onTap: () =>
+                                hasCard ? Navigator.pushNamed(context, Routes.kActivities) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customOrange,
                             image: 'lost_card',
                             text: SplashScreenNotifier.getLanguageLabel('Lost Card'),
-                            onTap: () => hasCard
-                                ? Navigator.pushNamed(context, routes?.lostCardPage ?? Routes.kLostPageCard)
-                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
+                            onTap: () =>
+                                hasCard ? Navigator.pushNamed(context, Routes.kLostPageCard) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customGreen,
                             image: 'gameplays',
                             text: SplashScreenNotifier.getLanguageLabel('Game Plays'),
-                            onTap: () => hasCard
-                                ? Navigator.pushNamed(context, routes?.gameplaysPages ?? Routes.kGameplays)
-                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
+                            onTap: () =>
+                                hasCard ? Navigator.pushNamed(context, Routes.kGameplays) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
                           ),
                           QuickLinkItem(
                             color: CustomColors.customPurple,
                             image: 'transfer_credit',
                             text: SplashScreenNotifier.getLanguageLabel('Transfer Credit'),
-                            onTap: () => hasCard
-                                ? Navigator.pushNamed(context, routes?.transferPage ?? Routes.kTransfers)
-                                : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
+                            onTap: () =>
+                                hasCard ? Navigator.pushNamed(context, Routes.kTransfers) : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
                           ),
                         ],
                       );
@@ -352,7 +347,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         image: 'tickets',
                         text: SplashScreenNotifier.getLanguageLabel('Tickets'),
                         onTap: () {
-                          Navigator.pushNamed(context, routes?.ticketsPage ?? Routes.kTicketsPage);
+                          Navigator.pushNamed(context, Routes.kTicketsPage);
                         },
                       ),
                       QuickLinkItem(
@@ -360,7 +355,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         image: 'coupons',
                         text: SplashScreenNotifier.getLanguageLabel('Coupons'),
                         onTap: () {
-                          Navigator.pushNamed(context, routes?.couponsPage ?? Routes.kCoupons);
+                          Navigator.pushNamed(context, Routes.kCoupons);
                         },
                       ),
                       QuickLinkItem(
@@ -368,7 +363,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         image: 'events',
                         text: SplashScreenNotifier.getLanguageLabel('Events'),
                         onTap: () {
-                          Navigator.pushNamed(context, routes?.eventsPage ?? Routes.kEvents);
+                          Navigator.pushNamed(context, Routes.kEvents);
                         },
                       ),
                     ],

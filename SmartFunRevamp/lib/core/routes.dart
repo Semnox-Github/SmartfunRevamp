@@ -43,7 +43,7 @@ class Routes {
   static const kGameplays = '/gameplays';
   static const kActivities = '/activities';
   static const kTransfers = '/transfers';
-  static const kNotifications = '/notifications';
+  static const kNotifications = '/notification';
   static const kNotificationsSettings = '/notifications_settings';
   static const kAccount = '/account';
   static const kForgotPassword = '/forgot_password';

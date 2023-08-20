@@ -3,8 +3,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
-
-import '../../core/domain/use_cases/splash_screen/get_home_page_cms_use_case.dart';
+import 'package:semnox/core/domain/use_cases/splash_screen/get_home_page_cms_use_case.dart';
 
 final cmsProvider = FutureProvider<HomePageCMSResponse?>((ref) async {
   try {

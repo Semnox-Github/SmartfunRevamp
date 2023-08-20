@@ -6,7 +6,6 @@ import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/cards_detail/card_detail_page.dart';
-import 'package:semnox/features/splash/cms_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class RechargeCardDetailsButton extends ConsumerWidget {
@@ -21,7 +20,6 @@ class RechargeCardDetailsButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final routes = ref.watch(cmsProvider).value?.routes;
     if (daysUntilExpiration < 0) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -70,7 +68,7 @@ class RechargeCardDetailsButton extends ConsumerWidget {
                   ),
                   margin: const EdgeInsets.all(3),
                   child: TextButton(
-                    onPressed: () => Navigator.pushNamed(context, routes?.rechargePage ?? Routes.kRechargePageCard),
+                    onPressed: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
                     child: Text(
                       SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
                       style: const TextStyle(

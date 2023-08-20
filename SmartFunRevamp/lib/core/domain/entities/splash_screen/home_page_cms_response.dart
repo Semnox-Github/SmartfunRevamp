@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -21,10 +22,8 @@ class HomePageCMSResponse {
   final CMSModuleColorsHome? cmsModuleColorsHome;
   @JsonKey(name: 'CardsColor')
   final CardsColor? cardsColor;
-  @JsonKey(name: 'routes')
-  final QuickLinksRoutes? routes;
 
-  HomePageCMSResponse(this.moduleId, this.description, this.title, this.cmsModulePages, this.cmsModuleMenu, this.cmsImages, this.cmsModuleColorsHome, this.cardsColor, this.routes);
+  HomePageCMSResponse(this.moduleId, this.description, this.title, this.cmsModulePages, this.cmsModuleMenu, this.cmsImages, this.cmsModuleColorsHome, this.cardsColor);
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
 
@@ -42,7 +41,12 @@ class HomePageCMSResponse {
   }
 
   List<CMSMenuItem> getFooterMenuItems() {
+    Logger().d('<--------------------${geMenuItems('FOOTER')}----------------->');
     return geMenuItems('FOOTER');
+  }
+
+  List<CMSMenuItem> getHeaderMenuItems() {
+    return geMenuItems('HEADER');
   }
 
   List<CMSMenuItem> getCardDetailMenuItems() {
@@ -191,31 +195,4 @@ class CMSImages {
   );
   factory CMSImages.fromJson(Map<String, dynamic> json) => _$CMSImagesFromJson(json);
   Map<String, dynamic> toJson() => _$CMSImagesToJson(this);
-}
-
-@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class QuickLinksRoutes {
-  final String? rechargePage;
-  final String? newCardPage;
-  final String? activitiesPage;
-  final String? lostCardPage;
-  final String? gameplaysPages;
-  final String? transferPage;
-  final String? ticketsPage;
-  final String? couponsPage;
-  final String? eventsPage;
-
-  QuickLinksRoutes(
-    this.rechargePage,
-    this.newCardPage,
-    this.activitiesPage,
-    this.lostCardPage,
-    this.gameplaysPages,
-    this.transferPage,
-    this.ticketsPage,
-    this.couponsPage,
-    this.eventsPage,
-  );
-  factory QuickLinksRoutes.fromJson(Map<String, dynamic> json) => _$QuickLinksRoutesFromJson(json);
-  Map<String, dynamic> toJson() => _$QuickLinksRoutesToJson(this);
 }

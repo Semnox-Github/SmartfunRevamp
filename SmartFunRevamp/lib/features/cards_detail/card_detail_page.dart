@@ -27,7 +27,7 @@ class CardDetailPage extends ConsumerWidget {
     Logger().d(cardDetails.toJson());
     final cms = ref.watch(cmsProvider).value;
     final items = cms?.getCardDetailMenuItems() ?? [];
-    final routes = ref.watch(cmsProvider).value?.routes;
+
     return Scaffold(
       appBar: AppBar(
         title: MulishText(
@@ -69,7 +69,7 @@ class CardDetailPage extends ConsumerWidget {
               ),
               if (!(cardDetails.isBlocked() || cardDetails.isExpired()))
                 CustomButton(
-                  onTap: () => Navigator.pushNamed(context, routes?.rechargePage ?? Routes.kRechargePageCard),
+                  onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
                   label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
                   margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                 ),

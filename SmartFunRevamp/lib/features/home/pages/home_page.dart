@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/home/view/bookings_view.dart';
 import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/view/more_view.dart';
-import 'package:semnox/features/home/view/play_view.dart';
 
 import 'package:semnox/features/home/widgets/custom_bottom_bar.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
@@ -81,18 +81,16 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   List<Widget> childrenPages(List<CMSMenuItem> items) {
     final List<Widget> pages = [];
+    Logger().d('<---------------$items------------------>');
     for (final item in items) {
-      switch (item.itemName) {
-        case "HOME":
+      switch (item.target?.replaceAll('sf:/', '')) {
+        case "/home":
           pages.add(const HomeView());
           break;
-        case "PLAY":
-          pages.add(const PlayView());
-          break;
-        case "BOOKINGS":
+        case "/bookings":
           pages.add(const BookingsView());
           break;
-        case "MORE":
+        case "/more":
           pages.add(const MoreView());
           break;
         default:

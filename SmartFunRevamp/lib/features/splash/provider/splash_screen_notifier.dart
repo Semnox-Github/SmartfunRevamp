@@ -21,6 +21,7 @@ import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'splash_screen_state.dart';
@@ -33,6 +34,12 @@ final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashS
     Get.find<LocalDataSource>(),
   ),
 );
+final customDTOProvider = FutureProvider<CustomerDTO?>((ref) async {
+  final LocalDataSource glutton = Get.find<LocalDataSource>();
+  final customer = await glutton.retrieveCustomer();
+  return customer;
+});
+
 final systemUserProvider = StateProvider<SystemUser?>((ref) {
   return null;
 });
@@ -79,7 +86,12 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
   final AuthenticateBaseURLUseCase _authenticateBaseURLUseCase;
   final LocalDataSource _localDataSource;
   late String? splashScreenImgURL = '';
-  SplashScreenNotifier(this._getBaseURL, this._authenticateBaseURLUseCase, this._localDataSource) : super(const _InProgress());
+  SplashScreenNotifier(
+    this._getBaseURL,
+    this._authenticateBaseURLUseCase,
+    this._localDataSource,
+    // this._getExecutionContextUseCase,
+  ) : super(const _InProgress());
 
   static String getUrl(String site) {
     String responseUrl = "";
@@ -130,6 +142,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     response.fold(
       (l) => state = _Error(l.message),
       (r) async {
+        Logger().d(r.toJson());
         authenticateApi(r, baseUrl);
         getHomePageCMS();
       },
@@ -172,7 +185,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
         await prefs.setStringList('labels', labels);
       }
     }
-    Logger().d(labels);
+    // Logger().d(labels);
   }
 
   static Future<List<String>> getNonExistentLanguageLabel() async {

@@ -68,7 +68,7 @@ class MoreView extends ConsumerWidget {
               children: [
                 TextButton(
                   onPressed: () async {
-                    localDatasource.deleteValue(LocalDataSource.kUserId).then(
+                    localDatasource.logoutUser().then(
                           (value) => Navigator.popAndPushNamed(context, Routes.kLogInPage),
                         );
                     ref.invalidate(CardsProviders.userCardsProvider);

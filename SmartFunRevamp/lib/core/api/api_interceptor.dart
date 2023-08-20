@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:get/instance_manager.dart';
 
 class AuthorizationInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    options.baseUrl = '${Get.find<String>(tag: 'baseURL')}/api/';
+    // options.baseUrl = '${Get.find<String>(tag: 'baseURL')}/api/';
+    options.baseUrl = 'https://smartfungigademo.parafait.com/api/';
 
     super.onRequest(options, handler);
   }

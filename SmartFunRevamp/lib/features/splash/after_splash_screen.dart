@@ -6,18 +6,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/api/smart_fun_api.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
+import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
 import 'package:semnox/core/domain/use_cases/select_location/get_master_site_use_case.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/features/splash/cms_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
+
+Future<void> _registerLoggedUser(CustomerDTO customerDTO) async {
+  Logger().d('Registering User');
+  final localDataSource = Get.find<LocalDataSource>();
+  final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
+  final getExecutionContextUseCase = Get.find<GetExecutionContextUseCase>();
+  final selectedSite = response.fold(
+    (l) => null,
+    (r) {
+      Logger().d(r);
+      return SiteViewDTO.fromJson(r);
+    },
+  );
+  registerUser(customerDTO);
+  final executionContextResponse = await getExecutionContextUseCase(selectedSite!.siteId!);
+  executionContextResponse.fold(
+    (l) {},
+    (r) {
+      Get.replace<SmartFunApi>(SmartFunApi('', r));
+    },
+  );
+}
 
 final parafaitDefaultsProvider = FutureProvider<ParafaitDefaultsResponse>((ref) async {
   final getDefaults = Get.find<GetParafaitDefaultsUseCase>();
@@ -69,6 +97,7 @@ class AfterSplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final customer = ref.watch(customDTOProvider).valueOrNull;
     ref.watch(parafaitDefaultsProvider);
     ref.watch(SplashScreenNotifier.getInitialData);
     final currenLang = ref.watch(currentLanguageProvider);
@@ -86,7 +115,12 @@ class AfterSplashScreen extends ConsumerWidget {
       },
     );
     final imagePath = ref.watch(cmsProvider).value?.cmsImages.languagePickImagePath;
-
+    ref.listen(splashScreenProvider, (previous, next) {
+      next.maybeWhen(
+        orElse: () => {},
+        userAuthenticated: () => Navigator.pushReplacementNamed(context, Routes.kHomePage),
+      );
+    });
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(10.0),
@@ -182,7 +216,15 @@ class AfterSplashScreen extends ConsumerWidget {
                         text: SplashScreenNotifier.getLanguageLabel("Have an account?"),
                       ),
                       CustomButton(
-                        onTap: () => Navigator.pushReplacementNamed(context, Routes.kLogInPage),
+                        onTap: () {
+                          if (customer != null) {
+                            _registerLoggedUser(customer).then(
+                              (value) => Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                            );
+                          } else {
+                            Navigator.pushReplacementNamed(context, Routes.kLogInPage);
+                          }
+                        },
                         label: SplashScreenNotifier.getLanguageLabel("LOGIN"),
                       )
                     ],

@@ -308,8 +308,8 @@ class Dialogs {
                       activeFieldBorderColor: CustomColors.hardOrange,
                     ),
                     maxLength: 6,
-                    fieldHeight: MediaQuery.of(context).size.width * 0.12,
-                    fieldWidth: MediaQuery.of(context).size.width * 0.12),
+                    fieldHeight: MediaQuery.of(context).size.width * 0.07,
+                    fieldWidth: MediaQuery.of(context).size.width * 0.07),
                 const SizedBox(height: 10.0),
                 MulishText(
                   text: SplashScreenNotifier.getLanguageLabel("Didn't Receive?"),

@@ -112,14 +112,15 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
                           if (value!.isEmpty && widget.required) {
                             return SplashScreenNotifier.getLanguageLabel(
                                 'Required');
-                          } else if ((value!.isEmpty &&
+                          } else if ((value.isEmpty &&
                                   widget.contactType.valueString == "Email" &&
                                   !emailVerifiedFlag) ||
-                              (value!.isEmpty &&
+                              (value.isEmpty &&
                                   widget.contactType.valueString == "Phone" &&
                                   !phoneVerifiedFlag)) {
                             return SplashScreenNotifier.getLanguageLabel(
-                                'Please verify your ${widget.contactType.valueString}');
+                              'Please verify your ${widget.contactType.valueString}',
+                            );
                           } else {
                             return null;
                           }

@@ -9,8 +9,8 @@ import 'package:semnox/features/account/provider/verify/verify_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class VerifyButton extends ConsumerWidget {
-  const VerifyButton({super.key, required this.contactType, required this.phoneOrEmail});
-
+  const VerifyButton({super.key, required this.contactType, required this.phoneOrEmail, required this.isVerified});
+  final Function() isVerified;
   final ContactType contactType;
   final String phoneOrEmail;
 
@@ -47,16 +47,25 @@ class VerifyButton extends ConsumerWidget {
       child: Consumer(
         builder: (context, ref, child) {
           return ref.watch(sendOtpStateProvider).maybeWhen(
-                orElse: () => MulishText(
-                  text: SplashScreenNotifier.getLanguageLabel('Verify'),
-                  fontColor: CustomColors.hardOrange,
-                  fontWeight: FontWeight.bold,
-                ),
-                otpVerified: (type) => MulishText(
-                  text: type == contactType ? SplashScreenNotifier.getLanguageLabel('VERIFIED') : SplashScreenNotifier.getLanguageLabel('Verify'),
-                  fontColor: type == contactType ? Colors.green : CustomColors.hardOrange,
-                  fontWeight: FontWeight.bold,
-                ),
+                orElse: ()  { 
+                  return MulishText(
+                    text: SplashScreenNotifier.getLanguageLabel('Verify'),
+                    fontColor: CustomColors.hardOrange,
+                    fontWeight: FontWeight.bold,
+                  );
+                },
+                otpVerified: (type) {
+                  if (type == contactType) {
+                    isVerified();
+                  }
+                  return MulishText(
+                    // text: type == contactType ? SplashScreenNotifier.getLanguageLabel('VERIFIED') : SplashScreenNotifier.getLanguageLabel('Verify'),
+                    // fontColor: type == contactType ? Colors.green : CustomColors.hardOrange,
+                    text: SplashScreenNotifier.getLanguageLabel('Verify'),
+                    fontColor: CustomColors.hardOrange,
+                    fontWeight: FontWeight.bold,
+                  );
+                },
               );
         },
       ),

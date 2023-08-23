@@ -18,6 +18,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
+import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
@@ -60,6 +61,7 @@ class Dialogs {
   static void getCoupongNumberDialog(
       BuildContext context, WidgetRef ref, CardProduct cardProduct) {
     final key = GlobalKey<FormState>();
+    final siteId = ref.watch(selectedSiteIdProvider);
     String coupon = '';
     AwesomeDialog(
       context: context,
@@ -81,6 +83,7 @@ class Dialogs {
           ref.read(estimateStateProvider.notifier).getEstimateTransaction(
                 cardProduct,
                 dtoList: DiscountApplicationHistoryDTOList(-1, coupon, -1),
+                siteId: siteId,
               );
         }
       },

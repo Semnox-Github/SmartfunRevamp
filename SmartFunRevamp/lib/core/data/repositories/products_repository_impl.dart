@@ -19,7 +19,9 @@ class ProductsRepositoryImpl implements ProductsRepository {
   Future<Either<Failure, List<CardProduct>>> getProductPrice(int siteId) async {
     try {
       final siteTokenResponse = await _api.getExecutionContext(siteId: siteId);
-      final siteToken = siteTokenResponse.response.headers.value(HttpHeaders.authorizationHeader) ?? '';
+      final siteToken = siteTokenResponse.response.headers
+              .value(HttpHeaders.authorizationHeader) ??
+          '';
       final response = await _api.getProductsPrices(
         DateTime.now().toIso8601String(),
         siteToken,
@@ -30,29 +32,34 @@ class ProductsRepositoryImpl implements ProductsRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+        return Left(
+            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+      return Left(ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
   @override
-  Future<Either<Failure, EstimateTransactionResponse>> getEstimateTransaction(Map<String, dynamic> body) async {
+  Future<Either<Failure, EstimateTransactionResponse>> getEstimateTransaction(
+      Map<String, dynamic> body) async {
     try {
       final response = await _api.estimateTransaction(body);
       return Right(response.data);
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+        return Left(
+            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       if (e.response?.statusCode == 500) {
         final message = json.decode(e.response.toString());
         return Left(InvalidCouponFailure(message['data']));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+      return Left(ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 }

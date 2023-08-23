@@ -23,20 +23,34 @@
 2. change url in variable `const String kGetBaseUrl = 'https://parafaitdevcentral.parafait.com/api/';`
 
 ## firebase keys
-follow instructions on official flutter documentation https://firebase.google.com/docs/flutter/setup
+follow instructions on official Firebase documentation https://firebase.google.com/docs/flutter/setup
+
+## google authentication keys
+Functionality not implemented yet
 
 ## google maps keys
+follow instructions on official Goole Maps package documentation https://pub.dev/packages/google_maps_flutter
 
 ## native splash screen
-is the screen that is shown natively in the app before the flutter app is loaded
-1. open file SmartFunRevamp/flutter_native_splash.yaml
-2. update background_image path and color
-3. run generation tool: `flutter pub pub run flutter_native_splash:create`
+This is the screen that is shown natively in the app before the flutter app is loaded
+1. save image file in SmartFunRevamp/assets/splash_screen/splash_screen.png (you can change the name of the file, but you need to update the name in the step 3)
+2. open file SmartFunRevamp/flutter_native_splash.yaml
+3. update background_image path and color. You can ommit this step if you don't want to change the image path in step 1
+4. run generation tool: `flutter pub pub run flutter_native_splash:create`
 
 ## native icon app
-is the icon of the app that is shown in the device
-1. open file SmartFunRevamp/flutter_native_icons.yaml
-2. update image path
-3. run generation tool: `flutter pub run flutter_launcher_icons`
+This is the icon of the app that is shown in the device berfore opening the app
+1. save image file in SmartFunRevamp/assets/icon/icon.png (you change the name of the file, but you need to update the name in the step 3)
+2. open file SmartFunRevamp/flutter_native_icons.yaml
+3. update image path if you change it in the step 1
+4. run generation tool: `flutter pub run flutter_launcher_icons`
 
+## local CMS default configuration
+For the moment the app is using only api calls to show data.
+When the cache feature is implemented we will be using the file `SmartFunRevamp/assets/json/example_cms.json` to configure the CMS json data that loads for the first time the app is opened.
+
+## app version and description.
+The publicly visible app version is taken from `SmartFunRevamp/pubspec.yaml` file. The version is defined in the variable `version`. 
+You can also change the app description in that file.
+DO NOT change app name, because code compiling will fail.
 

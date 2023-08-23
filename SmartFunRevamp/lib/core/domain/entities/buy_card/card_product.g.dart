@@ -15,6 +15,7 @@ CardProduct _$CardProductFromJson(Map<String, dynamic> json) => CardProduct(
       (json['Credits'] as num).toDouble(),
       json['ProductType'] as String,
       json['Description'] as String,
+      json['WebDescription'] as String,
       json['QuantityPrompt'] as String,
     );
 
@@ -36,6 +37,7 @@ Map<String, dynamic> _$CardProductToJson(CardProduct instance) {
   val['Credits'] = instance.credits;
   val['ProductType'] = instance.productType;
   val['Description'] = instance.description;
+  val['WebDescription'] = instance.webDescription;
   val['QuantityPrompt'] = instance.QuantityPrompt;
   return val;
 }

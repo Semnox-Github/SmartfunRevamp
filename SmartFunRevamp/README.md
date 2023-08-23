@@ -10,12 +10,14 @@
 
 ## change application id
 1. open every file with the string: `com.example.semnox`, the list of files is
+```
   - SmartFunRevamp/android/app/build.gradle
   - SmartFunRevamp/android/app/google-services.json
   - SmartFunRevamp/android/app/src/debug/AndroidManifest.xml
   - SmartFunRevamp/android/app/src/main/AndroidManifest.xml
   - SmartFunRevamp/android/app/src/main/kotlin/com/example/semnox/MainActivity.kt
   - SmartFunRevamp/android/app/src/profile/AndroidManifest.xml
+```
 2. replace the string with the application id for this project
 
 ## configure initial URL

@@ -5,7 +5,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/home/widgets/custom_bottom_navigation_bar_item.dart';
-import 'package:semnox/features/splash/cms_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CustomBottomBar extends ConsumerWidget {
@@ -19,7 +19,7 @@ class CustomBottomBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cms = ref.watch(cmsProvider).value;
+    final cms = ref.watch(newHomePageCMSProvider);
     final items = cms?.getFooterMenuItems() ?? [];
     final barColor = cms?.cmsModuleColorsHome?.bottomHalf;
     return ClipRRect(

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
@@ -16,12 +17,14 @@ import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final SmartFunApi _api;
+  final LocalDataSource _glutton;
 
-  AuthenticationRepositoryImpl(this._api);
+  AuthenticationRepositoryImpl(this._api, this._glutton);
   @override
   Future<Either<Failure, CustomerDTO>> loginUser(Map<String, dynamic> body) async {
     try {
       final response = await _api.loginUser(body);
+      _glutton.saveUser(response.data);
       return Right(response.data);
     } on DioException catch (e) {
       Logger().e(e);
@@ -49,11 +52,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, List<CustomerUIMetaData>>> getUserMetaData() async {
+  Future<Either<Failure, List<CustomerUIMetaData>>> getUserMetaData(int siteId) async {
     try {
-      final response = await _api.getSignUpMetadata(SplashScreenNotifier.getMasterSite().toString());
+      final response = await _api.getSignUpMetadata(siteId.toString());
       final uiMetadataList = response.data.customerUIMetadataContainerDTOList;
-      // uiMetadataList.removeWhere((element) => element.customerFieldName == 'TestDownload');
       uiMetadataList.removeWhere((element) => element.customerFieldName == 'USERNAME');
       uiMetadataList.sort((a, b) => a.customerFieldOrder.compareTo(b.customerFieldOrder));
       return Right(uiMetadataList);

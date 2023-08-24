@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/features/home/widgets/home_view_widgets/notification_button.dart';
-import 'package:semnox/features/splash/cms_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
 List<CMSMenuItem> _getMenuHeader(HomePageCMSResponse? data) {
   for (CMSModuleMenu moduleMenu in data?.cmsModuleMenu ?? []) {
@@ -25,50 +25,40 @@ class HomeTopBarIcons extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cms = ref.watch(cmsProvider);
-    return cms.when(
-      error: (_, __) => Container(
-        height: 10,
-        width: 10,
-        color: Colors.red,
-      ),
-      loading: () => const CircularProgressIndicator.adaptive(),
-      data: (data) {
-        final header = _getMenuHeader(data);
-        if (header.isEmpty) {
-          return Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                onPressed: onSearchTap,
-                icon: const Icon(Icons.search),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.notifications),
-              ),
-            ],
-          );
-        }
-        return Row(
-          children: [
-            InkWell(
-              onTap: onSearchTap,
-              child: CachedNetworkImage(
-                imageUrl: header.firstWhere((element) => element.displayName == 'Search').itemUrl,
-                errorWidget: (context, url, error) => const Icon(Icons.search),
-              ),
-            ),
-            const SizedBox(width: 10.0),
-            NotificationsButton(
-              notificationIcon: CachedNetworkImage(
-                imageUrl: header.firstWhere((element) => element.displayName == 'Notification').itemUrl,
-                errorWidget: (context, url, error) => const Icon(Icons.notifications),
-              ),
-            ),
-          ],
-        );
-      },
+    final cms = ref.watch(newHomePageCMSProvider);
+    final header = _getMenuHeader(cms);
+    if (header.isEmpty) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            onPressed: onSearchTap,
+            icon: const Icon(Icons.search),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.notifications),
+          ),
+        ],
+      );
+    }
+    return Row(
+      children: [
+        InkWell(
+          onTap: onSearchTap,
+          child: CachedNetworkImage(
+            imageUrl: header.firstWhere((element) => element.displayName == 'Search').itemUrl,
+            errorWidget: (context, url, error) => const Icon(Icons.search),
+          ),
+        ),
+        const SizedBox(width: 10.0),
+        NotificationsButton(
+          notificationIcon: CachedNetworkImage(
+            imageUrl: header.firstWhere((element) => element.displayName == 'Notification').itemUrl,
+            errorWidget: (context, url, error) => const Icon(Icons.notifications),
+          ),
+        ),
+      ],
     );
   }
 }

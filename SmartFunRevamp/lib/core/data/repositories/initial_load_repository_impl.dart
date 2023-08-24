@@ -33,12 +33,12 @@ class InitialLoadRepositoryImpl implements InitialLoadRepository {
   }
 
   @override
-  Future<Either<Failure, Object>> getStringsForLocalization({required String siteId, required String languageId, String outputForm = 'JSON'}) async {
+  Future<Either<Failure, Map<String, dynamic>>> getStringsForLocalization({required String siteId, required String languageId, String outputForm = 'JSON'}) async {
     try {
       final response = await _api.getStringsForLocalization(siteId, languageId, outputForm);
       Logger().d(response);
 
-      return Right(response.data);
+      return Right(Map<String, dynamic>.from(response.data));
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {

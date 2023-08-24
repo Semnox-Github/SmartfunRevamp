@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:semnox/core/api/parafait_api.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
@@ -14,7 +15,7 @@ import 'package:semnox/di/select_location_dependecies.dart';
 import 'package:semnox/di/payment_dependencies.dart';
 import 'package:semnox/di/splash_screen_dependencies.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
-import 'package:get/get.dart';
+
 import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 

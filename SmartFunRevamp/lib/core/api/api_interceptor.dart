@@ -5,7 +5,6 @@ class AuthorizationInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.baseUrl = '${Get.find<String>(tag: 'baseURL')}/api/';
-
     super.onRequest(options, handler);
   }
 

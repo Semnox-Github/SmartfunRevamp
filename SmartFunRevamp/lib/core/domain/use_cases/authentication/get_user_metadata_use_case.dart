@@ -6,7 +6,7 @@ import 'package:semnox/core/domain/repositories/authentication_repository.dart';
 class GetUserMetaDataUseCase {
   final AuthenticationRepository _repository;
   GetUserMetaDataUseCase(this._repository);
-  Future<Either<Failure, List<CustomerUIMetaData>>> call() async {
-    return await _repository.getUserMetaData();
+  Future<Either<Failure, List<CustomerUIMetaData>>> call(int siteId) async {
+    return await _repository.getUserMetaData(siteId);
   }
 }

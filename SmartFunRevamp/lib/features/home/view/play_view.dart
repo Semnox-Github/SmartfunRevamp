@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
-import 'package:semnox/features/splash/cms_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PlayView extends ConsumerStatefulWidget {
@@ -29,9 +29,10 @@ class _PlayViewState extends ConsumerState<PlayView> {
 
   @override
   Widget build(BuildContext context) {
-    final cms = ref.watch(cmsProvider).value;
+    final cms = ref.watch(newHomePageCMSProvider);
     final currentLang = ref.watch(currentLanguageProvider);
-    final playUrl = cms!.playUrl(currentLang: currentLang);
+    final siteId = ref.watch(masterSiteProvider)?.siteId;
+    final playUrl = cms!.playUrl(currentLang: currentLang, siteId: siteId.toString());
     if (playUrl != null) {
       controller.loadRequest(playUrl);
     }

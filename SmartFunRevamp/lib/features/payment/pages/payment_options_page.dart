@@ -18,7 +18,7 @@ import 'package:semnox/features/payment/pages/payment_failed_page.dart';
 import 'package:semnox/features/payment/pages/payment_success_page.dart';
 import 'package:semnox/features/payment/provider/hosted_payment_provider/hosted_payment_provider.dart';
 import 'package:semnox/features/payment/provider/payment_options_provider.dart';
-import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -32,7 +32,7 @@ class PaymentOptionsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+    final parafaitDefault = ref.watch(parafaitDefaultsProvider);
     final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
 

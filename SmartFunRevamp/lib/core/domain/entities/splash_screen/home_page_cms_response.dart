@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
-import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 part 'home_page_cms_response.g.dart';
 
@@ -60,7 +59,7 @@ class HomePageCMSResponse {
     return geMenuItems('MORE');
   }
 
-  Uri? playUrl({required LanguageContainerDTOList? currentLang}) {
+  Uri? playUrl({required LanguageContainerDTOList? currentLang, required String siteId}) {
     final footerItems = geMenuItems('FOOTER');
     final playUrlFromCMS = footerItems.firstWhereOrNull((element) => element.itemName == 'PLAY')?.target;
     debugPrint('thisistheplayurl from CMS: $playUrlFromCMS');
@@ -72,10 +71,10 @@ class HomePageCMSResponse {
       'customerId': customer.id.toString(),
       'customerID': customer.id.toString(),
       'langCode': currentLang?.languageCode ?? 'en-US',
-      'siteID': SplashScreenNotifier.getMasterSite().toString(),
+      'siteID': siteId,
       'posMachine': 'CustomerApp',
       'userID': 'SmartFun',
-      'apiURL': SplashScreenNotifier.baseUrl(),
+      'apiURL': Get.find<String>(tag: 'baseURL'),
     };
     String playUrl = playUrlFromCMS;
     replacements.forEach((key, value) {

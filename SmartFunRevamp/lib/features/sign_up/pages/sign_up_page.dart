@@ -21,12 +21,14 @@ import 'package:semnox/features/login/widgets/social_logins_container.dart';
 import 'package:semnox/features/sign_up/pages/privacy_policy_page.dart';
 import 'package:semnox/features/sign_up/pages/terms_of_use_page.dart';
 import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 final uiMetaDataProvider =
     FutureProvider<List<CustomerUIMetaData>>((ref) async {
   final getUiMetaData = Get.find<GetUserMetaDataUseCase>();
-  final response = await getUiMetaData();
+  final siteId = ref.watch(masterSiteProvider)?.siteId;
+  final response = await getUiMetaData(siteId ?? 1010);
   return response.fold(
     (l) => throw l,
     (r) => r,

@@ -3,5 +3,5 @@ import 'package:semnox/core/domain/entities/config/parafait_defaults_response.da
 import 'package:semnox/core/errors/failures.dart';
 
 abstract class ConfigRepository {
-  Future<Either<Failure, ParafaitDefaultsResponse>> getParafaitDefaults();
+  Future<Either<Failure, ParafaitDefaultsResponse>> getParafaitDefaults(int siteId);
 }

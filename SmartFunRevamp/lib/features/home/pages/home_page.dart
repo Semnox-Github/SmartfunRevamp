@@ -9,7 +9,7 @@ import 'package:semnox/features/home/view/more_view.dart';
 import 'package:semnox/features/home/view/play_view.dart';
 
 import 'package:semnox/features/home/widgets/custom_bottom_bar.dart';
-import 'package:semnox/features/splash/cms_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   void didChangeDependencies() {
-    final cms = ref.watch(cmsProvider).value;
+    final cms = ref.watch(newHomePageCMSProvider);
     items = cms?.getFooterMenuItems() ?? [];
     items.removeWhere((element) => !element.active);
     super.didChangeDependencies();

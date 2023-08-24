@@ -112,6 +112,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   //TODO:Ask what is this for
   void setDefaultSite() async {
     //reading defaults
+    state = const _InProgress();
     final defaults = await _getParafaitDefaultsUseCase();
     defaults.fold(
       (l) => null,

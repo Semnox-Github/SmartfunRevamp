@@ -47,6 +47,8 @@ class _CustomerVerificationPage
               context: context,
               dialogType: DialogType.success,
               headerAnimationLoop: false,
+              btnOkText: SplashScreenNotifier.getLanguageLabel("Continue"),
+              btnOkOnPress: () {},
               onDismissCallback: (_) {
                 Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
               },
@@ -119,7 +121,7 @@ class _CustomerVerificationPage
                               FilteringTextInputFormatter.digitsOnly
                             ],
                             required: field.validationType == "M",
-                            key: const Key("Phone"),
+                            key: const Key("PhoneV"),
                             verificationStatusInitialValue: false,
                           );
                         }
@@ -142,7 +144,7 @@ class _CustomerVerificationPage
                                     field.customAttributeId)
                                 .toString(),
                             required: field.validationType == "M",
-                            key: const Key("Email"),
+                            key: const Key("EmailV"),
                             verificationStatusInitialValue: false,
                           );
                         }

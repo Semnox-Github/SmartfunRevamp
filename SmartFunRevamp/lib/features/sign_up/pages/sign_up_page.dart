@@ -24,7 +24,8 @@ import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-final uiMetaDataProvider = FutureProvider<List<CustomerUIMetaData>>((ref) async {
+final uiMetaDataProvider =
+    FutureProvider<List<CustomerUIMetaData>>((ref) async {
   final getUiMetaData = Get.find<GetUserMetaDataUseCase>();
   final siteId = ref.watch(masterSiteProvider)?.siteId;
   final response = await getUiMetaData(siteId ?? 1010);
@@ -55,9 +56,13 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
         orElse: () => context.loaderOverlay.hide(),
         success: (signUpEntity) {
           if (isPasswordDisabled) {
-            ref.read(loginProvider.notifier).loginUserWithOTP(signUpEntity.email ?? '');
+            ref
+                .read(loginProvider.notifier)
+                .loginUserWithOTP(signUpEntity.email ?? '');
           } else {
-            ref.read(loginProvider.notifier).loginUser(signUpEntity.email!, signUpEntity.password!);
+            ref
+                .read(loginProvider.notifier)
+                .loginUser(signUpEntity.email!, signUpEntity.password!);
           }
         },
         error: (message) {
@@ -78,9 +83,9 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
           context.loaderOverlay.hide();
           Navigator.pushReplacementNamed(context, Routes.kHomePage);
         },
-        selectLocationNeeded: () {
+        customerVerificationNeeded: () {
           context.loaderOverlay.hide();
-          Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
+          Navigator.pushReplacementNamed(context, Routes.kCustomerVerification);
         },
         error: (message) {
           context.loaderOverlay.hide();
@@ -115,11 +120,13 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
             child: Column(
               children: [
                 Text(
-                  SplashScreenNotifier.getLanguageLabel('Hi There, Complete the following details to setup your accound and coitinue using Smartfun App.'),
+                  SplashScreenNotifier.getLanguageLabel(
+                      'Hi There, Complete the following details to setup your account and continue using Smartfun App.'),
                 ),
                 const SizedBox(height: 20.0),
                 metaData.when(
-                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
                   error: (_, __) => const Center(
                     child: Icon(
                       Icons.error,
@@ -135,28 +142,44 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption),
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                                SplashScreenNotifier.getLanguageLabel(
+                                    field.entityFieldCaption),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
                               DropdownButtonFormField<String>(
-                                items: List<String>.from(field.customerFieldValues).map((title) {
+                                items:
+                                    List<String>.from(field.customerFieldValues)
+                                        .map((title) {
                                   return DropdownMenuItem<String>(
                                     value: title,
-                                    child: Text(SplashScreenNotifier.getLanguageLabel(title)),
+                                    child: Text(
+                                        SplashScreenNotifier.getLanguageLabel(
+                                            title)),
                                   );
                                 }).toList(),
-                                onChanged: (title) => request[field.customerFieldName] = {"value": title, "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                                onChanged: (title) =>
+                                    request[field.customerFieldName] = {
+                                  "value": title,
+                                  "customAttributeId": field.customAttributeId,
+                                  "customerFieldType": field.customerFieldType
+                                },
                               ),
                             ],
                           );
                         }
-                        if (field.customerFieldName == "BIRTH_DATE" || field.customerFieldType == "DATE") {
+                        if (field.customerFieldName == "BIRTH_DATE" ||
+                            field.customerFieldType == "DATE") {
                           return CustomDatePicker(
                             margin: const EdgeInsets.symmetric(vertical: 10.0),
-                            labelText: SplashScreenNotifier.getLanguageLabel('Date of birth'),
+                            labelText: SplashScreenNotifier.getLanguageLabel(
+                                'Date of birth'),
                             format: 'MM-dd-yyyy',
-                            onItemSelected: (dob) => request[field.customerFieldName] = {
-                              "value": DateFormat('MM-dd-yyyy').format(dob).toString(),
+                            onItemSelected: (dob) =>
+                                request[field.customerFieldName] = {
+                              "value": DateFormat('MM-dd-yyyy')
+                                  .format(dob)
+                                  .toString(),
                               "customAttributeId": field.customAttributeId,
                               "customerFieldType": field.customerFieldType
                             },
@@ -168,27 +191,45 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                         }
                         return CustomTextField(
                           onSaved: (value) =>
-                              request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
-                          label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
+                              request[field.customerFieldName] = {
+                            "value": value.toString(),
+                            "customAttributeId": field.customAttributeId,
+                            "customerFieldType": field.customerFieldType
+                          },
+                          label:
+                              '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
                           margins: const EdgeInsets.symmetric(vertical: 10.0),
                           required: field.validationType == "M",
-                          formatters: field.customerFieldName == "CONTACT_PHONE" || field.customerFieldType == "NUMBER" ? [FilteringTextInputFormatter.digitsOnly] : null,
+                          formatters:
+                              field.customerFieldName == "CONTACT_PHONE" ||
+                                      field.customerFieldType == "NUMBER"
+                                  ? [FilteringTextInputFormatter.digitsOnly]
+                                  : null,
                         );
                       }).toList(),
                     );
                   },
                 ),
                 if (!isPasswordDisabled)
-                  Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    CustomPasswordTextField(
-                      onSaved: (value) => request["PASSWORD"] = {"value": value.toString(), "customAttributeId": -1, "customerFieldType": "TEXT"},
-                      label: '${SplashScreenNotifier.getLanguageLabel("Password")}*',
-                      margins: const EdgeInsets.symmetric(vertical: 10.0),
-                      required: true,
-                    ),
-                  ]),
+                  Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomPasswordTextField(
+                          onSaved: (value) => request["PASSWORD"] = {
+                            "value": value.toString(),
+                            "customAttributeId": -1,
+                            "customerFieldType": "TEXT"
+                          },
+                          label:
+                              '${SplashScreenNotifier.getLanguageLabel("Password")}*',
+                          margins: const EdgeInsets.symmetric(vertical: 10.0),
+                          required: true,
+                        ),
+                      ]),
                 configExecutionContext.when(
-                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
                   error: (error, _) {
                     if (error is Failure) {
                       return const Icon(Icons.error, color: Colors.red);
@@ -211,10 +252,12 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                     ),
                     children: [
                       TextSpan(
-                        text: '${SplashScreenNotifier.getLanguageLabel('By Logging in you agree to our')} ',
+                        text:
+                            '${SplashScreenNotifier.getLanguageLabel('By Logging in you agree to our')} ',
                       ),
                       TextSpan(
-                          text: SplashScreenNotifier.getLanguageLabel('Terms of Service'),
+                          text: SplashScreenNotifier.getLanguageLabel(
+                              'Terms of Service'),
                           style: const TextStyle(
                             color: CustomColors.hardOrange,
                           ),
@@ -233,7 +276,8 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                       ),
                       const TextSpan(text: ' '),
                       TextSpan(
-                        text: SplashScreenNotifier.getLanguageLabel('Privacy Policy'),
+                        text: SplashScreenNotifier.getLanguageLabel(
+                            'Privacy Policy'),
                         style: const TextStyle(
                           color: CustomColors.hardOrange,
                         ),
@@ -255,7 +299,9 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                   onTap: () {
                     if (_key.currentState!.validate()) {
                       _key.currentState!.save();
-                      ref.read(signUpNotifier.notifier).signUpUser(SignUpEntity.fromMetaData(request));
+                      ref
+                          .read(signUpNotifier.notifier)
+                          .signUpUser(SignUpEntity.fromMetaData(request));
                     }
                   },
                   label: SplashScreenNotifier.getLanguageLabel('SIGN UP'),
@@ -313,7 +359,9 @@ class CustomTextField extends StatelessWidget {
             initialValue: initialValue,
             inputFormatters: formatters,
             onSaved: (newValue) => onSaved(newValue!),
-            validator: (value) => value!.isEmpty && required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+            validator: (value) => value!.isEmpty && required
+                ? SplashScreenNotifier.getLanguageLabel('Required')
+                : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
@@ -353,7 +401,8 @@ class CustomPasswordTextField extends StatefulWidget {
   final bool required;
 
   @override
-  State<CustomPasswordTextField> createState() => _CustomPasswordTextFieldState();
+  State<CustomPasswordTextField> createState() =>
+      _CustomPasswordTextFieldState();
 }
 
 class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
@@ -379,12 +428,15 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
             initialValue: widget.initialValue,
             inputFormatters: widget.formatters,
             onSaved: (newValue) => widget.onSaved(newValue!),
-            validator: (value) => value!.isEmpty && widget.required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+            validator: (value) => value!.isEmpty && widget.required
+                ? SplashScreenNotifier.getLanguageLabel('Required')
+                : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             obscureText: !_passwordVisible, //This will obscure text dynamically
             decoration: InputDecoration(
-              hintText: SplashScreenNotifier.getLanguageLabel('Enter your password'),
+              hintText:
+                  SplashScreenNotifier.getLanguageLabel('Enter your password'),
               // Here is key idea
               suffixIcon: IconButton(
                 icon: Icon(

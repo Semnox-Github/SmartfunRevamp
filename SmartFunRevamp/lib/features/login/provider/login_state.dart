@@ -6,10 +6,13 @@ class LoginState with _$LoginState {
   const factory LoginState.inProgress() = _InProgress;
   const factory LoginState.success() = _Success;
   const factory LoginState.selectLocationNeeded() = _SelectLocationNeeded;
+  const factory LoginState.customerVerificationNeeded() =
+      _CustomerVerificationNeeded;
   const factory LoginState.error(String message) = _Error;
   const factory LoginState.otpGenerated() = _OtpGenerated;
   const factory LoginState.otpResend() = _OtpResend;
   const factory LoginState.verifyingOTp() = _VerifyingOTP;
   const factory LoginState.otpVerified() = _OtpVerified;
-  const factory LoginState.otpVerificationError(String msg) = _OtpVerificationError;
+  const factory LoginState.otpVerificationError(String msg) =
+      _OtpVerificationError;
 }

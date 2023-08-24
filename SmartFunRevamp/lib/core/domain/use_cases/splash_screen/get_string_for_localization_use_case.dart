@@ -6,7 +6,7 @@ import 'package:semnox/core/errors/failures.dart';
 class GetStringForLocalizationUseCase {
   final InitialLoadRepository _repository;
   GetStringForLocalizationUseCase(this._repository);
-  Future<Either<Failure, dynamic>> call({
+  Future<Either<Failure, Map<String, dynamic>>> call({
     required String siteId,
     required String languageId,
   }) async {

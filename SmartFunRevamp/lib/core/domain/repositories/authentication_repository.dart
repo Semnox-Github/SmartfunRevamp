@@ -13,7 +13,7 @@ abstract class AuthenticationRepository {
   Future<Either<Failure, CustomerDTO>> getUserByPhoneOrEmail(String phoneOrEmail);
   Future<Either<Failure, String>> getUserExecutionController(int siteId);
   Future<Either<Failure, int>> getConfigExecutionController();
-  Future<Either<Failure, List<CustomerUIMetaData>>> getUserMetaData();
+  Future<Either<Failure, List<CustomerUIMetaData>>> getUserMetaData(int siteId);
   Future<Either<Failure, void>> sendResetPasswordLink(String phoneOrEmail);
   Future<Either<Failure, void>> deleteProfile();
   Future<Either<Failure, AppConfigResponse>> getAppConfig(int siteId);

@@ -15,7 +15,7 @@ import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/login/widgets/login_container.dart';
 import 'package:semnox/features/login/widgets/login_with_otp_container.dart';
 import 'package:semnox/features/login/widgets/social_logins_container.dart';
-import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 final _executionContextProvider = FutureProvider<int>((ref) async {
@@ -39,7 +39,7 @@ final loginTypeProvider = StateProvider<bool>((ref) {
   return true;
 });
 final isPasswordDisabledProvider = StateProvider<bool>((ref) {
-  final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+  final parafaitDefault = ref.watch(parafaitDefaultsProvider);
   return parafaitDefault?.getDefault(ParafaitDefaultsResponse.passwordKey) == 'N';
 });
 
@@ -51,6 +51,7 @@ class LoginPage extends ConsumerWidget {
     final configExecutionContext = ref.watch(preConfigProvider);
     final isOTPLoginProvider = ref.watch(loginTypeProvider);
     final isPasswordDisabled = ref.watch(isPasswordDisabledProvider);
+    ref.watch(SplashScreenNotifier.getInitialData);
     ref.listen<LoginState>(loginProvider, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),

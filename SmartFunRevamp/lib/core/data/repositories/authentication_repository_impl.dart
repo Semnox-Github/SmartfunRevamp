@@ -52,11 +52,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, List<CustomerUIMetaData>>> getUserMetaData() async {
+  Future<Either<Failure, List<CustomerUIMetaData>>> getUserMetaData(int siteId) async {
     try {
-      final response = await _api.getSignUpMetadata(SplashScreenNotifier.getMasterSite().toString());
+      final response = await _api.getSignUpMetadata(siteId.toString());
       final uiMetadataList = response.data.customerUIMetadataContainerDTOList;
-      // uiMetadataList.removeWhere((element) => element.customerFieldName == 'TestDownload');
       uiMetadataList.removeWhere((element) => element.customerFieldName == 'USERNAME');
       uiMetadataList.sort((a, b) => a.customerFieldOrder.compareTo(b.customerFieldOrder));
       return Right(uiMetadataList);

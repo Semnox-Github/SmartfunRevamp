@@ -60,7 +60,6 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       );
       final systemUser = SystemUser.fromJson(Map<String, dynamic>.from(systemUserResponse.response.data)['data']);
       systemUser.webApiToken = token;
-      Logger().d(systemUser.toJson());
       return Right(systemUser);
     } on DioException catch (e) {
       Logger().e(e);

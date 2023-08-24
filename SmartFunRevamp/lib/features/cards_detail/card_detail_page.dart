@@ -14,7 +14,7 @@ import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
-import 'package:semnox/features/splash/cms_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/features/transfer/transfer_page.dart';
 
@@ -25,7 +25,7 @@ class CardDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Logger().d(cardDetails.toJson());
-    final cms = ref.watch(cmsProvider).value;
+    final cms = ref.watch(newHomePageCMSProvider);
     final items = cms?.getCardDetailMenuItems() ?? [];
 
     return Scaffold(

@@ -1,10 +1,38 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/instance_manager.dart';
+import 'package:logger/logger.dart';
+import 'package:semnox/core/api/smart_fun_api.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
+import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/di/injection_container.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
+import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
-import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+Future<void> _registerLoggedUser(CustomerDTO customerDTO) async {
+  Logger().d('Registering User');
+  final localDataSource = Get.find<LocalDataSource>();
+  final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
+  final getExecutionContextUseCase = Get.find<GetExecutionContextUseCase>();
+  final selectedSite = response.fold(
+    (l) => null,
+    (r) {
+      return SiteViewDTO.fromJson(r);
+    },
+  );
+  registerUser(customerDTO);
+  final executionContextResponse = await getExecutionContextUseCase(selectedSite!.siteId!);
+  executionContextResponse.fold(
+    (l) {},
+    (r) {
+      Get.replace<SmartFunApi>(SmartFunApi('', r));
+    },
+  );
+}
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -16,28 +44,35 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
-    ref.read(splashScreenProvider.notifier).getBaseUrl();
+    ref.read(newSplashScreenProvider.notifier).getSplashImage();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = ref.watch(splashScreenProvider.notifier).splashScreenImgURL;
-    ref.watch(customDTOProvider);
+    final customer = ref.watch(customDTOProvider).valueOrNull;
     void nextPage() => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
-    ref.listen<SplashScreenState>(
-      splashScreenProvider,
+    ref.listen<NewSplashScreenState>(
+      newSplashScreenProvider,
       (_, next) {
         next.maybeWhen(
           orElse: () {},
-          success: () async {
-            nextPage();
+          success: (cms, langDto, masterSite, parafaitDefaults) {
+            ref.read(newHomePageCMSProvider.notifier).update((_) => cms);
+            ref.read(languangeContainerProvider.notifier).update((_) => langDto);
+            ref.read(masterSiteProvider.notifier).update((_) => masterSite);
+            ref.read(parafaitDefaultsProvider.notifier).update((_) => parafaitDefaults);
+            if (customer == null) {
+              nextPage();
+            } else {
+              _registerLoggedUser(customer).then((value) => Navigator.pushReplacementNamed(context, Routes.kHomePage));
+            }
           },
         );
       },
     );
     return Scaffold(
-      body: ref.watch(splashScreenProvider).maybeWhen(
+      body: ref.watch(newSplashScreenProvider).maybeWhen(
             orElse: () => Container(),
             error: (message) => const Center(
               child: Icon(
@@ -56,7 +91,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 ),
               );
             },
-            success: () => SplashScreenImage(imageUrl),
+            // success: () => SplashScreenImage(imageUrl),
             retrievedSplashImageURL: (url) => SplashScreenImage(url),
           ),
     );

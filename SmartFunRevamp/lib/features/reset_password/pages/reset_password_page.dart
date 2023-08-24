@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/view/home_view.dart';
-import 'package:semnox/features/splash/cms_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class ResetPasswordPage extends ConsumerWidget {
@@ -13,7 +13,7 @@ class ResetPasswordPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final imagePath = ref.watch(cmsProvider).value?.cmsImages.resetPasswordImagePath;
+    final imagePath = ref.watch(newHomePageCMSProvider)?.cmsImages.resetPasswordImagePath;
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),

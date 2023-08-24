@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/core/api/parafait_api.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
@@ -38,7 +37,6 @@ Future<void> init() async {
 }
 
 void authenticateApi(SystemUser systemUser, String baseURL) {
-  Logger().d('Authenticating API ${systemUser.webApiToken}');
   Get.replace(SmartFunApi(baseURL, systemUser.webApiToken ?? ''));
   Get.put<SystemUser>(systemUser);
   ExecutionContextDTO executionDTO = ExecutionContextDTO(

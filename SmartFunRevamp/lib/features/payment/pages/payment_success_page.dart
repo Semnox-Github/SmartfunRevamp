@@ -8,7 +8,7 @@ import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class PaymentSuccessPage extends ConsumerWidget {
@@ -19,7 +19,7 @@ class PaymentSuccessPage extends ConsumerWidget {
   final String productName;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+    final parafaitDefault = ref.watch(parafaitDefaultsProvider);
     final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     final String fixedAmount = amount.toCurrency(currency, format);

@@ -7,7 +7,7 @@ import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/splash/cms_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
 Color _cardColor(bool isVirtual, bool isExpired, CardsColor? colors) {
   if (isExpired) {
@@ -34,7 +34,7 @@ class BackgroundCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cardColors = ref.watch(cmsProvider).value?.cardsColor;
+    final cardColors = ref.watch(newHomePageCMSProvider)?.cardsColor;
     return Stack(alignment: AlignmentDirectional.center, children: [
       GestureDetector(
         onTap: !isVirtual ? () {} : () => Dialogs.showBarcodeTempCard(context, cardNumber),

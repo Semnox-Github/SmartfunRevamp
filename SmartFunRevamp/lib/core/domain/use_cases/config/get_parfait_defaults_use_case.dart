@@ -6,7 +6,7 @@ import 'package:semnox/core/errors/failures.dart';
 class GetParafaitDefaultsUseCase {
   final ConfigRepository _repository;
   GetParafaitDefaultsUseCase(this._repository);
-  Future<Either<Failure, ParafaitDefaultsResponse>> call() async {
-    return await _repository.getParafaitDefaults();
+  Future<Either<Failure, ParafaitDefaultsResponse>> call(int siteId) async {
+    return await _repository.getParafaitDefaults(siteId);
   }
 }

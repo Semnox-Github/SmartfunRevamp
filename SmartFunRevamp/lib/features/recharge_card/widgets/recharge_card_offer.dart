@@ -5,7 +5,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/utils/extensions.dart';
-import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class RechargeCardOffer extends ConsumerWidget {
@@ -23,7 +23,7 @@ class RechargeCardOffer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     double discount = offer.basePrice != 0 ? (((offer.basePrice - offer.finalPrice) * 100) / offer.basePrice) : 0;
-    final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+    final parafaitDefault = ref.watch(parafaitDefaultsProvider);
     final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     return InkWell(

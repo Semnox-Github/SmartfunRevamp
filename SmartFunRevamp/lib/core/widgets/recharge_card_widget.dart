@@ -6,7 +6,7 @@ import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/utils/extensions.dart';
-import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class RechargeCardWidget extends ConsumerWidget {
@@ -15,7 +15,7 @@ class RechargeCardWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+    final parafaitDefault = ref.watch(parafaitDefaultsProvider);
     final currencySymbol = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
     final currencyFormat = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
     double discount = ((cardProduct.basePrice - cardProduct.finalPrice) * 100) / cardProduct.basePrice;

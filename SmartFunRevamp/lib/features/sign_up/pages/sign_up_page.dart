@@ -21,11 +21,13 @@ import 'package:semnox/features/login/widgets/social_logins_container.dart';
 import 'package:semnox/features/sign_up/pages/privacy_policy_page.dart';
 import 'package:semnox/features/sign_up/pages/terms_of_use_page.dart';
 import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 final uiMetaDataProvider = FutureProvider<List<CustomerUIMetaData>>((ref) async {
   final getUiMetaData = Get.find<GetUserMetaDataUseCase>();
-  final response = await getUiMetaData();
+  final siteId = ref.watch(masterSiteProvider)?.siteId;
+  final response = await getUiMetaData(siteId ?? 1010);
   return response.fold(
     (l) => throw l,
     (r) => r,
@@ -153,16 +155,20 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                             margin: const EdgeInsets.symmetric(vertical: 10.0),
                             labelText: SplashScreenNotifier.getLanguageLabel('Date of birth'),
                             format: 'MM-dd-yyyy',
-                            onItemSelected: (dob) => request[field.customerFieldName] = {"value": DateFormat('MM-dd-yyyy').format(dob).toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                            onItemSelected: (dob) => request[field.customerFieldName] = {
+                              "value": DateFormat('MM-dd-yyyy').format(dob).toString(),
+                              "customAttributeId": field.customAttributeId,
+                              "customerFieldType": field.customerFieldType
+                            },
                             suffixIcon: const Icon(
                               Icons.date_range_outlined,
                               color: CustomColors.hardOrange,
                             ),
                           );
-
                         }
                         return CustomTextField(
-                          onSaved: (value) => request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                          onSaved: (value) =>
+                              request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
                           label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
                           margins: const EdgeInsets.symmetric(vertical: 10.0),
                           required: field.validationType == "M",
@@ -175,7 +181,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                 if (!isPasswordDisabled)
                   Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
                     CustomPasswordTextField(
-                      onSaved: (value) => request["PASSWORD"] = {"value": value.toString(), "customAttributeId": -1 , "customerFieldType": "TEXT"},
+                      onSaved: (value) => request["PASSWORD"] = {"value": value.toString(), "customAttributeId": -1, "customerFieldType": "TEXT"},
                       label: '${SplashScreenNotifier.getLanguageLabel("Password")}*',
                       margins: const EdgeInsets.symmetric(vertical: 10.0),
                       required: true,

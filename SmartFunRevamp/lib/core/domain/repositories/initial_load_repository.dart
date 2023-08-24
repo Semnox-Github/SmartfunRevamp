@@ -8,7 +8,7 @@ abstract class InitialLoadRepository {
     required String siteId,
   });
 
-  Future<Either<Failure, void>> getStringsForLocalization({
+  Future<Either<Failure, Map<String, dynamic>>> getStringsForLocalization({
     required String siteId,
     required String languageId,
     String outputForm = 'JSON',

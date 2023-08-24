@@ -29,20 +29,20 @@ import 'package:semnox/features/lost_card/pages/select_lost_card_page.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
-import 'package:semnox/features/splash/cms_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/features/transfer/transfer_page.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:shimmer/shimmer.dart';
 
 final promoImagesProvider = Provider<List<String>>((ref) {
-  final cms = ref.watch(cmsProvider).value;
+  final cms = ref.watch(newHomePageCMSProvider);
   final promos = cms?.cmsModulePages?.where((element) => element.displaySection == 'IMAGE').toList();
   return promos?.map((e) => e.contentURL).toList() ?? [];
 });
 
 final safePromoImagesProvider = FutureProvider<List<String>>((ref) async {
-  final cms = ref.watch(cmsProvider).value;
+  final cms = ref.watch(newHomePageCMSProvider);
   final promos = cms?.cmsModulePages?.where((element) => element.displaySection == 'IMAGE').toList();
   final promoImagesUrl = promos?.map((e) => e.contentURL).toList() ?? [];
   final safeUrls = <String>[];
@@ -66,7 +66,7 @@ final safePromoImagesProvider = FutureProvider<List<String>>((ref) async {
   }
 });
 final homeColors = Provider<CMSModuleColorsHome?>((ref) {
-  final cms = ref.watch(cmsProvider).value;
+  final cms = ref.watch(newHomePageCMSProvider);
   return cms?.cmsModuleColorsHome;
 });
 
@@ -88,6 +88,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     final promoImages = ref.watch(promoImagesProvider);
     final homeColor = ref.watch(homeColors);
+    ref.watch(SplashScreenNotifier.getInitialData);
     cardsWatch.maybeWhen(
       orElse: () => context.loaderOverlay.hide(),
       loading: () => context.loaderOverlay.show(),

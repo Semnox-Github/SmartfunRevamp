@@ -10,7 +10,7 @@ import 'package:semnox/features/buy_a_card/widgets/card_type.dart';
 import 'package:semnox/features/buy_a_card/widgets/drawer_filter.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
-import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class BuyCardListPage extends StatelessWidget {
@@ -55,7 +55,7 @@ class BuyCardListPage extends StatelessWidget {
           children: [
             Consumer(
               builder: (_, ref, __) {
-                final defaults = ref.watch(parafaitDefaultsProvider).value;
+                final defaults = ref.watch(parafaitDefaultsProvider);
                 final isOnlineRechargeEnabled = defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) == 'Y';
                 return SitesAppBarDropdown(
                   isEnabled: isOnlineRechargeEnabled,

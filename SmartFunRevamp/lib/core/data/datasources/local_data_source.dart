@@ -3,6 +3,7 @@ import 'package:glutton/glutton.dart';
 
 import 'package:logger/logger.dart';
 import 'package:semnox/core/errors/failures.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 abstract class LocalDataSource {
@@ -10,6 +11,7 @@ abstract class LocalDataSource {
   static String kFirstTime = 'first_time';
   static String kSelectedSite = 'selected_site';
   static String kUserId = 'userId';
+  static String kUser = 'user';
   static String kSplashScreenURL = 'splash_image_url';
   Future<void> saveSites(List<SiteViewDTO> sites);
   Future<List<SiteViewDTO>> retrieveSites();
@@ -20,6 +22,9 @@ abstract class LocalDataSource {
   Future<void> saveCustomClass(String key, Map<String, dynamic> json);
   Future<void> deleteCustomClass(String key);
   Future<Either<Failure, Map<String, dynamic>>> retrieveCustomClass(String key);
+  Future<void> saveUser(CustomerDTO customerDTO);
+  Future<void> logoutUser();
+  Future<CustomerDTO?> retrieveCustomer();
 }
 
 class GluttonLocalDataSource implements LocalDataSource {
@@ -95,6 +100,32 @@ class GluttonLocalDataSource implements LocalDataSource {
   Future<void> deleteCustomClass(String key) async {
     try {
       await Glutton.digest(key);
+    } catch (e) {
+      Logger().e(e);
+    }
+  }
+
+  @override
+  Future<CustomerDTO?> retrieveCustomer() async {
+    try {
+      final json = await Glutton.vomit(LocalDataSource.kUser) as Map<String, dynamic>;
+      return CustomerDTO.fromJson(json);
+    } catch (e) {
+      Logger().e(e);
+      return null;
+    }
+  }
+
+  @override
+  Future<void> saveUser(CustomerDTO customerDTO) async {
+    await Glutton.eat(LocalDataSource.kUser, customerDTO.toJson());
+  }
+
+  @override
+  Future<void> logoutUser() async {
+    try {
+      await Glutton.digest(LocalDataSource.kUserId);
+      await Glutton.digest(LocalDataSource.kUser);
     } catch (e) {
       Logger().e(e);
     }

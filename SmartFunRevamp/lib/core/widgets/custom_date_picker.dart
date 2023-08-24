@@ -38,6 +38,7 @@ class CustomDatePicker extends StatefulWidget {
 
 class _CustomDatePickerState extends State<CustomDatePicker> {
   late TextEditingController _controller;
+  late DateTime? _initialDateTime = widget.initialDateTime;
 
   @override
   void initState() {
@@ -91,8 +92,8 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
   void _showAndroidDatePicker(ctx) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: widget.initialDateTime ?? DateTime.now(),
-      firstDate: widget.minimumDateTime ?? DateTime(DateTime.now().year - 10),
+      initialDate: _initialDateTime ?? DateTime.now(),
+      firstDate: widget.minimumDateTime ?? DateTime(DateTime.now().year - 110),
       lastDate: widget.maximunDateTime ?? DateTime.now(),
     );
 
@@ -100,6 +101,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       setState(() {
         _controller.text = DateFormat(widget.format).format(pickedDate);
         widget.onItemSelected(pickedDate);
+        _initialDateTime = pickedDate;
       });
     }
   }

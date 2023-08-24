@@ -11,6 +11,7 @@ class CardProduct {
   final double credits;
   final String productType;
   final String description;
+  final String webDescription;
   // ignore: non_constant_identifier_names
   final String QuantityPrompt;
 
@@ -23,8 +24,10 @@ class CardProduct {
     this.credits,
     this.productType,
     this.description,
+    this.webDescription,
     this.QuantityPrompt,
   );
-  factory CardProduct.fromJson(Map<String, dynamic> json) => _$CardProductFromJson(json);
+  factory CardProduct.fromJson(Map<String, dynamic> json) =>
+      _$CardProductFromJson(json);
   Map<String, dynamic> toJson() => _$CardProductToJson(this);
 }

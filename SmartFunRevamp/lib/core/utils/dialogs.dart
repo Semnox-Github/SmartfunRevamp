@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:rating_dialog/rating_dialog.dart';
@@ -18,6 +19,7 @@ import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
+import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class Dialogs {
@@ -57,6 +59,7 @@ class Dialogs {
 
   static void getCoupongNumberDialog(BuildContext context, WidgetRef ref, CardProduct cardProduct) {
     final key = GlobalKey<FormState>();
+    final siteId = ref.watch(selectedSiteIdProvider);
     String coupon = '';
     AwesomeDialog(
       context: context,
@@ -78,6 +81,7 @@ class Dialogs {
           ref.read(estimateStateProvider.notifier).getEstimateTransaction(
                 cardProduct,
                 dtoList: DiscountApplicationHistoryDTOList(-1, coupon, -1),
+                siteId: siteId,
               );
         }
       },
@@ -132,11 +136,8 @@ class Dialogs {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MulishText(
-                        text: card.description,
-                        fontWeight: FontWeight.w800,
-                        textAlign: TextAlign.start,
-                        fontSize: 20.0,
+                      Html(
+                        data: card.webDescription,
                       ),
                       Consumer(
                         builder: (context, ref, child) {
@@ -308,8 +309,8 @@ class Dialogs {
                       activeFieldBorderColor: CustomColors.hardOrange,
                     ),
                     maxLength: 6,
-                    fieldHeight: MediaQuery.of(context).size.width * 0.12,
-                    fieldWidth: MediaQuery.of(context).size.width * 0.12),
+                    fieldHeight: MediaQuery.of(context).size.width * 0.07,
+                    fieldWidth: MediaQuery.of(context).size.width * 0.07),
                 const SizedBox(height: 10.0),
                 MulishText(
                   text: SplashScreenNotifier.getLanguageLabel("Didn't Receive?"),

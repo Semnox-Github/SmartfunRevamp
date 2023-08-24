@@ -3,12 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
+import 'package:semnox/features/account/provider/verify/verify_provider.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import 'verify_button.dart';
 
-class CustomVerifyTextField extends ConsumerWidget {
+class CustomVerifyTextField extends ConsumerStatefulWidget {
   const CustomVerifyTextField({
-    super.key,
+    Key? key,
     required this.onSaved,
     required this.label,
     required this.contactType,
@@ -19,7 +21,8 @@ class CustomVerifyTextField extends ConsumerWidget {
     this.fillColor = Colors.transparent,
     this.formatters,
     this.initialValue,
-  });
+    this.required = true,
+  }) : super(key: key);
   final Function(String) onSaved;
   final String label;
   final String? initialValue;
@@ -30,17 +33,45 @@ class CustomVerifyTextField extends ConsumerWidget {
   final EdgeInsets margins;
   final ContactType contactType;
   final String phoneOrEmail;
+  final bool required;
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CustomVerifyTextField();
+}
+
+class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
+  late bool emailVerifiedFlag;
+  late bool phoneVerifiedFlag;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    super.initState();
+    emailVerifiedFlag = true;
+    phoneVerifiedFlag = true;
+  }
+
+  callBackVerification() {
+    switch (widget.contactType.valueString) {
+      case "Phone":
+        phoneVerifiedFlag = true;
+        break;
+      case "Email":
+        emailVerifiedFlag = true;
+        break;
+    }
+    ref.invalidate(sendOtpStateProvider);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      padding: padding,
-      margin: margins,
+      padding: widget.padding,
+      margin: widget.margins,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            label,
+            widget.label,
             style: GoogleFonts.mulish(
               fontWeight: FontWeight.bold,
               fontSize: 14.0,
@@ -60,10 +91,39 @@ class CustomVerifyTextField extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: TextFormField(
-                        initialValue: initialValue,
-                        inputFormatters: formatters,
-                        onSaved: (newValue) => onSaved(newValue!),
-                        validator: (value) => value!.isEmpty ? 'Required' : null,
+                        initialValue: widget.initialValue,
+                        inputFormatters: widget.formatters,
+                        onSaved: (newValue) => widget.onSaved(newValue!),
+                        onChanged: (value) {
+                          switch (widget.contactType.valueString) {
+                            case "Phone":
+                              setState(() {
+                                phoneVerifiedFlag = false;
+                              });
+                              break;
+                            case "Email":
+                              setState(() {
+                                emailVerifiedFlag = false;
+                              });
+                              break;
+                          }
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty && widget.required) {
+                            return SplashScreenNotifier.getLanguageLabel(
+                                'Required');
+                          } else if ((value!.isEmpty &&
+                                  widget.contactType.valueString == "Email" &&
+                                  !emailVerifiedFlag) ||
+                              (value!.isEmpty &&
+                                  widget.contactType.valueString == "Phone" &&
+                                  !phoneVerifiedFlag)) {
+                            return SplashScreenNotifier.getLanguageLabel(
+                                'Please verify your ${widget.contactType.valueString}');
+                          } else {
+                            return null;
+                          }
+                        },
                         cursorColor: Colors.black,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
@@ -74,16 +134,19 @@ class CustomVerifyTextField extends ConsumerWidget {
                           disabledBorder: InputBorder.none,
                           focusedErrorBorder: InputBorder.none,
                           isDense: true,
-                          fillColor: fillColor,
+                          fillColor: widget.fillColor,
                           filled: true,
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                         ),
                       ),
                     ),
                     VerifyButton(
-                      contactType: contactType,
-                      phoneOrEmail: phoneOrEmail,
-                    ),
+                        key: Key(widget.contactType.valueString),
+                        contactType: widget.contactType,
+                        phoneOrEmail: widget.phoneOrEmail,
+                        isVerified: () {
+                          callBackVerification();
+                        }),
                   ],
                 ),
               ],

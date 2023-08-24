@@ -83,11 +83,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
         },
         customerVerificationNeeded: () {
           context.loaderOverlay.hide();
-          Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
-        },
-        selectLocationNeeded: () {
-          context.loaderOverlay.hide();
-          Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
+          Navigator.pushReplacementNamed(context, Routes.kCustomerVerification);
         },
         error: (message) {
           context.loaderOverlay.hide();
@@ -123,7 +119,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
               children: [
                 Text(
                   SplashScreenNotifier.getLanguageLabel(
-                      'Hi There, Complete the following details to setup your accound and coitinue using Smartfun App.'),
+                      'Hi There, Complete the following details to setup your account and continue using Smartfun App.'),
                 ),
                 const SizedBox(height: 20.0),
                 metaData.when(

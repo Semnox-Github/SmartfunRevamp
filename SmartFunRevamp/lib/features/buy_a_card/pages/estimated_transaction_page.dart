@@ -63,6 +63,9 @@ class EstimatedTransactionPage extends ConsumerWidget {
       );
     });
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
+    final areDiscountsEnabled =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.enableDiscounts) ==
+            'Y';
     final currency =
         parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ??
             'USD';
@@ -131,8 +134,13 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             ],
                           ),
                         ),
-                        CouponContainer(cardProduct, transactionResponse, qty,
-                            transactionType),
+                        if (areDiscountsEnabled)
+                          CouponContainer(cardProduct, transactionResponse, qty,
+                              transactionType)
+                        else
+                          const SizedBox(
+                            height: 20,
+                          ),
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,

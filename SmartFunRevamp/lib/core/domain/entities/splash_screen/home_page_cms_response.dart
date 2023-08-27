@@ -71,6 +71,16 @@ class HomePageCMSResponse {
     return quickLinks;
   }
 
+  List<CMSModulePage> getMoreActions() {
+    final quickLinksStart = cmsModulePages?.indexWhere((element) => element.source == "More Actions");
+    if (quickLinksStart == null) {
+      return [];
+    }
+    final moreActions = cmsModulePages?.sublist((quickLinksStart) + 1) ?? [];
+    moreActions.sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
+    return moreActions;
+  }
+
   Uri? playUrl({required LanguageContainerDTOList? currentLang, required String siteId}) {
     final footerItems = geMenuItems('FOOTER');
     final playUrlFromCMS = footerItems.firstWhereOrNull((element) => element.itemName == 'PLAY')?.target;

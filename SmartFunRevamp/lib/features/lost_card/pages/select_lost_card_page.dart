@@ -7,6 +7,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/lost_card/pages/lost_card_page.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
@@ -25,6 +26,7 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
   late CardDetails? cardDetails;
   @override
   void initState() {
+    cardDetails = ref.read(currentCardProvider);
     if (cardDetails != null) {
       //is added to cards list as the only card
       List<CardDetails> selectedCard = [];

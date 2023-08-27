@@ -174,12 +174,9 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
         if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
           _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
         }
-        final String response = await rootBundle.loadString('assets/json/example_cms.json');
-        final data = await json.decode(response);
-        final cms = HomePageCMSResponse.fromJson(data);
-        Logger().d(r.toJson());
+        //NOTE:THE CMS JSON COMING FROM BACKEND NEEDS TO HAVE THE SAME ORDER AS THE ONE IN assets/json/example_cms.json
         state = _Success(
-          homePageCMSResponse: cms,
+          homePageCMSResponse: r,
           languageContainerDTO: _languageContainerDTO,
           siteViewDTO: masterSite!,
           parafaitDefaultsResponse: _parafaitDefaultsResponse,

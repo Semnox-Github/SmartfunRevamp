@@ -22,12 +22,10 @@ class CustomerVerificationPage extends ConsumerStatefulWidget {
   const CustomerVerificationPage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _CustomerVerificationPage();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CustomerVerificationPage();
 }
 
-class _CustomerVerificationPage
-    extends ConsumerState<CustomerVerificationPage> {
+class _CustomerVerificationPage extends ConsumerState<CustomerVerificationPage> {
   final _formKey = GlobalKey<FormState>();
   Map<String, dynamic> request = {};
 
@@ -35,6 +33,7 @@ class _CustomerVerificationPage
   Widget build(BuildContext context) {
     final metaData = ref.watch(uiMetaDataProvider);
     final user = Get.find<CustomerDTO>();
+    // ignore: unused_local_variable
     Map<String, dynamic> userToJson = {...user.toJson()};
     ref.listen(
       updateAccountProvider,
@@ -74,8 +73,7 @@ class _CustomerVerificationPage
     );
 
     return Scaffold(
-      appBar: CustomAppBar(
-          title: SplashScreenNotifier.getLanguageLabel('Verification')),
+      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Verification')),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -85,8 +83,7 @@ class _CustomerVerificationPage
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 metaData.when(
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
+                  loading: () => const Center(child: CircularProgressIndicator()),
                   error: (_, __) => const Center(
                     child: Icon(
                       Icons.error,
@@ -94,32 +91,19 @@ class _CustomerVerificationPage
                     ),
                   ),
                   data: (metadata) {
-                    metadata.removeWhere((element) =>
-                        element.customerFieldName != "CONTACT_PHONE" &&
-                        element.customerFieldName != "EMAIL");
+                    metadata.removeWhere((element) => element.customerFieldName != "CONTACT_PHONE" && element.customerFieldName != "EMAIL");
                     return Column(
                       children: metadata.map((field) {
                         if (field.customerFieldName == "CONTACT_PHONE") {
                           return CustomVerifyTextField(
                             onSaved: (value) =>
-                                request[field.customerFieldName] = {
-                              "value": value.toString(),
-                              "customAttributeId": field.customAttributeId,
-                              "customerFieldType": field.customerFieldType
-                            },
-                            label:
-                                '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
-                            initialValue: returnValue(field.customerFieldName,
-                                    field.customAttributeId)
-                                .toString(),
+                                request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                            label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
+                            initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
                             margins: const EdgeInsets.symmetric(vertical: 10.0),
                             contactType: ContactType.phone,
-                            phoneOrEmail: returnValue(field.customerFieldName,
-                                    field.customAttributeId)
-                                .toString(),
-                            formatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
+                            phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
+                            formatters: [FilteringTextInputFormatter.digitsOnly],
                             required: field.validationType == "M",
                             key: const Key("PhoneV"),
                             verificationStatusInitialValue: false,
@@ -128,43 +112,25 @@ class _CustomerVerificationPage
                         if (field.customerFieldName == "EMAIL") {
                           return CustomVerifyTextField(
                             onSaved: (value) =>
-                                request[field.customerFieldName] = {
-                              "value": value.toString(),
-                              "customAttributeId": field.customAttributeId,
-                              "customerFieldType": field.customerFieldType
-                            },
-                            label:
-                                '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
-                            initialValue: returnValue(field.customerFieldName,
-                                    field.customAttributeId)
-                                .toString(),
+                                request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                            label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
+                            initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
                             margins: const EdgeInsets.symmetric(vertical: 10.0),
                             contactType: ContactType.email,
-                            phoneOrEmail: returnValue(field.customerFieldName,
-                                    field.customAttributeId)
-                                .toString(),
+                            phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
                             required: field.validationType == "M",
                             key: const Key("EmailV"),
                             verificationStatusInitialValue: false,
                           );
                         }
                         return CustomTextField(
-                          initialValue: returnValue(field.customerFieldName,
-                                  field.customAttributeId)
-                              .toString(),
+                          initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
                           onSaved: (value) =>
-                              request[field.customerFieldName] = {
-                            "value": value.toString(),
-                            "customAttributeId": field.customAttributeId,
-                            "customerFieldType": field.customerFieldType
-                          },
-                          label:
-                              '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
+                              request[field.customerFieldName] = {"value": value.toString(), "customAttributeId": field.customAttributeId, "customerFieldType": field.customerFieldType},
+                          label: '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
                           margins: const EdgeInsets.symmetric(vertical: 10.0),
                           required: field.validationType == "M",
-                          formatters: field.customerFieldType == "NUMBER"
-                              ? [FilteringTextInputFormatter.digitsOnly]
-                              : null,
+                          formatters: field.customerFieldType == "NUMBER" ? [FilteringTextInputFormatter.digitsOnly] : null,
                         );
                       }).toList(),
                     );
@@ -175,9 +141,7 @@ class _CustomerVerificationPage
                     if (_formKey.currentState!.validate()) {
                       user.verified = true;
                       _formKey.currentState!.save();
-                      ref
-                          .read(updateAccountProvider.notifier)
-                          .updateProfile(user, request);
+                      ref.read(updateAccountProvider.notifier).updateProfile(user, request);
                     }
                   },
                   label: SplashScreenNotifier.getLanguageLabel('CONFIRM'),
@@ -214,8 +178,7 @@ class CustomPasswordTextField extends StatefulWidget {
   final bool required;
 
   @override
-  State<CustomPasswordTextField> createState() =>
-      _CustomPasswordTextFieldState();
+  State<CustomPasswordTextField> createState() => _CustomPasswordTextFieldState();
 }
 
 dynamic returnValue(String key, int customId) {
@@ -279,9 +242,7 @@ dynamic returnValue(String key, int customId) {
     //
     case "WECHAT_ACCESS_TOKEN":
       try {
-        var contactDtoList = user.contactDtoList!
-            .where((element) => element.contactType == ContactType.wechat.type)
-            .first;
+        var contactDtoList = user.contactDtoList!.where((element) => element.contactType == ContactType.wechat.type).first;
         return contactDtoList.attribute1;
       } catch (e) {
         return "";
@@ -291,9 +252,7 @@ dynamic returnValue(String key, int customId) {
       CustomDataDTO customDataDtoList;
       dynamic returnValue;
       try {
-        customDataDtoList = user.customDataSetDto!.customDataDtoList!
-            .where((element) => element.customAttributeId == customId)
-            .first;
+        customDataDtoList = user.customDataSetDto!.customDataDtoList!.where((element) => element.customAttributeId == customId).first;
         if (customDataDtoList.customDataText != null) {
           returnValue = customDataDtoList.customDataText;
         } else if (customDataDtoList.customDataDate != null) {
@@ -339,15 +298,12 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
           TextFormField(
             initialValue: widget.initialValue,
             onSaved: (newValue) => widget.onSaved(newValue!),
-            validator: (value) => value!.isEmpty && widget.required
-                ? SplashScreenNotifier.getLanguageLabel('Required')
-                : null,
+            validator: (value) => value!.isEmpty && widget.required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             obscureText: !_passwordVisible, //This will obscure text dynamically
             decoration: InputDecoration(
-              hintText:
-                  SplashScreenNotifier.getLanguageLabel('Enter your password'),
+              hintText: SplashScreenNotifier.getLanguageLabel('Enter your password'),
               // Here is key idea
               suffixIcon: IconButton(
                 icon: Icon(

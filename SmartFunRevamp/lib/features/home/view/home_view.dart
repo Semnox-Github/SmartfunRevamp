@@ -91,10 +91,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final promoImages = ref.watch(promoImagesProvider);
     final homeColor = ref.watch(homeColors);
     final quickLinks = ref.watch(newHomePageCMSProvider)?.getQuickLinks();
-    quickLinks?.forEach((element) {
-      Logger().d(element.source);
-      Logger().d(element.backgroundColor);
-    });
+    final moreActions = ref.watch(newHomePageCMSProvider)?.getMoreActions();
+
     ref.watch(SplashScreenNotifier.getInitialData);
     final cardDetails = ref.watch(currentCardProvider);
     cardsWatch.maybeWhen(
@@ -279,123 +277,16 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                   }
                                 }
                               } else {
-                                Logger().d(quickLink.contentKey.replaceAll('sf:/', ''));
-                                Navigator.pushNamed(context, quickLink.contentKey.replaceAll('sf:/', ''));
+                                if (hasCard) {
+                                  Navigator.pushNamed(context, quickLink.contentKey.replaceAll('sf:/', ''));
+                                } else {
+                                  Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink);
+                                }
                               }
                             },
                           );
                         },
                       );
-                      // return GridView(
-                      //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      //     crossAxisCount: 3,
-                      //   ),
-                      //   shrinkWrap: true,
-                      //   physics: const NeverScrollableScrollPhysics(),
-                      //   children: [
-                      //     QuickLinkItem(
-                      //       color: CustomColors.customYellow,
-                      //       image: 'recharge',
-                      //       text: SplashScreenNotifier.getLanguageLabel('Recharge'),
-                      //       onTap: () => ({
-                      //         //if there is not a card selected then show alert dialog
-                      //         if (!hasCard)
-                      //           {Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Recharge Card'), msgCardNoLink)}
-                      //         else
-                      //           {
-                      //             //if the user has no card selected show dialog
-                      //             if (cardDetails == null)
-                      //               {
-                      //                 Dialogs.showMessageInfo(
-                      //                   context,
-                      //                   SplashScreenNotifier.getLanguageLabel('Recharge Card'),
-                      //                   SplashScreenNotifier.getLanguageLabel("Please select a card to recharge."),
-                      //                 )
-                      //                 //if there is a card selected and is not blocked or expired then navigate
-                      //               }
-                      //             else if (!(cardDetails!.isBlocked() || cardDetails!.isExpired()))
-                      //               {
-                      //                 Navigator.push(
-                      //                   context,
-                      //                   MaterialPageRoute(
-                      //                     builder: (context) => SelectCardRechargePage(
-                      //                       cardDetails: cardDetails,
-                      //                     ),
-                      //                   ),
-                      //                 )
-                      //               }
-                      //             else
-                      //               {
-                      //                 //else show dialog
-                      //                 Dialogs.showMessageInfo(
-                      //                   context,
-                      //                   SplashScreenNotifier.getLanguageLabel('Recharge Card'),
-                      //                   SplashScreenNotifier.getLanguageLabel("Temporary or expired cards can't be recharged."),
-                      //                 )
-                      //               }
-                      //           }
-                      //       }),
-                      //     ),
-                      //     QuickLinkItem(
-                      //       color: CustomColors.customPink,
-                      //       image: 'new_card',
-                      //       text: SplashScreenNotifier.getLanguageLabel('New Card'),
-                      //       onTap: () => Navigator.pushNamed(context, Routes.kBuyACard),
-                      //     ),
-                      //     QuickLinkItem(
-                      //       color: CustomColors.customLigthBlue,
-                      //       image: 'activities',
-                      //       text: SplashScreenNotifier.getLanguageLabel('Activities'),
-                      //       onTap: () => hasCard
-                      //           ? Navigator.push(
-                      //               context,
-                      //               MaterialPageRoute(
-                      //                 builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
-                      //               ),
-                      //             )
-                      //           : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink),
-                      //     ),
-                      //     QuickLinkItem(
-                      //       color: CustomColors.customOrange,
-                      //       image: 'lost_card',
-                      //       text: SplashScreenNotifier.getLanguageLabel('Lost Card'),
-                      //       onTap: () => hasCard
-                      //           ? Navigator.push(
-                      //               context,
-                      //               MaterialPageRoute(
-                      //                 builder: (context) => SelectCardLostPage(cardDetails: cardDetails),
-                      //               ),
-                      //             )
-                      //           : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Lost Card'), msgCardNoLink),
-                      //     ),
-                      //     QuickLinkItem(
-                      //       color: CustomColors.customGreen,
-                      //       image: 'gameplays',
-                      //       text: SplashScreenNotifier.getLanguageLabel('Game Plays'),
-                      //       onTap: () => hasCard
-                      //           ? Navigator.push(
-                      //               context,
-                      //               MaterialPageRoute(
-                      //                 builder: (context) => GameplaysPage(cardDetails: cardDetails),
-                      //               ),
-                      //             )
-                      //           : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Game Plays'), msgCardNoLink),
-                      //     ),
-                      //     QuickLinkItem(
-                      //       color: CustomColors.customPurple,
-                      //       image: 'transfer_credit',
-                      //       text: SplashScreenNotifier.getLanguageLabel('Transfer Credit'),
-                      //       onTap: () => hasCard
-                      //           ? Navigator.push(
-                      //               context,
-                      //               MaterialPageRoute(
-                      //                 builder: (context) => TransferPage(cardDetails: cardDetails),
-                      //               ),
-                      //             )
-                      //           : Dialogs.showMessageInfo(context, SplashScreenNotifier.getLanguageLabel('Transfer Credit'), msgCardNoLink),
-                      //     ),
-                      //   ],
-                      // );
                     },
                   ),
                   MulishText(
@@ -409,73 +300,43 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
                   ),
-                  // GridView(
-                  //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  //     crossAxisCount: 3,
-                  //   ),
-                  //   shrinkWrap: true,
-                  //   physics: const NeverScrollableScrollPhysics(),
-                  //   children: [
-                  //     QuickLinkItem(
-                  //       color: CustomColors.customPink,
-                  //       image: 'new_card',
-                  //       text: SplashScreenNotifier.getLanguageLabel('Link A Card'),
-                  //       onTap: () {
-                  //         showDialog(
-                  //           context: context,
-                  //           builder: (context) {
-                  //             return Dialog(
-                  //               child: Container(
-                  //                 height: 245,
-                  //                 padding: const EdgeInsets.all(10),
-                  //                 child: LinkACard(),
-                  //               ),
-                  //             );
-                  //           },
-                  //         );
-                  //       },
-                  //     ),
-                  //     QuickLinkItem(
-                  //       color: CustomColors.customYellow,
-                  //       image: 'tickets',
-                  //       text: SplashScreenNotifier.getLanguageLabel('Tickets'),
-                  //       onTap: () {
-                  //         ScaffoldMessenger.of(context).clearSnackBars();
-                  //         ScaffoldMessenger.of(context).showSnackBar(
-                  //           const SnackBar(
-                  //             content: Text('Not implemented'),
-                  //           ),
-                  //         );
-                  //       },
-                  //     ),
-                  //     QuickLinkItem(
-                  //       color: CustomColors.customOrange,
-                  //       image: 'coupons',
-                  //       text: SplashScreenNotifier.getLanguageLabel('Coupons'),
-                  //       onTap: () {
-                  //         ScaffoldMessenger.of(context).clearSnackBars();
-                  //         ScaffoldMessenger.of(context).showSnackBar(
-                  //           const SnackBar(
-                  //             content: Text('Not implemented'),
-                  //           ),
-                  //         );
-                  //       },
-                  //     ),
-                  //     QuickLinkItem(
-                  //       color: CustomColors.customGreen,
-                  //       image: 'events',
-                  //       text: SplashScreenNotifier.getLanguageLabel('Events'),
-                  //       onTap: () {
-                  //         ScaffoldMessenger.of(context).clearSnackBars();
-                  //         ScaffoldMessenger.of(context).showSnackBar(
-                  //           const SnackBar(
-                  //             content: Text('Not implemented'),
-                  //           ),
-                  //         );
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
+                  GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                    ),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: moreActions?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      final moreAction = moreActions![index];
+                      return QuickLinkItem(
+                        color: CustomColors.customPink,
+                        imageUrl: moreAction.contentURL,
+                        text: SplashScreenNotifier.getLanguageLabel(moreAction.source),
+                        onTap: () {
+                          if (moreAction.source == 'Link Card') {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  child: Container(
+                                    height: 245,
+                                    padding: const EdgeInsets.all(10),
+                                    child: LinkACard(),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Not implemented')),
+                            );
+                          }
+                        },
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

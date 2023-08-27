@@ -1,16 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class QuickLinkItem extends StatelessWidget {
   const QuickLinkItem({
     Key? key,
     required this.color,
-    required this.image,
+    required this.imageUrl,
     required this.text,
     required this.onTap,
   }) : super(key: key);
   final Color color;
-  final String image;
+  final String imageUrl;
   final String text;
   final Function() onTap;
 
@@ -26,7 +26,16 @@ class QuickLinkItem extends StatelessWidget {
               color: color,
             ),
             padding: const EdgeInsets.all(13.0),
-            child: SvgPicture.asset('assets/home/$image.svg'),
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
+              errorWidget: (context, url, error) {
+                return const Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                  size: 50.0,
+                );
+              },
+            ),
           ),
           const SizedBox(height: 10.0),
           Text(

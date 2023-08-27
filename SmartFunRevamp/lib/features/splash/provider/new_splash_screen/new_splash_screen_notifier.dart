@@ -166,14 +166,20 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     final useCase = Get.find<GetHomePageCMSUseCase>();
     final response = await useCase();
     response.fold(
-      (l) => state = _Error(l.message),
+      (l) {
+        Logger().e(l.message);
+        state = _Error(l.message);
+      },
       (r) async {
         if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
           _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
         }
-        await Future.delayed(const Duration(seconds: 3));
+        final String response = await rootBundle.loadString('assets/json/example_cms.json');
+        final data = await json.decode(response);
+        final cms = HomePageCMSResponse.fromJson(data);
+        Logger().d(r.toJson());
         state = _Success(
-          homePageCMSResponse: r,
+          homePageCMSResponse: cms,
           languageContainerDTO: _languageContainerDTO,
           siteViewDTO: masterSite!,
           parafaitDefaultsResponse: _parafaitDefaultsResponse,

@@ -11,6 +11,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/firebase_options.dart';
 import 'package:semnox/themes/main_theme.dart';
 import 'di/injection_container.dart' as di;
@@ -81,6 +82,17 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Flutter Demo',
           routes: Routes.routesMap,
+          onUnknownRoute: (settings) {
+            return MaterialPageRoute(
+              settings: settings,
+              builder: (BuildContext context) => Scaffold(
+                appBar: AppBar(),
+                body: Center(
+                  child: MulishText(text: '404 Page not found.\n Route ${settings.name} not found'),
+                ),
+              ),
+            );
+          },
           home: const SplashScreen(),
           theme: kMainTheme,
         ),

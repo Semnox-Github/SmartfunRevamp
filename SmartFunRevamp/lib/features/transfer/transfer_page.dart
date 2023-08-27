@@ -6,6 +6,7 @@ import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/features/transfer/transfer_success_page.dart';
 import 'package:semnox/features/transfer/widgets/amount_form_field.dart';
@@ -15,9 +16,7 @@ import 'package:semnox/features/transfer/widgets/from_selection_container.dart';
 import 'package:semnox/features/transfer/widgets/to_selection_container.dart';
 
 class TransferPage extends ConsumerStatefulWidget {
-  const TransferPage({Key? key, this.cardDetails}) : super(key: key);
-
-  final CardDetails? cardDetails;
+  const TransferPage({Key? key}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _TransferPageState();
@@ -32,15 +31,17 @@ class _TransferPageState extends ConsumerState<TransferPage> {
   CardDetails? cardTo;
   late List<CardDetails> cards;
   late List<CardDetails> cardsFrom;
+  late CardDetails? cardDetails;
   @override
   void initState() {
     super.initState();
+    cardDetails = ref.read(currentCardProvider);
     cardsFrom = [];
     cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
-    if (widget.cardDetails != null) {
+    if (cardDetails != null) {
       //is added to cards list as the only card
-      cardsFrom.add(widget.cardDetails!);
+      cardsFrom.add(cardDetails!);
     } else {
       cardsFrom = cards;
     }

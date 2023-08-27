@@ -66,6 +66,14 @@ final homeColors = Provider<CMSModuleColorsHome?>((ref) {
   return cms?.cmsModuleColorsHome;
 });
 
+final currentCardProvider = StateProvider<CardDetails?>((ref) {
+  final cardsList = ref.watch(CardsProviders.userCardsProvider);
+  return cardsList.maybeWhen(
+    orElse: () => null,
+    data: (data) => data.first,
+  );
+});
+
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
@@ -75,8 +83,6 @@ class HomeView extends ConsumerStatefulWidget {
 
 class _HomeViewState extends ConsumerState<HomeView> {
   final user = Get.find<CustomerDTO>();
-  CardDetails? cardDetails;
-
   int _cardIndex = -1;
 
   @override
@@ -90,6 +96,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
       Logger().d(element.backgroundColor);
     });
     ref.watch(SplashScreenNotifier.getInitialData);
+    final cardDetails = ref.watch(currentCardProvider);
     cardsWatch.maybeWhen(
       orElse: () => context.loaderOverlay.hide(),
       loading: () => context.loaderOverlay.show(),
@@ -163,26 +170,18 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         child: MulishText(text: SplashScreenNotifier.getLanguageLabel('No Cards found')),
                       ),
                       data: (data) {
-                        // set first card as selected when landing home
-                        setState(() {
-                          if (data.isNotEmpty && cardDetails == null && _cardIndex < data.length) {
-                            cardDetails = data.first;
-                          }
-                        });
                         return Column(
                           children: [
                             data.isNotEmpty
                                 ? CarouselCards(
                                     cards: data,
                                     onCardChanged: (cardIndex) {
-                                      setState(() {
-                                        if (cardIndex != data.length) {
-                                          cardDetails = data[cardIndex];
-                                        } else {
-                                          cardDetails = null;
-                                        }
-                                        _cardIndex = cardIndex;
-                                      });
+                                      if (cardIndex != data.length) {
+                                        ref.read(currentCardProvider.notifier).update((state) => data[cardIndex]);
+                                      } else {
+                                        ref.read(currentCardProvider.notifier).update((state) => null);
+                                      }
+                                      _cardIndex = cardIndex;
                                     },
                                   )
                                 : LinkACard(),
@@ -263,13 +262,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                       SplashScreenNotifier.getLanguageLabel("Please select a card to recharge."),
                                     );
                                     //if there is a card selected and is not blocked or expired then navigate
-                                  } else if (!(cardDetails!.isBlocked() || cardDetails!.isExpired())) {
+                                  } else if (!(cardDetails.isBlocked() || cardDetails.isExpired())) {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => SelectCardRechargePage(
-                                          cardDetails: cardDetails,
-                                        ),
+                                        builder: (context) => const SelectCardRechargePage(),
                                       ),
                                     );
                                   } else {

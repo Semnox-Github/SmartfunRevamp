@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -13,7 +14,6 @@ import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
-import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/features/transfer/transfer_page.dart';
@@ -69,12 +69,7 @@ class CardDetailPage extends ConsumerWidget {
               ),
               if (!(cardDetails.isBlocked() || cardDetails.isExpired()))
                 CustomButton(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
-                    ),
-                  ),
+                  onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
                   label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
                   margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                 ),
@@ -110,7 +105,7 @@ class CardDetailPage extends ConsumerWidget {
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TransferPage(cardDetails: cardDetails),
+                          builder: (context) => const TransferPage(),
                         ),
                       ),
                     ),
@@ -122,7 +117,7 @@ class CardDetailPage extends ConsumerWidget {
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => GameplaysPage(cardDetails: cardDetails),
+                          builder: (context) => const GameplaysPage(),
                         ),
                       ),
                     ),
@@ -134,7 +129,7 @@ class CardDetailPage extends ConsumerWidget {
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
+                          builder: (context) => const CardActivityLogPage(),
                         ),
                       ),
                     )

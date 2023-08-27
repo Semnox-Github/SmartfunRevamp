@@ -26,16 +26,7 @@ class HomePageCMSResponse {
   @JsonKey(name: 'CardsColor')
   final CardsColor? cardsColor;
 
-  HomePageCMSResponse(
-    this.moduleId,
-    this.description,
-    this.title,
-    this.cmsModulePages,
-    this.cmsModuleMenu,
-    this.cmsImages,
-    this.cmsModuleColorsHome,
-    this.cardsColor,
-  );
+  HomePageCMSResponse(this.moduleId, this.description, this.title, this.cmsModulePages, this.cmsModuleMenu, this.cmsImages, this.cmsModuleColorsHome, this.cardsColor);
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
 
@@ -53,7 +44,12 @@ class HomePageCMSResponse {
   }
 
   List<CMSMenuItem> getFooterMenuItems() {
+    Logger().d('<--------------------${geMenuItems('FOOTER')}----------------->');
     return geMenuItems('FOOTER');
+  }
+
+  List<CMSMenuItem> getHeaderMenuItems() {
+    return geMenuItems('HEADER');
   }
 
   List<CMSMenuItem> getCardDetailMenuItems() {

@@ -22,6 +22,7 @@ mixin _$LoginState {
     required TResult Function() inProgress,
     required TResult Function() success,
     required TResult Function() selectLocationNeeded,
+    required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
     required TResult Function() otpResend,
@@ -36,6 +37,7 @@ mixin _$LoginState {
     TResult? Function()? inProgress,
     TResult? Function()? success,
     TResult? Function()? selectLocationNeeded,
+    TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
     TResult? Function()? otpResend,
@@ -50,6 +52,7 @@ mixin _$LoginState {
     TResult Function()? inProgress,
     TResult Function()? success,
     TResult Function()? selectLocationNeeded,
+    TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
     TResult Function()? otpResend,
@@ -65,6 +68,8 @@ mixin _$LoginState {
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
     required TResult Function(_SelectLocationNeeded value) selectLocationNeeded,
+    required TResult Function(_CustomerVerificationNeeded value)
+        customerVerificationNeeded,
     required TResult Function(_Error value) error,
     required TResult Function(_OtpGenerated value) otpGenerated,
     required TResult Function(_OtpResend value) otpResend,
@@ -79,6 +84,8 @@ mixin _$LoginState {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
     TResult? Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult? Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult? Function(_Error value)? error,
     TResult? Function(_OtpGenerated value)? otpGenerated,
     TResult? Function(_OtpResend value)? otpResend,
@@ -93,6 +100,8 @@ mixin _$LoginState {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
     TResult Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult Function(_Error value)? error,
     TResult Function(_OtpGenerated value)? otpGenerated,
     TResult Function(_OtpResend value)? otpResend,
@@ -163,6 +172,7 @@ class _$_Initial implements _Initial {
     required TResult Function() inProgress,
     required TResult Function() success,
     required TResult Function() selectLocationNeeded,
+    required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
     required TResult Function() otpResend,
@@ -180,6 +190,7 @@ class _$_Initial implements _Initial {
     TResult? Function()? inProgress,
     TResult? Function()? success,
     TResult? Function()? selectLocationNeeded,
+    TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
     TResult? Function()? otpResend,
@@ -197,6 +208,7 @@ class _$_Initial implements _Initial {
     TResult Function()? inProgress,
     TResult Function()? success,
     TResult Function()? selectLocationNeeded,
+    TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
     TResult Function()? otpResend,
@@ -218,6 +230,8 @@ class _$_Initial implements _Initial {
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
     required TResult Function(_SelectLocationNeeded value) selectLocationNeeded,
+    required TResult Function(_CustomerVerificationNeeded value)
+        customerVerificationNeeded,
     required TResult Function(_Error value) error,
     required TResult Function(_OtpGenerated value) otpGenerated,
     required TResult Function(_OtpResend value) otpResend,
@@ -235,6 +249,8 @@ class _$_Initial implements _Initial {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
     TResult? Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult? Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult? Function(_Error value)? error,
     TResult? Function(_OtpGenerated value)? otpGenerated,
     TResult? Function(_OtpResend value)? otpResend,
@@ -252,6 +268,8 @@ class _$_Initial implements _Initial {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
     TResult Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult Function(_Error value)? error,
     TResult Function(_OtpGenerated value)? otpGenerated,
     TResult Function(_OtpResend value)? otpResend,
@@ -313,6 +331,7 @@ class _$_InProgress implements _InProgress {
     required TResult Function() inProgress,
     required TResult Function() success,
     required TResult Function() selectLocationNeeded,
+    required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
     required TResult Function() otpResend,
@@ -330,6 +349,7 @@ class _$_InProgress implements _InProgress {
     TResult? Function()? inProgress,
     TResult? Function()? success,
     TResult? Function()? selectLocationNeeded,
+    TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
     TResult? Function()? otpResend,
@@ -347,6 +367,7 @@ class _$_InProgress implements _InProgress {
     TResult Function()? inProgress,
     TResult Function()? success,
     TResult Function()? selectLocationNeeded,
+    TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
     TResult Function()? otpResend,
@@ -368,6 +389,8 @@ class _$_InProgress implements _InProgress {
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
     required TResult Function(_SelectLocationNeeded value) selectLocationNeeded,
+    required TResult Function(_CustomerVerificationNeeded value)
+        customerVerificationNeeded,
     required TResult Function(_Error value) error,
     required TResult Function(_OtpGenerated value) otpGenerated,
     required TResult Function(_OtpResend value) otpResend,
@@ -385,6 +408,8 @@ class _$_InProgress implements _InProgress {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
     TResult? Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult? Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult? Function(_Error value)? error,
     TResult? Function(_OtpGenerated value)? otpGenerated,
     TResult? Function(_OtpResend value)? otpResend,
@@ -402,6 +427,8 @@ class _$_InProgress implements _InProgress {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
     TResult Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult Function(_Error value)? error,
     TResult Function(_OtpGenerated value)? otpGenerated,
     TResult Function(_OtpResend value)? otpResend,
@@ -462,6 +489,7 @@ class _$_Success implements _Success {
     required TResult Function() inProgress,
     required TResult Function() success,
     required TResult Function() selectLocationNeeded,
+    required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
     required TResult Function() otpResend,
@@ -479,6 +507,7 @@ class _$_Success implements _Success {
     TResult? Function()? inProgress,
     TResult? Function()? success,
     TResult? Function()? selectLocationNeeded,
+    TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
     TResult? Function()? otpResend,
@@ -496,6 +525,7 @@ class _$_Success implements _Success {
     TResult Function()? inProgress,
     TResult Function()? success,
     TResult Function()? selectLocationNeeded,
+    TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
     TResult Function()? otpResend,
@@ -517,6 +547,8 @@ class _$_Success implements _Success {
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
     required TResult Function(_SelectLocationNeeded value) selectLocationNeeded,
+    required TResult Function(_CustomerVerificationNeeded value)
+        customerVerificationNeeded,
     required TResult Function(_Error value) error,
     required TResult Function(_OtpGenerated value) otpGenerated,
     required TResult Function(_OtpResend value) otpResend,
@@ -534,6 +566,8 @@ class _$_Success implements _Success {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
     TResult? Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult? Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult? Function(_Error value)? error,
     TResult? Function(_OtpGenerated value)? otpGenerated,
     TResult? Function(_OtpResend value)? otpResend,
@@ -551,6 +585,8 @@ class _$_Success implements _Success {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
     TResult Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult Function(_Error value)? error,
     TResult Function(_OtpGenerated value)? otpGenerated,
     TResult Function(_OtpResend value)? otpResend,
@@ -612,6 +648,7 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
     required TResult Function() inProgress,
     required TResult Function() success,
     required TResult Function() selectLocationNeeded,
+    required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
     required TResult Function() otpResend,
@@ -629,6 +666,7 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
     TResult? Function()? inProgress,
     TResult? Function()? success,
     TResult? Function()? selectLocationNeeded,
+    TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
     TResult? Function()? otpResend,
@@ -646,6 +684,7 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
     TResult Function()? inProgress,
     TResult Function()? success,
     TResult Function()? selectLocationNeeded,
+    TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
     TResult Function()? otpResend,
@@ -667,6 +706,8 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
     required TResult Function(_SelectLocationNeeded value) selectLocationNeeded,
+    required TResult Function(_CustomerVerificationNeeded value)
+        customerVerificationNeeded,
     required TResult Function(_Error value) error,
     required TResult Function(_OtpGenerated value) otpGenerated,
     required TResult Function(_OtpResend value) otpResend,
@@ -684,6 +725,8 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
     TResult? Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult? Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult? Function(_Error value)? error,
     TResult? Function(_OtpGenerated value)? otpGenerated,
     TResult? Function(_OtpResend value)? otpResend,
@@ -701,6 +744,8 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
     TResult Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult Function(_Error value)? error,
     TResult Function(_OtpGenerated value)? otpGenerated,
     TResult Function(_OtpResend value)? otpResend,
@@ -718,6 +763,168 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
 
 abstract class _SelectLocationNeeded implements LoginState {
   const factory _SelectLocationNeeded() = _$_SelectLocationNeeded;
+}
+
+/// @nodoc
+abstract class _$$_CustomerVerificationNeededCopyWith<$Res> {
+  factory _$$_CustomerVerificationNeededCopyWith(
+          _$_CustomerVerificationNeeded value,
+          $Res Function(_$_CustomerVerificationNeeded) then) =
+      __$$_CustomerVerificationNeededCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_CustomerVerificationNeededCopyWithImpl<$Res>
+    extends _$LoginStateCopyWithImpl<$Res, _$_CustomerVerificationNeeded>
+    implements _$$_CustomerVerificationNeededCopyWith<$Res> {
+  __$$_CustomerVerificationNeededCopyWithImpl(
+      _$_CustomerVerificationNeeded _value,
+      $Res Function(_$_CustomerVerificationNeeded) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_CustomerVerificationNeeded implements _CustomerVerificationNeeded {
+  const _$_CustomerVerificationNeeded();
+
+  @override
+  String toString() {
+    return 'LoginState.customerVerificationNeeded()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_CustomerVerificationNeeded);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() inProgress,
+    required TResult Function() success,
+    required TResult Function() selectLocationNeeded,
+    required TResult Function() customerVerificationNeeded,
+    required TResult Function(String message) error,
+    required TResult Function() otpGenerated,
+    required TResult Function() otpResend,
+    required TResult Function() verifyingOTp,
+    required TResult Function() otpVerified,
+    required TResult Function(String msg) otpVerificationError,
+  }) {
+    return customerVerificationNeeded();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? inProgress,
+    TResult? Function()? success,
+    TResult? Function()? selectLocationNeeded,
+    TResult? Function()? customerVerificationNeeded,
+    TResult? Function(String message)? error,
+    TResult? Function()? otpGenerated,
+    TResult? Function()? otpResend,
+    TResult? Function()? verifyingOTp,
+    TResult? Function()? otpVerified,
+    TResult? Function(String msg)? otpVerificationError,
+  }) {
+    return customerVerificationNeeded?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? inProgress,
+    TResult Function()? success,
+    TResult Function()? selectLocationNeeded,
+    TResult Function()? customerVerificationNeeded,
+    TResult Function(String message)? error,
+    TResult Function()? otpGenerated,
+    TResult Function()? otpResend,
+    TResult Function()? verifyingOTp,
+    TResult Function()? otpVerified,
+    TResult Function(String msg)? otpVerificationError,
+    required TResult orElse(),
+  }) {
+    if (customerVerificationNeeded != null) {
+      return customerVerificationNeeded();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_InProgress value) inProgress,
+    required TResult Function(_Success value) success,
+    required TResult Function(_SelectLocationNeeded value) selectLocationNeeded,
+    required TResult Function(_CustomerVerificationNeeded value)
+        customerVerificationNeeded,
+    required TResult Function(_Error value) error,
+    required TResult Function(_OtpGenerated value) otpGenerated,
+    required TResult Function(_OtpResend value) otpResend,
+    required TResult Function(_VerifyingOTP value) verifyingOTp,
+    required TResult Function(_OtpVerified value) otpVerified,
+    required TResult Function(_OtpVerificationError value) otpVerificationError,
+  }) {
+    return customerVerificationNeeded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_InProgress value)? inProgress,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult? Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
+    TResult? Function(_Error value)? error,
+    TResult? Function(_OtpGenerated value)? otpGenerated,
+    TResult? Function(_OtpResend value)? otpResend,
+    TResult? Function(_VerifyingOTP value)? verifyingOTp,
+    TResult? Function(_OtpVerified value)? otpVerified,
+    TResult? Function(_OtpVerificationError value)? otpVerificationError,
+  }) {
+    return customerVerificationNeeded?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_InProgress value)? inProgress,
+    TResult Function(_Success value)? success,
+    TResult Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
+    TResult Function(_Error value)? error,
+    TResult Function(_OtpGenerated value)? otpGenerated,
+    TResult Function(_OtpResend value)? otpResend,
+    TResult Function(_VerifyingOTP value)? verifyingOTp,
+    TResult Function(_OtpVerified value)? otpVerified,
+    TResult Function(_OtpVerificationError value)? otpVerificationError,
+    required TResult orElse(),
+  }) {
+    if (customerVerificationNeeded != null) {
+      return customerVerificationNeeded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _CustomerVerificationNeeded implements LoginState {
+  const factory _CustomerVerificationNeeded() = _$_CustomerVerificationNeeded;
 }
 
 /// @nodoc
@@ -786,6 +993,7 @@ class _$_Error implements _Error {
     required TResult Function() inProgress,
     required TResult Function() success,
     required TResult Function() selectLocationNeeded,
+    required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
     required TResult Function() otpResend,
@@ -803,6 +1011,7 @@ class _$_Error implements _Error {
     TResult? Function()? inProgress,
     TResult? Function()? success,
     TResult? Function()? selectLocationNeeded,
+    TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
     TResult? Function()? otpResend,
@@ -820,6 +1029,7 @@ class _$_Error implements _Error {
     TResult Function()? inProgress,
     TResult Function()? success,
     TResult Function()? selectLocationNeeded,
+    TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
     TResult Function()? otpResend,
@@ -841,6 +1051,8 @@ class _$_Error implements _Error {
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
     required TResult Function(_SelectLocationNeeded value) selectLocationNeeded,
+    required TResult Function(_CustomerVerificationNeeded value)
+        customerVerificationNeeded,
     required TResult Function(_Error value) error,
     required TResult Function(_OtpGenerated value) otpGenerated,
     required TResult Function(_OtpResend value) otpResend,
@@ -858,6 +1070,8 @@ class _$_Error implements _Error {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
     TResult? Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult? Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult? Function(_Error value)? error,
     TResult? Function(_OtpGenerated value)? otpGenerated,
     TResult? Function(_OtpResend value)? otpResend,
@@ -875,6 +1089,8 @@ class _$_Error implements _Error {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
     TResult Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult Function(_Error value)? error,
     TResult Function(_OtpGenerated value)? otpGenerated,
     TResult Function(_OtpResend value)? otpResend,
@@ -941,6 +1157,7 @@ class _$_OtpGenerated implements _OtpGenerated {
     required TResult Function() inProgress,
     required TResult Function() success,
     required TResult Function() selectLocationNeeded,
+    required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
     required TResult Function() otpResend,
@@ -958,6 +1175,7 @@ class _$_OtpGenerated implements _OtpGenerated {
     TResult? Function()? inProgress,
     TResult? Function()? success,
     TResult? Function()? selectLocationNeeded,
+    TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
     TResult? Function()? otpResend,
@@ -975,6 +1193,7 @@ class _$_OtpGenerated implements _OtpGenerated {
     TResult Function()? inProgress,
     TResult Function()? success,
     TResult Function()? selectLocationNeeded,
+    TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
     TResult Function()? otpResend,
@@ -996,6 +1215,8 @@ class _$_OtpGenerated implements _OtpGenerated {
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
     required TResult Function(_SelectLocationNeeded value) selectLocationNeeded,
+    required TResult Function(_CustomerVerificationNeeded value)
+        customerVerificationNeeded,
     required TResult Function(_Error value) error,
     required TResult Function(_OtpGenerated value) otpGenerated,
     required TResult Function(_OtpResend value) otpResend,
@@ -1013,6 +1234,8 @@ class _$_OtpGenerated implements _OtpGenerated {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
     TResult? Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult? Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult? Function(_Error value)? error,
     TResult? Function(_OtpGenerated value)? otpGenerated,
     TResult? Function(_OtpResend value)? otpResend,
@@ -1030,6 +1253,8 @@ class _$_OtpGenerated implements _OtpGenerated {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
     TResult Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult Function(_Error value)? error,
     TResult Function(_OtpGenerated value)? otpGenerated,
     TResult Function(_OtpResend value)? otpResend,
@@ -1091,6 +1316,7 @@ class _$_OtpResend implements _OtpResend {
     required TResult Function() inProgress,
     required TResult Function() success,
     required TResult Function() selectLocationNeeded,
+    required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
     required TResult Function() otpResend,
@@ -1108,6 +1334,7 @@ class _$_OtpResend implements _OtpResend {
     TResult? Function()? inProgress,
     TResult? Function()? success,
     TResult? Function()? selectLocationNeeded,
+    TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
     TResult? Function()? otpResend,
@@ -1125,6 +1352,7 @@ class _$_OtpResend implements _OtpResend {
     TResult Function()? inProgress,
     TResult Function()? success,
     TResult Function()? selectLocationNeeded,
+    TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
     TResult Function()? otpResend,
@@ -1146,6 +1374,8 @@ class _$_OtpResend implements _OtpResend {
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
     required TResult Function(_SelectLocationNeeded value) selectLocationNeeded,
+    required TResult Function(_CustomerVerificationNeeded value)
+        customerVerificationNeeded,
     required TResult Function(_Error value) error,
     required TResult Function(_OtpGenerated value) otpGenerated,
     required TResult Function(_OtpResend value) otpResend,
@@ -1163,6 +1393,8 @@ class _$_OtpResend implements _OtpResend {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
     TResult? Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult? Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult? Function(_Error value)? error,
     TResult? Function(_OtpGenerated value)? otpGenerated,
     TResult? Function(_OtpResend value)? otpResend,
@@ -1180,6 +1412,8 @@ class _$_OtpResend implements _OtpResend {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
     TResult Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult Function(_Error value)? error,
     TResult Function(_OtpGenerated value)? otpGenerated,
     TResult Function(_OtpResend value)? otpResend,
@@ -1241,6 +1475,7 @@ class _$_VerifyingOTP implements _VerifyingOTP {
     required TResult Function() inProgress,
     required TResult Function() success,
     required TResult Function() selectLocationNeeded,
+    required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
     required TResult Function() otpResend,
@@ -1258,6 +1493,7 @@ class _$_VerifyingOTP implements _VerifyingOTP {
     TResult? Function()? inProgress,
     TResult? Function()? success,
     TResult? Function()? selectLocationNeeded,
+    TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
     TResult? Function()? otpResend,
@@ -1275,6 +1511,7 @@ class _$_VerifyingOTP implements _VerifyingOTP {
     TResult Function()? inProgress,
     TResult Function()? success,
     TResult Function()? selectLocationNeeded,
+    TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
     TResult Function()? otpResend,
@@ -1296,6 +1533,8 @@ class _$_VerifyingOTP implements _VerifyingOTP {
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
     required TResult Function(_SelectLocationNeeded value) selectLocationNeeded,
+    required TResult Function(_CustomerVerificationNeeded value)
+        customerVerificationNeeded,
     required TResult Function(_Error value) error,
     required TResult Function(_OtpGenerated value) otpGenerated,
     required TResult Function(_OtpResend value) otpResend,
@@ -1313,6 +1552,8 @@ class _$_VerifyingOTP implements _VerifyingOTP {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
     TResult? Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult? Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult? Function(_Error value)? error,
     TResult? Function(_OtpGenerated value)? otpGenerated,
     TResult? Function(_OtpResend value)? otpResend,
@@ -1330,6 +1571,8 @@ class _$_VerifyingOTP implements _VerifyingOTP {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
     TResult Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult Function(_Error value)? error,
     TResult Function(_OtpGenerated value)? otpGenerated,
     TResult Function(_OtpResend value)? otpResend,
@@ -1391,6 +1634,7 @@ class _$_OtpVerified implements _OtpVerified {
     required TResult Function() inProgress,
     required TResult Function() success,
     required TResult Function() selectLocationNeeded,
+    required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
     required TResult Function() otpResend,
@@ -1408,6 +1652,7 @@ class _$_OtpVerified implements _OtpVerified {
     TResult? Function()? inProgress,
     TResult? Function()? success,
     TResult? Function()? selectLocationNeeded,
+    TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
     TResult? Function()? otpResend,
@@ -1425,6 +1670,7 @@ class _$_OtpVerified implements _OtpVerified {
     TResult Function()? inProgress,
     TResult Function()? success,
     TResult Function()? selectLocationNeeded,
+    TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
     TResult Function()? otpResend,
@@ -1446,6 +1692,8 @@ class _$_OtpVerified implements _OtpVerified {
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
     required TResult Function(_SelectLocationNeeded value) selectLocationNeeded,
+    required TResult Function(_CustomerVerificationNeeded value)
+        customerVerificationNeeded,
     required TResult Function(_Error value) error,
     required TResult Function(_OtpGenerated value) otpGenerated,
     required TResult Function(_OtpResend value) otpResend,
@@ -1463,6 +1711,8 @@ class _$_OtpVerified implements _OtpVerified {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
     TResult? Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult? Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult? Function(_Error value)? error,
     TResult? Function(_OtpGenerated value)? otpGenerated,
     TResult? Function(_OtpResend value)? otpResend,
@@ -1480,6 +1730,8 @@ class _$_OtpVerified implements _OtpVerified {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
     TResult Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult Function(_Error value)? error,
     TResult Function(_OtpGenerated value)? otpGenerated,
     TResult Function(_OtpResend value)? otpResend,
@@ -1568,6 +1820,7 @@ class _$_OtpVerificationError implements _OtpVerificationError {
     required TResult Function() inProgress,
     required TResult Function() success,
     required TResult Function() selectLocationNeeded,
+    required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
     required TResult Function() otpResend,
@@ -1585,6 +1838,7 @@ class _$_OtpVerificationError implements _OtpVerificationError {
     TResult? Function()? inProgress,
     TResult? Function()? success,
     TResult? Function()? selectLocationNeeded,
+    TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
     TResult? Function()? otpResend,
@@ -1602,6 +1856,7 @@ class _$_OtpVerificationError implements _OtpVerificationError {
     TResult Function()? inProgress,
     TResult Function()? success,
     TResult Function()? selectLocationNeeded,
+    TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
     TResult Function()? otpResend,
@@ -1623,6 +1878,8 @@ class _$_OtpVerificationError implements _OtpVerificationError {
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
     required TResult Function(_SelectLocationNeeded value) selectLocationNeeded,
+    required TResult Function(_CustomerVerificationNeeded value)
+        customerVerificationNeeded,
     required TResult Function(_Error value) error,
     required TResult Function(_OtpGenerated value) otpGenerated,
     required TResult Function(_OtpResend value) otpResend,
@@ -1640,6 +1897,8 @@ class _$_OtpVerificationError implements _OtpVerificationError {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
     TResult? Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult? Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult? Function(_Error value)? error,
     TResult? Function(_OtpGenerated value)? otpGenerated,
     TResult? Function(_OtpResend value)? otpResend,
@@ -1657,6 +1916,8 @@ class _$_OtpVerificationError implements _OtpVerificationError {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
     TResult Function(_SelectLocationNeeded value)? selectLocationNeeded,
+    TResult Function(_CustomerVerificationNeeded value)?
+        customerVerificationNeeded,
     TResult Function(_Error value)? error,
     TResult Function(_OtpGenerated value)? otpGenerated,
     TResult Function(_OtpResend value)? otpResend,

@@ -70,7 +70,7 @@ enum MetaDataKeys {
   contactType("CONTACT_TYPE"),
   attribute1("ATTRIBUTE_1"),
   attribute2("ATTRIBUTE_2");
-  
+
   const MetaDataKeys(this.key);
   final String key;
 }
@@ -160,7 +160,8 @@ class SignUpEntity {
   String? get lastLoginTime => _profileDto?.lastLoginTime;
   List<PhoneContactDTO>? get contactDtoList => _profileDto?.contactDtoList;
   List<AddressDTO>? get addressDtoList => _profileDto?.addressDtoList;
-  dynamic get profileContentHistoryDtoList => _profileDto?.profileContentHistoryDtoList;
+  dynamic get profileContentHistoryDtoList =>
+      _profileDto?.profileContentHistoryDtoList;
   bool? get optInPromotions => _profileDto?.optInPromotions;
   String? get optInPromotionsMode => _profileDto?.optInPromotionsMode;
   String? get optInLastUpdatedDate => _profileDto?.optInLastUpdatedDate;
@@ -181,19 +182,18 @@ class SignUpEntity {
   bool? get isChanged => _profileDto?.isChanged;
   bool? get isChangedRecursive => _profileDto?.isChangedRecursive;
 
-
   Map<String, dynamic> toJson() => _$SignUpEntityToJson(this);
-  factory SignUpEntity.fromJson(Map<String, dynamic> json) => _$SignUpEntityFromJson(json);
+  factory SignUpEntity.fromJson(Map<String, dynamic> json) =>
+      _$SignUpEntityFromJson(json);
   factory SignUpEntity.fromMetaData(Map<String, dynamic> json) {
-    
     List<CustomDataDTO> customDataDtoList = [];
     ProfileDTO profile = ProfileDTO();
     String? email;
     String? phone;
     List<PhoneContactDTO> phoneContactDTO = [];
-    //iterate the dynamic fields to set values 
-    json.forEach((key, value) { 
-      switch(key) {
+    //iterate the dynamic fields to set values
+    json.forEach((key, value) {
+      switch (key) {
         case "FIRST_NAME":
           profile.firtName = value["value"];
           break;
@@ -253,6 +253,7 @@ class SignUpEntity {
             isActive: true,
           ));
           email = value["value"];
+          profile.userName = value["value"];
           break;
         case "CONTACT_PHONE":
           phoneContactDTO.add(PhoneContactDTO(
@@ -272,27 +273,32 @@ class SignUpEntity {
           ));
           break;
         default:
-        //not included in case will be stored in custom data
+          //not included in case will be stored in custom data
           CustomDataDTO customDataDTO = CustomDataDTO(
-            customAttributeId: value["customAttributeId"],
-            customDataText: value["customerFieldType"] == "NUMBER" || value["customerFieldType"] == "DATE" ? null : value["value"],
-            customDataNumber: value["customerFieldType"] == "NUMBER" ? int.parse(value["value"]) : null,
-            customDataDate: value["customerFieldType"] == "DATE" ? DateTime.parse(value["value"]) : null
-          );
+              customAttributeId: value["customAttributeId"],
+              customDataText: value["customerFieldType"] == "NUMBER" ||
+                      value["customerFieldType"] == "DATE"
+                  ? null
+                  : value["value"],
+              customDataNumber: value["customerFieldType"] == "NUMBER"
+                  ? int.parse(value["value"])
+                  : null,
+              customDataDate: value["customerFieldType"] == "DATE"
+                  ? DateTime.parse(value["value"])
+                  : null);
           customDataDtoList.add(customDataDTO);
-
       }
     });
     //if contact list has elements then set value
     if (phoneContactDTO.length > 1) {
       profile.contactDtoList = phoneContactDTO;
     }
-  
+
     return SignUpEntity(
-      email: email,
-      profileDto: profile,
-      phone: phone,
-      customDataSetDto: CustomDataSetDTO(customDataDtoList: customDataDtoList)      
-    );
+        email: email,
+        profileDto: profile,
+        phone: phone,
+        customDataSetDto:
+            CustomDataSetDTO(customDataDtoList: customDataDtoList));
   }
 }

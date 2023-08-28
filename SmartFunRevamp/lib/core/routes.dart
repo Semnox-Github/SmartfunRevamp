@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:semnox/features/account/account_page.dart';
 import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/buy_a_card/pages/buy_card_list_page.dart';
+import 'package:semnox/features/customer_verification/pages/customer_verification_page.dart';
 import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/home/pages/home_page.dart';
 import 'package:semnox/features/home/view/delete_profile_otp_page.dart';
@@ -38,6 +39,7 @@ class Routes {
   static const kSelectLocationManually = '/select_location_manually';
   static const kMap = '/map';
   static const kEnableLocation = '/enable_location';
+  static const kCustomerVerification = '/customer_verification';
   static const kRechargePageCard = '/recharge_card';
   static const kLostPageCard = '/lost_card';
   static const kGameplays = '/gameplays';
@@ -62,26 +64,34 @@ class Routes {
       kHomePage: (BuildContext context) => const HomePage(),
       kLogInPage: (BuildContext context) => const LoginPage(),
       kSignUpPage: (BuildContext context) => const SignUpPage(),
-      kAfterSplashScreenPage: (BuildContext context) => const AfterSplashScreen(),
+      kAfterSplashScreenPage: (BuildContext context) =>
+          const AfterSplashScreen(),
       kBuyACard: (BuildContext context) => const BuyCardListPage(),
       kVerifyOTP: (BuildContext context) => const VerifyOtpPage(),
       kDeleteOTP: (BuildContext context) => const DeleteProfileOTPPage(),
-      kSelectLocationManually: (BuildContext context) => const SelectLocationManuallyPage(),
+      kSelectLocationManually: (BuildContext context) =>
+          const SelectLocationManuallyPage(),
       kEnableLocation: (BuildContext context) => const EnableLocationPage(),
+      kCustomerVerification: (BuildContext context) =>
+          const CustomerVerificationPage(),
       kMap: (BuildContext context) => const MapPage(),
-      kRechargePageCard: (BuildContext context) => const SelectCardRechargePage(),
+      kRechargePageCard: (BuildContext context) =>
+          const SelectCardRechargePage(),
       kGameplays: (BuildContext context) => const GameplaysPage(),
       kActivities: (BuildContext context) => const CardActivityLogPage(),
       kTransfers: (BuildContext context) => const TransferPage(),
       kLostPageCard: (BuildContext context) => const SelectCardLostPage(),
       kNotifications: (BuildContext context) => const NotificationCenterPage(),
-      kNotificationsSettings: (BuildContext context) => const NotificationsSettingsPage(),
+      kNotificationsSettings: (BuildContext context) =>
+          const NotificationsSettingsPage(),
       kAccount: (BuildContext context) => const AccountPage(),
       kForgotPassword: (BuildContext context) => ForgotPasswordPage(),
       kResetPassword: (BuildContext context) => const ResetPasswordPage(),
       kMembershipInfo: (BuildContext context) => const MembershipInfoPage(),
-      kLoyaltyPointsDetails: (BuildContext context) => const LoyaltyPointsInfoPage(),
-      kMembershipRewards: (BuildContext context) => const MembershipRewardsPage(),
+      kLoyaltyPointsDetails: (BuildContext context) =>
+          const LoyaltyPointsInfoPage(),
+      kMembershipRewards: (BuildContext context) =>
+          const MembershipRewardsPage(),
       kSearch: (BuildContext context) => const SearchPage(),
       kFeedback: (BuildContext context) => const FeedbackPage(),
       kPlayPage: (BuildContext context) => const PlayView(),

@@ -15,7 +15,7 @@ import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
 import 'package:semnox/features/orders/pages/orders_summary_page.dart';
-import 'package:semnox/features/splash/cms_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
@@ -26,7 +26,7 @@ class MoreView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = Get.find<CustomerDTO>();
     final localDatasource = Get.find<LocalDataSource>();
-    final cms = ref.watch(cmsProvider).value;
+    final cms = ref.watch(newHomePageCMSProvider);
     final items = cms?.getMoreMenuItems() ?? [];
 
     return Container(
@@ -68,7 +68,7 @@ class MoreView extends ConsumerWidget {
               children: [
                 TextButton(
                   onPressed: () async {
-                    localDatasource.deleteValue(LocalDataSource.kUserId).then(
+                    localDatasource.logoutUser().then(
                           (value) => Navigator.popAndPushNamed(context, Routes.kLogInPage),
                         );
                     ref.invalidate(CardsProviders.userCardsProvider);

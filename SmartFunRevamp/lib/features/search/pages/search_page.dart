@@ -9,6 +9,7 @@ import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/select_location/pages/select_location_manually_page.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
@@ -35,10 +36,11 @@ class _SearchPageState extends ConsumerState<SearchPage> with TickerProviderStat
     super.initState();
     cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
-    if (cards.isNotEmpty){
+    if (cards.isNotEmpty) {
       selectedCardNumber = cards.first;
     }
-    userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? SplashScreenNotifier.getMasterSite();
+    final int masterSiteId = ref.read(masterSiteProvider)?.siteId ?? 1010;
+    userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? masterSiteId;
     tabController = TabController(initialIndex: 0, length: 2, vsync: this);
   }
 

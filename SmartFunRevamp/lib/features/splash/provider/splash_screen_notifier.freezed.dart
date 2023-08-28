@@ -22,6 +22,7 @@ mixin _$SplashScreenState {
     required TResult Function() inProgress,
     required TResult Function(String? url) retrievedSplashImageURL,
     required TResult Function() success,
+    required TResult Function() userAuthenticated,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -31,6 +32,7 @@ mixin _$SplashScreenState {
     TResult? Function()? inProgress,
     TResult? Function(String? url)? retrievedSplashImageURL,
     TResult? Function()? success,
+    TResult? Function()? userAuthenticated,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -40,6 +42,7 @@ mixin _$SplashScreenState {
     TResult Function()? inProgress,
     TResult Function(String? url)? retrievedSplashImageURL,
     TResult Function()? success,
+    TResult Function()? userAuthenticated,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -51,6 +54,7 @@ mixin _$SplashScreenState {
     required TResult Function(_RetrievedSplashImageURL value)
         retrievedSplashImageURL,
     required TResult Function(_Success value) success,
+    required TResult Function(_UserAuthenticated value) userAuthenticated,
     required TResult Function(_Error value) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -60,6 +64,7 @@ mixin _$SplashScreenState {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
     TResult? Function(_Success value)? success,
+    TResult? Function(_UserAuthenticated value)? userAuthenticated,
     TResult? Function(_Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -69,6 +74,7 @@ mixin _$SplashScreenState {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
     TResult Function(_Success value)? success,
+    TResult Function(_UserAuthenticated value)? userAuthenticated,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) =>
@@ -140,6 +146,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     required TResult Function() inProgress,
     required TResult Function(String? url) retrievedSplashImageURL,
     required TResult Function() success,
+    required TResult Function() userAuthenticated,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -152,6 +159,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     TResult? Function()? inProgress,
     TResult? Function(String? url)? retrievedSplashImageURL,
     TResult? Function()? success,
+    TResult? Function()? userAuthenticated,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -164,6 +172,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     TResult Function()? inProgress,
     TResult Function(String? url)? retrievedSplashImageURL,
     TResult Function()? success,
+    TResult Function()? userAuthenticated,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -181,6 +190,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     required TResult Function(_RetrievedSplashImageURL value)
         retrievedSplashImageURL,
     required TResult Function(_Success value) success,
+    required TResult Function(_UserAuthenticated value) userAuthenticated,
     required TResult Function(_Error value) error,
   }) {
     return initial(this);
@@ -193,6 +203,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
     TResult? Function(_Success value)? success,
+    TResult? Function(_UserAuthenticated value)? userAuthenticated,
     TResult? Function(_Error value)? error,
   }) {
     return initial?.call(this);
@@ -205,6 +216,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
     TResult Function(_Success value)? success,
+    TResult Function(_UserAuthenticated value)? userAuthenticated,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -267,6 +279,7 @@ class _$_InProgress with DiagnosticableTreeMixin implements _InProgress {
     required TResult Function() inProgress,
     required TResult Function(String? url) retrievedSplashImageURL,
     required TResult Function() success,
+    required TResult Function() userAuthenticated,
     required TResult Function(String message) error,
   }) {
     return inProgress();
@@ -279,6 +292,7 @@ class _$_InProgress with DiagnosticableTreeMixin implements _InProgress {
     TResult? Function()? inProgress,
     TResult? Function(String? url)? retrievedSplashImageURL,
     TResult? Function()? success,
+    TResult? Function()? userAuthenticated,
     TResult? Function(String message)? error,
   }) {
     return inProgress?.call();
@@ -291,6 +305,7 @@ class _$_InProgress with DiagnosticableTreeMixin implements _InProgress {
     TResult Function()? inProgress,
     TResult Function(String? url)? retrievedSplashImageURL,
     TResult Function()? success,
+    TResult Function()? userAuthenticated,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -308,6 +323,7 @@ class _$_InProgress with DiagnosticableTreeMixin implements _InProgress {
     required TResult Function(_RetrievedSplashImageURL value)
         retrievedSplashImageURL,
     required TResult Function(_Success value) success,
+    required TResult Function(_UserAuthenticated value) userAuthenticated,
     required TResult Function(_Error value) error,
   }) {
     return inProgress(this);
@@ -320,6 +336,7 @@ class _$_InProgress with DiagnosticableTreeMixin implements _InProgress {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
     TResult? Function(_Success value)? success,
+    TResult? Function(_UserAuthenticated value)? userAuthenticated,
     TResult? Function(_Error value)? error,
   }) {
     return inProgress?.call(this);
@@ -332,6 +349,7 @@ class _$_InProgress with DiagnosticableTreeMixin implements _InProgress {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
     TResult Function(_Success value)? success,
+    TResult Function(_UserAuthenticated value)? userAuthenticated,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -427,6 +445,7 @@ class _$_RetrievedSplashImageURL
     required TResult Function() inProgress,
     required TResult Function(String? url) retrievedSplashImageURL,
     required TResult Function() success,
+    required TResult Function() userAuthenticated,
     required TResult Function(String message) error,
   }) {
     return retrievedSplashImageURL(url);
@@ -439,6 +458,7 @@ class _$_RetrievedSplashImageURL
     TResult? Function()? inProgress,
     TResult? Function(String? url)? retrievedSplashImageURL,
     TResult? Function()? success,
+    TResult? Function()? userAuthenticated,
     TResult? Function(String message)? error,
   }) {
     return retrievedSplashImageURL?.call(url);
@@ -451,6 +471,7 @@ class _$_RetrievedSplashImageURL
     TResult Function()? inProgress,
     TResult Function(String? url)? retrievedSplashImageURL,
     TResult Function()? success,
+    TResult Function()? userAuthenticated,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -468,6 +489,7 @@ class _$_RetrievedSplashImageURL
     required TResult Function(_RetrievedSplashImageURL value)
         retrievedSplashImageURL,
     required TResult Function(_Success value) success,
+    required TResult Function(_UserAuthenticated value) userAuthenticated,
     required TResult Function(_Error value) error,
   }) {
     return retrievedSplashImageURL(this);
@@ -480,6 +502,7 @@ class _$_RetrievedSplashImageURL
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
     TResult? Function(_Success value)? success,
+    TResult? Function(_UserAuthenticated value)? userAuthenticated,
     TResult? Function(_Error value)? error,
   }) {
     return retrievedSplashImageURL?.call(this);
@@ -492,6 +515,7 @@ class _$_RetrievedSplashImageURL
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
     TResult Function(_Success value)? success,
+    TResult Function(_UserAuthenticated value)? userAuthenticated,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -559,6 +583,7 @@ class _$_Success with DiagnosticableTreeMixin implements _Success {
     required TResult Function() inProgress,
     required TResult Function(String? url) retrievedSplashImageURL,
     required TResult Function() success,
+    required TResult Function() userAuthenticated,
     required TResult Function(String message) error,
   }) {
     return success();
@@ -571,6 +596,7 @@ class _$_Success with DiagnosticableTreeMixin implements _Success {
     TResult? Function()? inProgress,
     TResult? Function(String? url)? retrievedSplashImageURL,
     TResult? Function()? success,
+    TResult? Function()? userAuthenticated,
     TResult? Function(String message)? error,
   }) {
     return success?.call();
@@ -583,6 +609,7 @@ class _$_Success with DiagnosticableTreeMixin implements _Success {
     TResult Function()? inProgress,
     TResult Function(String? url)? retrievedSplashImageURL,
     TResult Function()? success,
+    TResult Function()? userAuthenticated,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -600,6 +627,7 @@ class _$_Success with DiagnosticableTreeMixin implements _Success {
     required TResult Function(_RetrievedSplashImageURL value)
         retrievedSplashImageURL,
     required TResult Function(_Success value) success,
+    required TResult Function(_UserAuthenticated value) userAuthenticated,
     required TResult Function(_Error value) error,
   }) {
     return success(this);
@@ -612,6 +640,7 @@ class _$_Success with DiagnosticableTreeMixin implements _Success {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
     TResult? Function(_Success value)? success,
+    TResult? Function(_UserAuthenticated value)? userAuthenticated,
     TResult? Function(_Error value)? error,
   }) {
     return success?.call(this);
@@ -624,6 +653,7 @@ class _$_Success with DiagnosticableTreeMixin implements _Success {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
     TResult Function(_Success value)? success,
+    TResult Function(_UserAuthenticated value)? userAuthenticated,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -636,6 +666,142 @@ class _$_Success with DiagnosticableTreeMixin implements _Success {
 
 abstract class _Success implements SplashScreenState {
   const factory _Success() = _$_Success;
+}
+
+/// @nodoc
+abstract class _$$_UserAuthenticatedCopyWith<$Res> {
+  factory _$$_UserAuthenticatedCopyWith(_$_UserAuthenticated value,
+          $Res Function(_$_UserAuthenticated) then) =
+      __$$_UserAuthenticatedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_UserAuthenticatedCopyWithImpl<$Res>
+    extends _$SplashScreenStateCopyWithImpl<$Res, _$_UserAuthenticated>
+    implements _$$_UserAuthenticatedCopyWith<$Res> {
+  __$$_UserAuthenticatedCopyWithImpl(
+      _$_UserAuthenticated _value, $Res Function(_$_UserAuthenticated) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_UserAuthenticated
+    with DiagnosticableTreeMixin
+    implements _UserAuthenticated {
+  const _$_UserAuthenticated();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'SplashScreenState.userAuthenticated()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(
+        DiagnosticsProperty('type', 'SplashScreenState.userAuthenticated'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_UserAuthenticated);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() inProgress,
+    required TResult Function(String? url) retrievedSplashImageURL,
+    required TResult Function() success,
+    required TResult Function() userAuthenticated,
+    required TResult Function(String message) error,
+  }) {
+    return userAuthenticated();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? inProgress,
+    TResult? Function(String? url)? retrievedSplashImageURL,
+    TResult? Function()? success,
+    TResult? Function()? userAuthenticated,
+    TResult? Function(String message)? error,
+  }) {
+    return userAuthenticated?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? inProgress,
+    TResult Function(String? url)? retrievedSplashImageURL,
+    TResult Function()? success,
+    TResult Function()? userAuthenticated,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (userAuthenticated != null) {
+      return userAuthenticated();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_InProgress value) inProgress,
+    required TResult Function(_RetrievedSplashImageURL value)
+        retrievedSplashImageURL,
+    required TResult Function(_Success value) success,
+    required TResult Function(_UserAuthenticated value) userAuthenticated,
+    required TResult Function(_Error value) error,
+  }) {
+    return userAuthenticated(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_InProgress value)? inProgress,
+    TResult? Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_UserAuthenticated value)? userAuthenticated,
+    TResult? Function(_Error value)? error,
+  }) {
+    return userAuthenticated?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_InProgress value)? inProgress,
+    TResult Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
+    TResult Function(_Success value)? success,
+    TResult Function(_UserAuthenticated value)? userAuthenticated,
+    TResult Function(_Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (userAuthenticated != null) {
+      return userAuthenticated(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UserAuthenticated implements SplashScreenState {
+  const factory _UserAuthenticated() = _$_UserAuthenticated;
 }
 
 /// @nodoc
@@ -712,6 +878,7 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
     required TResult Function() inProgress,
     required TResult Function(String? url) retrievedSplashImageURL,
     required TResult Function() success,
+    required TResult Function() userAuthenticated,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -724,6 +891,7 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
     TResult? Function()? inProgress,
     TResult? Function(String? url)? retrievedSplashImageURL,
     TResult? Function()? success,
+    TResult? Function()? userAuthenticated,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -736,6 +904,7 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
     TResult Function()? inProgress,
     TResult Function(String? url)? retrievedSplashImageURL,
     TResult Function()? success,
+    TResult Function()? userAuthenticated,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -753,6 +922,7 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
     required TResult Function(_RetrievedSplashImageURL value)
         retrievedSplashImageURL,
     required TResult Function(_Success value) success,
+    required TResult Function(_UserAuthenticated value) userAuthenticated,
     required TResult Function(_Error value) error,
   }) {
     return error(this);
@@ -765,6 +935,7 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
     TResult? Function(_Success value)? success,
+    TResult? Function(_UserAuthenticated value)? userAuthenticated,
     TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
@@ -777,6 +948,7 @@ class _$_Error with DiagnosticableTreeMixin implements _Error {
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_RetrievedSplashImageURL value)? retrievedSplashImageURL,
     TResult Function(_Success value)? success,
+    TResult Function(_UserAuthenticated value)? userAuthenticated,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {

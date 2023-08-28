@@ -9,9 +9,14 @@ import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.d
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CouponContainer extends ConsumerWidget {
-  const CouponContainer(this.cardProduct, this.estimated, {Key? key}) : super(key: key);
+  const CouponContainer(
+      this.cardProduct, this.estimated, this.qty, this.transactionType,
+      {Key? key})
+      : super(key: key);
   final CardProduct cardProduct;
   final EstimateTransactionResponse estimated;
+  final int qty;
+  final String transactionType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,7 +38,12 @@ class CouponContainer extends ConsumerWidget {
             ),
           ),
           InkWell(
-            onTap: () => Dialogs.getCoupongNumberDialog(context, ref, cardProduct),
+            onTap: () => Dialogs.getCoupongNumberDialog(
+                context,
+                ref,
+                cardProduct,
+                transactionType == "newcard" ? null : estimated.primaryCard,
+                qty),
             child: Container(
               padding: const EdgeInsets.all(20.0),
               decoration: BoxDecoration(
@@ -50,7 +60,8 @@ class CouponContainer extends ConsumerWidget {
                   const SizedBox(width: 5.0),
                   estimated.couponDiscountAmount == null
                       ? Text(
-                          SplashScreenNotifier.getLanguageLabel('Add coupons and save more'),
+                          SplashScreenNotifier.getLanguageLabel(
+                              'Add coupons and save more'),
                           style: const TextStyle(
                             color: CustomColors.hardOrange,
                             fontWeight: FontWeight.bold,
@@ -62,13 +73,16 @@ class CouponContainer extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               MulishText(
-                                text: '${estimated.couponNumber}(${estimated.couponDiscountAmount?.toInt()}%)',
+                                text:
+                                    '${estimated.couponNumber}(${estimated.couponDiscountAmount?.toInt()}%)',
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w600,
                                 fontColor: CustomColors.hardOrange,
                               ),
                               TextButton(
-                                onPressed: () => ref.read(estimateStateProvider.notifier).resetCoupon(),
+                                onPressed: () => ref
+                                    .read(estimateStateProvider.notifier)
+                                    .resetCoupon(),
                                 style: ButtonStyle(
                                   overlayColor: MaterialStateColor.resolveWith(
                                     (states) => CustomColors.customOrange,

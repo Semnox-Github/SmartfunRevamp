@@ -16,11 +16,11 @@ class ConfigRepositoryImpl implements ConfigRepository {
 
   ConfigRepositoryImpl(this._api);
   @override
-  Future<Either<Failure, ParafaitDefaultsResponse>> getParafaitDefaults() async {
+  Future<Either<Failure, ParafaitDefaultsResponse>> getParafaitDefaults(int siteId) async {
     try {
       final systemUser = Get.find<SystemUser>();
       final response = await _api.getParafaitDefaults(
-        SplashScreenNotifier.getMasterSite().toString(),
+        siteId.toString(),
         systemUser.userPKId,
         systemUser.machineId,
       );

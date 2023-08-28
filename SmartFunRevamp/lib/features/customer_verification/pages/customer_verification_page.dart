@@ -4,34 +4,31 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
-import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
-import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/account/provider/update_account/update_account_provider.dart';
-import 'package:semnox/features/home/widgets/more_view_widgets/round_rectangle_picture.dart';
+import 'package:semnox/features/account/widget/custom_verify_textfiel.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
-import 'widget/custom_verify_textfiel.dart';
-
-class AccountPage extends ConsumerStatefulWidget {
-  const AccountPage({super.key});
+class CustomerVerificationPage extends ConsumerStatefulWidget {
+  const CustomerVerificationPage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _AccountPage();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CustomerVerificationPage();
 }
 
-class _AccountPage extends ConsumerState<AccountPage> {
+class _CustomerVerificationPage
+    extends ConsumerState<CustomerVerificationPage> {
   final _formKey = GlobalKey<FormState>();
   Map<String, dynamic> request = {};
 
@@ -39,10 +36,7 @@ class _AccountPage extends ConsumerState<AccountPage> {
   Widget build(BuildContext context) {
     final metaData = ref.watch(uiMetaDataProvider);
     final user = Get.find<CustomerDTO>();
-    // Map<String, dynamic> userToJson = {...user.toJson()};
-    // final profileDto = userToJson["ProfileDto"];
-    // String newEmail = '';
-    // String newPhone = '';
+    Map<String, dynamic> userToJson = {...user.toJson()};
     ref.listen(
       updateAccountProvider,
       (_, next) {
@@ -54,10 +48,15 @@ class _AccountPage extends ConsumerState<AccountPage> {
               context: context,
               dialogType: DialogType.success,
               headerAnimationLoop: false,
+              btnOkText: SplashScreenNotifier.getLanguageLabel("Continue"),
+              btnOkOnPress: () {},
+              onDismissCallback: (_) {
+                Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
+              },
               body: Container(
                 margin: const EdgeInsets.symmetric(vertical: 10.0),
                 child: const MulishText(
-                  text: 'Profile Updated Succesfully.',
+                  text: 'Customer Verified.',
                   fontSize: 25.0,
                   textAlign: TextAlign.center,
                 ),
@@ -76,8 +75,8 @@ class _AccountPage extends ConsumerState<AccountPage> {
     );
 
     return Scaffold(
-      appBar:
-          CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Account')),
+      appBar: CustomAppBar(
+          title: SplashScreenNotifier.getLanguageLabel('Verification')),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -86,30 +85,6 @@ class _AccountPage extends ConsumerState<AccountPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                RoundRectanglePicture(user: user),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: MulishText(
-                              text: 'Not implemented yet',
-                              fontSize: 20.0,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.edit_square),
-                      color: CustomColors.hardOrange,
-                    ),
-                    MulishText(
-                        text:
-                            SplashScreenNotifier.getLanguageLabel('Edit Photo'))
-                  ],
-                ),
                 metaData.when(
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
@@ -120,82 +95,14 @@ class _AccountPage extends ConsumerState<AccountPage> {
                     ),
                   ),
                   data: (metadata) {
+                    List<CustomerUIMetaData> propertiesToValidate = [
+                      ...metadata
+                    ];
+                    propertiesToValidate.removeWhere((element) =>
+                        element.customerFieldName != "CONTACT_PHONE" &&
+                        element.customerFieldName != "EMAIL");
                     return Column(
-                      children: metadata.map((field) {
-                        if (field.customerFieldValues is List) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                SplashScreenNotifier.getLanguageLabel(
-                                    field.entityFieldCaption),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              DropdownButtonFormField<String>(
-                                value: returnValue(field.customerFieldName,
-                                                field.customAttributeId)
-                                            .toString() ==
-                                        ""
-                                    ? field.customerFieldValues.first
-                                    : returnValue(field.customerFieldName,
-                                            field.customAttributeId)
-                                        .toString(),
-                                items:
-                                    List<String>.from(field.customerFieldValues)
-                                        .map((title) {
-                                  return DropdownMenuItem<String>(
-                                    value: title,
-                                    child: Text(
-                                        SplashScreenNotifier.getLanguageLabel(
-                                            title)),
-                                  );
-                                }).toList(),
-                                onChanged: (title) =>
-                                    request[field.customerFieldName] = {
-                                  "value": title,
-                                  "customAttributeId": field.customAttributeId,
-                                  "customerFieldType": field.customerFieldType
-                                },
-                              ),
-                            ],
-                          );
-                        }
-                        if (field.customerFieldName == "BIRTH_DATE" ||
-                            field.customerFieldType == "DATE") {
-                          return CustomDatePicker(
-                            initialText: returnValue(field.customerFieldName,
-                                    field.customAttributeId)
-                                .toString()
-                                .cleanDate(),
-                            initialDateTime: DateTime.parse(returnValue(
-                                            field.customerFieldName,
-                                            field.customAttributeId)
-                                        .toString() ==
-                                    ""
-                                ? DateTime.now().toString()
-                                : returnValue(field.customerFieldName,
-                                        field.customAttributeId)
-                                    .toString()),
-                            margin: const EdgeInsets.symmetric(vertical: 10.0),
-                            labelText: SplashScreenNotifier.getLanguageLabel(
-                                'Date of birth'),
-                            format: 'MM-dd-yyyy',
-                            onItemSelected: (dob) =>
-                                request[field.customerFieldName] = {
-                              "value": DateFormat('MM-dd-yyyy')
-                                  .format(dob)
-                                  .toString(),
-                              "customAttributeId": field.customAttributeId,
-                              "customerFieldType": field.customerFieldType
-                            },
-                            suffixIcon: const Icon(
-                              Icons.date_range_outlined,
-                              color: CustomColors.hardOrange,
-                            ),
-                          );
-                        }
+                      children: propertiesToValidate.map((field) {
                         if (field.customerFieldName == "CONTACT_PHONE") {
                           return CustomVerifyTextField(
                             onSaved: (value) =>
@@ -218,8 +125,8 @@ class _AccountPage extends ConsumerState<AccountPage> {
                               FilteringTextInputFormatter.digitsOnly
                             ],
                             required: field.validationType == "M",
-                            key: const Key("Phone"),
-                            verificationStatusInitialValue: true,
+                            key: const Key("PhoneV"),
+                            verificationStatusInitialValue: false,
                           );
                         }
                         if (field.customerFieldName == "EMAIL") {
@@ -241,11 +148,10 @@ class _AccountPage extends ConsumerState<AccountPage> {
                                     field.customAttributeId)
                                 .toString(),
                             required: field.validationType == "M",
-                            key: const Key("Email"),
-                            verificationStatusInitialValue: true,
+                            key: const Key("EmailV"),
+                            verificationStatusInitialValue: false,
                           );
                         }
-
                         return CustomTextField(
                           initialValue: returnValue(field.customerFieldName,
                                   field.customAttributeId)
@@ -268,62 +174,19 @@ class _AccountPage extends ConsumerState<AccountPage> {
                     );
                   },
                 ),
-                // CustomTextField(
-                //   onSaved: (firstName) => user.profilefirtName = firstName,
-                //   label: SplashScreenNotifier.getLanguageLabel('First Name'),
-                //   initialValue: user.firstName,
-                //   margins: const EdgeInsets.symmetric(vertical: 10.0),
-                // ),
-                // CustomTextField(
-                //   onSaved: (lastName) => user.profilelastName = lastName,
-                //   label: SplashScreenNotifier.getLanguageLabel('Last Name'),
-                //   initialValue: user.lastName,
-                //   margins: const EdgeInsets.symmetric(vertical: 10.0),
-                // ),
-                // CustomVerifyTextField(
-                //   onSaved: (email) => newEmail = email,
-                //   label: SplashScreenNotifier.getLanguageLabel('Email Address'),
-                //   initialValue: user.email,
-                //   margins: const EdgeInsets.symmetric(vertical: 10.0),
-                //   contactType: ContactType.email,
-                //   phoneOrEmail: user.email ?? '',
-                // ),
-                // CustomVerifyTextField(
-                //   onSaved: (phone) => newPhone = phone,
-                //   label: SplashScreenNotifier.getLanguageLabel('Phone'),
-                //   initialValue: user.phone,
-                //   margins: const EdgeInsets.symmetric(vertical: 10.0),
-                //   contactType: ContactType.phone,
-                //   phoneOrEmail: user.phone ?? '',
-                // ),
-                // CustomDatePicker(
-                //   margin: const EdgeInsets.symmetric(vertical: 10.0),
-                //   labelText: SplashScreenNotifier.getLanguageLabel('Date of birth'),
-                //   format: 'MM-dd-yyyy',
-                //   initialText: user.dateOfBirth?.cleanDate(),
-                //   onItemSelected: (dob) => user.profiledateOfBirth = DateFormat('MM-dd-yyyy').format(dob),
-                //   suffixIcon: const Icon(
-                //     Icons.date_range_outlined,
-                //     color: CustomColors.hardOrange,
-                //   ),
-                // ),
                 CustomButton(
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
+                      user.verified = true;
                       _formKey.currentState!.save();
                       ref
                           .read(updateAccountProvider.notifier)
                           .updateProfile(user, request);
                     }
                   },
-                  label: SplashScreenNotifier.getLanguageLabel('SAVE'),
+                  label: SplashScreenNotifier.getLanguageLabel('CONFIRM'),
                   margin: const EdgeInsets.symmetric(vertical: 20.0),
                 ),
-                CustomButton(
-                  onTap: () => Navigator.pushNamed(context, Routes.kDeleteOTP),
-                  label:
-                      SplashScreenNotifier.getLanguageLabel('DELETE PROFILE'),
-                )
               ],
             ),
           ),

@@ -18,8 +18,8 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
-import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class Dialogs {
@@ -58,8 +58,8 @@ class Dialogs {
     ).show();
   }
 
-  static void getCoupongNumberDialog(
-      BuildContext context, WidgetRef ref, CardProduct cardProduct) {
+  static void getCoupongNumberDialog(BuildContext context, WidgetRef ref,
+      CardProduct cardProduct, String? primaryCard, int qty) {
     final key = GlobalKey<FormState>();
     final siteId = ref.watch(selectedSiteIdProvider);
     String coupon = '';
@@ -81,10 +81,11 @@ class Dialogs {
         if (key.currentState!.validate()) {
           key.currentState!.save();
           ref.read(estimateStateProvider.notifier).getEstimateTransaction(
-                cardProduct,
-                dtoList: DiscountApplicationHistoryDTOList(-1, coupon, -1),
-                siteId: siteId,
-              );
+              cardProduct,
+              dtoList: DiscountApplicationHistoryDTOList(-1, coupon, -1),
+              siteId: siteId,
+              cardNumber: primaryCard,
+              quantity: qty);
         }
       },
     ).show();
@@ -144,7 +145,7 @@ class Dialogs {
                       Consumer(
                         builder: (context, ref, child) {
                           final parafaitDefault =
-                              ref.watch(parafaitDefaultsProvider).value;
+                              ref.watch(parafaitDefaultsProvider);
                           final currency = parafaitDefault?.getDefault(
                                   ParafaitDefaultsResponse.currencySymbol) ??
                               'USD';

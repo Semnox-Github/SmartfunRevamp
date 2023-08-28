@@ -18,7 +18,7 @@ import 'package:semnox_core/modules/execution_context/model/execution_context_dt
 
 void authenticaionDependecies() {
   //Repository
-  Get.lazyPut<AuthenticationRepository>(() => AuthenticationRepositoryImpl(Get.find()));
+  Get.lazyPut<AuthenticationRepository>(() => AuthenticationRepositoryImpl(Get.find(), Get.find()));
 
   //Use Cases
   Get.lazyPut<LoginUserUseCase>(() => LoginUserUseCase(Get.find()));

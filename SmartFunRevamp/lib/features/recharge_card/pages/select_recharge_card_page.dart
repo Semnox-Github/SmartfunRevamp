@@ -16,7 +16,7 @@ import 'package:semnox/features/recharge_card/widgets/disabled_bottom_button.dar
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart';
 import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
-import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
@@ -58,7 +58,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
 
   @override
   Widget build(BuildContext context) {
-    final parafaitDefault = ref.watch(parafaitDefaultsProvider).value;
+    final parafaitDefault = ref.watch(parafaitDefaultsProvider);
     final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
 
@@ -105,7 +105,7 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
           children: [
             Consumer(
               builder: (_, ref, __) {
-                final defaults = ref.watch(parafaitDefaultsProvider).value;
+                final defaults = ref.watch(parafaitDefaultsProvider);
                 final isOnlineRechargeEnabled = defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) == 'Y';
                 return SitesAppBarDropdown(
                   isEnabled: isOnlineRechargeEnabled,

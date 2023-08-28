@@ -4,21 +4,23 @@ import 'package:semnox_core/modules/customer/model/customer/phone_contact_dto.da
 import 'package:semnox_core/modules/customer/model/customer/profile_dto.dart';
 
 class CustomerDTO {
-  CustomerDTO(
-      {int? id,
-      int? profileId,
-      int? masterEntityId,
-      int? membershipId,
-      ProfileDTO? profileDto,
-      CustomDataSetDTO? customDataSetDto,
-      String? creationDate,
-      String? lastUpdateDate,
-      int? siteId,
-      String? guid,
-      // we need to check
-      //  String? memberShipName,
-      String? phone,
-      String? email}) {
+  CustomerDTO({
+    int? id,
+    int? profileId,
+    int? masterEntityId,
+    int? membershipId,
+    ProfileDTO? profileDto,
+    CustomDataSetDTO? customDataSetDto,
+    String? creationDate,
+    String? lastUpdateDate,
+    int? siteId,
+    String? guid,
+    // we need to check
+    //  String? memberShipName,
+    String? phone,
+    String? email,
+    bool? verified,
+  }) {
     _id = id;
     _profileId = profileId;
     _masterEntityId = masterEntityId;
@@ -32,6 +34,7 @@ class CustomerDTO {
     //  _memberShipName = memberShipName;
     _phone = phone;
     _email = email;
+    _verified = verified;
   }
 
   int? _id;
@@ -47,6 +50,7 @@ class CustomerDTO {
   String? _memberShipName;
   String? _phone;
   String? _email;
+  bool? _verified;
 
   int? get id => _id;
   int? get profileId => _profileId;
@@ -60,6 +64,7 @@ class CustomerDTO {
   String? get memberShipName => _memberShipName;
   String? get phone => _phone;
   String? get email => _email;
+  bool? get verified => _verified;
 
   // ProfileDTO gettter
   ProfileDTO? get profileDto => _profileDto;
@@ -87,7 +92,8 @@ class CustomerDTO {
   String? get lastLoginTime => _profileDto?.lastLoginTime;
   List<PhoneContactDTO>? get contactDtoList => _profileDto?.contactDtoList;
   List<AddressDTO>? get addressDtoList => _profileDto?.addressDtoList;
-  dynamic? get profileContentHistoryDtoList => _profileDto?.profileContentHistoryDtoList;
+  dynamic? get profileContentHistoryDtoList =>
+      _profileDto?.profileContentHistoryDtoList;
   bool? get optInPromotions => _profileDto?.optInPromotions;
   String? get optInPromotionsMode => _profileDto?.optInPromotionsMode;
   String? get optInLastUpdatedDate => _profileDto?.optInLastUpdatedDate;
@@ -153,15 +159,19 @@ class CustomerDTO {
     _profileDto?.addressDtoList = addressDtoList;
   }
 
-  set email (String? email){
+  set email(String? email) {
     _email = email;
   }
 
-  set phone (String? phone){
+  set verified(bool? verified) {
+    _verified = verified;
+  }
+
+  set phone(String? phone) {
     _phone = phone;
   }
 
-   set customDataSetDto (CustomDataSetDTO? customDataSetDto){
+  set customDataSetDto(CustomDataSetDTO? customDataSetDto) {
     _customDataSetDto = customDataSetDto;
   }
 
@@ -180,6 +190,7 @@ class CustomerDTO {
       //  memberShipName: json["MemberShipName"],
       phone: json["PhoneNumber"],
       email: json["Email"],
+      verified: json["Verified"],
     );
   }
 
@@ -196,7 +207,8 @@ class CustomerDTO {
         "Guid": guid,
         //   "MemberShipName": memberShipName,
         "PhoneNumber": phone,
-        "Email": email
+        "Email": email,
+        "Verified": verified
       };
 }
 

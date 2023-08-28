@@ -22,6 +22,7 @@ class CustomVerifyTextField extends ConsumerStatefulWidget {
     this.formatters,
     this.initialValue,
     this.required = true,
+    required this.verificationStatusInitialValue,
   }) : super(key: key);
   final Function(String) onSaved;
   final String label;
@@ -34,21 +35,15 @@ class CustomVerifyTextField extends ConsumerStatefulWidget {
   final ContactType contactType;
   final String phoneOrEmail;
   final bool required;
+  final bool verificationStatusInitialValue;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _CustomVerifyTextField();
 }
 
 class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
-  late bool emailVerifiedFlag;
-  late bool phoneVerifiedFlag;
-
-  @override
-  void initState() {
-    super.initState();
-    emailVerifiedFlag = true;
-    phoneVerifiedFlag = true;
-  }
+  late bool emailVerifiedFlag = widget.verificationStatusInitialValue;
+  late bool phoneVerifiedFlag = widget.verificationStatusInitialValue;
 
   callBackVerification() {
     switch (widget.contactType.valueString) {
@@ -112,12 +107,11 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
                           if (value!.isEmpty && widget.required) {
                             return SplashScreenNotifier.getLanguageLabel(
                                 'Required');
-                          } else if ((value.isEmpty &&
-                                  widget.contactType.valueString == "Email" &&
-                                  !emailVerifiedFlag) ||
-                              (value.isEmpty &&
-                                  widget.contactType.valueString == "Phone" &&
-                                  !phoneVerifiedFlag)) {
+                          } else if ((widget.contactType.valueString ==
+                                      "Email" &&
+                                  emailVerifiedFlag == false) ||
+                              (widget.contactType.valueString == "Phone" &&
+                                  phoneVerifiedFlag == false)) {
                             return SplashScreenNotifier.getLanguageLabel(
                               'Please verify your ${widget.contactType.valueString}',
                             );

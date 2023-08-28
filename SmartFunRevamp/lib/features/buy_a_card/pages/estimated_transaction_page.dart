@@ -17,7 +17,14 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class EstimatedTransactionPage extends ConsumerWidget {
-  const EstimatedTransactionPage({Key? key, required this.cardProduct, this.cardSelected, required this.transactionType, required this.qty, this.finalPrice}) : super(key: key);
+  const EstimatedTransactionPage(
+      {Key? key,
+      required this.cardProduct,
+      this.cardSelected,
+      required this.transactionType,
+      required this.qty,
+      this.finalPrice})
+      : super(key: key);
 
   final CardProduct cardProduct;
   final CardDetails? cardSelected;
@@ -29,15 +36,18 @@ class EstimatedTransactionPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     /* Ver card number acount Numbre*/
     final siteId = ref.watch(selectedSiteIdProvider);
-    ref
-        .read(estimateStateProvider.notifier)
-        .getEstimateTransaction(cardProduct, cardNumber: cardSelected != null ? cardSelected!.accountNumber : '', quantity: qty, siteId: siteId, finalPrice: finalPrice!);
+    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct,
+        cardNumber: cardSelected != null ? cardSelected!.accountNumber : '',
+        quantity: qty,
+        siteId: siteId,
+        finalPrice: finalPrice!);
     ref.listen(estimateStateProvider, (previous, next) {
       next.maybeWhen(
         orElse: () => {},
         transactionEstimated: (estimated) {
           if (estimated.couponDiscountAmount != null) {
-            Dialogs.couponSuccessDialog(context, estimated.transactionDiscountAmount);
+            Dialogs.couponSuccessDialog(
+                context, estimated.transactionDiscountAmount);
           }
         },
         invalidCoupon: (message) {
@@ -53,8 +63,15 @@ class EstimatedTransactionPage extends ConsumerWidget {
       );
     });
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
-    final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
-    final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
+    final areDiscountsEnabled =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.enableDiscounts) ==
+            'Y';
+    final currency =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ??
+            'USD';
+    final format =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
+            '#,##0.00';
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -73,13 +90,15 @@ class EstimatedTransactionPage extends ConsumerWidget {
           builder: (context, ref, child) {
             return ref.watch(estimateStateProvider).maybeWhen(
                   orElse: () => Container(),
-                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  inProgress: () =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
                   transactionEstimated: (transactionResponse) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          SplashScreenNotifier.getLanguageLabel('Recharge Value'),
+                          SplashScreenNotifier.getLanguageLabel(
+                              'Recharge Value'),
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -103,7 +122,10 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                cardProduct.productType == "VARIABLECARD" ? finalPrice.toCurrency(currency, format) : (cardProduct.finalPrice * qty).toCurrency(currency, format),
+                                cardProduct.productType == "VARIABLECARD"
+                                    ? finalPrice.toCurrency(currency, format)
+                                    : (cardProduct.finalPrice * qty)
+                                        .toCurrency(currency, format),
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -112,34 +134,54 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             ],
                           ),
                         ),
-                        CouponContainer(cardProduct, transactionResponse),
+                        if (areDiscountsEnabled)
+                          CouponContainer(cardProduct, transactionResponse, qty,
+                              transactionType)
+                        else
+                          const SizedBox(
+                            height: 20,
+                          ),
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              SplashScreenNotifier.getLanguageLabel('Bills Details'),
+                              SplashScreenNotifier.getLanguageLabel(
+                                  'Bills Details'),
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             BillDetailRow(
-                              description: SplashScreenNotifier.getLanguageLabel('Recharge Amount'),
-                              amount: transactionResponse.transactionAmount.toCurrency(currency, format),
+                              description:
+                                  SplashScreenNotifier.getLanguageLabel(
+                                      'Recharge Amount'),
+                              amount: transactionResponse.transactionAmount
+                                  .toCurrency(currency, format),
                             ),
                             BillDetailRow(
-                              description: SplashScreenNotifier.getLanguageLabel('Tax'),
-                              amount: transactionResponse.taxAmount.toCurrency(currency, format),
+                              description:
+                                  SplashScreenNotifier.getLanguageLabel('Tax'),
+                              amount: transactionResponse.taxAmount
+                                  .toCurrency(currency, format),
                             ),
                             BillDetailRow(
-                              description: SplashScreenNotifier.getLanguageLabel('Discount (Offer)'),
-                              amount: transactionResponse.transactionDiscountAmount.toCurrency(currency, format),
+                              description:
+                                  SplashScreenNotifier.getLanguageLabel(
+                                      'Discount (Offer)'),
+                              amount: transactionResponse
+                                  .transactionDiscountAmount
+                                  .toCurrency(currency, format),
                             ),
-                            if (transactionResponse.couponDiscountAmount != null)
+                            if (transactionResponse.couponDiscountAmount !=
+                                null)
                               BillDetailRow(
-                                description: SplashScreenNotifier.getLanguageLabel('Discount (Coupon)'),
-                                amount: transactionResponse.couponDiscountAmount.toCurrency(currency, format),
+                                description:
+                                    SplashScreenNotifier.getLanguageLabel(
+                                        'Discount (Coupon)'),
+                                amount: transactionResponse.couponDiscountAmount
+                                    .toCurrency(currency, format),
                               ),
                             const Divider(
                               color: CustomColors.customLigthBlue,
@@ -150,14 +192,16 @@ class EstimatedTransactionPage extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  SplashScreenNotifier.getLanguageLabel('Payable Amount'),
+                                  SplashScreenNotifier.getLanguageLabel(
+                                      'Payable Amount'),
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
-                                  transactionResponse.transactionNetAmount.toCurrency(currency, format),
+                                  transactionResponse.transactionNetAmount
+                                      .toCurrency(currency, format),
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -172,7 +216,8 @@ class EstimatedTransactionPage extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              transactionResponse.transactionNetAmount.toCurrency(currency, format),
+                              transactionResponse.transactionNetAmount
+                                  .toCurrency(currency, format),
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -193,7 +238,8 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                   ),
                                 );
                               },
-                              label: SplashScreenNotifier.getLanguageLabel('PROCEED TO PAY'),
+                              label: SplashScreenNotifier.getLanguageLabel(
+                                  'PROCEED TO PAY'),
                               width: 200,
                             ),
                           ],

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
@@ -94,11 +95,14 @@ class _CustomerVerificationPage
                     ),
                   ),
                   data: (metadata) {
-                    metadata.removeWhere((element) =>
+                    List<CustomerUIMetaData> propertiesToValidate = [
+                      ...metadata
+                    ];
+                    propertiesToValidate.removeWhere((element) =>
                         element.customerFieldName != "CONTACT_PHONE" &&
                         element.customerFieldName != "EMAIL");
                     return Column(
-                      children: metadata.map((field) {
+                      children: propertiesToValidate.map((field) {
                         if (field.customerFieldName == "CONTACT_PHONE") {
                           return CustomVerifyTextField(
                             onSaved: (value) =>

@@ -13,7 +13,9 @@ import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/features/splash/splashscreen.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 const CameraPosition kGooglePlex = CameraPosition(
@@ -34,11 +36,6 @@ final _locationProvider = FutureProvider.autoDispose<Position>((ref) async {
   return await geolocator.getCurrentPosition();
 });
 
-// final userLocationProvider = StateProvider.autoDispose<Position?>((ref) {
-//   final position = ref.watch(_locationProvider).valueOrNull;
-//   return position;
-// });
-
 class MapPage extends ConsumerStatefulWidget {
   const MapPage({super.key});
 
@@ -51,8 +48,10 @@ class _MapPageState extends ConsumerState<MapPage> {
   late GoogleMapController _mapController;
   bool hasSelectedSite = false;
   late SiteViewDTO selectedSite;
+
   @override
   Widget build(BuildContext context) {
+    final customer = ref.watch(customDTOProvider).valueOrNull;
     ref.listen(
       selectLocationStateProvider,
       (_, next) {
@@ -67,7 +66,7 @@ class _MapPageState extends ConsumerState<MapPage> {
             ref.read(loginProvider.notifier).selectedSite = selectedSite;
             ref.read(loginProvider.notifier).saveSelectedSite();
             context.loaderOverlay.hide();
-            Navigator.pushReplacementNamed(context, Routes.kHomePage);
+            registerLoggedUser(customer!).then((value) => Navigator.pushReplacementNamed(context, Routes.kHomePage));
           },
         );
       },

@@ -126,6 +126,7 @@ class GluttonLocalDataSource implements LocalDataSource {
     try {
       await Glutton.digest(LocalDataSource.kUserId);
       await Glutton.digest(LocalDataSource.kUser);
+      await Glutton.digest(LocalDataSource.kSelectedSite);
     } catch (e) {
       Logger().e(e);
     }

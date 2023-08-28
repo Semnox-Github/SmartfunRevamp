@@ -13,7 +13,7 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
-Future<void> _registerLoggedUser(CustomerDTO customerDTO) async {
+Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   Logger().d('Registering User');
   final localDataSource = Get.find<LocalDataSource>();
   final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
@@ -57,7 +57,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       (_, next) {
         next.maybeWhen(
           orElse: () {},
-          success: (cms, langDto, masterSite, parafaitDefaults) {
+          success: (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection) {
             ref.read(newHomePageCMSProvider.notifier).update((_) => cms);
             ref.read(languangeContainerProvider.notifier).update((_) => langDto);
             ref.read(masterSiteProvider.notifier).update((_) => masterSite);
@@ -65,7 +65,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             if (customer == null) {
               nextPage();
             } else {
-              _registerLoggedUser(customer).then((value) => Navigator.pushReplacementNamed(context, Routes.kHomePage));
+              if (needsSiteSelection) {
+                Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
+              } else {
+                registerLoggedUser(customer).then((value) => Navigator.pushReplacementNamed(context, Routes.kHomePage));
+              }
             }
           },
         );

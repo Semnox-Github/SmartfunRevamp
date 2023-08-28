@@ -25,7 +25,8 @@ mixin _$NewSplashScreenState {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)
         success,
   }) =>
       throw _privateConstructorUsedError;
@@ -38,7 +39,8 @@ mixin _$NewSplashScreenState {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)?
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)?
         success,
   }) =>
       throw _privateConstructorUsedError;
@@ -51,7 +53,8 @@ mixin _$NewSplashScreenState {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)?
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)?
         success,
     required TResult orElse(),
   }) =>
@@ -148,7 +151,8 @@ class _$_InProgress implements _InProgress {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)
         success,
   }) {
     return inProgress();
@@ -164,7 +168,8 @@ class _$_InProgress implements _InProgress {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)?
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)?
         success,
   }) {
     return inProgress?.call();
@@ -180,7 +185,8 @@ class _$_InProgress implements _InProgress {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)?
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)?
         success,
     required TResult orElse(),
   }) {
@@ -302,7 +308,8 @@ class _$_Error implements _Error {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)
         success,
   }) {
     return error(message);
@@ -318,7 +325,8 @@ class _$_Error implements _Error {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)?
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)?
         success,
   }) {
     return error?.call(message);
@@ -334,7 +342,8 @@ class _$_Error implements _Error {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)?
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)?
         success,
     required TResult orElse(),
   }) {
@@ -465,7 +474,8 @@ class _$_RetrievedSplashImageURL implements _RetrievedSplashImageURL {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)
         success,
   }) {
     return retrievedSplashImageURL(url);
@@ -481,7 +491,8 @@ class _$_RetrievedSplashImageURL implements _RetrievedSplashImageURL {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)?
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)?
         success,
   }) {
     return retrievedSplashImageURL?.call(url);
@@ -497,7 +508,8 @@ class _$_RetrievedSplashImageURL implements _RetrievedSplashImageURL {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)?
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)?
         success,
     required TResult orElse(),
   }) {
@@ -566,7 +578,8 @@ abstract class _$$_SuccessCopyWith<$Res> {
       {HomePageCMSResponse homePageCMSResponse,
       LanguageContainerDTO languageContainerDTO,
       SiteViewDTO siteViewDTO,
-      ParafaitDefaultsResponse parafaitDefaultsResponse});
+      ParafaitDefaultsResponse parafaitDefaultsResponse,
+      bool needsSiteSelection});
 }
 
 /// @nodoc
@@ -583,6 +596,7 @@ class __$$_SuccessCopyWithImpl<$Res>
     Object? languageContainerDTO = null,
     Object? siteViewDTO = null,
     Object? parafaitDefaultsResponse = null,
+    Object? needsSiteSelection = null,
   }) {
     return _then(_$_Success(
       homePageCMSResponse: null == homePageCMSResponse
@@ -601,6 +615,10 @@ class __$$_SuccessCopyWithImpl<$Res>
           ? _value.parafaitDefaultsResponse
           : parafaitDefaultsResponse // ignore: cast_nullable_to_non_nullable
               as ParafaitDefaultsResponse,
+      needsSiteSelection: null == needsSiteSelection
+          ? _value.needsSiteSelection
+          : needsSiteSelection // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -612,7 +630,8 @@ class _$_Success implements _Success {
       {required this.homePageCMSResponse,
       required this.languageContainerDTO,
       required this.siteViewDTO,
-      required this.parafaitDefaultsResponse});
+      required this.parafaitDefaultsResponse,
+      required this.needsSiteSelection});
 
   @override
   final HomePageCMSResponse homePageCMSResponse;
@@ -622,10 +641,12 @@ class _$_Success implements _Success {
   final SiteViewDTO siteViewDTO;
   @override
   final ParafaitDefaultsResponse parafaitDefaultsResponse;
+  @override
+  final bool needsSiteSelection;
 
   @override
   String toString() {
-    return 'NewSplashScreenState.success(homePageCMSResponse: $homePageCMSResponse, languageContainerDTO: $languageContainerDTO, siteViewDTO: $siteViewDTO, parafaitDefaultsResponse: $parafaitDefaultsResponse)';
+    return 'NewSplashScreenState.success(homePageCMSResponse: $homePageCMSResponse, languageContainerDTO: $languageContainerDTO, siteViewDTO: $siteViewDTO, parafaitDefaultsResponse: $parafaitDefaultsResponse, needsSiteSelection: $needsSiteSelection)';
   }
 
   @override
@@ -641,12 +662,19 @@ class _$_Success implements _Success {
                 other.siteViewDTO == siteViewDTO) &&
             (identical(
                     other.parafaitDefaultsResponse, parafaitDefaultsResponse) ||
-                other.parafaitDefaultsResponse == parafaitDefaultsResponse));
+                other.parafaitDefaultsResponse == parafaitDefaultsResponse) &&
+            (identical(other.needsSiteSelection, needsSiteSelection) ||
+                other.needsSiteSelection == needsSiteSelection));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, homePageCMSResponse,
-      languageContainerDTO, siteViewDTO, parafaitDefaultsResponse);
+  int get hashCode => Object.hash(
+      runtimeType,
+      homePageCMSResponse,
+      languageContainerDTO,
+      siteViewDTO,
+      parafaitDefaultsResponse,
+      needsSiteSelection);
 
   @JsonKey(ignore: true)
   @override
@@ -664,11 +692,12 @@ class _$_Success implements _Success {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)
         success,
   }) {
     return success(homePageCMSResponse, languageContainerDTO, siteViewDTO,
-        parafaitDefaultsResponse);
+        parafaitDefaultsResponse, needsSiteSelection);
   }
 
   @override
@@ -681,11 +710,12 @@ class _$_Success implements _Success {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)?
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)?
         success,
   }) {
     return success?.call(homePageCMSResponse, languageContainerDTO, siteViewDTO,
-        parafaitDefaultsResponse);
+        parafaitDefaultsResponse, needsSiteSelection);
   }
 
   @override
@@ -698,13 +728,14 @@ class _$_Success implements _Success {
             HomePageCMSResponse homePageCMSResponse,
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
-            ParafaitDefaultsResponse parafaitDefaultsResponse)?
+            ParafaitDefaultsResponse parafaitDefaultsResponse,
+            bool needsSiteSelection)?
         success,
     required TResult orElse(),
   }) {
     if (success != null) {
       return success(homePageCMSResponse, languageContainerDTO, siteViewDTO,
-          parafaitDefaultsResponse);
+          parafaitDefaultsResponse, needsSiteSelection);
     }
     return orElse();
   }
@@ -750,16 +781,17 @@ class _$_Success implements _Success {
 
 abstract class _Success implements NewSplashScreenState {
   const factory _Success(
-          {required final HomePageCMSResponse homePageCMSResponse,
-          required final LanguageContainerDTO languageContainerDTO,
-          required final SiteViewDTO siteViewDTO,
-          required final ParafaitDefaultsResponse parafaitDefaultsResponse}) =
-      _$_Success;
+      {required final HomePageCMSResponse homePageCMSResponse,
+      required final LanguageContainerDTO languageContainerDTO,
+      required final SiteViewDTO siteViewDTO,
+      required final ParafaitDefaultsResponse parafaitDefaultsResponse,
+      required final bool needsSiteSelection}) = _$_Success;
 
   HomePageCMSResponse get homePageCMSResponse;
   LanguageContainerDTO get languageContainerDTO;
   SiteViewDTO get siteViewDTO;
   ParafaitDefaultsResponse get parafaitDefaultsResponse;
+  bool get needsSiteSelection;
   @JsonKey(ignore: true)
   _$$_SuccessCopyWith<_$_Success> get copyWith =>
       throw _privateConstructorUsedError;

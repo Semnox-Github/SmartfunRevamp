@@ -127,13 +127,6 @@ class AfterSplashScreen extends ConsumerWidget {
                       CustomButton(
                         onTap: () {
                           Navigator.pushReplacementNamed(context, Routes.kLogInPage);
-                          // if (customer != null) {
-                          //   _registerLoggedUser(customer).then(
-                          //     (value) => Navigator.pushReplacementNamed(context, Routes.kHomePage),
-                          //   );
-                          // } else {
-                          //   Navigator.pushReplacementNamed(context, Routes.kLogInPage);
-                          // }
                         },
                         label: SplashScreenNotifier.getLanguageLabel("LOGIN"),
                       )

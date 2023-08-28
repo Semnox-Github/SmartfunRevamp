@@ -169,14 +169,17 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
       (l) => state = _Error(l.message),
       (r) async {
         if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
-          _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
+          await _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
         }
+        final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
+        Logger().d(selectedSite);
         await Future.delayed(const Duration(seconds: 3));
         state = _Success(
           homePageCMSResponse: r,
           languageContainerDTO: _languageContainerDTO,
           siteViewDTO: masterSite!,
           parafaitDefaultsResponse: _parafaitDefaultsResponse,
+          needsSiteSelection: selectedSite == null,
         );
       },
     );

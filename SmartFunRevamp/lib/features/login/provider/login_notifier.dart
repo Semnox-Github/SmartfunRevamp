@@ -225,16 +225,26 @@ class LoginNotifier extends StateNotifier<LoginState> {
     });
     state = response.fold(
       (l) => _Error(l.message),
-      (r) => const _OtpResend(),
+      (r) {
+        otpId = r;
+        return const _OtpResend();
+      },
     );
   }
 
-  void resendDeleteOtp() async {
+  void resendDeleteOtp(String phoneOrEmail) async {
     // ignore: unused_local_variable
     final response = await _sendOTPUseCase({
-      _phone.contains('@') ? 'EmailId' : 'Phone': _phone,
+      _phone.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail,
       'Source': 'Customer_Delete_Otp_Event'
     });
+    state = response.fold(
+      (l) => _Error(l.message),
+      (r) {
+        otpId = r;
+        return const _OtpResend();
+      },
+    );
   }
 
   void deleteProfile() async {

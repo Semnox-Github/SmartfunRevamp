@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/instance_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
@@ -16,6 +17,7 @@ import 'package:semnox/features/select_location/provider/select_location_provide
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/features/splash/splashscreen.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 const CameraPosition kGooglePlex = CameraPosition(
@@ -44,14 +46,20 @@ class MapPage extends ConsumerStatefulWidget {
 }
 
 class _MapPageState extends ConsumerState<MapPage> {
-  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
   late GoogleMapController _mapController;
   bool hasSelectedSite = false;
   late SiteViewDTO selectedSite;
 
   @override
   Widget build(BuildContext context) {
-    final customer = ref.watch(customDTOProvider).valueOrNull;
+    late CustomerDTO? customer = ref.watch(customDTOProvider).valueOrNull;
+    try {
+      customer = Get.find<CustomerDTO>();
+    } catch (e) {
+      customer = ref.watch(customDTOProvider).valueOrNull;
+    }
     ref.listen(
       selectLocationStateProvider,
       (_, next) {
@@ -66,7 +74,8 @@ class _MapPageState extends ConsumerState<MapPage> {
             ref.read(loginProvider.notifier).selectedSite = selectedSite;
             ref.read(loginProvider.notifier).saveSelectedSite();
             context.loaderOverlay.hide();
-            registerLoggedUser(customer!).then((value) => Navigator.pushReplacementNamed(context, Routes.kHomePage));
+            registerLoggedUser(customer!).then((value) =>
+                Navigator.pushReplacementNamed(context, Routes.kHomePage));
           },
         );
       },
@@ -101,7 +110,9 @@ class _MapPageState extends ConsumerState<MapPage> {
           ? CustomButton(
               label: 'Select',
               onTap: () {
-                ref.read(selectLocationStateProvider.notifier).selectSite(selectedSite);
+                ref
+                    .read(selectLocationStateProvider.notifier)
+                    .selectSite(selectedSite);
               },
             )
           : null,
@@ -112,7 +123,8 @@ class _MapPageState extends ConsumerState<MapPage> {
           builder: (context, ref, _) {
             return ref.watch(_locationProvider).when(
                   error: (_, __) => const SizedBox.shrink(),
-                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
                   data: (data) {
                     Set<Marker> markers = {};
                     Marker resultMarker = Marker(
@@ -123,14 +135,16 @@ class _MapPageState extends ConsumerState<MapPage> {
                     markers.add(resultMarker);
                     final sites = ref.watch(getAllSitesProvider);
                     return sites.when(
-                      loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                      loading: () => const Center(
+                          child: CircularProgressIndicator.adaptive()),
                       error: (_, __) => Center(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const Icon(Icons.error, color: Colors.red),
                             MulishText(
-                              text: SplashScreenNotifier.getLanguageLabel('There was an error'),
+                              text: SplashScreenNotifier.getLanguageLabel(
+                                  'There was an error'),
                             )
                           ],
                         ),
@@ -142,7 +156,8 @@ class _MapPageState extends ConsumerState<MapPage> {
                               markerId: MarkerId(site.siteName ?? ''),
                               infoWindow: InfoWindow(title: "${site.siteName}"),
                               position: LatLng(site.latitude!, site.longitude!),
-                              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+                              icon: BitmapDescriptor.defaultMarkerWithHue(
+                                  BitmapDescriptor.hueOrange),
                               onTap: () {
                                 selectedSite = site;
                                 if (!hasSelectedSite) {
@@ -161,7 +176,9 @@ class _MapPageState extends ConsumerState<MapPage> {
                           initialCameraPosition: kGooglePlex,
                           onMapCreated: (mapController) {
                             _mapController = mapController;
-                            _mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(data.latitude, data.longitude), 15));
+                            _mapController.animateCamera(
+                                CameraUpdate.newLatLngZoom(
+                                    LatLng(data.latitude, data.longitude), 15));
                             _controller.complete(mapController);
                           },
                           markers: markers,

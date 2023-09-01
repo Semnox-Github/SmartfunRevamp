@@ -13,7 +13,7 @@ class PrivacyPolicyPage extends StatefulWidget {
 class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
   final webviewController = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    ..loadRequest(Uri.parse(SplashScreenNotifier.getUrl("Privacy")));
+    ..loadRequest(Uri.parse(SplashScreenNotifier.getLookupValue("Privacy")));
 
   @override
   Widget build(BuildContext context) {

@@ -15,7 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'splash_screen_state.dart';
 part 'splash_screen_notifier.freezed.dart';
 
-final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashScreenState>(
+final splashScreenProvider =
+    StateNotifierProvider<SplashScreenNotifier, SplashScreenState>(
   (ref) => SplashScreenNotifier(),
 );
 
@@ -31,26 +32,38 @@ Map<dynamic, dynamic> languageLabes = {};
 String helpUrl = "";
 String privacyPolicyUrl = "";
 String termsUrl = "";
+String successRedirectURL = "";
+String failureRedirectURL = "";
+String cancelRedirectURL = "";
 int? masterSiteId;
 
 class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
   late String? splashScreenImgURL = '';
   SplashScreenNotifier() : super(const _InProgress());
 
-  static String getUrl(String site) {
-    String responseUrl = "";
+  static String getLookupValue(String site) {
+    String response = "";
     switch (site) {
       case "Help":
-        responseUrl = helpUrl;
+        response = helpUrl;
         break;
       case "Privacy":
-        responseUrl = privacyPolicyUrl;
+        response = privacyPolicyUrl;
         break;
       case "Terms":
-        responseUrl = termsUrl;
+        response = termsUrl;
+        break;
+      case "SUCCESS_REDIRECT_URL":
+        response = successRedirectURL;
+        break;
+      case "FAILURE_REDIRECT_URL":
+        response = failureRedirectURL;
+        break;
+      case "CANCEL_REDIRECT_URL":
+        response = cancelRedirectURL;
         break;
     }
-    return responseUrl;
+    return response;
   }
 
   static String getLanguageLabel(String labelKey) {
@@ -87,9 +100,12 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     final GetLookupsUseCase getLookupsUseCase = Get.find<GetLookupsUseCase>();
     final masterSiteId = ref.watch(masterSiteProvider)?.siteId ?? 1010;
     final response = await getLookupsUseCase(
-      siteId: (ref.read(loginProvider.notifier).selectedSite?.siteId.toString() ?? masterSiteId.toString()),
+      siteId:
+          (ref.read(loginProvider.notifier).selectedSite?.siteId.toString() ??
+              masterSiteId.toString()),
     );
     const infoLookupName = "SELFSERVICEAPP_CUSTOMLINKS";
+    const webSiteConfig = "WEB_SITE_CONFIGURATION";
     response.forEach((r) {
       for (var element in r.lookupsContainerDTOList) {
         if (element.lookupName == infoLookupName) {
@@ -103,6 +119,22 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
                 break;
               case "Terms of Use":
                 termsUrl = lookup.description.toString();
+                break;
+            }
+          }
+        }
+        //Payment callback URLs
+        if (element.lookupName == webSiteConfig) {
+          for (var lookup in element.lookupValuesContainerDTOList) {
+            switch (lookup.lookupValue) {
+              case "SUCCESS_REDIRECT_URL":
+                successRedirectURL = lookup.description.toString();
+                break;
+              case "FAILURE_REDIRECT_URL":
+                failureRedirectURL = lookup.description.toString();
+                break;
+              case "CANCEL_REDIRECT_URL":
+                cancelRedirectURL = lookup.description.toString();
                 break;
             }
           }

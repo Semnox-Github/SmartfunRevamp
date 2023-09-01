@@ -23,7 +23,14 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentOptionsPage extends ConsumerWidget {
-  const PaymentOptionsPage({Key? key, required this.transactionResponse, required this.cardProduct, this.cardDetails, required this.transactionType, this.finalPrice}) : super(key: key);
+  const PaymentOptionsPage(
+      {Key? key,
+      required this.transactionResponse,
+      required this.cardProduct,
+      this.cardDetails,
+      required this.transactionType,
+      this.finalPrice})
+      : super(key: key);
   final EstimateTransactionResponse transactionResponse;
   final CardProduct cardProduct;
   final CardDetails? cardDetails;
@@ -33,8 +40,12 @@ class PaymentOptionsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
-    final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
-    final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
+    final currency =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ??
+            'USD';
+    final format =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
+            '#,##0.00';
 
     return Scaffold(
       appBar: AppBar(
@@ -76,7 +87,8 @@ class PaymentOptionsPage extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    transactionResponse.transactionNetAmount.toCurrency(currency, format),
+                    transactionResponse.transactionNetAmount
+                        .toCurrency(currency, format),
                     style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -89,9 +101,13 @@ class PaymentOptionsPage extends ConsumerWidget {
             Expanded(
               child: Consumer(
                 builder: (context, ref, child) {
-                  return ref.watch(PaymentOptionsProvider.paymentModesProvider).when(
-                        error: (e, s) => MulishText(text: 'An error has ocurred $e'),
-                        loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  return ref
+                      .watch(PaymentOptionsProvider.paymentModesProvider)
+                      .when(
+                        error: (e, s) =>
+                            MulishText(text: 'An error has ocurred $e'),
+                        loading: () => const Center(
+                            child: CircularProgressIndicator.adaptive()),
                         data: (data) {
                           return ExpansionPaymentMethodsList(
                             paymentsMode: data,
@@ -140,16 +156,23 @@ class ExpansionPaymentMethodsList extends StatefulWidget {
   final String transactionType;
   final double? finalPrice;
   @override
-  State<ExpansionPaymentMethodsList> createState() => _ExpansionPaymentMethodsListState();
+  State<ExpansionPaymentMethodsList> createState() =>
+      _ExpansionPaymentMethodsListState();
 }
 
-class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsList> {
+class _ExpansionPaymentMethodsListState
+    extends State<ExpansionPaymentMethodsList> {
   List<PanelItem> _data = [];
-  final webviewController = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted);
+  final webviewController = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted);
   @override
   void initState() {
     super.initState();
-    _data = widget.paymentsMode.map((e) => PanelItem(paymentMode: e, isExpanded: widget.paymentsMode.length == 1 ? true : false)).toList();
+    _data = widget.paymentsMode
+        .map((e) => PanelItem(
+            paymentMode: e,
+            isExpanded: widget.paymentsMode.length == 1 ? true : false))
+        .toList();
   }
 
   @override
@@ -168,9 +191,15 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                         _data[i].isExpanded = true;
                         ref.read(hostedPaymentProvider.notifier).getHtml(
                               HostedPaymentGatewayRequest(
-                                hostedPaymentGateway: _data[panelIndex].paymentMode.paymentGateway?.lookupValue ?? '',
-                                amount: widget.transactionResponse.transactionNetAmount,
-                                transactionId: widget.transactionResponse.transactionId,
+                                hostedPaymentGateway: _data[panelIndex]
+                                        .paymentMode
+                                        .paymentGateway
+                                        ?.lookupValue ??
+                                    '',
+                                amount: widget
+                                    .transactionResponse.transactionNetAmount,
+                                transactionId:
+                                    widget.transactionResponse.transactionId,
                               ),
                             );
                       } else {
@@ -192,40 +221,99 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                     ),
                     body: ref.watch(hostedPaymentProvider).when(
                           initial: () => Container(),
-                          inProgress: () => const CircularProgressIndicator.adaptive(),
-                          error: (msg) => const Icon(Icons.error, color: Colors.green, size: 30.0),
+                          inProgress: () =>
+                              const CircularProgressIndicator.adaptive(),
+                          error: (msg) => const Icon(Icons.error,
+                              color: Colors.green, size: 30.0),
                           success: (data) {
-                            final htmlString = data.gatewayRequestFormString ?? data.gatewayRequestString;
-                            final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {Factory(() => EagerGestureRecognizer())};
+                            final htmlString = data.gatewayRequestFormString ??
+                                data.gatewayRequestString;
+                            final Set<Factory<OneSequenceGestureRecognizer>>
+                                gestureRecognizers = {
+                              Factory(() => EagerGestureRecognizer())
+                            };
                             if (htmlString.isNotEmpty && panelItem.isExpanded) {
-                              final uri = Uri.parse(Uri.dataFromString(htmlString, mimeType: 'text/html', encoding: Encoding.getByName('UTF-8')).toString());
+                              final uri = Uri.parse(Uri.dataFromString(
+                                      htmlString,
+                                      mimeType: 'text/html',
+                                      encoding: Encoding.getByName('UTF-8'))
+                                  .toString());
                               webviewController.loadRequest(uri);
                               webviewController.setNavigationDelegate(
                                 NavigationDelegate(
-                                  onNavigationRequest: (NavigationRequest request) {
+                                  onNavigationRequest:
+                                      (NavigationRequest request) {
                                     Logger().e(request.url);
-                                    if (request.url.contains(data.successURL)) {
+                                    //Lookups callback URLs
+                                    if (request.url.contains(
+                                        SplashScreenNotifier.getLookupValue(
+                                            "SUCCESS_REDIRECT_URL"))) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => PaymentSuccessPage(
-                                            amount: widget.transactionResponse.transactionNetAmount,
-                                            cardNumber: widget.transactionResponse.primaryCard,
-                                            transactionType: widget.transactionType,
-                                            productName: widget.cardProduct.productName,
+                                          builder: (context) =>
+                                              PaymentSuccessPage(
+                                            amount: widget.transactionResponse
+                                                .transactionNetAmount,
+                                            cardNumber: widget
+                                                .transactionResponse
+                                                .primaryCard,
+                                            transactionType:
+                                                widget.transactionType,
+                                            productName:
+                                                widget.cardProduct.productName,
                                           ),
                                         ),
                                       );
                                       return NavigationDecision.navigate;
-                                    } else if (request.url.contains(data.failureURL)) {
+                                    } else if (request.url.contains(
+                                        SplashScreenNotifier.getLookupValue(
+                                            "FAILURE_REDIRECT_URL"))) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => const PaymentFailedPage(),
+                                          builder: (context) =>
+                                              const PaymentFailedPage(),
                                         ),
                                       );
                                       return NavigationDecision.prevent;
-                                    } else if (request.url.contains(data.cancelURL)) {
+                                    } else if (request.url.contains(
+                                        SplashScreenNotifier.getLookupValue(
+                                            "CANCEL_REDIRECT_URL"))) {
+                                      return NavigationDecision.prevent;
+                                    }
+                                    //Payment Method callback URLs
+                                    if (request.url.contains(data.successURL)) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              PaymentSuccessPage(
+                                            amount: widget.transactionResponse
+                                                .transactionNetAmount,
+                                            cardNumber: widget
+                                                .transactionResponse
+                                                .primaryCard,
+                                            transactionType:
+                                                widget.transactionType,
+                                            productName:
+                                                widget.cardProduct.productName,
+                                          ),
+                                        ),
+                                      );
+                                      return NavigationDecision.navigate;
+                                    } else if (request.url
+                                        .contains(data.failureURL)) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const PaymentFailedPage(),
+                                        ),
+                                      );
+                                      return NavigationDecision.prevent;
+                                    } else if (request.url
+                                        .contains(data.cancelURL)) {
                                       return NavigationDecision.prevent;
                                     }
                                     return NavigationDecision.navigate;
@@ -233,7 +321,13 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                                 ),
                               );
                               return SizedBox(
-                                height: _data.length > 1 ? (MediaQuery.of(context).size.height * 0.70) - 150 : (MediaQuery.of(context).size.height * 0.80) - 150,
+                                height: _data.length > 1
+                                    ? (MediaQuery.of(context).size.height *
+                                            0.70) -
+                                        150
+                                    : (MediaQuery.of(context).size.height *
+                                            0.80) -
+                                        150,
                                 child: WebViewWidget(
                                   controller: webviewController,
                                   gestureRecognizers: gestureRecognizers,
@@ -247,7 +341,8 @@ class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsLis
                                     color: Colors.red,
                                   ),
                                   MulishText(
-                                    text: SplashScreenNotifier.getLanguageLabel("This payment mode is not available"),
+                                    text: SplashScreenNotifier.getLanguageLabel(
+                                        "This payment mode is not available"),
                                   ),
                                 ],
                               );

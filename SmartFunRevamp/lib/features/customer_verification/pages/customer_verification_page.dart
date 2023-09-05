@@ -36,7 +36,7 @@ class _CustomerVerificationPage
   Widget build(BuildContext context) {
     final metaData = ref.watch(uiMetaDataProvider);
     final user = Get.find<CustomerDTO>();
-    Map<String, dynamic> userToJson = {...user.toJson()};
+    // Map<String, dynamic> userToJson = {...user.toJson()};
     ref.listen(
       updateAccountProvider,
       (_, next) {

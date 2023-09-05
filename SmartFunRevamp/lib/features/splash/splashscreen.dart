@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
@@ -14,7 +13,6 @@ import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
-  Logger().d('Registering User');
   final localDataSource = Get.find<LocalDataSource>();
   final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
   final getExecutionContextUseCase = Get.find<GetExecutionContextUseCase>();

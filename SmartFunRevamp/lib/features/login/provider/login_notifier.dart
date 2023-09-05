@@ -18,6 +18,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
+import 'package:semnox/features/splash/splashscreen.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 part 'login_state.dart';
@@ -94,13 +95,14 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (l) => state = _Error(l.message),
       (customerDTO) async {
         registerUser(customerDTO);
+        registerLoggedUser(customerDTO);
         await _localDataSource.saveValue(
             LocalDataSource.kUserId, customerDTO.id.toString());
         if (customerDTO.verified != true) {
           state = const _CustomerVerificationNeeded();
         } else if (selectedSite?.siteName == null ||
-            previousUserId != customerDTO.id.toString() &&
-                defaultSiteId.isNullOrEmpty()) {
+            (previousUserId != customerDTO.id.toString() &&
+                previousUserId != null) /*&& defaultSiteId.isNullOrEmpty()*/) {
           state = const _SelectLocationNeeded();
         } else {
           getNewToken();
@@ -156,9 +158,10 @@ class LoginNotifier extends StateNotifier<LoginState> {
             LocalDataSource.kUserId, r.id.toString());
         if (r.verified != true) {
           state = const _CustomerVerificationNeeded();
-        } else if (selectedSite == null ||
-            previousUserId != r.id.toString() &&
-                defaultSiteId.isNullOrEmpty()) {
+        } else if (selectedSite == null &&
+            previousUserId != null &&
+            previousUserId !=
+                r.id.toString() /*&& defaultSiteId.isNullOrEmpty()*/) {
           state = const _SelectLocationNeeded();
         } else {
           getNewToken();

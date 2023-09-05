@@ -1,20 +1,24 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
+
 import 'package:logger/logger.dart';
 
-import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url_use_case.dart';
-import 'package:semnox/core/routes.dart';
 import 'package:semnox/di/injection_container.dart';
-import 'package:semnox/main.dart';
+
+String oldToken = '';
 
 class AuthorizationInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.baseUrl = '${Get.find<String>(tag: 'baseURL')}/api/';
+    if (options.path.contains('Product/ProductPrice')) {
+      oldToken = options.headers[HttpHeaders.authorizationHeader];
+      options.headers[HttpHeaders.authorizationHeader] = '';
+    }
+
     super.onRequest(options, handler);
   }
 
@@ -26,8 +30,6 @@ class AuthorizationInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == HttpStatus.unauthorized) {
-      final localDataSource = Get.find<LocalDataSource>();
-      await localDataSource.resetUser();
       final reAuthenticate = Get.find<AuthenticateBaseURLUseCase>();
       final response = await reAuthenticate();
       response.fold(
@@ -36,10 +38,24 @@ class AuthorizationInterceptor extends Interceptor {
         },
         (r) {
           authenticateApi(r, Get.find<String>(tag: 'baseURL'));
-          navigatorKey.currentState?.pushNamedAndRemoveUntil(Routes.kLogInPage, ModalRoute.withName(Routes.kLogInPage));
         },
       );
+      final opts = Options(
+        method: err.requestOptions.method,
+        headers: {
+          HttpHeaders.authorizationHeader: oldToken,
+        },
+      );
+
+      final cloneReq = await Dio().request(
+        '${err.requestOptions.baseUrl}${err.requestOptions.path}',
+        options: opts,
+        data: err.requestOptions.data,
+        queryParameters: err.requestOptions.queryParameters,
+      );
+      return handler.resolve(cloneReq);
+    } else {
+      return handler.next(err);
     }
-    handler.next(err);
   }
 }

@@ -10,5 +10,6 @@ class NewSplashScreenState with _$NewSplashScreenState {
     required LanguageContainerDTO languageContainerDTO,
     required SiteViewDTO siteViewDTO,
     required ParafaitDefaultsResponse parafaitDefaultsResponse,
+    required bool needsSiteSelection,
   }) = _Success;
 }

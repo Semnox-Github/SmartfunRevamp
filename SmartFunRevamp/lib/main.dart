@@ -17,13 +17,7 @@ import 'package:semnox/themes/main_theme.dart';
 import 'di/injection_container.dart' as di;
 import 'features/splash/splashscreen.dart';
 
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
-  }
-}
-
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid || Platform.isIOS) {
@@ -41,7 +35,6 @@ void main() async {
     };
   }
   di.init();
-  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -81,6 +74,7 @@ class MyApp extends StatelessWidget {
         ),
         child: MaterialApp(
           title: 'Flutter Demo',
+          navigatorKey: navigatorKey,
           routes: Routes.routesMap,
           onUnknownRoute: (settings) {
             return MaterialPageRoute(

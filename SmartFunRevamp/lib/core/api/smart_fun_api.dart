@@ -43,7 +43,7 @@ abstract class SmartFunApi {
         responseBody: false,
         requestHeader: false,
         responseHeader: false,
-        request: true,
+        request: false,
         error: true,
         compact: true,
         maxWidth: 150,

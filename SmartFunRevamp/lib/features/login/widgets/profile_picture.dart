@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
@@ -15,12 +16,17 @@ class ProfilePicture extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fInitial = customerDTO.firstName!.isNotEmpty ? '${customerDTO.firstName?[0]}' : '';
-    final lInitial = customerDTO.lastName!.isNotEmpty ? '${customerDTO.lastName?[0]}' : '';
-    final noImageColor = ref.watch(newHomePageCMSProvider)?.cmsModuleColorsHome?.profilePictureGradient;
+    final fInitial =
+        customerDTO.firstName!.isNotEmpty ? '${customerDTO.firstName?[0]}' : '';
+    final lInitial =
+        customerDTO.lastName!.isNotEmpty ? '${customerDTO.lastName?[0]}' : '';
+    final noImageColor = ref
+        .watch(newHomePageCMSProvider)
+        ?.cmsModuleColorsHome
+        ?.profilePictureGradient;
 
     return InkWell(
-      onTap: () async {},
+      onTap: () => Navigator.pushNamed(context, Routes.kAccount),
       child: Container(
         padding: const EdgeInsets.all(2.5),
         decoration: BoxDecoration(

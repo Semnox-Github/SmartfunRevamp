@@ -19,6 +19,7 @@ import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/account/provider/update_account/update_account_provider.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/round_rectangle_picture.dart';
+import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_dto.dart';
@@ -41,10 +42,10 @@ class _AccountPage extends ConsumerState<AccountPage> {
   Widget build(BuildContext context) {
     final metaData = ref.watch(uiMetaDataProvider);
     final user = Get.find<CustomerDTO>();
-    Map<String, dynamic> userToJson = {...user.toJson()};
-    final profileDto = userToJson["ProfileDto"];
-    String newEmail = '';
-    String newPhone = '';
+    // Map<String, dynamic> userToJson = {...user.toJson()};
+    // final profileDto = userToJson["ProfileDto"];
+    // String newEmail = '';
+    // String newPhone = '';
     ref.listen(
       updateAccountProvider,
       (_, next) {
@@ -322,7 +323,13 @@ class _AccountPage extends ConsumerState<AccountPage> {
                   margin: const EdgeInsets.symmetric(vertical: 20.0),
                 ),
                 CustomButton(
-                  onTap: () => Navigator.pushNamed(context, Routes.kDeleteOTP),
+                  onTap: () => {
+                    ref.read(loginProvider.notifier).resendDeleteOtp(
+                        user.phone == null || user.phone == ""
+                            ? user.email!
+                            : user.phone!),
+                    Navigator.pushNamed(context, Routes.kDeleteOTP)
+                  },
                   label:
                       SplashScreenNotifier.getLanguageLabel('DELETE PROFILE'),
                 )

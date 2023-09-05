@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
@@ -13,8 +12,7 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
-Future<void> _registerLoggedUser(CustomerDTO customerDTO) async {
-  Logger().d('Registering User');
+Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   final localDataSource = Get.find<LocalDataSource>();
   final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
   final getExecutionContextUseCase = Get.find<GetExecutionContextUseCase>();
@@ -57,7 +55,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       (_, next) {
         next.maybeWhen(
           orElse: () {},
-          success: (cms, langDto, masterSite, parafaitDefaults) {
+          success: (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection) {
             ref.read(newHomePageCMSProvider.notifier).update((_) => cms);
             ref.read(languangeContainerProvider.notifier).update((_) => langDto);
             ref.read(masterSiteProvider.notifier).update((_) => masterSite);
@@ -65,7 +63,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             if (customer == null) {
               nextPage();
             } else {
-              _registerLoggedUser(customer).then((value) => Navigator.pushReplacementNamed(context, Routes.kHomePage));
+              if (needsSiteSelection) {
+                Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
+              } else {
+                registerLoggedUser(customer).then((value) => Navigator.pushReplacementNamed(context, Routes.kHomePage));
+              }
             }
           },
         );

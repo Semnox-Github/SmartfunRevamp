@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
@@ -13,16 +14,14 @@ import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-
-String censorPhoneNumber(String phoneNumber) {
-  return phoneNumber.replaceRange(0, phoneNumber.length - 3, 'X' * (phoneNumber.length - 3));
-}
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class DeleteProfileOTPPage extends ConsumerStatefulWidget {
   const DeleteProfileOTPPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _DeleteProfileOTPPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _DeleteProfileOTPPageState();
 }
 
 class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
@@ -35,8 +34,9 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
 
   @override
   Widget build(BuildContext context) {
-    String phoneNumber = censorPhoneNumber(ref.read(loginProvider.notifier).phone);
-    ref.read(loginProvider.notifier).resendDeleteOtp();
+    final user = Get.find<CustomerDTO>();
+    String phoneNumber =
+        user.phone == null || user.phone == "" ? user.email! : user.phone!;
     ref.listen<LoginState>(loginProvider, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),
@@ -59,7 +59,8 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
     });
 
     return Scaffold(
-      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('OTP Verification')),
+      appBar: CustomAppBar(
+          title: SplashScreenNotifier.getLanguageLabel('OTP Verification')),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
         child: SingleChildScrollView(
@@ -68,7 +69,11 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                phoneNumber.contains('@') ? SplashScreenNotifier.getLanguageLabel('We have mailed you an OTP') : SplashScreenNotifier.getLanguageLabel('We have sent an OTP to your mobile number'),
+                phoneNumber.contains('@')
+                    ? SplashScreenNotifier.getLanguageLabel(
+                        'We have mailed you an OTP')
+                    : SplashScreenNotifier.getLanguageLabel(
+                        'We have sent an OTP to your mobile number'),
                 style: GoogleFonts.mulish(
                   fontWeight: FontWeight.bold,
                   fontSize: 14.0,
@@ -78,13 +83,10 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
                 margin: const EdgeInsets.symmetric(vertical: 40.0),
                 child: OtpPinField(
                   onSubmit: (otp) => {},
-                  onChange: (code) => {
-                    setState(() {
-                      otp = code;
-                    })
-                  },
+                  onChange: (code) => otp = code,
                   keyboardType: TextInputType.number,
-                  otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
+                  otpPinFieldDecoration:
+                      OtpPinFieldDecoration.defaultPinBoxDecoration,
                   otpPinFieldStyle: const OtpPinFieldStyle(
                     defaultFieldBorderColor: CustomColors.customOrange,
                     activeFieldBorderColor: CustomColors.hardOrange,
@@ -95,19 +97,24 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
                 ),
               ),
               MulishText(
-                text: SplashScreenNotifier.getLanguageLabel("Didn't receive the OTP?"),
+                text: SplashScreenNotifier.getLanguageLabel(
+                    "Didn't receive the OTP?"),
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.bold,
               ),
               const SizedBox(height: 10.0),
               CountdownText(
-                onPressed: () => ref.read(loginProvider.notifier).resendDeleteOtp(),
+                onPressed: () => ref
+                    .read(loginProvider.notifier)
+                    .resendDeleteOtp(phoneNumber),
               ),
               const SizedBox(height: 100.0),
               CustomButton(
                 onTap: () {
                   if (otp.isEmpty) {
-                    Fluttertoast.showToast(msg: SplashScreenNotifier.getLanguageLabel('Please enter the OTP'));
+                    Fluttertoast.showToast(
+                        msg: SplashScreenNotifier.getLanguageLabel(
+                            'Please enter the OTP'));
                   } else {
                     try {
                       ref.read(loginProvider.notifier).verifyDeleteOTP(otp);
@@ -116,7 +123,8 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
                     }
                   }
                 },
-                label: SplashScreenNotifier.getLanguageLabel('VERIFY & PROCEED'),
+                label:
+                    SplashScreenNotifier.getLanguageLabel('VERIFY & PROCEED'),
               )
             ],
           ),

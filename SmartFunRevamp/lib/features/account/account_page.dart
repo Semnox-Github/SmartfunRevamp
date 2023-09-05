@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
@@ -18,6 +23,8 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/account/provider/update_account/update_account_provider.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/round_rectangle_picture.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -37,8 +44,18 @@ class _AccountPage extends ConsumerState<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    final currenLang = ref.watch(currentLanguageProvider);
+    ref.watch(getStringForLocalization).maybeWhen(
+      orElse: () {
+        context.loaderOverlay.hide();
+      },
+      loading: () {
+        context.loaderOverlay.show();
+      },
+    );
     final metaData = ref.watch(uiMetaDataProvider);
     final user = Get.find<CustomerDTO>();
+
     Map<String, dynamic> userToJson = {...user.toJson()};
     final profileDto = userToJson["ProfileDto"];
     String newEmail = '';
@@ -109,6 +126,44 @@ class _AccountPage extends ConsumerState<AccountPage> {
                         text:
                             SplashScreenNotifier.getLanguageLabel('Edit Photo'))
                   ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MulishText(
+                      text: SplashScreenNotifier.getLanguageLabel(
+                          'Select language'),
+                      textAlign: TextAlign.start,
+                      fontColor: CustomColors.customBlack,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final langs = ref.watch(languangeContainerProvider);
+                        return DropdownButtonFormField<
+                            LanguageContainerDTOList>(
+                          isExpanded: true,
+                          value: currenLang,
+                          hint: const MulishText(text: 'Select a language'),
+                          items: langs?.languageContainerDTOList.map((item) {
+                            return DropdownMenuItem<LanguageContainerDTOList>(
+                              value: item,
+                              child: Text(item.languageName),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            ref.read(currentLanguageProvider.notifier).state =
+                                value;
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10.0,
                 ),
                 metaData.when(
                   loading: () =>

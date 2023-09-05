@@ -40,6 +40,10 @@ class _AccountPage extends ConsumerState<AccountPage> {
   Widget build(BuildContext context) {
     final metaData = ref.watch(uiMetaDataProvider);
     final user = Get.find<CustomerDTO>();
+    // Map<String, dynamic> userToJson = {...user.toJson()};
+    // final profileDto = userToJson["ProfileDto"];
+    // String newEmail = '';
+    // String newPhone = '';
     ref.listen(
       updateAccountProvider,
       (_, next) {

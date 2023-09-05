@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
@@ -12,6 +13,7 @@ import 'package:semnox/features/select_location/provider/select_location_provide
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/features/splash/splashscreen.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 class SelectLocationManuallyPage extends ConsumerWidget {
@@ -20,7 +22,13 @@ class SelectLocationManuallyPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     late SiteViewDTO selectedSite;
-    final customer = ref.watch(customDTOProvider).valueOrNull;
+    late CustomerDTO? customer = ref.watch(customDTOProvider).valueOrNull;
+    try {
+      customer = Get.find<CustomerDTO>();
+    } catch (e) {
+      customer = ref.watch(customDTOProvider).valueOrNull;
+    }
+    //customer ??= Get.find<CustomerDTO>();
     ref.listen(
       selectLocationStateProvider,
       (_, next) {
@@ -35,7 +43,8 @@ class SelectLocationManuallyPage extends ConsumerWidget {
             ref.read(loginProvider.notifier).selectedSite = selectedSite;
             ref.read(loginProvider.notifier).saveSelectedSite();
             context.loaderOverlay.hide();
-            registerLoggedUser(customer!).then((value) => Navigator.pushReplacementNamed(context, Routes.kHomePage));
+            registerLoggedUser(customer!).then((value) =>
+                Navigator.pushReplacementNamed(context, Routes.kHomePage));
           },
         );
       },
@@ -54,7 +63,9 @@ class SelectLocationManuallyPage extends ConsumerWidget {
           padding: const EdgeInsets.all(25.0),
           child: CustomButton(
             onTap: () {
-              ref.read(selectLocationStateProvider.notifier).selectSite(selectedSite);
+              ref
+                  .read(selectLocationStateProvider.notifier)
+                  .selectSite(selectedSite);
             },
             label: SplashScreenNotifier.getLanguageLabel('CONFIRM LOCATION'),
           ),
@@ -66,7 +77,9 @@ class SelectLocationManuallyPage extends ConsumerWidget {
           child: Column(
             children: [
               SearchTextField(
-                onChanged: (filter) => ref.read(selectLocationStateProvider.notifier).filterSites(filter),
+                onChanged: (filter) => ref
+                    .read(selectLocationStateProvider.notifier)
+                    .filterSites(filter),
               ),
               const SizedBox(height: 10.0),
               Container(
@@ -127,19 +140,24 @@ class _LocationListViewState extends State<LocationListView> {
               ),
               success: (data) {
                 return ListView.separated(
-                  separatorBuilder: (context, index) => const Divider(color: Colors.white),
+                  separatorBuilder: (context, index) =>
+                      const Divider(color: Colors.white),
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Container(
                       decoration: BoxDecoration(
-                        gradient: locationSelected == index ? CustomGradients.linearGradient : null,
+                        gradient: locationSelected == index
+                            ? CustomGradients.linearGradient
+                            : null,
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: ListTile(
                         title: MulishText(
                           text: data[index].siteName ?? '',
-                          fontColor: locationSelected == index ? Colors.white : Colors.black,
+                          fontColor: locationSelected == index
+                              ? Colors.white
+                              : Colors.black,
                         ),
                         onTap: () {
                           setState(() {

@@ -24,6 +24,7 @@ class ConfigRepositoryImpl implements ConfigRepository {
         systemUser.userPKId,
         systemUser.machineId,
       );
+      Logger().d(response.data);
       return Right(response.data);
     } on DioException catch (e) {
       Logger().e(e);

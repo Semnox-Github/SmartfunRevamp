@@ -20,6 +20,7 @@ class InitialLoadRepositoryImpl implements InitialLoadRepository {
   Future<Either<Failure, LanguageContainerDTO>> getParafaitLanguages({required String siteId}) async {
     try {
       final response = await _api.getParafaitLanguages(siteId);
+      Logger().d(response);
       return Right(response.data);
     } on DioException catch (e) {
       Logger().e(e);
@@ -35,6 +36,7 @@ class InitialLoadRepositoryImpl implements InitialLoadRepository {
   Future<Either<Failure, Map<String, dynamic>>> getStringsForLocalization({required String siteId, required String languageId, String outputForm = 'JSON'}) async {
     try {
       final response = await _api.getStringsForLocalization(siteId, languageId, outputForm);
+      Logger().d(response);
 
       return Right(Map<String, dynamic>.from(response.data));
     } on DioException catch (e) {

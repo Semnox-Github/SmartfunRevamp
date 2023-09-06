@@ -113,8 +113,7 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
                               (widget.contactType.valueString == "Phone" &&
                                   phoneVerifiedFlag == false)) {
                             return SplashScreenNotifier.getLanguageLabel(
-                              'Please verify your ${widget.contactType.valueString}',
-                            );
+                                'Please verify your ${widget.contactType.valueString}');
                           } else {
                             return null;
                           }

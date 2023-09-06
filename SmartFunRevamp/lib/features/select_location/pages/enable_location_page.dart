@@ -1,28 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
-import 'package:semnox/core/api/smart_fun_api.dart';
-import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
-import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
-import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
-
-Future<void> registerLoggedUserWithSite(CustomerDTO customerDTO, SiteViewDTO? selectedSite) async {
-  final getExecutionContextUseCase = Get.find<GetExecutionContextUseCase>();
-  registerUser(customerDTO);
-  final executionContextResponse = await getExecutionContextUseCase(selectedSite!.siteId!);
-  executionContextResponse.fold(
-    (l) {},
-    (r) {
-      Get.replace<SmartFunApi>(SmartFunApi('', r));
-    },
-  );
-}
 
 class EnableLocationPage extends StatelessWidget {
   const EnableLocationPage({Key? key}) : super(key: key);

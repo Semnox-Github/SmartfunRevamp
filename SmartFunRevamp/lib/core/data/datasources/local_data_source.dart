@@ -24,6 +24,7 @@ abstract class LocalDataSource {
   Future<Either<Failure, Map<String, dynamic>>> retrieveCustomClass(String key);
   Future<void> saveUser(CustomerDTO customerDTO);
   Future<void> logoutUser();
+  Future<void> resetUser();
   Future<CustomerDTO?> retrieveCustomer();
 }
 
@@ -63,7 +64,6 @@ class GluttonLocalDataSource implements LocalDataSource {
     try {
       return await Glutton.vomit(key) as T;
     } catch (e) {
-      Logger().e(e);
       return null;
     }
   }
@@ -99,6 +99,9 @@ class GluttonLocalDataSource implements LocalDataSource {
   @override
   Future<void> deleteCustomClass(String key) async {
     try {
+      if (key == LocalDataSource.kSelectedSite) {
+        Logger().i('Selected Key deleted');
+      }
       await Glutton.digest(key);
     } catch (e) {
       Logger().e(e);
@@ -127,6 +130,16 @@ class GluttonLocalDataSource implements LocalDataSource {
       await Glutton.digest(LocalDataSource.kUserId);
       await Glutton.digest(LocalDataSource.kUser);
       await Glutton.digest(LocalDataSource.kSelectedSite);
+    } catch (e) {
+      Logger().e(e);
+    }
+  }
+
+  @override
+  Future<void> resetUser() async {
+    try {
+      await Glutton.digest(LocalDataSource.kUserId);
+      await Glutton.digest(LocalDataSource.kUser);
     } catch (e) {
       Logger().e(e);
     }

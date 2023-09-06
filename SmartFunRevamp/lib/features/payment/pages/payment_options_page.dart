@@ -283,7 +283,8 @@ class _ExpansionPaymentMethodsListState
                                       return NavigationDecision.prevent;
                                     }
                                     //Payment Method callback URLs
-                                    if (request.url.contains(data.successURL)) {
+                                    if (request.url
+                                        .contains(data.successURL.toString())) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -303,7 +304,7 @@ class _ExpansionPaymentMethodsListState
                                       );
                                       return NavigationDecision.navigate;
                                     } else if (request.url
-                                        .contains(data.failureURL)) {
+                                        .contains(data.failureURL.toString())) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -313,7 +314,7 @@ class _ExpansionPaymentMethodsListState
                                       );
                                       return NavigationDecision.prevent;
                                     } else if (request.url
-                                        .contains(data.cancelURL)) {
+                                        .contains(data.cancelURL.toString())) {
                                       return NavigationDecision.prevent;
                                     }
                                     return NavigationDecision.navigate;

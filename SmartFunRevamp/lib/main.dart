@@ -12,6 +12,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/firebase/firebase_api.dart';
 import 'package:semnox/firebase_options.dart';
 import 'package:semnox/themes/main_theme.dart';
 import 'di/injection_container.dart' as di;
@@ -25,6 +26,7 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
       name: "SmartFunGiga",
     );
+    await FirebaseApi().initNotifications();
     FlutterError.onError = (errorDetails) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
       FirebaseCrashlytics.instance.recordFlutterError(errorDetails);

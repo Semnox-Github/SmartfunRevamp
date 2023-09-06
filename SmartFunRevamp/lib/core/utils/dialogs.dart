@@ -11,6 +11,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
@@ -18,6 +19,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -87,6 +89,54 @@ class Dialogs {
               cardNumber: primaryCard,
               quantity: qty);
         }
+      },
+    ).show();
+  }
+
+  static void selectLanguageDialog(BuildContext context, WidgetRef ref) {
+    final currenLang = ref.watch(currentLanguageProvider);
+    var newLang = ref.watch(currentLanguageProvider);
+    //final key = GlobalKey<FormState>();
+    // final siteId = ref.watch(selectedSiteIdProvider);
+    // String coupon = '';
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.info,
+      animType: AnimType.scale,
+      title: SplashScreenNotifier.getLanguageLabel('Select language'),
+      desc: SplashScreenNotifier.getLanguageLabel('Select language'),
+      descTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Consumer(
+            builder: (context, ref, child) {
+              final langs = ref.watch(languangeContainerProvider);
+              return DropdownButtonFormField<LanguageContainerDTOList>(
+                isExpanded: true,
+                value: currenLang,
+                hint: const MulishText(text: 'Select a language'),
+                items: langs?.languageContainerDTOList.map((item) {
+                  return DropdownMenuItem<LanguageContainerDTOList>(
+                    value: item,
+                    child: Text(item.languageName),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  newLang = value;
+                  // ref.read(currentLanguageProvider.notifier).state = value;
+                },
+              );
+            },
+          ),
+        ],
+      ),
+      btnOkOnPress: () {
+        ref.read(currentLanguageProvider.notifier).state = newLang;
       },
     ).show();
   }

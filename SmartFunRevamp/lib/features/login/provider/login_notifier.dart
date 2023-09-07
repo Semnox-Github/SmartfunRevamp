@@ -74,7 +74,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
     // setDefaultSite();
     state = const _InProgress();
     _phone = loginId;
-    final selectedLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
+    final selectedLocationResponse = await _localDataSource
+        .retrieveCustomClass(LocalDataSource.kSelectedSite);
     selectedLocationResponse.fold(
       (l) => Logger().e('No site has been selected'),
       (r) {
@@ -82,7 +83,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
         selectedSite = SiteViewDTO.fromJson(r);
       },
     );
-    previousUserId = await _localDataSource.retrieveValue<String>(LocalDataSource.kUserId);
+    previousUserId =
+        await _localDataSource.retrieveValue<String>(LocalDataSource.kUserId);
     final loginResponse = await _loginUserUseCase(
       {
         "UserName": loginId,
@@ -94,10 +96,13 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (customerDTO) async {
         registerUser(customerDTO);
         registerLoggedUser(customerDTO);
-        await _localDataSource.saveValue(LocalDataSource.kUserId, customerDTO.id.toString());
+        await _localDataSource.saveValue(
+            LocalDataSource.kUserId, customerDTO.id.toString());
         if (customerDTO.verified != true) {
           state = const _CustomerVerificationNeeded();
-        } else if (selectedSite?.siteName == null || (previousUserId != customerDTO.id.toString() && previousUserId != null) /*&& defaultSiteId.isNullOrEmpty()*/) {
+        } else if (selectedSite?.siteName == null ||
+            (previousUserId != customerDTO.id.toString() &&
+                previousUserId != null) /*&& defaultSiteId.isNullOrEmpty()*/) {
           state = const _SelectLocationNeeded();
         } else {
           getNewToken();
@@ -115,21 +120,28 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (r) => parafaitDefault = r,
     );
     //reading default site
-    defaultSiteId = parafaitDefault?.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
+    defaultSiteId = parafaitDefault
+        ?.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
     //if the default site is set then save it
     if (!defaultSiteId.isNullOrEmpty()) {
-      selectedSite = SiteViewDTO(siteId: int.parse(defaultSiteId!), openDate: DateTime.now(), closureDate: DateTime.now());
-      await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite!.toJson());
+      selectedSite = SiteViewDTO(
+          siteId: int.parse(defaultSiteId!),
+          openDate: DateTime.now(),
+          closureDate: DateTime.now());
+      await _localDataSource.saveCustomClass(
+          LocalDataSource.kSelectedSite, selectedSite!.toJson());
     }
   }
 
   void saveSelectedSite() async {
-    await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite!.toJson());
+    await _localDataSource.saveCustomClass(
+        LocalDataSource.kSelectedSite, selectedSite!.toJson());
   }
 
   void _getUserInfo(String phoneOrEmail) async {
     //setDefaultSite();
-    final selectedLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
+    final selectedLocationResponse = await _localDataSource
+        .retrieveCustomClass(LocalDataSource.kSelectedSite);
     selectedLocationResponse.fold(
       (l) => Logger().e('No site has been selected'),
       (r) => selectedSite = SiteViewDTO.fromJson(r),
@@ -142,10 +154,14 @@ class LoginNotifier extends StateNotifier<LoginState> {
       },
       (r) async {
         registerUser(r);
-        await _localDataSource.saveValue(LocalDataSource.kUserId, r.id.toString());
+        await _localDataSource.saveValue(
+            LocalDataSource.kUserId, r.id.toString());
         if (r.verified != true) {
           state = const _CustomerVerificationNeeded();
-        } else if (selectedSite == null && previousUserId != null && previousUserId != r.id.toString() /*&& defaultSiteId.isNullOrEmpty()*/) {
+        } else if (selectedSite == null &&
+            previousUserId != null &&
+            previousUserId !=
+                r.id.toString() /*&& defaultSiteId.isNullOrEmpty()*/) {
           state = const _SelectLocationNeeded();
         } else {
           getNewToken();
@@ -173,12 +189,14 @@ class LoginNotifier extends StateNotifier<LoginState> {
     _phone = phoneOrEmail;
     final userExists = await _verifyEmailExistsUseCase(phoneOrEmail);
     userExists.fold(
-      (l) => state = _Error('${phoneOrEmail.contains('@') ? 'Email' : 'Phone'} not registered'),
+      (l) => state = _Error(
+          '${phoneOrEmail.contains('@') ? 'Email' : 'Phone'} not registered'),
       (r) {
         if (r) {
           loginUserWithOTP(phoneOrEmail);
         } else {
-          state = _Error('${phoneOrEmail.contains('@') ? 'Email' : 'Phone'} not registered');
+          state = _Error(
+              '${phoneOrEmail.contains('@') ? 'Email' : 'Phone'} not registered');
         }
       },
     );
@@ -186,7 +204,10 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
   void loginUserWithOTP(String phoneOrEmail) async {
     state = const _InProgress();
-    final response = await _sendOTPUseCase({phoneOrEmail.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail, 'Source': 'LOGIN_OTP_EVENT'});
+    final response = await _sendOTPUseCase({
+      phoneOrEmail.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail,
+      'Source': 'LOGIN_OTP_EVENT'
+    });
     state = response.fold(
       (l) {
         Logger().e(l);
@@ -201,16 +222,32 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
   void resendOtp() async {
     state = const _InProgress();
-    final response = await _sendOTPUseCase({_phone.contains('@') ? 'EmailId' : 'Phone': _phone, 'Source': 'LOGIN_OTP_EVENT'});
+    final response = await _sendOTPUseCase({
+      _phone.contains('@') ? 'EmailId' : 'Phone': _phone,
+      'Source': 'LOGIN_OTP_EVENT'
+    });
     state = response.fold(
       (l) => _Error(l.message),
-      (r) => const _OtpResend(),
+      (r) {
+        otpId = r;
+        return const _OtpResend();
+      },
     );
   }
 
-  void resendDeleteOtp() async {
+  void resendDeleteOtp(String phoneOrEmail) async {
     // ignore: unused_local_variable
-    final response = await _sendOTPUseCase({_phone.contains('@') ? 'EmailId' : 'Phone': _phone, 'Source': 'Customer_Delete_Otp_Event'});
+    final response = await _sendOTPUseCase({
+      _phone.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail,
+      'Source': 'Customer_Delete_Otp_Event'
+    });
+    state = response.fold(
+      (l) => _Error(l.message),
+      (r) {
+        otpId = r;
+        return const _OtpResend();
+      },
+    );
   }
 
   void deleteProfile() async {

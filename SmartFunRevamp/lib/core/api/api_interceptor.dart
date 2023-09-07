@@ -14,11 +14,6 @@ class AuthorizationInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.baseUrl = '${Get.find<String>(tag: 'baseURL')}/api/';
-    if (options.path.contains('Product/ProductPrice')) {
-      oldToken = options.headers[HttpHeaders.authorizationHeader];
-      options.headers[HttpHeaders.authorizationHeader] = '';
-    }
-
     super.onRequest(options, handler);
   }
 

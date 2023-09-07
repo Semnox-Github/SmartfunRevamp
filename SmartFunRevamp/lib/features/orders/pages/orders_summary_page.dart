@@ -11,12 +11,15 @@ import 'package:semnox/features/orders/provider/orders_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class OrdersSummaryPage extends ConsumerWidget {
-  const OrdersSummaryPage({Key? key, required this.customerId}) : super(key: key);
+  const OrdersSummaryPage({Key? key, required this.customerId})
+      : super(key: key);
   final String customerId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(OrdersProviders.ordersSummaryProvider.notifier).getSummary(customerId);
+    ref
+        .read(OrdersProviders.ordersSummaryProvider.notifier)
+        .getSummary(customerId);
     return Scaffold(
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel("Orders"),
@@ -30,55 +33,71 @@ class OrdersSummaryPage extends ConsumerWidget {
                   error: (_) {
                     return Container();
                   },
-                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  inProgress: () =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
                   success: (responseData) {
                     List<OrderDetails> data = List.from(responseData);
-                    data.removeWhere((element) => element.transactionLinesDTOList == null);
+                    data.removeWhere(
+                        (element) => element.transactionLinesDTOList == null);
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
                           child: ListView.builder(
-                            shrinkWrap: true,
                             itemCount: data.length,
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
                             itemBuilder: (context, index) {
                               final summary = data[index];
-                              return InkWell(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OrdersSummaryDetailPage(transactionId: summary.transactionId.toString()),
-                                  ),
+                              return Container(
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 10.0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: CustomColors.customLigthBlue),
+                                  borderRadius: BorderRadius.circular(20.0),
                                 ),
-                                child: Container(
-                                  padding: const EdgeInsets.only(bottom: 10.0),
-                                  width: double.infinity,
-                                  child: Column(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 12),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            OrdersSummaryDetailPage(
+                                                transactionId: summary
+                                                    .transactionId
+                                                    .toString()),
+                                      ),
+                                    );
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Container(
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                                        decoration: BoxDecoration(
-                                          color: CustomColors.customLigthGray,
-                                          borderRadius: BorderRadius.circular(12.0),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            MulishText(
-                                              text: '${summary.transactionDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.transactionDate.formatDate(DateFormat.HOUR_MINUTE)}',
-                                              fontSize: 10,
-                                            ),
-                                            MulishText(
-                                              text: '${SplashScreenNotifier.getLanguageLabel("Reference")} ${summary.transactionId.toString()}',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 10,
-                                            ),
-                                            const Icon(
-                                              Icons.arrow_forward_ios_outlined,
-                                            )
-                                          ],
-                                        ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          MulishText(
+                                            text:
+                                                '${summary.transactionDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.transactionDate.formatDate(DateFormat.HOUR_MINUTE)}',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          MulishText(
+                                              text:
+                                                  '${SplashScreenNotifier.getLanguageLabel("Reference")} ${summary.transactionId.toString()}'),
+                                        ],
+                                      ),
+                                      const Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Icon(
+                                            Icons.arrow_forward_ios_outlined,
+                                          )
+                                        ],
                                       )
                                     ],
                                   ),

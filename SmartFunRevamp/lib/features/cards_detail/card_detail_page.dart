@@ -56,17 +56,35 @@ class CardDetailPage extends ConsumerWidget {
                 ),
                 child: CardWidget(cardDetails: cardDetails),
               ),
-              GridView(
+              GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                 ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  for (final item in items)
-                    if (item.active) CardDetailItemFromCMS(item: item, cardDetails: cardDetails),
-                ],
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  final cardDetailItem = items[index];
+                  if (cardDetailItem.active) {
+                    return CardDetailItemFromCMS(
+                      cardDetails: cardDetails,
+                      item: cardDetailItem,
+                    );
+                  }
+                  return null;
+                },
               ),
+              // GridView(
+              //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //     crossAxisCount: 3,
+              //   ),
+              //   shrinkWrap: true,
+              //   physics: const NeverScrollableScrollPhysics(),
+              //   children: [
+              //     for (final item in items)
+              //       if (item.active) CardDetailItemFromCMS(item: item, cardDetails: cardDetails),
+              //   ],
+              // ),
               if (!(cardDetails.isBlocked() || cardDetails.isExpired()))
                 CustomButton(
                   onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
@@ -280,116 +298,26 @@ class CardDetailItemFromCMS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (item.itemName) {
-      case "BONUS":
-        return CardDetailItem(
-          item: item,
-          color: CustomColors.customOrange,
-          image: 'bonus_points',
-          amount: '${cardDetails.creditPlusBonus?.toStringAsFixed(0)}',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BonusSummaryPage(
-                  cardNumber: cardDetails.accountNumber ?? '',
-                  creditPlusType: 5,
-                  pageTitle: SplashScreenNotifier.getLanguageLabel("Bonus Balance"),
+    Logger().i(cardDetails.toJson());
+    return CardDetailItem(
+      item: item,
+      color: CustomColors.customOrange,
+      image: 'bonus_points',
+      amount: item.itemName == "COURTESY" ? cardDetails.totalCourtesyBalance?.toStringAsFixed(0) ?? '' : cardDetails.pointsBasedOnCreditType(item.creditType ?? 0),
+      onTap: item.creditType == null
+          ? null
+          : () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BonusSummaryPage(
+                    cardNumber: cardDetails.accountNumber ?? '',
+                    creditPlusType: item.creditType,
+                    pageTitle: SplashScreenNotifier.getLanguageLabel(item.displayName),
+                  ),
                 ),
-              ),
-            );
-          },
-        );
-
-      case "TIME":
-        return CardDetailItem(
-          item: item,
-          color: CustomColors.customGreen,
-          image: 'playtime',
-          amount: '${cardDetails.creditPlusTime?.toStringAsFixed(0)}',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BonusSummaryPage(
-                  cardNumber: cardDetails.accountNumber ?? '',
-                  creditPlusType: 6,
-                  pageTitle: SplashScreenNotifier.getLanguageLabel("Time Balance"),
-                ),
-              ),
-            );
-          },
-        );
-
-      case "TICKETS":
-        return CardDetailItem(
-          item: item,
-          color: CustomColors.customPurple,
-          image: 'ticket_count',
-          amount: '${cardDetails.creditPlusTickets?.toStringAsFixed(0)}',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BonusSummaryPage(
-                  cardNumber: cardDetails.accountNumber ?? '',
-                  creditPlusType: 2,
-                  pageTitle: SplashScreenNotifier.getLanguageLabel("Ticket Balance"),
-                ),
-              ),
-            );
-          },
-        );
-
-      case "COURTESY":
-        return CardDetailItem(
-          item: item,
-          color: CustomColors.customYellow,
-          image: 'courtesy',
-          amount: '${cardDetails.totalCourtesyBalance?.toStringAsFixed(0)}',
-        );
-
-      case "LOYALTY":
-        return CardDetailItem(
-          item: item,
-          color: CustomColors.customPink,
-          image: 'loyalty',
-          amount: '${cardDetails.creditPlusLoyaltyPoints?.toStringAsFixed(0)}',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BonusSummaryPage(
-                  cardNumber: cardDetails.accountNumber ?? '',
-                  creditPlusType: 1,
-                  pageTitle: SplashScreenNotifier.getLanguageLabel("Loyalty Balance"),
-                ),
-              ),
-            );
-          },
-        );
-
-      case "CREDITS":
-        return CardDetailItem(
-          item: item,
-          color: CustomColors.customLigthBlue,
-          image: 'bonus_points',
-          amount: '${cardDetails.creditPlusCardBalance?.toStringAsFixed(0)}',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BonusSummaryPage(
-                  cardNumber: cardDetails.accountNumber ?? '',
-                  creditPlusType: 0,
-                  pageTitle: SplashScreenNotifier.getLanguageLabel("Credits Balance"),
-                ),
-              ),
-            );
-          },
-        );
-      default:
-        return Text("${item.displayName} is not implemented");
-    }
+              );
+            },
+    );
   }
 }

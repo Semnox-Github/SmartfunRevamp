@@ -278,21 +278,24 @@
               "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
               "Active": true,
               "DisplayOrder": 1,
-              "DisplayName": "Bonus"
+              "DisplayName": "Bonus",
+              "CreditType": 5
             },
             {
               "ItemName": "TIME",
               "ItemUrl": "https://w7.pngwing.com/pngs/789/188/png-transparent-round-black-analog-clock-illustration-clock-time-icon-time-noun-project-symbol-scalable-vector-graphics-thumbnail.png",
               "Active": true,
               "DisplayOrder": 2,
-              "DisplayName": "Time"
+              "DisplayName": "Time",
+              "CreditType": 6
             },
             {
               "ItemName": "TICKETS",
               "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
               "Active": true,
               "DisplayOrder": 3,
-              "DisplayName": "Tickets"
+              "DisplayName": "Tickets",
+              "CreditType": 2
             },
             {
               "ItemName": "COURTESY",
@@ -306,14 +309,16 @@
               "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
               "Active": true,
               "DisplayOrder": 5,
-              "DisplayName": "Loyalty"
+              "DisplayName": "Loyalty",
+              "CreditType": 1
             },
             {
               "ItemName": "CREDITS",
               "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
               "Active": true,
               "DisplayOrder": 6,
-              "DisplayName": "Credits"
+              "DisplayName": "Credits",
+              "CreditType": 0
             }
           ]
         }
@@ -328,52 +333,60 @@
           "CMSMenuItemsDTOList": [
             {
               "ItemName": "BASE_MEMBERSHIP",
+              "Description": "BASE MEMBERSHIP DESCRIPTION",
               "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
               "Active": true,
               "DisplayOrder": 1,
-              "DisplayName": "Base Membership"
+              "DisplayName": "Base Membership",
+              "TargetUrl": "sf://membership_info"
             },
             {
               "ItemName": "REWARDS",
               "ItemUrl": "https://w7.pngwing.com/pngs/789/188/png-transparent-round-black-analog-clock-illustration-clock-time-icon-time-noun-project-symbol-scalable-vector-graphics-thumbnail.png",
               "Active": true,
               "DisplayOrder": 2,
-              "DisplayName": "Rewards"
+              "DisplayName": "Rewards",
+              "Description": "REWARDS DESCRIPTION"
             },
             {
               "ItemName": "NOTIFICATIONS",
               "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
               "Active": true,
               "DisplayOrder": 3,
-              "DisplayName": "Notifications"
+              "DisplayName": "Notifications",
+              "Description": "NOTIFICATIONS DESCRIPTION"
             },
             {
               "ItemName": "HELP",
               "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
               "Active": true,
               "DisplayOrder": 4,
-              "DisplayName": "Help"
+              "DisplayName": "Help",
+              "Description": "HELP DESCRIPTION"
             },
             {
               "ItemName": "ORDERS",
               "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
               "Active": true,
               "DisplayOrder": 4,
-              "DisplayName": "My Orders"
+              "DisplayName": "My Orders",
+              "Description": "ORDERS DESCRIPTION"
             },
             {
               "ItemName": "LEGAL",
               "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
               "Active": true,
               "DisplayOrder": 5,
-              "DisplayName": "Legal"
+              "DisplayName": "Legal",
+              "Description": "LEGAL DESCRIPTION"
             },
             {
               "ItemName": "LIKE",
               "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
               "Active": true,
               "DisplayOrder": 6,
-              "DisplayName": "Like the App?"
+              "DisplayName": "Like the App?",
+              "Description": "LIKE DESCRIPTION"
             }
           ]
         }

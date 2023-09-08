@@ -44,7 +44,6 @@ class HomePageCMSResponse {
   }
 
   List<CMSMenuItem> getFooterMenuItems() {
-    Logger().d('<--------------------${geMenuItems('FOOTER')}----------------->');
     return geMenuItems('FOOTER');
   }
 
@@ -221,6 +220,8 @@ class CMSMenuItem {
   final int displayOrder;
   final String itemUrl;
   final String? target;
+  final String? description;
+  final int? creditType;
   CMSMenuItem(
     this.itemName,
     this.displayName,
@@ -228,6 +229,8 @@ class CMSMenuItem {
     this.displayOrder,
     this.itemUrl,
     this.target,
+    this.description,
+    this.creditType,
   );
   factory CMSMenuItem.fromJson(Map<String, dynamic> json) => _$CMSMenuItemFromJson(json);
   Map<String, dynamic> toJson() => _$CMSMenuItemToJson(this);

@@ -7,15 +7,15 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/lost_card/pages/lost_card_page.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SelectCardLostPage extends ConsumerStatefulWidget {
-  const SelectCardLostPage({Key? key, this.cardDetails}) : super(key: key);
+  const SelectCardLostPage({Key? key}) : super(key: key);
 
-  final CardDetails? cardDetails;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SelectCardLostPageState();
 }
@@ -23,13 +23,14 @@ class SelectCardLostPage extends ConsumerStatefulWidget {
 class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
   late CardDetails selectedCard;
   late List<CardDetails> cards;
-
+  late CardDetails? cardDetails;
   @override
   void initState() {
-    if (widget.cardDetails != null) {
+    cardDetails = ref.read(currentCardProvider);
+    if (cardDetails != null) {
       //is added to cards list as the only card
       List<CardDetails> selectedCard = [];
-      selectedCard.add(widget.cardDetails!);
+      selectedCard.add(cardDetails!);
       cards = selectedCard;
     } else {
       //if no card was selected, i.e. when landed from Search, get all the user cards

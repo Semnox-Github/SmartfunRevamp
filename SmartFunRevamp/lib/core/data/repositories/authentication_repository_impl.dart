@@ -196,6 +196,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       final response = await _api.getHomePageCMS();
       return Right(response.data.first);
     } catch (e) {
+      Logger().e(e);
       return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Email not found')));
     }
   }

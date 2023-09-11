@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/home/view/bookings_view.dart';
 import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/view/more_view.dart';
-import 'package:semnox/features/home/view/play_view.dart';
 
 import 'package:semnox/features/home/widgets/custom_bottom_bar.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
+
+///Here is where you need to add any other option possible for the bottom bar
+final Map<String, dynamic> kBottomBarMapper = {
+  "sf://home": const HomeView(),
+  "sf://bookings": const BookingsView(),
+  "sf://more": const MoreView(),
+};
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,7 +32,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     _pageController = PageController(initialPage: _currentPage);
-
     super.initState();
   }
 
@@ -34,6 +40,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     final cms = ref.watch(newHomePageCMSProvider);
     items = cms?.getFooterMenuItems() ?? [];
     items.removeWhere((element) => !element.active);
+    Logger().d(items);
     super.didChangeDependencies();
   }
 
@@ -45,12 +52,15 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Routes.routesMap.forEach((key, value) {});
     return Scaffold(
       backgroundColor: CustomColors.customLigthBlue,
       bottomNavigationBar: CustomBottomBar(
-        onTap: (page) {
+        onTap: (page) async {
           if (items[page].itemName == 'PLAY') {
-            Navigator.pushNamed(context, Routes.kPlayPage);
+            await Navigator.pushNamed(context, Routes.kPlayPage);
+            _currentPage = 0;
+            _pageController.jumpToPage(0);
           } else {
             setState(() {
               _currentPage = page;
@@ -64,9 +74,11 @@ class _HomePageState extends ConsumerState<HomePage> {
         child: PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
-          onPageChanged: (index) {
+          onPageChanged: (index) async {
             if (items[index].itemName == 'PLAY') {
-              Navigator.pushNamed(context, Routes.kPlayPage);
+              await Navigator.pushNamed(context, Routes.kPlayPage);
+              _currentPage = 0;
+              _pageController.jumpToPage(0);
             } else {
               setState(() {
                 _currentPage = index;
@@ -81,23 +93,15 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   List<Widget> childrenPages(List<CMSMenuItem> items) {
     final List<Widget> pages = [];
-    for (final item in items) {
-      switch (item.itemName) {
-        case "HOME":
-          pages.add(const HomeView());
-          break;
-        case "PLAY":
-          pages.add(const PlayView());
-          break;
-        case "BOOKINGS":
-          pages.add(const BookingsView());
-          break;
-        case "MORE":
-          pages.add(const MoreView());
-          break;
-        default:
-          pages.add(const HomeView());
-          break;
+    for (var element in items) {
+      if (kBottomBarMapper.containsKey(element.target)) {
+        pages.add(kBottomBarMapper[element.target]);
+      } else if (element.itemName == "PLAY") {
+        pages.add(
+          const Center(
+            child: CircularProgressIndicator.adaptive(),
+          ),
+        );
       }
     }
     return pages;

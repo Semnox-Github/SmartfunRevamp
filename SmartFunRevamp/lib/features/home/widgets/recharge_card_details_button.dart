@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/features/cards_detail/card_detail_page.dart';
-import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class RechargeCardDetailsButton extends StatelessWidget {
+class RechargeCardDetailsButton extends ConsumerWidget {
   RechargeCardDetailsButton({
     Key? key,
     required this.cardDetails,
@@ -18,7 +19,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
   late final int daysUntilExpiration = (expirationDate.difference(timeNow).inHours / 24).round();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (daysUntilExpiration < 0) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -67,12 +68,7 @@ class RechargeCardDetailsButton extends StatelessWidget {
                   ),
                   margin: const EdgeInsets.all(3),
                   child: TextButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
-                      ),
-                    ),
+                    onPressed: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
                     child: Text(
                       SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
                       style: const TextStyle(

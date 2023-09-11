@@ -166,14 +166,16 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     final useCase = Get.find<GetHomePageCMSUseCase>();
     final response = await useCase();
     response.fold(
-      (l) => state = _Error(l.message),
+      (l) {
+        Logger().e(l.message);
+        state = _Error(l.message);
+      },
       (r) async {
         if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
           await _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
         }
         final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
         Logger().d(selectedSite);
-        await Future.delayed(const Duration(seconds: 3));
         state = _Success(
           homePageCMSResponse: r,
           languageContainerDTO: _languageContainerDTO,

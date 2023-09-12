@@ -2,22 +2,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
+import 'package:semnox/core/domain/entities/orders/order_status.dart';
+import 'package:semnox/core/domain/use_cases/orders/get_customer_transaction_status_use_case.dart';
 import 'package:semnox/core/domain/use_cases/orders/get_customer_transactions_use_case.dart';
 import 'package:semnox/core/domain/use_cases/orders/get_transaction_detail_use_case.dart';
 part 'orders_state.dart';
 part 'orders_provider.freezed.dart';
 
 class OrdersProviders {
-
-  static final ordersSummaryProvider = StateNotifierProvider.autoDispose<OrdersSummaryProvider, OrdersState>(
+  static final ordersSummaryProvider =
+      StateNotifierProvider.autoDispose<OrdersSummaryProvider, OrdersState>(
     (ref) => OrdersSummaryProvider(
       Get.find<GetCustomerTransactionsUseCase>(),
     ),
   );
 
-  static final orderSummaryDetailProvider = StateNotifierProvider.autoDispose<OrderSummaryDetailProvider, OrdersState>(
+  static final orderSummaryDetailProvider = StateNotifierProvider.autoDispose<
+      OrderSummaryDetailProvider, OrdersState>(
     (ref) => OrderSummaryDetailProvider(
       Get.find<GetTransactionDetailUseCase>(),
+    ),
+  );
+
+  static final customerOrderStatusProvider = StateNotifierProvider.autoDispose<
+      CustomerOrderStatusProvider, OrdersState>(
+    (ref) => CustomerOrderStatusProvider(
+      Get.find<GetCustomerTransactionStatusUseCase>(),
     ),
   );
 }
@@ -25,7 +35,8 @@ class OrdersProviders {
 class OrdersSummaryProvider extends StateNotifier<OrdersState> {
   final GetCustomerTransactionsUseCase _getCustomerTransactionsUseCase;
 
-  OrdersSummaryProvider(this._getCustomerTransactionsUseCase) : super(const _InProgress());
+  OrdersSummaryProvider(this._getCustomerTransactionsUseCase)
+      : super(const _InProgress());
   List<OrderDetails> _list = [];
   void getSummary(String customerId) async {
     final response = await _getCustomerTransactionsUseCase(customerId);
@@ -42,7 +53,8 @@ class OrdersSummaryProvider extends StateNotifier<OrdersState> {
 class OrderSummaryDetailProvider extends StateNotifier<OrdersState> {
   final GetTransactionDetailUseCase _getTransactionDetailUseCase;
 
-  OrderSummaryDetailProvider(this._getTransactionDetailUseCase) : super(const _OrderDetailInProgress());
+  OrderSummaryDetailProvider(this._getTransactionDetailUseCase)
+      : super(const _OrderDetailInProgress());
   late OrderDetails _cardActivityDetails;
   void getDetail(String transactionId) async {
     final response = await _getTransactionDetailUseCase(transactionId);
@@ -56,3 +68,21 @@ class OrderSummaryDetailProvider extends StateNotifier<OrdersState> {
   }
 }
 
+class CustomerOrderStatusProvider extends StateNotifier<OrdersState> {
+  final GetCustomerTransactionStatusUseCase
+      _getCustomerTransactionStatusUseCase;
+
+  CustomerOrderStatusProvider(this._getCustomerTransactionStatusUseCase)
+      : super(const _InProgress());
+  List<OrderStatus> _list = [];
+  void getCustomerOderStatus(String customerId) async {
+    final response = await _getCustomerTransactionStatusUseCase(customerId);
+    response.fold(
+      (l) => state = _Error(l.message),
+      (r) {
+        _list = r;
+        state = _SuccessCustomerOrderStatus(_list);
+      },
+    );
+  }
+}

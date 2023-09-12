@@ -172,7 +172,6 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
           await _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
         }
         final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
-        Logger().d(selectedSite);
         await Future.delayed(const Duration(seconds: 3));
         state = _Success(
           homePageCMSResponse: r,

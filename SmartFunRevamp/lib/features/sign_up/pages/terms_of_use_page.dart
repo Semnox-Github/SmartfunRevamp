@@ -13,7 +13,7 @@ class TermsOfUsePage extends StatefulWidget {
 class _TermsOfUsePageState extends State<TermsOfUsePage> {
   final webviewController = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    ..loadRequest(Uri.parse(SplashScreenNotifier.getUrl("Terms")));
+    ..loadRequest(Uri.parse(SplashScreenNotifier.getLookupValue("Terms")));
 
   @override
   Widget build(BuildContext context) {

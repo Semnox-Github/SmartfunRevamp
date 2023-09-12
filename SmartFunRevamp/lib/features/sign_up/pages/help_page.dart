@@ -13,7 +13,7 @@ class HelpPage extends StatefulWidget {
 class _HelpPageState extends State<HelpPage> {
   final webviewController = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    ..loadRequest(Uri.parse(SplashScreenNotifier.getUrl("Help")));
+    ..loadRequest(Uri.parse(SplashScreenNotifier.getLookupValue("Help")));
 
   @override
   Widget build(BuildContext context) {

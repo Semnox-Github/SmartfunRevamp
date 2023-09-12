@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
@@ -20,21 +22,25 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
-  const SelectCardRechargePage({Key? key, this.filterStr, this.cardDetails}) : super(key: key);
+  const SelectCardRechargePage({Key? key, this.filterStr, this.cardDetails})
+      : super(key: key);
 
   final String? filterStr;
   final CardDetails? cardDetails;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SelectCardRechargePageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SelectCardRechargePageState();
 }
 
-class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage> {
+class _SelectCardRechargePageState
+    extends ConsumerState<SelectCardRechargePage> {
   CardProduct? offerSelected;
   late CardDetails? selectedCardNumber;
   late List<CardDetails> cards;
   late int qty;
   late double finalPrice;
+
   @override
   void initState() {
     super.initState();
@@ -46,8 +52,10 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
       cards = selectedCard;
     } else {
       //if no card was selected, i.e. when landed from Search, get all the user cards
-      cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
-      cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+      cards = List<CardDetails>.from(
+          ref.read(CardsProviders.userCardsProvider).value ?? []);
+      cards
+          .removeWhere((element) => element.isBlocked() || element.isExpired());
     }
     if (cards.isNotEmpty) {
       selectedCardNumber = cards.first;
@@ -58,9 +66,17 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
 
   @override
   Widget build(BuildContext context) {
+    //get last transaction ID
+    GluttonLocalDataSource().retrieveValue(LocalDataSource.kTransactionId).then(
+        (value) => Dialogs.showMessageInfo(context, "test", value.toString()));
+
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
-    final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
-    final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
+    final currency =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ??
+            'USD';
+    final format =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
+            '#,##0.00';
 
     return Scaffold(
       appBar: widget.filterStr == null
@@ -98,7 +114,8 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                 }
               },
             )
-          : DisabledBottomButton(label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')),
+          : DisabledBottomButton(
+              label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,11 +123,15 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
             Consumer(
               builder: (_, ref, __) {
                 final defaults = ref.watch(parafaitDefaultsProvider);
-                final isOnlineRechargeEnabled = defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) == 'Y';
+                final isOnlineRechargeEnabled = defaults?.getDefault(
+                        ParafaitDefaultsResponse.onlineRechargeEnabledKey) ==
+                    'Y';
                 return SitesAppBarDropdown(
                   isEnabled: isOnlineRechargeEnabled,
                   onChanged: (selectedSite) {
-                    ref.read(selectedSiteIdProvider.notifier).update((state) => state = selectedSite?.siteId ?? -1);
+                    ref
+                        .read(selectedSiteIdProvider.notifier)
+                        .update((state) => state = selectedSite?.siteId ?? -1);
                   },
                 );
               },
@@ -129,7 +150,8 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
             Padding(
               padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
               child: MulishText(
-                text: SplashScreenNotifier.getLanguageLabel('Exclusive Offers on Recharges'),
+                text: SplashScreenNotifier.getLanguageLabel(
+                    'Exclusive Offers on Recharges'),
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.bold,
               ),
@@ -141,12 +163,20 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                   builder: (context, ref, child) {
                     return ref.watch(rechargeProductsProvider).maybeWhen(
                           orElse: () => Container(),
-                          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
-                          error: (error, stackTrace) => const MulishText(text: 'Error'),
+                          loading: () => const Center(
+                              child: CircularProgressIndicator.adaptive()),
+                          error: (error, stackTrace) =>
+                              const MulishText(text: 'Error'),
                           data: (offers) {
                             List<CardProduct> offersFiltered = offers;
                             if (!widget.filterStr.isNullOrEmpty()) {
-                              offersFiltered = offers.where((element) => (element.productName.toLowerCase().contains(widget.filterStr.toString().toLowerCase()))).toList();
+                              offersFiltered = offers
+                                  .where((element) => (element.productName
+                                      .toLowerCase()
+                                      .contains(widget.filterStr
+                                          .toString()
+                                          .toLowerCase())))
+                                  .toList();
                             }
                             return RechargeCardOffers(
                               offers: offersFiltered,
@@ -182,7 +212,8 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(SplashScreenNotifier.getLanguageLabel('Enter the quantity')),
+          title:
+              Text(SplashScreenNotifier.getLanguageLabel('Enter the quantity')),
           content: SpinBox(
             min: 1,
             max: 100,
@@ -236,17 +267,22 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(SplashScreenNotifier.getLanguageLabel('Enter the variable amount')),
+          title: Text(SplashScreenNotifier.getLanguageLabel(
+              'Enter the variable amount')),
           content: TextField(
             keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], // Only numbers can be entered
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ], // Only numbers can be entered
             controller: txt,
             decoration: InputDecoration(
-              hintText: SplashScreenNotifier.getLanguageLabel('Please enter the amount you wish to recharge'),
+              hintText: SplashScreenNotifier.getLanguageLabel(
+                  'Please enter the amount you wish to recharge'),
             ),
             onChanged: (amount) {
               setState(() {
-                finalPrice = double.tryParse(amount) == null ? 0 : double.parse(amount);
+                finalPrice =
+                    double.tryParse(amount) == null ? 0 : double.parse(amount);
               });
             },
           ),

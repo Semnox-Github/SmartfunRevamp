@@ -197,7 +197,6 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
         }
         final selectedSite =
             await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
-        Logger().d(selectedSite);
         state = _Success(
           homePageCMSResponse: r,
           languageContainerDTO: _languageContainerDTO,

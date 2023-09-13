@@ -57,15 +57,12 @@ class MoreView extends ConsumerWidget {
               ],
             ),
           ),
-          //TODO:HERE
           ...items.map(
             (e) => MoreOptionItemFromCMS(
               item: e,
               membershipInfo: membershipInfo,
             ),
           ),
-          // for (final item in items)
-          //   if (item.active) MoreOptionItemFromCMS(item: item),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(

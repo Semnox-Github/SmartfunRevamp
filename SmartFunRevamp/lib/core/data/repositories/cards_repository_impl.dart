@@ -38,8 +38,6 @@ class CardsRepositoryImpl implements CardsRepository {
       activeCards.removeWhere((element) => (element.isExpired() || element.isBlocked()));
       //adding in desired group order
       final List<CardDetails> sortedCards = [...activeCards, ...blockedCards, ...expiredCards];
-
-      Logger().d('Tarjetas ${response.data.length}');
       return Right(sortedCards);
     } on DioException catch (e) {
       Logger().e(e);

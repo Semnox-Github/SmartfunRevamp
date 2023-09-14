@@ -19,6 +19,7 @@ import 'package:semnox/features/account/provider/update_account/update_account_p
 import 'package:semnox/features/home/widgets/more_view_widgets/round_rectangle_picture.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -38,12 +39,16 @@ class _AccountPage extends ConsumerState<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(getStringForLocalization).maybeWhen(
+      orElse: () {
+        context.loaderOverlay.hide();
+      },
+      loading: () {
+        context.loaderOverlay.show();
+      },
+    );
     final metaData = ref.watch(uiMetaDataProvider);
     final user = Get.find<CustomerDTO>();
-    // Map<String, dynamic> userToJson = {...user.toJson()};
-    // final profileDto = userToJson["ProfileDto"];
-    // String newEmail = '';
-    // String newPhone = '';
     ref.listen(
       updateAccountProvider,
       (_, next) {
@@ -111,6 +116,25 @@ class _AccountPage extends ConsumerState<AccountPage> {
                             SplashScreenNotifier.getLanguageLabel('Edit Photo'))
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Dialogs.selectLanguageDialog(context, ref);
+                      },
+                      icon: const Icon(Icons.language),
+                      color: CustomColors.hardOrange,
+                    ),
+                    MulishText(
+                        text: SplashScreenNotifier.getLanguageLabel(
+                            'Select language'))
+                  ],
+                ),
+
+                // const SizedBox(
+                //   height: 10.0,
+                // ),
                 metaData.when(
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),

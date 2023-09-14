@@ -4,4 +4,5 @@ import 'package:semnox/core/errors/failures.dart';
 
 abstract class FeedbackRepository {
   Future<Either<Failure, List<SurveyDetails>>> getFeedbackActions();
+  Future<Either<Failure, void>> postCustomerFeedback();
 }

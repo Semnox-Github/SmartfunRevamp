@@ -40,7 +40,7 @@ abstract class SmartFunApi {
       AuthorizationInterceptor(),
       PrettyDioLogger(
         requestBody: false,
-        responseBody: false,
+        responseBody: true,
         requestHeader: false,
         responseHeader: false,
         request: false,
@@ -63,7 +63,8 @@ abstract class SmartFunApi {
   }
 
   @POST('Login/AuthenticateUsers')
-  Future<HttpResponse> authenticateSystemUser(@Body() Map<String, dynamic> body);
+  Future<HttpResponse> authenticateSystemUser(
+      @Body() Map<String, dynamic> body);
 
   @POST('Customer/CustomerLogin')
   Future<Data<CustomerDTO>> loginUser(@Body() Map<String, dynamic> body);
@@ -105,7 +106,8 @@ abstract class SmartFunApi {
   });
 
   @POST('Transaction/Transactions')
-  Future<Data<EstimateTransactionResponse>> estimateTransaction(@Body() Map<String, dynamic> body);
+  Future<Data<EstimateTransactionResponse>> estimateTransaction(
+      @Body() Map<String, dynamic> body);
 
   @GET('Configuration/ParafaitDefaultContainer')
   Future<Data<ParafaitDefaultsResponse>> getParafaitDefaults(
@@ -203,19 +205,23 @@ abstract class SmartFunApi {
   });
 
   @GET('Customer/Account/LinkedAccountsSummary')
-  Future<ListDataWrapper<CardDetails>> getUserCards(@Query('customerId') String customerId);
+  Future<ListDataWrapper<CardDetails>> getUserCards(
+      @Query('customerId') String customerId);
 
   @GET('Customer/Account/{customerId}/AccountGamesSummary')
-  Future<ListDataWrapper<AccountCreditPlusConsumptionDTO>> getGamesAccountSummart(@Path('customerId') String customerId);
+  Future<ListDataWrapper<AccountCreditPlusConsumptionDTO>>
+      getGamesAccountSummart(@Path('customerId') String customerId);
 
   @POST('Customer/Account/AccountService/LinkAccountToCustomers')
   Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
 
   @POST('Customer/Account/{accountId}/AccountIdentifier')
-  Future<void> updateCardNickname(@Path('accountId') String accountId, @Body() Map<String, dynamic> body);
+  Future<void> updateCardNickname(
+      @Path('accountId') String accountId, @Body() Map<String, dynamic> body);
 
   @GET('Customer/Account/{accountId}/AccountActivity')
-  Future<ListDataWrapper<CardActivity>> getCardActivityDetail(@Path('accountId') @Query('accountId') String accountId);
+  Future<ListDataWrapper<CardActivity>> getCardActivityDetail(
+      @Path('accountId') @Query('accountId') String accountId);
 
   @GET('Transaction/Transactions')
   Future<ListDataWrapper<CardActivityDetails>> getTransactionDetail(
@@ -259,10 +265,12 @@ abstract class SmartFunApi {
   Future<void> deleteProfile(@Path('CustomerId') int customerId);
 
   @GET('Customer/{CustomerId}/Summary')
-  Future<Data<MembershipInfo>> getMembershipInfo(@Path('CustomerId') int customerId);
+  Future<Data<MembershipInfo>> getMembershipInfo(
+      @Path('CustomerId') int customerId);
 
   @GET('Lookups/LookupsContainer')
-  Future<Data<LookupsContainer>> getLookups(@Query('siteId') String siteId, @Query('rebuildCache') bool rebuildCache);
+  Future<Data<LookupsContainer>> getLookups(
+      @Query('siteId') String siteId, @Query('rebuildCache') bool rebuildCache);
 
   @GET('Customer/Membership/MembershipsContainer')
   Future<MembershipContainerResponse> getMembershipContainer(
@@ -276,6 +284,9 @@ abstract class SmartFunApi {
     @Query('buildChildRecords') bool buildChildRecords = true,
     @Query('posMachine') String posMachine = 'CustomerApp',
   });
+  @GET('Customer/FeedbackSurvey/FeedbackSurveyDataSet')
+  Future<ListDataWrapper<SurveyDetailsResponse>> sendCustomerFeedback();
   @GET('CustomerApp/CustomerAppConfiguration')
-  Future<Data<AppConfigResponse>> getAppConfiguration(@Query('siteId') int siteId);
+  Future<Data<AppConfigResponse>> getAppConfiguration(
+      @Query('siteId') int siteId);
 }

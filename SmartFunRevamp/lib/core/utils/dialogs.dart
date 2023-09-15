@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -5,7 +6,10 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/instance_manager.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
@@ -19,10 +23,12 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
+import 'package:semnox/features/orders/provider/orders_provider.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class Dialogs {
   static void couponSuccessDialog(BuildContext context, double couponValue) {
@@ -476,5 +482,109 @@ class Dialogs {
         fontSize: 18,
       ),
     ).show();
+  }
+
+  // static void downloadReceiptDialog(
+  //     BuildContext context, String transactionId) {
+  //   AwesomeDialog(
+  //     context: context,
+  //     dialogType: DialogType.noHeader,
+  //     animType: AnimType.scale,
+  //     title: SplashScreenNotifier.getLanguageLabel('Error'),
+  //     body: Padding(
+  //       padding: const EdgeInsets.all(20.0),
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           MulishText(
+  //             text: SplashScreenNotifier.getLanguageLabel(
+  //                 'Transaction Completed'),
+  //             fontColor: CustomColors.couponTextColor,
+  //           ),
+  //           // CustomButton(
+  //           //   onTap: () => _createFileFromString(receipt, transactionId),
+  //           //   label: SplashScreenNotifier.getLanguageLabel('DOWNLOAD'),
+  //           // )
+  //         ],
+  //       ),
+  //     ),
+  //   ).show();
+  // }
+
+  static void downloadReceiptDialog(
+      BuildContext context, WidgetRef ref, String transactionId) {
+    final currenLang = ref.watch(currentLanguageProvider);
+    var newLang = ref.watch(currentLanguageProvider);
+    //final key = GlobalKey<FormState>();
+    // final siteId = ref.watch(selectedSiteIdProvider);
+    // String coupon = '';
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.info,
+      animType: AnimType.scale,
+      title: SplashScreenNotifier.getLanguageLabel('Last Transaction'),
+      desc: SplashScreenNotifier.getLanguageLabel('Last Transaction'),
+      descTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Consumer(
+            builder: (context, ref, child) {
+              String text;
+              text = "";
+              ref
+                  .read(OrdersProviders.customerOrderStatusProvider.notifier)
+                  .getCustomerOderStatus(Get.find<CustomerDTO>().id.toString());
+              ref.watch(OrdersProviders.customerOrderStatusProvider).maybeWhen(
+                  orElse: () {
+                text = "";
+              }, error: (_) {
+                text = "error";
+              }, successCustomerOrderStatus: (responseData) {
+                // if (responseData.receipt != null) {
+                text = "success";
+                // Dialogs.downloadReceiptDialog(
+                //     context,
+                //     responseData.receipt.toString(),
+                //     responseData.transactionId
+                //         .toString());
+                // }
+              });
+              // ref.watch(OrdersProviders.customerOrderStatusProvider).maybeWhen(
+              //     orElse: () {
+              //   return const MulishText(text: "");
+              // }, error: (_) {
+              //   return const MulishText(text: "error");
+              // }, successCustomerOrderStatus: (orderStatus) {
+              //   if (orderStatus.first.transactionStatus == "CLOSED") {
+              //     return const MulishText(text: "Transaction completed");
+              //   } else if (orderStatus.first.transactionStatus == "OPEN" &&
+              //       orderStatus.first.paymentStatus == "PROCESSING") {
+              //     return MulishText(text: orderStatus.first.message);
+              //   }
+              // });
+              return MulishText(text: text);
+            },
+          ),
+        ],
+      ),
+      // btnOkOnPress: () {
+      //   ref.read(currentLanguageProvider.notifier).state = newLang;
+      // },
+    ).show();
+  }
+
+  static void _createFileFromString(String receipt, String fileName) async {
+    var base64 = receipt;
+    var bytes = base64Decode(base64);
+    final output = await getTemporaryDirectory();
+    final file = File("${output.path}/$fileName.pdf");
+    await file.writeAsBytes(bytes.buffer.asUint8List());
+    debugPrint("${output.path}/$fileName.pdf");
+    await OpenFilex.open("${output.path}/$fileName.pdf");
   }
 }

@@ -19,6 +19,7 @@ abstract class LocalDataSource {
   // Future<bool> retrieveBool(String key);
   Future<void> saveValue(String key, dynamic value);
   Future<T?> retrieveValue<T>(String key);
+  Future<int?> retrieveLastTransactionId();
   Future<void> deleteValue(String key);
   Future<void> saveCustomClass(String key, Map<String, dynamic> json);
   Future<void> deleteCustomClass(String key);
@@ -118,6 +119,18 @@ class GluttonLocalDataSource implements LocalDataSource {
       final json =
           await Glutton.vomit(LocalDataSource.kUser) as Map<String, dynamic>;
       return CustomerDTO.fromJson(json);
+    } catch (e) {
+      Logger().e(e);
+      return null;
+    }
+  }
+
+  @override
+  Future<int?> retrieveLastTransactionId() async {
+    try {
+      final lastTransactionId =
+          await Glutton.vomit(LocalDataSource.kTransactionId);
+      return lastTransactionId as int;
     } catch (e) {
       Logger().e(e);
       return null;

@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/domain/entities/orders/order_details.dart';
+import 'package:semnox/core/domain/entities/orders/order_status.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/orders/provider/orders_provider.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/disabled_bottom_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
@@ -20,6 +24,7 @@ import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart'
 import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
   const SelectCardRechargePage({Key? key, this.filterStr, this.cardDetails})
@@ -40,6 +45,9 @@ class _SelectCardRechargePageState
   late List<CardDetails> cards;
   late int qty;
   late double finalPrice;
+  late List<OrderStatus> orderStatus;
+  late OrderDetails orderDetails;
+  late int transactionId;
 
   @override
   void initState() {
@@ -66,9 +74,16 @@ class _SelectCardRechargePageState
 
   @override
   Widget build(BuildContext context) {
-    //get last transaction ID
-    GluttonLocalDataSource().retrieveValue(LocalDataSource.kTransactionId).then(
-        (value) => Dialogs.showMessageInfo(context, "test", value.toString()));
+    ref.read(OrdersProviders.customerOrderStatusProvider.notifier);
+    GluttonLocalDataSource()
+        .retrieveValue(LocalDataSource.kTransactionId)
+        .then((value) => {
+              if (value != null)
+                ref
+                    .read(OrdersProviders.orderSummaryDetailProvider.notifier)
+                    .getDetail(value.toString()),
+              {Dialogs.downloadReceiptDialog(context, ref, value.toString())}
+            });
 
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
     final currency =
@@ -127,7 +142,9 @@ class _SelectCardRechargePageState
                         ParafaitDefaultsResponse.onlineRechargeEnabledKey) ==
                     'Y';
                 return SitesAppBarDropdown(
-                  isEnabled: isOnlineRechargeEnabled,
+                  //todo VIVAR
+                  // isEnabled: isOnlineRechargeEnabled,
+                  isEnabled: false,
                   onChanged: (selectedSite) {
                     ref
                         .read(selectedSiteIdProvider.notifier)

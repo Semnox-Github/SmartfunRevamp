@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:logger/logger.dart';
+import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 part 'home_page_cms_response.g.dart';
 
@@ -21,16 +26,7 @@ class HomePageCMSResponse {
   @JsonKey(name: 'CardsColor')
   final CardsColor? cardsColor;
 
-  HomePageCMSResponse(
-    this.moduleId,
-    this.description,
-    this.title,
-    this.cmsModulePages,
-    this.cmsModuleMenu,
-    this.cmsImages,
-    this.cmsModuleColorsHome,
-    this.cardsColor,
-  );
+  HomePageCMSResponse(this.moduleId, this.description, this.title, this.cmsModulePages, this.cmsModuleMenu, this.cmsImages, this.cmsModuleColorsHome, this.cardsColor);
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
 
@@ -51,12 +47,37 @@ class HomePageCMSResponse {
     return geMenuItems('FOOTER');
   }
 
+  List<CMSMenuItem> getHeaderMenuItems() {
+    return geMenuItems('HEADER');
+  }
+
   List<CMSMenuItem> getCardDetailMenuItems() {
     return geMenuItems('CARD_DETAILS');
   }
 
   List<CMSMenuItem> getMoreMenuItems() {
     return geMenuItems('MORE');
+  }
+
+  List<CMSModulePage> getQuickLinks() {
+    final quickLinksStart = cmsModulePages?.indexWhere((element) => element.source == "QUICKLINKS");
+    if (quickLinksStart == null) {
+      return [];
+    }
+    final quickLinksEnd = cmsModulePages?.indexWhere((element) => element.source == "More Actions");
+    final quickLinks = cmsModulePages?.sublist((quickLinksStart) + 1, quickLinksEnd) ?? [];
+    quickLinks.sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
+    return quickLinks;
+  }
+
+  List<CMSModulePage> getMoreActions() {
+    final quickLinksStart = cmsModulePages?.indexWhere((element) => element.source == "More Actions");
+    if (quickLinksStart == null) {
+      return [];
+    }
+    final moreActions = cmsModulePages?.sublist((quickLinksStart) + 1) ?? [];
+    moreActions.sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
+    return moreActions;
   }
 
   Uri? playUrl({required LanguageContainerDTOList? currentLang, required String siteId}) {
@@ -122,17 +143,45 @@ class CMSModulePage {
   final String displaySection;
   final int displayOrder;
   final String contentURL;
+  final String source;
+  final String displayAttributes;
+  final String contentKey;
+
   CMSModulePage(
     this.pageId,
     this.contentId,
     this.displaySection,
     this.displayOrder,
     this.contentURL,
+    this.source,
+    this.displayAttributes,
+    this.contentKey,
   );
 
   Map<String, dynamic> toJson() => _$CMSModulePageToJson(this);
 
   factory CMSModulePage.fromJson(Map<String, dynamic> json) => _$CMSModulePageFromJson(json);
+
+  Color get backgroundColor {
+    final temp = displayAttributes.toString().replaceAll(r'\\', '');
+    final Map<String, dynamic> cleanedJson = json.decode(temp);
+    final colorHex = cleanedJson['BackgroundColor'] as String;
+    return HexColor.fromHex(colorHex) ?? CustomColors.customPink;
+  }
+}
+
+@JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
+class ModulePageItemDisplayAttributes {
+  final String backgroundColor;
+
+  ModulePageItemDisplayAttributes(this.backgroundColor);
+  factory ModulePageItemDisplayAttributes.fromJson(Map<String, dynamic> map) {
+    Logger().i(map);
+    final temp = map.toString().replaceAll(r'\\', '');
+    final Map<String, dynamic> cleanedJson = json.decode(temp);
+    return _$ModulePageItemDisplayAttributesFromJson(cleanedJson);
+  }
+  Map<String, dynamic> toJson() => _$ModulePageItemDisplayAttributesToJson(this);
 }
 
 @JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
@@ -171,6 +220,8 @@ class CMSMenuItem {
   final int displayOrder;
   final String itemUrl;
   final String? target;
+  final String? description;
+  final int? creditType;
   CMSMenuItem(
     this.itemName,
     this.displayName,
@@ -178,6 +229,8 @@ class CMSMenuItem {
     this.displayOrder,
     this.itemUrl,
     this.target,
+    this.description,
+    this.creditType,
   );
   factory CMSMenuItem.fromJson(Map<String, dynamic> json) => _$CMSMenuItemFromJson(json);
   Map<String, dynamic> toJson() => _$CMSMenuItemToJson(this);

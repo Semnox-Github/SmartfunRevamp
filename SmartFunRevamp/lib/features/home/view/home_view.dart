@@ -15,8 +15,6 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/activity/card_activity_log_page.dart';
-import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
@@ -25,13 +23,11 @@ import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
 import 'package:semnox/features/login/widgets/profile_picture.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
-import 'package:semnox/features/lost_card/pages/select_lost_card_page.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:semnox/features/transfer/transfer_page.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -74,6 +70,14 @@ final homeColors = Provider<CMSModuleColorsHome?>((ref) {
   return cms?.cmsModuleColorsHome;
 });
 
+final currentCardProvider = StateProvider<CardDetails?>((ref) {
+  final cardsList = ref.watch(CardsProviders.userCardsProvider);
+  return cardsList.maybeWhen(
+    orElse: () => null,
+    data: (data) => data.first,
+  );
+});
+
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
@@ -83,8 +87,6 @@ class HomeView extends ConsumerStatefulWidget {
 
 class _HomeViewState extends ConsumerState<HomeView> {
   final user = Get.find<CustomerDTO>();
-  CardDetails? cardDetails;
-
   int _cardIndex = -1;
 
   @override
@@ -92,7 +94,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     final promoImages = ref.watch(promoImagesProvider);
     final homeColor = ref.watch(homeColors);
+    final quickLinks = ref.watch(newHomePageCMSProvider)?.getQuickLinks();
+    final moreActions = ref.watch(newHomePageCMSProvider)?.getMoreActions();
+
     ref.watch(SplashScreenNotifier.getInitialData);
+    final cardDetails = ref.watch(currentCardProvider);
     cardsWatch.maybeWhen(
       orElse: () => context.loaderOverlay.hide(),
       loading: () => context.loaderOverlay.show(),
@@ -173,28 +179,22 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 'No Cards found')),
                       ),
                       data: (data) {
-                        // set first card as selected when landing home
-                        setState(() {
-                          if (data.isNotEmpty &&
-                              cardDetails == null &&
-                              _cardIndex < data.length) {
-                            cardDetails = data.first;
-                          }
-                        });
                         return Column(
                           children: [
                             data.isNotEmpty
                                 ? CarouselCards(
                                     cards: data,
                                     onCardChanged: (cardIndex) {
-                                      setState(() {
-                                        if (cardIndex != data.length) {
-                                          cardDetails = data[cardIndex];
-                                        } else {
-                                          cardDetails = null;
-                                        }
-                                        _cardIndex = cardIndex;
-                                      });
+                                      if (cardIndex != data.length) {
+                                        ref
+                                            .read(currentCardProvider.notifier)
+                                            .update((state) => data[cardIndex]);
+                                      } else {
+                                        ref
+                                            .read(currentCardProvider.notifier)
+                                            .update((state) => null);
+                                      }
+                                      _cardIndex = cardIndex;
                                     },
                                   )
                                 : LinkACard(),
@@ -247,155 +247,83 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       bool hasCard = data.isNotEmpty ? true : false;
                       String msgCardNoLink = SplashScreenNotifier.getLanguageLabel(
                           'No card is associated with customer, please link your card.');
-                      return GridView(
+                      if (quickLinks.isNullOrEmpty()) {
+                        return const MulishText(
+                            text:
+                                'No quicklinks setup. Contact your administrator');
+                      }
+                      return GridView.builder(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                         ),
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        children: [
-                          QuickLinkItem(
-                            color: CustomColors.customYellow,
-                            image: 'recharge',
+                        itemCount: quickLinks!.length,
+                        itemBuilder: (context, index) {
+                          final quickLink = quickLinks[index];
+                          return QuickLinkItem(
+                            color: quickLink.backgroundColor,
+                            imageUrl: quickLink.contentURL,
                             text: SplashScreenNotifier.getLanguageLabel(
-                                'Recharge'),
-                            onTap: () => ({
-                              //if there is not a card selected then show alert dialog
-                              if (!hasCard)
-                                {
+                                quickLink.source),
+                            onTap: () {
+                              if (quickLink.source.toLowerCase() ==
+                                  'recharge') {
+                                if (!hasCard) {
                                   Dialogs.showMessageInfo(
                                       context,
                                       SplashScreenNotifier.getLanguageLabel(
                                           'Recharge Card'),
-                                      msgCardNoLink)
-                                }
-                              else
-                                {
+                                      msgCardNoLink);
+                                } else {
                                   //if the user has no card selected show dialog
-                                  if (cardDetails == null)
-                                    {
-                                      Dialogs.showMessageInfo(
-                                        context,
-                                        SplashScreenNotifier.getLanguageLabel(
-                                            'Recharge Card'),
-                                        SplashScreenNotifier.getLanguageLabel(
-                                            "Please select a card to recharge."),
-                                      )
-                                      //if there is a card selected and is not blocked or expired then navigate
-                                    }
-                                  else if (!(cardDetails!.isBlocked() ||
-                                      cardDetails!.isExpired()))
-                                    {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              SelectCardRechargePage(
-                                            cardDetails: cardDetails,
-                                          ),
-                                        ),
-                                      )
-                                    }
-                                  else
-                                    {
-                                      //else show dialog
-                                      Dialogs.showMessageInfo(
-                                        context,
-                                        SplashScreenNotifier.getLanguageLabel(
-                                            'Recharge Card'),
-                                        SplashScreenNotifier.getLanguageLabel(
-                                            "Temporary or expired cards can't be recharged."),
-                                      )
-                                    }
+                                  if (cardDetails == null) {
+                                    Dialogs.showMessageInfo(
+                                      context,
+                                      SplashScreenNotifier.getLanguageLabel(
+                                          'Recharge Card'),
+                                      SplashScreenNotifier.getLanguageLabel(
+                                          "Please select a card to recharge."),
+                                    );
+                                    //if there is a card selected and is not blocked or expired then navigate
+                                  } else if (!(cardDetails.isBlocked() ||
+                                      cardDetails.isExpired())) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SelectCardRechargePage(),
+                                      ),
+                                    );
+                                  } else {
+                                    //else show dialog
+                                    Dialogs.showMessageInfo(
+                                      context,
+                                      SplashScreenNotifier.getLanguageLabel(
+                                          'Recharge Card'),
+                                      SplashScreenNotifier.getLanguageLabel(
+                                          "Temporary or expired cards can't be recharged."),
+                                    );
+                                  }
                                 }
-                            }),
-                          ),
-                          QuickLinkItem(
-                            color: CustomColors.customPink,
-                            image: 'new_card',
-                            text: SplashScreenNotifier.getLanguageLabel(
-                                'New Card'),
-                            onTap: () =>
-                                Navigator.pushNamed(context, Routes.kBuyACard),
-                          ),
-                          QuickLinkItem(
-                            color: CustomColors.customLigthBlue,
-                            image: 'activities',
-                            text: SplashScreenNotifier.getLanguageLabel(
-                                'Activities'),
-                            onTap: () => hasCard
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => CardActivityLogPage(
-                                          cardDetails: cardDetails),
-                                    ),
-                                  )
-                                : Dialogs.showMessageInfo(
-                                    context,
-                                    SplashScreenNotifier.getLanguageLabel(
-                                        'Activities'),
-                                    msgCardNoLink),
-                          ),
-                          QuickLinkItem(
-                            color: CustomColors.customOrange,
-                            image: 'lost_card',
-                            text: SplashScreenNotifier.getLanguageLabel(
-                                'Lost Card'),
-                            onTap: () => hasCard
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SelectCardLostPage(
-                                          cardDetails: cardDetails),
-                                    ),
-                                  )
-                                : Dialogs.showMessageInfo(
-                                    context,
-                                    SplashScreenNotifier.getLanguageLabel(
-                                        'Lost Card'),
-                                    msgCardNoLink),
-                          ),
-                          QuickLinkItem(
-                            color: CustomColors.customGreen,
-                            image: 'gameplays',
-                            text: SplashScreenNotifier.getLanguageLabel(
-                                'Game Plays'),
-                            onTap: () => hasCard
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => GameplaysPage(
-                                          cardDetails: cardDetails),
-                                    ),
-                                  )
-                                : Dialogs.showMessageInfo(
-                                    context,
-                                    SplashScreenNotifier.getLanguageLabel(
-                                        'Game Plays'),
-                                    msgCardNoLink),
-                          ),
-                          QuickLinkItem(
-                            color: CustomColors.customPurple,
-                            image: 'transfer_credit',
-                            text: SplashScreenNotifier.getLanguageLabel(
-                                'Transfer Credit'),
-                            onTap: () => hasCard
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => TransferPage(
-                                          cardDetails: cardDetails),
-                                    ),
-                                  )
-                                : Dialogs.showMessageInfo(
-                                    context,
-                                    SplashScreenNotifier.getLanguageLabel(
-                                        'Transfer Credit'),
-                                    msgCardNoLink),
-                          ),
-                        ],
+                              } else {
+                                if (hasCard) {
+                                  Navigator.pushNamed(
+                                      context,
+                                      quickLink.contentKey
+                                          .replaceAll('sf:/', ''));
+                                } else {
+                                  Dialogs.showMessageInfo(
+                                      context,
+                                      SplashScreenNotifier.getLanguageLabel(
+                                          'Activities'),
+                                      msgCardNoLink);
+                                }
+                              }
+                            },
+                          );
+                        },
                       );
                     },
                   ),
@@ -411,74 +339,44 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
                   ),
-                  GridView(
+                  GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                     ),
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      QuickLinkItem(
+                    itemCount: moreActions?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      final moreAction = moreActions![index];
+                      return QuickLinkItem(
                         color: CustomColors.customPink,
-                        image: 'new_card',
+                        imageUrl: moreAction.contentURL,
                         text: SplashScreenNotifier.getLanguageLabel(
-                            'Link A Card'),
+                            moreAction.source),
                         onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return Dialog(
-                                child: Container(
-                                  height: 245,
-                                  padding: const EdgeInsets.all(10),
-                                  child: LinkACard(),
-                                ),
-                              );
-                            },
-                          );
+                          if (moreAction.source == 'Link Card') {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  child: Container(
+                                    height: 245,
+                                    padding: const EdgeInsets.all(10),
+                                    child: LinkACard(),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Not implemented')),
+                            );
+                          }
                         },
-                      ),
-                      QuickLinkItem(
-                        color: CustomColors.customYellow,
-                        image: 'tickets',
-                        text: SplashScreenNotifier.getLanguageLabel('Tickets'),
-                        onTap: () {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Not implemented'),
-                            ),
-                          );
-                        },
-                      ),
-                      QuickLinkItem(
-                        color: CustomColors.customOrange,
-                        image: 'coupons',
-                        text: SplashScreenNotifier.getLanguageLabel('Coupons'),
-                        onTap: () {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Not implemented'),
-                            ),
-                          );
-                        },
-                      ),
-                      QuickLinkItem(
-                        color: CustomColors.customGreen,
-                        image: 'events',
-                        text: SplashScreenNotifier.getLanguageLabel('Events'),
-                        onTap: () {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Not implemented'),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ],
               ),

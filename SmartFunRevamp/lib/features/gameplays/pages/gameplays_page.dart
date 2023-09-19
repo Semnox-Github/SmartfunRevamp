@@ -11,13 +11,14 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/gameplays/provider/gameplays_provider.dart';
 import 'package:semnox/features/gameplays/widgets/dialog_item.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class GameplaysPage extends ConsumerStatefulWidget {
-  const GameplaysPage({Key? key, this.cardDetails}) : super(key: key);
-
-  final CardDetails? cardDetails;
+  const GameplaysPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _GameplaysPageState();
@@ -26,12 +27,14 @@ class GameplaysPage extends ConsumerStatefulWidget {
 class _GameplaysPageState extends ConsumerState<GameplaysPage> {
   late CardDetails selectedCard;
   late List<CardDetails> cards;
+  late CardDetails? cardDetails;
   @override
   void initState() {
-    if (widget.cardDetails != null) {
+    cardDetails = ref.read(currentCardProvider);
+    if (cardDetails != null) {
       //is added to cards list as the only card
       List<CardDetails> selectedCard = [];
-      selectedCard.add(widget.cardDetails!);
+      selectedCard.add(cardDetails!);
       cards = selectedCard;
     } else {
       //if no card was selected, i.e. when landed from Search, get all the user cards

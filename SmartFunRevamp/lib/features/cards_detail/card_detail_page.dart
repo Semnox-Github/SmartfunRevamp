@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -13,7 +14,6 @@ import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
-import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/features/transfer/transfer_page.dart';
@@ -56,25 +56,38 @@ class CardDetailPage extends ConsumerWidget {
                 ),
                 child: CardWidget(cardDetails: cardDetails),
               ),
-              GridView(
+              GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                 ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  for (final item in items)
-                    if (item.active) CardDetailItemFromCMS(item: item, cardDetails: cardDetails),
-                ],
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  final cardDetailItem = items[index];
+                  if (cardDetailItem.active) {
+                    return CardDetailItemFromCMS(
+                      cardDetails: cardDetails,
+                      item: cardDetailItem,
+                    );
+                  }
+                  return null;
+                },
               ),
+              // GridView(
+              //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //     crossAxisCount: 3,
+              //   ),
+              //   shrinkWrap: true,
+              //   physics: const NeverScrollableScrollPhysics(),
+              //   children: [
+              //     for (final item in items)
+              //       if (item.active) CardDetailItemFromCMS(item: item, cardDetails: cardDetails),
+              //   ],
+              // ),
               if (!(cardDetails.isBlocked() || cardDetails.isExpired()))
                 CustomButton(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SelectCardRechargePage(cardDetails: cardDetails),
-                    ),
-                  ),
+                  onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
                   label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
                   margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                 ),
@@ -110,7 +123,7 @@ class CardDetailPage extends ConsumerWidget {
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TransferPage(cardDetails: cardDetails),
+                          builder: (context) => const TransferPage(),
                         ),
                       ),
                     ),
@@ -122,7 +135,7 @@ class CardDetailPage extends ConsumerWidget {
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => GameplaysPage(cardDetails: cardDetails),
+                          builder: (context) => const GameplaysPage(),
                         ),
                       ),
                     ),
@@ -134,7 +147,7 @@ class CardDetailPage extends ConsumerWidget {
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CardActivityLogPage(cardDetails: cardDetails),
+                          builder: (context) => const CardActivityLogPage(),
                         ),
                       ),
                     )
@@ -285,116 +298,26 @@ class CardDetailItemFromCMS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (item.itemName) {
-      case "BONUS":
-        return CardDetailItem(
-          item: item,
-          color: CustomColors.customOrange,
-          image: 'bonus_points',
-          amount: '${cardDetails.creditPlusBonus?.toStringAsFixed(0)}',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BonusSummaryPage(
-                  cardNumber: cardDetails.accountNumber ?? '',
-                  creditPlusType: 5,
-                  pageTitle: SplashScreenNotifier.getLanguageLabel("Bonus Balance"),
+    Logger().i(cardDetails.toJson());
+    return CardDetailItem(
+      item: item,
+      color: CustomColors.customOrange,
+      image: 'bonus_points',
+      amount: item.itemName == "COURTESY" ? cardDetails.totalCourtesyBalance?.toStringAsFixed(0) ?? '' : cardDetails.pointsBasedOnCreditType(item.creditType ?? 0),
+      onTap: item.creditType == null
+          ? null
+          : () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BonusSummaryPage(
+                    cardNumber: cardDetails.accountNumber ?? '',
+                    creditPlusType: item.creditType,
+                    pageTitle: SplashScreenNotifier.getLanguageLabel(item.displayName),
+                  ),
                 ),
-              ),
-            );
-          },
-        );
-
-      case "TIME":
-        return CardDetailItem(
-          item: item,
-          color: CustomColors.customGreen,
-          image: 'playtime',
-          amount: '${cardDetails.creditPlusTime?.toStringAsFixed(0)}',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BonusSummaryPage(
-                  cardNumber: cardDetails.accountNumber ?? '',
-                  creditPlusType: 6,
-                  pageTitle: SplashScreenNotifier.getLanguageLabel("Time Balance"),
-                ),
-              ),
-            );
-          },
-        );
-
-      case "TICKETS":
-        return CardDetailItem(
-          item: item,
-          color: CustomColors.customPurple,
-          image: 'ticket_count',
-          amount: '${cardDetails.creditPlusTickets?.toStringAsFixed(0)}',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BonusSummaryPage(
-                  cardNumber: cardDetails.accountNumber ?? '',
-                  creditPlusType: 2,
-                  pageTitle: SplashScreenNotifier.getLanguageLabel("Ticket Balance"),
-                ),
-              ),
-            );
-          },
-        );
-
-      case "COURTESY":
-        return CardDetailItem(
-          item: item,
-          color: CustomColors.customYellow,
-          image: 'courtesy',
-          amount: '${cardDetails.totalCourtesyBalance?.toStringAsFixed(0)}',
-        );
-
-      case "LOYALTY":
-        return CardDetailItem(
-          item: item,
-          color: CustomColors.customPink,
-          image: 'loyalty',
-          amount: '${cardDetails.creditPlusLoyaltyPoints?.toStringAsFixed(0)}',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BonusSummaryPage(
-                  cardNumber: cardDetails.accountNumber ?? '',
-                  creditPlusType: 1,
-                  pageTitle: SplashScreenNotifier.getLanguageLabel("Loyalty Balance"),
-                ),
-              ),
-            );
-          },
-        );
-
-      case "CREDITS":
-        return CardDetailItem(
-          item: item,
-          color: CustomColors.customLigthBlue,
-          image: 'bonus_points',
-          amount: '${cardDetails.creditPlusCardBalance?.toStringAsFixed(0)}',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BonusSummaryPage(
-                  cardNumber: cardDetails.accountNumber ?? '',
-                  creditPlusType: 0,
-                  pageTitle: SplashScreenNotifier.getLanguageLabel("Credits Balance"),
-                ),
-              ),
-            );
-          },
-        );
-      default:
-        return Text("${item.displayName} is not implemented");
-    }
+              );
+            },
+    );
   }
 }

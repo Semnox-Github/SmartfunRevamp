@@ -163,10 +163,14 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
         }
         final selectedSite =
             await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
-        Logger().d(selectedSite);
-        // await Future.delayed(const Duration(seconds: 3));
+        // Load Local Json
+        final String exampleCMSJson =
+            await rootBundle.loadString('assets/json/example_cms.json');
+        final data =
+            (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
+        final cms = HomePageCMSResponse.fromJson(data);
         state = _Success(
-          homePageCMSResponse: r,
+          homePageCMSResponse: cms,
           languageContainerDTO: _languageContainerDTO,
           siteViewDTO: masterSite!,
           parafaitDefaultsResponse: _parafaitDefaultsResponse,

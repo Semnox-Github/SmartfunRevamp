@@ -13,6 +13,7 @@ CustomerFeedbackResponseValues _$CustomerFeedbackResponseValuesFromJson(
       (json['Score'] as num?)?.toDouble() ?? 0.0,
       json['IsActive'] as bool,
       json['Image'] as String?,
+      json['CustFbResponseValueId'] as int,
     );
 
 Map<String, dynamic> _$CustomerFeedbackResponseValuesToJson(
@@ -30,6 +31,7 @@ Map<String, dynamic> _$CustomerFeedbackResponseValuesToJson(
   }
 
   writeNotNull('Image', instance.image);
+  val['CustFbResponseValueId'] = instance.custFbResponseValueId;
   return val;
 }
 
@@ -77,11 +79,13 @@ Map<String, dynamic> _$SurveyQuestionToJson(SurveyQuestion instance) =>
 SurveyDetails _$SurveyDetailsFromJson(Map<String, dynamic> json) =>
     SurveyDetails(
       SurveyQuestion.fromJson(json['SurveyQuestion'] as Map<String, dynamic>),
+      json['CustFbSurveyDetailId'] as int,
     );
 
 Map<String, dynamic> _$SurveyDetailsToJson(SurveyDetails instance) =>
     <String, dynamic>{
       'SurveyQuestion': instance.surveyQuestion.toJson(),
+      'CustFbSurveyDetailId': instance.custFbSurveyDetailId,
     };
 
 SurveyDetailsResponse _$SurveyDetailsResponseFromJson(

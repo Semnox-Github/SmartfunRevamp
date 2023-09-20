@@ -12,12 +12,14 @@ class CustomerFeedbackResponseValues {
   final String? image;
   @JsonKey(includeFromJson: false)
   Uint8List? base64Image;
+  final int custFbResponseValueId;
 
   CustomerFeedbackResponseValues(
     this.responseValue,
     this.score,
     this.isActive,
     this.image,
+    this.custFbResponseValueId,
   );
   factory CustomerFeedbackResponseValues.fromJson(Map<String, dynamic> json) =>
       _$CustomerFeedbackResponseValuesFromJson(json);
@@ -54,8 +56,11 @@ class SurveyQuestion {
 @JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class SurveyDetails {
   final SurveyQuestion surveyQuestion;
-
-  SurveyDetails(this.surveyQuestion);
+  final int custFbSurveyDetailId;
+  SurveyDetails(
+    this.surveyQuestion,
+    this.custFbSurveyDetailId,
+  );
   factory SurveyDetails.fromJson(Map<String, dynamic> json) =>
       _$SurveyDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$SurveyDetailsToJson(this);

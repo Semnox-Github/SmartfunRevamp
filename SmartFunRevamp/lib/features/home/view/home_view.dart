@@ -162,9 +162,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       ),
                       const Spacer(),
                       HomeTopBarIcons(
-                        // onSearchTap: () => Navigator.pushNamed(context, Routes.kSearch),
                         onSearchTap: () =>
-                            Navigator.pushNamed(context, Routes.kFeedback),
+                            Navigator.pushNamed(context, Routes.kSearch),
                       ),
                     ],
                   ),
@@ -175,8 +174,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       loading: () => const ShimmerLoading(height: 200),
                       error: (_, __) => Center(
                         child: MulishText(
-                            text: SplashScreenNotifier.getLanguageLabel(
-                                'No Cards found')),
+                          text: SplashScreenNotifier.getLanguageLabel(
+                              'No Cards found'),
+                        ),
                       ),
                       data: (data) {
                         return Column(

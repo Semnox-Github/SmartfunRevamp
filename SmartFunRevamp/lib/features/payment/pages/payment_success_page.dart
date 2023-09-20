@@ -12,7 +12,13 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class PaymentSuccessPage extends ConsumerWidget {
-  const PaymentSuccessPage({Key? key, this.cardNumber, required this.amount, required this.transactionType, required this.productName}) : super(key: key);
+  const PaymentSuccessPage({
+    Key? key,
+    this.cardNumber,
+    required this.amount,
+    required this.transactionType,
+    required this.productName,
+  }) : super(key: key);
   final String? cardNumber;
   final double amount;
   final String transactionType;
@@ -20,11 +26,16 @@ class PaymentSuccessPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
-    final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
-    final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
+    final currency =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ??
+            'USD';
+    final format =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
+            '#,##0.00';
     final String fixedAmount = amount.toCurrency(currency, format);
     final DateTime dateToday = DateTime.now();
-    final DateTime dateOneYearLater = DateTime(dateToday.year + 1, dateToday.month, dateToday.day);
+    final DateTime dateOneYearLater =
+        DateTime(dateToday.year + 1, dateToday.month, dateToday.day);
     if (transactionType == "newcard") {
       return Scaffold(
         body: Center(
@@ -78,7 +89,8 @@ class PaymentSuccessPage extends ConsumerWidget {
                                 ),
                                 const SizedBox(height: 7.0),
                                 Text(
-                                  SplashScreenNotifier.getLanguageLabel('+Add nickname'),
+                                  SplashScreenNotifier.getLanguageLabel(
+                                      '+Add nickname'),
                                   style: const TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Colors.white,
@@ -88,7 +100,8 @@ class PaymentSuccessPage extends ConsumerWidget {
                               ],
                             ),
                             GestureDetector(
-                              onTap: () => Dialogs.showBarcodeTempCard(context, cardNumber!),
+                              onTap: () => Dialogs.showBarcodeTempCard(
+                                  context, cardNumber!),
                               child: Image.asset(
                                 'assets/home/QR.png',
                                 height: 42.0,
@@ -144,7 +157,8 @@ class PaymentSuccessPage extends ConsumerWidget {
               ),
               const MulishText(
                 textAlign: TextAlign.center,
-                text: 'Instructions - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt u - ',
+                text:
+                    'Instructions - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt u - ',
                 fontColor: Colors.black45,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -160,7 +174,8 @@ class PaymentSuccessPage extends ConsumerWidget {
           ),
           margin: const EdgeInsets.all(3),
           child: TextButton(
-            onPressed: () => Navigator.pushReplacementNamed(context, Routes.kFeedback),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, Routes.kFeedback),
             child: const Text(
               'BACK TO HOME',
               style: TextStyle(
@@ -191,7 +206,8 @@ class PaymentSuccessPage extends ConsumerWidget {
               ),
               MulishText(
                 textAlign: TextAlign.center,
-                text: 'You have successfully recharged $productName on to your $cardNumber',
+                text:
+                    'You have successfully recharged $productName on to your $cardNumber',
                 fontColor: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -207,7 +223,8 @@ class PaymentSuccessPage extends ConsumerWidget {
           ),
           margin: const EdgeInsets.all(3),
           child: TextButton(
-            onPressed: () => Navigator.pushReplacementNamed(context, Routes.kFeedback),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, Routes.kFeedback),
             child: const Text(
               'BACK TO HOME',
               style: TextStyle(

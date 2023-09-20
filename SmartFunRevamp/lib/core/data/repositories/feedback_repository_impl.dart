@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
+import 'package:semnox/core/domain/entities/feedback/survey_request.dart';
 import 'package:semnox/core/domain/repositories/feedback_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -52,19 +53,32 @@ class FeedbackRepositoryImpl implements FeedbackRepository {
   }
 
   @override
-  Future<Either<Failure, void>> postCustomerFeedback() async {
+  Future<Either<Failure, void>> postCustomerFeedback(
+      SurveyRequest request) async {
     try {
-      await _api.sendCustomerFeedback();
+      await _api.sendCustomerFeedback({
+        "data": [
+          request.toJson(),
+        ]
+      });
       return const Right(null);
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
         return Left(
-            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+          ServerFailure(
+            SplashScreenNotifier.getLanguageLabel('Not Found'),
+          ),
+        );
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(
-          SplashScreenNotifier.getLanguageLabel(message['data'])));
+      return Left(
+        ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(
+            message['data'],
+          ),
+        ),
+      );
     } catch (e) {
       Logger().e(e);
       return Left(ServerFailure(''));

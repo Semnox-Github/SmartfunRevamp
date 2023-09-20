@@ -8,13 +8,16 @@ import 'package:semnox/core/domain/use_cases/authentication/get_execution_contex
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
+import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
+SiteViewDTO? userSelectedSite;
 Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   final localDataSource = Get.find<LocalDataSource>();
-  final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
+  final response =
+      await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
   final getExecutionContextUseCase = Get.find<GetExecutionContextUseCase>();
   final selectedSite = response.fold(
     (l) => null,
@@ -22,8 +25,10 @@ Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
       return SiteViewDTO.fromJson(r);
     },
   );
+  userSelectedSite = selectedSite;
   registerUser(customerDTO);
-  final executionContextResponse = await getExecutionContextUseCase(selectedSite!.siteId!);
+  final executionContextResponse =
+      await getExecutionContextUseCase(selectedSite!.siteId!);
   executionContextResponse.fold(
     (l) {},
     (r) {
@@ -49,24 +54,44 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final customer = ref.watch(customDTOProvider).valueOrNull;
-    void nextPage() => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
+    void nextPage() =>
+        Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
     ref.listen<NewSplashScreenState>(
       newSplashScreenProvider,
       (_, next) {
         next.maybeWhen(
           orElse: () {},
-          success: (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection) {
+          success:
+              (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection) {
             ref.read(newHomePageCMSProvider.notifier).update((_) => cms);
-            ref.read(languangeContainerProvider.notifier).update((_) => langDto);
+            ref
+                .read(languangeContainerProvider.notifier)
+                .update((_) => langDto);
             ref.read(masterSiteProvider.notifier).update((_) => masterSite);
-            ref.read(parafaitDefaultsProvider.notifier).update((_) => parafaitDefaults);
+            ref
+                .read(parafaitDefaultsProvider.notifier)
+                .update((_) => parafaitDefaults);
             if (customer == null) {
               nextPage();
             } else {
               if (needsSiteSelection) {
                 Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
               } else {
-                registerLoggedUser(customer).then((value) => Navigator.pushReplacementNamed(context, Routes.kHomePage));
+                registerLoggedUser(customer).then((value) => {
+                      if (userSelectedSite != null)
+                        {
+                          ref
+                              .read(loginProvider.notifier)
+                              .setSite(userSelectedSite!),
+                          Navigator.pushReplacementNamed(
+                              context, Routes.kHomePage)
+                        }
+                      else
+                        {
+                          Navigator.pushReplacementNamed(
+                              context, Routes.kHomePage)
+                        }
+                    });
               }
             }
           },
@@ -121,7 +146,8 @@ class SplashScreenImage extends StatelessWidget {
       height: double.infinity,
       width: double.infinity,
       fit: BoxFit.fill,
-      placeholder: (_, __) => const Center(child: CircularProgressIndicator.adaptive()),
+      placeholder: (_, __) =>
+          const Center(child: CircularProgressIndicator.adaptive()),
       errorWidget: (context, url, error) {
         return Container(
           decoration: const BoxDecoration(

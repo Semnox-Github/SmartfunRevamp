@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/instance_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:semnox/colors/colors.dart';
@@ -57,15 +58,12 @@ class MoreView extends ConsumerWidget {
               ],
             ),
           ),
-          //TODO:HERE
           ...items.map(
             (e) => MoreOptionItemFromCMS(
               item: e,
               membershipInfo: membershipInfo,
             ),
           ),
-          // for (final item in items)
-          //   if (item.active) MoreOptionItemFromCMS(item: item),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
@@ -74,7 +72,8 @@ class MoreView extends ConsumerWidget {
                 TextButton(
                   onPressed: () async {
                     localDatasource.logoutUser().then(
-                          (value) => Navigator.popAndPushNamed(context, Routes.kLogInPage),
+                          (value) => Navigator.popAndPushNamed(
+                              context, Routes.kLogInPage),
                         );
                     ref.invalidate(CardsProviders.userCardsProvider);
                   },
@@ -93,7 +92,9 @@ class MoreView extends ConsumerWidget {
                     }
                     final info = snapshot.data;
                     return MulishText(
-                      text: SplashScreenNotifier.getLanguageLabel('Build Version &1').replaceAll(
+                      text: SplashScreenNotifier.getLanguageLabel(
+                              'Build Version &1')
+                          .replaceAll(
                         '&1',
                         info?.version ?? '',
                       ),
@@ -111,7 +112,9 @@ class MoreView extends ConsumerWidget {
 }
 
 class MoreOptionItemFromCMS extends StatelessWidget {
-  const MoreOptionItemFromCMS({Key? key, required this.item, required this.membershipInfo}) : super(key: key);
+  const MoreOptionItemFromCMS(
+      {Key? key, required this.item, required this.membershipInfo})
+      : super(key: key);
   final CMSMenuItem item;
   final MembershipInfo? membershipInfo;
 
@@ -129,7 +132,13 @@ class MoreOptionItemFromCMS extends StatelessWidget {
       desc: description,
       iconBgColor: Colors.white,
       iconPath: 'gold_medal',
-      onTap: () => Navigator.pushNamed(context, item.target ?? ""),
+      onTap: () {
+        if (Routes.routesMap.containsKey(item.target)) {
+          Navigator.pushNamed(context, item.target ?? "");
+        } else {
+          Fluttertoast.showToast(msg: "URL is not configured");
+        }
+      },
       title: item.displayName,
     );
   }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
@@ -20,7 +21,8 @@ import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 SiteViewDTO? userSelectedSite;
 Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   final localDataSource = Get.find<LocalDataSource>();
-  final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
+  final response =
+      await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
   final getExecutionContextUseCase = Get.find<GetExecutionContextUseCase>();
   final selectedSite = response.fold(
     (l) => null,
@@ -30,7 +32,8 @@ Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   );
   userSelectedSite = selectedSite;
   registerUser(customerDTO);
-  final executionContextResponse = await getExecutionContextUseCase(selectedSite!.siteId!);
+  final executionContextResponse =
+      await getExecutionContextUseCase(selectedSite!.siteId!);
   executionContextResponse.fold(
     (l) {},
     (r) {
@@ -67,7 +70,8 @@ class SplashScreenImage extends StatelessWidget {
       height: double.infinity,
       width: double.infinity,
       fit: BoxFit.fill,
-      placeholder: (_, __) => const Center(child: CircularProgressIndicator.adaptive()),
+      placeholder: (_, __) =>
+          const Center(child: CircularProgressIndicator.adaptive()),
       errorWidget: (context, url, error) {
         return Container(
           decoration: const BoxDecoration(
@@ -86,17 +90,23 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final customer = ref.watch(customDTOProvider).valueOrNull;
-    void nextPage() => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
+    void nextPage() =>
+        Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
     ref.listen<NewSplashScreenState>(
       newSplashScreenProvider,
       (_, next) {
         next.maybeWhen(
           orElse: () {},
-          success: (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection) {
+          success:
+              (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection) {
             ref.read(newHomePageCMSProvider.notifier).update((_) => cms);
-            ref.read(languangeContainerProvider.notifier).update((_) => langDto);
+            ref
+                .read(languangeContainerProvider.notifier)
+                .update((_) => langDto);
             ref.read(masterSiteProvider.notifier).update((_) => masterSite);
-            ref.read(parafaitDefaultsProvider.notifier).update((_) => parafaitDefaults);
+            ref
+                .read(parafaitDefaultsProvider.notifier)
+                .update((_) => parafaitDefaults);
             final parafaitDefault = ref.watch(parafaitDefaultsProvider);
             //get the update status "O" => optional | "M" => mandatory | other value => not necesary
             final deprecated = Get.find<String>(tag: 'appVersionDeprecated');
@@ -106,12 +116,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             final currentDate = DateTime.now().toIso8601String().split("T")[0];
             //get the application download url based on the OS
             final storeUrl = isAndroid
-                ? parafaitDefault?.getDefault(ParafaitDefaultsResponse.playStoreUrl) ?? ""
+                ? parafaitDefault
+                        ?.getDefault(ParafaitDefaultsResponse.playStoreUrl) ??
+                    ""
                 : isIOS
-                    ? parafaitDefault?.getDefault(ParafaitDefaultsResponse.appStoreUrl) ?? ""
+                    ? parafaitDefault?.getDefault(
+                            ParafaitDefaultsResponse.appStoreUrl) ??
+                        ""
                     : "";
             //Get the last app update reminder date
-            GluttonLocalDataSource().retrieveValue(LocalDataSource.kAppUpdateReminderDate).then(
+            GluttonLocalDataSource()
+                .retrieveValue(LocalDataSource.kAppUpdateReminderDate)
+                .then(
                   (value) async => {
                     //if application url is not set don't show the update message
 
@@ -119,37 +135,51 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         //if update is mandatory, show everytime the app starts
                         (deprecated == "M" ||
                             //if is optional, show once a day
-                            (deprecated == "O" && currentDate != value.toString())))
+                            (deprecated == "O" &&
+                                currentDate != value.toString())))
                       {
-                        GluttonLocalDataSource().saveValue(LocalDataSource.kAppUpdateReminderDate, currentDate),
+                        GluttonLocalDataSource().saveValue(
+                            LocalDataSource.kAppUpdateReminderDate,
+                            currentDate),
                         await Dialogs.downloadUpdateDialog(context, storeUrl),
-                        if (customer == null)
+                        if (deprecated != "M")
                           {
-                            nextPage(),
-                          }
-                        else
-                          {
-                            if (needsSiteSelection)
+                            if (customer == null)
                               {
-                                if (context.mounted) Navigator.pushReplacementNamed(context, Routes.kEnableLocation),
+                                nextPage(),
                               }
                             else
                               {
-                                registerLoggedUser(customer).then(
-                                  (value) => {
-                                    if (userSelectedSite != null)
-                                      {
-                                        ref.read(loginProvider.notifier).setSite(userSelectedSite!),
-                                        Navigator.pushReplacementNamed(context, Routes.kHomePage),
-                                      }
-                                    else
-                                      {
-                                        Navigator.pushReplacementNamed(context, Routes.kHomePage),
-                                      }
-                                  },
-                                ),
+                                if (needsSiteSelection)
+                                  {
+                                    if (context.mounted)
+                                      Navigator.pushReplacementNamed(
+                                          context, Routes.kEnableLocation),
+                                  }
+                                else
+                                  {
+                                    registerLoggedUser(customer).then(
+                                      (value) => {
+                                        if (userSelectedSite != null)
+                                          {
+                                            ref
+                                                .read(loginProvider.notifier)
+                                                .setSite(userSelectedSite!),
+                                            Navigator.pushReplacementNamed(
+                                                context, Routes.kHomePage),
+                                          }
+                                        else
+                                          {
+                                            Navigator.pushReplacementNamed(
+                                                context, Routes.kHomePage),
+                                          }
+                                      },
+                                    ),
+                                  }
                               }
                           }
+                        else
+                          {SystemNavigator.pop()}
                       }
                     else
                       {
@@ -161,7 +191,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                           {
                             if (needsSiteSelection)
                               {
-                                Navigator.pushReplacementNamed(context, Routes.kEnableLocation),
+                                Navigator.pushReplacementNamed(
+                                    context, Routes.kEnableLocation),
                               }
                             else
                               {
@@ -169,12 +200,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                                   (value) => {
                                     if (userSelectedSite != null)
                                       {
-                                        ref.read(loginProvider.notifier).setSite(userSelectedSite!),
-                                        Navigator.pushReplacementNamed(context, Routes.kHomePage)
+                                        ref
+                                            .read(loginProvider.notifier)
+                                            .setSite(userSelectedSite!),
+                                        Navigator.pushReplacementNamed(
+                                            context, Routes.kHomePage)
                                       }
                                     else
                                       {
-                                        Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                        Navigator.pushReplacementNamed(
+                                            context, Routes.kHomePage),
                                       }
                                   },
                                 ),

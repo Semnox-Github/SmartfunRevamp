@@ -12,10 +12,12 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
+import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
+SiteViewDTO? userSelectedSite;
 Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   final localDataSource = Get.find<LocalDataSource>();
   final response =
@@ -27,6 +29,7 @@ Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
       return SiteViewDTO.fromJson(r);
     },
   );
+  userSelectedSite = selectedSite;
   registerUser(customerDTO);
   final executionContextResponse =
       await getExecutionContextUseCase(selectedSite!.siteId!);
@@ -119,9 +122,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                                 }
                               else
                                 {
-                                  registerLoggedUser(customer).then((value) =>
-                                      Navigator.pushReplacementNamed(
-                                          context, Routes.kHomePage)),
+                                  registerLoggedUser(customer).then((value) => {
+                                        if (userSelectedSite != null)
+                                          {
+                                            ref
+                                                .read(loginProvider.notifier)
+                                                .setSite(userSelectedSite!),
+                                            Navigator.pushReplacementNamed(
+                                                context, Routes.kHomePage)
+                                          }
+                                        else
+                                          {
+                                            Navigator.pushReplacementNamed(
+                                                context, Routes.kHomePage)
+                                          }
+                                      }),
                                 }
                             }
                         }
@@ -140,9 +155,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                                 }
                               else
                                 {
-                                  registerLoggedUser(customer).then((value) =>
-                                      Navigator.pushReplacementNamed(
-                                          context, Routes.kHomePage)),
+                                  registerLoggedUser(customer).then((value) => {
+                                        if (userSelectedSite != null)
+                                          {
+                                            ref
+                                                .read(loginProvider.notifier)
+                                                .setSite(userSelectedSite!),
+                                            Navigator.pushReplacementNamed(
+                                                context, Routes.kHomePage)
+                                          }
+                                        else
+                                          {
+                                            Navigator.pushReplacementNamed(
+                                                context, Routes.kHomePage)
+                                          }
+                                      }),
                                 }
                             }
                         }

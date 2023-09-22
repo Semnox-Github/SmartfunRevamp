@@ -30,6 +30,7 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Dialogs {
   static void couponSuccessDialog(BuildContext context, double couponValue) {
@@ -458,6 +459,31 @@ class Dialogs {
         fontWeight: FontWeight.w400,
         fontSize: 18,
       ),
+    ).show();
+  }
+
+  static Future<void> downloadUpdateDialog(BuildContext context, String appUrl) async {
+    await AwesomeDialog(
+      context: context,
+      dialogType: DialogType.info,
+      animType: AnimType.scale,
+      descTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          MulishText(
+              text: SplashScreenNotifier.getLanguageLabel(
+                  "An updated version of the app is available. Do you wish to upgrade?"))
+        ],
+      ),
+      btnOkOnPress: () {
+        launchUrl(Uri.parse(appUrl), mode: LaunchMode.externalApplication);
+      },
+      btnCancelOnPress: () {},
     ).show();
   }
 

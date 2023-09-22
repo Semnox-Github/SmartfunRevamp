@@ -11,6 +11,7 @@ GetBaseUrlResponse _$GetBaseUrlResponseFromJson(Map<String, dynamic> json) =>
       json['AppId'] as String,
       json['ReleaseNumber'] as String,
       json['GateWayURL'] as String,
+      json['Deprecated'] as String,
     );
 
 Map<String, dynamic> _$GetBaseUrlResponseToJson(GetBaseUrlResponse instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$GetBaseUrlResponseToJson(GetBaseUrlResponse instance) =>
       'AppId': instance.appId,
       'ReleaseNumber': instance.releaseNumber,
       'GateWayURL': instance.gateWayURL,
+      'Deprecated': instance.deprecated,
     };

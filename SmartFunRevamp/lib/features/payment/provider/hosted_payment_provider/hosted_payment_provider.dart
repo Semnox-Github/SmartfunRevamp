@@ -9,8 +9,7 @@ import 'package:semnox/core/domain/use_cases/payment/get_hosted_payment_gateways
 part 'hosted_payment_state.dart';
 part 'hosted_payment_provider.freezed.dart';
 
-final hostedPaymentProvider = StateNotifierProvider.autoDispose<
-    HostedPaymentProvider, HostedPaymentState>(
+final hostedPaymentProvider = StateNotifierProvider.autoDispose<HostedPaymentProvider, HostedPaymentState>(
   (ref) => HostedPaymentProvider(
     Get.find<GetHostedPaymentGatewayUseCase>(),
     Get.find<LocalDataSource>(),
@@ -27,8 +26,7 @@ class HostedPaymentProvider extends StateNotifier<HostedPaymentState> {
   ) : super(const _Initial());
 
   void getHtml(HostedPaymentGatewayRequest request) async {
-    await _localDataSource.saveValue(
-        LocalDataSource.kTransactionId, request.transactionId);
+    await _localDataSource.saveValue(LocalDataSource.kTransactionId, request.transactionId);
     state = const _InProgress();
     final response = await _getHostedPaymentGatewayUseCase(
       amount: request.amount,

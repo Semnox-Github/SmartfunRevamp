@@ -133,6 +133,10 @@ class LoginNotifier extends StateNotifier<LoginState> {
     }
   }
 
+  void setSite(SiteViewDTO site) async {
+    selectedSite = site;
+  }
+
   void saveSelectedSite() async {
     await _localDataSource.saveCustomClass(
         LocalDataSource.kSelectedSite, selectedSite!.toJson());

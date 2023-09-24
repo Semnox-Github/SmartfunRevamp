@@ -25,8 +25,19 @@ class HomePageCMSResponse {
   final CMSModuleColorsHome? cmsModuleColorsHome;
   @JsonKey(name: 'CardsColor')
   final CardsColor? cardsColor;
+  final List<HomePageOrder> homePageOrder;
 
-  HomePageCMSResponse(this.moduleId, this.description, this.title, this.cmsModulePages, this.cmsModuleMenu, this.cmsImages, this.cmsModuleColorsHome, this.cardsColor);
+  HomePageCMSResponse(
+    this.moduleId,
+    this.description,
+    this.title,
+    this.cmsModulePages,
+    this.cmsModuleMenu,
+    this.cmsImages,
+    this.cmsModuleColorsHome,
+    this.cardsColor,
+    this.homePageOrder,
+  );
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
 
@@ -250,4 +261,14 @@ class CMSImages {
   );
   factory CMSImages.fromJson(Map<String, dynamic> json) => _$CMSImagesFromJson(json);
   Map<String, dynamic> toJson() => _$CMSImagesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HomePageOrder {
+  final int position;
+  final String widget;
+
+  HomePageOrder(this.position, this.widget);
+  factory HomePageOrder.fromJson(Map<String, dynamic> json) => _$HomePageOrderFromJson(json);
+  Map<String, dynamic> toJson() => _$HomePageOrderToJson(this);
 }

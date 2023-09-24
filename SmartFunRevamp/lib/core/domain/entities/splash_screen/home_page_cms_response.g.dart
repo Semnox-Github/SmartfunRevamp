@@ -6,8 +6,7 @@ part of 'home_page_cms_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
-    HomePageCMSResponse(
+HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) => HomePageCMSResponse(
       json['ModuleId'] as int?,
       json['Description'] as String?,
       json['Title'] as String?,
@@ -20,11 +19,9 @@ HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
       CMSImages.fromJson(json['images'] as Map<String, dynamic>),
       json['CMSModuleColorsHome'] == null
           ? null
-          : CMSModuleColorsHome.fromJson(
-              json['CMSModuleColorsHome'] as Map<String, dynamic>),
-      json['CardsColor'] == null
-          ? null
-          : CardsColor.fromJson(json['CardsColor'] as Map<String, dynamic>),
+          : CMSModuleColorsHome.fromJson(json['CMSModuleColorsHome'] as Map<String, dynamic>),
+      json['CardsColor'] == null ? null : CardsColor.fromJson(json['CardsColor'] as Map<String, dynamic>),
+      (json['HomePageOrder'] as List<dynamic>).map((e) => HomePageOrder.fromJson(e as Map<String, dynamic>)).toList(),
     );
 
 Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
@@ -39,13 +36,12 @@ Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
   writeNotNull('ModuleId', instance.moduleId);
   writeNotNull('Description', instance.description);
   writeNotNull('Title', instance.title);
-  writeNotNull('CMSModulePageDTOList',
-      instance.cmsModulePages?.map((e) => e.toJson()).toList());
-  val['CMSModuleMenuDTOList'] =
-      instance.cmsModuleMenu.map((e) => e.toJson()).toList();
+  writeNotNull('CMSModulePageDTOList', instance.cmsModulePages?.map((e) => e.toJson()).toList());
+  val['CMSModuleMenuDTOList'] = instance.cmsModuleMenu.map((e) => e.toJson()).toList();
   val['images'] = instance.cmsImages.toJson();
   writeNotNull('CMSModuleColorsHome', instance.cmsModuleColorsHome?.toJson());
   writeNotNull('CardsColor', instance.cardsColor?.toJson());
+  val['HomePageOrder'] = instance.homePageOrder.map((e) => e.toJson()).toList();
   return val;
 }
 
@@ -70,27 +66,21 @@ Map<String, dynamic> _$CardsColorToJson(CardsColor instance) {
   return val;
 }
 
-CMSModuleColorsHome _$CMSModuleColorsHomeFromJson(Map<String, dynamic> json) =>
-    CMSModuleColorsHome(
+CMSModuleColorsHome _$CMSModuleColorsHomeFromJson(Map<String, dynamic> json) => CMSModuleColorsHome(
       json['upper_half'] as String,
       json['middle'] as String,
       json['bottom_half'] as String,
-      (json['profile_picture_gradient'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      (json['profile_picture_gradient'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$CMSModuleColorsHomeToJson(
-        CMSModuleColorsHome instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$CMSModuleColorsHomeToJson(CMSModuleColorsHome instance) => <String, dynamic>{
       'upper_half': instance.upperHalf,
       'middle': instance.middle,
       'bottom_half': instance.bottomHalf,
       'profile_picture_gradient': instance.profilePictureGradient,
     };
 
-CMSModulePage _$CMSModulePageFromJson(Map<String, dynamic> json) =>
-    CMSModulePage(
+CMSModulePage _$CMSModulePageFromJson(Map<String, dynamic> json) => CMSModulePage(
       json['PageId'] as int,
       json['ContentId'] as int,
       json['DisplaySection'] as String,
@@ -101,8 +91,7 @@ CMSModulePage _$CMSModulePageFromJson(Map<String, dynamic> json) =>
       json['ContentKey'] as String,
     );
 
-Map<String, dynamic> _$CMSModulePageToJson(CMSModulePage instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$CMSModulePageToJson(CMSModulePage instance) => <String, dynamic>{
       'PageId': instance.pageId,
       'ContentId': instance.contentId,
       'DisplaySection': instance.displaySection,
@@ -113,27 +102,21 @@ Map<String, dynamic> _$CMSModulePageToJson(CMSModulePage instance) =>
       'ContentKey': instance.contentKey,
     };
 
-ModulePageItemDisplayAttributes _$ModulePageItemDisplayAttributesFromJson(
-        Map<String, dynamic> json) =>
+ModulePageItemDisplayAttributes _$ModulePageItemDisplayAttributesFromJson(Map<String, dynamic> json) =>
     ModulePageItemDisplayAttributes(
       json['BackgroundColor'] as String,
     );
 
-Map<String, dynamic> _$ModulePageItemDisplayAttributesToJson(
-        ModulePageItemDisplayAttributes instance) =>
+Map<String, dynamic> _$ModulePageItemDisplayAttributesToJson(ModulePageItemDisplayAttributes instance) =>
     <String, dynamic>{
       'BackgroundColor': instance.backgroundColor,
     };
 
-CMSModuleMenu _$CMSModuleMenuFromJson(Map<String, dynamic> json) =>
-    CMSModuleMenu(
-      (json['CMSMenusDTOList'] as List<dynamic>)
-          .map((e) => CMSMenu.fromJson(e as Map<String, dynamic>))
-          .toList(),
+CMSModuleMenu _$CMSModuleMenuFromJson(Map<String, dynamic> json) => CMSModuleMenu(
+      (json['CMSMenusDTOList'] as List<dynamic>).map((e) => CMSMenu.fromJson(e as Map<String, dynamic>)).toList(),
     );
 
-Map<String, dynamic> _$CMSModuleMenuToJson(CMSModuleMenu instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$CMSModuleMenuToJson(CMSModuleMenu instance) => <String, dynamic>{
       'CMSMenusDTOList': instance.cmsMenus.map((e) => e.toJson()).toList(),
     };
 
@@ -147,8 +130,7 @@ CMSMenu _$CMSMenuFromJson(Map<String, dynamic> json) => CMSMenu(
     );
 
 Map<String, dynamic> _$CMSMenuToJson(CMSMenu instance) => <String, dynamic>{
-      'CMSMenuItemsDTOList':
-          instance.cmsMenuItems.map((e) => e.toJson()).toList(),
+      'CMSMenuItemsDTOList': instance.cmsMenuItems.map((e) => e.toJson()).toList(),
       'Name': instance.name,
       'Type': instance.type,
       'Active': instance.active,
@@ -207,3 +189,13 @@ Map<String, dynamic> _$CMSImagesToJson(CMSImages instance) {
   writeNotNull('reset_password_image_path', instance.resetPasswordImagePath);
   return val;
 }
+
+HomePageOrder _$HomePageOrderFromJson(Map<String, dynamic> json) => HomePageOrder(
+      json['position'] as int,
+      json['widget'] as String,
+    );
+
+Map<String, dynamic> _$HomePageOrderToJson(HomePageOrder instance) => <String, dynamic>{
+      'position': instance.position,
+      'widget': instance.widget,
+    };

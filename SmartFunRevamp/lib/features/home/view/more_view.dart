@@ -11,6 +11,7 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/widgets/custom_bottom_bar.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
@@ -28,93 +29,97 @@ class MoreView extends ConsumerWidget {
     final cms = ref.watch(newHomePageCMSProvider);
     final items = cms?.getMoreMenuItems() ?? [];
     final membershipInfo = ref.watch(membershipInfoProvider).valueOrNull;
-    return Container(
-      color: Colors.white,
-      child: ListView(
-        physics: const ClampingScrollPhysics(),
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-              color: CustomColors.customLigthBlue,
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(20.0),
-              ),
-            ),
-            child: Column(
-              children: [
-                Row(
+    return Scaffold(
+      backgroundColor: CustomColors.customLigthBlue,
+      appBar: AppBar(),
+      bottomNavigationBar: const CustomBottomBar(
+        currentPage: 3,
+      ),
+      body: SafeArea(
+        child: Container(
+          color: Colors.white,
+          child: ListView(
+            physics: const ClampingScrollPhysics(),
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: const BoxDecoration(
+                  color: CustomColors.customLigthBlue,
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(20.0),
+                  ),
+                ),
+                child: Column(
                   children: [
-                    MulishText(
-                      text: SplashScreenNotifier.getLanguageLabel('More'),
-                      fontWeight: FontWeight.bold,
-                      fontColor: CustomColors.customBlue,
-                      fontSize: 24,
+                    Row(
+                      children: [
+                        MulishText(
+                          text: SplashScreenNotifier.getLanguageLabel('More'),
+                          fontWeight: FontWeight.bold,
+                          fontColor: CustomColors.customBlue,
+                          fontSize: 24,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10.0),
+                    UserPresentationCard(user: user),
+                  ],
+                ),
+              ),
+              ...items.map(
+                (e) => MoreOptionItemFromCMS(
+                  item: e,
+                  membershipInfo: membershipInfo,
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: () async {
+                        localDatasource.logoutUser().then(
+                              (value) => Navigator.popAndPushNamed(context, Routes.kLogInPage),
+                            );
+                        ref.invalidate(CardsProviders.userCardsProvider);
+                      },
+                      child: MulishText(
+                        text: SplashScreenNotifier.getLanguageLabel('Logout'),
+                        fontColor: CustomColors.hardOrange,
+                        fontWeight: FontWeight.bold,
+                        textDecoration: TextDecoration.underline,
+                      ),
+                    ),
+                    FutureBuilder<PackageInfo>(
+                      future: PackageInfo.fromPlatform(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const CircularProgressIndicator.adaptive();
+                        }
+                        final info = snapshot.data;
+                        return MulishText(
+                          text: SplashScreenNotifier.getLanguageLabel('Build Version &1').replaceAll(
+                            '&1',
+                            info?.version ?? '',
+                          ),
+                          fontColor: CustomColors.couponTextColor,
+                        );
+                      },
                     ),
                   ],
                 ),
-                const SizedBox(height: 10.0),
-                UserPresentationCard(user: user),
-              ],
-            ),
+              )
+            ],
           ),
-          ...items.map(
-            (e) => MoreOptionItemFromCMS(
-              item: e,
-              membershipInfo: membershipInfo,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () async {
-                    localDatasource.logoutUser().then(
-                          (value) => Navigator.popAndPushNamed(
-                              context, Routes.kLogInPage),
-                        );
-                    ref.invalidate(CardsProviders.userCardsProvider);
-                  },
-                  child: MulishText(
-                    text: SplashScreenNotifier.getLanguageLabel('Logout'),
-                    fontColor: CustomColors.hardOrange,
-                    fontWeight: FontWeight.bold,
-                    textDecoration: TextDecoration.underline,
-                  ),
-                ),
-                FutureBuilder<PackageInfo>(
-                  future: PackageInfo.fromPlatform(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator.adaptive();
-                    }
-                    final info = snapshot.data;
-                    return MulishText(
-                      text: SplashScreenNotifier.getLanguageLabel(
-                              'Build Version &1')
-                          .replaceAll(
-                        '&1',
-                        info?.version ?? '',
-                      ),
-                      fontColor: CustomColors.couponTextColor,
-                    );
-                  },
-                ),
-              ],
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
 }
 
 class MoreOptionItemFromCMS extends StatelessWidget {
-  const MoreOptionItemFromCMS(
-      {Key? key, required this.item, required this.membershipInfo})
-      : super(key: key);
+  const MoreOptionItemFromCMS({Key? key, required this.item, required this.membershipInfo}) : super(key: key);
   final CMSMenuItem item;
   final MembershipInfo? membershipInfo;
 

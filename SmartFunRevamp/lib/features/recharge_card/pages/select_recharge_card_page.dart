@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/domain/entities/orders/order_details.dart';
+import 'package:semnox/core/domain/entities/orders/order_status.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/orders/provider/orders_provider.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/recharge_card/widgets/disabled_bottom_button.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
@@ -18,6 +24,7 @@ import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart'
 import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
   const SelectCardRechargePage({Key? key, this.filterStr, this.cardDetails}) : super(key: key);
@@ -35,6 +42,10 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
   late List<CardDetails> cards;
   late int qty;
   late double finalPrice;
+  late List<OrderStatus> orderStatus;
+  late OrderDetails orderDetails;
+  late int transactionId;
+
   @override
   void initState() {
     super.initState();
@@ -58,6 +69,14 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
 
   @override
   Widget build(BuildContext context) {
+    ref.read(OrdersProviders.customerOrderStatusProvider.notifier);
+    GluttonLocalDataSource().retrieveValue(LocalDataSource.kTransactionId).then((value) async => {
+          if (value != null)
+            {
+              Dialogs.lastTransactionDialog(context, ref, value.toString()),
+            }
+        });
+
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
     final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
@@ -106,9 +125,12 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
             Consumer(
               builder: (_, ref, __) {
                 final defaults = ref.watch(parafaitDefaultsProvider);
-                final isOnlineRechargeEnabled = defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) == 'Y';
+                final isOnlineRechargeEnabled =
+                    defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) == 'Y';
                 return SitesAppBarDropdown(
-                  isEnabled: isOnlineRechargeEnabled,
+                  //todo VIVAR
+                  // isEnabled: isOnlineRechargeEnabled,
+                  isEnabled: false,
                   onChanged: (selectedSite) {
                     ref.read(selectedSiteIdProvider.notifier).update((state) => state = selectedSite?.siteId ?? -1);
                   },
@@ -146,7 +168,11 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                           data: (offers) {
                             List<CardProduct> offersFiltered = offers;
                             if (!widget.filterStr.isNullOrEmpty()) {
-                              offersFiltered = offers.where((element) => (element.productName.toLowerCase().contains(widget.filterStr.toString().toLowerCase()))).toList();
+                              offersFiltered = offers
+                                  .where((element) => (element.productName
+                                      .toLowerCase()
+                                      .contains(widget.filterStr.toString().toLowerCase())))
+                                  .toList();
                             }
                             return RechargeCardOffers(
                               offers: offersFiltered,
@@ -239,7 +265,9 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
           title: Text(SplashScreenNotifier.getLanguageLabel('Enter the variable amount')),
           content: TextField(
             keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], // Only numbers can be entered
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ], // Only numbers can be entered
             controller: txt,
             decoration: InputDecoration(
               hintText: SplashScreenNotifier.getLanguageLabel('Please enter the amount you wish to recharge'),

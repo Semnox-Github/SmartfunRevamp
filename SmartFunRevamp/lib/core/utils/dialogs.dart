@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -5,9 +6,13 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/instance_manager.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/discount_entity.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
@@ -19,10 +24,12 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
+import 'package:semnox/features/orders/provider/orders_provider.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/recharge_card/providers/products_price_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Dialogs {
@@ -51,8 +58,7 @@ class Dialogs {
               ],
             ),
             MulishText(
-              text: SplashScreenNotifier.getLanguageLabel(
-                  'Saved on the bill with the coupon'),
+              text: SplashScreenNotifier.getLanguageLabel('Saved on the bill with the coupon'),
               fontColor: CustomColors.couponTextColor,
             )
           ],
@@ -61,8 +67,8 @@ class Dialogs {
     ).show();
   }
 
-  static void getCoupongNumberDialog(BuildContext context, WidgetRef ref,
-      CardProduct cardProduct, String? primaryCard, int qty) {
+  static void getCoupongNumberDialog(
+      BuildContext context, WidgetRef ref, CardProduct cardProduct, String? primaryCard, int qty) {
     final key = GlobalKey<FormState>();
     final siteId = ref.watch(selectedSiteIdProvider);
     String coupon = '';
@@ -83,8 +89,7 @@ class Dialogs {
       btnOkOnPress: () {
         if (key.currentState!.validate()) {
           key.currentState!.save();
-          ref.read(estimateStateProvider.notifier).getEstimateTransaction(
-              cardProduct,
+          ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct,
               dtoList: DiscountApplicationHistoryDTOList(-1, coupon, -1),
               siteId: siteId,
               cardNumber: primaryCard,
@@ -195,22 +200,18 @@ class Dialogs {
                       ),
                       Consumer(
                         builder: (context, ref, child) {
-                          final parafaitDefault =
-                              ref.watch(parafaitDefaultsProvider);
-                          final currency = parafaitDefault?.getDefault(
-                                  ParafaitDefaultsResponse.currencySymbol) ??
-                              'USD';
-                          final format = parafaitDefault?.getDefault(
-                                  ParafaitDefaultsResponse.currencyFormat) ??
-                              '#,##0.00';
+                          final parafaitDefault = ref.watch(parafaitDefaultsProvider);
+                          final currency =
+                              parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
+                          final format =
+                              parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
                           return CustomButton(
                             onTap: () {
                               Navigator.pop(context);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      EstimatedTransactionPage(
+                                  builder: (context) => EstimatedTransactionPage(
                                     cardProduct: card,
                                     transactionType: "newcard",
                                     qty: 1,
@@ -219,12 +220,8 @@ class Dialogs {
                                 ),
                               );
                             },
-                            label: SplashScreenNotifier.getLanguageLabel(
-                                    'BUY NOW @ &1')
-                                .replaceAll(
-                                    "&1",
-                                    card.finalPrice
-                                        .toCurrency(currency, format)),
+                            label: SplashScreenNotifier.getLanguageLabel('BUY NOW @ &1')
+                                .replaceAll("&1", card.finalPrice.toCurrency(currency, format)),
                           );
                         },
                       ),
@@ -239,8 +236,7 @@ class Dialogs {
     );
   }
 
-  static void showMessageInfo(
-      BuildContext context, String title, String meessge) {
+  static void showMessageInfo(BuildContext context, String title, String meessge) {
     AwesomeDialog(
       context: context,
       dialogType: DialogType.infoReverse,
@@ -306,9 +302,7 @@ class Dialogs {
                         child: BarcodeWidget(
                           barcode: cardCoachMark == 'BARCODE'
                               ? Barcode.code128()
-                              : Barcode.qrCode(
-                                  errorCorrectLevel:
-                                      BarcodeQRCorrectionLevel.high),
+                              : Barcode.qrCode(errorCorrectLevel: BarcodeQRCorrectionLevel.high),
                           data: accountNumber,
                           drawText: false,
                           height: MediaQuery.of(context).size.height * 0.2,
@@ -336,8 +330,7 @@ class Dialogs {
     );
   }
 
-  static void verifyDialog(BuildContext context, Function(String) onVerify,
-      ContactType contactType) {
+  static void verifyDialog(BuildContext context, Function(String) onVerify, ContactType contactType) {
     String otp = '';
     AwesomeDialog(
       context: context,
@@ -362,8 +355,7 @@ class Dialogs {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MulishText(
-                  text:
-                      '${SplashScreenNotifier.getLanguageLabel('Verify')} ${contactType.valueString}',
+                  text: '${SplashScreenNotifier.getLanguageLabel('Verify')} ${contactType.valueString}',
                   fontWeight: FontWeight.bold,
                   textAlign: TextAlign.start,
                 ),
@@ -379,8 +371,7 @@ class Dialogs {
                     onSubmit: (otp) => {},
                     onChange: (code) => otp = code,
                     keyboardType: TextInputType.number,
-                    otpPinFieldDecoration:
-                        OtpPinFieldDecoration.defaultPinBoxDecoration,
+                    otpPinFieldDecoration: OtpPinFieldDecoration.defaultPinBoxDecoration,
                     otpPinFieldStyle: const OtpPinFieldStyle(
                       defaultFieldBorderColor: CustomColors.customOrange,
                       activeFieldBorderColor: CustomColors.hardOrange,
@@ -390,8 +381,7 @@ class Dialogs {
                     fieldWidth: MediaQuery.of(context).size.width * 0.07),
                 const SizedBox(height: 10.0),
                 MulishText(
-                  text:
-                      SplashScreenNotifier.getLanguageLabel("Didn't Receive?"),
+                  text: SplashScreenNotifier.getLanguageLabel("Didn't Receive?"),
                   textAlign: TextAlign.start,
                 ),
                 RichText(
@@ -405,8 +395,7 @@ class Dialogs {
                       ),
                       WidgetSpan(
                         child: MulishText(
-                          text: SplashScreenNotifier.getLanguageLabel(
-                              ' in 30 seconds'),
+                          text: SplashScreenNotifier.getLanguageLabel(' in 30 seconds'),
                         ),
                       )
                     ],
@@ -421,8 +410,7 @@ class Dialogs {
   }
 
   // ignore: unused_element
-  static void _showAppRatingDialog(
-      BuildContext context, Function() onSubmitted) {
+  static void _showAppRatingDialog(BuildContext context, Function() onSubmitted) {
     final isIOS = Platform.isIOS;
     showDialog(
       context: context,
@@ -432,8 +420,7 @@ class Dialogs {
           enableComment: false,
           initialRating: 1.0,
           title: Text(
-            SplashScreenNotifier.getLanguageLabel(
-                'Enjoying Parafait SmartFun?'),
+            SplashScreenNotifier.getLanguageLabel('Enjoying Parafait SmartFun?'),
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 25,
@@ -443,13 +430,11 @@ class Dialogs {
           image: Image.asset('assets/home/logo.png'),
           message: Text(
             // 'Tap a star to rate it on the ${isIOS ? 'App Store' : 'Play Store'}',
-            SplashScreenNotifier.getLanguageLabel(
-                    'Tap a star to rate it on the &1')
-                .replaceAll(
-                    '&1',
-                    isIOS
-                        ? SplashScreenNotifier.getLanguageLabel('App Store')
-                        : SplashScreenNotifier.getLanguageLabel('Play Store')),
+            SplashScreenNotifier.getLanguageLabel('Tap a star to rate it on the &1').replaceAll(
+                '&1',
+                isIOS
+                    ? SplashScreenNotifier.getLanguageLabel('App Store')
+                    : SplashScreenNotifier.getLanguageLabel('Play Store')),
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 15),
           ),
@@ -463,15 +448,13 @@ class Dialogs {
     );
   }
 
-  static void deleteProfileSuccessDialog(
-      BuildContext context, Function() onSubmitted) {
+  static void deleteProfileSuccessDialog(BuildContext context, Function() onSubmitted) {
     AwesomeDialog(
       context: context,
       dismissOnTouchOutside: true,
       onDismissCallback: (type) => onSubmitted(),
       title: SplashScreenNotifier.getLanguageLabel('Delete Profile'),
-      desc: SplashScreenNotifier.getLanguageLabel(
-          'Profile deleted successfully.'),
+      desc: SplashScreenNotifier.getLanguageLabel('Profile deleted successfully.'),
       descTextStyle: const TextStyle(
         fontWeight: FontWeight.w400,
         fontSize: 18,
@@ -479,8 +462,7 @@ class Dialogs {
     ).show();
   }
 
-  static Future<void> downloadUpdateDialog(
-      BuildContext context, String appUrl) async {
+  static Future<void> downloadUpdateDialog(BuildContext context, String appUrl) async {
     await AwesomeDialog(
       context: context,
       dialogType: DialogType.info,
@@ -503,5 +485,62 @@ class Dialogs {
       },
       btnCancelOnPress: () {},
     ).show();
+  }
+
+  static Future<void> lastTransactionDialog(BuildContext context, WidgetRef ref, String transactionId) async {
+    ref.watch(OrdersProviders.orderSummaryDetailProviderResponse(transactionId)).maybeWhen(
+        orElse: () => {null},
+        data: (orderSummaryDetail) {
+          ref
+              .watch(OrdersProviders.customerOrderStatusProviderResponse(Get.find<CustomerDTO>().id.toString()))
+              .maybeWhen(
+                  orElse: () => {null},
+                  data: (customerOrderStatus) {
+                    if (customerOrderStatus[0].transactionId.toString() == transactionId) {
+                      GluttonLocalDataSource().deleteValue(LocalDataSource.kTransactionId);
+                      AwesomeDialog(
+                        context: context,
+                        btnOkText: SplashScreenNotifier.getLanguageLabel('Close'),
+                        dialogType: DialogType.info,
+                        animType: AnimType.scale,
+                        title: "",
+                        desc: "",
+                        descTextStyle: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                        ),
+                        body: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            MulishText(
+                              text: customerOrderStatus[0].message.toString(),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            if (customerOrderStatus[0].transactionStatus == "CLOSED")
+                              CustomButton(
+                                onTap: () => _createFileFromString(
+                                    orderSummaryDetail.receipt.toString(), orderSummaryDetail.transactionId.toString()),
+                                label: SplashScreenNotifier.getLanguageLabel('DOWNLOAD'),
+                              )
+                          ],
+                        ),
+                        btnOkOnPress: () {},
+                      ).show();
+                    }
+                  });
+        });
+  }
+
+  static void _createFileFromString(String receipt, String fileName) async {
+    var base64 = receipt;
+    var bytes = base64Decode(base64);
+    final output = await getTemporaryDirectory();
+    final file = File("${output.path}/$fileName.pdf");
+    await file.writeAsBytes(bytes.buffer.asUint8List());
+    debugPrint("${output.path}/$fileName.pdf");
+    await OpenFilex.open("${output.path}/$fileName.pdf");
   }
 }

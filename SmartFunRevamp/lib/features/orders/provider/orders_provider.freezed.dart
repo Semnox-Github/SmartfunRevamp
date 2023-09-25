@@ -21,6 +21,8 @@ mixin _$OrdersState {
     required TResult Function() initial,
     required TResult Function() inProgress,
     required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<OrderStatus> customerUrdersStatus)
+        successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
         successOrderDetail,
     required TResult Function() orderDetailInProgress,
@@ -32,6 +34,8 @@ mixin _$OrdersState {
     TResult? Function()? initial,
     TResult? Function()? inProgress,
     TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult? Function()? orderDetailInProgress,
     TResult? Function(String msg)? error,
@@ -42,6 +46,8 @@ mixin _$OrdersState {
     TResult Function()? initial,
     TResult Function()? inProgress,
     TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult Function()? orderDetailInProgress,
     TResult Function(String msg)? error,
@@ -53,6 +59,8 @@ mixin _$OrdersState {
     required TResult Function(_Initial value) initial,
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
+    required TResult Function(_SuccessCustomerOrderStatus value)
+        successCustomerOrderStatus,
     required TResult Function(_SuccessOrderDetail value) successOrderDetail,
     required TResult Function(_OrderDetailInProgress value)
         orderDetailInProgress,
@@ -64,6 +72,8 @@ mixin _$OrdersState {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult? Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult? Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult? Function(_Error value)? error,
@@ -74,6 +84,8 @@ mixin _$OrdersState {
     TResult Function(_Initial value)? initial,
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
+    TResult Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult Function(_Error value)? error,
@@ -140,6 +152,8 @@ class _$_Initial implements _Initial {
     required TResult Function() initial,
     required TResult Function() inProgress,
     required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<OrderStatus> customerUrdersStatus)
+        successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
         successOrderDetail,
     required TResult Function() orderDetailInProgress,
@@ -154,6 +168,8 @@ class _$_Initial implements _Initial {
     TResult? Function()? initial,
     TResult? Function()? inProgress,
     TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult? Function()? orderDetailInProgress,
     TResult? Function(String msg)? error,
@@ -167,6 +183,8 @@ class _$_Initial implements _Initial {
     TResult Function()? initial,
     TResult Function()? inProgress,
     TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult Function()? orderDetailInProgress,
     TResult Function(String msg)? error,
@@ -184,6 +202,8 @@ class _$_Initial implements _Initial {
     required TResult Function(_Initial value) initial,
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
+    required TResult Function(_SuccessCustomerOrderStatus value)
+        successCustomerOrderStatus,
     required TResult Function(_SuccessOrderDetail value) successOrderDetail,
     required TResult Function(_OrderDetailInProgress value)
         orderDetailInProgress,
@@ -198,6 +218,8 @@ class _$_Initial implements _Initial {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult? Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult? Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult? Function(_Error value)? error,
@@ -211,6 +233,8 @@ class _$_Initial implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
+    TResult Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult Function(_Error value)? error,
@@ -268,6 +292,8 @@ class _$_InProgress implements _InProgress {
     required TResult Function() initial,
     required TResult Function() inProgress,
     required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<OrderStatus> customerUrdersStatus)
+        successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
         successOrderDetail,
     required TResult Function() orderDetailInProgress,
@@ -282,6 +308,8 @@ class _$_InProgress implements _InProgress {
     TResult? Function()? initial,
     TResult? Function()? inProgress,
     TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult? Function()? orderDetailInProgress,
     TResult? Function(String msg)? error,
@@ -295,6 +323,8 @@ class _$_InProgress implements _InProgress {
     TResult Function()? initial,
     TResult Function()? inProgress,
     TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult Function()? orderDetailInProgress,
     TResult Function(String msg)? error,
@@ -312,6 +342,8 @@ class _$_InProgress implements _InProgress {
     required TResult Function(_Initial value) initial,
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
+    required TResult Function(_SuccessCustomerOrderStatus value)
+        successCustomerOrderStatus,
     required TResult Function(_SuccessOrderDetail value) successOrderDetail,
     required TResult Function(_OrderDetailInProgress value)
         orderDetailInProgress,
@@ -326,6 +358,8 @@ class _$_InProgress implements _InProgress {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult? Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult? Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult? Function(_Error value)? error,
@@ -339,6 +373,8 @@ class _$_InProgress implements _InProgress {
     TResult Function(_Initial value)? initial,
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
+    TResult Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult Function(_Error value)? error,
@@ -429,6 +465,8 @@ class _$_Success implements _Success {
     required TResult Function() initial,
     required TResult Function() inProgress,
     required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<OrderStatus> customerUrdersStatus)
+        successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
         successOrderDetail,
     required TResult Function() orderDetailInProgress,
@@ -443,6 +481,8 @@ class _$_Success implements _Success {
     TResult? Function()? initial,
     TResult? Function()? inProgress,
     TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult? Function()? orderDetailInProgress,
     TResult? Function(String msg)? error,
@@ -456,6 +496,8 @@ class _$_Success implements _Success {
     TResult Function()? initial,
     TResult Function()? inProgress,
     TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult Function()? orderDetailInProgress,
     TResult Function(String msg)? error,
@@ -473,6 +515,8 @@ class _$_Success implements _Success {
     required TResult Function(_Initial value) initial,
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
+    required TResult Function(_SuccessCustomerOrderStatus value)
+        successCustomerOrderStatus,
     required TResult Function(_SuccessOrderDetail value) successOrderDetail,
     required TResult Function(_OrderDetailInProgress value)
         orderDetailInProgress,
@@ -487,6 +531,8 @@ class _$_Success implements _Success {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult? Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult? Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult? Function(_Error value)? error,
@@ -500,6 +546,8 @@ class _$_Success implements _Success {
     TResult Function(_Initial value)? initial,
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
+    TResult Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult Function(_Error value)? error,
@@ -519,6 +567,192 @@ abstract class _Success implements OrdersState {
   @JsonKey(ignore: true)
   _$$_SuccessCopyWith<_$_Success> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_SuccessCustomerOrderStatusCopyWith<$Res> {
+  factory _$$_SuccessCustomerOrderStatusCopyWith(
+          _$_SuccessCustomerOrderStatus value,
+          $Res Function(_$_SuccessCustomerOrderStatus) then) =
+      __$$_SuccessCustomerOrderStatusCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<OrderStatus> customerUrdersStatus});
+}
+
+/// @nodoc
+class __$$_SuccessCustomerOrderStatusCopyWithImpl<$Res>
+    extends _$OrdersStateCopyWithImpl<$Res, _$_SuccessCustomerOrderStatus>
+    implements _$$_SuccessCustomerOrderStatusCopyWith<$Res> {
+  __$$_SuccessCustomerOrderStatusCopyWithImpl(
+      _$_SuccessCustomerOrderStatus _value,
+      $Res Function(_$_SuccessCustomerOrderStatus) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? customerUrdersStatus = null,
+  }) {
+    return _then(_$_SuccessCustomerOrderStatus(
+      null == customerUrdersStatus
+          ? _value._customerUrdersStatus
+          : customerUrdersStatus // ignore: cast_nullable_to_non_nullable
+              as List<OrderStatus>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_SuccessCustomerOrderStatus implements _SuccessCustomerOrderStatus {
+  const _$_SuccessCustomerOrderStatus(
+      final List<OrderStatus> customerUrdersStatus)
+      : _customerUrdersStatus = customerUrdersStatus;
+
+  final List<OrderStatus> _customerUrdersStatus;
+  @override
+  List<OrderStatus> get customerUrdersStatus {
+    if (_customerUrdersStatus is EqualUnmodifiableListView)
+      return _customerUrdersStatus;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_customerUrdersStatus);
+  }
+
+  @override
+  String toString() {
+    return 'OrdersState.successCustomerOrderStatus(customerUrdersStatus: $customerUrdersStatus)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_SuccessCustomerOrderStatus &&
+            const DeepCollectionEquality()
+                .equals(other._customerUrdersStatus, _customerUrdersStatus));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_customerUrdersStatus));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_SuccessCustomerOrderStatusCopyWith<_$_SuccessCustomerOrderStatus>
+      get copyWith => __$$_SuccessCustomerOrderStatusCopyWithImpl<
+          _$_SuccessCustomerOrderStatus>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() inProgress,
+    required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<OrderStatus> customerUrdersStatus)
+        successCustomerOrderStatus,
+    required TResult Function(OrderDetails ordersSummaryDetails)
+        successOrderDetail,
+    required TResult Function() orderDetailInProgress,
+    required TResult Function(String msg) error,
+  }) {
+    return successCustomerOrderStatus(customerUrdersStatus);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? inProgress,
+    TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
+    TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
+    TResult? Function()? orderDetailInProgress,
+    TResult? Function(String msg)? error,
+  }) {
+    return successCustomerOrderStatus?.call(customerUrdersStatus);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? inProgress,
+    TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
+    TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
+    TResult Function()? orderDetailInProgress,
+    TResult Function(String msg)? error,
+    required TResult orElse(),
+  }) {
+    if (successCustomerOrderStatus != null) {
+      return successCustomerOrderStatus(customerUrdersStatus);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_InProgress value) inProgress,
+    required TResult Function(_Success value) success,
+    required TResult Function(_SuccessCustomerOrderStatus value)
+        successCustomerOrderStatus,
+    required TResult Function(_SuccessOrderDetail value) successOrderDetail,
+    required TResult Function(_OrderDetailInProgress value)
+        orderDetailInProgress,
+    required TResult Function(_Error value) error,
+  }) {
+    return successCustomerOrderStatus(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_InProgress value)? inProgress,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
+    TResult? Function(_SuccessOrderDetail value)? successOrderDetail,
+    TResult? Function(_OrderDetailInProgress value)? orderDetailInProgress,
+    TResult? Function(_Error value)? error,
+  }) {
+    return successCustomerOrderStatus?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_InProgress value)? inProgress,
+    TResult Function(_Success value)? success,
+    TResult Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
+    TResult Function(_SuccessOrderDetail value)? successOrderDetail,
+    TResult Function(_OrderDetailInProgress value)? orderDetailInProgress,
+    TResult Function(_Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (successCustomerOrderStatus != null) {
+      return successCustomerOrderStatus(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SuccessCustomerOrderStatus implements OrdersState {
+  const factory _SuccessCustomerOrderStatus(
+          final List<OrderStatus> customerUrdersStatus) =
+      _$_SuccessCustomerOrderStatus;
+
+  List<OrderStatus> get customerUrdersStatus;
+  @JsonKey(ignore: true)
+  _$$_SuccessCustomerOrderStatusCopyWith<_$_SuccessCustomerOrderStatus>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -590,6 +824,8 @@ class _$_SuccessOrderDetail implements _SuccessOrderDetail {
     required TResult Function() initial,
     required TResult Function() inProgress,
     required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<OrderStatus> customerUrdersStatus)
+        successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
         successOrderDetail,
     required TResult Function() orderDetailInProgress,
@@ -604,6 +840,8 @@ class _$_SuccessOrderDetail implements _SuccessOrderDetail {
     TResult? Function()? initial,
     TResult? Function()? inProgress,
     TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult? Function()? orderDetailInProgress,
     TResult? Function(String msg)? error,
@@ -617,6 +855,8 @@ class _$_SuccessOrderDetail implements _SuccessOrderDetail {
     TResult Function()? initial,
     TResult Function()? inProgress,
     TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult Function()? orderDetailInProgress,
     TResult Function(String msg)? error,
@@ -634,6 +874,8 @@ class _$_SuccessOrderDetail implements _SuccessOrderDetail {
     required TResult Function(_Initial value) initial,
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
+    required TResult Function(_SuccessCustomerOrderStatus value)
+        successCustomerOrderStatus,
     required TResult Function(_SuccessOrderDetail value) successOrderDetail,
     required TResult Function(_OrderDetailInProgress value)
         orderDetailInProgress,
@@ -648,6 +890,8 @@ class _$_SuccessOrderDetail implements _SuccessOrderDetail {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult? Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult? Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult? Function(_Error value)? error,
@@ -661,6 +905,8 @@ class _$_SuccessOrderDetail implements _SuccessOrderDetail {
     TResult Function(_Initial value)? initial,
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
+    TResult Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult Function(_Error value)? error,
@@ -724,6 +970,8 @@ class _$_OrderDetailInProgress implements _OrderDetailInProgress {
     required TResult Function() initial,
     required TResult Function() inProgress,
     required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<OrderStatus> customerUrdersStatus)
+        successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
         successOrderDetail,
     required TResult Function() orderDetailInProgress,
@@ -738,6 +986,8 @@ class _$_OrderDetailInProgress implements _OrderDetailInProgress {
     TResult? Function()? initial,
     TResult? Function()? inProgress,
     TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult? Function()? orderDetailInProgress,
     TResult? Function(String msg)? error,
@@ -751,6 +1001,8 @@ class _$_OrderDetailInProgress implements _OrderDetailInProgress {
     TResult Function()? initial,
     TResult Function()? inProgress,
     TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult Function()? orderDetailInProgress,
     TResult Function(String msg)? error,
@@ -768,6 +1020,8 @@ class _$_OrderDetailInProgress implements _OrderDetailInProgress {
     required TResult Function(_Initial value) initial,
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
+    required TResult Function(_SuccessCustomerOrderStatus value)
+        successCustomerOrderStatus,
     required TResult Function(_SuccessOrderDetail value) successOrderDetail,
     required TResult Function(_OrderDetailInProgress value)
         orderDetailInProgress,
@@ -782,6 +1036,8 @@ class _$_OrderDetailInProgress implements _OrderDetailInProgress {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult? Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult? Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult? Function(_Error value)? error,
@@ -795,6 +1051,8 @@ class _$_OrderDetailInProgress implements _OrderDetailInProgress {
     TResult Function(_Initial value)? initial,
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
+    TResult Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult Function(_Error value)? error,
@@ -876,6 +1134,8 @@ class _$_Error implements _Error {
     required TResult Function() initial,
     required TResult Function() inProgress,
     required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<OrderStatus> customerUrdersStatus)
+        successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
         successOrderDetail,
     required TResult Function() orderDetailInProgress,
@@ -890,6 +1150,8 @@ class _$_Error implements _Error {
     TResult? Function()? initial,
     TResult? Function()? inProgress,
     TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult? Function()? orderDetailInProgress,
     TResult? Function(String msg)? error,
@@ -903,6 +1165,8 @@ class _$_Error implements _Error {
     TResult Function()? initial,
     TResult Function()? inProgress,
     TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<OrderStatus> customerUrdersStatus)?
+        successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
     TResult Function()? orderDetailInProgress,
     TResult Function(String msg)? error,
@@ -920,6 +1184,8 @@ class _$_Error implements _Error {
     required TResult Function(_Initial value) initial,
     required TResult Function(_InProgress value) inProgress,
     required TResult Function(_Success value) success,
+    required TResult Function(_SuccessCustomerOrderStatus value)
+        successCustomerOrderStatus,
     required TResult Function(_SuccessOrderDetail value) successOrderDetail,
     required TResult Function(_OrderDetailInProgress value)
         orderDetailInProgress,
@@ -934,6 +1200,8 @@ class _$_Error implements _Error {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_InProgress value)? inProgress,
     TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult? Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult? Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult? Function(_Error value)? error,
@@ -947,6 +1215,8 @@ class _$_Error implements _Error {
     TResult Function(_Initial value)? initial,
     TResult Function(_InProgress value)? inProgress,
     TResult Function(_Success value)? success,
+    TResult Function(_SuccessCustomerOrderStatus value)?
+        successCustomerOrderStatus,
     TResult Function(_SuccessOrderDetail value)? successOrderDetail,
     TResult Function(_OrderDetailInProgress value)? orderDetailInProgress,
     TResult Function(_Error value)? error,

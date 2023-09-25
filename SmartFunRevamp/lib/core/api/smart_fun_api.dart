@@ -22,6 +22,7 @@ import 'package:semnox/core/domain/entities/membership/membership_info.dart';
 import 'package:semnox/core/domain/entities/membership/membership_tier.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
+import 'package:semnox/core/domain/entities/orders/order_status.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
@@ -63,7 +64,8 @@ abstract class SmartFunApi {
   }
 
   @POST('Login/AuthenticateUsers')
-  Future<HttpResponse> authenticateSystemUser(@Body() Map<String, dynamic> body);
+  Future<HttpResponse> authenticateSystemUser(
+      @Body() Map<String, dynamic> body);
 
   @POST('Customer/CustomerLogin')
   Future<Data<CustomerDTO>> loginUser(@Body() Map<String, dynamic> body);
@@ -105,7 +107,8 @@ abstract class SmartFunApi {
   });
 
   @POST('Transaction/Transactions')
-  Future<Data<EstimateTransactionResponse>> estimateTransaction(@Body() Map<String, dynamic> body);
+  Future<Data<EstimateTransactionResponse>> estimateTransaction(
+      @Body() Map<String, dynamic> body);
 
   @GET('Configuration/ParafaitDefaultContainer')
   Future<Data<ParafaitDefaultsResponse>> getParafaitDefaults(
@@ -203,19 +206,23 @@ abstract class SmartFunApi {
   });
 
   @GET('Customer/Account/LinkedAccountsSummary')
-  Future<ListDataWrapper<CardDetails>> getUserCards(@Query('customerId') String customerId);
+  Future<ListDataWrapper<CardDetails>> getUserCards(
+      @Query('customerId') String customerId);
 
   @GET('Customer/Account/{customerId}/AccountGamesSummary')
-  Future<ListDataWrapper<AccountCreditPlusConsumptionDTO>> getGamesAccountSummart(@Path('customerId') String customerId);
+  Future<ListDataWrapper<AccountCreditPlusConsumptionDTO>>
+      getGamesAccountSummart(@Path('customerId') String customerId);
 
   @POST('Customer/Account/AccountService/LinkAccountToCustomers')
   Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
 
   @POST('Customer/Account/{accountId}/AccountIdentifier')
-  Future<void> updateCardNickname(@Path('accountId') String accountId, @Body() Map<String, dynamic> body);
+  Future<void> updateCardNickname(
+      @Path('accountId') String accountId, @Body() Map<String, dynamic> body);
 
   @GET('Customer/Account/{accountId}/AccountActivity')
-  Future<ListDataWrapper<CardActivity>> getCardActivityDetail(@Path('accountId') @Query('accountId') String accountId);
+  Future<ListDataWrapper<CardActivity>> getCardActivityDetail(
+      @Path('accountId') @Query('accountId') String accountId);
 
   @GET('Transaction/Transactions')
   Future<ListDataWrapper<CardActivityDetails>> getTransactionDetail(
@@ -236,6 +243,10 @@ abstract class SmartFunApi {
     @Query('customerId') String customerId, {
     @Query('buildChildRecords') bool buildChildRecords = true,
   });
+
+  @GET('Transaction/CustomerTransactionStatus')
+  Future<ListDataWrapper<OrderStatus>> getCustomerTransactionStatus(
+      @Query('customerId') String customerId);
 
   @POST('Customer/Account/AccountService/TransferBalances')
   Future<Data<String>> transferBalance(@Body() Map<String, dynamic> body);
@@ -259,10 +270,12 @@ abstract class SmartFunApi {
   Future<void> deleteProfile(@Path('CustomerId') int customerId);
 
   @GET('Customer/{CustomerId}/Summary')
-  Future<Data<MembershipInfo>> getMembershipInfo(@Path('CustomerId') int customerId);
+  Future<Data<MembershipInfo>> getMembershipInfo(
+      @Path('CustomerId') int customerId);
 
   @GET('Lookups/LookupsContainer')
-  Future<Data<LookupsContainer>> getLookups(@Query('siteId') String siteId, @Query('rebuildCache') bool rebuildCache);
+  Future<Data<LookupsContainer>> getLookups(
+      @Query('siteId') String siteId, @Query('rebuildCache') bool rebuildCache);
 
   @GET('Customer/Membership/MembershipsContainer')
   Future<MembershipContainerResponse> getMembershipContainer(
@@ -277,5 +290,6 @@ abstract class SmartFunApi {
     @Query('posMachine') String posMachine = 'CustomerApp',
   });
   @GET('CustomerApp/CustomerAppConfiguration')
-  Future<Data<AppConfigResponse>> getAppConfiguration(@Query('siteId') int siteId);
+  Future<Data<AppConfigResponse>> getAppConfiguration(
+      @Query('siteId') int siteId);
 }

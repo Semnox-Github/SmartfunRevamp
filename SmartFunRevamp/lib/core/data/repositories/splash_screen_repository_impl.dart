@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/parafait_api.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
@@ -19,7 +20,11 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
   SplashScreenRepositoryImpl(this._api, this._parafaitApi);
 
   @override
-  Future<Either<Failure, GetBaseUrlResponse>> getBaseURLFromCentral({required String appId, required String buildNumber, required String generatedTime, required String securityCode}) async {
+  Future<Either<Failure, GetBaseUrlResponse>> getBaseURLFromCentral(
+      {required String appId,
+      required String buildNumber,
+      required String generatedTime,
+      required String securityCode}) async {
     try {
       final response = await _parafaitApi.getBaseURLFromCentral(
         appId,
@@ -37,42 +42,51 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+        return Left(
+            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+      return Left(ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
   @override
   Future<Either<Failure, SystemUser>> authenticateBaseURL() async {
+    Logger().d(dotenv.env['SECRET_KEY']);
     try {
       final response = await _api.authenticateSystemUser(
         {
           "LoginId": "SmartFun",
           "Password": "",
-          "LoginToken": await jwtGenerator(),
+          "LoginToken":
+              await jwtGenerator(secretKey: dotenv.env['SECRET_KEY']!),
         },
       );
-      final token = response.response.headers.value(HttpHeaders.authorizationHeader);
+      final token =
+          response.response.headers.value(HttpHeaders.authorizationHeader);
       final systemUserResponse = await _api.getExecutionContext(
         token: token,
       );
-      final systemUser = SystemUser.fromJson(Map<String, dynamic>.from(systemUserResponse.response.data)['data']);
+      final systemUser = SystemUser.fromJson(
+          Map<String, dynamic>.from(systemUserResponse.response.data)['data']);
       systemUser.webApiToken = token;
       return Right(systemUser);
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+        return Left(
+            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+      return Left(ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
   @override
-  Future<Either<Failure, void>> getAppImages({required String imageType, required String lastModifiedDate}) async {
+  Future<Either<Failure, void>> getAppImages(
+      {required String imageType, required String lastModifiedDate}) async {
     try {
       final response = await _api.getAppImages(imageType, lastModifiedDate);
       Logger().d(response);
@@ -80,26 +94,32 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+        return Left(
+            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+      return Left(ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
   @override
-  Future<Either<Failure, void>> getAppProductsImages({required String imageType, required String lastModifiedDate}) async {
+  Future<Either<Failure, void>> getAppProductsImages(
+      {required String imageType, required String lastModifiedDate}) async {
     try {
-      final response = await _api.getAppProductsImages(lastModifiedDate, imageType);
+      final response =
+          await _api.getAppProductsImages(lastModifiedDate, imageType);
       Logger().d(response);
       return const Right(null);
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+        return Left(
+            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+      return Left(ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
@@ -112,15 +132,18 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+        return Left(
+            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+      return Left(ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
   @override
-  Future<Either<Failure, void>> getParafaitLanguages({required String siteId}) async {
+  Future<Either<Failure, void>> getParafaitLanguages(
+      {required String siteId}) async {
     try {
       final response = await _api.getParafaitLanguages(siteId);
       Logger().d(response);
@@ -128,26 +151,34 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+        return Left(
+            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+      return Left(ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 
   @override
-  Future<Either<Failure, void>> getStringsForLocalization({required String siteId, required String languageId, String outputForm = 'JSON'}) async {
+  Future<Either<Failure, void>> getStringsForLocalization(
+      {required String siteId,
+      required String languageId,
+      String outputForm = 'JSON'}) async {
     try {
-      final response = await _api.getStringsForLocalization(siteId, languageId, outputForm);
+      final response =
+          await _api.getStringsForLocalization(siteId, languageId, outputForm);
       Logger().d(response);
       return const Right(null);
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+        return Left(
+            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+      return Left(ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(message['data'])));
     }
   }
 }

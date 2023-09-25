@@ -13,11 +13,14 @@ abstract class LocalDataSource {
   static String kUserId = 'userId';
   static String kUser = 'user';
   static String kSplashScreenURL = 'splash_image_url';
+  static String kTransactionId = 'transaction_id';
+  static String kAppUpdateReminderDate = "app_update_reminder_date";
   Future<void> saveSites(List<SiteViewDTO> sites);
   Future<List<SiteViewDTO>> retrieveSites();
   // Future<bool> retrieveBool(String key);
   Future<void> saveValue(String key, dynamic value);
   Future<T?> retrieveValue<T>(String key);
+  Future<int?> retrieveLastTransactionId();
   Future<void> deleteValue(String key);
   Future<void> saveCustomClass(String key, Map<String, dynamic> json);
   Future<void> deleteCustomClass(String key);
@@ -42,7 +45,8 @@ class GluttonLocalDataSource implements LocalDataSource {
   @override
   Future<List<SiteViewDTO>> retrieveSites() async {
     try {
-      final List<Map<String, dynamic>> list = List<Map<String, dynamic>>.from(await Glutton.vomit(LocalDataSource.kSitesListKey, []));
+      final List<Map<String, dynamic>> list =
+          List<Map<String, dynamic>>.from(await Glutton.vomit(LocalDataSource.kSitesListKey, []));
       return list.map((e) => SiteViewDTO.fromJson(e)).toList();
     } catch (e) {
       Logger().e(e);
@@ -120,6 +124,17 @@ class GluttonLocalDataSource implements LocalDataSource {
   }
 
   @override
+  Future<int?> retrieveLastTransactionId() async {
+    try {
+      final lastTransactionId = await Glutton.vomit(LocalDataSource.kTransactionId);
+      return lastTransactionId as int;
+    } catch (e) {
+      Logger().e(e);
+      return null;
+    }
+  }
+
+  @override
   Future<void> saveUser(CustomerDTO customerDTO) async {
     await Glutton.eat(LocalDataSource.kUser, customerDTO.toJson());
   }
@@ -130,6 +145,7 @@ class GluttonLocalDataSource implements LocalDataSource {
       await Glutton.digest(LocalDataSource.kUserId);
       await Glutton.digest(LocalDataSource.kUser);
       await Glutton.digest(LocalDataSource.kSelectedSite);
+      await Glutton.digest(LocalDataSource.kTransactionId);
     } catch (e) {
       Logger().e(e);
     }

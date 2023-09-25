@@ -96,6 +96,9 @@ CMSModulePage _$CMSModulePageFromJson(Map<String, dynamic> json) =>
       json['DisplaySection'] as String,
       json['DisplayOrder'] as int,
       json['ContentURL'] as String,
+      json['Source'] as String,
+      json['DisplayAttributes'] as String,
+      json['ContentKey'] as String,
     );
 
 Map<String, dynamic> _$CMSModulePageToJson(CMSModulePage instance) =>
@@ -105,6 +108,21 @@ Map<String, dynamic> _$CMSModulePageToJson(CMSModulePage instance) =>
       'DisplaySection': instance.displaySection,
       'DisplayOrder': instance.displayOrder,
       'ContentURL': instance.contentURL,
+      'Source': instance.source,
+      'DisplayAttributes': instance.displayAttributes,
+      'ContentKey': instance.contentKey,
+    };
+
+ModulePageItemDisplayAttributes _$ModulePageItemDisplayAttributesFromJson(
+        Map<String, dynamic> json) =>
+    ModulePageItemDisplayAttributes(
+      json['BackgroundColor'] as String,
+    );
+
+Map<String, dynamic> _$ModulePageItemDisplayAttributesToJson(
+        ModulePageItemDisplayAttributes instance) =>
+    <String, dynamic>{
+      'BackgroundColor': instance.backgroundColor,
     };
 
 CMSModuleMenu _$CMSModuleMenuFromJson(Map<String, dynamic> json) =>
@@ -143,6 +161,8 @@ CMSMenuItem _$CMSMenuItemFromJson(Map<String, dynamic> json) => CMSMenuItem(
       json['DisplayOrder'] as int,
       json['ItemUrl'] as String,
       json['Target'] as String?,
+      json['Description'] as String?,
+      json['CreditType'] as int?,
     );
 
 Map<String, dynamic> _$CMSMenuItemToJson(CMSMenuItem instance) {
@@ -161,6 +181,8 @@ Map<String, dynamic> _$CMSMenuItemToJson(CMSMenuItem instance) {
   }
 
   writeNotNull('Target', instance.target);
+  writeNotNull('Description', instance.description);
+  writeNotNull('CreditType', instance.creditType);
   return val;
 }
 

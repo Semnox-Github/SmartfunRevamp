@@ -1082,6 +1082,37 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
+  Future<ListDataWrapper<OrderStatus>> getCustomerTransactionStatus(
+      String customerId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'customerId': customerId};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ListDataWrapper<OrderStatus>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Transaction/CustomerTransactionStatus',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ListDataWrapper<OrderStatus>.fromJson(
+      _result.data!,
+      (json) => OrderStatus.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
   Future<Data<String>> transferBalance(Map<String, dynamic> body) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

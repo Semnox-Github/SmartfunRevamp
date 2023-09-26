@@ -6,12 +6,15 @@ class GetBaseUrlResponse {
   final String appId;
   final String releaseNumber;
   final String gateWayURL;
+  final String deprecated;
 
   GetBaseUrlResponse(
     this.appId,
     this.releaseNumber,
     this.gateWayURL,
+    this.deprecated,
   );
-  factory GetBaseUrlResponse.fromJson(Map<String, dynamic> json) => _$GetBaseUrlResponseFromJson(json);
+  factory GetBaseUrlResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetBaseUrlResponseFromJson(json);
   Map<String, dynamic> toJson() => _$GetBaseUrlResponseToJson(this);
 }

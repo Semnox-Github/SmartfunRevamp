@@ -10,6 +10,8 @@ class ParafaitDefaultsResponse {
   static const String currencySymbol = 'CURRENCY_SYMBOL';
   static const String currencyFormat = 'AMOUNT_FORMAT';
   static const String virtualStoreSiteId = "VIRTUAL_STORE_SITE_ID";
+  static const String playStoreUrl = "PLAY_STORE_URL";
+  static const String appStoreUrl = "APP_STORE_URL";
   @JsonKey(name: 'ParafaitDefaultContainerDTOList')
   final List<ParafaitDefault> parafaitsDefaults;
 

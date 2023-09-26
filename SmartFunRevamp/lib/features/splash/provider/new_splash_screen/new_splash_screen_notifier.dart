@@ -25,11 +25,26 @@ import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 part 'new_splash_screen_notifier.freezed.dart';
 part 'new_splash_screen_state.dart';
 
+final newHomePageCMSProvider = StateProvider<HomePageCMSResponse?>((ref) {
+  return null;
+});
+final languangeContainerProvider = StateProvider<LanguageContainerDTO?>((ref) {
+  return null;
+});
+
+final masterSiteProvider = StateProvider<SiteViewDTO?>((ref) {
+  return null;
+});
+final parafaitDefaultsProvider = StateProvider<ParafaitDefaultsResponse?>((ref) {
+  return null;
+});
+
 final customDTOProvider = FutureProvider<CustomerDTO?>((ref) async {
   final LocalDataSource glutton = Get.find<LocalDataSource>();
   final customer = await glutton.retrieveCustomer();
   return customer;
 });
+
 final getStringForLocalization = FutureProvider<Map<dynamic, dynamic>>((ref) async {
   final currentLang = ref.watch(currentLanguageProvider);
   if (currentLang == null) {
@@ -60,17 +75,6 @@ final getStringForLocalization = FutureProvider<Map<dynamic, dynamic>>((ref) asy
   return combinedMap;
 });
 
-final languangeContainerProvider = StateProvider<LanguageContainerDTO?>((ref) {
-  return null;
-});
-final masterSiteProvider = StateProvider<SiteViewDTO?>((ref) {
-  return null;
-});
-
-final newHomePageCMSProvider = StateProvider<HomePageCMSResponse?>((ref) {
-  return null;
-});
-
 final newSplashScreenProvider = StateNotifierProvider<NewSplashScreenNotifier, NewSplashScreenState>(
   (ref) => NewSplashScreenNotifier(
     Get.find<GetBaseURLUseCase>(),
@@ -79,11 +83,9 @@ final newSplashScreenProvider = StateNotifierProvider<NewSplashScreenNotifier, N
   ),
 );
 
-final parafaitDefaultsProvider = StateProvider<ParafaitDefaultsResponse?>((ref) {
-  return null;
-});
-
 class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
+  NewSplashScreenNotifier(this._getBaseURL, this._authenticateBaseURLUseCase, this._localDataSource)
+      : super(const _InProgress());
   final GetBaseURLUseCase _getBaseURL;
   final AuthenticateBaseURLUseCase _authenticateBaseURLUseCase;
   final LocalDataSource _localDataSource;
@@ -93,8 +95,6 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   late SiteViewDTO? masterSite;
   late LanguageContainerDTO _languageContainerDTO;
   late ParafaitDefaultsResponse _parafaitDefaultsResponse;
-  NewSplashScreenNotifier(this._getBaseURL, this._authenticateBaseURLUseCase, this._localDataSource)
-      : super(const _InProgress());
 
   void getSplashImage() async {
     _splashScreenImgURL = await _localDataSource.retrieveValue<String>(LocalDataSource.kSplashScreenURL);
@@ -102,6 +102,18 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
       state = _RetrievedSplashImageURL(_splashScreenImgURL);
     }
     _getBaseUrl();
+  }
+
+  void _getBaseUrl() async {
+    final response = await _getBaseURL();
+    response.fold(
+      (l) => Logger().e(l.message),
+      (r) async {
+        Get.put<String>(r.gateWayURL, tag: 'baseURL');
+        Get.put<String>(r.deprecated, tag: 'appVersionDeprecated');
+        _authenticateBaseURL(r.gateWayURL);
+      },
+    );
   }
 
   void _authenticateBaseURL(String baseUrl) async {
@@ -123,17 +135,6 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
       (r) {
         _languageContainerDTO = r;
         _getHomePageCMS();
-      },
-    );
-  }
-
-  void _getBaseUrl() async {
-    final response = await _getBaseURL();
-    response.fold(
-      (l) => Logger().e(l.message),
-      (r) async {
-        Get.put<String>(r.gateWayURL, tag: 'baseURL');
-        _authenticateBaseURL(r.gateWayURL);
       },
     );
   }

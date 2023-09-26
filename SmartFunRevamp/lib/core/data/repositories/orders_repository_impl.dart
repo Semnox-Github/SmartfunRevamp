@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
+import 'package:semnox/core/domain/entities/orders/order_status.dart';
 
 import 'package:semnox/core/domain/repositories/orders_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
@@ -16,7 +17,8 @@ class OrdersRepositoryImpl implements OrdersRepository {
   OrdersRepositoryImpl(this._api);
 
   @override
-  Future<Either<Failure, List<OrderDetails>>> getCustomerTransactions(String customerId) async {
+  Future<Either<Failure, List<OrderDetails>>> getCustomerTransactions(
+      String customerId) async {
     try {
       final response = await _api.getCustomerTransactions(customerId);
       Logger().d('Transactions ${response.data.length}');
@@ -24,17 +26,41 @@ class OrdersRepositoryImpl implements OrdersRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+        return Left(
+            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+      return Left(ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       return Left(ServerFailure(''));
     }
   }
 
   @override
-  Future<Either<Failure, OrderDetails>> getTransactionDetail(String transactionId) async {
+  Future<Either<Failure, List<OrderStatus>>> getCustomerTransactionStatus(
+      String customerId) async {
+    try {
+      final response = await _api.getCustomerTransactionStatus(customerId);
+      Logger().d('Transactions ${response.data.length}');
+      return Right(response.data);
+    } on DioException catch (e) {
+      Logger().e(e);
+      if (e.response?.statusCode == 404) {
+        return Left(
+            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+      }
+      final message = json.decode(e.response.toString());
+      return Left(ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(message['data'])));
+    } catch (e) {
+      return Left(ServerFailure(''));
+    }
+  }
+
+  @override
+  Future<Either<Failure, OrderDetails>> getTransactionDetail(
+      String transactionId) async {
     try {
       final response = await _api.getTransactionByTransactionId(transactionId);
       Logger().d('Transaction Detail ${response.data.length}');
@@ -42,10 +68,12 @@ class OrdersRepositoryImpl implements OrdersRepository {
     } on DioException catch (e) {
       Logger().e(e);
       if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
+        return Left(
+            ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
       }
       final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+      return Left(ServerFailure(
+          SplashScreenNotifier.getLanguageLabel(message['data'])));
     } catch (e) {
       Logger().e(e);
       return Left(ServerFailure(''));

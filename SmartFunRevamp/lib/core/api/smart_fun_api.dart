@@ -22,6 +22,7 @@ import 'package:semnox/core/domain/entities/membership/membership_info.dart';
 import 'package:semnox/core/domain/entities/membership/membership_tier.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
+import 'package:semnox/core/domain/entities/orders/order_status.dart';
 import 'package:semnox/core/domain/entities/sign_up/sites_response.dart';
 import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
@@ -242,6 +243,10 @@ abstract class SmartFunApi {
     @Query('customerId') String customerId, {
     @Query('buildChildRecords') bool buildChildRecords = true,
   });
+
+  @GET('Transaction/CustomerTransactionStatus')
+  Future<ListDataWrapper<OrderStatus>> getCustomerTransactionStatus(
+      @Query('customerId') String customerId);
 
   @POST('Customer/Account/AccountService/TransferBalances')
   Future<Data<String>> transferBalance(@Body() Map<String, dynamic> body);

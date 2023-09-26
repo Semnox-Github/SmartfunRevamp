@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -26,12 +27,12 @@ void main() async {
   WidgetsBinding.instance.addObserver(LifecycleEventHandler(
     resumeCallBack: () async {
       final remoteMessageStream = FirebaseMessaging.onMessageOpenedApp;
-      final notificationData =
-          NotificationsData.fromJson((await remoteMessageStream.first).data);
+      final notificationData = NotificationsData.fromJson((await remoteMessageStream.first).data);
       Logger().d('TEST -> ${notificationData.toJson()}');
       navigatorKey.currentState?.pushNamed(notificationData.path);
     },
   ));
+  await dotenv.load(fileName: ".env");
   if (Platform.isAndroid || Platform.isIOS) {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -95,9 +96,7 @@ class MyApp extends StatelessWidget {
               builder: (BuildContext context) => Scaffold(
                 appBar: AppBar(),
                 body: Center(
-                  child: MulishText(
-                      text:
-                          '404 Page not found.\n Route ${settings.name} not found'),
+                  child: MulishText(text: '404 Page not found.\n Route ${settings.name} not found'),
                 ),
               ),
             );

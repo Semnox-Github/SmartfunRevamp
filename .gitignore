@@ -136,3 +136,4 @@ app.*.symbols
 *.mocks.dart
 
 SmartFunRevamp/build/
+SmartFunRevamp/.env

@@ -45,15 +45,76 @@ This is the icon of the app that is shown in the device berfore opening the app
 2. Open file `SmartFunRevamp/flutter_native_icons.yaml` and update image path if you change it in the step 1
 3. Run generation tool: `flutter pub run flutter_launcher_icons`
 
-## Local json default configuration
-For the moment the app is using only api calls to show data.
+## json configuration
+There are serveral parts of the app that can be configured by json files. For every configuration there is a file that is shipped inside the app and that is read by default the first time the app is opened. After that, the app will fetch a new configuration from the API and will store it in the device. The json local file and the API response are merged and the result is stored in the device, so they should have the same format.
 
-When the cache feature is implemented we will be using JSON files inside `SmartFunRevamp/assets/json/` to configure the CMS json data such as: 
-- available languages
-- default translated strings
-- parafait defaults
-- CMS json data for home, colors, fonts, etc.
-- any other aata that need to load faster the first time the app is opened
+_WARNING: this feature is not implemented yet, so the app will always fetch the configuration from the API until ticket #920 is done_
+
+Below is a list of the json files that can be configured:
+
+### available languages
+The app can be configured to support multiple languages. The list of available languages is defined in `SmartFunRevamp/assets/json/available_languages.json` file. The format of the file is:
+```
+[
+  {
+    "code": "en",
+    "name": "English"
+  },
+  {
+    "code": "es",
+    "name": "Español"
+  }
+]
+```
+
+### default translated strings
+The app can be configured to support multiple languages. The list of available languages is defined in `SmartFunRevamp/assets/json/default_translated_strings_en.json` file for the english file, and the language code changes for every language. The format of the file is:
+```
+{
+  "hello": "Hello",
+  "world": "World"
+}
+```
+
+### Parafait defaults
+The file should be located at `SmartFunRevamp/assets/json/parafait_defaults.json`. The format of the file is:
+```
+{
+    "data": {
+        "ParafaitDefaultContainerDTOList": [
+            {
+                "DefaultValueName": "CARD_FACE_VALUE",
+                "DefaultValue": "0"
+            },
+            {
+                "DefaultValueName": "TOKEN_PRICE",
+                "DefaultValue": "10"
+            },
+            # more items here ...
+        ]
+    }
+}
+```
+
+### CMS configuration
+It contains data to configure data for the app such as: home containers, menu itesm, colors, etc.
+
+#### Home containers
+Under development in #922
+
+#### Menu items
+Menu items are inside the key `CMSModuleMenuDTOList`
+
+The available items keys for configuration are:
+
+- SMARTFUN_MENU_HEADER
+- SMARTFUN_MENU_FOOTER
+- SMARTFUN_MENU_CARD_DETAILS
+- SMARTFUN_MENU_MORE
+ 
+
+#### App Colors and fonts
+under development
 
 ## App version and description.
 The publicly visible app version is taken from `SmartFunRevamp/pubspec.yaml` file. The version is defined in the variable `version`. 

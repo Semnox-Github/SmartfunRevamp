@@ -4,8 +4,10 @@ import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/buy_a_card/pages/buy_card_list_page.dart';
 import 'package:semnox/features/customer_verification/pages/customer_verification_page.dart';
 import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
-import 'package:semnox/features/home/pages/home_page.dart';
+import 'package:semnox/features/home/view/bookings_view.dart';
 import 'package:semnox/features/home/view/delete_profile_otp_page.dart';
+import 'package:semnox/features/home/view/home_view.dart';
+import 'package:semnox/features/home/view/more_view.dart';
 import 'package:semnox/features/home/view/play_view.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/login/pages/verify_otp_page.dart';
@@ -59,12 +61,16 @@ class Routes {
   static const kTicketsPage = '/tickets';
   static const kCoupons = '/coupons';
   static const kEvents = '/events';
+  static const kBookings = '/bookings';
+  static const kMore = '/more';
 
   static String get initialRoute => kSplashScreenPage;
 
   static Map<String, WidgetBuilder> get routesMap {
     return {
-      kHomePage: (BuildContext context) => const HomePage(),
+      kBookings: (BuildContext context) => const BookingsView(),
+      kMore: (BuildContext context) => const MoreView(),
+      kHomePage: (BuildContext context) => const HomeView(),
       kLogInPage: (BuildContext context) => const LoginPage(),
       kSignUpPage: (BuildContext context) => const SignUpPage(),
       kAfterSplashScreenPage: (BuildContext context) => const AfterSplashScreen(),

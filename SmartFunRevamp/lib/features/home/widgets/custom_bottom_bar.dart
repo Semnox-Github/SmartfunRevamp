@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
+import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/home/widgets/custom_bottom_navigation_bar_item.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
@@ -11,10 +12,9 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 class CustomBottomBar extends ConsumerWidget {
   const CustomBottomBar({
     Key? key,
-    required this.onTap,
     required this.currentPage,
   }) : super(key: key);
-  final Function(int) onTap;
+
   final int currentPage;
 
   @override
@@ -33,7 +33,15 @@ class CustomBottomBar extends ConsumerWidget {
         backgroundColor: HexColor.fromHex(barColor) ?? CustomColors.customBlack,
         selectedFontSize: 0.0,
         unselectedFontSize: 0.0,
-        onTap: (value) => onTap(value),
+        onTap: (index) {
+          bool isUrl = Uri.tryParse(items[index].target ?? '')?.hasAbsolutePath ?? false;
+          if (isUrl) {
+            Navigator.pushNamed(context, Routes.kPlayPage);
+          } else if (index != currentPage) {
+            final route = items[index].target?.replaceAll('sf:/', '') ?? '';
+            Navigator.pushReplacementNamed(context, route);
+          }
+        },
         items: [
           for (CMSMenuItem item in items)
             if (item.active)

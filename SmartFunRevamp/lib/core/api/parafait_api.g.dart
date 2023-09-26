@@ -12,9 +12,7 @@ class _ParafaitApi implements ParafaitApi {
   _ParafaitApi(
     this._dio, {
     this.baseUrl,
-  }) {
-    baseUrl ??= 'https://parafaitdevcentral.parafait.com/api/';
-  }
+  });
 
   final Dio _dio;
 

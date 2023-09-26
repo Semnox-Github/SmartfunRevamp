@@ -8,7 +8,6 @@ import 'package:semnox/features/home/view/bookings_view.dart';
 import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/view/more_view.dart';
 
-import 'package:semnox/features/home/widgets/custom_bottom_bar.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
 ///Here is where you need to add any other option possible for the bottom bar
@@ -55,21 +54,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     Routes.routesMap.forEach((key, value) {});
     return Scaffold(
       backgroundColor: CustomColors.customLigthBlue,
-      bottomNavigationBar: CustomBottomBar(
-        onTap: (page) async {
-          if (items[page].itemName == 'PLAY') {
-            await Navigator.pushNamed(context, Routes.kPlayPage);
-            _currentPage = 0;
-            _pageController.jumpToPage(0);
-          } else {
-            setState(() {
-              _currentPage = page;
-            });
-            _pageController.jumpToPage(page);
-          }
-        },
-        currentPage: _currentPage,
-      ),
       body: SafeArea(
         child: PageView(
           physics: const NeverScrollableScrollPhysics(),

@@ -18,6 +18,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/home/widgets/custom_bottom_bar.dart';
 import 'package:semnox/features/home/widgets/home_view_widgets/home_top_bar_icons.dart';
 import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
@@ -33,17 +34,13 @@ import 'package:shimmer/shimmer.dart';
 
 final promoImagesProvider = Provider<List<String>>((ref) {
   final cms = ref.watch(newHomePageCMSProvider);
-  final promos = cms?.cmsModulePages
-      ?.where((element) => element.displaySection == 'IMAGE')
-      .toList();
+  final promos = cms?.cmsModulePages?.where((element) => element.displaySection == 'IMAGE').toList();
   return promos?.map((e) => e.contentURL).toList() ?? [];
 });
 
 final safePromoImagesProvider = FutureProvider<List<String>>((ref) async {
   final cms = ref.watch(newHomePageCMSProvider);
-  final promos = cms?.cmsModulePages
-      ?.where((element) => element.displaySection == 'IMAGE')
-      .toList();
+  final promos = cms?.cmsModulePages?.where((element) => element.displaySection == 'IMAGE').toList();
   final promoImagesUrl = promos?.map((e) => e.contentURL).toList() ?? [];
   final safeUrls = <String>[];
   final dio = Dio();
@@ -104,284 +101,259 @@ class _HomeViewState extends ConsumerState<HomeView> {
       loading: () => context.loaderOverlay.show(),
       skipLoadingOnRefresh: false,
     );
-    return SingleChildScrollView(
-      physics: const ClampingScrollPhysics(),
-      child: Container(
-        color: Colors.white,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              decoration: BoxDecoration(
-                color: HexColor.fromHex(homeColor?.upperHalf) ??
-                    CustomColors.customLigthBlue,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(15.0),
-                  bottomRight: Radius.circular(15.0),
-                ),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      ProfilePicture(customerDTO: user),
-                      const SizedBox(width: 10.0),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${user.profileDto?.firstName} ${user.profileDto?.lastName}',
-                            style: const TextStyle(
-                              color: CustomColors.customBlue,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          ref.watch(membershipInfoProvider).when(
-                                error: (_, __) =>
-                                    const MulishText(text: 'Error '),
-                                loading: () => const ShimmerLoading(
-                                  height: 10.0,
-                                  width: 50,
-                                ),
-                                data: (data) {
-                                  if (data.membershipId == -1) {
-                                    return Container();
-                                  }
-                                  return MulishText(
-                                    text: SplashScreenNotifier.getLanguageLabel(
-                                        '${data.memberShipName}'),
-                                    fontWeight: FontWeight.bold,
-                                  );
-                                },
-                              ),
-                        ],
-                      ),
-                      const Spacer(),
-                      HomeTopBarIcons(
-                        onSearchTap: () =>
-                            Navigator.pushNamed(context, Routes.kSearch),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: cardsWatch.when(
-                      skipLoadingOnRefresh: false,
-                      loading: () => const ShimmerLoading(height: 200),
-                      error: (_, __) => Center(
-                        child: MulishText(
-                          text: SplashScreenNotifier.getLanguageLabel(
-                              'No Cards found'),
-                        ),
-                      ),
-                      data: (data) {
-                        return Column(
-                          children: [
-                            data.isNotEmpty
-                                ? CarouselCards(
-                                    cards: data,
-                                    onCardChanged: (cardIndex) {
-                                      if (cardIndex != data.length) {
-                                        ref
-                                            .read(currentCardProvider.notifier)
-                                            .update((state) => data[cardIndex]);
-                                      } else {
-                                        ref
-                                            .read(currentCardProvider.notifier)
-                                            .update((state) => null);
-                                      }
-                                      _cardIndex = cardIndex;
-                                    },
-                                  )
-                                : LinkACard(),
-                            if (data.isNotEmpty && _cardIndex != data.length)
-                              RechargeCardDetailsButton(
-                                cardDetails: cardDetails ?? data.first,
-                              )
-                            else
-                              const BuyNewCardButton(),
-                          ],
-                        );
-                      },
+    return Scaffold(
+      backgroundColor: CustomColors.customLigthBlue,
+      bottomNavigationBar: const CustomBottomBar(
+        currentPage: 0,
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  decoration: BoxDecoration(
+                    color: HexColor.fromHex(homeColor?.upperHalf) ?? CustomColors.customLigthBlue,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(15.0),
+                      bottomRight: Radius.circular(15.0),
                     ),
                   ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 0,
-              width: 0,
-              child: Consumer(
-                builder: (context, ref, child) {
-                  return ref.watch(getAllSitesProvider).maybeWhen(
-                        orElse: () => Container(),
-                      );
-                },
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  child: Column(
                     children: [
-                      Text(
-                        SplashScreenNotifier.getLanguageLabel('Quick Links'),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                      Row(
+                        children: [
+                          ProfilePicture(customerDTO: user),
+                          const SizedBox(width: 10.0),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${user.profileDto?.firstName} ${user.profileDto?.lastName}',
+                                style: const TextStyle(
+                                  color: CustomColors.customBlue,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              ref.watch(membershipInfoProvider).when(
+                                    error: (_, __) => const MulishText(text: 'Error '),
+                                    loading: () => const ShimmerLoading(
+                                      height: 10.0,
+                                      width: 50,
+                                    ),
+                                    data: (data) {
+                                      if (data.membershipId == -1) {
+                                        return Container();
+                                      }
+                                      return MulishText(
+                                        text: SplashScreenNotifier.getLanguageLabel('${data.memberShipName}'),
+                                        fontWeight: FontWeight.bold,
+                                      );
+                                    },
+                                  ),
+                            ],
+                          ),
+                          const Spacer(),
+                          HomeTopBarIcons(
+                            onSearchTap: () => Navigator.pushNamed(context, Routes.kSearch),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: cardsWatch.when(
+                          skipLoadingOnRefresh: false,
+                          loading: () => const ShimmerLoading(height: 200),
+                          error: (_, __) => Center(
+                            child: MulishText(text: SplashScreenNotifier.getLanguageLabel('No Cards found')),
+                          ),
+                          data: (data) {
+                            return Column(
+                              children: [
+                                data.isNotEmpty
+                                    ? CarouselCards(
+                                        cards: data,
+                                        onCardChanged: (cardIndex) {
+                                          if (cardIndex != data.length) {
+                                            ref.read(currentCardProvider.notifier).update((state) => data[cardIndex]);
+                                          } else {
+                                            ref.read(currentCardProvider.notifier).update((state) => null);
+                                          }
+                                          _cardIndex = cardIndex;
+                                        },
+                                      )
+                                    : LinkACard(),
+                                if (data.isNotEmpty && _cardIndex != data.length)
+                                  RechargeCardDetailsButton(
+                                    cardDetails: cardDetails ?? data.first,
+                                  )
+                                else
+                                  const BuyNewCardButton(),
+                              ],
+                            );
+                          },
                         ),
                       ),
                     ],
                   ),
-                  cardsWatch.when(
-                    error: (error, stackTrace) => Container(),
-                    loading: () => const ShimmerLoading(height: 200.0),
-                    data: (data) {
-                      bool hasCard = data.isNotEmpty ? true : false;
-                      String msgCardNoLink = SplashScreenNotifier.getLanguageLabel(
-                          'No card is associated with customer, please link your card.');
-                      if (quickLinks.isNullOrEmpty()) {
-                        return const MulishText(
-                            text:
-                                'No quicklinks setup. Contact your administrator');
-                      }
-                      return GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                ),
+                SizedBox(
+                  height: 0,
+                  width: 0,
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      return ref.watch(getAllSitesProvider).maybeWhen(
+                            orElse: () => Container(),
+                          );
+                    },
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            SplashScreenNotifier.getLanguageLabel('Quick Links'),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      cardsWatch.when(
+                        error: (error, stackTrace) => Container(),
+                        loading: () => const ShimmerLoading(height: 200.0),
+                        data: (data) {
+                          bool hasCard = data.isNotEmpty ? true : false;
+                          String msgCardNoLink = SplashScreenNotifier.getLanguageLabel(
+                              'No card is associated with customer, please link your card.');
+                          if (quickLinks.isNullOrEmpty()) {
+                            return const MulishText(text: 'No quicklinks setup. Contact your administrator');
+                          }
+                          return GridView.builder(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                            ),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: quickLinks!.length,
+                            itemBuilder: (context, index) {
+                              final quickLink = quickLinks[index];
+                              return QuickLinkItem(
+                                color: quickLink.backgroundColor,
+                                imageUrl: quickLink.contentURL,
+                                text: SplashScreenNotifier.getLanguageLabel(quickLink.source),
+                                onTap: () {
+                                  if (quickLink.source.toLowerCase() == 'recharge') {
+                                    if (!hasCard) {
+                                      Dialogs.showMessageInfo(context,
+                                          SplashScreenNotifier.getLanguageLabel('Recharge Card'), msgCardNoLink);
+                                    } else {
+                                      //if the user has no card selected show dialog
+                                      if (cardDetails == null) {
+                                        Dialogs.showMessageInfo(
+                                          context,
+                                          SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                          SplashScreenNotifier.getLanguageLabel("Please select a card to recharge."),
+                                        );
+                                        //if there is a card selected and is not blocked or expired then navigate
+                                      } else if (!(cardDetails.isBlocked() || cardDetails.isExpired())) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const SelectCardRechargePage(),
+                                          ),
+                                        );
+                                      } else {
+                                        //else show dialog
+                                        Dialogs.showMessageInfo(
+                                          context,
+                                          SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                          SplashScreenNotifier.getLanguageLabel(
+                                              "Temporary or expired cards can't be recharged."),
+                                        );
+                                      }
+                                    }
+                                  } else {
+                                    if (hasCard) {
+                                      Navigator.pushNamed(context, quickLink.contentKey.replaceAll('sf:/', ''));
+                                    } else {
+                                      Dialogs.showMessageInfo(
+                                          context, SplashScreenNotifier.getLanguageLabel('Activities'), msgCardNoLink);
+                                    }
+                                  }
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      MulishText(
+                        text: SplashScreenNotifier.getLanguageLabel("Today's Offers"),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                      ),
+                      PromoImages(promoImages: promoImages),
+                      MulishText(
+                        text: SplashScreenNotifier.getLanguageLabel('More Actions'),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                      ),
+                      GridView.builder(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                         ),
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: quickLinks!.length,
+                        itemCount: moreActions?.length ?? 0,
                         itemBuilder: (context, index) {
-                          final quickLink = quickLinks[index];
+                          final moreAction = moreActions![index];
                           return QuickLinkItem(
-                            color: quickLink.backgroundColor,
-                            imageUrl: quickLink.contentURL,
-                            text: SplashScreenNotifier.getLanguageLabel(
-                                quickLink.source),
+                            color: CustomColors.customPink,
+                            imageUrl: moreAction.contentURL,
+                            text: SplashScreenNotifier.getLanguageLabel(moreAction.source),
                             onTap: () {
-                              if (quickLink.source.toLowerCase() ==
-                                  'recharge') {
-                                if (!hasCard) {
-                                  Dialogs.showMessageInfo(
-                                      context,
-                                      SplashScreenNotifier.getLanguageLabel(
-                                          'Recharge Card'),
-                                      msgCardNoLink);
-                                } else {
-                                  //if the user has no card selected show dialog
-                                  if (cardDetails == null) {
-                                    Dialogs.showMessageInfo(
-                                      context,
-                                      SplashScreenNotifier.getLanguageLabel(
-                                          'Recharge Card'),
-                                      SplashScreenNotifier.getLanguageLabel(
-                                          "Please select a card to recharge."),
-                                    );
-                                    //if there is a card selected and is not blocked or expired then navigate
-                                  } else if (!(cardDetails.isBlocked() ||
-                                      cardDetails.isExpired())) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SelectCardRechargePage(),
+                              if (moreAction.source == 'Link Card') {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Dialog(
+                                      child: Container(
+                                        height: 245,
+                                        padding: const EdgeInsets.all(10),
+                                        child: LinkACard(),
                                       ),
                                     );
-                                  } else {
-                                    //else show dialog
-                                    Dialogs.showMessageInfo(
-                                      context,
-                                      SplashScreenNotifier.getLanguageLabel(
-                                          'Recharge Card'),
-                                      SplashScreenNotifier.getLanguageLabel(
-                                          "Temporary or expired cards can't be recharged."),
-                                    );
-                                  }
-                                }
+                                  },
+                                );
                               } else {
-                                if (hasCard) {
-                                  Navigator.pushNamed(
-                                      context,
-                                      quickLink.contentKey
-                                          .replaceAll('sf:/', ''));
-                                } else {
-                                  Dialogs.showMessageInfo(
-                                      context,
-                                      SplashScreenNotifier.getLanguageLabel(
-                                          'Activities'),
-                                      msgCardNoLink);
-                                }
+                                ScaffoldMessenger.of(context).clearSnackBars();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Not implemented')),
+                                );
                               }
                             },
                           );
                         },
-                      );
-                    },
+                      ),
+                    ],
                   ),
-                  MulishText(
-                    text:
-                        SplashScreenNotifier.getLanguageLabel("Today's Offers"),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  ),
-                  PromoImages(promoImages: promoImages),
-                  MulishText(
-                    text: SplashScreenNotifier.getLanguageLabel('More Actions'),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                  ),
-                  GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                    ),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: moreActions?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      final moreAction = moreActions![index];
-                      return QuickLinkItem(
-                        color: CustomColors.customPink,
-                        imageUrl: moreAction.contentURL,
-                        text: SplashScreenNotifier.getLanguageLabel(
-                            moreAction.source),
-                        onTap: () {
-                          if (moreAction.source == 'Link Card') {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return Dialog(
-                                  child: Container(
-                                    height: 245,
-                                    padding: const EdgeInsets.all(10),
-                                    child: LinkACard(),
-                                  ),
-                                );
-                              },
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Not implemented')),
-                            );
-                          }
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -408,8 +380,7 @@ class PromoImages extends ConsumerWidget {
               ),
             );
           },
-          loading: () =>
-              const Center(child: CircularProgressIndicator.adaptive()),
+          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
           data: (images) {
             if (images.isEmpty) {
               return Image.asset('assets/home/no_promo_image.png');

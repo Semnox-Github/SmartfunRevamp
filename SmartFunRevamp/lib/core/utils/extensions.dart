@@ -33,6 +33,15 @@ extension StringExtension on String? {
   }
 }
 
+extension ListExtension on List? {
+  bool isNullOrEmpty() {
+    if (this == null || this!.isEmpty) {
+      return true;
+    }
+    return false;
+  }
+}
+
 extension DateTimeExtension on DateTime? {
   String formatDate(String format) {
     final formatter = DateFormat(format);

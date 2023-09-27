@@ -166,4 +166,21 @@ class CardDetails {
     }
     return accountNumber == cardTo.accountNumber;
   }
+
+  String pointsBasedOnCreditType(int creditType) {
+    switch (creditType) {
+      case 0:
+        return creditPlusCredits?.toStringAsFixed(0) ?? '';
+      case 1:
+        return creditPlusLoyaltyPoints?.toStringAsFixed(0) ?? '';
+      case 2:
+        return creditPlusTickets?.toStringAsFixed(0) ?? '';
+      case 5:
+        return creditPlusBonus?.toStringAsFixed(0) ?? '';
+      case 6:
+        return creditPlusTime?.toStringAsFixed(0) ?? '';
+      default:
+        return '0';
+    }
+  }
 }

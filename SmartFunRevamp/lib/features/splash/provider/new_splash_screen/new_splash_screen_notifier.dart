@@ -23,8 +23,8 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
-part 'new_splash_screen_state.dart';
 part 'new_splash_screen_notifier.freezed.dart';
+part 'new_splash_screen_state.dart';
 
 final newHomePageCMSProvider = StateProvider<HomePageCMSResponse?>((ref) {
   return null;
@@ -96,8 +96,8 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
       : super(const _InProgress());
   final GetBaseURLUseCase _getBaseURL;
   final AuthenticateBaseURLUseCase _authenticateBaseURLUseCase;
-
   final LocalDataSource _localDataSource;
+
   //<---------------->
   late String? _splashScreenImgURL = '';
   late SiteViewDTO? masterSite;
@@ -136,6 +136,51 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     );
   }
 
+  void _getAllParafaitLanguages(int? siteId) async {
+    final getParafaitLanguagesUseCase = Get.find<GetParafaitLanguagesUseCase>();
+    final response =
+        await getParafaitLanguagesUseCase(siteId: siteId.toString());
+    response.fold(
+      (l) => throw l,
+      (r) {
+        _languageContainerDTO = r;
+        _getHomePageCMS();
+      },
+    );
+  }
+
+  void _getHomePageCMS() async {
+    final useCase = Get.find<GetHomePageCMSUseCase>();
+    final response = await useCase();
+    response.fold(
+      (l) {
+        Logger().e(l.message);
+        state = _Error(l.message);
+      },
+      (r) async {
+        if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
+          await _localDataSource.saveValue(
+              LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
+        }
+        final selectedSite =
+            await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
+        // Load Local Json
+        final String exampleCMSJson =
+            await rootBundle.loadString('assets/json/example_cms.json');
+        final data =
+            (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
+        final cms = HomePageCMSResponse.fromJson(data);
+        state = _Success(
+          homePageCMSResponse: cms,
+          languageContainerDTO: _languageContainerDTO,
+          siteViewDTO: masterSite!,
+          parafaitDefaultsResponse: _parafaitDefaultsResponse,
+          needsSiteSelection: selectedSite == null,
+        );
+      },
+    );
+  }
+
   void _getMasterSite() async {
     final GetMasterSiteUseCase getMasterSiteUseCase =
         Get.find<GetMasterSiteUseCase>();
@@ -158,43 +203,6 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
       (r) async {
         _parafaitDefaultsResponse = r;
         _getAllParafaitLanguages(siteId);
-      },
-    );
-  }
-
-  void _getAllParafaitLanguages(int? siteId) async {
-    final getParafaitLanguagesUseCase = Get.find<GetParafaitLanguagesUseCase>();
-    final response =
-        await getParafaitLanguagesUseCase(siteId: siteId.toString());
-    response.fold(
-      (l) => throw l,
-      (r) {
-        _languageContainerDTO = r;
-        _getHomePageCMS();
-      },
-    );
-  }
-
-  void _getHomePageCMS() async {
-    final useCase = Get.find<GetHomePageCMSUseCase>();
-    final response = await useCase();
-    response.fold(
-      (l) => state = _Error(l.message),
-      (r) async {
-        if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
-          await _localDataSource.saveValue(
-              LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
-        }
-        final selectedSite =
-            await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
-        await Future.delayed(const Duration(seconds: 3));
-        state = _Success(
-          homePageCMSResponse: r,
-          languageContainerDTO: _languageContainerDTO,
-          siteViewDTO: masterSite!,
-          parafaitDefaultsResponse: _parafaitDefaultsResponse,
-          needsSiteSelection: selectedSite == null,
-        );
       },
     );
   }

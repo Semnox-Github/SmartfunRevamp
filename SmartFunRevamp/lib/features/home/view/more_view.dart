@@ -1,20 +1,20 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/instance_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
+import 'package:semnox/core/domain/entities/membership/membership_info.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/widgets/custom_bottom_bar.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
-import 'package:semnox/features/orders/pages/orders_summary_page.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -28,197 +28,123 @@ class MoreView extends ConsumerWidget {
     final localDatasource = Get.find<LocalDataSource>();
     final cms = ref.watch(newHomePageCMSProvider);
     final items = cms?.getMoreMenuItems() ?? [];
-
-    return Container(
-      color: Colors.white,
-      child: ListView(
-        physics: const ClampingScrollPhysics(),
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-              color: CustomColors.customLigthBlue,
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(20.0),
-              ),
-            ),
-            child: Column(
-              children: [
-                Row(
+    final membershipInfo = ref.watch(membershipInfoProvider).valueOrNull;
+    return Scaffold(
+      backgroundColor: CustomColors.customLigthBlue,
+      appBar: AppBar(),
+      bottomNavigationBar: const CustomBottomBar(
+        currentPage: 3,
+      ),
+      body: SafeArea(
+        child: Container(
+          color: Colors.white,
+          child: ListView(
+            physics: const ClampingScrollPhysics(),
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: const BoxDecoration(
+                  color: CustomColors.customLigthBlue,
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(20.0),
+                  ),
+                ),
+                child: Column(
                   children: [
-                    MulishText(
-                      text: SplashScreenNotifier.getLanguageLabel('More'),
-                      fontWeight: FontWeight.bold,
-                      fontColor: CustomColors.customBlue,
-                      fontSize: 24,
+                    Row(
+                      children: [
+                        MulishText(
+                          text: SplashScreenNotifier.getLanguageLabel('More'),
+                          fontWeight: FontWeight.bold,
+                          fontColor: CustomColors.customBlue,
+                          fontSize: 24,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10.0),
+                    UserPresentationCard(user: user),
+                  ],
+                ),
+              ),
+              ...items.map(
+                (e) => MoreOptionItemFromCMS(
+                  item: e,
+                  membershipInfo: membershipInfo,
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: () async {
+                        localDatasource.logoutUser().then(
+                              (value) => Navigator.popAndPushNamed(context, Routes.kLogInPage),
+                            );
+                        ref.invalidate(CardsProviders.userCardsProvider);
+                      },
+                      child: MulishText(
+                        text: SplashScreenNotifier.getLanguageLabel('Logout'),
+                        fontColor: CustomColors.hardOrange,
+                        fontWeight: FontWeight.bold,
+                        textDecoration: TextDecoration.underline,
+                      ),
+                    ),
+                    FutureBuilder<PackageInfo>(
+                      future: PackageInfo.fromPlatform(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const CircularProgressIndicator.adaptive();
+                        }
+                        final info = snapshot.data;
+                        return MulishText(
+                          text: SplashScreenNotifier.getLanguageLabel('Build Version &1').replaceAll(
+                            '&1',
+                            info?.version ?? '',
+                          ),
+                          fontColor: CustomColors.couponTextColor,
+                        );
+                      },
                     ),
                   ],
                 ),
-                const SizedBox(height: 10.0),
-                UserPresentationCard(user: user),
-              ],
-            ),
+              )
+            ],
           ),
-          for (final item in items)
-            if (item.active) MoreOptionItemFromCMS(item: item),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () async {
-                    localDatasource.logoutUser().then(
-                          (value) => Navigator.popAndPushNamed(context, Routes.kLogInPage),
-                        );
-                    ref.invalidate(CardsProviders.userCardsProvider);
-                  },
-                  child: MulishText(
-                    text: SplashScreenNotifier.getLanguageLabel('Logout'),
-                    fontColor: CustomColors.hardOrange,
-                    fontWeight: FontWeight.bold,
-                    textDecoration: TextDecoration.underline,
-                  ),
-                ),
-                FutureBuilder<PackageInfo>(
-                  future: PackageInfo.fromPlatform(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator.adaptive();
-                    }
-                    final info = snapshot.data;
-                    return MulishText(
-                      text: SplashScreenNotifier.getLanguageLabel('Build Version &1').replaceAll(
-                        '&1',
-                        info?.version ?? '',
-                      ),
-                      fontColor: CustomColors.couponTextColor,
-                    );
-                  },
-                ),
-              ],
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
 }
 
 class MoreOptionItemFromCMS extends StatelessWidget {
-  const MoreOptionItemFromCMS({Key? key, required this.item}) : super(key: key);
+  const MoreOptionItemFromCMS({Key? key, required this.item, required this.membershipInfo}) : super(key: key);
   final CMSMenuItem item;
+  final MembershipInfo? membershipInfo;
 
   @override
   Widget build(BuildContext context) {
-    switch (item.itemName) {
-      case 'BASE_MEMBERSHIP':
-        return Consumer(
-          builder: (context, ref, child) {
-            return ref.watch(membershipInfoProvider).when(
-                  data: (data) {
-                    if (data.membershipId == -1) {
-                      return Container();
-                    }
-                    return MoreOptions(
-                      item: item,
-                      desc: SplashScreenNotifier.getLanguageLabel('Since &1').replaceAll(
-                        '&1',
-                        data.membershipValidity.formatDate('dd MMM yyyy'),
-                      ),
-                      iconBgColor: CustomColors.customLigthYellow,
-                      iconPath: 'gold_medal',
-                      onTap: () => Navigator.pushNamed(context, Routes.kMembershipInfo),
-                      title: '${data.memberShipName}',
-                    );
-                  },
-                  error: (_, __) => Container(),
-                  loading: () => const CircularProgressIndicator.adaptive(),
-                );
-          },
-        );
-
-      case 'REWARDS':
-        return Consumer(
-          builder: (context, ref, child) {
-            return ref.watch(membershipInfoProvider).when(
-                  data: (data) {
-                    if (data.membershipId == -1) {
-                      return Container();
-                    }
-                    return MoreOptions(
-                      item: item,
-                      desc: SplashScreenNotifier.getLanguageLabel('View the rewards you have earned'),
-                      iconBgColor: CustomColors.customLigthGray,
-                      iconPath: 'membership',
-                      onTap: null,
-                    );
-                  },
-                  error: (_, __) => Container(),
-                  loading: () => const CircularProgressIndicator.adaptive(),
-                );
-          },
-        );
-
-      case 'NOTIFICATIONS':
-        return MoreOptions(
-          item: item,
-          desc: SplashScreenNotifier.getLanguageLabel('Manage your notifications settings'),
-          iconBgColor: CustomColors.customLigthGreen,
-          iconPath: 'notification',
-          onTap: () => Navigator.pushNamed(context, Routes.kNotificationsSettings),
-        );
-
-      case 'HELP':
-        return MoreOptions(
-          item: item,
-          desc: SplashScreenNotifier.getLanguageLabel('Read FAQs or Get in touch'),
-          iconBgColor: const Color(0xFFE0F0D3),
-          iconPath: 'help',
-          onTap: null,
-        );
-
-      case 'LEGAL':
-        return MoreOptions(
-          item: item,
-          desc: SplashScreenNotifier.getLanguageLabel('Term of use and Privacy Policy'),
-          iconBgColor: CustomColors.customOrange,
-          iconPath: 'note',
-          onTap: null,
-        );
-
-      case 'ORDERS':
-        return MoreOptions(
-          desc: '',
-          iconBgColor: CustomColors.customLigthGreen,
-          iconPath: 'note',
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OrdersSummaryPage(
-                  customerId: Get.find<CustomerDTO>().id.toString(),
-                ),
-              ),
-            );
-          },
-          item: item,
-        );
-
-      case 'LIKE':
-        return MoreOptions(
-          item: item,
-          desc: SplashScreenNotifier.getLanguageLabel('Rate us in the &1').replaceAll(
+    final description = item.itemName == 'BASE_MEMBERSHIP'
+        ? SplashScreenNotifier.getLanguageLabel('Since &1').replaceAll(
             '&1',
-            Platform.isIOS ? 'App Store' : 'Play Store',
-          ),
-          iconBgColor: const Color(0xFFFCD3DF),
-          iconPath: 'like',
-          onTap: null,
-        );
+            membershipInfo?.membershipValidity.formatDate('dd MMM yyyy') ?? '',
+          )
+        : item.description ?? 'Please add a description to the CMS';
 
-      default:
-        return Text('${item.itemName} not implemented');
-    }
+    return MoreOptions(
+      item: item,
+      desc: description,
+      iconBgColor: Colors.white,
+      iconPath: 'gold_medal',
+      onTap: () {
+        if (Routes.routesMap.containsKey(item.target)) {
+          Navigator.pushNamed(context, item.target ?? "");
+        } else {
+          Fluttertoast.showToast(msg: "URL is not configured");
+        }
+      },
+      title: item.displayName,
+    );
   }
 }

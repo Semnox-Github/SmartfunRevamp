@@ -32,6 +32,7 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final promoImagesProvider = Provider<List<String>>((ref) {
   final cms = ref.watch(newHomePageCMSProvider);
@@ -39,22 +40,21 @@ final promoImagesProvider = Provider<List<String>>((ref) {
   return promos?.map((e) => e.contentURL).toList() ?? [];
 });
 
-final safePromoImagesProvider = FutureProvider<List<String>>((ref) async {
+final safePromoImagesProvider = FutureProvider.family<List<CMSModulePage>, String>((ref, type) async {
   final cms = ref.watch(newHomePageCMSProvider);
-  final promos = cms?.cmsModulePages?.where((element) => element.displaySection == 'IMAGE').toList();
-  final promoImagesUrl = promos?.map((e) => e.contentURL).toList() ?? [];
-  final safeUrls = <String>[];
+  final promos = cms?.cmsModulePages?.where((element) => element.displaySection == type).toList();
+  final safeUrls = <CMSModulePage>[];
   final dio = Dio();
   try {
-    for (var path in promoImagesUrl) {
+    for (var image in promos ?? <CMSModulePage>[]) {
       final response = await dio.get(
-        path,
+        image.contentURL,
         options: Options(
           validateStatus: (status) => true,
         ),
       );
       if (response.statusCode == HttpStatus.ok) {
-        safeUrls.add(path);
+        safeUrls.add(image);
       }
     }
     return safeUrls;
@@ -90,16 +90,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
   @override
   Widget build(BuildContext context) {
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
-    final promoImages = ref.watch(promoImagesProvider);
     final homeColor = ref.watch(homeColors);
-    final quickLinks = ref.watch(newHomePageCMSProvider)?.getQuickLinks();
-    final moreActions = ref.watch(newHomePageCMSProvider)?.getMoreActions();
+
     final itemsOrder =
         ref.watch(newHomePageCMSProvider)?.homePageOrder.sorted((a, b) => a.position.compareTo(b.position));
+    itemsOrder?.removeWhere((element) => !element.isVisible);
 
-    for (var item in itemsOrder ?? []) {
-      Logger().d('<-------------------${item.toJson()}------------------->');
-    }
     ref.watch(SplashScreenNotifier.getInitialData);
     final cardDetails = ref.watch(currentCardProvider);
     cardsWatch.maybeWhen(
@@ -132,125 +128,127 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  decoration: BoxDecoration(
-                    color: HexColor.fromHex(homeColor?.upperHalf) ?? CustomColors.customLigthBlue,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(15.0),
-                      bottomRight: Radius.circular(15.0),
-                    ),
-                  ),
-                  child: Column(
+                  color: CustomColors.customLigthBlue,
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Row(
                     children: [
-                      Row(
+                      ProfilePicture(customerDTO: user),
+                      const SizedBox(width: 10.0),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ProfilePicture(customerDTO: user),
-                          const SizedBox(width: 10.0),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${user.profileDto?.firstName} ${user.profileDto?.lastName}',
-                                style: const TextStyle(
-                                  color: CustomColors.customBlue,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0,
+                          Text(
+                            '${user.profileDto?.firstName} ${user.profileDto?.lastName}',
+                            style: const TextStyle(
+                              color: CustomColors.customBlue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          ref.watch(membershipInfoProvider).when(
+                                error: (_, __) => const MulishText(text: 'Error '),
+                                loading: () => const ShimmerLoading(
+                                  height: 10.0,
+                                  width: 50,
                                 ),
+                                data: (data) {
+                                  if (data.membershipId == -1) {
+                                    return Container();
+                                  }
+                                  return MulishText(
+                                    text: SplashScreenNotifier.getLanguageLabel('${data.memberShipName}'),
+                                    fontWeight: FontWeight.bold,
+                                  );
+                                },
                               ),
-                              ref.watch(membershipInfoProvider).when(
-                                    error: (_, __) => const MulishText(text: 'Error '),
-                                    loading: () => const ShimmerLoading(
-                                      height: 10.0,
-                                      width: 50,
-                                    ),
-                                    data: (data) {
-                                      if (data.membershipId == -1) {
-                                        return Container();
-                                      }
-                                      return MulishText(
-                                        text: SplashScreenNotifier.getLanguageLabel('${data.memberShipName}'),
-                                        fontWeight: FontWeight.bold,
-                                      );
-                                    },
-                                  ),
-                            ],
-                          ),
-                          const Spacer(),
-                          HomeTopBarIcons(
-                            onSearchTap: () => Navigator.pushNamed(context, Routes.kSearch),
-                          ),
                         ],
                       ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: cardsWatch.when(
-                          skipLoadingOnRefresh: false,
-                          loading: () => const ShimmerLoading(height: 200),
-                          error: (_, __) => Center(
-                            child: MulishText(text: SplashScreenNotifier.getLanguageLabel('No Cards found')),
-                          ),
-                          data: (data) {
-                            return Column(
-                              children: [
-                                data.isNotEmpty
-                                    ? CarouselCards(
-                                        cards: data,
-                                        onCardChanged: (cardIndex) {
-                                          if (cardIndex != data.length) {
-                                            ref.read(currentCardProvider.notifier).update((state) => data[cardIndex]);
-                                          } else {
-                                            ref.read(currentCardProvider.notifier).update((state) => null);
-                                          }
-                                          _cardIndex = cardIndex;
-                                        },
-                                      )
-                                    : LinkACard(),
-                                if (data.isNotEmpty && _cardIndex != data.length)
-                                  RechargeCardDetailsButton(
-                                    cardDetails: cardDetails ?? data.first,
-                                  )
-                                else
-                                  const BuyNewCardButton(),
-                              ],
-                            );
-                          },
-                        ),
+                      const Spacer(),
+                      HomeTopBarIcons(
+                        onSearchTap: () => Navigator.pushNamed(context, Routes.kSearch),
                       ),
                     ],
                   ),
                 ),
-                ...itemsOrder?.map(
-                      (e) {
-                        switch (e.widget) {
-                          case "QUICKLINKS":
-                            return Container();
-                          case "OFFERS":
-                            return Container();
-                          case "MORE_ACTIONS":
-                            return Container();
-                          default:
-                            return Container();
-                        }
-                      },
-                    ).toList() ??
-                    [],
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ...itemsOrder?.map(
-                            (e) {
-                              switch (e.widget) {
-                                case "QUICKLINKS":
-                                  return Column(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ...itemsOrder?.map(
+                          (e) {
+                            List<CMSModulePage>? content =
+                                ref.watch(newHomePageCMSProvider)?.getLinks(e.displaySection ?? '');
+                            switch (e.widget) {
+                              case "CARDS":
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  decoration: BoxDecoration(
+                                    color: HexColor.fromHex(homeColor?.upperHalf) ?? CustomColors.customLigthBlue,
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        SplashScreenNotifier.getLanguageLabel(e.title),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20.0,
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                                        child: cardsWatch.when(
+                                          skipLoadingOnRefresh: false,
+                                          loading: () => const ShimmerLoading(height: 200),
+                                          error: (_, __) => Center(
+                                            child: MulishText(
+                                                text: SplashScreenNotifier.getLanguageLabel('No Cards found')),
+                                          ),
+                                          data: (data) {
+                                            return Column(
+                                              children: [
+                                                data.isNotEmpty
+                                                    ? CarouselCards(
+                                                        cards: data,
+                                                        onCardChanged: (cardIndex) {
+                                                          if (cardIndex != data.length) {
+                                                            ref
+                                                                .read(currentCardProvider.notifier)
+                                                                .update((state) => data[cardIndex]);
+                                                          } else {
+                                                            ref
+                                                                .read(currentCardProvider.notifier)
+                                                                .update((state) => null);
+                                                          }
+                                                          _cardIndex = cardIndex;
+                                                        },
+                                                      )
+                                                    : LinkACard(),
+                                                if (data.isNotEmpty && _cardIndex != data.length)
+                                                  RechargeCardDetailsButton(
+                                                    cardDetails: cardDetails ?? data.first,
+                                                  )
+                                                else
+                                                  const BuyNewCardButton(),
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              case "LINKS":
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        SplashScreenNotifier.getLanguageLabel('Quick Links'),
+                                        SplashScreenNotifier.getLanguageLabel(e.title),
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,
@@ -263,7 +261,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                           bool hasCard = data.isNotEmpty ? true : false;
                                           String msgCardNoLink = SplashScreenNotifier.getLanguageLabel(
                                               'No card is associated with customer, please link your card.');
-                                          if (quickLinks.isNullOrEmpty()) {
+                                          if (content.isNullOrEmpty()) {
                                             return const MulishText(
                                                 text: 'No quicklinks setup. Contact your administrator');
                                           }
@@ -273,13 +271,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                             ),
                                             shrinkWrap: true,
                                             physics: const NeverScrollableScrollPhysics(),
-                                            itemCount: quickLinks!.length,
+                                            itemCount: content!.length,
                                             itemBuilder: (context, index) {
-                                              final quickLink = quickLinks[index];
+                                              final quickLink = content[index];
                                               return QuickLinkItem(
                                                 color: quickLink.backgroundColor,
                                                 imageUrl: quickLink.contentURL,
-                                                text: SplashScreenNotifier.getLanguageLabel(quickLink.source),
+                                                text: SplashScreenNotifier.getLanguageLabel(quickLink.contentName),
                                                 onTap: () {
                                                   if (quickLink.source.toLowerCase() == 'recharge') {
                                                     if (!hasCard) {
@@ -333,77 +331,33 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                         },
                                       ),
                                     ],
-                                  );
-                                case "OFFERS":
-                                  return Column(
+                                  ),
+                                );
+                              case "CAROUSEL":
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       MulishText(
-                                        text: SplashScreenNotifier.getLanguageLabel("Today's Offers"),
+                                        text: SplashScreenNotifier.getLanguageLabel(e.title),
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20.0,
                                       ),
-                                      PromoImages(promoImages: promoImages),
-                                    ],
-                                  );
-                                case "MORE_ACTIONS":
-                                  return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      MulishText(
-                                        text: SplashScreenNotifier.getLanguageLabel('More Actions'),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.0,
-                                      ),
-                                      GridView.builder(
-                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                        ),
-                                        shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        itemCount: moreActions?.length ?? 0,
-                                        itemBuilder: (context, index) {
-                                          final moreAction = moreActions![index];
-                                          return QuickLinkItem(
-                                            color: CustomColors.customPink,
-                                            imageUrl: moreAction.contentURL,
-                                            text: SplashScreenNotifier.getLanguageLabel(moreAction.source),
-                                            onTap: () {
-                                              if (moreAction.source == 'Link Card') {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return Dialog(
-                                                      child: Container(
-                                                        height: 245,
-                                                        padding: const EdgeInsets.all(10),
-                                                        child: LinkACard(),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              } else {
-                                                ScaffoldMessenger.of(context).clearSnackBars();
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  const SnackBar(content: Text('Not implemented')),
-                                                );
-                                              }
-                                            },
-                                          );
-                                        },
+                                      PromoImages(
+                                        contentDisplay: e.displaySection ?? '',
                                       ),
                                     ],
-                                  );
-                                default:
-                                  return Container();
-                              }
-                            },
-                          ).toList() ??
-                          [],
-                    ],
-                  ),
+                                  ),
+                                );
+                              default:
+                                return Container();
+                            }
+                          },
+                        ).toList() ??
+                        [],
+                  ],
                 ),
               ],
             ),
@@ -416,15 +370,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
 class PromoImages extends ConsumerWidget {
   const PromoImages({
+    required this.contentDisplay,
     super.key,
-    required this.promoImages,
   });
-
-  final List<String> promoImages;
+  final String contentDisplay;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(safePromoImagesProvider).when(
+    return ref.watch(safePromoImagesProvider(contentDisplay)).when(
           error: (error, stacktrace) {
             Logger().e('Hubo un error', error, stacktrace);
             return const Center(
@@ -445,17 +398,23 @@ class PromoImages extends ConsumerWidget {
                 enableInfiniteScroll: images.length > 1,
                 enlargeCenterPage: true,
               ),
-              items: images.map((imageLink) {
+              items: images.map((promo) {
                 return Builder(
                   builder: (BuildContext context) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: CachedNetworkImage(
-                        imageUrl: imageLink,
-                        placeholder: (context, url) => const Center(
-                          child: CircularProgressIndicator(),
+                    return GestureDetector(
+                      onTap: () {
+                        final Uri url = Uri.parse(promo.contentKey);
+                        launchUrl(url);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: CachedNetworkImage(
+                          imageUrl: promo.contentURL,
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (_, __, ___) => Container(),
                         ),
-                        errorWidget: (_, __, ___) => Container(),
                       ),
                     );
                   },

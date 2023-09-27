@@ -103,6 +103,7 @@ CMSModulePage _$CMSModulePageFromJson(Map<String, dynamic> json) =>
       json['Source'] as String,
       json['DisplayAttributes'] as String,
       json['ContentKey'] as String,
+      json['ContentName'] as String,
     );
 
 Map<String, dynamic> _$CMSModulePageToJson(CMSModulePage instance) =>
@@ -115,6 +116,7 @@ Map<String, dynamic> _$CMSModulePageToJson(CMSModulePage instance) =>
       'Source': instance.source,
       'DisplayAttributes': instance.displayAttributes,
       'ContentKey': instance.contentKey,
+      'ContentName': instance.contentName,
     };
 
 ModulePageItemDisplayAttributes _$ModulePageItemDisplayAttributesFromJson(
@@ -216,10 +218,25 @@ HomePageOrder _$HomePageOrderFromJson(Map<String, dynamic> json) =>
     HomePageOrder(
       json['position'] as int,
       json['widget'] as String,
+      json['title'] as String,
+      json['is_visible'] as bool,
+      json['display_section'] as String?,
     );
 
-Map<String, dynamic> _$HomePageOrderToJson(HomePageOrder instance) =>
-    <String, dynamic>{
-      'position': instance.position,
-      'widget': instance.widget,
-    };
+Map<String, dynamic> _$HomePageOrderToJson(HomePageOrder instance) {
+  final val = <String, dynamic>{
+    'position': instance.position,
+    'title': instance.title,
+    'widget': instance.widget,
+    'is_visible': instance.isVisible,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('display_section', instance.displaySection);
+  return val;
+}

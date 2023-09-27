@@ -97,7 +97,9 @@ The file should be located at `SmartFunRevamp/assets/json/parafait_defaults.json
 ```
 
 ### CMS configuration
-It contains data to configure data for the app such as: home containers, menu itesm, colors, etc.
+It contains data to configure data for the app such as: home containers, menu itesm, colors, etc. The file is `SmartFunRevamp/assets/json/example_cms.json`
+_TO DO: we need to change the name of this file because is not an exampla anymore, it is the real file that is shipped with the app_
+The next items are configured in the same file.
 
 #### Home containers
 Under development in #922
@@ -111,10 +113,76 @@ The available items keys for configuration are:
 - SMARTFUN_MENU_FOOTER
 - SMARTFUN_MENU_CARD_DETAILS
 - SMARTFUN_MENU_MORE
- 
 
-#### App Colors and fonts
-under development
+the configuration for this items is the following:
+
+```
+"CMSModuleMenuDTOList": [
+  {
+    "CMSMenusDTOList": [
+      {
+        "Name": "SMARTFUN_MENU_FOOTER",
+        "Type": "FOOTER",
+        "Active": true,
+        "CMSMenuItemsDTOList": [
+          {
+            "ItemName": "HOME",
+            "DisplayName": "Home",
+            "Active": true,
+            "DisplayOrder": 1,
+            "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png"
+          },
+          # More items here ...
+        ],
+      }
+    ]
+  },
+  {
+    "CMSMenusDTOList": [
+      {
+        "Name": "SMARTFUN_MENU_CARD_DETAILS",
+        "Type": "CARD_DETAILS",
+        "Active": true
+        "CMSMenuItemsDTOList": [
+          {
+            "ItemName": "BONUS",
+            "DisplayName": "Bonus",
+            "Active": true,
+            "DisplayOrder": 1,
+            "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png"
+          },
+          # More items here ...
+        ],
+      }
+    ]
+  },
+  # More items here ...
+],
+```
+
+
+#### App Colors, fonts and images
+
+This is the structure:
+
+```
+  "CMSModuleColorsHome": {
+    "upper_half": "#FFCFF8FF",
+    "middle": "#FFFFFFFF",
+    "bottom_half": "#FF1F1E2C",
+    "profile_picture_gradient": ["#FFFFF2AD", "#FFFFA322"]
+  },
+  "CardsColor": {
+    "regular": "#FF613F75",
+    "expired": "#FFE5C3D1",
+    "virtual": "#FFEF798A"
+  },
+  "images": {
+    "splash_screen_image_path": "https://i.imgur.com/MbqH9I4.png",
+    "language_pick_image_path": "https://i.imgur.com/MbqH9I4.png",
+    "reset_password_image_path": "https://cdn-icons-png.flaticon.com/512/6146/6146587.png"
+  }
+```
 
 ## App version and description.
 The publicly visible app version is taken from `SmartFunRevamp/pubspec.yaml` file. The version is defined in the variable `version`. 

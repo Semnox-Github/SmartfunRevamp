@@ -12,10 +12,7 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 class CustomBottomBar extends ConsumerWidget {
   const CustomBottomBar({
     Key? key,
-    required this.currentPage,
   }) : super(key: key);
-
-  final int currentPage;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,17 +25,18 @@ class CustomBottomBar extends ConsumerWidget {
         topRight: Radius.circular(25.0),
       ),
       child: BottomNavigationBar(
-        currentIndex: currentPage,
+        currentIndex: 0,
         type: BottomNavigationBarType.fixed,
         backgroundColor: HexColor.fromHex(barColor) ?? CustomColors.customBlack,
         selectedFontSize: 0.0,
         unselectedFontSize: 0.0,
         onTap: (index) {
+          final currentRoute = ModalRoute.of(context)?.settings.name ?? '';
+          final route = items[index].target?.replaceAll('sf:/', '') ?? '';
           bool isUrl = Uri.tryParse(items[index].target ?? '')?.hasAbsolutePath ?? false;
           if (isUrl) {
             Navigator.pushNamed(context, Routes.kPlayPage);
-          } else if (index != currentPage) {
-            final route = items[index].target?.replaceAll('sf:/', '') ?? '';
+          } else if (currentRoute != route) {
             Navigator.pushReplacementNamed(context, route);
           }
         },
@@ -48,7 +46,7 @@ class CustomBottomBar extends ConsumerWidget {
               BottomNavigationBarItem(
                 icon: CustomBottomNavigationBarItem(
                   key: Key(item.displayName),
-                  currentIndex: currentPage,
+                  currentIndex: 0,
                   index: items.indexOf(item),
                   icon: Container(
                     padding: const EdgeInsets.only(top: 10),

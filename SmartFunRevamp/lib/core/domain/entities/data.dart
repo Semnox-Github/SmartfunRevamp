@@ -5,7 +5,9 @@ part 'data.g.dart';
 class Data<T> {
   final T data;
   Data(this.data);
-  factory Data.fromJson(Map<String, dynamic> json, T Function(Object? json) fromJsonT) => _$DataFromJson(
+  factory Data.fromJson(
+          Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
+      _$DataFromJson(
         json,
         (object) => fromJsonT(object),
       );
@@ -16,8 +18,15 @@ class ListDataWrapper<T> {
   final List<T> data;
 
   ListDataWrapper(this.data);
-  factory ListDataWrapper.fromJson(Map<String, dynamic> json, T Function(Object? json) fromJsonT) => _$ListDataWrapperFromJson(
+  factory ListDataWrapper.fromJson(
+          Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
+      _$ListDataWrapperFromJson(
         json,
         (object) => fromJsonT(object),
+      );
+  Map<String, dynamic> toJson(T Function(Object? json) toJsonTo) =>
+      _$ListDataWrapperToJson(
+        this,
+        (value) => toJsonTo(value),
       );
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
-import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
@@ -25,11 +24,10 @@ import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart'
 import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
-  const SelectCardRechargePage({Key? key, this.filterStr}) : super(key: key);
   final String? filterStr;
+  const SelectCardRechargePage({Key? key, this.filterStr}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SelectCardRechargePageState();
@@ -46,26 +44,63 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
   late OrderDetails orderDetails;
   late int transactionId;
 
-  @override
-  void initState() {
-    super.initState();
-    cardDetails = ref.read(currentCardProvider);
-    //if a card was selected from home screen
-    if (cardDetails != null) {
-      //is added to cards list as the only card
-      List<CardDetails> selectedCard = [];
-      selectedCard.add(cardDetails!);
-      cards = selectedCard;
-    } else {
-      //if no card was selected, i.e. when landed from Search, get all the user cards
-      cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
-      cards.removeWhere((element) => element.isBlocked() || element.isExpired());
-    }
-    if (cards.isNotEmpty) {
-      selectedCardNumber = cards.first;
-    }
-    qty = 1;
-    finalPrice = 0;
+  Future<void> amountSelectorDialog(BuildContext context) {
+    TextEditingController txt = TextEditingController();
+    txt.text = "";
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(SplashScreenNotifier.getLanguageLabel('Enter the variable amount')),
+          content: TextField(
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ], // Only numbers can be entered
+            controller: txt,
+            decoration: InputDecoration(
+              hintText: SplashScreenNotifier.getLanguageLabel('Please enter the amount you wish to recharge'),
+            ),
+            onChanged: (amount) {
+              setState(() {
+                finalPrice = double.tryParse(amount) == null ? 0 : double.parse(amount);
+              });
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const MulishText(
+                text: 'Done',
+                fontWeight: FontWeight.bold,
+                fontColor: CustomColors.hardOrange,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const MulishText(
+                text: 'Cancel',
+                fontWeight: FontWeight.bold,
+                fontColor: CustomColors.hardOrange,
+              ),
+              onPressed: () {
+                setState(() {
+                  finalPrice = 0;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -202,6 +237,28 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    cardDetails = ref.read(currentCardProvider);
+    //if a card was selected from home screen
+    if (cardDetails != null) {
+      //is added to cards list as the only card
+      List<CardDetails> selectedCard = [];
+      selectedCard.add(cardDetails!);
+      cards = selectedCard;
+    } else {
+      //if no card was selected, i.e. when landed from Search, get all the user cards
+      cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+      cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+    }
+    if (cards.isNotEmpty) {
+      selectedCardNumber = cards.first;
+    }
+    qty = 1;
+    finalPrice = 0;
+  }
+
   Future<void> qtySelectorDialog(BuildContext context) {
     return showDialog<void>(
       context: context,
@@ -244,65 +301,6 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
               onPressed: () {
                 setState(() {
                   qty = 1;
-                });
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> amountSelectorDialog(BuildContext context) {
-    TextEditingController txt = TextEditingController();
-    txt.text = "";
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(SplashScreenNotifier.getLanguageLabel('Enter the variable amount')),
-          content: TextField(
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly
-            ], // Only numbers can be entered
-            controller: txt,
-            decoration: InputDecoration(
-              hintText: SplashScreenNotifier.getLanguageLabel('Please enter the amount you wish to recharge'),
-            ),
-            onChanged: (amount) {
-              setState(() {
-                finalPrice = double.tryParse(amount) == null ? 0 : double.parse(amount);
-              });
-            },
-          ),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const MulishText(
-                text: 'Done',
-                fontWeight: FontWeight.bold,
-                fontColor: CustomColors.hardOrange,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const MulishText(
-                text: 'Cancel',
-                fontWeight: FontWeight.bold,
-                fontColor: CustomColors.hardOrange,
-              ),
-              onPressed: () {
-                setState(() {
-                  finalPrice = 0;
                 });
                 Navigator.of(context).pop();
               },

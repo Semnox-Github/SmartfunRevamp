@@ -1399,6 +1399,31 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
+  Future<void> sendCustomerFeedback(Map<String, dynamic> body) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'Customer/FeedbackSurvey/FeedbackSurveyDataSet',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
   Future<Data<AppConfigResponse>> getAppConfiguration(int siteId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'siteId': siteId};

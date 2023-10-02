@@ -16,6 +16,10 @@ import 'package:semnox/features/recharge_card/providers/products_price_provider.
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+final currentTransactionIdProvider = StateProvider<int?>((ref) {
+  return null;
+});
+
 class EstimatedTransactionPage extends ConsumerWidget {
   const EstimatedTransactionPage(
       {Key? key,
@@ -93,6 +97,9 @@ class EstimatedTransactionPage extends ConsumerWidget {
                   inProgress: () =>
                       const Center(child: CircularProgressIndicator.adaptive()),
                   transactionEstimated: (transactionResponse) {
+                    ref
+                        .watch(currentTransactionIdProvider.notifier)
+                        .update((_) => transactionResponse.transactionId);
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

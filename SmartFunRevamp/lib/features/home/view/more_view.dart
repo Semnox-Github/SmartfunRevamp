@@ -32,9 +32,7 @@ class MoreView extends ConsumerWidget {
     return Scaffold(
       backgroundColor: CustomColors.customLigthBlue,
       appBar: AppBar(),
-      bottomNavigationBar: const CustomBottomBar(
-        currentPage: 3,
-      ),
+      bottomNavigationBar: const CustomBottomBar(),
       body: SafeArea(
         child: Container(
           color: Colors.white,

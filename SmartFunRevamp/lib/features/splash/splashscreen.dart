@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,6 +89,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       (_, next) {
         next.maybeWhen(
           orElse: () {},
+          error: (message) {
+            AwesomeDialog(
+              context: context,
+              headerAnimationLoop: false,
+              desc: message,
+              dialogType: DialogType.error,
+              btnOkOnPress: () {},
+            ).show();
+          },
           success: (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection) {
             ref.read(newHomePageCMSProvider.notifier).update((_) => cms);
             ref.read(languangeContainerProvider.notifier).update((_) => langDto);

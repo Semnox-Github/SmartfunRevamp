@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
-import 'package:get/instance_manager.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
@@ -25,7 +24,6 @@ import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart'
 import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
   const SelectCardRechargePage({Key? key, this.filterStr}) : super(key: key);

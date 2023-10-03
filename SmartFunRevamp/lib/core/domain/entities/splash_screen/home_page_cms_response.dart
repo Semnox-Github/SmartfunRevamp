@@ -55,7 +55,9 @@ class HomePageCMSResponse {
   }
 
   List<CMSMenuItem> getFooterMenuItems() {
-    return geMenuItems('FOOTER');
+    final footerItems = geMenuItems('FOOTER');
+    footerItems.removeWhere((element) => element.active == false);
+    return footerItems;
   }
 
   List<CMSMenuItem> getHeaderMenuItems() {

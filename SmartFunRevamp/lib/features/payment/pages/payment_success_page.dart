@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:glutton/glutton.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/gradients.dart';
-import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
@@ -14,9 +12,13 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class PaymentSuccessPage extends ConsumerWidget {
-  const PaymentSuccessPage(
-      {Key? key, this.cardNumber, required this.amount, required this.transactionType, required this.productName})
-      : super(key: key);
+  const PaymentSuccessPage({
+    Key? key,
+    this.cardNumber,
+    required this.amount,
+    required this.transactionType,
+    required this.productName,
+  }) : super(key: key);
   final String? cardNumber;
   final double amount;
   final String transactionType;

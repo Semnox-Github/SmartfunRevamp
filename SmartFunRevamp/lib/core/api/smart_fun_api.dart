@@ -281,6 +281,10 @@ abstract class SmartFunApi {
     @Query('buildChildRecords') bool buildChildRecords = true,
     @Query('posMachine') String posMachine = 'CustomerApp',
   });
+  @GET('Customer/FeedbackSurvey/FeedbackSurveyDataSet')
+  Future<void> sendCustomerFeedback(
+    @Body() Map<String, dynamic> body,
+  );
   @GET('CustomerApp/CustomerAppConfiguration')
   Future<Data<AppConfigResponse>> getAppConfiguration(@Query('siteId') int siteId);
 }

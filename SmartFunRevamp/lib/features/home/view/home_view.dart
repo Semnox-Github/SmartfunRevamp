@@ -105,9 +105,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     );
     return Scaffold(
       backgroundColor: CustomColors.customLigthBlue,
-      bottomNavigationBar: const CustomBottomBar(
-        currentPage: 0,
-      ),
+      bottomNavigationBar: const CustomBottomBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),

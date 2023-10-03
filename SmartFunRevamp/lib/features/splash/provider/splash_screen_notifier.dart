@@ -15,8 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'splash_screen_state.dart';
 part 'splash_screen_notifier.freezed.dart';
 
-final splashScreenProvider =
-    StateNotifierProvider<SplashScreenNotifier, SplashScreenState>(
+final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashScreenState>(
   (ref) => SplashScreenNotifier(),
 );
 
@@ -100,9 +99,7 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     final GetLookupsUseCase getLookupsUseCase = Get.find<GetLookupsUseCase>();
     final masterSiteId = ref.watch(masterSiteProvider)?.siteId ?? 1010;
     final response = await getLookupsUseCase(
-      siteId:
-          (ref.read(loginProvider.notifier).selectedSite?.siteId.toString() ??
-              masterSiteId.toString()),
+      siteId: (ref.read(loginProvider.notifier).selectedSite?.siteId.toString() ?? masterSiteId.toString()),
     );
     const infoLookupName = "SELFSERVICEAPP_CUSTOMLINKS";
     const webSiteConfig = "WEB_SITE_CONFIGURATION";

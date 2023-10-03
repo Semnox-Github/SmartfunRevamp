@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 
-final _optionSelectedProvider = StateProvider.autoDispose<Map<String, dynamic>>((ref) {
+final optionSelectedProvider =
+    StateProvider.autoDispose<Map<SurveyDetails, dynamic>>((ref) {
   return {};
 });
 
@@ -17,8 +20,9 @@ class FeedbackValueOption extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final optionSelected = ref.watch(_optionSelectedProvider);
-    final responseValues = surveyDetail.surveyQuestion.questionResponse.responseValues;
+    final optionSelected = ref.watch(optionSelectedProvider);
+    final responseValues =
+        surveyDetail.surveyQuestion.questionResponse.responseValues;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -26,23 +30,56 @@ class FeedbackValueOption extends ConsumerWidget {
         responseValues != null
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   ...responseValues.reversed.map((e) {
-                    if (!optionSelected.containsKey(surveyDetail.surveyQuestion.question)) {
-                      ref.read(_optionSelectedProvider.notifier).update((state) {
-                        state.addAll({surveyDetail.surveyQuestion.question: null});
+                    if (!optionSelected.containsKey(surveyDetail)) {
+                      ref.read(optionSelectedProvider.notifier).update((state) {
+                        state.addAll({surveyDetail: null});
                         return state;
                       });
                     }
+                    if (!e.image.isNullOrEmpty()) {
+                      return GestureDetector(
+                        onTap: () {
+                          ref
+                              .read(optionSelectedProvider.notifier)
+                              .update((state) {
+                            final tempMap =
+                                Map<SurveyDetails, dynamic>.from(state);
+                            tempMap[surveyDetail] = e;
+                            return tempMap;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(1.0),
+                          decoration: BoxDecoration(
+                            color: optionSelected[surveyDetail] == e
+                                ? CustomColors.customOrange
+                                : Colors.transparent,
+                          ),
+                          child: Image.memory(
+                            e.base64Image!,
+                            scale: 2.0,
+                          ),
+                        ),
+                      );
+                    }
+
                     return Flexible(
                       child: FilledButton(
                         style: FilledButton.styleFrom(
-                          backgroundColor: optionSelected[surveyDetail.surveyQuestion.question] == e.responseValue ? CustomColors.customOrange : Colors.grey.shade200,
+                          backgroundColor: optionSelected[surveyDetail] == e
+                              ? CustomColors.customOrange
+                              : Colors.grey.shade200,
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         ),
-                        onPressed: () => ref.read(_optionSelectedProvider.notifier).update((state) {
-                          final tempMap = Map<String, dynamic>.from(state);
-                          tempMap[surveyDetail.surveyQuestion.question] = e.responseValue;
+                        onPressed: () => ref
+                            .read(optionSelectedProvider.notifier)
+                            .update((state) {
+                          final tempMap =
+                              Map<SurveyDetails, dynamic>.from(state);
+                          tempMap[surveyDetail] = e;
                           return tempMap;
                         }),
                         child: FittedBox(
@@ -60,8 +97,15 @@ class FeedbackValueOption extends ConsumerWidget {
               )
             : Container(
                 padding: const EdgeInsets.symmetric(vertical: 5.0),
-                child: const TextField(
+                child: TextField(
                   maxLines: 5,
+                  onChanged: (value) {
+                    ref.read(optionSelectedProvider.notifier).update((state) {
+                      final tempMap = Map<SurveyDetails, dynamic>.from(state);
+                      tempMap[surveyDetail] = value;
+                      return tempMap;
+                    });
+                  },
                 ),
               ),
       ],

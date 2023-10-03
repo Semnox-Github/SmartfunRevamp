@@ -9,7 +9,7 @@ class BookingsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      bottomNavigationBar: const CustomBottomBar(currentPage: 1),
+      bottomNavigationBar: const CustomBottomBar(),
       body: SafeArea(
         child: Center(
           child: Text(

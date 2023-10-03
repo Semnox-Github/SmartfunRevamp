@@ -78,7 +78,7 @@ class MoreView extends ConsumerWidget {
                     TextButton(
                       onPressed: () async {
                         localDatasource.logoutUser().then(
-                              (value) => Navigator.popAndPushNamed(context, Routes.kLogInPage),
+                              (value) => Navigator.popAndPushNamed(context, Routes.kAfterSplashScreenPage),
                             );
                         ref.invalidate(CardsProviders.userCardsProvider);
                       },

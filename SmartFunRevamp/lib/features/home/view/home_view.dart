@@ -71,7 +71,7 @@ final currentCardProvider = StateProvider<CardDetails?>((ref) {
   final cardsList = ref.watch(CardsProviders.userCardsProvider);
   return cardsList.maybeWhen(
     orElse: () => null,
-    data: (data) => data.first,
+    data: (data) => data.isNotEmpty ? data.first : null,
   );
 });
 

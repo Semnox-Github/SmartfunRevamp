@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
@@ -24,7 +23,6 @@ class CardDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Logger().d(cardDetails.toJson());
     final cms = ref.watch(newHomePageCMSProvider);
     final items = cms?.getCardDetailMenuItems() ?? [];
 
@@ -298,12 +296,13 @@ class CardDetailItemFromCMS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Logger().i(cardDetails.toJson());
     return CardDetailItem(
       item: item,
       color: CustomColors.customOrange,
       image: 'bonus_points',
-      amount: item.itemName == "COURTESY" ? cardDetails.totalCourtesyBalance?.toStringAsFixed(0) ?? '' : cardDetails.pointsBasedOnCreditType(item.creditType ?? 0),
+      amount: item.itemName == "COURTESY"
+          ? cardDetails.totalCourtesyBalance?.toStringAsFixed(0) ?? ''
+          : cardDetails.pointsBasedOnCreditType(item.creditType ?? 0),
       onTap: item.creditType == null
           ? null
           : () {

@@ -142,17 +142,17 @@ class PaymentSuccessPage extends ConsumerWidget {
                   ),
                 ],
               ),
-              const MulishText(
+              MulishText(
                 textAlign: TextAlign.center,
-                text: 'Convert your virtual card to a Physical Card',
+                text: SplashScreenNotifier.getLanguageLabel('Convert your virtual card to a Physical Card'),
                 fontColor: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 29,
               ),
-              const MulishText(
+              MulishText(
                 textAlign: TextAlign.center,
-                text:
-                    'Instructions - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt u - ',
+                text: SplashScreenNotifier.getLanguageLabel(
+                    'Show this bar code on site to get a new physical card. A Payment of \$40 will be charged for the replacement on site.'),
                 fontColor: Colors.black45,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,

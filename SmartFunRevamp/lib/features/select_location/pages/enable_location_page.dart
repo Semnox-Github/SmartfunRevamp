@@ -44,7 +44,8 @@ class EnableLocationPage extends StatelessWidget {
               ),
             ),
             Text(
-              SplashScreenNotifier.getLanguageLabel('If you enable location services we can show you the nearest Store and Store specific offers, deals and prices for you'),
+              SplashScreenNotifier.getLanguageLabel(
+                  'If you enable location services we can show you the nearest Store and Store specific offers, deals and prices for you'),
               style: GoogleFonts.mulish(
                 fontWeight: FontWeight.w500,
                 fontSize: 16.0,

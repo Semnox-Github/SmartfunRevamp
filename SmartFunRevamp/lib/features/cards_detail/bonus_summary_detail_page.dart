@@ -12,7 +12,6 @@ class BonusSummaryDetailPage extends StatelessWidget {
   const BonusSummaryDetailPage({Key? key, required this.summary, required this.pageTitle}) : super(key: key);
   final AccountCreditPlusDTOList summary;
   final String pageTitle;
-  
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,8 @@ class BonusSummaryDetailPage extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             MulishText(
-              text: '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
+              text:
+                  '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
               fontColor: CustomColors.customBlue,
               fontSize: 16.0,
             ),
@@ -37,331 +37,333 @@ class BonusSummaryDetailPage extends StatelessWidget {
       ),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      border: Border.all(
-                        color: CustomColors.customLigthGray,
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        const MulishText(
-                          text: 'Valid From',
-                          fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        border: Border.all(
+                          color: CustomColors.customLigthGray,
                         ),
-                        MulishText(text: summary.periodFrom.formatDate('dd MMM yyyy')),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10.0),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      border: Border.all(
-                        color: CustomColors.customLigthGray,
+                      ),
+                      child: Column(
+                        children: [
+                          const MulishText(
+                            text: 'Valid From',
+                            fontWeight: FontWeight.bold,
+                          ),
+                          MulishText(text: summary.periodFrom.formatDate('dd MMM yyyy')),
+                        ],
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        const MulishText(
-                          text: 'Valid To',
-                          fontWeight: FontWeight.bold,
+                  ),
+                  const SizedBox(width: 10.0),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        border: Border.all(
+                          color: CustomColors.customLigthGray,
                         ),
-                        MulishText(text: summary.periodTo.formatDate('dd MMM yyyy')),
+                      ),
+                      child: Column(
+                        children: [
+                          const MulishText(
+                            text: 'Valid To',
+                            fontWeight: FontWeight.bold,
+                          ),
+                          MulishText(text: summary.periodTo.formatDate('dd MMM yyyy')),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              TotalBonusBalance(
+                totalBonus: summary.creditPlusBalance.toInt(),
+                pageTitle: pageTitle,
+              ),
+              const SizedBox(height: 10.0),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  textAlign: TextAlign.left,
+                  text: TextSpan(
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    children: [
+                      const WidgetSpan(
+                        child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
+                      ),
+                      TextSpan(
+                        text: " ${SplashScreenNotifier.getLanguageLabel('Can be used to purchase below packages')}",
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: width * 0.90,
+                child: DataTable(
+                  headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                    return CustomColors.customOrange; // Use the default value.
+                  }),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: CustomColors.customLigthGray),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  columns: <DataColumn>[
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          SplashScreenNotifier.getLanguageLabel('Category'),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          SplashScreenNotifier.getLanguageLabel('Package'),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          SplashScreenNotifier.getLanguageLabel('Qty'),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                  ],
+                  rows: const <DataRow>[
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('--')),
+                        DataCell(Text('--')),
+                        DataCell(Text('--')),
                       ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            TotalBonusBalance(
-              totalBonus: summary.creditPlusBalance.toInt(),
-              pageTitle: pageTitle,
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: RichText(
-                textAlign: TextAlign.left,
-                text: TextSpan(
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  children: [
-                    const WidgetSpan(
-                      child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
-                    ),
-                    TextSpan(
-                      text: " ${SplashScreenNotifier.getLanguageLabel('Can be used to purchase below packages')}",
-                    ),
+                    )
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              width: width * 0.90,
-              child: DataTable(
-                headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                  return CustomColors.customOrange; // Use the default value.
-                }),
-                decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.customLigthGray),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                columns: <DataColumn>[
-                  DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        SplashScreenNotifier.getLanguageLabel('Category'),
-                        style: const TextStyle(fontStyle: FontStyle.italic),
-                      ),
+              const SizedBox(height: 10.0),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        SplashScreenNotifier.getLanguageLabel('Package'),
-                        style: const TextStyle(fontStyle: FontStyle.italic),
+                    children: [
+                      const WidgetSpan(
+                        child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
                       ),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        SplashScreenNotifier.getLanguageLabel('Qty'),
-                        style: const TextStyle(fontStyle: FontStyle.italic),
+                      TextSpan(
+                        text: " ${SplashScreenNotifier.getLanguageLabel('Below packages are excluded')}",
                       ),
-                    ),
-                  ),
-                ],
-                rows: const <DataRow>[
-                  DataRow(
-                    cells: <DataCell>[
-                      DataCell(Text('--')),
-                      DataCell(Text('--')),
-                      DataCell(Text('--')),
                     ],
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
                   ),
-                  children: [
-                    const WidgetSpan(
-                      child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
+                ),
+              ),
+              SizedBox(
+                width: width * 0.90,
+                child: DataTable(
+                  headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                    return CustomColors.customOrange; // Use the default value.
+                  }),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: CustomColors.customLigthGray),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  columns: <DataColumn>[
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          SplashScreenNotifier.getLanguageLabel('Category'),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
                     ),
-                    TextSpan(
-                      text: " ${SplashScreenNotifier.getLanguageLabel('Below packages are excluded')}",
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          SplashScreenNotifier.getLanguageLabel('Package'),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
                     ),
+                    const DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          '',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                  ],
+                  rows: const <DataRow>[
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('--')),
+                        DataCell(Text('--')),
+                        DataCell(Text('')),
+                      ],
+                    )
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              width: width * 0.90,
-              child: DataTable(
-                headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                  return CustomColors.customOrange; // Use the default value.
-                }),
-                decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.customLigthGray),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                columns: <DataColumn>[
-                  DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        SplashScreenNotifier.getLanguageLabel('Category'),
-                        style: const TextStyle(fontStyle: FontStyle.italic),
-                      ),
+              const SizedBox(height: 10.0),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  textAlign: TextAlign.left,
+                  text: TextSpan(
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        SplashScreenNotifier.getLanguageLabel('Package'),
-                        style: const TextStyle(fontStyle: FontStyle.italic),
+                    children: [
+                      const WidgetSpan(
+                        child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
                       ),
-                    ),
-                  ),
-                  const DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        '',
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                      TextSpan(
+                        text: " ${SplashScreenNotifier.getLanguageLabel('Can be used to play below games')}",
                       ),
-                    ),
-                  ),
-                ],
-                rows: const <DataRow>[
-                  DataRow(
-                    cells: <DataCell>[
-                      DataCell(Text('--')),
-                      DataCell(Text('--')),
-                      DataCell(Text('')),
                     ],
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: RichText(
-                textAlign: TextAlign.left,
-                text: TextSpan(
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
                   ),
-                  children: [
-                    const WidgetSpan(
-                      child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
+                ),
+              ),
+              SizedBox(
+                width: width * 0.90,
+                child: DataTable(
+                  headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                    return CustomColors.customOrange; // Use the default value.
+                  }),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: CustomColors.customLigthGray),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  columns: <DataColumn>[
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          SplashScreenNotifier.getLanguageLabel('Category'),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
                     ),
-                    TextSpan(
-                      text: " ${SplashScreenNotifier.getLanguageLabel('Can be used to play below games')}",
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          SplashScreenNotifier.getLanguageLabel('Game'),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
                     ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          SplashScreenNotifier.getLanguageLabel('Qty'),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                  ],
+                  rows: const <DataRow>[
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('--')),
+                        DataCell(Text('--')),
+                        DataCell(Text('--')),
+                      ],
+                    )
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              width: width * 0.90,
-              child: DataTable(
-                headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                  return CustomColors.customOrange; // Use the default value.
-                }),
-                decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.customLigthGray),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                columns: <DataColumn>[
-                  DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        SplashScreenNotifier.getLanguageLabel('Category'),
-                        style: const TextStyle(fontStyle: FontStyle.italic),
-                      ),
+              const SizedBox(height: 10.0),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        SplashScreenNotifier.getLanguageLabel('Game'),
-                        style: const TextStyle(fontStyle: FontStyle.italic),
+                    children: [
+                      const WidgetSpan(
+                        child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
                       ),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        SplashScreenNotifier.getLanguageLabel('Qty'),
-                        style: const TextStyle(fontStyle: FontStyle.italic),
+                      TextSpan(
+                        text: " ${SplashScreenNotifier.getLanguageLabel('Below games are excluded')}",
                       ),
-                    ),
-                  ),
-                ],
-                rows: const <DataRow>[
-                  DataRow(
-                    cells: <DataCell>[
-                      DataCell(Text('--')),
-                      DataCell(Text('--')),
-                      DataCell(Text('--')),
                     ],
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
                   ),
-                  children: [
-                    const WidgetSpan(
-                      child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
+                ),
+              ),
+              SizedBox(
+                width: width * 0.90,
+                child: DataTable(
+                  headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                    return CustomColors.customOrange; // Use the default value.
+                  }),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: CustomColors.customLigthGray),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  columns: <DataColumn>[
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          SplashScreenNotifier.getLanguageLabel('Category'),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
                     ),
-                    TextSpan(
-                      text: " ${SplashScreenNotifier.getLanguageLabel('Below games are excluded')}",
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          SplashScreenNotifier.getLanguageLabel('Game'),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
                     ),
+                    const DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          '',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                  ],
+                  rows: const <DataRow>[
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('--')),
+                        DataCell(Text('--')),
+                        DataCell(Text('')),
+                      ],
+                    )
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              width: width * 0.90,
-              child: DataTable(
-                headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                  return CustomColors.customOrange; // Use the default value.
-                }),
-                decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.customLigthGray),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                columns: <DataColumn>[
-                  DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        SplashScreenNotifier.getLanguageLabel('Category'),
-                        style: const TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        SplashScreenNotifier.getLanguageLabel('Game'),
-                        style: const TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                    ),
-                  ),
-                  const DataColumn(
-                    label: Expanded(
-                      child: Text(
-                        '',
-                        style: TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                    ),
-                  ),
-                ],
-                rows: const <DataRow>[
-                  DataRow(
-                    cells: <DataCell>[
-                      DataCell(Text('--')),
-                      DataCell(Text('--')),
-                      DataCell(Text('')),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

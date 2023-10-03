@@ -14,6 +14,7 @@ import 'package:semnox/features/transfer/widgets/bottom_sheet_button.dart';
 import 'package:semnox/features/transfer/widgets/entitlement_field.dart';
 import 'package:semnox/features/transfer/widgets/from_selection_container.dart';
 import 'package:semnox/features/transfer/widgets/to_selection_container.dart';
+import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
 class TransferPage extends ConsumerStatefulWidget {
   const TransferPage({Key? key}) : super(key: key);
@@ -65,7 +66,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                   onChanged: (selected) {
                     setState(() {
                       isAmountVisible = true;
-                      entitlement = selected ?? '';
+                      entitlement = toBeginningOfSentenceCase(selected) ?? '';
                     });
                   },
                 ),
@@ -131,7 +132,9 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => TransferSuccessPage(transferBalance: transferBalance),
+                        builder: (context) => TransferSuccessPage(
+                          transferBalance: transferBalance,
+                        ),
                       ),
                     );
                   },
@@ -139,7 +142,8 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                     context.loaderOverlay.hide();
                     Dialogs.showErrorMessage(
                       context,
-                      SplashScreenNotifier.getLanguageLabel('There was an error during the transfer.\nPlease try again.'),
+                      SplashScreenNotifier.getLanguageLabel(
+                          'There was an error during the transfer.\nPlease try again.'),
                     );
                   },
                 );

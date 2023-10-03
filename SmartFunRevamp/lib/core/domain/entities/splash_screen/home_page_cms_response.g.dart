@@ -25,6 +25,9 @@ HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
       json['CardsColor'] == null
           ? null
           : CardsColor.fromJson(json['CardsColor'] as Map<String, dynamic>),
+      (json['HomePageOrder'] as List<dynamic>)
+          .map((e) => HomePageOrder.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
@@ -46,6 +49,7 @@ Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
   val['images'] = instance.cmsImages.toJson();
   writeNotNull('CMSModuleColorsHome', instance.cmsModuleColorsHome?.toJson());
   writeNotNull('CardsColor', instance.cardsColor?.toJson());
+  val['HomePageOrder'] = instance.homePageOrder.map((e) => e.toJson()).toList();
   return val;
 }
 
@@ -99,6 +103,7 @@ CMSModulePage _$CMSModulePageFromJson(Map<String, dynamic> json) =>
       json['Source'] as String,
       json['DisplayAttributes'] as String,
       json['ContentKey'] as String,
+      json['ContentName'] as String,
     );
 
 Map<String, dynamic> _$CMSModulePageToJson(CMSModulePage instance) =>
@@ -111,6 +116,7 @@ Map<String, dynamic> _$CMSModulePageToJson(CMSModulePage instance) =>
       'Source': instance.source,
       'DisplayAttributes': instance.displayAttributes,
       'ContentKey': instance.contentKey,
+      'ContentName': instance.contentName,
     };
 
 ModulePageItemDisplayAttributes _$ModulePageItemDisplayAttributesFromJson(
@@ -205,5 +211,32 @@ Map<String, dynamic> _$CMSImagesToJson(CMSImages instance) {
   }
 
   writeNotNull('reset_password_image_path', instance.resetPasswordImagePath);
+  return val;
+}
+
+HomePageOrder _$HomePageOrderFromJson(Map<String, dynamic> json) =>
+    HomePageOrder(
+      json['position'] as int,
+      json['widget'] as String,
+      json['title'] as String,
+      json['is_visible'] as bool,
+      json['display_section'] as String?,
+    );
+
+Map<String, dynamic> _$HomePageOrderToJson(HomePageOrder instance) {
+  final val = <String, dynamic>{
+    'position': instance.position,
+    'title': instance.title,
+    'widget': instance.widget,
+    'is_visible': instance.isVisible,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('display_section', instance.displaySection);
   return val;
 }

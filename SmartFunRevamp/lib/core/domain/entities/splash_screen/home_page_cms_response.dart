@@ -25,9 +25,19 @@ class HomePageCMSResponse {
   final CMSModuleColorsHome? cmsModuleColorsHome;
   @JsonKey(name: 'CardsColor')
   final CardsColor? cardsColor;
+  final List<HomePageOrder> homePageOrder;
 
-  HomePageCMSResponse(this.moduleId, this.description, this.title, this.cmsModulePages, this.cmsModuleMenu,
-      this.cmsImages, this.cmsModuleColorsHome, this.cardsColor);
+  HomePageCMSResponse(
+    this.moduleId,
+    this.description,
+    this.title,
+    this.cmsModulePages,
+    this.cmsModuleMenu,
+    this.cmsImages,
+    this.cmsModuleColorsHome,
+    this.cardsColor,
+    this.homePageOrder,
+  );
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
 
@@ -62,25 +72,10 @@ class HomePageCMSResponse {
     return geMenuItems('MORE');
   }
 
-  List<CMSModulePage> getQuickLinks() {
-    final quickLinksStart = cmsModulePages?.indexWhere((element) => element.source == "QUICKLINKS");
-    if (quickLinksStart == null) {
-      return [];
-    }
-    final quickLinksEnd = cmsModulePages?.indexWhere((element) => element.source == "More Actions");
-    final quickLinks = cmsModulePages?.sublist((quickLinksStart) + 1, quickLinksEnd) ?? [];
-    quickLinks.sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
-    return quickLinks;
-  }
-
-  List<CMSModulePage> getMoreActions() {
-    final quickLinksStart = cmsModulePages?.indexWhere((element) => element.source == "More Actions");
-    if (quickLinksStart == null) {
-      return [];
-    }
-    final moreActions = cmsModulePages?.sublist((quickLinksStart) + 1) ?? [];
-    moreActions.sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
-    return moreActions;
+  List<CMSModulePage> getLinks(String displaySection) {
+    final links = cmsModulePages?.where((element) => element.displaySection == displaySection).toList() ?? [];
+    links.sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
+    return links;
   }
 
   Uri? playUrl({required LanguageContainerDTOList? currentLang, required String siteId}) {
@@ -149,6 +144,7 @@ class CMSModulePage {
   final String source;
   final String displayAttributes;
   final String contentKey;
+  final String contentName;
 
   CMSModulePage(
     this.pageId,
@@ -159,6 +155,7 @@ class CMSModulePage {
     this.source,
     this.displayAttributes,
     this.contentKey,
+    this.contentName,
   );
 
   Map<String, dynamic> toJson() => _$CMSModulePageToJson(this);
@@ -253,4 +250,16 @@ class CMSImages {
   );
   factory CMSImages.fromJson(Map<String, dynamic> json) => _$CMSImagesFromJson(json);
   Map<String, dynamic> toJson() => _$CMSImagesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HomePageOrder {
+  final int position;
+  final String title;
+  final String widget;
+  final bool isVisible;
+  final String? displaySection;
+  HomePageOrder(this.position, this.widget, this.title, this.isVisible, this.displaySection);
+  factory HomePageOrder.fromJson(Map<String, dynamic> json) => _$HomePageOrderFromJson(json);
+  Map<String, dynamic> toJson() => _$HomePageOrderToJson(this);
 }

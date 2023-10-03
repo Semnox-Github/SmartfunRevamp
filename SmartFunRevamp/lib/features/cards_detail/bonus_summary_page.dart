@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -9,8 +10,6 @@ import 'package:semnox/features/cards_detail/bonus_summary_detail_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-
-import '../../core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 
 class BonusSummaryPage extends ConsumerWidget {
   const BonusSummaryPage({
@@ -41,7 +40,8 @@ class BonusSummaryPage extends ConsumerWidget {
                   inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                   success: (responseData) {
                     List<AccountCreditPlusDTOList> data = List.from(responseData);
-                    data = data..removeWhere((element) => (element.creditPlusType != creditPlusType && creditPlusType != null));
+                    data = data
+                      ..removeWhere((element) => (element.creditPlusType != creditPlusType && creditPlusType != null));
                     int totalBonus = 0;
                     for (var element in data) {
                       totalBonus += element.creditPlusBalance.toInt();
@@ -59,7 +59,8 @@ class BonusSummaryPage extends ConsumerWidget {
                             CustomDatePicker(
                               labelText: '',
                               format: DateFormat.YEAR_ABBR_MONTH_DAY,
-                              onItemSelected: (dob) => ref.read(CardsProviders.bonusSummaryProvider.notifier).filter(dob),
+                              onItemSelected: (dob) =>
+                                  ref.read(CardsProviders.bonusSummaryProvider.notifier).filter(dob),
                               hintText: SplashScreenNotifier.getLanguageLabel('Enter Date'),
                               initialDateTime: today,
                               maximunDateTime: DateTime(today.year + 10),
@@ -117,7 +118,8 @@ class BonusSummaryPage extends ConsumerWidget {
                                               fontWeight: FontWeight.bold,
                                             ),
                                             MulishText(
-                                              text: '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
+                                              text:
+                                                  '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
                                               fontSize: 10.0,
                                             ),
                                           ],
@@ -151,17 +153,6 @@ class BonusSummaryPage extends ConsumerWidget {
                                             const Icon(
                                               Icons.arrow_forward_ios_outlined,
                                             )
-                                            // IconButton(
-                                            //   onPressed: () => Navigator.push(
-                                            //     context,
-                                            //     MaterialPageRoute(
-                                            //       builder: (context) => BonusSummaryDetailPage(summary: summary, pageTitle: pageTitle,),
-                                            //     ),
-                                            //   ),
-                                            //   icon: const Icon(
-                                            //     Icons.arrow_forward_ios_outlined,
-                                            //   ),
-                                            // )
                                           ],
                                         ),
                                       )

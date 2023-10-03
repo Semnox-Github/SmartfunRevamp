@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
@@ -14,7 +13,6 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
-import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -100,35 +98,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             ref.read(languangeContainerProvider.notifier).update((_) => langDto);
             ref.read(masterSiteProvider.notifier).update((_) => masterSite);
             ref.read(parafaitDefaultsProvider.notifier).update((_) => parafaitDefaults);
-            if (customer == null) {
-              nextPage();
-            } else {
-              if (needsSiteSelection) {
-                Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
-              } else {
-                registerLoggedUser(customer).then((value) {
-                  if (notificationData != null) {
-                    ref.listenManual(
-                      CardsProviders.userCardsProvider,
-                      (previous, next) {
-                        next.when(
-                          data: (data) {
-                            Navigator.pushReplacementNamed(context, Routes.kHomePage);
-                            Navigator.pushNamed(context, notificationData.path);
-                            Logger().d(data);
-                          },
-                          error: (error, stackTrace) => Logger().e("message", error, stackTrace),
-                          loading: () => Logger().d("Loading"),
-                        );
-                      },
-                      fireImmediately: true,
-                    );
-                  } else {
-                    Navigator.pushNamed(context, Routes.kHomePage);
-                  }
-                });
-              }
-            }
+
             final parafaitDefault = ref.watch(parafaitDefaultsProvider);
             //get the update status "O" => optional | "M" => mandatory | other value => not necesary
             final deprecated = Get.find<String>(tag: 'appVersionDeprecated');

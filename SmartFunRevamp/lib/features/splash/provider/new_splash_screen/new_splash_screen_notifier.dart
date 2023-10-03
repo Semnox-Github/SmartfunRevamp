@@ -190,7 +190,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
         final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
         final cms = HomePageCMSResponse.fromJson(data);
         state = _Success(
-          homePageCMSResponse: cms,
+          homePageCMSResponse: r,
           languageContainerDTO: _languageContainerDTO,
           siteViewDTO: masterSite!,
           parafaitDefaultsResponse: _parafaitDefaultsResponse,
@@ -199,5 +199,30 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
         );
       },
     );
+    // final useCase = Get.find<GetHomePageCMSUseCase>();
+    // final response = await useCase();
+    // response.fold(
+    //   (l) {
+    //     Logger().e(l.message);
+    //     state = _Error(l.message);
+    //   },
+    //   (r) async {
+    //     if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
+    //       await _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
+    //     }
+    //     final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
+    //     // Load Local Json
+    //     final String exampleCMSJson = await rootBundle.loadString('assets/json/example_cms.json');
+    //     final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
+    //     final cms = HomePageCMSResponse.fromJson(data);
+    //     state = _Success(
+    //       homePageCMSResponse: cms,
+    //       languageContainerDTO: _languageContainerDTO,
+    //       siteViewDTO: masterSite!,
+    //       parafaitDefaultsResponse: _parafaitDefaultsResponse,
+    //       needsSiteSelection: selectedSite == null,
+    //     );
+    //   },
+    // );
   }
 }

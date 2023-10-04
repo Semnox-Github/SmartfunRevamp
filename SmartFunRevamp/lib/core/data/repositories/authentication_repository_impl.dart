@@ -107,6 +107,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<Either<Failure, CustomerDTO>> getUserByPhoneOrEmail(String phoneOrEmail) async {
     try {
       final response = await _api.getCustomerByPhoneorEmail(phoneOrEmail);
+      _glutton.saveUser(response.data.first);
       return Right(response.data.first);
     } on DioException catch (e) {
       Logger().e(e);

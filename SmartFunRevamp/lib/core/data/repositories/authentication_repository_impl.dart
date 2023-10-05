@@ -12,7 +12,9 @@ import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response
 import 'package:semnox/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/repositories/authentication_repository.dart';
+import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/features/splash/splashscreen.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
@@ -40,6 +42,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<Either<Failure, CustomerDTO>> signUpUser(Map<String, dynamic> body) async {
     try {
       final response = await _api.signUpUser(body);
+      registerUser(response.data);
+      _glutton.saveUser(response.data);
       return Right(response.data);
     } on DioException catch (e) {
       Logger().e(e);

@@ -28,7 +28,7 @@ class LoginWithOTPContainer extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (!isLoginWithOTP)
+          if (isLoginWithOTP)
             MulishText(
               text: SplashScreenNotifier.getLanguageLabel("Don't worry about password"),
               fontWeight: FontWeight.bold,
@@ -37,7 +37,9 @@ class LoginWithOTPContainer extends StatelessWidget {
           TextButton(
             onPressed: onTap,
             child: Text(
-              isLoginWithOTP ? SplashScreenNotifier.getLanguageLabel('LOGIN WITH OTP') : SplashScreenNotifier.getLanguageLabel('LOGIN WITH PASSWORD'),
+              isLoginWithOTP
+                  ? SplashScreenNotifier.getLanguageLabel('LOGIN WITH OTP')
+                  : SplashScreenNotifier.getLanguageLabel('LOGIN WITH PASSWORD'),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: CustomColors.hardOrange,

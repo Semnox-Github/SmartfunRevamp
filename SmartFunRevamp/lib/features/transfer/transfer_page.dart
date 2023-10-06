@@ -39,7 +39,8 @@ class _TransferPageState extends ConsumerState<TransferPage> {
     cardDetails = ref.read(currentCardProvider);
     cardsFrom = [];
     cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
-    cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+    cards.removeWhere(
+        (element) => element.isBlocked() || element.isExpired() || element.accountNumber == cardDetails?.accountNumber);
     if (cardDetails != null) {
       //is added to cards list as the only card
       cardsFrom.add(cardDetails!);

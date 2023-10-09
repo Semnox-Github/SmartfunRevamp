@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
@@ -10,7 +7,6 @@ import 'package:semnox/core/domain/entities/orders/order_status.dart';
 import 'package:semnox/core/domain/repositories/orders_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils/extensions.dart';
-import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class OrdersRepositoryImpl implements OrdersRepository {
   final SmartFunApi _api;

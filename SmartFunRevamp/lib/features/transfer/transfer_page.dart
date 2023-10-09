@@ -43,6 +43,8 @@ class _TransferPageState extends ConsumerState<TransferPage> {
     if (cardDetails != null) {
       //is added to cards list as the only card
       cardsFrom.add(cardDetails!);
+      //remove the card from the list
+      cards.removeWhere((element) => element.accountNumber == cardDetails?.accountNumber);
     } else {
       cardsFrom = cards;
     }

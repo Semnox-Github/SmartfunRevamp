@@ -11,6 +11,7 @@ import 'package:semnox/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:semnox/core/domain/repositories/authentication_repository.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/di/injection_container.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
@@ -33,6 +34,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<Either<Failure, CustomerDTO>> signUpUser(Map<String, dynamic> body) async {
     try {
       final response = await _api.signUpUser(body);
+      registerUser(response.data);
+      _glutton.saveUser(response.data);
       return Right(response.data);
     } on Exception catch (e) {
       return Left(e.handleException());
@@ -77,6 +80,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<Either<Failure, CustomerDTO>> getUserByPhoneOrEmail(String phoneOrEmail) async {
     try {
       final response = await _api.getCustomerByPhoneorEmail(phoneOrEmail);
+      _glutton.saveUser(response.data.first);
       return Right(response.data.first);
     } on Exception catch (e) {
       return Left(e.handleException());

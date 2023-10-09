@@ -8,6 +8,7 @@ import 'package:semnox/core/domain/entities/membership/membership_info.dart';
 import 'package:semnox/core/domain/entities/membership/membership_tier.dart';
 import 'package:semnox/core/domain/repositories/membership_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class MembershipRepositoryImpl implements MembershipRepository {
@@ -19,16 +20,8 @@ class MembershipRepositoryImpl implements MembershipRepository {
     try {
       final response = await _api.getMembershipInfo(customerId);
       return Right(response.data);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
-    } catch (e) {
-      Logger().e(e);
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('This card has no activities')));
+    } on Exception catch (e) {
+      return Left(e.handleException());
     }
   }
 
@@ -36,21 +29,16 @@ class MembershipRepositoryImpl implements MembershipRepository {
   Future<Either<Failure, List<MembershipTier>>> getMembershipContainer(int siteId) async {
     try {
       final response = await _api.getMembershipContainer(siteId);
-      response.membershipContainerDTOList.firstWhere((element) => element.nextMembershipIdList.isEmpty).nextMembershipIdList.addAll([9999]);
+      response.membershipContainerDTOList
+          .firstWhere((element) => element.nextMembershipIdList.isEmpty)
+          .nextMembershipIdList
+          .addAll([9999]);
       response.membershipContainerDTOList.sort(
         (a, b) => a.nextMembershipIdList.first.compareTo(b.nextMembershipIdList.first),
       );
       return Right(response.membershipContainerDTOList);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
-    } catch (e) {
-      Logger().e(e);
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('This card has no activities')));
+    } on Exception catch (e) {
+      return Left(e.handleException());
     }
   }
 }

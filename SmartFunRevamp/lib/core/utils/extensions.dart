@@ -8,9 +8,16 @@ extension HexColor on Color {
     if (hexString.isNullOrEmpty()) {
       return null;
     }
+    hexString = hexString?.replaceFirst('#', '');
+    if (hexString?.length == 8) {
+      String hexFirst = hexString!.substring(5, 7);
+      String hexStringFinal = hexString.substring(0, 6);
+      hexString = hexFirst + hexStringFinal;
+    }
     final buffer = StringBuffer();
-    if (hexString?.length == 6 || hexString?.length == 7) buffer.write('ff');
-    buffer.write(hexString?.replaceFirst('#', ''));
+    if (hexString?.length == 5 || hexString?.length == 6) buffer.write('ff');
+    buffer.write(hexString);
+
     return Color(int.parse(buffer.toString(), radix: 16));
   }
 }

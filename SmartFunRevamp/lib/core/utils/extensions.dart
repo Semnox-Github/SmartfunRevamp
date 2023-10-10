@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 extension HexColor on Color {
@@ -8,9 +12,21 @@ extension HexColor on Color {
     if (hexString.isNullOrEmpty()) {
       return null;
     }
+    hexString = hexString?.replaceFirst('#', '');
+    //Note: the 8 char hex color values in cms are in RGBA format, flutter needs ARGB
+    if (hexString?.length == 8) {
+      //i.e. FFFFFF00
+      //taking the A part "00"
+      String hexFirst = hexString!.substring(5, 7);
+      //taking the RGB part "FFFFFF"
+      String hexStringFinal = hexString.substring(0, 6);
+      //Concatenating to ARGB hex value "00FFFFFF"
+      hexString = hexFirst + hexStringFinal;
+    }
     final buffer = StringBuffer();
-    if (hexString?.length == 6 || hexString?.length == 7) buffer.write('ff');
-    buffer.write(hexString?.replaceFirst('#', ''));
+    if (hexString?.length == 5 || hexString?.length == 6) buffer.write('ff');
+    buffer.write(hexString);
+
     return Color(int.parse(buffer.toString(), radix: 16));
   }
 }
@@ -82,5 +98,35 @@ extension MapKeyExtension on Map<dynamic, dynamic> {
     } else {
       return languageLabel.toString();
     }
+  }
+}
+
+extension ExceptionExtension on Exception {
+  Failure handleException({
+    String errorMessage = '',
+    String errorMessage404 = 'Not Found',
+  }) {
+    if (errorMessage.isNotEmpty) {
+      return ServerFailure(errorMessage);
+    }
+
+    if (this is DioException) {
+      final exception = this as DioException;
+      switch (exception.type) {
+        case DioExceptionType.connectionError:
+          return ClientFailure('No Internet Connection');
+        case DioExceptionType.connectionTimeout:
+          return ServerFailure('Server take too much time.');
+        default:
+          final message = json.decode(exception.response.toString());
+          if (exception.response?.statusCode == 404) {
+            return ServerFailure(SplashScreenNotifier.getLanguageLabel(errorMessage404));
+          } else if (message != null) {
+            return ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data']));
+          }
+          return ServerFailure('Request Failed with error code ${exception.response?.statusCode}');
+      }
+    }
+    return ServerFailure('Uknown Error');
   }
 }

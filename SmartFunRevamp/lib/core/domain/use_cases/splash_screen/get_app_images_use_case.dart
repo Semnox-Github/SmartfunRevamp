@@ -9,9 +9,6 @@ class GetAppImagesUseCase {
     required String imageType,
     required String lastModifiedDate,
   }) async {
-    return await _repository.getAppImages(
-      imageType: imageType,
-      lastModifiedDate: lastModifiedDate,
-    );
+    return await _repository.getAppImages(imageType: imageType, lastModifiedDate: lastModifiedDate);
   }
 }

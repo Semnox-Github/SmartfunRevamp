@@ -20,10 +20,8 @@ part 'cards_state.dart';
 part 'cards_provider.freezed.dart';
 
 class CardsProviders {
-  static final userCardsProvider =
-      FutureProvider<List<CardDetails>>((ref) async {
-    final GetUserCardsUseCase getUserCardsUseCase =
-        Get.find<GetUserCardsUseCase>();
+  static final userCardsProvider = FutureProvider<List<CardDetails>>((ref) async {
+    final GetUserCardsUseCase getUserCardsUseCase = Get.find<GetUserCardsUseCase>();
     final customer = ref.watch(customDTOProvider).valueOrNull;
     if (customer != null) {
       final userId = customer.id;
@@ -48,30 +46,27 @@ class CardsProviders {
     }
     return loyaltyBalance;
   });
-  static final loyaltyPointsDetailProvider =
-      FutureProvider.autoDispose<List<CardActivity>>((ref) async {
+  static final loyaltyPointsDetailProvider = FutureProvider.autoDispose<List<CardActivity>>((ref) async {
     final cards = ref.watch(userCardsProvider).value;
     final List<CardActivity> allTransactions = [];
-    final GetCardActivityLogUseCase getCardActivityLogUseCase =
-        Get.find<GetCardActivityLogUseCase>();
+    final GetCardActivityLogUseCase getCardActivityLogUseCase = Get.find<GetCardActivityLogUseCase>();
     if (cards != null) {
       final cardsNumbers = cards.map((e) => e.accountId.toString()).toList();
       for (var cardNumber in cardsNumbers) {
         allTransactions.addAll(
-          (await getCardActivityLogUseCase(cardNumber))
-              .fold((l) => [], (r) => r),
+          (await getCardActivityLogUseCase(cardNumber)).fold(
+            (l) => [],
+            (r) => r,
+          ),
         );
       }
-      allTransactions.removeWhere(
-          (element) => element.amount == null || element.loyaltyPoints == null);
+      allTransactions.removeWhere((element) => element.amount == null || element.loyaltyPoints == null);
       return allTransactions;
     }
     return [];
   });
-  static final userGamesSummaryProvider =
-      FutureProvider.autoDispose<void>((ref) async {
-    final GetAccountGamesSummaryUseCase getAccountGamesSummaryUseCase =
-        Get.find<GetAccountGamesSummaryUseCase>();
+  static final userGamesSummaryProvider = FutureProvider.autoDispose<void>((ref) async {
+    final GetAccountGamesSummaryUseCase getAccountGamesSummaryUseCase = Get.find<GetAccountGamesSummaryUseCase>();
     final userId = Get.find<CustomerDTO>().id;
     final response = await getAccountGamesSummaryUseCase(userId.toString());
     return response.fold(
@@ -79,30 +74,26 @@ class CardsProviders {
       (r) => r,
     );
   });
-  static final bonusSummaryProvider =
-      StateNotifierProvider.autoDispose<CardBonusSummaryProvider, CardsState>(
+  static final bonusSummaryProvider = StateNotifierProvider.autoDispose<CardBonusSummaryProvider, CardsState>(
     (ref) => CardBonusSummaryProvider(
       Get.find<GetBonusSummaryUseCase>(),
     ),
   );
-  static final accountGamesSummaryProvider = StateNotifierProvider.autoDispose<
-      AccountGamesSummaryProvider, CardsState>(
+  static final accountGamesSummaryProvider = StateNotifierProvider.autoDispose<AccountGamesSummaryProvider, CardsState>(
     (ref) => AccountGamesSummaryProvider(
       Get.find<GetAccountGamesSummaryUseCase>(),
     ),
   );
-  static final transferBalance = FutureProvider.autoDispose
-      .family<String, TransferBalance>((ref, transferRequest) async {
-    final TransferBalanceUseCase transferBalanceUseCase =
-        Get.find<TransferBalanceUseCase>();
+  static final transferBalance =
+      FutureProvider.autoDispose.family<String, TransferBalance>((ref, transferRequest) async {
+    final TransferBalanceUseCase transferBalanceUseCase = Get.find<TransferBalanceUseCase>();
     final response = await transferBalanceUseCase(transferRequest);
     return response.fold(
       (l) => throw l,
       (r) => r,
     );
   });
-  static final lostCardProvider = FutureProvider.autoDispose
-      .family<void, CardDetails>((ref, cardDetails) async {
+  static final lostCardProvider = FutureProvider.autoDispose.family<void, CardDetails>((ref, cardDetails) async {
     final LostCardUseCase lostCardUseCase = Get.find<LostCardUseCase>();
     final response = await lostCardUseCase({
       "SourceAccountDTO": {
@@ -117,11 +108,9 @@ class CardsProviders {
   });
   static final membershipCardProvider = Provider.autoDispose<CardDetails>(
     (ref) {
-      final cardNumber =
-          ref.watch(membershipInfoProvider).value?.membershipCard;
+      final cardNumber = ref.watch(membershipInfoProvider).value?.membershipCard;
       final cards = ref.watch(userCardsProvider).value;
-      return cards!
-          .firstWhere((element) => element.accountNumber == cardNumber);
+      return cards!.firstWhere((element) => element.accountNumber == cardNumber);
     },
   );
 }
@@ -144,9 +133,7 @@ class CardBonusSummaryProvider extends StateNotifier<CardsState> {
 
   void filter(DateTime filter) async {
     state = const _InProgress();
-    final filteredList = _list
-        .where((element) => element.periodTo?.isBefore(filter) ?? false)
-        .toList();
+    final filteredList = _list.where((element) => element.periodTo?.isBefore(filter) ?? false).toList();
     state = _Success(filteredList);
   }
 }
@@ -154,8 +141,7 @@ class CardBonusSummaryProvider extends StateNotifier<CardsState> {
 class AccountGamesSummaryProvider extends StateNotifier<CardsState> {
   final GetAccountGamesSummaryUseCase _getAccountGamesSummary;
 
-  AccountGamesSummaryProvider(this._getAccountGamesSummary)
-      : super(const _InProgress());
+  AccountGamesSummaryProvider(this._getAccountGamesSummary) : super(const _InProgress());
   List<AccountGameDTOList> _list = [];
   void getSummary(String accountNumber) async {
     final response = await _getAccountGamesSummary(accountNumber);
@@ -170,9 +156,7 @@ class AccountGamesSummaryProvider extends StateNotifier<CardsState> {
 
   void filter(DateTime filter) async {
     state = const _InProgress();
-    final filteredList = _list
-        .where((element) => element.fromDate?.isBefore(filter) ?? false)
-        .toList();
+    final filteredList = _list.where((element) => element.fromDate?.isBefore(filter) ?? false).toList();
     state = _AccountGamesSuccess(filteredList);
   }
 }

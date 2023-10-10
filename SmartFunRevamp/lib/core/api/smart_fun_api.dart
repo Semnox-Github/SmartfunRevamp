@@ -115,7 +115,9 @@ abstract class SmartFunApi {
   });
 
   @GET('Customer/Account/{accountId}/AccountActivity')
-  Future<ListDataWrapper<CardActivity>> getCardActivityDetail(@Path('accountId') @Query('accountId') String accountId);
+  Future<ListDataWrapper<CardActivity>> getCardActivityDetail(
+    @Path('accountId') @Query('accountId') String accountId,
+  );
 
   // /api/Transaction/Gameplays?gameplayId=true&accountId=244065
 

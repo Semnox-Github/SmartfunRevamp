@@ -42,7 +42,8 @@ class SelectLocationManuallyPage extends ConsumerWidget {
             ref.read(loginProvider.notifier).selectedSite = selectedSite;
             ref.read(loginProvider.notifier).saveSelectedSite();
             context.loaderOverlay.hide();
-            registerLoggedUserWithSite(customer!, selectedSite).then((value) => Navigator.pushReplacementNamed(context, Routes.kHomePage));
+            registerLoggedUserWithSite(customer!, selectedSite)
+                .then((value) => Navigator.pushReplacementNamed(context, Routes.kHomePage));
           },
         );
       },
@@ -76,27 +77,34 @@ class SelectLocationManuallyPage extends ConsumerWidget {
                 onChanged: (filter) => ref.read(selectLocationStateProvider.notifier).filterSites(filter),
               ),
               const SizedBox(height: 10.0),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 15.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.customOrange),
-                  borderRadius: BorderRadius.circular(
-                    25.0,
-                  ),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    MulishText(
-                      text: 'Locate nearest store using GPS',
-                      fontColor: CustomColors.hardOrange,
-                      textDecoration: TextDecoration.underline,
+              GestureDetector(
+                onTap: () async {
+                  // if (await PermissionServices.getLocationPermision()) {
+                  Navigator.pushNamed(context, Routes.kMap);
+                  // }
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: CustomColors.customOrange),
+                    borderRadius: BorderRadius.circular(
+                      25.0,
                     ),
-                    Icon(
-                      Icons.gps_fixed_rounded,
-                      color: CustomColors.hardOrange,
-                    )
-                  ],
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MulishText(
+                        text: 'Locate nearest store using GPS',
+                        fontColor: CustomColors.hardOrange,
+                        textDecoration: TextDecoration.underline,
+                      ),
+                      Icon(
+                        Icons.gps_fixed_rounded,
+                        color: CustomColors.hardOrange,
+                      )
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 10.0),

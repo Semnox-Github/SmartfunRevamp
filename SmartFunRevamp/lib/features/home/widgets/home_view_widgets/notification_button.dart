@@ -39,7 +39,10 @@ class NotificationsButton extends StatelessWidget {
                   ),
                 );
               },
-              error: (error) => Container(),
+              error: (error) => const Icon(
+                Icons.error,
+                color: Colors.red,
+              ),
             );
       },
     );

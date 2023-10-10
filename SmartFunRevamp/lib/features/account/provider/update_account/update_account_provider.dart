@@ -3,6 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/domain/use_cases/authentication/sign_up_user_use_case.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
+import 'package:semnox/di/injection_container.dart';
+import 'package:semnox/features/splash/splashscreen.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_set_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -18,12 +20,11 @@ class AccountProvider extends StateNotifier<UpdateAccountState> {
   AccountProvider(this._updateUseCase) : super(const _Initial());
   final SignUpUserUseCase _updateUseCase;
   Future<void> updateProfile(CustomerDTO customerDTO, Map<String, dynamic> request) async {
-
-    List<PhoneContactDTO> newPhoneContactDTOList= [];
+    List<PhoneContactDTO> newPhoneContactDTOList = [];
     List<CustomDataDTO> customDataDtoList = [];
 
     request.forEach((key, value) {
-      switch(key) {
+      switch (key) {
         case "FIRST_NAME":
           customerDTO.profileDto?.firtName = value["value"];
           break;
@@ -97,7 +98,7 @@ class AccountProvider extends StateNotifier<UpdateAccountState> {
           newPhoneContactDTOList.add(phone);
           break;
 
-        case "WECHAT_ACCESS_TOKEN":          
+        case "WECHAT_ACCESS_TOKEN":
           PhoneContactDTO weChat = PhoneContactDTO(
             contactTypeId: ContactType.wechat.typeId,
             contactType: ContactType.wechat.type,
@@ -108,26 +109,31 @@ class AccountProvider extends StateNotifier<UpdateAccountState> {
           break;
 
         default:
-        
-        //not included in case will be stored in custom data
-          CustomDataDTO customDataDTO = CustomDataDTO(
-            customAttributeId: value["customAttributeId"],
-            customDataText: value["customerFieldType"] == "NUMBER" || value["customerFieldType"] == "DATE" ? null : value["value"],
-            customDataNumber: value["customerFieldType"] == "NUMBER" ? int.parse(value["value"]) : null,
-            customDataDate: value["customerFieldType"] == "DATE" ? DateTime.parse(value["value"]) : null
-          );
-          customDataDtoList.add(customDataDTO);  
-      }
 
+          //not included in case will be stored in custom data
+          CustomDataDTO customDataDTO = CustomDataDTO(
+              customAttributeId: value["customAttributeId"],
+              customDataText: value["customerFieldType"] == "NUMBER" || value["customerFieldType"] == "DATE"
+                  ? null
+                  : value["value"],
+              customDataNumber: value["customerFieldType"] == "NUMBER" ? int.parse(value["value"]) : null,
+              customDataDate: value["customerFieldType"] == "DATE" ? DateTime.parse(value["value"]) : null);
+          customDataDtoList.add(customDataDTO);
+      }
     });
     customerDTO.profileDto?.contactDtoList = newPhoneContactDTOList;
     customerDTO.profileDto?.isChanged = true;
-    customerDTO.customDataSetDto = CustomDataSetDTO(customDataDtoList: customDataDtoList); 
+    customerDTO.customDataSetDto = CustomDataSetDTO(customDataDtoList: customDataDtoList);
     state = const _Loading();
     final response = await _updateUseCase(customerDTO.toJson());
-    state = response.fold(
-      (l) => const _Error('There was an error updating your profile please try again.'),
-      (r) => _Success(r),
+    response.fold(
+      (l) {
+        state = const _Error('There was an error updating your profile please try again.');
+      },
+      (r) {
+        registerUser(r);
+        state = _Success(r);
+      },
     );
   }
 }

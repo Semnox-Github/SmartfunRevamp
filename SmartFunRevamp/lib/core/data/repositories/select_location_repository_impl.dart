@@ -1,12 +1,8 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/repositories/select_location_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
-import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 class SelectLocationRepositoryImpl implements SelectLocationRepository {
@@ -20,13 +16,8 @@ class SelectLocationRepositoryImpl implements SelectLocationRepository {
       final list = response.data.siteContainerDTOList;
       list.removeWhere((site) => !site.onlineEnabled!);
       return Right(list);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+    } on Exception catch (e) {
+      return Left(e.handleException());
     }
   }
 
@@ -37,13 +28,8 @@ class SelectLocationRepositoryImpl implements SelectLocationRepository {
       final list = response.data.siteContainerDTOList;
       list.removeWhere((site) => !site.isMasterSite!);
       return Right(list);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure('Not Found'));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(message['data']));
+    } on Exception catch (e) {
+      return Left(e.handleException());
     }
   }
 }

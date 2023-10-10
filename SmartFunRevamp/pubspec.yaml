@@ -22,7 +22,7 @@ dependencies:
   dart_jsonwebtoken: ^2.8.2
   dartz: ^0.10.1
   device_info_plus: ^9.0.2
-  dio: ^5.2.1+1
+  dio: ^5.3.3
   document_file_save_plus: ^2.0.0
   dotted_line: ^3.1.0
   easy_splash_screen: ^1.0.4
@@ -89,7 +89,7 @@ dev_dependencies:
   retrofit_generator: ^7.0.1+1
 
 dependency_overrides:
-  dio: ^5.2.1+1
+  dio: ^5.3.3
   rive: 0.9.1
 
 flutter:

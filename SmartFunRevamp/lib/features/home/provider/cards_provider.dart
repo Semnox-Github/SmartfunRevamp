@@ -49,7 +49,10 @@ class CardsProviders {
       final cardsNumbers = cards.map((e) => e.accountId.toString()).toList();
       for (var cardNumber in cardsNumbers) {
         allTransactions.addAll(
-          (await getCardActivityLogUseCase(cardNumber)).fold((l) => [], (r) => r),
+          (await getCardActivityLogUseCase(cardNumber)).fold(
+            (l) => [],
+            (r) => r,
+          ),
         );
       }
       allTransactions.removeWhere((element) => element.amount == null || element.loyaltyPoints == null);
@@ -76,7 +79,8 @@ class CardsProviders {
       Get.find<GetAccountGamesSummaryUseCase>(),
     ),
   );
-  static final transferBalance = FutureProvider.autoDispose.family<String, TransferBalance>((ref, transferRequest) async {
+  static final transferBalance =
+      FutureProvider.autoDispose.family<String, TransferBalance>((ref, transferRequest) async {
     final TransferBalanceUseCase transferBalanceUseCase = Get.find<TransferBalanceUseCase>();
     final response = await transferBalanceUseCase(transferRequest);
     return response.fold(

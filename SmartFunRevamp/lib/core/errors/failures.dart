@@ -10,6 +10,12 @@ class ServerFailure implements Failure {
   ServerFailure(this.message);
 }
 
+class ClientFailure implements Failure {
+  @override
+  final String message;
+  ClientFailure(this.message);
+}
+
 class InvalidCouponFailure implements Failure {
   @override
   final String message;

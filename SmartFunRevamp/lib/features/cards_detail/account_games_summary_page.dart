@@ -5,6 +5,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
+import 'package:semnox/core/widgets/general_error_widget.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/cards_detail/account_games_summary_detail_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
@@ -28,8 +29,8 @@ class AccountGamesSummaryPage extends ConsumerWidget {
           builder: (context, ref, child) {
             return ref.watch(CardsProviders.accountGamesSummaryProvider).maybeWhen(
                   orElse: () => Container(),
-                  error: (_) {
-                    return Container();
+                  error: (message) {
+                    return GeneralErrorWidget(message: message);
                   },
                   inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                   accountGamesSuccess: (responseData) {
@@ -51,7 +52,8 @@ class AccountGamesSummaryPage extends ConsumerWidget {
                             CustomDatePicker(
                               labelText: '',
                               format: DateFormat.YEAR_ABBR_MONTH_DAY,
-                              onItemSelected: (dob) => ref.read(CardsProviders.bonusSummaryProvider.notifier).filter(dob),
+                              onItemSelected: (dob) =>
+                                  ref.read(CardsProviders.bonusSummaryProvider.notifier).filter(dob),
                               hintText: SplashScreenNotifier.getLanguageLabel('Enter Date'),
                               suffixIcon: const Icon(
                                 Icons.date_range,
@@ -105,7 +107,8 @@ class AccountGamesSummaryPage extends ConsumerWidget {
                                               fontWeight: FontWeight.bold,
                                             ),
                                             MulishText(
-                                              text: '${summary.fromDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.fromDate.formatDate(DateFormat.HOUR_MINUTE)}',
+                                              text:
+                                                  '${summary.fromDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.fromDate.formatDate(DateFormat.HOUR_MINUTE)}',
                                               fontSize: 10.0,
                                             ),
                                           ],

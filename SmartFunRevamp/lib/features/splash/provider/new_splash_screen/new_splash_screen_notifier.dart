@@ -119,7 +119,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   void _authenticateBaseURL(String baseUrl) async {
     final response = await _authenticateBaseURLUseCase();
     response.fold(
-      (l) => state = _Error(l.message),
+      (l) => state = const _Error("We couldn't load the app configuration. Contact an Administrator"),
       (r) async {
         authenticateApi(r, baseUrl);
         _getMasterSite();
@@ -131,7 +131,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     final getParafaitLanguagesUseCase = Get.find<GetParafaitLanguagesUseCase>();
     final response = await getParafaitLanguagesUseCase(siteId: siteId.toString());
     response.fold(
-      (l) => throw l,
+      (l) => state = const _Error("We couldn't load the app configuration. Contact an Administrator"),
       (r) {
         _languageContainerDTO = r;
         _getHomePageCMS();
@@ -157,7 +157,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     // response.fold(
     //   (l) {
     //     Logger().e(l.message);
-    //     state = _Error(l.message);
+    //     state = const _Error("We couldn't load the app configuration. Contact an Administrator");
     //   },
     //   (r) async {
     //     if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
@@ -195,7 +195,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     final GetParafaitDefaultsUseCase getParafaitDefaultsUseCase = Get.find<GetParafaitDefaultsUseCase>();
     final response = await getParafaitDefaultsUseCase(siteId ?? 1010);
     response.fold(
-      (l) => state = _Error(l.message),
+      (l) => state = const _Error("We couldn't load the app configuration. Contact an Administrator"),
       (r) async {
         _parafaitDefaultsResponse = r;
         _getAllParafaitLanguages(siteId);

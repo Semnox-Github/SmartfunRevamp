@@ -5,6 +5,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
+import 'package:semnox/core/widgets/general_error_widget.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_detail_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
@@ -34,8 +35,8 @@ class BonusSummaryPage extends ConsumerWidget {
           builder: (context, ref, child) {
             return ref.watch(CardsProviders.bonusSummaryProvider).maybeWhen(
                   orElse: () => Container(),
-                  error: (_) {
-                    return Container();
+                  error: (message) {
+                    return GeneralErrorWidget(message: message);
                   },
                   inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                   success: (responseData) {

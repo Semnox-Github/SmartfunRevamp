@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/parafait_api.dart';
@@ -12,7 +10,7 @@ import 'package:semnox/core/domain/entities/splash_screen/get_base_url_response.
 import 'package:semnox/core/domain/repositories/splash_screen_repositories.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils.dart';
-import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/core/utils/extensions.dart';
 
 class SplashScreenRepositoryImpl implements SplashScreenRepository {
   final SmartFunApi _api;
@@ -39,13 +37,8 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
         },
       );
       return Right(response.data);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+    } on Exception catch (e) {
+      return Left(e.handleException());
     }
   }
 
@@ -66,13 +59,8 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       final systemUser = SystemUser.fromJson(Map<String, dynamic>.from(systemUserResponse.response.data)['data']);
       systemUser.webApiToken = token;
       return Right(systemUser);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+    } on Exception catch (e) {
+      return Left(e.handleException());
     }
   }
 
@@ -82,13 +70,8 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       final response = await _api.getAppImages(imageType, lastModifiedDate);
       Logger().d(response);
       return const Right(null);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+    } on Exception catch (e) {
+      return Left(e.handleException());
     }
   }
 
@@ -99,13 +82,8 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       final response = await _api.getAppProductsImages(lastModifiedDate, imageType);
       Logger().d(response);
       return const Right(null);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+    } on Exception catch (e) {
+      return Left(e.handleException());
     }
   }
 
@@ -115,13 +93,8 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       final response = await _api.getContactType();
       Logger().d(response);
       return const Right(null);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+    } on Exception catch (e) {
+      return Left(e.handleException());
     }
   }
 
@@ -131,13 +104,8 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       final response = await _api.getParafaitLanguages(siteId);
       Logger().d(response);
       return const Right(null);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+    } on Exception catch (e) {
+      return Left(e.handleException());
     }
   }
 
@@ -148,13 +116,8 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       final response = await _api.getStringsForLocalization(siteId, languageId, outputForm);
       Logger().d(response);
       return const Right(null);
-    } on DioException catch (e) {
-      Logger().e(e);
-      if (e.response?.statusCode == 404) {
-        return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Not Found')));
-      }
-      final message = json.decode(e.response.toString());
-      return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
+    } on Exception catch (e) {
+      return Left(e.handleException());
     }
   }
 }

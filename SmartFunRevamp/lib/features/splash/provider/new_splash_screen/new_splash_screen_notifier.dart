@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
@@ -13,6 +14,7 @@ import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_cas
 import 'package:semnox/core/domain/use_cases/select_location/get_master_site_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
+import 'package:semnox/core/domain/use_cases/splash_screen/get_home_page_cms_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_parafait_languages_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_string_for_localization_use_case.dart';
 import 'package:semnox/core/utils/extensions.dart';
@@ -140,43 +142,32 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   }
 
   void _getHomePageCMS() async {
-    final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
-    // Load Local Json
-    final String exampleCMSJson = await rootBundle.loadString('assets/json/example_cms.json');
-    final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
-    final cms = HomePageCMSResponse.fromJson(data);
-    state = _Success(
-      homePageCMSResponse: cms,
-      languageContainerDTO: _languageContainerDTO,
-      siteViewDTO: masterSite!,
-      parafaitDefaultsResponse: _parafaitDefaultsResponse,
-      needsSiteSelection: selectedSite == null,
+    final useCase = Get.find<GetHomePageCMSUseCase>();
+    final response = await useCase();
+    response.fold(
+      (l) {
+        Logger().e(l.message);
+        state = const _Error("We couldn't load the app configuration. Contact an Administrator");
+      },
+      (r) async {
+        if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
+          await _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
+        }
+        final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
+        final useLocalCmsJson = dotenv.env['USE_LOCAL_CMS_JSON'] == 'true' ? true : false;
+        // Load Local Json
+        final String exampleCMSJson = await rootBundle.loadString('assets/json/example_cms.json');
+        final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
+        final cms = HomePageCMSResponse.fromJson(data['data'][0]);
+        state = _Success(
+          homePageCMSResponse: useLocalCmsJson ? cms : r,
+          languageContainerDTO: _languageContainerDTO,
+          siteViewDTO: masterSite!,
+          parafaitDefaultsResponse: _parafaitDefaultsResponse,
+          needsSiteSelection: selectedSite == null,
+        );
+      },
     );
-    // final useCase = Get.find<GetHomePageCMSUseCase>();
-    // final response = await useCase();
-    // response.fold(
-    //   (l) {
-    //     Logger().e(l.message);
-    //     state = const _Error("We couldn't load the app configuration. Contact an Administrator");
-    //   },
-    //   (r) async {
-    //     if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
-    //       await _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
-    //     }
-    //     final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
-    //     // Load Local Json
-    //     final String exampleCMSJson = await rootBundle.loadString('assets/json/example_cms.json');
-    //     final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
-    //     final cms = HomePageCMSResponse.fromJson(data);
-    //     state = _Success(
-    //       homePageCMSResponse: cms,
-    //       languageContainerDTO: _languageContainerDTO,
-    //       siteViewDTO: masterSite!,
-    //       parafaitDefaultsResponse: _parafaitDefaultsResponse,
-    //       needsSiteSelection: selectedSite == null,
-    //     );
-    //   },
-    // );
   }
 
   void _getMasterSite() async {

@@ -272,57 +272,61 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                             itemCount: content!.length,
                                             itemBuilder: (context, index) {
                                               final quickLink = content[index];
-                                              return QuickLinkItem(
-                                                color: quickLink.backgroundColor,
-                                                imageUrl: quickLink.contentURL,
-                                                text: SplashScreenNotifier.getLanguageLabel(quickLink.contentName),
-                                                onTap: () {
-                                                  if (quickLink.source.toLowerCase() == 'recharge') {
-                                                    if (!hasCard) {
-                                                      Dialogs.showMessageInfo(
-                                                          context,
-                                                          SplashScreenNotifier.getLanguageLabel('Recharge Card'),
-                                                          msgCardNoLink);
-                                                    } else {
-                                                      //if the user has no card selected show dialog
-                                                      if (cardDetails == null) {
+                                              return SizedBox(
+                                                height: 45,
+                                                width: 45,
+                                                child: QuickLinkItem(
+                                                  color: quickLink.backgroundColor,
+                                                  imageUrl: quickLink.contentURL,
+                                                  text: SplashScreenNotifier.getLanguageLabel(quickLink.contentName),
+                                                  onTap: () {
+                                                    if (quickLink.source.toLowerCase() == 'recharge') {
+                                                      if (!hasCard) {
                                                         Dialogs.showMessageInfo(
-                                                          context,
-                                                          SplashScreenNotifier.getLanguageLabel('Recharge Card'),
-                                                          SplashScreenNotifier.getLanguageLabel(
-                                                              "Please select a card to recharge."),
-                                                        );
-                                                        //if there is a card selected and is not blocked or expired then navigate
-                                                      } else if (!(cardDetails.isBlocked() ||
-                                                          cardDetails.isExpired())) {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) => const SelectCardRechargePage(),
-                                                          ),
-                                                        );
+                                                            context,
+                                                            SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                                            msgCardNoLink);
                                                       } else {
-                                                        //else show dialog
+                                                        //if the user has no card selected show dialog
+                                                        if (cardDetails == null) {
+                                                          Dialogs.showMessageInfo(
+                                                            context,
+                                                            SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                                            SplashScreenNotifier.getLanguageLabel(
+                                                                "Please select a card to recharge."),
+                                                          );
+                                                          //if there is a card selected and is not blocked or expired then navigate
+                                                        } else if (!(cardDetails.isBlocked() ||
+                                                            cardDetails.isExpired())) {
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) => const SelectCardRechargePage(),
+                                                            ),
+                                                          );
+                                                        } else {
+                                                          //else show dialog
+                                                          Dialogs.showMessageInfo(
+                                                            context,
+                                                            SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                                            SplashScreenNotifier.getLanguageLabel(
+                                                                "Temporary or expired cards can't be recharged."),
+                                                          );
+                                                        }
+                                                      }
+                                                    } else {
+                                                      if (hasCard) {
+                                                        Navigator.pushNamed(
+                                                            context, quickLink.contentKey.replaceAll('sf:/', ''));
+                                                      } else {
                                                         Dialogs.showMessageInfo(
-                                                          context,
-                                                          SplashScreenNotifier.getLanguageLabel('Recharge Card'),
-                                                          SplashScreenNotifier.getLanguageLabel(
-                                                              "Temporary or expired cards can't be recharged."),
-                                                        );
+                                                            context,
+                                                            SplashScreenNotifier.getLanguageLabel('Activities'),
+                                                            msgCardNoLink);
                                                       }
                                                     }
-                                                  } else {
-                                                    if (hasCard) {
-                                                      Navigator.pushNamed(
-                                                          context, quickLink.contentKey.replaceAll('sf:/', ''));
-                                                    } else {
-                                                      Dialogs.showMessageInfo(
-                                                          context,
-                                                          SplashScreenNotifier.getLanguageLabel('Activities'),
-                                                          msgCardNoLink);
-                                                    }
-                                                  }
-                                                },
+                                                  },
+                                                ),
                                               );
                                             },
                                           );

@@ -9,9 +9,14 @@ extension HexColor on Color {
       return null;
     }
     hexString = hexString?.replaceFirst('#', '');
+    //Note: the 8 char hex color values in cms are in RGBA format, flutter needs ARGB
     if (hexString?.length == 8) {
+      //i.e. FFFFFF00
+      //taking the A part "00"
       String hexFirst = hexString!.substring(5, 7);
+      //taking the RGB part "FFFFFF"
       String hexStringFinal = hexString.substring(0, 6);
+      //Concatenating to ARGB hex value "00FFFFFF"
       hexString = hexFirst + hexStringFinal;
     }
     final buffer = StringBuffer();

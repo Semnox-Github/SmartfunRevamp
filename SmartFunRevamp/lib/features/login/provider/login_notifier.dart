@@ -17,8 +17,8 @@ import 'package:semnox/core/domain/use_cases/authentication/verify_otp_use_case.
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_case.dart';
 import 'package:semnox/core/utils/extensions.dart';
-import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/features/splash/splashscreen.dart';
+import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 part 'login_state.dart';
@@ -69,6 +69,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   String get phone => _phone;
   ParafaitDefaultsResponse? parafaitDefault;
   String? defaultSiteId;
+  CustomerDTO? _loggedUser;
 
   void loginUser(String loginId, String password) async {
     // setDefaultSite();
@@ -92,15 +93,14 @@ class LoginNotifier extends StateNotifier<LoginState> {
     loginResponse.fold(
       (l) => state = _Error(l.message),
       (customerDTO) async {
-        registerUser(customerDTO);
+        _loggedUser = customerDTO;
         registerLoggedUser(customerDTO);
         await _localDataSource.saveValue(LocalDataSource.kUserId, customerDTO.id.toString());
         if (customerDTO.verified != true) {
           state = const _CustomerVerificationNeeded();
         } else if (selectedSite?.siteName == null ||
-            (previousUserId != customerDTO.id.toString() &&
-                previousUserId != null) /*&& defaultSiteId.isNullOrEmpty()*/) {
-          state = const _SelectLocationNeeded();
+            (previousUserId != customerDTO.id.toString() && previousUserId != null)) {
+          state = _SelectLocationNeeded(customerDTO);
         } else {
           getNewToken();
         }
@@ -153,7 +153,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
         if (r.verified != true) {
           state = const _CustomerVerificationNeeded();
         } else {
-          state = const _SelectLocationNeeded();
+          state = _SelectLocationNeeded(r);
         }
       },
     );
@@ -167,7 +167,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
       },
       (r) {
         Get.replace<SmartFunApi>(SmartFunApi('', r));
-        state = const _Success();
+        state = _Success(_loggedUser);
       },
     );
   }
@@ -219,7 +219,6 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   void resendDeleteOtp(String phoneOrEmail) async {
-    // ignore: unused_local_variable
     final response = await _sendOTPUseCase(
         {_phone.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail, 'Source': 'Customer_Delete_Otp_Event'});
     state = response.fold(
@@ -232,8 +231,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   void deleteProfile() async {
-    // ignore: unused_local_variable
-    final response = await _deleteProfileUseCase();
+    await _deleteProfileUseCase();
   }
 
   void verifyOTP(String otp) async {
@@ -245,6 +243,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
         state = _OtpVerificationError(l.message);
       },
       (r) {
+        Logger().d('Getting User Info');
         _getUserInfo(_phone);
       },
     );

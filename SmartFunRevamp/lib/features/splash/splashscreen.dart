@@ -82,7 +82,7 @@ class SplashScreenImage extends StatelessWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    final customer = ref.watch(customDTOProvider).valueOrNull;
+    // final customer = ref.watch(customDTOProvider).valueOrNull;
     void nextPage() => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
     ref.listen<NewSplashScreenState>(
       newSplashScreenProvider,
@@ -98,12 +98,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               btnOkOnPress: () {},
             ).show();
           },
-          success: (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection) {
+          success: (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection, user) {
             ref.read(newHomePageCMSProvider.notifier).update((_) => cms);
             ref.read(languangeContainerProvider.notifier).update((_) => langDto);
             ref.read(masterSiteProvider.notifier).update((_) => masterSite);
             ref.read(parafaitDefaultsProvider.notifier).update((_) => parafaitDefaults);
-            if (customer == null) {
+            ref.read(userProvider.notifier).update((_) => user);
+            if (user == null) {
               nextPage();
             } else {
               if (needsSiteSelection) {
@@ -111,7 +112,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
                 }
               } else {
-                registerLoggedUser(customer).then(
+                registerLoggedUser(user).then(
                   (value) => {
                     if (userSelectedSite != null)
                       {

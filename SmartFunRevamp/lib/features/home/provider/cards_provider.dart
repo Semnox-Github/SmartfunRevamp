@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
@@ -14,6 +15,7 @@ import 'package:semnox/core/domain/use_cases/cards/lost_card_use_case.dart';
 
 import 'package:semnox/core/domain/use_cases/home/get_user_cards_use_case.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 part 'cards_state.dart';
 part 'cards_provider.freezed.dart';
@@ -21,7 +23,10 @@ part 'cards_provider.freezed.dart';
 class CardsProviders {
   static final userCardsProvider = FutureProvider<List<CardDetails>>((ref) async {
     final GetUserCardsUseCase getUserCardsUseCase = Get.find<GetUserCardsUseCase>();
-    final userId = Get.find<CustomerDTO>().id;
+    final user = ref.watch(userProvider);
+    final userId = ref.watch(userProvider)?.id ?? -1;
+    Logger().d('User -> ${user?.toJson()}');
+
     final response = await getUserCardsUseCase(userId.toString());
     return response.fold(
       (l) => throw l,

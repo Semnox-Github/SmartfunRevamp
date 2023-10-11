@@ -33,6 +33,7 @@ void main() async {
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
       FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
     };
+
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
@@ -86,9 +87,7 @@ class MyApp extends StatelessWidget {
               builder: (BuildContext context) => Scaffold(
                 appBar: AppBar(),
                 body: Center(
-                  child: MulishText(
-                      text:
-                          '404 Page not found.\n Route ${settings.name} not found'),
+                  child: MulishText(text: '404 Page not found.\n Route ${settings.name} not found'),
                 ),
               ),
             );

@@ -11,5 +11,6 @@ class NewSplashScreenState with _$NewSplashScreenState {
     required SiteViewDTO siteViewDTO,
     required ParafaitDefaultsResponse parafaitDefaultsResponse,
     required bool needsSiteSelection,
+    required CustomerDTO? customer,
   }) = _Success;
 }

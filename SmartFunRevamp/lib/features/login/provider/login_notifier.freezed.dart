@@ -20,8 +20,8 @@ mixin _$LoginState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function() success,
-    required TResult Function() selectLocationNeeded,
+    required TResult Function(CustomerDTO? customer) success,
+    required TResult Function(CustomerDTO? customer) selectLocationNeeded,
     required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
@@ -35,8 +35,8 @@ mixin _$LoginState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function()? success,
-    TResult? Function()? selectLocationNeeded,
+    TResult? Function(CustomerDTO? customer)? success,
+    TResult? Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
@@ -50,8 +50,8 @@ mixin _$LoginState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function()? success,
-    TResult Function()? selectLocationNeeded,
+    TResult Function(CustomerDTO? customer)? success,
+    TResult Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
@@ -170,8 +170,8 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function() success,
-    required TResult Function() selectLocationNeeded,
+    required TResult Function(CustomerDTO? customer) success,
+    required TResult Function(CustomerDTO? customer) selectLocationNeeded,
     required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
@@ -188,8 +188,8 @@ class _$_Initial implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function()? success,
-    TResult? Function()? selectLocationNeeded,
+    TResult? Function(CustomerDTO? customer)? success,
+    TResult? Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
@@ -206,8 +206,8 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function()? success,
-    TResult Function()? selectLocationNeeded,
+    TResult Function(CustomerDTO? customer)? success,
+    TResult Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
@@ -329,8 +329,8 @@ class _$_InProgress implements _InProgress {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function() success,
-    required TResult Function() selectLocationNeeded,
+    required TResult Function(CustomerDTO? customer) success,
+    required TResult Function(CustomerDTO? customer) selectLocationNeeded,
     required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
@@ -347,8 +347,8 @@ class _$_InProgress implements _InProgress {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function()? success,
-    TResult? Function()? selectLocationNeeded,
+    TResult? Function(CustomerDTO? customer)? success,
+    TResult? Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
@@ -365,8 +365,8 @@ class _$_InProgress implements _InProgress {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function()? success,
-    TResult Function()? selectLocationNeeded,
+    TResult Function(CustomerDTO? customer)? success,
+    TResult Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
@@ -453,6 +453,8 @@ abstract class _$$_SuccessCopyWith<$Res> {
   factory _$$_SuccessCopyWith(
           _$_Success value, $Res Function(_$_Success) then) =
       __$$_SuccessCopyWithImpl<$Res>;
+  @useResult
+  $Res call({CustomerDTO? customer});
 }
 
 /// @nodoc
@@ -461,34 +463,59 @@ class __$$_SuccessCopyWithImpl<$Res>
     implements _$$_SuccessCopyWith<$Res> {
   __$$_SuccessCopyWithImpl(_$_Success _value, $Res Function(_$_Success) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? customer = freezed,
+  }) {
+    return _then(_$_Success(
+      freezed == customer
+          ? _value.customer
+          : customer // ignore: cast_nullable_to_non_nullable
+              as CustomerDTO?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_Success implements _Success {
-  const _$_Success();
+  const _$_Success(this.customer);
+
+  @override
+  final CustomerDTO? customer;
 
   @override
   String toString() {
-    return 'LoginState.success()';
+    return 'LoginState.success(customer: $customer)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Success);
+        (other.runtimeType == runtimeType &&
+            other is _$_Success &&
+            (identical(other.customer, customer) ||
+                other.customer == customer));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, customer);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_SuccessCopyWith<_$_Success> get copyWith =>
+      __$$_SuccessCopyWithImpl<_$_Success>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function() success,
-    required TResult Function() selectLocationNeeded,
+    required TResult Function(CustomerDTO? customer) success,
+    required TResult Function(CustomerDTO? customer) selectLocationNeeded,
     required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
@@ -497,7 +524,7 @@ class _$_Success implements _Success {
     required TResult Function() otpVerified,
     required TResult Function(String msg) otpVerificationError,
   }) {
-    return success();
+    return success(customer);
   }
 
   @override
@@ -505,8 +532,8 @@ class _$_Success implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function()? success,
-    TResult? Function()? selectLocationNeeded,
+    TResult? Function(CustomerDTO? customer)? success,
+    TResult? Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
@@ -515,7 +542,7 @@ class _$_Success implements _Success {
     TResult? Function()? otpVerified,
     TResult? Function(String msg)? otpVerificationError,
   }) {
-    return success?.call();
+    return success?.call(customer);
   }
 
   @override
@@ -523,8 +550,8 @@ class _$_Success implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function()? success,
-    TResult Function()? selectLocationNeeded,
+    TResult Function(CustomerDTO? customer)? success,
+    TResult Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
@@ -535,7 +562,7 @@ class _$_Success implements _Success {
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success();
+      return success(customer);
     }
     return orElse();
   }
@@ -603,7 +630,12 @@ class _$_Success implements _Success {
 }
 
 abstract class _Success implements LoginState {
-  const factory _Success() = _$_Success;
+  const factory _Success(final CustomerDTO? customer) = _$_Success;
+
+  CustomerDTO? get customer;
+  @JsonKey(ignore: true)
+  _$$_SuccessCopyWith<_$_Success> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -611,6 +643,8 @@ abstract class _$$_SelectLocationNeededCopyWith<$Res> {
   factory _$$_SelectLocationNeededCopyWith(_$_SelectLocationNeeded value,
           $Res Function(_$_SelectLocationNeeded) then) =
       __$$_SelectLocationNeededCopyWithImpl<$Res>;
+  @useResult
+  $Res call({CustomerDTO? customer});
 }
 
 /// @nodoc
@@ -620,34 +654,60 @@ class __$$_SelectLocationNeededCopyWithImpl<$Res>
   __$$_SelectLocationNeededCopyWithImpl(_$_SelectLocationNeeded _value,
       $Res Function(_$_SelectLocationNeeded) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? customer = freezed,
+  }) {
+    return _then(_$_SelectLocationNeeded(
+      freezed == customer
+          ? _value.customer
+          : customer // ignore: cast_nullable_to_non_nullable
+              as CustomerDTO?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_SelectLocationNeeded implements _SelectLocationNeeded {
-  const _$_SelectLocationNeeded();
+  const _$_SelectLocationNeeded(this.customer);
+
+  @override
+  final CustomerDTO? customer;
 
   @override
   String toString() {
-    return 'LoginState.selectLocationNeeded()';
+    return 'LoginState.selectLocationNeeded(customer: $customer)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_SelectLocationNeeded);
+        (other.runtimeType == runtimeType &&
+            other is _$_SelectLocationNeeded &&
+            (identical(other.customer, customer) ||
+                other.customer == customer));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, customer);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_SelectLocationNeededCopyWith<_$_SelectLocationNeeded> get copyWith =>
+      __$$_SelectLocationNeededCopyWithImpl<_$_SelectLocationNeeded>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function() success,
-    required TResult Function() selectLocationNeeded,
+    required TResult Function(CustomerDTO? customer) success,
+    required TResult Function(CustomerDTO? customer) selectLocationNeeded,
     required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
@@ -656,7 +716,7 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
     required TResult Function() otpVerified,
     required TResult Function(String msg) otpVerificationError,
   }) {
-    return selectLocationNeeded();
+    return selectLocationNeeded(customer);
   }
 
   @override
@@ -664,8 +724,8 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function()? success,
-    TResult? Function()? selectLocationNeeded,
+    TResult? Function(CustomerDTO? customer)? success,
+    TResult? Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
@@ -674,7 +734,7 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
     TResult? Function()? otpVerified,
     TResult? Function(String msg)? otpVerificationError,
   }) {
-    return selectLocationNeeded?.call();
+    return selectLocationNeeded?.call(customer);
   }
 
   @override
@@ -682,8 +742,8 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function()? success,
-    TResult Function()? selectLocationNeeded,
+    TResult Function(CustomerDTO? customer)? success,
+    TResult Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
@@ -694,7 +754,7 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
     required TResult orElse(),
   }) {
     if (selectLocationNeeded != null) {
-      return selectLocationNeeded();
+      return selectLocationNeeded(customer);
     }
     return orElse();
   }
@@ -762,7 +822,13 @@ class _$_SelectLocationNeeded implements _SelectLocationNeeded {
 }
 
 abstract class _SelectLocationNeeded implements LoginState {
-  const factory _SelectLocationNeeded() = _$_SelectLocationNeeded;
+  const factory _SelectLocationNeeded(final CustomerDTO? customer) =
+      _$_SelectLocationNeeded;
+
+  CustomerDTO? get customer;
+  @JsonKey(ignore: true)
+  _$$_SelectLocationNeededCopyWith<_$_SelectLocationNeeded> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -808,8 +874,8 @@ class _$_CustomerVerificationNeeded implements _CustomerVerificationNeeded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function() success,
-    required TResult Function() selectLocationNeeded,
+    required TResult Function(CustomerDTO? customer) success,
+    required TResult Function(CustomerDTO? customer) selectLocationNeeded,
     required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
@@ -826,8 +892,8 @@ class _$_CustomerVerificationNeeded implements _CustomerVerificationNeeded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function()? success,
-    TResult? Function()? selectLocationNeeded,
+    TResult? Function(CustomerDTO? customer)? success,
+    TResult? Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
@@ -844,8 +910,8 @@ class _$_CustomerVerificationNeeded implements _CustomerVerificationNeeded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function()? success,
-    TResult Function()? selectLocationNeeded,
+    TResult Function(CustomerDTO? customer)? success,
+    TResult Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
@@ -991,8 +1057,8 @@ class _$_Error implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function() success,
-    required TResult Function() selectLocationNeeded,
+    required TResult Function(CustomerDTO? customer) success,
+    required TResult Function(CustomerDTO? customer) selectLocationNeeded,
     required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
@@ -1009,8 +1075,8 @@ class _$_Error implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function()? success,
-    TResult? Function()? selectLocationNeeded,
+    TResult? Function(CustomerDTO? customer)? success,
+    TResult? Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
@@ -1027,8 +1093,8 @@ class _$_Error implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function()? success,
-    TResult Function()? selectLocationNeeded,
+    TResult Function(CustomerDTO? customer)? success,
+    TResult Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
@@ -1155,8 +1221,8 @@ class _$_OtpGenerated implements _OtpGenerated {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function() success,
-    required TResult Function() selectLocationNeeded,
+    required TResult Function(CustomerDTO? customer) success,
+    required TResult Function(CustomerDTO? customer) selectLocationNeeded,
     required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
@@ -1173,8 +1239,8 @@ class _$_OtpGenerated implements _OtpGenerated {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function()? success,
-    TResult? Function()? selectLocationNeeded,
+    TResult? Function(CustomerDTO? customer)? success,
+    TResult? Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
@@ -1191,8 +1257,8 @@ class _$_OtpGenerated implements _OtpGenerated {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function()? success,
-    TResult Function()? selectLocationNeeded,
+    TResult Function(CustomerDTO? customer)? success,
+    TResult Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
@@ -1314,8 +1380,8 @@ class _$_OtpResend implements _OtpResend {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function() success,
-    required TResult Function() selectLocationNeeded,
+    required TResult Function(CustomerDTO? customer) success,
+    required TResult Function(CustomerDTO? customer) selectLocationNeeded,
     required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
@@ -1332,8 +1398,8 @@ class _$_OtpResend implements _OtpResend {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function()? success,
-    TResult? Function()? selectLocationNeeded,
+    TResult? Function(CustomerDTO? customer)? success,
+    TResult? Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
@@ -1350,8 +1416,8 @@ class _$_OtpResend implements _OtpResend {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function()? success,
-    TResult Function()? selectLocationNeeded,
+    TResult Function(CustomerDTO? customer)? success,
+    TResult Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
@@ -1473,8 +1539,8 @@ class _$_VerifyingOTP implements _VerifyingOTP {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function() success,
-    required TResult Function() selectLocationNeeded,
+    required TResult Function(CustomerDTO? customer) success,
+    required TResult Function(CustomerDTO? customer) selectLocationNeeded,
     required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
@@ -1491,8 +1557,8 @@ class _$_VerifyingOTP implements _VerifyingOTP {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function()? success,
-    TResult? Function()? selectLocationNeeded,
+    TResult? Function(CustomerDTO? customer)? success,
+    TResult? Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
@@ -1509,8 +1575,8 @@ class _$_VerifyingOTP implements _VerifyingOTP {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function()? success,
-    TResult Function()? selectLocationNeeded,
+    TResult Function(CustomerDTO? customer)? success,
+    TResult Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
@@ -1632,8 +1698,8 @@ class _$_OtpVerified implements _OtpVerified {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function() success,
-    required TResult Function() selectLocationNeeded,
+    required TResult Function(CustomerDTO? customer) success,
+    required TResult Function(CustomerDTO? customer) selectLocationNeeded,
     required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
@@ -1650,8 +1716,8 @@ class _$_OtpVerified implements _OtpVerified {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function()? success,
-    TResult? Function()? selectLocationNeeded,
+    TResult? Function(CustomerDTO? customer)? success,
+    TResult? Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
@@ -1668,8 +1734,8 @@ class _$_OtpVerified implements _OtpVerified {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function()? success,
-    TResult Function()? selectLocationNeeded,
+    TResult Function(CustomerDTO? customer)? success,
+    TResult Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,
@@ -1818,8 +1884,8 @@ class _$_OtpVerificationError implements _OtpVerificationError {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function() success,
-    required TResult Function() selectLocationNeeded,
+    required TResult Function(CustomerDTO? customer) success,
+    required TResult Function(CustomerDTO? customer) selectLocationNeeded,
     required TResult Function() customerVerificationNeeded,
     required TResult Function(String message) error,
     required TResult Function() otpGenerated,
@@ -1836,8 +1902,8 @@ class _$_OtpVerificationError implements _OtpVerificationError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function()? success,
-    TResult? Function()? selectLocationNeeded,
+    TResult? Function(CustomerDTO? customer)? success,
+    TResult? Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult? Function()? customerVerificationNeeded,
     TResult? Function(String message)? error,
     TResult? Function()? otpGenerated,
@@ -1854,8 +1920,8 @@ class _$_OtpVerificationError implements _OtpVerificationError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function()? success,
-    TResult Function()? selectLocationNeeded,
+    TResult Function(CustomerDTO? customer)? success,
+    TResult Function(CustomerDTO? customer)? selectLocationNeeded,
     TResult Function()? customerVerificationNeeded,
     TResult Function(String message)? error,
     TResult Function()? otpGenerated,

@@ -13,6 +13,7 @@ import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_cas
 import 'package:semnox/core/domain/use_cases/select_location/get_master_site_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
+import 'package:semnox/core/domain/use_cases/splash_screen/get_home_page_cms_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_parafait_languages_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_string_for_localization_use_case.dart';
 import 'package:semnox/core/utils/extensions.dart';
@@ -31,19 +32,21 @@ final newHomePageCMSProvider = StateProvider<HomePageCMSResponse?>((ref) {
 final languangeContainerProvider = StateProvider<LanguageContainerDTO?>((ref) {
   return null;
 });
-
 final masterSiteProvider = StateProvider<SiteViewDTO?>((ref) {
   return null;
 });
 final parafaitDefaultsProvider = StateProvider<ParafaitDefaultsResponse?>((ref) {
   return null;
 });
-
-final customDTOProvider = FutureProvider<CustomerDTO?>((ref) async {
-  final LocalDataSource glutton = Get.find<LocalDataSource>();
-  final customer = await glutton.retrieveCustomer();
-  return customer;
+final userProvider = StateProvider<CustomerDTO?>((ref) {
+  return null;
 });
+
+// final customDTOProvider = FutureProvider<CustomerDTO?>((ref) async {
+//   final LocalDataSource glutton = Get.find<LocalDataSource>();
+//   final customer = await glutton.retrieveCustomer();
+//   return customer;
+// });
 
 final getStringForLocalization = FutureProvider<Map<dynamic, dynamic>>((ref) async {
   final currentLang = ref.watch(currentLanguageProvider);
@@ -140,43 +143,42 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   }
 
   void _getHomePageCMS() async {
-    final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
-    // Load Local Json
-    final String exampleCMSJson = await rootBundle.loadString('assets/json/example_cms.json');
-    final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
-    final cms = HomePageCMSResponse.fromJson(data);
-    state = _Success(
-      homePageCMSResponse: cms,
-      languageContainerDTO: _languageContainerDTO,
-      siteViewDTO: masterSite!,
-      parafaitDefaultsResponse: _parafaitDefaultsResponse,
-      needsSiteSelection: selectedSite == null,
-    );
-    // final useCase = Get.find<GetHomePageCMSUseCase>();
-    // final response = await useCase();
-    // response.fold(
-    //   (l) {
-    //     Logger().e(l.message);
-    //     state = const _Error("We couldn't load the app configuration. Contact an Administrator");
-    //   },
-    //   (r) async {
-    //     if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
-    //       await _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
-    //     }
-    //     final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
-    //     // Load Local Json
-    //     final String exampleCMSJson = await rootBundle.loadString('assets/json/example_cms.json');
-    //     final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
-    //     final cms = HomePageCMSResponse.fromJson(data);
-    //     state = _Success(
-    //       homePageCMSResponse: cms,
-    //       languageContainerDTO: _languageContainerDTO,
-    //       siteViewDTO: masterSite!,
-    //       parafaitDefaultsResponse: _parafaitDefaultsResponse,
-    //       needsSiteSelection: selectedSite == null,
-    //     );
-    //   },
+    // final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
+    // // Load Local Json
+    // final String exampleCMSJson = await rootBundle.loadString('assets/json/example_cms.json');
+    // final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
+    // final cms = HomePageCMSResponse.fromJson(data);
+    // state = _Success(
+    //   homePageCMSResponse: cms,
+    //   languageContainerDTO: _languageContainerDTO,
+    //   siteViewDTO: masterSite!,
+    //   parafaitDefaultsResponse: _parafaitDefaultsResponse,
+    //   needsSiteSelection: selectedSite == null,
     // );
+    final useCase = Get.find<GetHomePageCMSUseCase>();
+    final response = await useCase();
+    final LocalDataSource glutton = Get.find<LocalDataSource>();
+    final customer = await glutton.retrieveCustomer();
+    response.fold(
+      (l) {
+        Logger().e(l.message);
+        state = const _Error("We couldn't load the app configuration. Contact an Administrator");
+      },
+      (r) async {
+        if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
+          await _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
+        }
+        final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
+        state = _Success(
+          homePageCMSResponse: r,
+          languageContainerDTO: _languageContainerDTO,
+          siteViewDTO: masterSite!,
+          parafaitDefaultsResponse: _parafaitDefaultsResponse,
+          needsSiteSelection: selectedSite == null,
+          customer: customer,
+        );
+      },
+    );
   }
 
   void _getMasterSite() async {

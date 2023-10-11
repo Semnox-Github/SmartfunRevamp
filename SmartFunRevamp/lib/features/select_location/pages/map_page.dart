@@ -53,11 +53,11 @@ class _MapPageState extends ConsumerState<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    late CustomerDTO? customer = ref.watch(customDTOProvider).valueOrNull;
+    late CustomerDTO? customer = ref.watch(userProvider);
     try {
       customer = Get.find<CustomerDTO>();
     } catch (e) {
-      customer = ref.watch(customDTOProvider).valueOrNull;
+      customer = ref.watch(userProvider);
     }
     ref.listen(
       selectLocationStateProvider,
@@ -72,8 +72,11 @@ class _MapPageState extends ConsumerState<MapPage> {
           newContextSuccess: (selectedSite) {
             ref.read(loginProvider.notifier).selectedSite = selectedSite;
             ref.read(loginProvider.notifier).saveSelectedSite();
+
             context.loaderOverlay.hide();
-            registerLoggedUserWithSite(customer!, selectedSite).then((value) => Navigator.pushReplacementNamed(context, Routes.kHomePage));
+            registerLoggedUserWithSite(customer!, selectedSite).then(
+              (value) => Navigator.pushReplacementNamed(context, Routes.kHomePage),
+            );
           },
         );
       },
@@ -168,7 +171,8 @@ class _MapPageState extends ConsumerState<MapPage> {
                           initialCameraPosition: kGooglePlex,
                           onMapCreated: (mapController) {
                             _mapController = mapController;
-                            _mapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(data.latitude, data.longitude), 15));
+                            _mapController
+                                .animateCamera(CameraUpdate.newLatLngZoom(LatLng(data.latitude, data.longitude), 15));
                             _controller.complete(mapController);
                           },
                           markers: markers,

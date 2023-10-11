@@ -26,7 +26,8 @@ mixin _$NewSplashScreenState {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)
+            bool needsSiteSelection,
+            CustomerDTO? customer)
         success,
   }) =>
       throw _privateConstructorUsedError;
@@ -40,7 +41,8 @@ mixin _$NewSplashScreenState {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)?
+            bool needsSiteSelection,
+            CustomerDTO? customer)?
         success,
   }) =>
       throw _privateConstructorUsedError;
@@ -54,7 +56,8 @@ mixin _$NewSplashScreenState {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)?
+            bool needsSiteSelection,
+            CustomerDTO? customer)?
         success,
     required TResult orElse(),
   }) =>
@@ -152,7 +155,8 @@ class _$_InProgress implements _InProgress {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)
+            bool needsSiteSelection,
+            CustomerDTO? customer)
         success,
   }) {
     return inProgress();
@@ -169,7 +173,8 @@ class _$_InProgress implements _InProgress {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)?
+            bool needsSiteSelection,
+            CustomerDTO? customer)?
         success,
   }) {
     return inProgress?.call();
@@ -186,7 +191,8 @@ class _$_InProgress implements _InProgress {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)?
+            bool needsSiteSelection,
+            CustomerDTO? customer)?
         success,
     required TResult orElse(),
   }) {
@@ -309,7 +315,8 @@ class _$_Error implements _Error {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)
+            bool needsSiteSelection,
+            CustomerDTO? customer)
         success,
   }) {
     return error(message);
@@ -326,7 +333,8 @@ class _$_Error implements _Error {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)?
+            bool needsSiteSelection,
+            CustomerDTO? customer)?
         success,
   }) {
     return error?.call(message);
@@ -343,7 +351,8 @@ class _$_Error implements _Error {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)?
+            bool needsSiteSelection,
+            CustomerDTO? customer)?
         success,
     required TResult orElse(),
   }) {
@@ -475,7 +484,8 @@ class _$_RetrievedSplashImageURL implements _RetrievedSplashImageURL {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)
+            bool needsSiteSelection,
+            CustomerDTO? customer)
         success,
   }) {
     return retrievedSplashImageURL(url);
@@ -492,7 +502,8 @@ class _$_RetrievedSplashImageURL implements _RetrievedSplashImageURL {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)?
+            bool needsSiteSelection,
+            CustomerDTO? customer)?
         success,
   }) {
     return retrievedSplashImageURL?.call(url);
@@ -509,7 +520,8 @@ class _$_RetrievedSplashImageURL implements _RetrievedSplashImageURL {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)?
+            bool needsSiteSelection,
+            CustomerDTO? customer)?
         success,
     required TResult orElse(),
   }) {
@@ -579,7 +591,8 @@ abstract class _$$_SuccessCopyWith<$Res> {
       LanguageContainerDTO languageContainerDTO,
       SiteViewDTO siteViewDTO,
       ParafaitDefaultsResponse parafaitDefaultsResponse,
-      bool needsSiteSelection});
+      bool needsSiteSelection,
+      CustomerDTO? customer});
 }
 
 /// @nodoc
@@ -597,6 +610,7 @@ class __$$_SuccessCopyWithImpl<$Res>
     Object? siteViewDTO = null,
     Object? parafaitDefaultsResponse = null,
     Object? needsSiteSelection = null,
+    Object? customer = freezed,
   }) {
     return _then(_$_Success(
       homePageCMSResponse: null == homePageCMSResponse
@@ -619,6 +633,10 @@ class __$$_SuccessCopyWithImpl<$Res>
           ? _value.needsSiteSelection
           : needsSiteSelection // ignore: cast_nullable_to_non_nullable
               as bool,
+      customer: freezed == customer
+          ? _value.customer
+          : customer // ignore: cast_nullable_to_non_nullable
+              as CustomerDTO?,
     ));
   }
 }
@@ -631,7 +649,8 @@ class _$_Success implements _Success {
       required this.languageContainerDTO,
       required this.siteViewDTO,
       required this.parafaitDefaultsResponse,
-      required this.needsSiteSelection});
+      required this.needsSiteSelection,
+      required this.customer});
 
   @override
   final HomePageCMSResponse homePageCMSResponse;
@@ -643,10 +662,12 @@ class _$_Success implements _Success {
   final ParafaitDefaultsResponse parafaitDefaultsResponse;
   @override
   final bool needsSiteSelection;
+  @override
+  final CustomerDTO? customer;
 
   @override
   String toString() {
-    return 'NewSplashScreenState.success(homePageCMSResponse: $homePageCMSResponse, languageContainerDTO: $languageContainerDTO, siteViewDTO: $siteViewDTO, parafaitDefaultsResponse: $parafaitDefaultsResponse, needsSiteSelection: $needsSiteSelection)';
+    return 'NewSplashScreenState.success(homePageCMSResponse: $homePageCMSResponse, languageContainerDTO: $languageContainerDTO, siteViewDTO: $siteViewDTO, parafaitDefaultsResponse: $parafaitDefaultsResponse, needsSiteSelection: $needsSiteSelection, customer: $customer)';
   }
 
   @override
@@ -664,7 +685,9 @@ class _$_Success implements _Success {
                     other.parafaitDefaultsResponse, parafaitDefaultsResponse) ||
                 other.parafaitDefaultsResponse == parafaitDefaultsResponse) &&
             (identical(other.needsSiteSelection, needsSiteSelection) ||
-                other.needsSiteSelection == needsSiteSelection));
+                other.needsSiteSelection == needsSiteSelection) &&
+            (identical(other.customer, customer) ||
+                other.customer == customer));
   }
 
   @override
@@ -674,7 +697,8 @@ class _$_Success implements _Success {
       languageContainerDTO,
       siteViewDTO,
       parafaitDefaultsResponse,
-      needsSiteSelection);
+      needsSiteSelection,
+      customer);
 
   @JsonKey(ignore: true)
   @override
@@ -693,11 +717,12 @@ class _$_Success implements _Success {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)
+            bool needsSiteSelection,
+            CustomerDTO? customer)
         success,
   }) {
     return success(homePageCMSResponse, languageContainerDTO, siteViewDTO,
-        parafaitDefaultsResponse, needsSiteSelection);
+        parafaitDefaultsResponse, needsSiteSelection, customer);
   }
 
   @override
@@ -711,11 +736,12 @@ class _$_Success implements _Success {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)?
+            bool needsSiteSelection,
+            CustomerDTO? customer)?
         success,
   }) {
     return success?.call(homePageCMSResponse, languageContainerDTO, siteViewDTO,
-        parafaitDefaultsResponse, needsSiteSelection);
+        parafaitDefaultsResponse, needsSiteSelection, customer);
   }
 
   @override
@@ -729,13 +755,14 @@ class _$_Success implements _Success {
             LanguageContainerDTO languageContainerDTO,
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
-            bool needsSiteSelection)?
+            bool needsSiteSelection,
+            CustomerDTO? customer)?
         success,
     required TResult orElse(),
   }) {
     if (success != null) {
       return success(homePageCMSResponse, languageContainerDTO, siteViewDTO,
-          parafaitDefaultsResponse, needsSiteSelection);
+          parafaitDefaultsResponse, needsSiteSelection, customer);
     }
     return orElse();
   }
@@ -785,13 +812,15 @@ abstract class _Success implements NewSplashScreenState {
       required final LanguageContainerDTO languageContainerDTO,
       required final SiteViewDTO siteViewDTO,
       required final ParafaitDefaultsResponse parafaitDefaultsResponse,
-      required final bool needsSiteSelection}) = _$_Success;
+      required final bool needsSiteSelection,
+      required final CustomerDTO? customer}) = _$_Success;
 
   HomePageCMSResponse get homePageCMSResponse;
   LanguageContainerDTO get languageContainerDTO;
   SiteViewDTO get siteViewDTO;
   ParafaitDefaultsResponse get parafaitDefaultsResponse;
   bool get needsSiteSelection;
+  CustomerDTO? get customer;
   @JsonKey(ignore: true)
   _$$_SuccessCopyWith<_$_Success> get copyWith =>
       throw _privateConstructorUsedError;

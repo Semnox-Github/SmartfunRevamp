@@ -1,12 +1,16 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
@@ -89,158 +93,109 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       (_, next) {
         next.maybeWhen(
           orElse: () {},
-          error: (message) {
-            AwesomeDialog(
-              context: context,
-              headerAnimationLoop: false,
-              desc: message,
-              dialogType: DialogType.error,
-              btnOkOnPress: () {},
-            ).show();
-          },
-          success: (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection) {
+          success: (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection, notificationData) {
             ref.read(newHomePageCMSProvider.notifier).update((_) => cms);
             ref.read(languangeContainerProvider.notifier).update((_) => langDto);
             ref.read(masterSiteProvider.notifier).update((_) => masterSite);
             ref.read(parafaitDefaultsProvider.notifier).update((_) => parafaitDefaults);
-            if (customer == null) {
-              nextPage();
-            } else {
-              if (needsSiteSelection) {
-                if (context.mounted) {
-                  Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
-                }
-              } else {
-                registerLoggedUser(customer).then(
-                  (value) => {
-                    if (userSelectedSite != null)
+
+            final parafaitDefault = ref.watch(parafaitDefaultsProvider);
+            //get the update status "O" => optional | "M" => mandatory | other value => not necesary
+            final deprecated = Get.find<String>(tag: 'appVersionDeprecated');
+            final isAndroid = Platform.isAndroid;
+            final isIOS = Platform.isIOS;
+            //get the current date to compare with stored if the update is optional
+            final currentDate = DateTime.now().toIso8601String().split("T")[0];
+            //get the application download url based on the OS
+            final storeUrl = isAndroid
+                ? parafaitDefault?.getDefault(ParafaitDefaultsResponse.playStoreUrl) ?? ""
+                : isIOS
+                    ? parafaitDefault?.getDefault(ParafaitDefaultsResponse.appStoreUrl) ?? ""
+                    : "";
+            //Get the last app update reminder date
+            GluttonLocalDataSource().retrieveValue(LocalDataSource.kAppUpdateReminderDate).then(
+                  (value) async => {
+                    //if application url is not set don't show the update message
+
+                    if (!storeUrl.isNullOrEmpty() &&
+                        //if update is mandatory, show everytime the app starts
+                        (deprecated == "M" ||
+                            //if is optional, show once a day
+                            (deprecated == "O" && currentDate != value.toString())))
                       {
-                        ref.read(loginProvider.notifier).setSite(userSelectedSite!),
-                        Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                        GluttonLocalDataSource().saveValue(LocalDataSource.kAppUpdateReminderDate, currentDate),
+                        await Dialogs.downloadUpdateDialog(context, storeUrl),
+                        if (deprecated != "M")
+                          {
+                            if (customer == null)
+                              {
+                                nextPage(),
+                              }
+                            else
+                              {
+                                if (needsSiteSelection)
+                                  {
+                                    if (context.mounted)
+                                      Navigator.pushReplacementNamed(context, Routes.kEnableLocation),
+                                  }
+                                else
+                                  {
+                                    registerLoggedUser(customer).then(
+                                      (value) => {
+                                        if (userSelectedSite != null)
+                                          {
+                                            ref.read(loginProvider.notifier).setSite(userSelectedSite!),
+                                            Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                          }
+                                        else
+                                          {
+                                            Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                          }
+                                      },
+                                    ),
+                                  }
+                              }
+                          }
+                        else
+                          {SystemNavigator.pop()}
                       }
                     else
                       {
-                        Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                        if (customer == null)
+                          {
+                            nextPage(),
+                          }
+                        else
+                          {
+                            if (needsSiteSelection)
+                              {
+                                Navigator.pushReplacementNamed(context, Routes.kEnableLocation),
+                              }
+                            else
+                              {
+                                registerLoggedUser(customer).then(
+                                  (value) => {
+                                    if (userSelectedSite != null)
+                                      {
+                                        ref.read(loginProvider.notifier).setSite(userSelectedSite!),
+                                        Navigator.pushReplacementNamed(context, Routes.kHomePage)
+                                      }
+                                    else
+                                      {
+                                        Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                      }
+                                  },
+                                ),
+                              }
+                          }
                       }
                   },
                 );
-              }
-            }
-            // final parafaitDefault = ref.watch(parafaitDefaultsProvider);
-            // //get the update status "O" => optional | "M" => mandatory | other value => not necesary
-            // final deprecated = Get.find<String>(tag: 'appVersionDeprecated');
-            // final isAndroid = Platform.isAndroid;
-            // final isIOS = Platform.isIOS;
-            // //get the current date to compare with stored if the update is optional
-            // final currentDate = DateTime.now().toIso8601String().split("T")[0];
-            // //get the application download url based on the OS
-            // final storeUrl = isAndroid
-            //     ? parafaitDefault
-            //             ?.getDefault(ParafaitDefaultsResponse.playStoreUrl) ??
-            //         ""
-            //     : isIOS
-            //         ? parafaitDefault?.getDefault(
-            //                 ParafaitDefaultsResponse.appStoreUrl) ??
-            //             ""
-            //         : "";
-            // //Get the last app update reminder date
-            // GluttonLocalDataSource()
-            //     .retrieveValue(LocalDataSource.kAppUpdateReminderDate)
-            //     .then(
-            //       (value) async => {
-            //         //if application url is not set don't show the update message
-
-            //         if (!storeUrl.isNullOrEmpty() &&
-            //             //if update is mandatory, show everytime the app starts
-            //             (deprecated == "M" ||
-            //                 //if is optional, show once a day
-            //                 (deprecated == "O" &&
-            //                     currentDate != value.toString())))
-            //           {
-            //             GluttonLocalDataSource().saveValue(
-            //                 LocalDataSource.kAppUpdateReminderDate,
-            //                 currentDate),
-            //             await Dialogs.downloadUpdateDialog(context, storeUrl),
-            //             if (deprecated != "M")
-            //               {
-            //                 if (customer == null)
-            //                   {
-            //                     nextPage(),
-            //                   }
-            //                 else
-            //                   {
-            //                     if (needsSiteSelection)
-            //                       {
-            //                         if (context.mounted)
-            //                           Navigator.pushReplacementNamed(
-            //                               context, Routes.kEnableLocation),
-            //                       }
-            //                     else
-            //                       {
-            //                         registerLoggedUser(customer).then(
-            //                           (value) => {
-            //                             if (userSelectedSite != null)
-            //                               {
-            //                                 ref
-            //                                     .read(loginProvider.notifier)
-            //                                     .setSite(userSelectedSite!),
-            //                                 Navigator.pushReplacementNamed(
-            //                                     context, Routes.kHomePage),
-            //                               }
-            //                             else
-            //                               {
-            //                                 Navigator.pushReplacementNamed(
-            //                                     context, Routes.kHomePage),
-            //                               }
-            //                           },
-            //                         ),
-            //                       }
-            //                   }
-            //               }
-            //             else
-            //               {SystemNavigator.pop()}
-            //           }
-            //         else
-            //           {
-            //             if (customer == null)
-            //               {
-            //                 nextPage(),
-            //               }
-            //             else
-            //               {
-            //                 if (needsSiteSelection)
-            //                   {
-            //                     Navigator.pushReplacementNamed(
-            //                         context, Routes.kEnableLocation),
-            //                   }
-            //                 else
-            //                   {
-            //                     registerLoggedUser(customer).then(
-            //                       (value) => {
-            //                         if (userSelectedSite != null)
-            //                           {
-            //                             ref
-            //                                 .read(loginProvider.notifier)
-            //                                 .setSite(userSelectedSite!),
-            //                             Navigator.pushReplacementNamed(
-            //                                 context, Routes.kHomePage)
-            //                           }
-            //                         else
-            //                           {
-            //                             Navigator.pushReplacementNamed(
-            //                                 context, Routes.kHomePage),
-            //                           }
-            //                       },
-            //                     ),
-            //                   }
-            //               }
-            //           }
-            //       },
-            // );
           },
         );
       },
     );
+
     return Scaffold(
       body: ref.watch(newSplashScreenProvider).maybeWhen(
             orElse: () => Container(),
@@ -261,8 +216,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 ),
               );
             },
-            // success: () => SplashScreenImage(imageUrl),
-            retrievedSplashImageURL: (url) => SplashScreenImage(url),
+            retrievedSplashImageURL: (url) {
+              return SplashScreenImage(url);
+            },
+            success: (_, __, ___, ____, _____, ______) {
+              final imageUrl = ref.read(newSplashScreenProvider.notifier).splashImageUrl;
+              return SplashScreenImage(imageUrl);
+            },
           ),
     );
   }

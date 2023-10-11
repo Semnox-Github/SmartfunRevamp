@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,7 @@ import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/firebase/firebase_api.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
@@ -30,6 +32,7 @@ part 'new_splash_screen_state.dart';
 final newHomePageCMSProvider = StateProvider<HomePageCMSResponse?>((ref) {
   return null;
 });
+
 final languangeContainerProvider = StateProvider<LanguageContainerDTO?>((ref) {
   return null;
 });
@@ -94,11 +97,16 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
 
   //<---------------->
   late String? _splashScreenImgURL = '';
+  String get splashImageUrl => _splashScreenImgURL ?? '';
   late SiteViewDTO? masterSite;
   late LanguageContainerDTO _languageContainerDTO;
   late ParafaitDefaultsResponse _parafaitDefaultsResponse;
-
+  NotificationsData? _notificationData;
   void getSplashImage() async {
+    final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _notificationData = NotificationsData.fromJson(initialMessage.data);
+    }
     _splashScreenImgURL = await _localDataSource.retrieveValue<String>(LocalDataSource.kSplashScreenURL);
     if (!_splashScreenImgURL.isNullOrEmpty()) {
       state = _RetrievedSplashImageURL(_splashScreenImgURL);
@@ -129,6 +137,30 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     );
   }
 
+  void _getMasterSite() async {
+    final GetMasterSiteUseCase getMasterSiteUseCase = Get.find<GetMasterSiteUseCase>();
+    final response = await getMasterSiteUseCase();
+    response.fold(
+      (l) => state = const _Error('No master site found'),
+      (r) {
+        masterSite = r.first;
+        _getParafaitDefaults(masterSite?.siteId);
+      },
+    );
+  }
+
+  void _getParafaitDefaults(int? siteId) async {
+    final GetParafaitDefaultsUseCase getParafaitDefaultsUseCase = Get.find<GetParafaitDefaultsUseCase>();
+    final response = await getParafaitDefaultsUseCase(siteId ?? 1010);
+    response.fold(
+      (l) => state = _Error(l.message),
+      (r) async {
+        _parafaitDefaultsResponse = r;
+        _getAllParafaitLanguages(siteId);
+      },
+    );
+  }
+
   void _getAllParafaitLanguages(int? siteId) async {
     final getParafaitLanguagesUseCase = Get.find<GetParafaitLanguagesUseCase>();
     final response = await getParafaitLanguagesUseCase(siteId: siteId.toString());
@@ -147,7 +179,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     response.fold(
       (l) {
         Logger().e(l.message);
-        state = const _Error("We couldn't load the app configuration. Contact an Administrator");
+        state = _Error(l.message);
       },
       (r) async {
         if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
@@ -165,31 +197,8 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
           siteViewDTO: masterSite!,
           parafaitDefaultsResponse: _parafaitDefaultsResponse,
           needsSiteSelection: selectedSite == null,
+          notificationsData: _notificationData,
         );
-      },
-    );
-  }
-
-  void _getMasterSite() async {
-    final GetMasterSiteUseCase getMasterSiteUseCase = Get.find<GetMasterSiteUseCase>();
-    final response = await getMasterSiteUseCase();
-    response.fold(
-      (l) => state = const _Error('No master site found'),
-      (r) {
-        masterSite = r.first;
-        _getParafaitDefaults(masterSite?.siteId);
-      },
-    );
-  }
-
-  void _getParafaitDefaults(int? siteId) async {
-    final GetParafaitDefaultsUseCase getParafaitDefaultsUseCase = Get.find<GetParafaitDefaultsUseCase>();
-    final response = await getParafaitDefaultsUseCase(siteId ?? 1010);
-    response.fold(
-      (l) => state = const _Error("We couldn't load the app configuration. Contact an Administrator"),
-      (r) async {
-        _parafaitDefaultsResponse = r;
-        _getAllParafaitLanguages(siteId);
       },
     );
   }

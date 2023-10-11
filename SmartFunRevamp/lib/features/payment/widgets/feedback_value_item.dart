@@ -10,11 +10,11 @@ final optionSelectedProvider = StateProvider.autoDispose<Map<SurveyDetails, dyna
 });
 
 class FeedbackValueOption extends ConsumerWidget {
+  final SurveyDetails surveyDetail;
   const FeedbackValueOption({
     super.key,
     required this.surveyDetail,
   });
-  final SurveyDetails surveyDetail;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,18 +11,27 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/firebase/firebase_api.dart';
 import 'package:semnox/firebase_options.dart';
+import 'package:semnox/lifecycle_handler.dart';
 import 'package:semnox/themes/main_theme.dart';
 import 'di/injection_container.dart' as di;
-import 'features/splash/splashscreen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding.instance.addObserver(LifecycleEventHandler(
+    resumeCallBack: () async {
+      final remoteMessageStream = FirebaseMessaging.onMessageOpenedApp;
+      final notificationData = NotificationsData.fromJson((await remoteMessageStream.first).data);
+      Logger().d('TEST -> ${notificationData.toJson()}');
+      navigatorKey.currentState?.pushNamed(notificationData.path);
+    },
+  ));
   await dotenv.load(fileName: ".env");
   if (Platform.isAndroid || Platform.isIOS) {
     await Firebase.initializeApp(
@@ -92,7 +102,7 @@ class MyApp extends StatelessWidget {
               ),
             );
           },
-          home: const SplashScreen(),
+          initialRoute: Routes.initialRoute,
           theme: kMainTheme,
         ),
       ),

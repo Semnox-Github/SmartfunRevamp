@@ -16,7 +16,6 @@ import 'package:semnox/core/domain/use_cases/cards/lost_card_use_case.dart';
 import 'package:semnox/core/domain/use_cases/home/get_user_cards_use_case.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
-import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 part 'cards_state.dart';
 part 'cards_provider.freezed.dart';
 
@@ -67,7 +66,7 @@ class CardsProviders {
   });
   static final userGamesSummaryProvider = FutureProvider.autoDispose<void>((ref) async {
     final GetAccountGamesSummaryUseCase getAccountGamesSummaryUseCase = Get.find<GetAccountGamesSummaryUseCase>();
-    final userId = Get.find<CustomerDTO>().id;
+    final userId = ref.watch(userProvider)?.id ?? -1;
     final response = await getAccountGamesSummaryUseCase(userId.toString());
     return response.fold(
       (l) => throw l,

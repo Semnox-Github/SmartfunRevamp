@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -13,12 +14,14 @@ import 'package:semnox/core/domain/use_cases/config/get_parfait_defaults_use_cas
 import 'package:semnox/core/domain/use_cases/select_location/get_master_site_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/authenticate_base_url_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_base_url_use_case.dart';
+import 'package:semnox/core/domain/use_cases/splash_screen/get_home_page_cms_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_parafait_languages_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_string_for_localization_use_case.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/firebase/firebase_api.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
@@ -28,6 +31,7 @@ part 'new_splash_screen_state.dart';
 final newHomePageCMSProvider = StateProvider<HomePageCMSResponse?>((ref) {
   return null;
 });
+
 final languangeContainerProvider = StateProvider<LanguageContainerDTO?>((ref) {
   return null;
 });
@@ -92,11 +96,16 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
 
   //<---------------->
   late String? _splashScreenImgURL = '';
+  String get splashImageUrl => _splashScreenImgURL ?? '';
   late SiteViewDTO? masterSite;
   late LanguageContainerDTO _languageContainerDTO;
   late ParafaitDefaultsResponse _parafaitDefaultsResponse;
-
+  NotificationsData? _notificationData;
   void getSplashImage() async {
+    final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _notificationData = NotificationsData.fromJson(initialMessage.data);
+    }
     _splashScreenImgURL = await _localDataSource.retrieveValue<String>(LocalDataSource.kSplashScreenURL);
     if (!_splashScreenImgURL.isNullOrEmpty()) {
       state = _RetrievedSplashImageURL(_splashScreenImgURL);
@@ -127,6 +136,30 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     );
   }
 
+  void _getMasterSite() async {
+    final GetMasterSiteUseCase getMasterSiteUseCase = Get.find<GetMasterSiteUseCase>();
+    final response = await getMasterSiteUseCase();
+    response.fold(
+      (l) => state = const _Error('No master site found'),
+      (r) {
+        masterSite = r.first;
+        _getParafaitDefaults(masterSite?.siteId);
+      },
+    );
+  }
+
+  void _getParafaitDefaults(int? siteId) async {
+    final GetParafaitDefaultsUseCase getParafaitDefaultsUseCase = Get.find<GetParafaitDefaultsUseCase>();
+    final response = await getParafaitDefaultsUseCase(siteId ?? 1010);
+    response.fold(
+      (l) => state = _Error(l.message),
+      (r) async {
+        _parafaitDefaultsResponse = r;
+        _getAllParafaitLanguages(siteId);
+      },
+    );
+  }
+
   void _getAllParafaitLanguages(int? siteId) async {
     final getParafaitLanguagesUseCase = Get.find<GetParafaitLanguagesUseCase>();
     final response = await getParafaitLanguagesUseCase(siteId: siteId.toString());
@@ -140,17 +173,31 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   }
 
   void _getHomePageCMS() async {
-    final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
-    // Load Local Json
-    final String exampleCMSJson = await rootBundle.loadString('assets/json/example_cms.json');
-    final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
-    final cms = HomePageCMSResponse.fromJson(data);
-    state = _Success(
-      homePageCMSResponse: cms,
-      languageContainerDTO: _languageContainerDTO,
-      siteViewDTO: masterSite!,
-      parafaitDefaultsResponse: _parafaitDefaultsResponse,
-      needsSiteSelection: selectedSite == null,
+    final useCase = Get.find<GetHomePageCMSUseCase>();
+    final response = await useCase();
+    response.fold(
+      (l) {
+        Logger().e(l.message);
+        state = _Error(l.message);
+      },
+      (r) async {
+        if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
+          await _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
+        }
+        final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
+        // Load Local Json
+        final String exampleCMSJson = await rootBundle.loadString('assets/json/example_cms.json');
+        final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
+        final cms = HomePageCMSResponse.fromJson(data);
+        state = _Success(
+          homePageCMSResponse: r,
+          languageContainerDTO: _languageContainerDTO,
+          siteViewDTO: masterSite!,
+          parafaitDefaultsResponse: _parafaitDefaultsResponse,
+          needsSiteSelection: selectedSite == null,
+          notificationsData: _notificationData,
+        );
+      },
     );
     // final useCase = Get.find<GetHomePageCMSUseCase>();
     // final response = await useCase();
@@ -177,29 +224,5 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     //     );
     //   },
     // );
-  }
-
-  void _getMasterSite() async {
-    final GetMasterSiteUseCase getMasterSiteUseCase = Get.find<GetMasterSiteUseCase>();
-    final response = await getMasterSiteUseCase();
-    response.fold(
-      (l) => state = const _Error('No master site found'),
-      (r) {
-        masterSite = r.first;
-        _getParafaitDefaults(masterSite?.siteId);
-      },
-    );
-  }
-
-  void _getParafaitDefaults(int? siteId) async {
-    final GetParafaitDefaultsUseCase getParafaitDefaultsUseCase = Get.find<GetParafaitDefaultsUseCase>();
-    final response = await getParafaitDefaultsUseCase(siteId ?? 1010);
-    response.fold(
-      (l) => state = const _Error("We couldn't load the app configuration. Contact an Administrator"),
-      (r) async {
-        _parafaitDefaultsResponse = r;
-        _getAllParafaitLanguages(siteId);
-      },
-    );
   }
 }

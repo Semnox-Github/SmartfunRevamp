@@ -27,6 +27,7 @@ import 'package:semnox/features/select_location/pages/map_page.dart';
 import 'package:semnox/features/select_location/pages/select_location_manually_page.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
+import 'package:semnox/features/splash/splashscreen.dart';
 import 'package:semnox/features/transfer/transfer_page.dart';
 
 class Routes {
@@ -68,6 +69,7 @@ class Routes {
 
   static Map<String, WidgetBuilder> get routesMap {
     return {
+      kSplashScreenPage: (BuildContext context) => const SplashScreen(),
       kBookings: (BuildContext context) => const BookingsView(),
       kMore: (BuildContext context) => const MoreView(),
       kHomePage: (BuildContext context) => const HomeView(),

@@ -4,7 +4,6 @@ import 'package:get/instance_manager.dart';
 import 'package:semnox/core/domain/use_cases/authentication/sign_up_user_use_case.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/di/injection_container.dart';
-import 'package:semnox/features/splash/splashscreen.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_set_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
@@ -26,9 +27,9 @@ class ResetPasswordPage extends ConsumerWidget {
               height: MediaQuery.of(context).size.height * 0.3,
               errorWidget: (context, url, error) {
                 Logger().d(error);
-                return Image.asset(
-                  'assets/login/reset_password_success.png',
+                return ImageHandler(
                   height: MediaQuery.of(context).size.height * 0.3,
+                  imageKey: "reset_password_success_image_path",
                 );
               },
             ),

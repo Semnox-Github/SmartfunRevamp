@@ -5,6 +5,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 
 import 'package:semnox/core/widgets/background_card_details.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class ListOfCard extends StatelessWidget {
@@ -59,9 +60,9 @@ class ListOfCard extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () => Dialogs.showBarcodeTempCard(context, i.accountNumber!),
-                        child: Image.asset(
-                          'assets/home/QR.png',
+                        child: const ImageHandler(
                           height: 42.0,
+                          imageKey: "QR_image_path",
                         ),
                       )
                     ],

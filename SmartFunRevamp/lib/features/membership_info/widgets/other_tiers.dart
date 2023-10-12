@@ -1,5 +1,6 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/membership_info/pages/membership_info_page.dart';
 
@@ -22,9 +23,9 @@ class OtherTiers extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset(
-          'assets/membership/${tier.name}.png',
+        ImageHandler(
           height: 100,
+          imageKey: "${tier.name}_image_path",
         ),
         MulishText(
           text: title,

@@ -8,6 +8,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/background_card_details.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/update_nickname_card.dart';
@@ -110,7 +111,9 @@ class CarouselCardItemState extends State<CarouselCardItem> {
   void initState() {
     super.initState();
     card = widget.card;
-    cardNickname = widget.card.accountIdentifier.isNullOrEmpty() ? widget.card.customerName! : widget.card.accountIdentifier!.characters.take(15).toString();
+    cardNickname = widget.card.accountIdentifier.isNullOrEmpty()
+        ? widget.card.customerName!
+        : widget.card.accountIdentifier!.characters.take(15).toString();
   }
 
   @override
@@ -178,9 +181,9 @@ class CarouselCardItemState extends State<CarouselCardItem> {
                   ),
                   GestureDetector(
                     onTap: () => Dialogs.showBarcodeTempCard(context, card.accountNumber!),
-                    child: Image.asset(
-                      'assets/home/QR.png',
+                    child: const ImageHandler(
                       height: 42.0,
+                      imageKey: "QR_image_path",
                     ),
                   )
                 ],

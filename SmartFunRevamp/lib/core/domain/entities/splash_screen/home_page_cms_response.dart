@@ -246,6 +246,8 @@ class CMSImages {
 
   @JsonKey(name: 'logo_image_path')
   final String? logoImagePath;
+  @JsonKey(name: 'coupon_congrats_image_path')
+  final String? couponCongratsImagePath;
   @JsonKey(name: 'blocked_image_path')
   final String? blockedImagePath;
   @JsonKey(name: 'expired_image_path')
@@ -260,8 +262,16 @@ class CMSImages {
   final String? noPromoImagePath;
   @JsonKey(name: 'check_ok_image_path')
   final String? checkOkImagePath;
+  @JsonKey(name: 'bronze_image_path')
+  final String? bronzeImagePath;
+  @JsonKey(name: 'silver_image_path')
+  final String? silverImagePath;
   @JsonKey(name: 'gold_image_path')
   final String? goldImagePath;
+  @JsonKey(name: 'diamond_image_path')
+  final String? diamondImagePath;
+  @JsonKey(name: 'platinum_image_path')
+  final String? platinumImagePath;
   @JsonKey(name: 'payment_failed_image_path')
   final String? paymentFailedImagePath;
   @JsonKey(name: 'recharge_successful_image_path')
@@ -275,6 +285,7 @@ class CMSImages {
   CMSImages(
     this.splashScreenPath,
     this.languagePickImagePath,
+    this.couponCongratsImagePath,
     this.resetPasswordImagePath,
     this.logoImagePath,
     this.blockedImagePath,
@@ -284,7 +295,11 @@ class CMSImages {
     this.barcodeImagePath,
     this.noPromoImagePath,
     this.checkOkImagePath,
+    this.bronzeImagePath,
+    this.silverImagePath,
     this.goldImagePath,
+    this.diamondImagePath,
+    this.platinumImagePath,
     this.paymentFailedImagePath,
     this.rechargeSuccessfulImagePath,
     this.resetPasswordSuccessImagePath,

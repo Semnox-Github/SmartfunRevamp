@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -56,9 +57,9 @@ class CardWidget extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () => Dialogs.showBarcodeTempCard(context, cardDetails.accountNumber ?? ''),
-                child: Image.asset(
-                  'assets/home/QR.png',
+                child: const ImageHandler(
                   height: 42.0,
+                  imageKey: "QR_image_path",
                 ),
               )
             ],
@@ -75,9 +76,8 @@ class CardWidget extends StatelessWidget {
           const SizedBox(height: 20.0),
           Row(
             children: [
-              Image.asset(
-                'assets/payment/coin.png',
-                scale: 0.8,
+              const ImageHandler(
+                imageKey: "coin_image_path",
               ),
               Text(
                 '  \$ ${cardDetails.creditPlusCardBalance!.toStringAsFixed(2)}',

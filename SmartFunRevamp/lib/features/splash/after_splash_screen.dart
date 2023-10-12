@@ -9,7 +9,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
-import 'package:semnox/core/widgets/image_manager.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -47,7 +47,7 @@ class AfterSplashScreen extends ConsumerWidget {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.40,
-              child: const ImageManager(
+              child: const ImageHandler(
                 imageKey: "language_pick_image_path",
               ),
             ),

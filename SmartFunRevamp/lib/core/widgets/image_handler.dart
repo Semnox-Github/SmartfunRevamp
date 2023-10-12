@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
-class ImageManager extends ConsumerWidget {
-  const ImageManager({
+class ImageHandler extends ConsumerWidget {
+  const ImageHandler({
     Key? key,
     required this.imageKey,
   }) : super(key: key);

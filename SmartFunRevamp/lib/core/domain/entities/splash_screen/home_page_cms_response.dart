@@ -243,10 +243,53 @@ class CMSImages {
   @JsonKey(name: 'language_pick_image_path')
   final String languagePickImagePath;
   final String? resetPasswordImagePath;
+
+  @JsonKey(name: 'logo_image_path')
+  final String? logoImagePath;
+  @JsonKey(name: 'blocked_image_path')
+  final String? blockedImagePath;
+  @JsonKey(name: 'expired_image_path')
+  final String? expiredImagePath;
+  @JsonKey(name: 'QR_image_path')
+  final String? qrImagePath;
+  @JsonKey(name: 'coin_image_path')
+  final String? coinImagePath;
+  @JsonKey(name: 'barcode_image_path')
+  final String? barcodeImagePath;
+  @JsonKey(name: 'no_promo_image_path')
+  final String? noPromoImagePath;
+  @JsonKey(name: 'check_ok_image_path')
+  final String? checkOkImagePath;
+  @JsonKey(name: 'gold_image_path')
+  final String? goldImagePath;
+  @JsonKey(name: 'payment_failed_image_path')
+  final String? paymentFailedImagePath;
+  @JsonKey(name: 'recharge_successful_image_path')
+  final String? rechargeSuccessfulImagePath;
+  @JsonKey(name: 'reset_password_success_image_path')
+  final String? resetPasswordSuccessImagePath;
+  @JsonKey(name: 'select_location_image_path')
+  final String? selectLocationImagePath;
+  @JsonKey(name: 'transfer_success_image_path')
+  final String? transferSuccessImagePath;
   CMSImages(
     this.splashScreenPath,
     this.languagePickImagePath,
     this.resetPasswordImagePath,
+    this.logoImagePath,
+    this.blockedImagePath,
+    this.expiredImagePath,
+    this.qrImagePath,
+    this.coinImagePath,
+    this.barcodeImagePath,
+    this.noPromoImagePath,
+    this.checkOkImagePath,
+    this.goldImagePath,
+    this.paymentFailedImagePath,
+    this.rechargeSuccessfulImagePath,
+    this.resetPasswordSuccessImagePath,
+    this.selectLocationImagePath,
+    this.transferSuccessImagePath,
   );
   factory CMSImages.fromJson(Map<String, dynamic> json) => _$CMSImagesFromJson(json);
   Map<String, dynamic> toJson() => _$CMSImagesToJson(this);

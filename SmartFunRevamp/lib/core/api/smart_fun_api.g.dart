@@ -1258,7 +1258,7 @@ class _SmartFunApi implements SmartFunApi {
     final _data = <String, dynamic>{};
     _data.addAll(body);
     await _dio.fetch<void>(_setStreamType<void>(Options(
-      method: 'GET',
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )

@@ -29,7 +29,11 @@ final estimateCouponProvider = StateNotifierProvider.autoDispose<EstimateStatePr
 );
 
 class EstimateStateProvider extends StateNotifier<EstimateState> {
-  EstimateStateProvider(this._estimateTransactionUseCase, this._customer, this._executionContextDTO) : super(const _InProgress());
+  EstimateStateProvider(
+    this._estimateTransactionUseCase,
+    this._customer,
+    this._executionContextDTO,
+  ) : super(const _InProgress());
   final EstimateTransactionUseCase _estimateTransactionUseCase;
   final CustomerDTO _customer;
   // ignore: unused_field
@@ -43,7 +47,12 @@ class EstimateStateProvider extends StateNotifier<EstimateState> {
     state = _TransactionEstimated(_estimateTransactionResponse);
   }
 
-  void getEstimateTransaction(CardProduct card, {DiscountApplicationHistoryDTOList? dtoList, String? cardNumber, int quantity = 1, int? siteId, double finalPrice = 0}) async {
+  void getEstimateTransaction(CardProduct card,
+      {DiscountApplicationHistoryDTOList? dtoList,
+      String? cardNumber,
+      int quantity = 1,
+      int? siteId,
+      double finalPrice = 0}) async {
     final response = await _estimateTransactionUseCase(
       EstimateTransactionRequest(
         siteId: siteId ?? 1010,
@@ -66,8 +75,6 @@ class EstimateStateProvider extends StateNotifier<EstimateState> {
       (l) {
         if (l is InvalidCouponFailure) {
           state = _InvalidCoupon(l.message);
-          // _estimateTransactionResponse.couponDiscountAmount = 10.0;
-          // _estimateTransactionResponse.couponNumber = 'AAAAAAA';
           state = _TransactionEstimated(_estimateTransactionResponse);
         } else {
           state = _Error(l.message);

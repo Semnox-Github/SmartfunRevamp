@@ -6,35 +6,37 @@ class SurveyRequest {
   @JsonKey(name: "CustomerFeedbackSurveyDataDTOList")
   final List<CustomerFeedbackSurveyDataDTO> customerFeedbackSurveyDataDTOList;
   @JsonKey(name: "CustomerFeedbackSurveyMappingDTOList")
-  final List<CustomerFeedbackSurveyMappingDTO>
-      customerFeedbackSurveyMappingDTOList;
+  final List<CustomerFeedbackSurveyMappingDTO> customerFeedbackSurveyMappingDTOList;
 
   SurveyRequest({
     required this.customerFeedbackSurveyDataDTOList,
     required this.customerFeedbackSurveyMappingDTOList,
   });
-  factory SurveyRequest.fromJson(Map<String, dynamic> json) =>
-      _$SurveyRequestFromJson(json);
+  factory SurveyRequest.fromJson(Map<String, dynamic> json) => _$SurveyRequestFromJson(json);
   Map<String, dynamic> toJson() => _$SurveyRequestToJson(this);
 }
 
 @JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class CustomerFeedbackSurveyDataDTO {
-  final int custFbSurveyDataId = -1;
-  final int custFbSurveyDataSetId = -1;
+  final int custFbSurveyDataId;
+  final int custFbSurveyDataSetId;
   final int custFbSurveyDetailId;
   final int? custFbResponseValueId;
-  final String custFbResponseText;
-  final DateTime custFbResponseDate;
-  final bool isActive = true;
-  final bool isChanged = true;
+  final String? custFbResponseText;
+  final String custFbResponseDate;
+  final bool isActive;
+  final bool isChanged;
 
   CustomerFeedbackSurveyDataDTO(
     this.custFbSurveyDetailId,
     this.custFbResponseValueId,
     this.custFbResponseText,
-    this.custFbResponseDate,
-  );
+    this.custFbResponseDate, {
+    this.custFbSurveyDataId = -1,
+    this.custFbSurveyDataSetId = -1,
+    this.isActive = true,
+    this.isChanged = true,
+  });
   factory CustomerFeedbackSurveyDataDTO.fromJson(Map<String, dynamic> json) =>
       _$CustomerFeedbackSurveyDataDTOFromJson(json);
   Map<String, dynamic> toJson() => _$CustomerFeedbackSurveyDataDTOToJson(this);
@@ -42,23 +44,28 @@ class CustomerFeedbackSurveyDataDTO {
 
 @JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class CustomerFeedbackSurveyMappingDTO {
-  final int custFbSurveyMapId = -1;
-  final String objectName = "TRX_HEADER";
+  final int custFbSurveyMapId;
+  final String objectName;
   final int objectId;
-  final int custFbSurveyDataSetId = -1;
-  final int visitCount = 0;
-  final int lastCustFbSurveyDetailId = 1;
-  final DateTime custFbResponseDate;
-  final bool isActive = true;
-  final bool isChanged = true;
+  final int custFbSurveyDataSetId;
+  final int visitCount;
+  final int lastCustFbSurveyDetailId;
+  final String custFbResponseDate;
+  final bool isActive;
+  final bool isChanged;
 
   CustomerFeedbackSurveyMappingDTO(
     this.objectId,
-    this.custFbResponseDate,
-  );
-  factory CustomerFeedbackSurveyMappingDTO.fromJson(
-          Map<String, dynamic> json) =>
+    this.custFbResponseDate, {
+    this.custFbSurveyMapId = -1,
+    this.objectName = "TRX_HEADER",
+    this.custFbSurveyDataSetId = -1,
+    this.visitCount = 0,
+    this.lastCustFbSurveyDetailId = 1,
+    this.isActive = true,
+    this.isChanged = true,
+  });
+  factory CustomerFeedbackSurveyMappingDTO.fromJson(Map<String, dynamic> json) =>
       _$CustomerFeedbackSurveyMappingDTOFromJson(json);
-  Map<String, dynamic> toJson() =>
-      _$CustomerFeedbackSurveyMappingDTOToJson(this);
+  Map<String, dynamic> toJson() => _$CustomerFeedbackSurveyMappingDTOToJson(this);
 }

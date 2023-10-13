@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:logger/logger.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/payment/provider/feedback_provider.dart';
@@ -22,8 +24,7 @@ class FeedbackPage extends ConsumerWidget {
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: surveyProvider.when(
-          loading: () =>
-              const Center(child: CircularProgressIndicator.adaptive()),
+          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
           error: (_, __) {
             return Column(
               mainAxisSize: MainAxisSize.min,
@@ -34,8 +35,7 @@ class FeedbackPage extends ConsumerWidget {
                   color: Colors.red,
                 ),
                 MulishText(
-                  text: SplashScreenNotifier.getLanguageLabel(
-                      'There was an error'),
+                  text: SplashScreenNotifier.getLanguageLabel('There was an error'),
                 )
               ],
             );
@@ -55,20 +55,22 @@ class FeedbackPage extends ConsumerWidget {
                         postFeedback,
                         (previous, next) {
                           next.when(
-                            error: (_, __) => {},
+                            error: (error, stacktrace) {
+                              Logger().e("Error", error, stacktrace);
+                              context.loaderOverlay.hide();
+                              Dialogs.showErrorMessage(context, 'Error Sending The Feedback');
+                            },
                             loading: () => context.loaderOverlay.show(),
                             data: (_) {
                               context.loaderOverlay.hide();
-                              Navigator.popUntil(
-                                  context, (route) => route.isFirst);
+                              Navigator.popUntil(context, (route) => route.isFirst);
                             },
                           );
                         },
                         fireImmediately: true,
                       );
                     },
-                    label:
-                        SplashScreenNotifier.getLanguageLabel('Send Feedback'),
+                    label: SplashScreenNotifier.getLanguageLabel('Send Feedback'),
                     margin: const EdgeInsets.only(top: 10.0),
                   )
                 ]),

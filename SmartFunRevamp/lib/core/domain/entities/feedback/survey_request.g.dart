@@ -37,13 +37,19 @@ CustomerFeedbackSurveyDataDTO _$CustomerFeedbackSurveyDataDTOFromJson(
     CustomerFeedbackSurveyDataDTO(
       json['CustFbSurveyDetailId'] as int,
       json['CustFbResponseValueId'] as int?,
-      json['CustFbResponseText'] as String,
-      DateTime.parse(json['CustFbResponseDate'] as String),
+      json['CustFbResponseText'] as String?,
+      json['CustFbResponseDate'] as String,
+      custFbSurveyDataId: json['CustFbSurveyDataId'] as int? ?? -1,
+      custFbSurveyDataSetId: json['CustFbSurveyDataSetId'] as int? ?? -1,
+      isActive: json['IsActive'] as bool? ?? true,
+      isChanged: json['IsChanged'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$CustomerFeedbackSurveyDataDTOToJson(
     CustomerFeedbackSurveyDataDTO instance) {
   final val = <String, dynamic>{
+    'CustFbSurveyDataId': instance.custFbSurveyDataId,
+    'CustFbSurveyDataSetId': instance.custFbSurveyDataSetId,
     'CustFbSurveyDetailId': instance.custFbSurveyDetailId,
   };
 
@@ -54,8 +60,10 @@ Map<String, dynamic> _$CustomerFeedbackSurveyDataDTOToJson(
   }
 
   writeNotNull('CustFbResponseValueId', instance.custFbResponseValueId);
-  val['CustFbResponseText'] = instance.custFbResponseText;
-  val['CustFbResponseDate'] = instance.custFbResponseDate.toIso8601String();
+  writeNotNull('CustFbResponseText', instance.custFbResponseText);
+  val['CustFbResponseDate'] = instance.custFbResponseDate;
+  val['IsActive'] = instance.isActive;
+  val['IsChanged'] = instance.isChanged;
   return val;
 }
 
@@ -63,12 +71,26 @@ CustomerFeedbackSurveyMappingDTO _$CustomerFeedbackSurveyMappingDTOFromJson(
         Map<String, dynamic> json) =>
     CustomerFeedbackSurveyMappingDTO(
       json['ObjectId'] as int,
-      DateTime.parse(json['CustFbResponseDate'] as String),
+      json['CustFbResponseDate'] as String,
+      custFbSurveyMapId: json['CustFbSurveyMapId'] as int? ?? -1,
+      objectName: json['ObjectName'] as String? ?? "TRX_HEADER",
+      custFbSurveyDataSetId: json['CustFbSurveyDataSetId'] as int? ?? -1,
+      visitCount: json['VisitCount'] as int? ?? 0,
+      lastCustFbSurveyDetailId: json['LastCustFbSurveyDetailId'] as int? ?? 1,
+      isActive: json['IsActive'] as bool? ?? true,
+      isChanged: json['IsChanged'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$CustomerFeedbackSurveyMappingDTOToJson(
         CustomerFeedbackSurveyMappingDTO instance) =>
     <String, dynamic>{
+      'CustFbSurveyMapId': instance.custFbSurveyMapId,
+      'ObjectName': instance.objectName,
       'ObjectId': instance.objectId,
-      'CustFbResponseDate': instance.custFbResponseDate.toIso8601String(),
+      'CustFbSurveyDataSetId': instance.custFbSurveyDataSetId,
+      'VisitCount': instance.visitCount,
+      'LastCustFbSurveyDetailId': instance.lastCustFbSurveyDetailId,
+      'CustFbResponseDate': instance.custFbResponseDate,
+      'IsActive': instance.isActive,
+      'IsChanged': instance.isChanged,
     };

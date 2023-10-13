@@ -41,9 +41,9 @@ abstract class SmartFunApi {
       AuthorizationInterceptor(),
       PrettyDioLogger(
         requestBody: true,
-        responseBody: true,
+        responseBody: false,
         requestHeader: true,
-        responseHeader: true,
+        responseHeader: false,
         request: true,
         error: true,
         compact: true,
@@ -263,7 +263,7 @@ abstract class SmartFunApi {
   @POST('Customer/Account/AccountService/LostCard')
   Future<Data<String>> lostCard(@Body() Map<String, dynamic> body);
 
-  @GET('Customer/FeedbackSurvey/FeedbackSurveyDataSet')
+  @POST('Customer/FeedbackSurvey/FeedbackSurveyDataSet')
   Future<void> sendCustomerFeedback(
     @Body() Map<String, dynamic> body,
   );

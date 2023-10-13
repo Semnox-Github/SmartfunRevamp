@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -48,6 +49,7 @@ void main() async {
       return true;
     };
   }
+  CachedNetworkImage.logLevel = CacheManagerLogLevel.none;
   di.init();
   runApp(const MyApp());
 }

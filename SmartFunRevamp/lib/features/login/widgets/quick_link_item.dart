@@ -21,6 +21,7 @@ class QuickLinkItem extends StatelessWidget {
       child: Column(
         children: [
           Container(
+            height: 70.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               color: color,

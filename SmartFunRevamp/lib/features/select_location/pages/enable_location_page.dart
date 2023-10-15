@@ -57,9 +57,7 @@ class EnableLocationPage extends StatelessWidget {
               children: [
                 CustomButton(
                   onTap: () async {
-                    // if (await PermissionServices.getLocationPermision()) {
                     Navigator.pushNamed(context, Routes.kMap);
-                    // }
                   },
                   label: SplashScreenNotifier.getLanguageLabel('ENABLE LOCATION SERVICES'),
                 ),

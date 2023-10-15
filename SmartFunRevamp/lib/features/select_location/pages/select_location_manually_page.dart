@@ -22,11 +22,11 @@ class SelectLocationManuallyPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     late SiteViewDTO selectedSite;
-    late CustomerDTO? customer = ref.watch(customDTOProvider).valueOrNull;
+    late CustomerDTO? customer = ref.watch(userProvider);
     try {
       customer = Get.find<CustomerDTO>();
     } catch (e) {
-      customer = ref.watch(customDTOProvider).valueOrNull;
+      customer = ref.watch(userProvider);
     }
     ref.listen(
       selectLocationStateProvider,

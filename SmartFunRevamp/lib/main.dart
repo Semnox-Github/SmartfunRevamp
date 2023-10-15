@@ -43,6 +43,7 @@ void main() async {
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
       FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
     };
+
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;

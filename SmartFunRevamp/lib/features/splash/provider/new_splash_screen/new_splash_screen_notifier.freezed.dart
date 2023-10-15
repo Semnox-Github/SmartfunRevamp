@@ -27,6 +27,7 @@ mixin _$NewSplashScreenState {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)
         success,
   }) =>
@@ -42,6 +43,7 @@ mixin _$NewSplashScreenState {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)?
         success,
   }) =>
@@ -57,6 +59,7 @@ mixin _$NewSplashScreenState {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)?
         success,
     required TResult orElse(),
@@ -156,6 +159,7 @@ class _$_InProgress implements _InProgress {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)
         success,
   }) {
@@ -174,6 +178,7 @@ class _$_InProgress implements _InProgress {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)?
         success,
   }) {
@@ -192,6 +197,7 @@ class _$_InProgress implements _InProgress {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)?
         success,
     required TResult orElse(),
@@ -316,6 +322,7 @@ class _$_Error implements _Error {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)
         success,
   }) {
@@ -334,6 +341,7 @@ class _$_Error implements _Error {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)?
         success,
   }) {
@@ -352,6 +360,7 @@ class _$_Error implements _Error {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)?
         success,
     required TResult orElse(),
@@ -485,6 +494,7 @@ class _$_RetrievedSplashImageURL implements _RetrievedSplashImageURL {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)
         success,
   }) {
@@ -503,6 +513,7 @@ class _$_RetrievedSplashImageURL implements _RetrievedSplashImageURL {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)?
         success,
   }) {
@@ -521,6 +532,7 @@ class _$_RetrievedSplashImageURL implements _RetrievedSplashImageURL {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)?
         success,
     required TResult orElse(),
@@ -592,6 +604,7 @@ abstract class _$$_SuccessCopyWith<$Res> {
       SiteViewDTO siteViewDTO,
       ParafaitDefaultsResponse parafaitDefaultsResponse,
       bool needsSiteSelection,
+      CustomerDTO? customer,
       NotificationsData? notificationsData});
 }
 
@@ -610,6 +623,7 @@ class __$$_SuccessCopyWithImpl<$Res>
     Object? siteViewDTO = null,
     Object? parafaitDefaultsResponse = null,
     Object? needsSiteSelection = null,
+    Object? customer = freezed,
     Object? notificationsData = freezed,
   }) {
     return _then(_$_Success(
@@ -633,6 +647,10 @@ class __$$_SuccessCopyWithImpl<$Res>
           ? _value.needsSiteSelection
           : needsSiteSelection // ignore: cast_nullable_to_non_nullable
               as bool,
+      customer: freezed == customer
+          ? _value.customer
+          : customer // ignore: cast_nullable_to_non_nullable
+              as CustomerDTO?,
       notificationsData: freezed == notificationsData
           ? _value.notificationsData
           : notificationsData // ignore: cast_nullable_to_non_nullable
@@ -650,6 +668,7 @@ class _$_Success implements _Success {
       required this.siteViewDTO,
       required this.parafaitDefaultsResponse,
       required this.needsSiteSelection,
+      required this.customer,
       required this.notificationsData});
 
   @override
@@ -663,11 +682,13 @@ class _$_Success implements _Success {
   @override
   final bool needsSiteSelection;
   @override
+  final CustomerDTO? customer;
+  @override
   final NotificationsData? notificationsData;
 
   @override
   String toString() {
-    return 'NewSplashScreenState.success(homePageCMSResponse: $homePageCMSResponse, languageContainerDTO: $languageContainerDTO, siteViewDTO: $siteViewDTO, parafaitDefaultsResponse: $parafaitDefaultsResponse, needsSiteSelection: $needsSiteSelection, notificationsData: $notificationsData)';
+    return 'NewSplashScreenState.success(homePageCMSResponse: $homePageCMSResponse, languageContainerDTO: $languageContainerDTO, siteViewDTO: $siteViewDTO, parafaitDefaultsResponse: $parafaitDefaultsResponse, needsSiteSelection: $needsSiteSelection, customer: $customer, notificationsData: $notificationsData)';
   }
 
   @override
@@ -686,6 +707,8 @@ class _$_Success implements _Success {
                 other.parafaitDefaultsResponse == parafaitDefaultsResponse) &&
             (identical(other.needsSiteSelection, needsSiteSelection) ||
                 other.needsSiteSelection == needsSiteSelection) &&
+            (identical(other.customer, customer) ||
+                other.customer == customer) &&
             (identical(other.notificationsData, notificationsData) ||
                 other.notificationsData == notificationsData));
   }
@@ -698,6 +721,7 @@ class _$_Success implements _Success {
       siteViewDTO,
       parafaitDefaultsResponse,
       needsSiteSelection,
+      customer,
       notificationsData);
 
   @JsonKey(ignore: true)
@@ -718,11 +742,18 @@ class _$_Success implements _Success {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)
         success,
   }) {
-    return success(homePageCMSResponse, languageContainerDTO, siteViewDTO,
-        parafaitDefaultsResponse, needsSiteSelection, notificationsData);
+    return success(
+        homePageCMSResponse,
+        languageContainerDTO,
+        siteViewDTO,
+        parafaitDefaultsResponse,
+        needsSiteSelection,
+        customer,
+        notificationsData);
   }
 
   @override
@@ -737,11 +768,18 @@ class _$_Success implements _Success {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)?
         success,
   }) {
-    return success?.call(homePageCMSResponse, languageContainerDTO, siteViewDTO,
-        parafaitDefaultsResponse, needsSiteSelection, notificationsData);
+    return success?.call(
+        homePageCMSResponse,
+        languageContainerDTO,
+        siteViewDTO,
+        parafaitDefaultsResponse,
+        needsSiteSelection,
+        customer,
+        notificationsData);
   }
 
   @override
@@ -756,13 +794,20 @@ class _$_Success implements _Success {
             SiteViewDTO siteViewDTO,
             ParafaitDefaultsResponse parafaitDefaultsResponse,
             bool needsSiteSelection,
+            CustomerDTO? customer,
             NotificationsData? notificationsData)?
         success,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(homePageCMSResponse, languageContainerDTO, siteViewDTO,
-          parafaitDefaultsResponse, needsSiteSelection, notificationsData);
+      return success(
+          homePageCMSResponse,
+          languageContainerDTO,
+          siteViewDTO,
+          parafaitDefaultsResponse,
+          needsSiteSelection,
+          customer,
+          notificationsData);
     }
     return orElse();
   }
@@ -813,6 +858,7 @@ abstract class _Success implements NewSplashScreenState {
       required final SiteViewDTO siteViewDTO,
       required final ParafaitDefaultsResponse parafaitDefaultsResponse,
       required final bool needsSiteSelection,
+      required final CustomerDTO? customer,
       required final NotificationsData? notificationsData}) = _$_Success;
 
   HomePageCMSResponse get homePageCMSResponse;
@@ -820,6 +866,7 @@ abstract class _Success implements NewSplashScreenState {
   SiteViewDTO get siteViewDTO;
   ParafaitDefaultsResponse get parafaitDefaultsResponse;
   bool get needsSiteSelection;
+  CustomerDTO? get customer;
   NotificationsData? get notificationsData;
   @JsonKey(ignore: true)
   _$$_SuccessCopyWith<_$_Success> get copyWith =>

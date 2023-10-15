@@ -129,17 +129,16 @@ class MoreOptionItemFromCMS extends StatelessWidget {
             membershipInfo?.membershipValidity.formatDate('dd MMM yyyy') ?? '',
           )
         : item.description ?? 'Please add a description to the CMS';
-
     return MoreOptions(
       item: item,
       desc: description,
       iconBgColor: Colors.white,
       iconPath: 'gold_medal',
       onTap: () {
-        if (Routes.routesMap.containsKey(item.target)) {
-          Navigator.pushNamed(context, item.target ?? "");
-        } else {
+        if (item.target == null) {
           Fluttertoast.showToast(msg: "URL is not configured");
+        } else {
+          Navigator.pushNamed(context, item.target!.replaceAll('sf:/', ''));
         }
       },
       title: item.displayName,

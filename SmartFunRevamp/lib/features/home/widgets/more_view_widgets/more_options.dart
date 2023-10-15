@@ -56,6 +56,7 @@ class MoreOptions extends StatelessWidget {
                 height: 36,
                 width: 36,
                 placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
+                //this image ('gold_medal') looks like a placeholder for this error widget
                 errorWidget: (context, url, error) => Image.asset(
                   'assets/home/$iconPath.png',
                   height: 36.0,

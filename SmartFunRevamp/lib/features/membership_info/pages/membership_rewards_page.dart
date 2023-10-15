@@ -8,6 +8,7 @@ import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/membership_info/provider/membership_rewards_provider.dart';
@@ -130,7 +131,8 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                                           text: 'Bonus',
                                         ),
                                         MulishText(
-                                          text: '${data[index].periodFrom.formatDate(DateFormat.YEAR_MONTH_DAY)} ${data[index].periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
+                                          text:
+                                              '${data[index].periodFrom.formatDate(DateFormat.YEAR_MONTH_DAY)} ${data[index].periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
                                           fontSize: 10.0,
                                         ),
                                       ],
@@ -222,9 +224,9 @@ class CardCustomWidget extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () => Dialogs.showBarcodeTempCard(context, card.accountNumber!),
-                child: Image.asset(
-                  'assets/home/QR.png',
+                child: const ImageHandler(
                   height: 42.0,
+                  imageKey: "QR_image_path",
                 ),
               )
             ],

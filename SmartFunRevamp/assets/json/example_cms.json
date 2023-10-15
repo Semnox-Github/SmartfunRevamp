@@ -907,7 +907,26 @@
       ],
       "images": {
         "splash_screen_image_path": "https://parafaitapihqdemo.parafait.com/images/AppBackground.png",
-        "language_pick_image_path": "https://i.imgur.com/MbqH9I4.png"
+        "language_pick_image_path": "https://i.imgur.com/MbqH9I4.png",
+        "logo_image_path": "https://placehold.co/1200x400.png",
+        "coupon_congrats_image_path": "https://placehold.co/1200x400.png",
+        "blocked_image_path": "https://placehold.co/1200x400.png",
+        "expired_image_path": "https://placehold.co/1200x400.png",
+        "QR_image_path": "https://placehold.co/1200x400.png",
+        "coin_image_path": "https://placehold.co/1200x400.png",
+        "barcode_image_path": "https://placehold.co/1200x400.png",
+        "no_promo_image_path": "https://placehold.co/1200x400.png",
+        "check_ok_image_path": "https://placehold.co/1200x400.png",
+        "bronze_image_path": "https://placehold.co/1200x400.png",
+        "silver_image_path": "https://placehold.co/1200x400.png",
+        "gold_image_path": "https://placehold.co/1200x400.png",
+        "diamond_image_path": "https://placehold.co/1200x400.png",
+        "platinum_image_path": "https://placehold.co/1200x400.png",
+        "payment_failed_image_path": "https://placehold.co/1200x400.png",
+        "recharge_successful_image_path": "https://placehold.co/1200x400.png",
+        "reset_password_success_image_path": "https://placehold.co/1200x400.png",
+        "select_location_image_path": "https://placehold.co/1200x400.png",
+        "transfer_success_image_path": "https://placehold.co/1200x400.png"
       },
       "IsChanged": true,
       "IsChangedRecursive": true

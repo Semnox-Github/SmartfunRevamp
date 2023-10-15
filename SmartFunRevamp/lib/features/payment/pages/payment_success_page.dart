@@ -7,6 +7,7 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/background_card_details.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -38,21 +39,21 @@ class PaymentSuccessPage extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/payment/recharge_successful.png',
+              ImageHandler(
                 height: MediaQuery.of(context).size.height * 0.25,
+                imageKey: "recharge_successful_image_path",
               ),
               const SizedBox(height: 10.0),
-              const MulishText(
+              MulishText(
                 textAlign: TextAlign.center,
-                text: 'Payment Successful',
+                text: SplashScreenNotifier.getLanguageLabel('Payment Successful'),
                 fontColor: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
               ),
-              const MulishText(
+              MulishText(
                 textAlign: TextAlign.center,
-                text: 'Your new card has been added to your account',
+                text: SplashScreenNotifier.getLanguageLabel('Your new card has been added to your account'),
                 fontColor: Colors.black45,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -96,9 +97,9 @@ class PaymentSuccessPage extends ConsumerWidget {
                             ),
                             GestureDetector(
                               onTap: () => Dialogs.showBarcodeTempCard(context, cardNumber!),
-                              child: Image.asset(
-                                'assets/home/QR.png',
+                              child: const ImageHandler(
                                 height: 42.0,
+                                imageKey: "QR_image_path",
                               ),
                             )
                           ],
@@ -115,9 +116,8 @@ class PaymentSuccessPage extends ConsumerWidget {
                         const SizedBox(height: 20.0),
                         Row(
                           children: [
-                            Image.asset(
-                              'assets/payment/coin.png',
-                              scale: 0.8,
+                            const ImageHandler(
+                              imageKey: "coin_image_path",
                             ),
                             Text(
                               fixedAmount,
@@ -169,9 +169,9 @@ class PaymentSuccessPage extends ConsumerWidget {
           margin: const EdgeInsets.all(3),
           child: TextButton(
             onPressed: () => Navigator.pushReplacementNamed(context, Routes.kFeedback),
-            child: const Text(
-              'BACK TO HOME',
-              style: TextStyle(
+            child: Text(
+              SplashScreenNotifier.getLanguageLabel('BACK TO HOME'),
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -185,14 +185,14 @@ class PaymentSuccessPage extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/payment/recharge_successful.png',
+              ImageHandler(
                 height: MediaQuery.of(context).size.height * 0.25,
+                imageKey: "recharge_successful_image_path",
               ),
               const SizedBox(height: 10.0),
-              const MulishText(
+              MulishText(
                 textAlign: TextAlign.center,
-                text: 'Recharge Successful',
+                text: SplashScreenNotifier.getLanguageLabel('Recharge Successful'),
                 fontColor: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
@@ -216,9 +216,9 @@ class PaymentSuccessPage extends ConsumerWidget {
           margin: const EdgeInsets.all(3),
           child: TextButton(
             onPressed: () => Navigator.pushReplacementNamed(context, Routes.kFeedback),
-            child: const Text(
-              'BACK TO HOME',
-              style: TextStyle(
+            child: Text(
+              SplashScreenNotifier.getLanguageLabel('BACK TO HOME'),
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),

@@ -6,6 +6,7 @@ import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response
 
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
@@ -70,15 +71,15 @@ class BackgroundCard extends ConsumerWidget {
         Center(
           child: Container(
             alignment: Alignment.center,
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/lost_card/blocked.png',
+                ImageHandler(
                   height: 70,
+                  imageKey: "blocked_image_path",
                 ),
-                const SizedBox(height: 10.0),
-                const MulishText(
+                SizedBox(height: 10.0),
+                MulishText(
                   text: 'VIRTUAL',
                   fontColor: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -92,15 +93,15 @@ class BackgroundCard extends ConsumerWidget {
         Center(
           child: Container(
             alignment: Alignment.center,
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/expired_card/expired.png',
+                ImageHandler(
                   height: 70,
+                  imageKey: "expired_image_path",
                 ),
-                const SizedBox(height: 10.0),
-                const MulishText(
+                SizedBox(height: 10.0),
+                MulishText(
                   text: 'EXPIRED',
                   fontColor: Colors.white,
                   fontWeight: FontWeight.bold,

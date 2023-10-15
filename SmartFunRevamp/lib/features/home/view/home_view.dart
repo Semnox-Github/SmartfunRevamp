@@ -14,6 +14,7 @@ import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
@@ -389,7 +390,9 @@ class PromoImages extends ConsumerWidget {
           loading: () => const Center(child: CircularProgressIndicator.adaptive()),
           data: (images) {
             if (images.isEmpty) {
-              return Image.asset('assets/home/no_promo_image.png');
+              return const ImageHandler(
+                imageKey: "no_promo_image_path",
+              );
             }
             return CarouselSlider(
               options: CarouselOptions(

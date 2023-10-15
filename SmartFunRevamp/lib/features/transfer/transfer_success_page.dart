@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/pages/home_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -19,19 +20,20 @@ class TransferSuccessPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Spacer(),
-            Image.asset(
-              'assets/card_details/transfer_success.png',
+            ImageHandler(
               height: MediaQuery.of(context).size.height * 0.3,
+              imageKey: "transfer_success_image_path",
             ),
-            const MulishText(
+            MulishText(
               textAlign: TextAlign.center,
-              text: 'Transfer Successful',
+              text: SplashScreenNotifier.getLanguageLabel('Transfer Successful'),
               fontWeight: FontWeight.bold,
               fontSize: 20.0,
             ),
             MulishText(
               textAlign: TextAlign.center,
-              text: 'You have successfully transfered ${transferBalance.amount} ${transferBalance.entitlement} to card number ${transferBalance.to.accountNumber}',
+              text:
+                  'You have successfully transfered ${transferBalance.amount} ${transferBalance.entitlement} to card number ${transferBalance.to.accountNumber}',
               fontSize: 16.0,
             ),
             const Spacer(),

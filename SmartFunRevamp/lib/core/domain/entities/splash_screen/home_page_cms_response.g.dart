@@ -195,7 +195,26 @@ Map<String, dynamic> _$CMSMenuItemToJson(CMSMenuItem instance) {
 CMSImages _$CMSImagesFromJson(Map<String, dynamic> json) => CMSImages(
       json['splash_screen_image_path'] as String,
       json['language_pick_image_path'] as String,
+      json['coupon_congrats_image_path'] as String?,
       json['reset_password_image_path'] as String?,
+      json['logo_image_path'] as String?,
+      json['blocked_image_path'] as String?,
+      json['expired_image_path'] as String?,
+      json['QR_image_path'] as String?,
+      json['coin_image_path'] as String?,
+      json['barcode_image_path'] as String?,
+      json['no_promo_image_path'] as String?,
+      json['check_ok_image_path'] as String?,
+      json['bronze_image_path'] as String?,
+      json['silver_image_path'] as String?,
+      json['gold_image_path'] as String?,
+      json['diamond_image_path'] as String?,
+      json['platinum_image_path'] as String?,
+      json['payment_failed_image_path'] as String?,
+      json['recharge_successful_image_path'] as String?,
+      json['reset_password_success_image_path'] as String?,
+      json['select_location_image_path'] as String?,
+      json['transfer_success_image_path'] as String?,
     );
 
 Map<String, dynamic> _$CMSImagesToJson(CMSImages instance) {
@@ -211,6 +230,28 @@ Map<String, dynamic> _$CMSImagesToJson(CMSImages instance) {
   }
 
   writeNotNull('reset_password_image_path', instance.resetPasswordImagePath);
+  writeNotNull('logo_image_path', instance.logoImagePath);
+  writeNotNull('coupon_congrats_image_path', instance.couponCongratsImagePath);
+  writeNotNull('blocked_image_path', instance.blockedImagePath);
+  writeNotNull('expired_image_path', instance.expiredImagePath);
+  writeNotNull('QR_image_path', instance.qrImagePath);
+  writeNotNull('coin_image_path', instance.coinImagePath);
+  writeNotNull('barcode_image_path', instance.barcodeImagePath);
+  writeNotNull('no_promo_image_path', instance.noPromoImagePath);
+  writeNotNull('check_ok_image_path', instance.checkOkImagePath);
+  writeNotNull('bronze_image_path', instance.bronzeImagePath);
+  writeNotNull('silver_image_path', instance.silverImagePath);
+  writeNotNull('gold_image_path', instance.goldImagePath);
+  writeNotNull('diamond_image_path', instance.diamondImagePath);
+  writeNotNull('platinum_image_path', instance.platinumImagePath);
+  writeNotNull('payment_failed_image_path', instance.paymentFailedImagePath);
+  writeNotNull(
+      'recharge_successful_image_path', instance.rechargeSuccessfulImagePath);
+  writeNotNull('reset_password_success_image_path',
+      instance.resetPasswordSuccessImagePath);
+  writeNotNull('select_location_image_path', instance.selectLocationImagePath);
+  writeNotNull(
+      'transfer_success_image_path', instance.transferSuccessImagePath);
   return val;
 }
 

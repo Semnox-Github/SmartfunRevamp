@@ -14,6 +14,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
+import 'package:semnox/core/domain/entities/feedback/survey_request.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
@@ -265,7 +266,7 @@ abstract class SmartFunApi {
 
   @POST('Customer/FeedbackSurvey/FeedbackSurveyDataSet')
   Future<void> sendCustomerFeedback(
-    @Body() Map<String, dynamic> body,
+    @Body() List<SurveyRequest> body,
   );
 
   @POST('CommonServices/GenericOTP/Create')

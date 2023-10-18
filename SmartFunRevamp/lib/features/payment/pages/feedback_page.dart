@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -58,12 +59,34 @@ class FeedbackPage extends ConsumerWidget {
                             error: (error, stacktrace) {
                               Logger().e("Error", error, stacktrace);
                               context.loaderOverlay.hide();
-                              Dialogs.showErrorMessage(context, 'Error Sending The Feedback');
+                              Dialogs.showErrorMessage(
+                                context,
+                                'Error Sending The Feedback',
+                                onOkPress: () => {
+                                  Navigator.popUntil(context, (route) => route.isFirst),
+                                },
+                              );
                             },
                             loading: () => context.loaderOverlay.show(),
                             data: (_) {
                               context.loaderOverlay.hide();
-                              Navigator.popUntil(context, (route) => route.isFirst);
+                              AwesomeDialog(
+                                context: context,
+                                dialogType: DialogType.success,
+                                headerAnimationLoop: false,
+                                animType: AnimType.scale,
+                                title: 'Feedback',
+                                desc: 'Thank you for your feedback',
+                                descTextStyle: const TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 18,
+                                ),
+                                btnOkOnPress: () {
+                                  Navigator.popUntil(context, (route) => route.isFirst);
+                                },
+                                btnOkText: SplashScreenNotifier.getLanguageLabel('OK'),
+                                btnOkColor: Colors.blue,
+                              ).show();
                             },
                           );
                         },

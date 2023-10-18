@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/services.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
@@ -40,16 +39,8 @@ class FeedbackRepositoryImpl implements FeedbackRepository {
   @override
   Future<Either<Failure, void>> postCustomerFeedback(SurveyRequest request) async {
     try {
-      Logger().wtf(request.toJson());
-      final r = {
-        "data": [request.toJson()]
-      };
-      Logger().d(r);
-      await _api.sendCustomerFeedback({
-        "data": [
-          request.toJson(),
-        ]
-      });
+      final body = [request];
+      await _api.sendCustomerFeedback(body);
       return const Right(null);
     } on Exception catch (e) {
       return Left(e.handleException());

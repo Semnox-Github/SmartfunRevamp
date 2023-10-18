@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/utils/extensions.dart';
 
@@ -55,15 +56,16 @@ class BlockedCardWidget extends StatelessWidget {
                     ]),
                   ],
                 ),
-                Image.asset(
-                  'assets/home/QR.png',
+                const ImageHandler(
                   height: 42,
+                  imageKey: "QR_image_path",
                 )
               ],
             ),
             const SizedBox(height: 10.0),
             MulishText(
-              text: '${formatter.format(cardDetails.issueDate ?? DateTime.now())} -${formatter.format(DateTime.parse(cardDetails.expiryDate.toString()))}',
+              text:
+                  '${formatter.format(cardDetails.issueDate ?? DateTime.now())} -${formatter.format(DateTime.parse(cardDetails.expiryDate.toString()))}',
               fontColor: Colors.white,
             )
           ],
@@ -71,15 +73,15 @@ class BlockedCardWidget extends StatelessWidget {
       ),
       Container(
         alignment: Alignment.center,
-        child: Column(
+        child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/lost_card/blocked.png',
+            ImageHandler(
               height: 70,
+              imageKey: "blocked_image_path",
             ),
-            const SizedBox(height: 10.0),
-            const MulishText(
+            SizedBox(height: 10.0),
+            MulishText(
               text: 'BLOCKED',
               fontColor: Colors.black,
               fontWeight: FontWeight.bold,

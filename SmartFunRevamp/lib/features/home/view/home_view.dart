@@ -6,7 +6,6 @@ import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
@@ -15,6 +14,7 @@ import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/buy_new_card_button.dart';
@@ -30,7 +30,6 @@ import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.da
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -84,14 +83,13 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class _HomeViewState extends ConsumerState<HomeView> {
-  final user = Get.find<CustomerDTO>();
   int _cardIndex = -1;
 
   @override
   Widget build(BuildContext context) {
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     final homeColor = ref.watch(homeColors);
-
+    final user = ref.watch(userProvider);
     final itemsOrder =
         ref.watch(newHomePageCMSProvider)?.homePageOrder.sorted((a, b) => a.position.compareTo(b.position));
     itemsOrder?.removeWhere((element) => !element.isVisible);
@@ -127,10 +125,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 ),
                 Container(
                   color: CustomColors.customLigthBlue,
-                  padding: const EdgeInsets.only(bottom: 10.0),
+                  padding: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
                   child: Row(
                     children: [
-                      ProfilePicture(customerDTO: user),
+                      ProfilePicture(customerDTO: user!),
                       const SizedBox(width: 10.0),
                       Column(
                         mainAxisSize: MainAxisSize.min,
@@ -180,7 +178,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             switch (e.widget) {
                               case "CARDS":
                                 return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                                   decoration: BoxDecoration(
                                     color: HexColor.fromHex(homeColor?.upperHalf) ?? CustomColors.customLigthBlue,
                                     borderRadius: BorderRadius.circular(15.0),
@@ -240,7 +238,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 );
                               case "LINKS":
                                 return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
@@ -337,7 +335,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 );
                               case "CAROUSEL":
                                 return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
@@ -392,7 +390,9 @@ class PromoImages extends ConsumerWidget {
           loading: () => const Center(child: CircularProgressIndicator.adaptive()),
           data: (images) {
             if (images.isEmpty) {
-              return Image.asset('assets/home/no_promo_image.png');
+              return const ImageHandler(
+                imageKey: "no_promo_image_path",
+              );
             }
             return CarouselSlider(
               options: CarouselOptions(

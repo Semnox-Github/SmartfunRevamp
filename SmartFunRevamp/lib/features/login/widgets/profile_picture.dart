@@ -16,14 +16,9 @@ class ProfilePicture extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fInitial =
-        customerDTO.firstName!.isNotEmpty ? '${customerDTO.firstName?[0]}' : '';
-    final lInitial =
-        customerDTO.lastName!.isNotEmpty ? '${customerDTO.lastName?[0]}' : '';
-    final noImageColor = ref
-        .watch(newHomePageCMSProvider)
-        ?.cmsModuleColorsHome
-        ?.profilePictureGradient;
+    final fInitial = customerDTO.firstName!.isNotEmpty ? '${customerDTO.firstName?[0]}' : '';
+    final lInitial = customerDTO.lastName!.isNotEmpty ? '${customerDTO.lastName?[0]}' : '';
+    final noImageColor = ref.watch(newHomePageCMSProvider)?.cmsModuleColorsHome?.profilePictureGradient;
 
     return InkWell(
       onTap: () => Navigator.pushNamed(context, Routes.kAccount),

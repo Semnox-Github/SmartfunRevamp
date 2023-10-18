@@ -7,6 +7,7 @@ import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -35,7 +36,9 @@ class EnableLocationPage extends StatelessWidget {
         child: Column(
           children: [
             const Spacer(),
-            Image.asset('assets/select_location/select_location_img.png'),
+            const ImageHandler(
+              imageKey: "select_location_image_path",
+            ),
             Text(
               SplashScreenNotifier.getLanguageLabel('Access Location'),
               style: GoogleFonts.mulish(
@@ -57,9 +60,7 @@ class EnableLocationPage extends StatelessWidget {
               children: [
                 CustomButton(
                   onTap: () async {
-                    // if (await PermissionServices.getLocationPermision()) {
                     Navigator.pushNamed(context, Routes.kMap);
-                    // }
                   },
                   label: SplashScreenNotifier.getLanguageLabel('ENABLE LOCATION SERVICES'),
                 ),

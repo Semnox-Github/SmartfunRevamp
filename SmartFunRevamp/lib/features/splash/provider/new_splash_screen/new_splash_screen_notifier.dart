@@ -36,18 +36,14 @@ final newHomePageCMSProvider = StateProvider<HomePageCMSResponse?>((ref) {
 final languangeContainerProvider = StateProvider<LanguageContainerDTO?>((ref) {
   return null;
 });
-
 final masterSiteProvider = StateProvider<SiteViewDTO?>((ref) {
   return null;
 });
 final parafaitDefaultsProvider = StateProvider<ParafaitDefaultsResponse?>((ref) {
   return null;
 });
-
-final customDTOProvider = FutureProvider<CustomerDTO?>((ref) async {
-  final LocalDataSource glutton = Get.find<LocalDataSource>();
-  final customer = await glutton.retrieveCustomer();
-  return customer;
+final userProvider = StateProvider<CustomerDTO?>((ref) {
+  return null;
 });
 
 final getStringForLocalization = FutureProvider<Map<dynamic, dynamic>>((ref) async {
@@ -137,30 +133,6 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     );
   }
 
-  void _getMasterSite() async {
-    final GetMasterSiteUseCase getMasterSiteUseCase = Get.find<GetMasterSiteUseCase>();
-    final response = await getMasterSiteUseCase();
-    response.fold(
-      (l) => state = const _Error('No master site found'),
-      (r) {
-        masterSite = r.first;
-        _getParafaitDefaults(masterSite?.siteId);
-      },
-    );
-  }
-
-  void _getParafaitDefaults(int? siteId) async {
-    final GetParafaitDefaultsUseCase getParafaitDefaultsUseCase = Get.find<GetParafaitDefaultsUseCase>();
-    final response = await getParafaitDefaultsUseCase(siteId ?? 1010);
-    response.fold(
-      (l) => state = _Error(l.message),
-      (r) async {
-        _parafaitDefaultsResponse = r;
-        _getAllParafaitLanguages(siteId);
-      },
-    );
-  }
-
   void _getAllParafaitLanguages(int? siteId) async {
     final getParafaitLanguagesUseCase = Get.find<GetParafaitLanguagesUseCase>();
     final response = await getParafaitLanguagesUseCase(siteId: siteId.toString());
@@ -176,6 +148,8 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   void _getHomePageCMS() async {
     final useCase = Get.find<GetHomePageCMSUseCase>();
     final response = await useCase();
+    final LocalDataSource glutton = Get.find<LocalDataSource>();
+    final customer = await glutton.retrieveCustomer();
     response.fold(
       (l) {
         Logger().e(l.message);
@@ -197,8 +171,33 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
           siteViewDTO: masterSite!,
           parafaitDefaultsResponse: _parafaitDefaultsResponse,
           needsSiteSelection: selectedSite == null,
+          customer: customer,
           notificationsData: _notificationData,
         );
+      },
+    );
+  }
+
+  void _getMasterSite() async {
+    final GetMasterSiteUseCase getMasterSiteUseCase = Get.find<GetMasterSiteUseCase>();
+    final response = await getMasterSiteUseCase();
+    response.fold(
+      (l) => state = const _Error('No master site found'),
+      (r) {
+        masterSite = r.first;
+        _getParafaitDefaults(masterSite?.siteId);
+      },
+    );
+  }
+
+  void _getParafaitDefaults(int? siteId) async {
+    final GetParafaitDefaultsUseCase getParafaitDefaultsUseCase = Get.find<GetParafaitDefaultsUseCase>();
+    final response = await getParafaitDefaultsUseCase(siteId ?? 1010);
+    response.fold(
+      (l) => state = _Error(l.message),
+      (r) async {
+        _parafaitDefaultsResponse = r;
+        _getAllParafaitLanguages(siteId);
       },
     );
   }

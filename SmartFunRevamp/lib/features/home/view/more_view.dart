@@ -10,7 +10,6 @@ import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/widgets/custom_bottom_bar.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
@@ -78,9 +77,10 @@ class MoreView extends ConsumerWidget {
                     TextButton(
                       onPressed: () async {
                         localDatasource.logoutUser().then(
-                              (value) => Navigator.popAndPushNamed(context, Routes.kAfterSplashScreenPage),
-                            );
-                        ref.invalidate(CardsProviders.userCardsProvider);
+                          (value) {
+                            Navigator.popAndPushNamed(context, Routes.kAfterSplashScreenPage);
+                          },
+                        );
                       },
                       child: MulishText(
                         text: SplashScreenNotifier.getLanguageLabel('Logout'),
@@ -129,17 +129,16 @@ class MoreOptionItemFromCMS extends StatelessWidget {
             membershipInfo?.membershipValidity.formatDate('dd MMM yyyy') ?? '',
           )
         : item.description ?? 'Please add a description to the CMS';
-
     return MoreOptions(
       item: item,
       desc: description,
       iconBgColor: Colors.white,
       iconPath: 'gold_medal',
       onTap: () {
-        if (Routes.routesMap.containsKey(item.target)) {
-          Navigator.pushNamed(context, item.target ?? "");
-        } else {
+        if (item.target == null) {
           Fluttertoast.showToast(msg: "URL is not configured");
+        } else {
+          Navigator.pushNamed(context, item.target!.replaceAll('sf:/', ''));
         }
       },
       title: item.displayName,

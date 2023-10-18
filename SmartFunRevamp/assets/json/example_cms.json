@@ -19,14 +19,14 @@
       "MasterEntityId": -1,
       "HomePageOrder": [
         {
-          "title": "My Tickets =======",
+          "title": "My Tickets",
           "position": 4,
           "widget": "CARDS",
           "is_visible": true
         },
         {
           "title": "Quick Links",
-          "position": 0,
+          "position": 10,
           "widget": "LINKS",
           "is_visible": true,
           "display_section": "QUICKLINKS"
@@ -42,7 +42,7 @@
           "title": "More Actions",
           "position": 3,
           "widget": "LINKS",
-          "is_visible": false,
+          "is_visible": true,
           "display_section": "MORE_ACTIONS"
         }
       ],
@@ -369,7 +369,7 @@
                   "Active": true,
                   "DisplayOrder": 1,
                   "DisplayName": "Base Membership",
-                  "TargetUrl": "sf://membership_info"
+                  "Target": "sf://membership_info"
                 },
                 {
                   "ItemName": "REWARDS",
@@ -377,7 +377,8 @@
                   "Active": true,
                   "DisplayOrder": 2,
                   "DisplayName": "Rewards",
-                  "Description": "REWARDS DESCRIPTION"
+                  "Description": "REWARDS DESCRIPTION",
+                  "Target": "sf://membership_rewards"
                 },
                 {
                   "ItemName": "NOTIFICATIONS",
@@ -385,7 +386,8 @@
                   "Active": true,
                   "DisplayOrder": 3,
                   "DisplayName": "Notifications",
-                  "Description": "NOTIFICATIONS DESCRIPTION"
+                  "Description": "NOTIFICATIONS DESCRIPTION",
+                  "Target": "sf://notifications"
                 },
                 {
                   "ItemName": "HELP",
@@ -393,11 +395,12 @@
                   "Active": true,
                   "DisplayOrder": 4,
                   "DisplayName": "Help",
-                  "Description": "HELP DESCRIPTION"
+                  "Description": "HELP DESCRIPTION",
+                  "Target": "sf://bookings"
                 },
                 {
                   "ItemName": "ORDERS",
-                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "ItemUrl": "https://placehold.co/50x50.png",
                   "Active": true,
                   "DisplayOrder": 4,
                   "DisplayName": "My Orders",
@@ -784,7 +787,7 @@
           "ParentContentId": 343,
           "Height": 9,
           "Width": 9,
-          "ContentURL": "https://parafaitapihqdemo.parafait.com/images/transferCredits.png",
+          "ContentURL": "https://placehold.co/1200x100.png",
           "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFF00\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
           "ObjectTranslationsDTOList": [],
           "IsChanged": true
@@ -868,7 +871,7 @@
           "ParentContentId": 350,
           "Height": 9,
           "Width": 9,
-          "ContentURL": "https://parafaitapihqdemo.parafait.com/images/Coupons.png",
+          "ContentURL": "https://placehold.co/1200x1000.png",
           "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFF00\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
           "ObjectTranslationsDTOList": [],
           "IsChanged": true
@@ -904,7 +907,26 @@
       ],
       "images": {
         "splash_screen_image_path": "https://parafaitapihqdemo.parafait.com/images/AppBackground.png",
-        "language_pick_image_path": "https://i.imgur.com/MbqH9I4.png"
+        "language_pick_image_path": "https://i.imgur.com/MbqH9I4.png",
+        "logo_image_path": "https://placehold.co/1200x400.png",
+        "coupon_congrats_image_path": "https://placehold.co/1200x400.png",
+        "blocked_image_path": "https://placehold.co/1200x400.png",
+        "expired_image_path": "https://placehold.co/1200x400.png",
+        "QR_image_path": "https://placehold.co/1200x400.png",
+        "coin_image_path": "https://placehold.co/1200x400.png",
+        "barcode_image_path": "https://placehold.co/1200x400.png",
+        "no_promo_image_path": "https://placehold.co/1200x400.png",
+        "check_ok_image_path": "https://placehold.co/1200x400.png",
+        "bronze_image_path": "https://placehold.co/1200x400.png",
+        "silver_image_path": "https://placehold.co/1200x400.png",
+        "gold_image_path": "https://placehold.co/1200x400.png",
+        "diamond_image_path": "https://placehold.co/1200x400.png",
+        "platinum_image_path": "https://placehold.co/1200x400.png",
+        "payment_failed_image_path": "https://placehold.co/1200x400.png",
+        "recharge_successful_image_path": "https://placehold.co/1200x400.png",
+        "reset_password_success_image_path": "https://placehold.co/1200x400.png",
+        "select_location_image_path": "https://placehold.co/1200x400.png",
+        "transfer_success_image_path": "https://placehold.co/1200x400.png"
       },
       "IsChanged": true,
       "IsChangedRecursive": true

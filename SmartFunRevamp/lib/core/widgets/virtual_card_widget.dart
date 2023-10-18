@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 
 class VirtualCardWidget extends StatelessWidget {
@@ -44,34 +45,37 @@ class VirtualCardWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-                  const MulishText(
-                    text: '1000',
-                    fontColor: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                  const SizedBox(height: 10.0),
-                  Builder(
-                    builder: (context) {
-                      late String expiryDate;
-                      if (cardDetails.expiryDate != null) {
-                        expiryDate = '- ${formatter.format(DateTime.parse(cardDetails.expiryDate!))}';
-                      } else {
-                        expiryDate = '';
-                      }
-                      return MulishText(
-                        text: '${formatter.format(cardDetails.issueDate ?? DateTime.now())} $expiryDate',
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const MulishText(
+                        text: '1000',
                         fontColor: Colors.white,
-                      );
-                    },
-                  ),
-                ]),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                      const SizedBox(height: 10.0),
+                      Builder(
+                        builder: (context) {
+                          late String expiryDate;
+                          if (cardDetails.expiryDate != null) {
+                            expiryDate = '- ${formatter.format(DateTime.parse(cardDetails.expiryDate!))}';
+                          } else {
+                            expiryDate = '';
+                          }
+                          return MulishText(
+                            text: '${formatter.format(cardDetails.issueDate ?? DateTime.now())} $expiryDate',
+                            fontColor: Colors.white,
+                          );
+                        },
+                      ),
+                    ]),
                 GestureDetector(
                   onTap: () => Dialogs.showBarcodeTempCard(context, virtualNumber),
-                  child: Image.asset(
-                    'assets/lost_card/barcode.png',
+                  child: const ImageHandler(
                     height: 60,
+                    imageKey: "barcode_image_path",
                   ),
                 )
               ],

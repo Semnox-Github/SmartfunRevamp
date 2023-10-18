@@ -5,6 +5,7 @@ import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/membership/membership_info.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/membership_info/widgets/membership_options.dart';
@@ -69,13 +70,13 @@ class CurrentMembershipTier extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
+          const Positioned(
             left: 0,
             right: 0,
             top: -75,
             height: 150,
-            child: Image.asset(
-              'assets/membership/gold.png',
+            child: ImageHandler(
+              imageKey: "gold_image_path",
             ),
           ),
           Positioned(

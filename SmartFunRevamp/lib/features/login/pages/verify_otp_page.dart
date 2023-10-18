@@ -35,8 +35,6 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
 
   @override
   Widget build(BuildContext context) {
-    // String phoneNumber = censorPhoneNumber(ref.read(loginProvider.notifier).phone);
-
     ref.listen<LoginState>(loginProvider, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),

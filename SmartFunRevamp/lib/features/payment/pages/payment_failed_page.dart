@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
@@ -18,21 +19,22 @@ class PaymentFailedPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset(
-                    'assets/payment/payment_failed.png',
+                  ImageHandler(
                     height: MediaQuery.of(context).size.height * 0.25,
+                    imageKey: "payment_failed_image_path",
                   ),
                   const SizedBox(height: 10.0),
-                  const MulishText(
+                  MulishText(
                     textAlign: TextAlign.center,
-                    text: 'Payment Failed',
+                    text: SplashScreenNotifier.getLanguageLabel('Payment Failed'),
                     fontColor: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                   ),
-                  const MulishText(
+                  MulishText(
                     textAlign: TextAlign.center,
-                    text: 'Oops! We were unable to process your payment at the moment. Any money deducted from your account will be reverted back to the source of payment in 3-5 working days.',
+                    text: SplashScreenNotifier.getLanguageLabel(
+                        'Oops! We were unable to process your payment at the moment. Any money deducted from your account will be reverted back to the source of payment in 3-5 working days.'),
                     fontColor: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,

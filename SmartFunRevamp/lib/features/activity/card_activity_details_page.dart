@@ -11,6 +11,7 @@ import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/activity/card_activity_receipt_page.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
@@ -66,14 +67,16 @@ class CardActivityDetailPage extends ConsumerWidget {
                             children: [
                               const SizedBox(height: 10.0),
                               MulishText(
-                                text: data.transactionLinesDTOList?.first.productName ?? SplashScreenNotifier.getLanguageLabel('Variable App Recharge'),
+                                text: data.transactionLinesDTOList?.first.productName ??
+                                    SplashScreenNotifier.getLanguageLabel('Variable App Recharge'),
                                 fontWeight: FontWeight.bold,
                                 fontColor: Colors.white,
                                 fontSize: 20.0,
                               ),
                               const SizedBox(height: 10.0),
                               MulishText(
-                                text: data.transactionLinesDTOList?.first.productName ?? '${SplashScreenNotifier.getLanguageLabel('Card')} - XXXXXXXX',
+                                text: data.transactionLinesDTOList?.first.productName ??
+                                    '${SplashScreenNotifier.getLanguageLabel('Card')} - XXXXXXXX',
                                 fontWeight: FontWeight.bold,
                                 fontColor: Colors.white,
                               ),
@@ -101,9 +104,9 @@ class CardActivityDetailPage extends ConsumerWidget {
                                         ),
                                       ],
                                     ),
-                                    Image.asset(
-                                      'assets/home/QR.png',
+                                    const ImageHandler(
                                       height: 70,
+                                      imageKey: "QR_image_path",
                                     )
                                   ],
                                 ),
@@ -127,7 +130,8 @@ class CardActivityDetailPage extends ConsumerWidget {
                                   fontSize: 15,
                                 ),
                                 MulishText(
-                                  text: '${data.transactionDate?.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)}, ${data.transactionDate?.formatDate(DateFormat.HOUR_MINUTE)}',
+                                  text:
+                                      '${data.transactionDate?.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)}, ${data.transactionDate?.formatDate(DateFormat.HOUR_MINUTE)}',
                                   fontSize: 15,
                                 ),
                               ],
@@ -141,7 +145,8 @@ class CardActivityDetailPage extends ConsumerWidget {
                               text: SplashScreenNotifier.getLanguageLabel('Variable App Recharge'),
                             ),
                             MulishText(
-                              text: '${data.transactionLinesDTOList?.first.taxAmount.toCurrency(currencySymbol, currencyFormat)}',
+                              text:
+                                  '${data.transactionLinesDTOList?.first.taxAmount.toCurrency(currencySymbol, currencyFormat)}',
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -154,7 +159,8 @@ class CardActivityDetailPage extends ConsumerWidget {
                               text: SplashScreenNotifier.getLanguageLabel('Tax'),
                             ),
                             MulishText(
-                              text: '${data.transactionLinesDTOList?.first.taxAmount.toCurrency(currencySymbol, currencyFormat)}',
+                              text:
+                                  '${data.transactionLinesDTOList?.first.taxAmount.toCurrency(currencySymbol, currencyFormat)}',
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),

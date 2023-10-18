@@ -20,6 +20,7 @@ import 'package:semnox/core/domain/entities/language/language_container_dto.dart
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/widgets/recharge_card_widget.dart';
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
@@ -51,9 +52,9 @@ class Dialogs {
                   text: '\$$couponValue',
                   fontSize: 48.0,
                 ),
-                Image.asset(
-                  'assets/buy_card/coupon_congrats.png',
+                const ImageHandler(
                   height: 80.0,
+                  imageKey: "coupon_congrats_image_path",
                 )
               ],
             ),
@@ -431,7 +432,9 @@ class Dialogs {
               fontWeight: FontWeight.bold,
             ),
           ),
-          image: Image.asset('assets/home/logo.png'),
+          image: const ImageHandler(
+            imageKey: "logo_image_path",
+          ),
           message: Text(
             // 'Tap a star to rate it on the ${isIOS ? 'App Store' : 'Play Store'}',
             SplashScreenNotifier.getLanguageLabel('Tap a star to rate it on the &1').replaceAll(

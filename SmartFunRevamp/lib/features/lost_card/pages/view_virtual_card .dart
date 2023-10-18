@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/widgets/image_handler.dart';
 
 import 'package:semnox/core/widgets/virtual_card_widget.dart';
 import 'package:semnox/features/home/pages/home_page.dart';
@@ -41,13 +42,13 @@ class ViewVirtualCardPage extends ConsumerWidget {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Center(
-                    child: Image.asset(
-                      'assets/lost_card/check_ok.png',
+                    child: ImageHandler(
                       height: 200.0,
+                      imageKey: "check_ok_image_path",
                     ),
                   ),
                 ],
@@ -83,7 +84,8 @@ class ViewVirtualCardPage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    SplashScreenNotifier.getLanguageLabel('Show this Barcode on site to get a new physical card. A payment of 40 will be charged for the replacement on site.'),
+                    SplashScreenNotifier.getLanguageLabel(
+                        'Show this Barcode on site to get a new physical card. A payment of 40 will be charged for the replacement on site.'),
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       color: CustomColors.customBlack,

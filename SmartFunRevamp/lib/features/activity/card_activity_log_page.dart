@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
@@ -35,21 +36,23 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
   late CardDetails selectedCard;
   late List<CardDetails> cards;
   late CardDetails? cardDetails;
+  late int _cardIndex;
   @override
   void initState() {
     super.initState();
+    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
     cardDetails = ref.read(currentCardProvider);
+    cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     if (cardDetails != null) {
-      //is added to cards list as the only card
-      List<CardDetails> selectedCard = [];
-      selectedCard.add(cardDetails!);
-      cards = selectedCard;
+      cards.forEachIndexed((index, element) {
+        if (element.accountNumber == cardDetails!.accountNumber) {
+          _cardIndex = index;
+        }
+      });
     } else {
-      //if no card was selected, i.e. when landed from Search, get all the user cards
-      cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
-      cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+      _cardIndex = 0;
     }
-    selectedCard = cards.first;
+    selectedCard = cards[_cardIndex];
   }
 
   @override
@@ -63,10 +66,12 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CarouselCards(
+              initialPosition: _cardIndex,
               cards: cards,
               showLinkCard: false,
               onCardChanged: (index) {
                 setState(() {
+                  _cardIndex = index;
                   selectedCard = cards[index];
                 });
               },
@@ -110,7 +115,8 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => CardActivityDetailPage(transactionId: activity.refId.toString()),
+                                    builder: (context) =>
+                                        CardActivityDetailPage(transactionId: activity.refId.toString()),
                                   ),
                                 );
                               },
@@ -132,7 +138,8 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       MulishText(
-                                        text: '${activity.date?.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)}, ${activity.date?.formatDate(DateFormat.HOUR_MINUTE)}',
+                                        text:
+                                            '${activity.date?.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)}, ${activity.date?.formatDate(DateFormat.HOUR_MINUTE)}',
                                       ),
                                       const Icon(
                                         Icons.arrow_forward_ios_outlined,

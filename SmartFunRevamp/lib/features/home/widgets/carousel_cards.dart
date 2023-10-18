@@ -22,10 +22,12 @@ class CarouselCards extends StatefulWidget {
     required this.cards,
     required this.onCardChanged,
     this.showLinkCard = true,
+    this.initialPosition,
   }) : super(key: key);
   final Function(int) onCardChanged;
   final List<CardDetails> cards;
   final bool showLinkCard;
+  final int? initialPosition;
 
   @override
   State<CarouselCards> createState() => _CarouselCardsState();
@@ -57,6 +59,7 @@ class _CarouselCardsState extends State<CarouselCards> {
       children: [
         CarouselSlider.builder(
           options: CarouselOptions(
+            initialPage: widget.initialPosition ?? 0,
             enableInfiniteScroll: false,
             height: MediaQuery.of(context).size.height * 0.25,
             viewportFraction: 1,

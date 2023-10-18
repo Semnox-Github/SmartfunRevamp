@@ -39,6 +39,7 @@ class _CarouselCardsState extends State<CarouselCards> {
 
   @override
   void initState() {
+    currentPosition = widget.initialPosition ?? 0;
     _cards = List<CardDetails>.from(widget.cards);
     super.initState();
   }

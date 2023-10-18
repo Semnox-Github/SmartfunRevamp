@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -28,21 +29,22 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
   late CardDetails selectedCard;
   late List<CardDetails> cards;
   late CardDetails? cardDetails;
+  late int _cardIndex;
   @override
   void initState() {
-    cardDetails = ref.read(currentCardProvider);
-    if (cardDetails != null) {
-      //is added to cards list as the only card
-      List<CardDetails> selectedCard = [];
-      selectedCard.add(cardDetails!);
-      cards = selectedCard;
-    } else {
-      //if no card was selected, i.e. when landed from Search, get all the user cards
-      cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
-      cards.removeWhere((element) => element.isBlocked() || element.isExpired());
-    }
-    selectedCard = cards.first;
     super.initState();
+    _cardIndex = 0;
+    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+    cardDetails = ref.read(currentCardProvider);
+    // cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+    if (cardDetails != null) {
+      cards.forEachIndexed((index, element) {
+        if (element.accountNumber == cardDetails!.accountNumber) {
+          _cardIndex = index;
+        }
+      });
+    }
+    selectedCard = cards[_cardIndex];
   }
 
   @override
@@ -64,6 +66,7 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CarouselCards(
+                initialPosition: _cardIndex,
                 cards: cards,
                 showLinkCard: false,
                 onCardChanged: (index) {
@@ -114,7 +117,8 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                                       children: [
                                         MulishText(text: '${item.game}', fontSize: 16, fontWeight: FontWeight.bold),
                                         MulishText(
-                                          text: DateFormat('MMM d, yyyy, h:mm a').format(DateTime.parse(item.playDate ?? "")),
+                                          text: DateFormat('MMM d, yyyy, h:mm a')
+                                              .format(DateTime.parse(item.playDate ?? "")),
                                           fontSize: 14,
                                           fontColor: Colors.grey,
                                         ),

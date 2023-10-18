@@ -21,9 +21,14 @@ How to configure a new app for a customer
 ```
 - Replace the string with the application id selected for this project
 
-# 3. Configure initial URL
-1. Open `SmartFunRevamp/lib/core/api/parafait_api.dart`
-2. Change url in variable `const String kGetBaseUrl = 'https://parafaitdevcentral.parafait.com/api/';`
+# 3. Configure .env file
+1. Copy the file .env.example to .env
+2. These are the values of this files, explained:
+  - GET_BASE_URL: the default url for the API that will be called first time the app runs
+  - SECRET_KEY: the secret key used for authentication against the api
+  - BUILD_NUMBER: app version number, used to check if there is a new version available against api
+  - BUILD_SECURITY_CODE: security code for the build to send to the api with the version number
+  - USE_LOCAL_CMS_JSON: if true, the app will use the local json file for CMS configuration. If false, the app will fetch the configuration from the API. Only for using during development, for production this should be false
 
 # 4. Firebase keys
 Follow instructions on official Firebase documentation https://firebase.google.com/docs/flutter/setup
@@ -102,10 +107,59 @@ It contains data to configure data for the app such as: home containers, menu it
 _TO DO: we need to change the name of this file because is not an exampla anymore, it is the real file that is shipped with the app_
 The next items are configured in the same file.
 
-## 9.5. Home containers
-Under development in #922
+### 9.4.1. Home containers
+The containers in the home page can be of different types. The available types are:
 
-## 9.6. Menu items
+- CARDS: shows the widget with the list of the cards of the user
+- LINKS: shows a list of links to other pages inside the app
+- CAROUSEL: shows a carousel of images with links to external pages loaded inside a webview in the app
+
+The configuration for this containers is made in 2 different places in the json file:
+
+1. `HomePageOrder` is a list of the containers that will be shown in the home page. The `widget` value points to a container defined in the next section.
+
+This is the format of the `HomePageOrder` list:
+
+```
+  "HomePageOrder": [
+    {
+      "title": "My Tickets",
+      "position": 4,
+      "widget": "CARDS",
+      "is_visible": true
+    },
+    {
+      "title": "Quick Links",
+      "position": 10,
+      "widget": "LINKS",
+      "is_visible": true,
+      "display_section": "QUICKLINKS"
+    },
+    {
+      "title": "Promotions",
+      "position": 2,
+      "widget": "CAROUSEL",
+      "is_visible": true,
+      "display_section": "PROMOS_1"
+    },
+    {
+      "title": "More Actions",
+      "position": 3,
+      "widget": "LINKS",
+      "is_visible": true,
+      "display_section": "MORE_ACTIONS"
+    }
+  ],
+```
+
+2. `CMSModulePageDTOList` is the actual data pointed from the previous section
+```
+
+```
+
+
+
+### 9.4.2. Menu items
 Menu items are inside the key `CMSModuleMenuDTOList`
 
 The available items keys for configuration are:
@@ -163,9 +217,9 @@ the configuration for this items is the following:
 ],
 ```
 
-### 9.6.1. Particular cases an exceptions
+**Particular cases an exceptions**
 
-- SMARTFUN_MENU_CARD_DETAILS has an extra key `CreditType` that is used to filter the cards by credit type. In the case the `Target` key is not used. The values are:
+- SMARTFUN_MENU_CARD_DETAILS has an extra key `CreditType` that is used to filter the cards by credit type. In this case the `Target` key is not used. The values are:
   - 0: credits
   - 1: loyalty
   - 2: tickets
@@ -174,7 +228,7 @@ the configuration for this items is the following:
 - PLAY: in this case the `Target` key is not the internal route inside the app, but the url to open inside the webview.
 
 
-## 9.7. App Colors, fonts and images
+### 9.4.3. App Colors, fonts and images
 
 This is the structure:
 
@@ -191,14 +245,32 @@ This is the structure:
     "virtual": "#FFEF798A"
   },
   "images": {
-    "splash_screen_image_path": "https://i.imgur.com/MbqH9I4.png",
-    "language_pick_image_path": "https://i.imgur.com/MbqH9I4.png",
-    "reset_password_image_path": "https://cdn-icons-png.flaticon.com/512/6146/6146587.png"
-  }
+    "splash_screen_image_path": "https://placehold.co/1200x400.png",
+    "language_pick_image_path": "https://placehold.co/1200x400.png",
+    "logo_image_path": "https://placehold.co/1200x400.png",
+    "coupon_congrats_image_path": "https://placehold.co/1200x400.png",
+    "blocked_image_path": "https://placehold.co/1200x400.png",
+    "expired_image_path": "https://placehold.co/1200x400.png",
+    "QR_image_path": "https://placehold.co/1200x400.png",
+    "coin_image_path": "https://placehold.co/1200x400.png",
+    "barcode_image_path": "https://placehold.co/1200x400.png",
+    "no_promo_image_path": "https://placehold.co/1200x400.png",
+    "check_ok_image_path": "https://placehold.co/1200x400.png",
+    "bronze_image_path": "https://placehold.co/1200x400.png",
+    "silver_image_path": "https://placehold.co/1200x400.png",
+    "gold_image_path": "https://placehold.co/1200x400.png",
+    "diamond_image_path": "https://placehold.co/1200x400.png",
+    "platinum_image_path": "https://placehold.co/1200x400.png",
+    "payment_failed_image_path": "https://placehold.co/1200x400.png",
+    "recharge_successful_image_path": "https://placehold.co/1200x400.png",
+    "reset_password_success_image_path": "https://placehold.co/1200x400.png",
+    "select_location_image_path": "https://placehold.co/1200x400.png",
+    "transfer_success_image_path": "https://placehold.co/1200x400.png"
+  },
 ```
 
 # 10. App version and description.
-The publicly visible app version is taken from `SmartFunRevamp/pubspec.yaml` file. The version is defined in the variable `version`. 
+The publicly visible app version is taken from `SmartFunRevamp/pubspec.yaml` file. The version is defined in the variable `version`. This should match with the version defined in the `.env` file
 
 You can also change the app description in that file.
 

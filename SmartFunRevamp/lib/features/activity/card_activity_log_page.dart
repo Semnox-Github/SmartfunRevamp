@@ -42,7 +42,7 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
     super.initState();
     cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
     cardDetails = ref.read(currentCardProvider);
-    cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+    // cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     if (cardDetails != null) {
       cards.forEachIndexed((index, element) {
         if (element.accountNumber == cardDetails!.accountNumber) {

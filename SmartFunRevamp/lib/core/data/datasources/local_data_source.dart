@@ -15,6 +15,7 @@ abstract class LocalDataSource {
   static String kSplashScreenURL = 'splash_image_url';
   static String kTransactionId = 'transaction_id';
   static String kAppUpdateReminderDate = "app_update_reminder_date";
+  static String kLanguagesContainer = "languanges_container";
   Future<void> saveSites(List<SiteViewDTO> sites);
   Future<List<SiteViewDTO>> retrieveSites();
   // Future<bool> retrieveBool(String key);
@@ -25,6 +26,7 @@ abstract class LocalDataSource {
   Future<void> saveCustomClass(String key, Map<String, dynamic> json);
   Future<void> deleteCustomClass(String key);
   Future<Either<Failure, Map<String, dynamic>>> retrieveCustomClass(String key);
+  Future<Map<String, dynamic>?> retrieveJsonClass(String key);
   Future<void> saveUser(CustomerDTO customerDTO);
   Future<void> logoutUser();
   Future<void> resetUser();
@@ -98,6 +100,11 @@ class GluttonLocalDataSource implements LocalDataSource {
       Logger().e(e);
       return Left(LocalDataSourceFailure('Error Retrieving Key'));
     }
+  }
+
+  @override
+  Future<Map<String, dynamic>?> retrieveJsonClass(String key) async {
+    return await Glutton.vomit(key, null);
   }
 
   @override

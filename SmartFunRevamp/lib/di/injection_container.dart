@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:semnox/core/api/parafait_api.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 import 'package:semnox/di/authentication_dependecies.dart';
 import 'package:semnox/di/config_dependencies.dart';
@@ -22,6 +23,8 @@ import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 Future<void> init() async {
   Get.lazyPut(() => ParafaitApi());
   Get.lazyPut(() => SmartFunApi());
+  //Local Data Source
+  Get.lazyPut<LocalDataSource>(() => GluttonLocalDataSource());
   selectLocationDependecies();
   splashScreenDependencies();
   authenticaionDependecies();

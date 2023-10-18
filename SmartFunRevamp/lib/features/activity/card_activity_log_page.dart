@@ -40,6 +40,7 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
   @override
   void initState() {
     super.initState();
+    _cardIndex = 0;
     cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
     cardDetails = ref.read(currentCardProvider);
     // cards.removeWhere((element) => element.isBlocked() || element.isExpired());
@@ -49,8 +50,6 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
           _cardIndex = index;
         }
       });
-    } else {
-      _cardIndex = 0;
     }
     selectedCard = cards[_cardIndex];
   }

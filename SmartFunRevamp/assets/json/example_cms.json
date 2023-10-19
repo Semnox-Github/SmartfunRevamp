@@ -913,7 +913,7 @@
         "blocked_image_path": "https://placehold.co/1200x400.png",
         "expired_image_path": "https://placehold.co/1200x400.png",
         "QR_image_path": "https://placehold.co/1200x400.png",
-        "coin_image_path": "https://placehold.co/1200x400.png",
+        "coin_image_path": "https://placehold.co/32x32.png",
         "barcode_image_path": "https://placehold.co/1200x400.png",
         "no_promo_image_path": "https://placehold.co/1200x400.png",
         "check_ok_image_path": "https://placehold.co/1200x400.png",

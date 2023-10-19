@@ -1251,14 +1251,13 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
-  Future<void> sendCustomerFeedback(Map<String, dynamic> body) async {
+  Future<void> sendCustomerFeedback(List<SurveyRequest> body) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(body);
+    final _data = body.map((e) => e.toJson()).toList();
     await _dio.fetch<void>(_setStreamType<void>(Options(
-      method: 'GET',
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )

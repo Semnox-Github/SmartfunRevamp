@@ -14,6 +14,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/entities/data.dart';
 import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
+import 'package:semnox/core/domain/entities/feedback/survey_request.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/entities/login/create_otp_response.dart';
@@ -40,13 +41,13 @@ abstract class SmartFunApi {
     dio.interceptors.addAll([
       AuthorizationInterceptor(),
       PrettyDioLogger(
-        requestBody: false,
+        requestBody: true,
         responseBody: false,
-        requestHeader: false,
+        requestHeader: true,
         responseHeader: false,
-        request: false,
-        error: false,
-        compact: false,
+        request: true,
+        error: true,
+        compact: true,
         maxWidth: 150,
       ),
       DioFirebasePerformanceInterceptor(),
@@ -263,9 +264,9 @@ abstract class SmartFunApi {
   @POST('Customer/Account/AccountService/LostCard')
   Future<Data<String>> lostCard(@Body() Map<String, dynamic> body);
 
-  @GET('Customer/FeedbackSurvey/FeedbackSurveyDataSet')
+  @POST('Customer/FeedbackSurvey/FeedbackSurveyDataSet')
   Future<void> sendCustomerFeedback(
-    @Body() Map<String, dynamic> body,
+    @Body() List<SurveyRequest> body,
   );
 
   @POST('CommonServices/GenericOTP/Create')

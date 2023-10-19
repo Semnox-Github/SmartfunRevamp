@@ -83,7 +83,7 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class _HomeViewState extends ConsumerState<HomeView> {
-  int _cardIndex = -1;
+  late int _cardIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -209,6 +209,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                     ? CarouselCards(
                                                         cards: data,
                                                         onCardChanged: (cardIndex) {
+                                                          setState(() {
+                                                            _cardIndex = cardIndex;
+                                                          });
                                                           if (cardIndex != data.length) {
                                                             ref
                                                                 .read(currentCardProvider.notifier)
@@ -218,13 +221,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                                 .read(currentCardProvider.notifier)
                                                                 .update((state) => null);
                                                           }
-                                                          _cardIndex = cardIndex;
                                                         },
                                                       )
                                                     : LinkACard(),
                                                 if (data.isNotEmpty && _cardIndex != data.length)
                                                   RechargeCardDetailsButton(
                                                     cardDetails: cardDetails ?? data.first,
+                                                    cardIndex: _cardIndex,
                                                   )
                                                 else
                                                   const BuyNewCardButton(),

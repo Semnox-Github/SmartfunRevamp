@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -24,21 +25,22 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
   late CardDetails selectedCard;
   late List<CardDetails> cards;
   late CardDetails? cardDetails;
+  late int _cardIndex;
   @override
   void initState() {
-    cardDetails = ref.read(currentCardProvider);
-    if (cardDetails != null) {
-      //is added to cards list as the only card
-      List<CardDetails> selectedCard = [];
-      selectedCard.add(cardDetails!);
-      cards = selectedCard;
-    } else {
-      //if no card was selected, i.e. when landed from Search, get all the user cards
-      cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
-      cards.removeWhere((element) => element.isBlocked() || element.isExpired());
-    }
-    selectedCard = cards.first;
     super.initState();
+    _cardIndex = 0;
+    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+    cardDetails = ref.read(currentCardProvider);
+    cards.removeWhere((element) => element.isBlocked() || element.isExpired());
+    if (cardDetails != null) {
+      cards.forEachIndexed((index, element) {
+        if (element.accountNumber == cardDetails!.accountNumber) {
+          _cardIndex = index;
+        }
+      });
+    }
+    selectedCard = cards[_cardIndex];
   }
 
   @override
@@ -59,6 +61,7 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
               child: CarouselCards(
+                initialPosition: _cardIndex,
                 cards: cards,
                 onCardChanged: (index) {
                   selectedCard = cards[index];
@@ -96,7 +99,8 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
                     ),
                     const SizedBox(height: 20.0),
                     MulishText(
-                      text: SplashScreenNotifier.getLanguageLabel('40 need to paid while exchanging for a new physical card'),
+                      text: SplashScreenNotifier.getLanguageLabel(
+                          '40 need to paid while exchanging for a new physical card'),
                       textAlign: TextAlign.center,
                       fontColor: CustomColors.customBlack,
                       fontSize: 16.0,
@@ -143,7 +147,8 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
                     dialogType: DialogType.error,
                     animType: AnimType.scale,
                     title: SplashScreenNotifier.getLanguageLabel('Lost Card'),
-                    desc: SplashScreenNotifier.getLanguageLabel('Sorry, we have had a problem. Please contact our Staff'),
+                    desc:
+                        SplashScreenNotifier.getLanguageLabel('Sorry, we have had a problem. Please contact our Staff'),
                     btnOkOnPress: () {},
                   ).show();
                 },

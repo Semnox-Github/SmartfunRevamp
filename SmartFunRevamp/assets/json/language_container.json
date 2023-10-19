@@ -1,0 +1,25 @@
+{
+  "data": {
+    "LanguageContainerDTOList": [
+      {
+        "LanguageId": 2,
+        "LanguageName": "English",
+        "LanguageCode": "en-US",
+        "CultureCode": "en-US"
+      },
+      {
+        "LanguageId": 3,
+        "LanguageName": "Spanish",
+        "LanguageCode": "es-ES",
+        "CultureCode": "es-ES"
+      },
+      {
+        "LanguageId": 4,
+        "LanguageName": "French",
+        "LanguageCode": "fr-FR",
+        "CultureCode": "fr-FR"
+      }
+    ],
+    "Hash": "B8D69C9D26853ECF96551D3A308DE635"
+  }
+}

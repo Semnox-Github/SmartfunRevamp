@@ -1,6 +1,7 @@
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/api/parafait_api.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/data/repositories/initial_load_repository_impl.dart';
 import 'package:semnox/core/data/repositories/splash_screen_repository_impl.dart';
 import 'package:semnox/core/domain/repositories/initial_load_repository.dart';
@@ -20,7 +21,8 @@ void splashScreenDependencies() {
       Get.find<ParafaitApi>(),
     ),
   );
-  Get.lazyPut<InitialLoadRepository>(() => InitialLoadRepositoryImpl(Get.find<SmartFunApi>()));
+  Get.lazyPut<InitialLoadRepository>(
+      () => InitialLoadRepositoryImpl(Get.find<SmartFunApi>(), Get.find<LocalDataSource>()));
   //Use Cases
   Get.lazyPut<GetBaseURLUseCase>(() => GetBaseURLUseCase(Get.find()));
   Get.lazyPut<AuthenticateBaseURLUseCase>(() => AuthenticateBaseURLUseCase(Get.find()));

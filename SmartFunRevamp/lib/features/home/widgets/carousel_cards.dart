@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
@@ -12,6 +13,7 @@ import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/update_nickname_card.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -129,107 +131,96 @@ class CarouselCardItemState extends State<CarouselCardItem> {
           isVirtual: card.isBlocked(),
           isExpired: card.isExpired(),
           cardNumber: card.accountNumber!,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Consumer(
+            builder: (context, ref, _) {
+              final textColor = HexColor.fromHex(ref.watch(newHomePageCMSProvider)?.cardsColor?.colorCardText);
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '${card.accountNumber}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 22,
-                        ),
-                      ),
-                      const SizedBox(height: 7.0),
-                      GestureDetector(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Dialog(
-                                child: UpdateNicknameCard(
-                                  cardDetails: card,
-                                  onUpdate: (newNickname) {
-                                    setState(() {
-                                      cardNickname = newNickname;
-                                    });
-                                  },
-                                ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '${card.accountNumber}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: textColor,
+                              fontSize: 22,
+                            ),
+                          ),
+                          const SizedBox(height: 7.0),
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Dialog(
+                                    child: UpdateNicknameCard(
+                                      cardDetails: card,
+                                      onUpdate: (newNickname) {
+                                        setState(() {
+                                          cardNickname = newNickname;
+                                        });
+                                      },
+                                    ),
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            Text(
-                              cardNickname,
-                              style: const TextStyle(
-                                decoration: TextDecoration.none,
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  cardNickname,
+                                  style: TextStyle(
+                                    decoration: TextDecoration.none,
+                                    color: textColor,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const SizedBox(width: 5.0),
+                                const Icon(Icons.edit, color: Colors.white, size: 15.0),
+                              ],
                             ),
-                            const SizedBox(width: 5.0),
-                            const Icon(Icons.edit, color: Colors.white, size: 15.0),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
+                      GestureDetector(
+                        onTap: () => Dialogs.showBarcodeTempCard(context, card.accountNumber!),
+                        child: const ImageHandler(
+                          height: 42.0,
+                          imageKey: "QR_image_path",
+                        ),
+                      )
                     ],
                   ),
-                  GestureDetector(
-                    onTap: () => Dialogs.showBarcodeTempCard(context, card.accountNumber!),
-                    child: const ImageHandler(
-                      height: 42.0,
-                      imageKey: "QR_image_path",
+                  const SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
+                  Text(
+                    '${card.issueDate != null ? DateFormat('dd  MMM yyyy').format(card.issueDate as DateTime) : ''} ${card.expiryDate != null ? DateFormat('- dd  MMM yyyy').format(DateTime.parse(card.expiryDate.toString())) : ''}',
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
                     ),
-                  )
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              // OutlinedButton(
-              //   onPressed: () {},
-              //   style: OutlinedButton.styleFrom(
-              //     side: const BorderSide(width: 1.0, color: Colors.white),
-              //     shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.circular(12.0),
-              //     ),
-              //   ),
-              //   child: Text(
-              //     SplashScreenNotifier.getLanguageLabel('Get Balance'),
-              //     style: const TextStyle(
-              //       fontWeight: FontWeight.bold,
-              //       color: Colors.white,
-              //     ),
-              //   ),
-              // ),
-              const SizedBox(height: 10.0),
-              Text(
-                '${card.issueDate != null ? DateFormat('dd  MMM yyyy').format(card.issueDate as DateTime) : ''} ${card.expiryDate != null ? DateFormat('- dd  MMM yyyy').format(DateTime.parse(card.expiryDate.toString())) : ''}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              if (card.customerId != userId && card.customerId != -1)
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.link,
-                      color: Colors.white,
-                      size: 30.0,
+                  ),
+                  if (card.customerId != userId && card.customerId != -1)
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(
+                          Icons.link,
+                          color: Colors.white,
+                          size: 30.0,
+                        )
+                      ],
                     )
-                  ],
-                )
-            ],
+                ],
+              );
+            },
           ),
         ),
       ],

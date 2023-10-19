@@ -460,6 +460,7 @@
         "terms_and_conditions": "https://www.google.com/"
       },
       "CardsColor": {
+        "color_card_text": "#FF1493",
         "silver_gradient": [
           "#FFFFFF",
           "#F0F0F0",

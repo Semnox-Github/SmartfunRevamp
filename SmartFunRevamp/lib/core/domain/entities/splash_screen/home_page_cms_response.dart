@@ -111,6 +111,7 @@ class CardsColor {
   final String? regular;
   final String? expired;
   final String? virtual;
+  final String? colorCardText;
   final List<String>? silverGradient;
   final List<String>? goldGradient;
   final List<String>? platinumGradient;
@@ -119,6 +120,7 @@ class CardsColor {
     this.regular,
     this.expired,
     this.virtual,
+    this.colorCardText,
     this.silverGradient,
     this.goldGradient,
     this.platinumGradient,

@@ -77,6 +77,7 @@ class CardWidget extends StatelessWidget {
           Row(
             children: [
               const ImageHandler(
+                height: 32,
                 imageKey: "coin_image_path",
               ),
               Text(

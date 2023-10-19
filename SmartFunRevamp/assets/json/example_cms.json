@@ -458,6 +458,55 @@
       "ExternalUrls": {
         "privacy_policy": "https://www.google.com/",
         "terms_and_conditions": "https://www.google.com/"
+      },
+      "CardsColor": {
+        "silver_gradient": [
+          "#FFFFFF",
+          "#F0F0F0",
+          "#E0E0E0",
+          "#D0D0D0",
+          "#C0C0C0",
+          "#B0B0B0",
+          "#A0A0A0",
+          "#909090",
+          "#808080"
+        ],
+        "gold_gradient": [
+          "#FFD700",
+          "#FFC100",
+          "#FFB000",
+          "#FFA000",
+          "#FF9000",
+          "#FF8000",
+          "#FF7000",
+          "#FF6000",
+          "#FF5000",
+          "#FF4000",
+          "#FF3000",
+          "#FF2000",
+          "#FF1000",
+          "#FF0000"
+        ],
+        "platinum_gradient": [
+          "#E5E4E2",
+          "#D8D6D4",
+          "#CBC8C6",
+          "#BEBBB9",
+          "#B1ADA9",
+          "#A4A19F",
+          "#979693",
+          "#8A8989",
+          "#7D7D7D",
+          "#706F6E",
+          "#636261",
+          "#565554",
+          "#494847",
+          "#3C3B3A",
+          "#2F2E2D",
+          "#222120",
+          "#151514",
+          "#080808"
+        ]
       }
     }
   ]

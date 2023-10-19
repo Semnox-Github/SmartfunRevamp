@@ -27,8 +27,8 @@ class ProfilePicture extends ConsumerWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              HexColor.fromHex(noImageColor?[0]) ?? const Color(0xFFFFF2AD),
-              HexColor.fromHex(noImageColor?[1]) ?? const Color(0xFFFFA322),
+              HexColor.fromHex(noImageColor?[0]),
+              HexColor.fromHex(noImageColor?[1]),
             ],
           ),
           shape: BoxShape.circle,

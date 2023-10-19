@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,7 +28,6 @@ class AfterSplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final imagePath = ref.watch(newHomePageCMSProvider)?.cmsImages.languagePickImagePath;
     final currenLang = ref.watch(currentLanguageProvider);
     ref.watch(getStringForLocalization).maybeWhen(
       orElse: () {

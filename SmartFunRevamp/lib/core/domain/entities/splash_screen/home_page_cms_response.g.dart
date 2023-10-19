@@ -28,6 +28,9 @@ HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
       (json['HomePageOrder'] as List<dynamic>)
           .map((e) => HomePageOrder.fromJson(e as Map<String, dynamic>))
           .toList(),
+      json['ExternalUrls'] == null
+          ? null
+          : ExternalUrls.fromJson(json['ExternalUrls'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
@@ -50,6 +53,7 @@ Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
   writeNotNull('CMSModuleColorsHome', instance.cmsModuleColorsHome?.toJson());
   writeNotNull('CardsColor', instance.cardsColor?.toJson());
   val['HomePageOrder'] = instance.homePageOrder.map((e) => e.toJson()).toList();
+  writeNotNull('ExternalUrls', instance.externalUrls?.toJson());
   return val;
 }
 
@@ -281,3 +285,14 @@ Map<String, dynamic> _$HomePageOrderToJson(HomePageOrder instance) {
   writeNotNull('display_section', instance.displaySection);
   return val;
 }
+
+ExternalUrls _$ExternalUrlsFromJson(Map<String, dynamic> json) => ExternalUrls(
+      json['privacy_policy'] as String,
+      json['terms_and_conditions'] as String,
+    );
+
+Map<String, dynamic> _$ExternalUrlsToJson(ExternalUrls instance) =>
+    <String, dynamic>{
+      'privacy_policy': instance.privacyPolicy,
+      'terms_and_conditions': instance.termsAndConditions,
+    };

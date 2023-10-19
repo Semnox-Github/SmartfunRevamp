@@ -30,7 +30,9 @@ class MoreView extends ConsumerWidget {
     final membershipInfo = ref.watch(membershipInfoProvider).valueOrNull;
     return Scaffold(
       backgroundColor: CustomColors.customLigthBlue,
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: Container(),
+      ),
       bottomNavigationBar: const CustomBottomBar(),
       body: SafeArea(
         child: Container(

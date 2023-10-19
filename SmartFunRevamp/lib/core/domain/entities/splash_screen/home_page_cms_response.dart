@@ -26,6 +26,7 @@ class HomePageCMSResponse {
   @JsonKey(name: 'CardsColor')
   final CardsColor? cardsColor;
   final List<HomePageOrder> homePageOrder;
+  final ExternalUrls? externalUrls;
 
   HomePageCMSResponse(
     this.moduleId,
@@ -37,6 +38,7 @@ class HomePageCMSResponse {
     this.cmsModuleColorsHome,
     this.cardsColor,
     this.homePageOrder,
+    this.externalUrls,
   );
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
@@ -320,4 +322,17 @@ class HomePageOrder {
   HomePageOrder(this.position, this.widget, this.title, this.isVisible, this.displaySection);
   factory HomePageOrder.fromJson(Map<String, dynamic> json) => _$HomePageOrderFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageOrderToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+class ExternalUrls {
+  final String privacyPolicy;
+  final String termsAndConditions;
+
+  ExternalUrls(
+    this.privacyPolicy,
+    this.termsAndConditions,
+  );
+  factory ExternalUrls.fromJson(Map<String, dynamic> json) => _$ExternalUrlsFromJson(json);
+  Map<String, dynamic> toJson() => _$ExternalUrlsToJson(this);
 }

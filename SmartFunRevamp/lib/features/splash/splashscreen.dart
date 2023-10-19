@@ -132,7 +132,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         fireImmediately: true,
                       );
                     } else {
-                      Navigator.pushNamed(context, Routes.kHomePage);
+                      Navigator.pushReplacementNamed(context, Routes.kHomePage);
                     }
                   } else {
                     Navigator.pushReplacementNamed(context, Routes.kEnableLocation);

@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +16,17 @@ class FilterDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final int interval = 50;
+    final int nIntervals = 6;
+    List<List<int>> gFilter = [];
+    for (int i = 0; i < nIntervals; i++) {
+      if (i + 1 == nIntervals) {
+        gFilter.add([i == 0 ? i * interval : i * interval + 1]);
+      } else {
+        gFilter.add([i == 0 ? i * interval : i * interval + 1, (i + 1) * interval]);
+      }
+    }
+
     List<List<int>> filters = [];
     return Drawer(
       child: Column(
@@ -60,13 +72,7 @@ class FilterDrawer extends ConsumerWidget {
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  [10, 50],
-                  [51, 100],
-                  [101, 200],
-                  [201, 300],
-                  [300]
-                ].map((e) {
+                children: gFilter.map((e) {
                   final text = e.length == 2 ? '\$${e[0]} - \$${e[1]}' : '\$${e[0]}+';
                   return ListTile(
                     contentPadding: EdgeInsets.zero,

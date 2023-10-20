@@ -9,6 +9,7 @@ import 'package:semnox/core/domain/entities/membership/membership_info.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/widgets/custom_bottom_bar.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
@@ -30,7 +31,7 @@ class MoreView extends ConsumerWidget {
     final membershipInfo = ref.watch(membershipInfoProvider).valueOrNull;
     return Scaffold(
       backgroundColor: CustomColors.customLigthBlue,
-      appBar: AppBar(),
+      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('More')),
       bottomNavigationBar: const CustomBottomBar(),
       body: SafeArea(
         child: Container(
@@ -48,17 +49,6 @@ class MoreView extends ConsumerWidget {
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        MulishText(
-                          text: SplashScreenNotifier.getLanguageLabel('More'),
-                          fontWeight: FontWeight.bold,
-                          fontColor: CustomColors.customBlue,
-                          fontSize: 24,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10.0),
                     UserPresentationCard(user: user),
                   ],
                 ),

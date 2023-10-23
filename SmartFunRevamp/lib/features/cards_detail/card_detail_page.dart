@@ -53,7 +53,7 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
             children: [
               Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.34,
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 margin: const EdgeInsets.only(bottom: 10.0),
                 decoration: const BoxDecoration(
@@ -64,7 +64,6 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                   ),
                 ),
                 child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10.0),
                   child: cardsWatch.when(
                     skipLoadingOnRefresh: false,
                     loading: () => const ShimmerLoading(height: 200),
@@ -88,7 +87,7 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                               }
                               _cardIndex = cardIndex;
                             },
-                          )
+                          ),
                         ],
                       );
                     },

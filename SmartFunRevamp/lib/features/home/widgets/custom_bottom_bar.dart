@@ -37,7 +37,12 @@ class CustomBottomBar extends ConsumerWidget {
           if (isUrl) {
             Navigator.pushNamed(context, Routes.kPlayPage);
           } else if (currentRoute != route) {
-            Navigator.pushReplacementNamed(context, route);
+            if (route == Routes.kHomePage) {
+              Navigator.popUntil(context, (route) => route.isFirst);
+              Navigator.pushNamed(context, route);
+            } else {
+              Navigator.pushNamed(context, route);
+            }
           }
         },
         items: [

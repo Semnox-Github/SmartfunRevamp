@@ -55,17 +55,6 @@ class MoreView extends ConsumerWidget {
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        MulishText(
-                          text: SplashScreenNotifier.getLanguageLabel('More'),
-                          fontWeight: FontWeight.bold,
-                          fontColor: CustomColors.customBlue,
-                          fontSize: 24,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10.0),
                     UserPresentationCard(user: user),
                   ],
                 ),

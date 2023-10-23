@@ -6,6 +6,7 @@ import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_checkbox.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/provider/buy_card/buy_card_notifier.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class FilterDrawer extends ConsumerWidget {
@@ -15,6 +16,12 @@ class FilterDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    List<List<int>>? buyACardFilters = ref.watch(newHomePageCMSProvider)?.buyACardFilters;
+    List<List<int>> gFilter = buyACardFilters ??
+        [
+          [0]
+        ];
+
     List<List<int>> filters = [];
     return Drawer(
       child: Column(
@@ -60,13 +67,7 @@ class FilterDrawer extends ConsumerWidget {
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  [10, 50],
-                  [51, 100],
-                  [101, 200],
-                  [201, 300],
-                  [300]
-                ].map((e) {
+                children: gFilter.map((e) {
                   final text = e.length == 2 ? '\$${e[0]} - \$${e[1]}' : '\$${e[0]}+';
                   return ListTile(
                     contentPadding: EdgeInsets.zero,

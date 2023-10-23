@@ -938,7 +938,28 @@
         "ios_appstore_link": "https://www.google.com/"
       },
       "IsChanged": true,
-      "IsChangedRecursive": true
+      "IsChangedRecursive": true,
+      "BuyACardFilters": [
+        [
+          10,
+          50
+        ],
+        [
+          51,
+          100
+        ],
+        [
+          101,
+          200
+        ],
+        [
+          201,
+          300
+        ],
+        [
+          301
+        ]
+      ]
     }
   ]
 }

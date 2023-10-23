@@ -27,6 +27,7 @@ class HomePageCMSResponse {
   final CardsColor? cardsColor;
   final List<HomePageOrder> homePageOrder;
   final ExternalUrls? externalUrls;
+  final List<List<int>>? buyACardFilters;
 
   HomePageCMSResponse(
     this.moduleId,
@@ -39,6 +40,7 @@ class HomePageCMSResponse {
     this.cardsColor,
     this.homePageOrder,
     this.externalUrls,
+    this.buyACardFilters,
   );
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);

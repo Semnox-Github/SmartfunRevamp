@@ -26,18 +26,10 @@ class HomePageCMSResponse {
   @JsonKey(name: 'CardsColor')
   final CardsColor? cardsColor;
   final List<HomePageOrder> homePageOrder;
+  final List<List<int>>? buyACardFilters;
 
-  HomePageCMSResponse(
-    this.moduleId,
-    this.description,
-    this.title,
-    this.cmsModulePages,
-    this.cmsModuleMenu,
-    this.cmsImages,
-    this.cmsModuleColorsHome,
-    this.cardsColor,
-    this.homePageOrder,
-  );
+  HomePageCMSResponse(this.moduleId, this.description, this.title, this.cmsModulePages, this.cmsModuleMenu,
+      this.cmsImages, this.cmsModuleColorsHome, this.cardsColor, this.homePageOrder, this.buyACardFilters);
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
 

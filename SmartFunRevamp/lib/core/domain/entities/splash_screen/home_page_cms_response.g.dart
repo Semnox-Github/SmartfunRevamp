@@ -28,6 +28,9 @@ HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
       (json['HomePageOrder'] as List<dynamic>)
           .map((e) => HomePageOrder.fromJson(e as Map<String, dynamic>))
           .toList(),
+      (json['BuyACardFilters'] as List<dynamic>?)
+          ?.map((e) => (e as List<dynamic>).map((e) => e as int).toList())
+          .toList(),
     );
 
 Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
@@ -50,6 +53,7 @@ Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
   writeNotNull('CMSModuleColorsHome', instance.cmsModuleColorsHome?.toJson());
   writeNotNull('CardsColor', instance.cardsColor?.toJson());
   val['HomePageOrder'] = instance.homePageOrder.map((e) => e.toJson()).toList();
+  writeNotNull('BuyACardFilters', instance.buyACardFilters);
   return val;
 }
 

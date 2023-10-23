@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +6,7 @@ import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_checkbox.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/provider/buy_card/buy_card_notifier.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class FilterDrawer extends ConsumerWidget {
@@ -16,16 +16,11 @@ class FilterDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final int interval = 50;
-    final int nIntervals = 6;
-    List<List<int>> gFilter = [];
-    for (int i = 0; i < nIntervals; i++) {
-      if (i + 1 == nIntervals) {
-        gFilter.add([i == 0 ? i * interval : i * interval + 1]);
-      } else {
-        gFilter.add([i == 0 ? i * interval : i * interval + 1, (i + 1) * interval]);
-      }
-    }
+    List<List<int>>? buyACardFilters = ref.watch(newHomePageCMSProvider)?.buyACardFilters;
+    List<List<int>> gFilter = buyACardFilters ??
+        [
+          [0]
+        ];
 
     List<List<int>> filters = [];
     return Drawer(

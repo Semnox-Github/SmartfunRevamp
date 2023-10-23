@@ -319,7 +319,13 @@ class HomePageOrder {
   final String widget;
   final bool isVisible;
   final String? displaySection;
-  HomePageOrder(this.position, this.widget, this.title, this.isVisible, this.displaySection);
+  HomePageOrder(
+    this.position,
+    this.widget,
+    this.title,
+    this.isVisible,
+    this.displaySection,
+  );
   factory HomePageOrder.fromJson(Map<String, dynamic> json) => _$HomePageOrderFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageOrderToJson(this);
 }
@@ -328,10 +334,16 @@ class HomePageOrder {
 class ExternalUrls {
   final String privacyPolicy;
   final String termsAndConditions;
+  final String help;
+  final String androidPlaystoreLink;
+  final String iosAppstoreLink;
 
   ExternalUrls(
     this.privacyPolicy,
     this.termsAndConditions,
+    this.help,
+    this.iosAppstoreLink,
+    this.androidPlaystoreLink,
   );
   factory ExternalUrls.fromJson(Map<String, dynamic> json) => _$ExternalUrlsFromJson(json);
   Map<String, dynamic> toJson() => _$ExternalUrlsToJson(this);

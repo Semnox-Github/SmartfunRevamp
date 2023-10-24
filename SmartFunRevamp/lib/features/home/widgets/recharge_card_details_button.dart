@@ -9,14 +9,13 @@ import 'package:semnox/features/cards_detail/card_detail_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class RechargeCardDetailsButton extends ConsumerWidget {
-  RechargeCardDetailsButton({
-    Key? key,
-    required this.cardDetails,
-  }) : super(key: key);
+  RechargeCardDetailsButton({Key? key, required this.cardDetails, required this.cardIndex}) : super(key: key);
   late final CardDetails cardDetails;
   late final DateTime timeNow = DateTime.now();
-  late final DateTime expirationDate = cardDetails.expiryDate != null ? DateTime.parse(cardDetails.expiryDate.toString()) : timeNow;
+  late final DateTime expirationDate =
+      cardDetails.expiryDate != null ? DateTime.parse(cardDetails.expiryDate.toString()) : timeNow;
   late final int daysUntilExpiration = (expirationDate.difference(timeNow).inHours / 24).round();
+  late final int cardIndex;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,7 +36,8 @@ class RechargeCardDetailsButton extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  SplashScreenNotifier.getLanguageLabel('You will no longer be able to use this card. But you can still view the Gameplay history and Activity details.'),
+                  SplashScreenNotifier.getLanguageLabel(
+                      'You will no longer be able to use this card. But you can still view the Gameplay history and Activity details.'),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 12,
@@ -97,7 +97,7 @@ class RechargeCardDetailsButton extends ConsumerWidget {
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CardDetailPage(cardDetails: cardDetails),
+                        builder: (context) => CardDetailPage(cardDetails: cardDetails, cardIndex: cardIndex),
                       ),
                     ),
                     child: Text(
@@ -137,7 +137,7 @@ class RechargeCardDetailsButton extends ConsumerWidget {
                           onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CardDetailPage(cardDetails: cardDetails),
+                              builder: (context) => CardDetailPage(cardDetails: cardDetails, cardIndex: cardIndex),
                             ),
                           ),
                           child: Text(
@@ -154,7 +154,8 @@ class RechargeCardDetailsButton extends ConsumerWidget {
               ),
               const SizedBox(height: 3.0),
               Text(
-                SplashScreenNotifier.getLanguageLabel('This card can not be used for any further transactions. Exchange virtual card for a new physical card at site.'),
+                SplashScreenNotifier.getLanguageLabel(
+                    'This card can not be used for any further transactions. Exchange virtual card for a new physical card at site.'),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,

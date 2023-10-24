@@ -6,26 +6,36 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
-import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
+import 'package:semnox/features/home/provider/cards_provider.dart';
+import 'package:semnox/features/home/view/home_view.dart';
+import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/features/transfer/transfer_page.dart';
 
-class CardDetailPage extends ConsumerWidget {
-  const CardDetailPage({Key? key, required this.cardDetails}) : super(key: key);
+class CardDetailPage extends ConsumerStatefulWidget {
+  const CardDetailPage({Key? key, required this.cardDetails, this.cardIndex}) : super(key: key);
   final CardDetails cardDetails;
+  final int? cardIndex;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _CardDetailPage();
+}
+
+class _CardDetailPage extends ConsumerState<CardDetailPage> {
+  late CardDetails cardDetails = widget.cardDetails;
+  late int _cardIndex = widget.cardIndex ?? 0;
+  @override
+  Widget build(BuildContext context) {
     final cms = ref.watch(newHomePageCMSProvider);
     final items = cms?.getCardDetailMenuItems() ?? [];
-
+    final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     return Scaffold(
       appBar: AppBar(
         title: MulishText(
@@ -42,7 +52,7 @@ class CardDetailPage extends ConsumerWidget {
             children: [
               Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.34,
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 margin: const EdgeInsets.only(bottom: 10.0),
                 decoration: const BoxDecoration(
@@ -52,7 +62,36 @@ class CardDetailPage extends ConsumerWidget {
                     bottomRight: Radius.circular(20.0),
                   ),
                 ),
-                child: CardWidget(cardDetails: cardDetails),
+                child: Container(
+                  child: cardsWatch.when(
+                    skipLoadingOnRefresh: false,
+                    loading: () => const ShimmerLoading(height: 200),
+                    error: (_, __) => Center(
+                      child: MulishText(text: SplashScreenNotifier.getLanguageLabel('No Cards found')),
+                    ),
+                    data: (data) {
+                      return Column(
+                        children: [
+                          CarouselCards(
+                            cards: data,
+                            initialPosition: _cardIndex,
+                            onCardChanged: (cardIndex) {
+                              if (cardIndex != data.length) {
+                                ref.read(currentCardProvider.notifier).update((state) => data[cardIndex]);
+                                setState(() {
+                                  cardDetails = data[cardIndex];
+                                });
+                              } else {
+                                ref.read(currentCardProvider.notifier).update((state) => null);
+                              }
+                              _cardIndex = cardIndex;
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
               ),
               GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
-import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -26,6 +25,8 @@ class HomePageCMSResponse {
   @JsonKey(name: 'CardsColor')
   final CardsColor? cardsColor;
   final List<HomePageOrder> homePageOrder;
+  final ExternalUrls? externalUrls;
+  final List<List<int>>? buyACardFilters;
 
   HomePageCMSResponse(
     this.moduleId,
@@ -37,6 +38,8 @@ class HomePageCMSResponse {
     this.cmsModuleColorsHome,
     this.cardsColor,
     this.homePageOrder,
+    this.externalUrls,
+    this.buyACardFilters,
   );
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageCMSResponseToJson(this);
@@ -110,8 +113,20 @@ class CardsColor {
   final String? regular;
   final String? expired;
   final String? virtual;
+  final String? colorCardText;
+  final List<String>? silverGradient;
+  final List<String>? goldGradient;
+  final List<String>? platinumGradient;
 
-  CardsColor(this.regular, this.expired, this.virtual);
+  CardsColor(
+    this.regular,
+    this.expired,
+    this.virtual,
+    this.colorCardText,
+    this.silverGradient,
+    this.goldGradient,
+    this.platinumGradient,
+  );
   factory CardsColor.fromJson(Map<String, dynamic> json) => _$CardsColorFromJson(json);
   Map<String, dynamic> toJson() => _$CardsColorToJson(this);
 }
@@ -166,7 +181,7 @@ class CMSModulePage {
     final temp = displayAttributes.toString().replaceAll(r'\\', '');
     final Map<String, dynamic> cleanedJson = json.decode(temp);
     final colorHex = cleanedJson['BackgroundColor'] as String;
-    return HexColor.fromHex(colorHex) ?? CustomColors.customPink;
+    return HexColor.fromHex(colorHex);
   }
 }
 
@@ -317,7 +332,32 @@ class HomePageOrder {
   final String widget;
   final bool isVisible;
   final String? displaySection;
-  HomePageOrder(this.position, this.widget, this.title, this.isVisible, this.displaySection);
+  HomePageOrder(
+    this.position,
+    this.widget,
+    this.title,
+    this.isVisible,
+    this.displaySection,
+  );
   factory HomePageOrder.fromJson(Map<String, dynamic> json) => _$HomePageOrderFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageOrderToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+class ExternalUrls {
+  final String privacyPolicy;
+  final String termsAndConditions;
+  final String help;
+  final String androidPlaystoreLink;
+  final String iosAppstoreLink;
+
+  ExternalUrls(
+    this.privacyPolicy,
+    this.termsAndConditions,
+    this.help,
+    this.iosAppstoreLink,
+    this.androidPlaystoreLink,
+  );
+  factory ExternalUrls.fromJson(Map<String, dynamic> json) => _$ExternalUrlsFromJson(json);
+  Map<String, dynamic> toJson() => _$ExternalUrlsToJson(this);
 }

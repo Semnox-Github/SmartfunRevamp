@@ -28,6 +28,12 @@ HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
       (json['HomePageOrder'] as List<dynamic>)
           .map((e) => HomePageOrder.fromJson(e as Map<String, dynamic>))
           .toList(),
+      json['ExternalUrls'] == null
+          ? null
+          : ExternalUrls.fromJson(json['ExternalUrls'] as Map<String, dynamic>),
+      (json['BuyACardFilters'] as List<dynamic>?)
+          ?.map((e) => (e as List<dynamic>).map((e) => e as int).toList())
+          .toList(),
     );
 
 Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
@@ -50,6 +56,8 @@ Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
   writeNotNull('CMSModuleColorsHome', instance.cmsModuleColorsHome?.toJson());
   writeNotNull('CardsColor', instance.cardsColor?.toJson());
   val['HomePageOrder'] = instance.homePageOrder.map((e) => e.toJson()).toList();
+  writeNotNull('ExternalUrls', instance.externalUrls?.toJson());
+  writeNotNull('BuyACardFilters', instance.buyACardFilters);
   return val;
 }
 
@@ -57,6 +65,16 @@ CardsColor _$CardsColorFromJson(Map<String, dynamic> json) => CardsColor(
       json['regular'] as String?,
       json['expired'] as String?,
       json['virtual'] as String?,
+      json['color_card_text'] as String?,
+      (json['silver_gradient'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      (json['gold_gradient'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      (json['platinum_gradient'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$CardsColorToJson(CardsColor instance) {
@@ -71,6 +89,10 @@ Map<String, dynamic> _$CardsColorToJson(CardsColor instance) {
   writeNotNull('regular', instance.regular);
   writeNotNull('expired', instance.expired);
   writeNotNull('virtual', instance.virtual);
+  writeNotNull('color_card_text', instance.colorCardText);
+  writeNotNull('silver_gradient', instance.silverGradient);
+  writeNotNull('gold_gradient', instance.goldGradient);
+  writeNotNull('platinum_gradient', instance.platinumGradient);
   return val;
 }
 
@@ -281,3 +303,20 @@ Map<String, dynamic> _$HomePageOrderToJson(HomePageOrder instance) {
   writeNotNull('display_section', instance.displaySection);
   return val;
 }
+
+ExternalUrls _$ExternalUrlsFromJson(Map<String, dynamic> json) => ExternalUrls(
+      json['privacy_policy'] as String,
+      json['terms_and_conditions'] as String,
+      json['help'] as String,
+      json['ios_appstore_link'] as String,
+      json['android_playstore_link'] as String,
+    );
+
+Map<String, dynamic> _$ExternalUrlsToJson(ExternalUrls instance) =>
+    <String, dynamic>{
+      'privacy_policy': instance.privacyPolicy,
+      'terms_and_conditions': instance.termsAndConditions,
+      'help': instance.help,
+      'android_playstore_link': instance.androidPlaystoreLink,
+      'ios_appstore_link': instance.iosAppstoreLink,
+    };

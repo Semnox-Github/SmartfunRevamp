@@ -396,7 +396,7 @@
                   "DisplayOrder": 4,
                   "DisplayName": "Help",
                   "Description": "HELP DESCRIPTION",
-                  "Target": "sf://bookings"
+                  "Target": "https://www.semnox.com/contact-us/"
                 },
                 {
                   "ItemName": "ORDERS",
@@ -404,7 +404,8 @@
                   "Active": true,
                   "DisplayOrder": 4,
                   "DisplayName": "My Orders",
-                  "Description": "ORDERS DESCRIPTION"
+                  "Description": "ORDERS DESCRIPTION",
+                  "Target": "sf://orders"
                 },
                 {
                   "ItemName": "LEGAL",
@@ -412,7 +413,8 @@
                   "Active": true,
                   "DisplayOrder": 5,
                   "DisplayName": "Legal",
-                  "Description": "LEGAL DESCRIPTION"
+                  "Description": "LEGAL DESCRIPTION",
+                  "Target": "https://www.semnox.com/privacy-policy.html"
                 },
                 {
                   "ItemName": "LIKE",
@@ -937,13 +939,89 @@
           "#FFFFA322"
         ]
       },
+      "ExternalUrls": {
+        "privacy_policy": "https://www.semnox.com/privacy-policy.html",
+        "terms_and_conditions": "https://www.semnox.com/privacy-policy.html",
+        "help": "https://www.semnox.com/contact-us/",
+        "android_playstore_link": "https://www.google.com/",
+        "ios_appstore_link": "https://www.google.com/"
+      },
       "CardsColor": {
+        "color_card_text": "#FF1493",
         "regular": "#FF613F75",
         "expired": "#FFE5C3D1",
-        "virtual": "#FFEF798A"
+        "virtual": "#FFEF798A",
+        "silver_gradient": [
+          "#FFFFFF",
+          "#F0F0F0",
+          "#E0E0E0",
+          "#D0D0D0",
+          "#C0C0C0",
+          "#B0B0B0",
+          "#A0A0A0",
+          "#909090",
+          "#808080"
+        ],
+        "gold_gradient": [
+          "#FFD700",
+          "#FFC100",
+          "#FFB000",
+          "#FFA000",
+          "#FF9000",
+          "#FF8000",
+          "#FF7000",
+          "#FF6000",
+          "#FF5000",
+          "#FF4000",
+          "#FF3000",
+          "#FF2000",
+          "#FF1000",
+          "#FF0000"
+        ],
+        "platinum_gradient": [
+          "#E5E4E2",
+          "#D8D6D4",
+          "#CBC8C6",
+          "#BEBBB9",
+          "#B1ADA9",
+          "#A4A19F",
+          "#979693",
+          "#8A8989",
+          "#7D7D7D",
+          "#706F6E",
+          "#636261",
+          "#565554",
+          "#494847",
+          "#3C3B3A",
+          "#2F2E2D",
+          "#222120",
+          "#151514",
+          "#080808"
+        ]
       },
       "IsChanged": true,
-      "IsChangedRecursive": true
+      "IsChangedRecursive": true,
+      "BuyACardFilters": [
+        [
+          10,
+          50
+        ],
+        [
+          51,
+          100
+        ],
+        [
+          101,
+          200
+        ],
+        [
+          201,
+          300
+        ],
+        [
+          301
+        ]
+      ]
     }
   ]
 }

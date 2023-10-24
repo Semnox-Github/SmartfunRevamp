@@ -32,10 +32,12 @@ class HomeTopBarIcons extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
+            iconSize: 45,
             onPressed: onSearchTap,
             icon: const Icon(Icons.search),
           ),
           IconButton(
+            iconSize: 45,
             onPressed: () {},
             icon: const Icon(Icons.notifications),
           ),
@@ -47,6 +49,7 @@ class HomeTopBarIcons extends ConsumerWidget {
         InkWell(
           onTap: onSearchTap,
           child: CachedNetworkImage(
+            height: 45,
             imageUrl: header.firstWhere((element) => element.displayName == 'Search').itemUrl,
             errorWidget: (context, url, error) => const Icon(Icons.search),
           ),
@@ -54,6 +57,7 @@ class HomeTopBarIcons extends ConsumerWidget {
         const SizedBox(width: 10.0),
         NotificationsButton(
           notificationIcon: CachedNetworkImage(
+            height: 45,
             imageUrl: header.firstWhere((element) => element.displayName == 'Notification').itemUrl,
             errorWidget: (context, url, error) => const Icon(Icons.notifications),
           ),

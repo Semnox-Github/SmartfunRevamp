@@ -39,11 +39,8 @@ class FeedbackRepositoryImpl implements FeedbackRepository {
   @override
   Future<Either<Failure, void>> postCustomerFeedback(SurveyRequest request) async {
     try {
-      await _api.sendCustomerFeedback({
-        "data": [
-          request.toJson(),
-        ]
-      });
+      final body = [request];
+      await _api.sendCustomerFeedback(body);
       return const Right(null);
     } on Exception catch (e) {
       return Left(e.handleException());

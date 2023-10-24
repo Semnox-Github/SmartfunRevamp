@@ -53,6 +53,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
           if (estimated.couponDiscountAmount != null) {
             Dialogs.couponSuccessDialog(context, estimated.transactionDiscountAmount);
           }
+          ref.read(currentTransactionIdProvider.notifier).update((_) => estimated.transactionId);
         },
         error: (message) {
           AwesomeDialog(
@@ -101,7 +102,6 @@ class EstimatedTransactionPage extends ConsumerWidget {
                   error: (message) => GeneralErrorWidget(message: message),
                   inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                   transactionEstimated: (transactionResponse) {
-                    ref.watch(currentTransactionIdProvider.notifier).update((_) => transactionResponse.transactionId);
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

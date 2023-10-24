@@ -12,12 +12,12 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 
 Color _cardColor(bool isVirtual, bool isExpired, CardsColor? colors) {
   if (isExpired) {
-    return HexColor.fromHex(colors?.expired) ?? Colors.grey;
+    return HexColor.fromHex(colors?.expired);
   }
   if (isVirtual) {
-    return HexColor.fromHex(colors?.virtual) ?? Colors.pink;
+    return HexColor.fromHex(colors?.virtual);
   }
-  return HexColor.fromHex(colors?.regular) ?? Colors.purple;
+  return HexColor.fromHex(colors?.regular);
 }
 
 class BackgroundCard extends ConsumerWidget {

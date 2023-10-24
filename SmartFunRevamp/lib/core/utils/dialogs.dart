@@ -254,7 +254,7 @@ class Dialogs {
     ).show();
   }
 
-  static void showErrorMessage(BuildContext context, String message) {
+  static void showErrorMessage(BuildContext context, String message, {Function()? onOkPress}) {
     AwesomeDialog(
       context: context,
       dialogType: DialogType.error,
@@ -265,7 +265,11 @@ class Dialogs {
         fontWeight: FontWeight.w400,
         fontSize: 18,
       ),
-      btnOkOnPress: () {},
+      btnOkOnPress: () {
+        if (onOkPress != null) {
+          onOkPress();
+        }
+      },
       btnOkText: SplashScreenNotifier.getLanguageLabel('OK'),
       btnOkColor: Colors.red,
     ).show();

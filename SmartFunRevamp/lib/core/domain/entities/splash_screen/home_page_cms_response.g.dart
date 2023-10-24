@@ -31,6 +31,9 @@ HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
       json['ExternalUrls'] == null
           ? null
           : ExternalUrls.fromJson(json['ExternalUrls'] as Map<String, dynamic>),
+      (json['BuyACardFilters'] as List<dynamic>?)
+          ?.map((e) => (e as List<dynamic>).map((e) => e as int).toList())
+          .toList(),
     );
 
 Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
@@ -54,6 +57,7 @@ Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
   writeNotNull('CardsColor', instance.cardsColor?.toJson());
   val['HomePageOrder'] = instance.homePageOrder.map((e) => e.toJson()).toList();
   writeNotNull('ExternalUrls', instance.externalUrls?.toJson());
+  writeNotNull('BuyACardFilters', instance.buyACardFilters);
   return val;
 }
 
@@ -303,10 +307,16 @@ Map<String, dynamic> _$HomePageOrderToJson(HomePageOrder instance) {
 ExternalUrls _$ExternalUrlsFromJson(Map<String, dynamic> json) => ExternalUrls(
       json['privacy_policy'] as String,
       json['terms_and_conditions'] as String,
+      json['help'] as String,
+      json['ios_appstore_link'] as String,
+      json['android_playstore_link'] as String,
     );
 
 Map<String, dynamic> _$ExternalUrlsToJson(ExternalUrls instance) =>
     <String, dynamic>{
       'privacy_policy': instance.privacyPolicy,
       'terms_and_conditions': instance.termsAndConditions,
+      'help': instance.help,
+      'android_playstore_link': instance.androidPlaystoreLink,
+      'ios_appstore_link': instance.iosAppstoreLink,
     };

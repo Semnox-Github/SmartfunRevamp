@@ -43,7 +43,7 @@ Follow instructions on official Goole Maps package documentation https://pub.dev
 This is the screen that is shown natively in the app before the flutter app is loaded
 1. Save chosen image file in `SmartFunRevamp/assets/splash_screen/splash_screen.png` (you can change the name of the file, but you need to update the name in the next step).
 2. Open file `SmartFunRevamp/flutter_native_splash.yaml` and update `background_image` and `color`. You can ommit this step if you used the default name for the image file in the step 1
-4. Run generation tool: `flutter pub pub run flutter_native_splash:create`
+3. Run generation tool: `flutter pub pub run flutter_native_splash:create`
 
 # 8. Native icon app
 This is the icon of the app that is shown in the device berfore opening the app
@@ -51,10 +51,10 @@ This is the icon of the app that is shown in the device berfore opening the app
 2. Open file `SmartFunRevamp/flutter_native_icons.yaml` and update image path if you change it in the step 1
 3. Run generation tool: `flutter pub run flutter_launcher_icons`
 
-# 9. json configuration
-There are serveral parts of the app that can be configured by json files. For every configuration there is a file that is shipped inside the app and that is read by default the first time the app is opened. After that, the app will fetch a new configuration from the API and will store it in the device. The json local file and the API response are merged and the result is stored in the device, so they should have the same format.
+# 9. JSON configuration
+There are serveral parts of the app that can be configured by json files. For every configuration there is a file that is shipped inside the app and that is read by default the first time the app is opened. After that, the app will fetch a new configuration from the API and will store it in the device. The json local file and the API response are merged and the result is stored in the device, so they should have the same format, keys and structure.
 
-_WARNING: this feature is not implemented yet, so the app will always fetch the configuration from the API until ticket #920 is done_
+_WARNING: this feature is not implemented yet, so the app will always fetch the configuration from the API until ticket #1005 is done_
 
 **Below is a list of the json files that can be configured:**
 
@@ -103,8 +103,8 @@ The file should be located at `SmartFunRevamp/assets/json/parafait_defaults.json
 ```
 
 ## 9.4. CMS configuration
-It contains data to configure data for the app such as: home containers, menu itesm, colors, etc. The file is `SmartFunRevamp/assets/json/example_cms.json`
-_TO DO: we need to change the name of this file because is not an exampla anymore, it is the real file that is shipped with the app_
+It contains data to configure the app such as: home containers, menu itesm, colors, etc. The file is `SmartFunRevamp/assets/json/example_cms.json`
+_TO DO: we need to change the name of this file because is not an example anymore, it is the real file that is shipped with the app_
 The next items are configured in the same file.
 
 ### 9.4.1. Home containers
@@ -121,39 +121,89 @@ The configuration for this containers is made in 2 different places in the json 
 This is the format of the `HomePageOrder` list:
 
 ```
-  "HomePageOrder": [
-    {
-      "title": "My Tickets",
-      "position": 4,
-      "widget": "CARDS",
-      "is_visible": true
-    },
-    {
-      "title": "Quick Links",
-      "position": 10,
-      "widget": "LINKS",
-      "is_visible": true,
-      "display_section": "QUICKLINKS"
-    },
-    {
-      "title": "Promotions",
-      "position": 2,
-      "widget": "CAROUSEL",
-      "is_visible": true,
-      "display_section": "PROMOS_1"
-    },
-    {
-      "title": "More Actions",
-      "position": 3,
-      "widget": "LINKS",
-      "is_visible": true,
-      "display_section": "MORE_ACTIONS"
-    }
-  ],
+"HomePageOrder": [
+  {
+    "title": "My Tickets",
+    "position": 4,
+    "widget": "CARDS",
+    "is_visible": true
+  },
+  {
+    "title": "Quick Links",
+    "position": 10,
+    "widget": "LINKS",
+    "is_visible": true,
+    "display_section": "QUICKLINKS"
+  },
+  {
+    "title": "Promotions",
+    "position": 2,
+    "widget": "CAROUSEL",
+    "is_visible": true,
+    "display_section": "PROMOS_1"
+  },
+  {
+    "title": "More Actions",
+    "position": 3,
+    "widget": "LINKS",
+    "is_visible": true,
+    "display_section": "MORE_ACTIONS"
+  }
+  # more items here ...
+],
 ```
 
 2. `CMSModulePageDTOList` is the actual data pointed from the previous section
 ```
+"CMSModulePageDTOList": [
+{
+  "Source": "CARDS",
+  "ContentName": "",
+  "DisplaySection": "WIDGET",
+  "DisplayOrder": 5,
+  "Active": true,
+  "Site_id": 1010,
+  "CMSContentTemplateDTO": null,
+  "SectionName": "",
+  "MasterEntityId": -1,
+  "ParentContentId": -1,
+  "Height": 25,
+  "Width": 90,
+  "ContentURL": "",
+  "IsChanged": true
+},
+{
+  "Source": "PROMOTIONS",
+  "ContentName": "",
+  "DisplaySection": "CAROUSEL",
+  "DisplayOrder": 3,
+  "Active": true,
+  "Site_id": 1010,
+  "CMSContentTemplateDTO": null,
+  "SectionName": "",
+  "MasterEntityId": -1,
+  "ParentContentId": -1,
+  "Height": 28,
+  "Width": 90,
+  "ContentURL": "",
+  "IsChanged": true
+},
+{
+  "Source": "PromoImage1",
+  "ContentName": "",
+  "DisplaySection": "PROMOS_1",
+  "DisplayOrder": 1,
+  "Active": true,
+  "Site_id": 1010,
+  "CMSContentTemplateDTO": null,
+  "SectionName": "",
+  "MasterEntityId": -1,
+  "ParentContentId": 330,
+  "Height": 28,
+  "Width": 90,
+  "ContentURL": "https://parafaitapihqdemo.parafait.com/images/promoimages/promoOne.png",
+  "IsChanged": true
+},
 
 ```
 

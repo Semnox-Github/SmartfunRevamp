@@ -33,9 +33,11 @@ class LoginWithEmail extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              MulishText(
-                text: SplashScreenNotifier.getLanguageLabel('Forgot Password?'),
-                fontWeight: FontWeight.w600,
+              Expanded(
+                child: MulishText(
+                  text: SplashScreenNotifier.getLanguageLabel('Forgot Password?'),
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               TextButton(
                 onPressed: () => Navigator.pushNamed(context, Routes.kForgotPassword),

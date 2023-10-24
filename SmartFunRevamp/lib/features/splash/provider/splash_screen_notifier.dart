@@ -4,7 +4,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
-import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_lookups_use_case.dart';
 import 'package:semnox/core/utils/extensions.dart';
 
@@ -20,10 +19,6 @@ final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashS
 );
 
 final systemUserProvider = StateProvider<SystemUser?>((ref) {
-  return null;
-});
-
-final homePageCMSProvider = Provider<HomePageCMSResponse?>((ref) {
   return null;
 });
 

@@ -396,7 +396,7 @@
                   "DisplayOrder": 4,
                   "DisplayName": "Help",
                   "Description": "HELP DESCRIPTION",
-                  "Target": "sf://bookings"
+                  "Target": "https://www.semnox.com/contact-us/"
                 },
                 {
                   "ItemName": "ORDERS",
@@ -404,7 +404,8 @@
                   "Active": true,
                   "DisplayOrder": 4,
                   "DisplayName": "My Orders",
-                  "Description": "ORDERS DESCRIPTION"
+                  "Description": "ORDERS DESCRIPTION",
+                  "Target": "sf://orders"
                 },
                 {
                   "ItemName": "LEGAL",
@@ -412,7 +413,8 @@
                   "Active": true,
                   "DisplayOrder": 5,
                   "DisplayName": "Legal",
-                  "Description": "LEGAL DESCRIPTION"
+                  "Description": "LEGAL DESCRIPTION",
+                  "Target": "https://www.semnox.com/privacy-policy.html"
                 },
                 {
                   "ItemName": "LIKE",
@@ -927,6 +929,13 @@
         "reset_password_success_image_path": "https://placehold.co/1200x400.png",
         "select_location_image_path": "https://placehold.co/1200x400.png",
         "transfer_success_image_path": "https://placehold.co/1200x400.png"
+      },
+      "ExternalUrls": {
+        "privacy_policy": "https://www.semnox.com/privacy-policy.html",
+        "terms_and_conditions": "https://www.semnox.com/privacy-policy.html",
+        "help": "https://www.semnox.com/contact-us/",
+        "android_playstore_link": "https://www.google.com/",
+        "ios_appstore_link": "https://www.google.com/"
       },
       "IsChanged": true,
       "IsChangedRecursive": true,

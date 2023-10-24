@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
@@ -237,10 +238,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         );
       },
     );
-
     return Scaffold(
       body: ref.watch(newSplashScreenProvider).maybeWhen(
-            orElse: () => Container(),
+            orElse: () {
+              context.loaderOverlay.hide();
+              return Container();
+            },
             error: (message) => const Center(
               child: Icon(
                 Icons.error,
@@ -249,6 +252,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               ),
             ),
             inProgress: () {
+              context.loaderOverlay.show();
               return Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(

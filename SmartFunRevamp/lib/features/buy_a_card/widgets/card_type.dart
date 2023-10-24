@@ -8,6 +8,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -45,23 +46,23 @@ extension CardValueExtension on CardValue {
   }
 }
 
-CardValue randomCard() {
+List<Color> randomCard(CardsColor? cardColors) {
   int diceRoll = Random().nextInt(6) + 1;
   switch (diceRoll) {
     case 1:
-      return CardValue.silver;
+      return cardColors?.silverGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
     case 2:
-      return CardValue.silver;
+      return cardColors?.silverGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
     case 3:
-      return CardValue.gold;
+      return cardColors?.goldGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
     case 4:
-      return CardValue.gold;
+      return cardColors?.goldGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
     case 5:
-      return CardValue.platinum;
+      return cardColors?.platinumGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
     case 6:
-      return CardValue.platinum;
+      return cardColors?.platinumGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
     default:
-      return CardValue.silver;
+      return cardColors?.silverGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
   }
 }
 
@@ -74,7 +75,9 @@ class CardType extends ConsumerWidget {
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
     final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
     final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
-    final CardValue value = randomCard();
+    final cardColors = ref.watch(newHomePageCMSProvider)?.cardsColor;
+    final colors = randomCard(cardColors);
+
     double discount = ((card.basePrice - card.finalPrice) * 100) / card.basePrice;
     final String baseUrl = Get.find<String>(tag: 'baseURL');
     return InkWell(
@@ -112,7 +115,7 @@ class CardType extends ConsumerWidget {
                   width: MediaQuery.of(context).size.width * 0.37,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    gradient: value.colorGradient,
+                    gradient: LinearGradient(colors: colors),
                   ),
                   child: CachedNetworkImage(
                     imageUrl: '$baseUrl/APP_PRODUCT_IMAGES_FOLDER/${card.imageFileName?.trim()}',

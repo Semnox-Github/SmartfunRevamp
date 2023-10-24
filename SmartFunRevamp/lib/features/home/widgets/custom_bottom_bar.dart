@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
@@ -27,7 +26,7 @@ class CustomBottomBar extends ConsumerWidget {
       child: BottomNavigationBar(
         currentIndex: 0,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: HexColor.fromHex(barColor) ?? CustomColors.customBlack,
+        backgroundColor: HexColor.fromHex(barColor),
         selectedFontSize: 0.0,
         unselectedFontSize: 0.0,
         onTap: (index) {

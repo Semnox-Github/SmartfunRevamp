@@ -180,7 +180,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 return Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                                   decoration: BoxDecoration(
-                                    color: HexColor.fromHex(homeColor?.upperHalf) ?? CustomColors.customLigthBlue,
+                                    color: HexColor.fromHex(homeColor?.upperHalf),
                                     borderRadius: BorderRadius.circular(15.0),
                                   ),
                                   child: Column(

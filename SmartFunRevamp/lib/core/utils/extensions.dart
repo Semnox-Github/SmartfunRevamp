@@ -4,30 +4,28 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 extension HexColor on Color {
-  static Color? fromHex(String? hexString) {
+  static Color fromHex(String? hexString) {
     if (hexString.isNullOrEmpty()) {
-      return null;
+      return Colors.red;
     }
-    hexString = hexString?.replaceFirst('#', '');
-    //Note: the 8 char hex color values in cms are in RGBA format, flutter needs ARGB
-    if (hexString?.length == 8) {
-      //i.e. FFFFFF00
-      //taking the A part "00"
-      String hexFirst = hexString!.substring(5, 7);
-      //taking the RGB part "FFFFFF"
-      String hexStringFinal = hexString.substring(0, 6);
-      //Concatenating to ARGB hex value "00FFFFFF"
-      hexString = hexFirst + hexStringFinal;
+    if (hexString!.startsWith('#')) {
+      hexString = hexString.substring(1);
     }
-    final buffer = StringBuffer();
-    if (hexString?.length == 5 || hexString?.length == 6) buffer.write('ff');
-    buffer.write(hexString);
 
-    return Color(int.parse(buffer.toString(), radix: 16));
+    // Parse the hex color string to an integer
+    int parsedColor = int.tryParse(hexString, radix: 16) ?? 0xFF000000;
+
+    // Ensure the alpha value is set (default to fully opaque if not present)
+    if (hexString.length == 6) {
+      parsedColor |= 0xFF000000; // Add alpha channel
+    }
+
+    return Color(parsedColor);
   }
 }
 
@@ -46,6 +44,19 @@ extension StringExtension on String? {
     } catch (_) {
       return SplashScreenNotifier.getLanguageLabel('String is not a date');
     }
+  }
+}
+
+extension ListStringExtension on List<String>? {
+  List<Color> getColorList() {
+    if (this == null || this!.isEmpty) {
+      return [CustomColors.hardOrange];
+    }
+    final colorList = this!.map((e) => HexColor.fromHex(e)).toList();
+    if (colorList.length < 2) {
+      colorList.add(CustomColors.hardOrange);
+    }
+    return colorList;
   }
 }
 

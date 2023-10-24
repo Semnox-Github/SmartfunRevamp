@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
-import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
@@ -114,8 +113,20 @@ class CardsColor {
   final String? regular;
   final String? expired;
   final String? virtual;
+  final String? colorCardText;
+  final List<String>? silverGradient;
+  final List<String>? goldGradient;
+  final List<String>? platinumGradient;
 
-  CardsColor(this.regular, this.expired, this.virtual);
+  CardsColor(
+    this.regular,
+    this.expired,
+    this.virtual,
+    this.colorCardText,
+    this.silverGradient,
+    this.goldGradient,
+    this.platinumGradient,
+  );
   factory CardsColor.fromJson(Map<String, dynamic> json) => _$CardsColorFromJson(json);
   Map<String, dynamic> toJson() => _$CardsColorToJson(this);
 }
@@ -170,7 +181,7 @@ class CMSModulePage {
     final temp = displayAttributes.toString().replaceAll(r'\\', '');
     final Map<String, dynamic> cleanedJson = json.decode(temp);
     final colorHex = cleanedJson['BackgroundColor'] as String;
-    return HexColor.fromHex(colorHex) ?? CustomColors.customPink;
+    return HexColor.fromHex(colorHex);
   }
 }
 

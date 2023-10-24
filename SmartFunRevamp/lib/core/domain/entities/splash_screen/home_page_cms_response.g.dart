@@ -65,6 +65,16 @@ CardsColor _$CardsColorFromJson(Map<String, dynamic> json) => CardsColor(
       json['regular'] as String?,
       json['expired'] as String?,
       json['virtual'] as String?,
+      json['color_card_text'] as String?,
+      (json['silver_gradient'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      (json['gold_gradient'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      (json['platinum_gradient'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$CardsColorToJson(CardsColor instance) {
@@ -79,6 +89,10 @@ Map<String, dynamic> _$CardsColorToJson(CardsColor instance) {
   writeNotNull('regular', instance.regular);
   writeNotNull('expired', instance.expired);
   writeNotNull('virtual', instance.virtual);
+  writeNotNull('color_card_text', instance.colorCardText);
+  writeNotNull('silver_gradient', instance.silverGradient);
+  writeNotNull('gold_gradient', instance.goldGradient);
+  writeNotNull('platinum_gradient', instance.platinumGradient);
   return val;
 }
 

@@ -85,7 +85,6 @@ class SplashScreenImage extends StatelessWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    // final customer = ref.watch(customDTOProvider).valueOrNull;
     void nextPage() => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
     ref.listen<NewSplashScreenState>(
       newSplashScreenProvider,
@@ -240,36 +239,39 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     );
     return Scaffold(
       body: ref.watch(newSplashScreenProvider).maybeWhen(
-            orElse: () {
-              context.loaderOverlay.hide();
-              return Container();
-            },
-            error: (message) => const Center(
-              child: Icon(
-                Icons.error,
-                color: Colors.red,
-                size: 50.0,
+        orElse: () {
+          context.loaderOverlay.hide();
+          return Container();
+        },
+        error: (message) {
+          context.loaderOverlay.hide();
+          return const Center(
+            child: Icon(
+              Icons.error,
+              color: Colors.red,
+              size: 50.0,
+            ),
+          );
+        },
+        inProgress: () {
+          context.loaderOverlay.show();
+          return Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/splash_screen/splash_screen.png"),
+                fit: BoxFit.cover,
               ),
             ),
-            inProgress: () {
-              context.loaderOverlay.show();
-              return Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/splash_screen/splash_screen.png"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              );
-            },
-            retrievedSplashImageURL: (url) {
-              return SplashScreenImage(url);
-            },
-            success: (_, __, ___, ____, _____, ______, _______) {
-              final imageUrl = ref.read(newSplashScreenProvider.notifier).splashImageUrl;
-              return SplashScreenImage(imageUrl);
-            },
-          ),
+          );
+        },
+        retrievedSplashImageURL: (url) {
+          return SplashScreenImage(url);
+        },
+        success: (_, __, ___, ____, _____, ______, _______) {
+          final imageUrl = ref.read(newSplashScreenProvider.notifier).splashImageUrl;
+          return SplashScreenImage(imageUrl);
+        },
+      ),
     );
   }
 

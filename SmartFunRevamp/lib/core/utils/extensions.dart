@@ -11,21 +11,22 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 extension HexColor on Color {
   static Color fromHex(String? hexString) {
     if (hexString.isNullOrEmpty()) {
-      return Colors.red;
+      return Colors.transparent;
     }
     if (hexString!.startsWith('#')) {
       hexString = hexString.substring(1);
     }
-
-    // Parse the hex color string to an integer
-    int parsedColor = int.tryParse(hexString, radix: 16) ?? 0xFF000000;
-
-    // Ensure the alpha value is set (default to fully opaque if not present)
-    if (hexString.length == 6) {
-      parsedColor |= 0xFF000000; // Add alpha channel
+    //Note: the 8 char hex color values in cms are in RGBA format, flutter needs ARGB
+    if (hexString.length == 8) {
+      //i.e. 00EE00FF
+      //taking the Alpha value "FF"
+      String hexAlpha = hexString.substring(5, 7);
+      //taking the RGB value "00EE00"
+      String hexRGB = hexString.substring(0, 6);
+      //Concatenating to ARGB hex value "FF00EE00"
+      hexString = hexAlpha + hexRGB;
     }
-
-    return Color(parsedColor);
+    return Color(int.parse(hexString.padLeft(8, 'f'), radix: 16));
   }
 }
 

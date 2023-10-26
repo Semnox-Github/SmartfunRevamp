@@ -49,7 +49,7 @@ class HomeTopBarIcons extends ConsumerWidget {
         InkWell(
           onTap: onSearchTap,
           child: CachedNetworkImage(
-            height: 45,
+            height: MediaQuery.of(context).size.width * 0.08,
             imageUrl: header.firstWhere((element) => element.displayName == 'Search').itemUrl,
             errorWidget: (context, url, error) => const Icon(Icons.search),
           ),
@@ -57,7 +57,7 @@ class HomeTopBarIcons extends ConsumerWidget {
         const SizedBox(width: 10.0),
         NotificationsButton(
           notificationIcon: CachedNetworkImage(
-            height: 45,
+            height: MediaQuery.of(context).size.width * 0.08,
             imageUrl: header.firstWhere((element) => element.displayName == 'Notification').itemUrl,
             errorWidget: (context, url, error) => const Icon(Icons.notifications),
           ),

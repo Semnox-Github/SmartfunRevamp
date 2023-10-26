@@ -113,7 +113,10 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   void _getBaseUrl() async {
     final response = await _getBaseURL();
     response.fold(
-      (l) => Logger().e(l.message),
+      (l) {
+        Logger().e(l.message);
+        state = _Error(l.message);
+      },
       (r) async {
         Get.put<String>(r.gateWayURL, tag: 'baseURL');
         Get.put<String>(r.deprecated, tag: 'appVersionDeprecated');
@@ -125,7 +128,8 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   void _authenticateBaseURL(String baseUrl) async {
     final response = await _authenticateBaseURLUseCase();
     response.fold(
-      (l) => state = const _Error("We couldn't load the app configuration. Contact an Administrator"),
+      (l) => state = const _Error(
+          "System User failed to Authenticate. Please close the app and try again. If the error persist please contact support. Error code: 5"),
       (r) async {
         authenticateApi(r, baseUrl);
         _getMasterSite();

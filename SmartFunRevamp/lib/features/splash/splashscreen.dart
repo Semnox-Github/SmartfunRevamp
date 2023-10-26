@@ -1,14 +1,19 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
@@ -85,7 +90,6 @@ class SplashScreenImage extends StatelessWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    // final customer = ref.watch(customDTOProvider).valueOrNull;
     void nextPage() => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
     ref.listen<NewSplashScreenState>(
       newSplashScreenProvider,
@@ -99,6 +103,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               desc: message,
               dialogType: DialogType.error,
               btnOkOnPress: () {},
+              onDismissCallback: (type) {
+                SystemNavigator.pop();
+              },
             ).show();
           },
           success: (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection, user, notificationData) {
@@ -107,40 +114,98 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             ref.read(masterSiteProvider.notifier).update((_) => masterSite);
             ref.read(parafaitDefaultsProvider.notifier).update((_) => parafaitDefaults);
             ref.read(userProvider.notifier).update((_) => user);
-            if (user == null) {
-              nextPage();
-            } else {
-              if (needsSiteSelection) {
-                Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
-              } else {
-                registerLoggedUser(user).then((value) {
-                  if (userSelectedSite != null) {
-                    ref.read(loginProvider.notifier).setSite(userSelectedSite!);
-                    if (notificationData != null) {
-                      ref.listenManual(
-                        CardsProviders.userCardsProvider,
-                        (previous, next) {
-                          next.when(
-                            data: (data) {
-                              Navigator.pushReplacementNamed(context, Routes.kHomePage);
-                              Navigator.pushNamed(context, notificationData.path);
-                              Logger().d(data);
-                            },
-                            error: (error, stackTrace) => Logger().e("message", error, stackTrace),
-                            loading: () => Logger().d("Loading"),
-                          );
-                        },
-                        fireImmediately: true,
-                      );
-                    } else {
-                      Navigator.pushReplacementNamed(context, Routes.kHomePage);
-                    }
-                  } else {
-                    Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
-                  }
-                });
-              }
-            }
+            final parafaitDefault = ref.watch(parafaitDefaultsProvider);
+            //get the update status "O" => optional | "M" => mandatory | other value => not necesary
+            final deprecated = Get.find<String>(tag: 'appVersionDeprecated');
+            final isAndroid = Platform.isAndroid;
+            final isIOS = Platform.isIOS;
+            //get the current date to compare with stored if the update is optional
+            final currentDate = DateTime.now().toIso8601String().split("T")[0];
+            //get the application download url based on the OS
+            final storeUrl = isAndroid
+                ? parafaitDefault?.getDefault(ParafaitDefaultsResponse.playStoreUrl) ?? ""
+                : isIOS
+                    ? parafaitDefault?.getDefault(ParafaitDefaultsResponse.appStoreUrl) ?? ""
+                    : "";
+            //Get the last app update reminder date
+            GluttonLocalDataSource().retrieveValue(LocalDataSource.kAppUpdateReminderDate).then(
+                  (value) async => {
+                    //if application url is not set don't show the update message
+
+                    if (!storeUrl.isNullOrEmpty() &&
+                        //if update is mandatory, show everytime the app starts
+                        (deprecated == "M" ||
+                            //if is optional, show once a day
+                            (deprecated == "O" && currentDate != value.toString())))
+                      {
+                        GluttonLocalDataSource().saveValue(LocalDataSource.kAppUpdateReminderDate, currentDate),
+                        await Dialogs.downloadUpdateDialog(context, storeUrl),
+                        if (deprecated != "M")
+                          {
+                            if (user == null)
+                              {
+                                nextPage(),
+                              }
+                            else
+                              {
+                                if (needsSiteSelection)
+                                  {
+                                    if (context.mounted)
+                                      Navigator.pushReplacementNamed(context, Routes.kEnableLocation),
+                                  }
+                                else
+                                  {
+                                    registerLoggedUser(user).then(
+                                      (value) => {
+                                        if (userSelectedSite != null)
+                                          {
+                                            ref.read(loginProvider.notifier).setSite(userSelectedSite!),
+                                            Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                          }
+                                        else
+                                          {
+                                            Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                          }
+                                      },
+                                    ),
+                                  }
+                              }
+                          }
+                        else
+                          {SystemNavigator.pop()}
+                      }
+                    else
+                      {
+                        if (user == null)
+                          {
+                            nextPage(),
+                          }
+                        else
+                          {
+                            if (needsSiteSelection)
+                              {
+                                Navigator.pushReplacementNamed(context, Routes.kEnableLocation),
+                              }
+                            else
+                              {
+                                registerLoggedUser(user).then(
+                                  (value) => {
+                                    if (userSelectedSite != null)
+                                      {
+                                        ref.read(loginProvider.notifier).setSite(userSelectedSite!),
+                                        Navigator.pushReplacementNamed(context, Routes.kHomePage)
+                                      }
+                                    else
+                                      {
+                                        Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                      }
+                                  },
+                                ),
+                              }
+                          }
+                      }
+                  },
+                );
 
             // final parafaitDefault = ref.watch(parafaitDefaultsProvider);
             // //get the update status "O" => optional | "M" => mandatory | other value => not necesary
@@ -240,36 +305,39 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     );
     return Scaffold(
       body: ref.watch(newSplashScreenProvider).maybeWhen(
-            orElse: () {
-              context.loaderOverlay.hide();
-              return Container();
-            },
-            error: (message) => const Center(
-              child: Icon(
-                Icons.error,
-                color: Colors.red,
-                size: 50.0,
+        orElse: () {
+          context.loaderOverlay.hide();
+          return Container();
+        },
+        error: (message) {
+          context.loaderOverlay.hide();
+          return const Center(
+            child: Icon(
+              Icons.error,
+              color: Colors.red,
+              size: 50.0,
+            ),
+          );
+        },
+        inProgress: () {
+          context.loaderOverlay.show();
+          return Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/splash_screen/splash_screen.png"),
+                fit: BoxFit.cover,
               ),
             ),
-            inProgress: () {
-              context.loaderOverlay.show();
-              return Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/splash_screen/splash_screen.png"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              );
-            },
-            retrievedSplashImageURL: (url) {
-              return SplashScreenImage(url);
-            },
-            success: (_, __, ___, ____, _____, ______, _______) {
-              final imageUrl = ref.read(newSplashScreenProvider.notifier).splashImageUrl;
-              return SplashScreenImage(imageUrl);
-            },
-          ),
+          );
+        },
+        retrievedSplashImageURL: (url) {
+          return SplashScreenImage(url);
+        },
+        success: (_, __, ___, ____, _____, ______, _______) {
+          final imageUrl = ref.read(newSplashScreenProvider.notifier).splashImageUrl;
+          return SplashScreenImage(imageUrl);
+        },
+      ),
     );
   }
 

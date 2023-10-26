@@ -20,13 +20,13 @@
       "HomePageOrder": [
         {
           "title": "My Cards",
-          "position": 4,
+          "position": 1,
           "widget": "CARDS",
           "is_visible": true
         },
         {
           "title": "Quick Links",
-          "position": 1,
+          "position": 3,
           "widget": "LINKS",
           "is_visible": true,
           "display_section": "QUICKLINKS"
@@ -689,7 +689,7 @@
           "ContentName": "Game Plays",
           "DisplaySection": "QUICKLINKS",
           "DisplayOrder": 4,
-          "ContentKey": "sf://gamplays",
+          "ContentKey": "sf://gameplays",
           "ContentTemplateId": -1,
           "Active": true,
           "Guid": "8760c6fa-f50a-4ea6-95f2-d93764509ae5",
@@ -713,8 +713,8 @@
         {
           "ContentId": 349,
           "PageId": 50,
-          "Source": "Tranfer Credits",
-          "ContentName": "Tranfer Credits",
+          "Source": "Transfer Credits",
+          "ContentName": "Transfer Credits",
           "DisplaySection": "QUICKLINKS",
           "DisplayOrder": 4,
           "ContentKey": "sf://transfer",
@@ -875,12 +875,12 @@
         "transfer_success_image_path": "https://placehold.co/1200x400.png"
       },
       "CMSModuleColorsHome": {
-        "upper_half": "#FFCFF8FF",
-        "middle": "#FFFFFFFF",
-        "bottom_half": "#FF1F1E2C",
+        "upper_half": "#cff8ff",
+        "middle": "#f09656",
+        "bottom_half": "#1f1e2c",
         "profile_picture_gradient": [
-          "#FFFFF2AD",
-          "#FFFFA322"
+          "#f9945a",
+          "#d53544"
         ]
       },
       "ExternalUrls": {
@@ -891,10 +891,10 @@
         "ios_appstore_link": "https://www.google.com/"
       },
       "CardsColor": {
-        "color_card_text": "#FF1493",
-        "regular": "#FF613F75",
-        "expired": "#FFE5C3D1",
-        "virtual": "#FFEF798A",
+        "color_card_text": "#ffffff",
+        "regular": "#9b3cb9",
+        "expired": "#3b33cb",
+        "virtual": "#3b33cb",
         "silver_gradient": [
           "#FFFFFF",
           "#F0F0F0",

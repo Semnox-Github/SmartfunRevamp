@@ -125,7 +125,8 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   void _authenticateBaseURL(String baseUrl) async {
     final response = await _authenticateBaseURLUseCase();
     response.fold(
-      (l) => state = const _Error("We couldn't load the app configuration. Contact an Administrator"),
+      (l) => state = const _Error(
+          "System User failed to Authenticate. Please close the app and try again. If the error persist please contact support. Error code: 5"),
       (r) async {
         authenticateApi(r, baseUrl);
         _getMasterSite();

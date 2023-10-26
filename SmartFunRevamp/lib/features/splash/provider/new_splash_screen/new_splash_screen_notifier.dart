@@ -113,7 +113,10 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   void _getBaseUrl() async {
     final response = await _getBaseURL();
     response.fold(
-      (l) => Logger().e(l.message),
+      (l) {
+        Logger().e(l.message);
+        state = _Error(l.message);
+      },
       (r) async {
         Get.put<String>(r.gateWayURL, tag: 'baseURL');
         Get.put<String>(r.deprecated, tag: 'appVersionDeprecated');

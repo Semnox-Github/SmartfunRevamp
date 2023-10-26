@@ -20,13 +20,13 @@
       "HomePageOrder": [
         {
           "title": "My Cards",
-          "position": 1,
+          "position": 4,
           "widget": "CARDS",
           "is_visible": true
         },
         {
           "title": "Quick Links",
-          "position": 3,
+          "position": 1,
           "widget": "LINKS",
           "is_visible": true,
           "display_section": "QUICKLINKS"
@@ -104,7 +104,7 @@
                   "ItemId": 108,
                   "MenuId": 20,
                   "ItemName": "ICON",
-                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/iconNotificationBell.png",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/iconNotificationBell1.png",
                   "Target": "",
                   "Active": true,
                   "IsHeader": false,
@@ -129,7 +129,7 @@
                   "ItemId": 109,
                   "MenuId": 20,
                   "ItemName": "ICON",
-                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/iconNotificationBell.png",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/iconNotificationBell1.png",
                   "Target": "sf://Notification",
                   "Active": true,
                   "IsHeader": false,
@@ -308,7 +308,7 @@
                   "ItemName": "BONUS",
                   "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
                   "Active": true,
-                  "DisplayOrder": 1,
+                  "DisplayOrder": 2,
                   "DisplayName": "Bonus",
                   "CreditType": 5
                 },
@@ -316,7 +316,7 @@
                   "ItemName": "TIME",
                   "ItemUrl": "https://w7.pngwing.com/pngs/789/188/png-transparent-round-black-analog-clock-illustration-clock-time-icon-time-noun-project-symbol-scalable-vector-graphics-thumbnail.png",
                   "Active": true,
-                  "DisplayOrder": 2,
+                  "DisplayOrder": 5,
                   "DisplayName": "Time",
                   "CreditType": 6
                 },
@@ -339,7 +339,7 @@
                   "ItemName": "LOYALTY",
                   "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
                   "Active": true,
-                  "DisplayOrder": 5,
+                  "DisplayOrder": 6,
                   "DisplayName": "Loyalty",
                   "CreditType": 1
                 },
@@ -347,7 +347,7 @@
                   "ItemName": "CREDITS",
                   "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
                   "Active": true,
-                  "DisplayOrder": 6,
+                  "DisplayOrder": 1,
                   "DisplayName": "Credits",
                   "CreditType": 0
                 }
@@ -366,9 +366,9 @@
                   "ItemName": "BASE_MEMBERSHIP",
                   "Description": "BASE MEMBERSHIP DESCRIPTION",
                   "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
-                  "Active": true,
-                  "DisplayOrder": 1,
-                  "DisplayName": "Base Membership",
+                  "Active": false,
+                  "DisplayOrder": 100,
+                  "DisplayName": "Membership Details",
                   "Target": "sf://membership_info"
                 },
                 {
@@ -377,7 +377,7 @@
                   "Active": true,
                   "DisplayOrder": 2,
                   "DisplayName": "Rewards",
-                  "Description": "REWARDS DESCRIPTION",
+                  "Description": "Details on Rewards Earned",
                   "Target": "sf://membership_rewards"
                 },
                 {
@@ -386,7 +386,7 @@
                   "Active": true,
                   "DisplayOrder": 3,
                   "DisplayName": "Notifications",
-                  "Description": "NOTIFICATIONS DESCRIPTION",
+                  "Description": "Notification Inbox",
                   "Target": "sf://notifications"
                 },
                 {
@@ -395,16 +395,16 @@
                   "Active": true,
                   "DisplayOrder": 4,
                   "DisplayName": "Help",
-                  "Description": "HELP DESCRIPTION",
+                  "Description": "Learn More on what you can do",
                   "Target": "https://www.semnox.com/contact-us/"
                 },
                 {
                   "ItemName": "ORDERS",
                   "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
                   "Active": true,
-                  "DisplayOrder": 4,
+                  "DisplayOrder": 1,
                   "DisplayName": "My Orders",
-                  "Description": "ORDERS DESCRIPTION",
+                  "Description": "Details on your transactions",
                   "Target": "sf://orders"
                 },
                 {
@@ -413,7 +413,7 @@
                   "Active": true,
                   "DisplayOrder": 5,
                   "DisplayName": "Legal",
-                  "Description": "LEGAL DESCRIPTION",
+                  "Description": "Know your rights",
                   "Target": "https://www.semnox.com/privacy-policy.html"
                 },
                 {
@@ -422,7 +422,7 @@
                   "Active": true,
                   "DisplayOrder": 6,
                   "DisplayName": "Like the App?",
-                  "Description": "LIKE DESCRIPTION"
+                  "Description": "Share your feedback"
                 }
               ]
             }
@@ -437,7 +437,7 @@
           "ContentName": "",
           "DisplaySection": "PROMOS_1",
           "DisplayOrder": 1,
-          "ContentKey": "https://parafaitapihqdemo.parafait.com/online-marketplace/",
+          "ContentKey": "https://parafaitapihqdemo.parafait.com/images/promoimages/promoOne.png",
           "ContentTemplateId": -1,
           "Active": true,
           "Guid": "49efed6d-3d0c-4004-8438-de9210657d54",
@@ -465,7 +465,7 @@
           "ContentName": "",
           "DisplaySection": "PROMOS_1",
           "DisplayOrder": 2,
-          "ContentKey": "https://parafaitapihqdemo.parafait.com/",
+          "ContentKey": "https://parafaitapihqdemo.parafait.com/images/promoimages/promoTwo.png",
           "ContentTemplateId": -1,
           "Active": true,
           "Guid": "28fcfe2a-bab2-4fe0-b593-3764ab6fa43c",
@@ -493,7 +493,7 @@
           "ContentName": "",
           "DisplaySection": "PROMOS_1",
           "DisplayOrder": 3,
-          "ContentKey": "https://parafaitapihqdemo.parafait.com/",
+          "ContentKey": "https://parafaitapihqdemo.parafait.com/images/promoimages/promoThree.png",
           "ContentTemplateId": -1,
           "Active": true,
           "Guid": "a762f829-bb81-44fa-87ce-3937f0a663ac",
@@ -521,7 +521,7 @@
           "ContentName": "",
           "DisplaySection": "PROMOS_1",
           "DisplayOrder": 4,
-          "ContentKey": "https://parafaitapihqdemo.parafait.com/",
+          "ContentKey": "https://parafaitapihqdemo.parafait.com/images/promoimages/promoFive.png",
           "ContentTemplateId": -1,
           "Active": true,
           "Guid": "108f50ff-5624-4855-b416-7423a94b654d",
@@ -566,7 +566,7 @@
           "Height": 9,
           "Width": 9,
           "ContentURL": "https://parafaitapihqdemo.parafait.com/images/crdRechargeIcon.png",
-          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFF00\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
+          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFFFF\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
           "ObjectTranslationsDTOList": [],
           "IsChanged": true
         },
@@ -594,7 +594,7 @@
           "Height": 9,
           "Width": 9,
           "ContentURL": "https://parafaitapihqdemo.parafait.com/images/crdRechargeIcon.png",
-          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFF00\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
+          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFFFF\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
           "ObjectTranslationsDTOList": [],
           "IsChanged": true
         },
@@ -622,7 +622,7 @@
           "Height": 9,
           "Width": 9,
           "ContentURL": "https://parafaitapihqdemo.parafait.com/images/crdNewCardIcon.png",
-          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFF00\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
+          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFFF\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
           "ObjectTranslationsDTOList": [],
           "IsChanged": true
         },
@@ -650,7 +650,7 @@
           "Height": 9,
           "Width": 9,
           "ContentURL": "https://parafaitapihqdemo.parafait.com/images/iconCardActivity.png",
-          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFF00\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
+          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFFF\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
           "ObjectTranslationsDTOList": [],
           "IsChanged": true
         },
@@ -678,7 +678,7 @@
           "Height": 9,
           "Width": 9,
           "ContentURL": "https://parafaitapihqdemo.parafait.com/images/crdLostCardIcon.png",
-          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFF00\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
+          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFFF\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
           "ObjectTranslationsDTOList": [],
           "IsChanged": true
         },
@@ -706,7 +706,7 @@
           "Height": 9,
           "Width": 9,
           "ContentURL": "https://parafaitapihqdemo.parafait.com/images/iconGamePLay.png",
-          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFF00\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
+          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFFF\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
           "ObjectTranslationsDTOList": [],
           "IsChanged": true
         },
@@ -734,7 +734,7 @@
           "Height": 9,
           "Width": 9,
           "ContentURL": "https://parafaitapihqdemo.parafait.com/images/crdTransferIcon.png",
-          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFF00\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
+          "DisplayAttributes": "{\"BackgroundColor\":\"#FFFFFFF\",\"MarginTop\": 0, \"MarginBottom\": 0, \"MarginLeft\": 2, \"MarginRight\": 5, \"PaddingTop\": 0, \"PaddingBottom\": 0, \"PaddingLeft\": 2, \"PaddingRight\": 2,\"FontSize\":11,\"FontColor\":\"#000000\"}",
           "ObjectTranslationsDTOList": [],
           "IsChanged": true
         },
@@ -947,23 +947,23 @@
       "IsChangedRecursive": true,
       "BuyACardFilters": [
         [
+          1,
+          10
+        ],
+        [
           10,
+          20
+        ],
+        [
+          20,
+          30
+        ],
+        [
+          30,
           50
         ],
         [
-          51,
-          100
-        ],
-        [
-          101,
-          200
-        ],
-        [
-          201,
-          300
-        ],
-        [
-          301
+          50
         ]
       ]
     }

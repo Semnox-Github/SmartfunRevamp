@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
@@ -18,6 +20,7 @@ final currentLanguageProvider = StateProvider<LanguageContainerDTOList?>((ref) {
   if (languageContainerDTO == null || languageContainerDTO.languageContainerDTOList.isEmpty) {
     return null;
   }
+
   return languageContainerDTO.languageContainerDTOList
           .firstWhereOrNull((element) => element.languageCode == Platform.localeName.replaceAll('_', '-')) ??
       languageContainerDTO.languageContainerDTOList.firstWhereOrNull((element) => element.languageCode == 'en-US');
@@ -28,6 +31,7 @@ class AfterSplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final localDataSource = Get.find<LocalDataSource>();
     final currenLang = ref.watch(currentLanguageProvider);
     ref.watch(getStringForLocalization).maybeWhen(
       orElse: () {
@@ -94,6 +98,7 @@ class AfterSplashScreen extends ConsumerWidget {
                           );
                         }).toList(),
                         onChanged: (value) {
+                          localDataSource.saveCustomClass(LocalDataSource.kSelectedLanguage, value!.toJson());
                           ref.read(currentLanguageProvider.notifier).state = value;
                         },
                       );

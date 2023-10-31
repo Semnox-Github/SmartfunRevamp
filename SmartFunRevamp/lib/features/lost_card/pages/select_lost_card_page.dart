@@ -86,7 +86,7 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
                     const SizedBox(height: 10.0),
                     MulishText(
                       text: SplashScreenNotifier.getLanguageLabel(
-                          'This Card cannot be used for any further transactions. A temporary will be issued, exachange the temporary card for a new physical carrd at site'),
+                          'This Card cannot be used for any further transactions. A temporary card will be issued, exchange the temporary card for a new physical card at site'),
                       textAlign: TextAlign.center,
                       fontColor: CustomColors.customBlack,
                       fontSize: 16.0,
@@ -100,7 +100,7 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
                     const SizedBox(height: 20.0),
                     MulishText(
                       text: SplashScreenNotifier.getLanguageLabel(
-                          '40 need to paid while exchanging for a new physical card'),
+                          '40 need to be paid while exchanging for a new physical card'),
                       textAlign: TextAlign.center,
                       fontColor: CustomColors.customBlack,
                       fontSize: 16.0,

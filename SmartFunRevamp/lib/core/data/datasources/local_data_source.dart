@@ -16,6 +16,7 @@ abstract class LocalDataSource {
   static String kTransactionId = 'transaction_id';
   static String kAppUpdateReminderDate = "app_update_reminder_date";
   static String kLanguagesContainer = "languanges_container";
+  static String kSelectedLanguage = "selected_language";
   Future<void> saveSites(List<SiteViewDTO> sites);
   Future<List<SiteViewDTO>> retrieveSites();
   // Future<bool> retrieveBool(String key);

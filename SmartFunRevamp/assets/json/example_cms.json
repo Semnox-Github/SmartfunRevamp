@@ -989,27 +989,13 @@
       },
       "IsChanged": true,
       "IsChangedRecursive": true,
-      "BuyACardFilters": [
-        [
-          10,
-          50
-        ],
-        [
-          51,
-          100
-        ],
-        [
-          101,
-          200
-        ],
-        [
-          201,
-          300
-        ],
-        [
-          301
-        ]
-      ]
+      "BuyACardFilters": [[10, 50], [51, 100], [101, 200], [201, 300], [301]],
+      "CMSModuleColorsHome": {
+        "upper_half": "#000022",
+        "middle": "#221122",
+        "bottom_half": "#22ffff",
+        "profile_picture_gradient": ["#0000ff", "#ff0000"]
+      }
     }
   ]
 }

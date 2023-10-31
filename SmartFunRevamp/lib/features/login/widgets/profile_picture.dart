@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -18,19 +19,16 @@ class ProfilePicture extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final fInitial = customerDTO.firstName!.isNotEmpty ? '${customerDTO.firstName?[0]}' : '';
     final lInitial = customerDTO.lastName!.isNotEmpty ? '${customerDTO.lastName?[0]}' : '';
-    final noImageColor = ref.watch(newHomePageCMSProvider)?.cmsModuleColorsHome?.profilePictureGradient;
 
+    final noImageGradient =
+        ref.watch(newHomePageCMSProvider)?.cmsModuleColorsHome?.profilePictureGradient.getColorList() ??
+            [CustomColors.hardOrange, CustomColors.customOrange];
     return InkWell(
       onTap: () => Navigator.pushNamed(context, Routes.kAccount),
       child: Container(
         padding: const EdgeInsets.all(2.5),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              HexColor.fromHex(noImageColor?[0]),
-              HexColor.fromHex(noImageColor?[1]),
-            ],
-          ),
+          gradient: LinearGradient(colors: noImageGradient),
           shape: BoxShape.circle,
         ),
         child: !customerDTO.photoUrl.isNullOrEmpty()

@@ -103,6 +103,7 @@ class Dialogs {
   static void selectLanguageDialog(BuildContext context, WidgetRef ref) {
     final currenLang = ref.watch(currentLanguageProvider);
     var newLang = ref.watch(currentLanguageProvider);
+    final localDataSource = Get.find<LocalDataSource>();
     //final key = GlobalKey<FormState>();
     // final siteId = ref.watch(selectedSiteIdProvider);
     // String coupon = '';
@@ -143,6 +144,7 @@ class Dialogs {
         ],
       ),
       btnOkOnPress: () {
+        localDataSource.saveCustomClass(LocalDataSource.kSelectedLanguage, newLang!.toJson());
         ref.read(currentLanguageProvider.notifier).state = newLang;
       },
     ).show();

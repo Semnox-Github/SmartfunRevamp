@@ -2,27 +2,29 @@ import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
-import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 SiteViewDTO? userSelectedSite;
+LanguageContainerDTOList? userSelectedLanguage;
 Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   final localDataSource = Get.find<LocalDataSource>();
   final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
@@ -42,6 +44,20 @@ Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
       Get.replace<SmartFunApi>(SmartFunApi('', r));
     },
   );
+}
+
+Future<void> setSelectedLanguage() async {
+  final localDataSource = Get.find<LocalDataSource>();
+  final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedLanguage);
+  final selectedLanguage = response.fold(
+    (l) => null,
+    (r) {
+      return LanguageContainerDTOList.fromJson(r);
+    },
+  );
+  if (selectedLanguage != null) {
+    userSelectedLanguage = selectedLanguage;
+  }
 }
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -91,6 +107,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     void nextPage() => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
+
     ref.listen<NewSplashScreenState>(
       newSplashScreenProvider,
       (_, next) {
@@ -115,6 +132,23 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             ref.read(parafaitDefaultsProvider.notifier).update((_) => parafaitDefaults);
             ref.read(userProvider.notifier).update((_) => user);
             final parafaitDefault = ref.watch(parafaitDefaultsProvider);
+            setSelectedLanguage().then((value) {
+              final languageContainerDTO = ref.watch(languangeContainerProvider);
+
+              if (languageContainerDTO == null || languageContainerDTO.languageContainerDTOList.isEmpty) {
+                return null;
+              } else {
+                if (userSelectedLanguage != null) {
+                  final sLang = languageContainerDTO.languageContainerDTOList
+                          .firstWhereOrNull((element) => element.languageCode == userSelectedLanguage?.languageCode) ??
+                      languageContainerDTO.languageContainerDTOList
+                          .firstWhereOrNull((element) => element.languageCode == 'en-US');
+                  ref.read(currentLanguageProvider.notifier).state = sLang;
+                  return sLang;
+                }
+              }
+            });
+
             //get the update status "O" => optional | "M" => mandatory | other value => not necesary
             final deprecated = Get.find<String>(tag: 'appVersionDeprecated');
             final isAndroid = Platform.isAndroid;

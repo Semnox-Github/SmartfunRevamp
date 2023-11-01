@@ -79,6 +79,7 @@ class BlockedCardWidget extends StatelessWidget {
             ImageHandler(
               height: 70,
               imageKey: "blocked_image_path",
+              errorImageFlag: false,
             ),
             SizedBox(height: 10.0),
             MulishText(

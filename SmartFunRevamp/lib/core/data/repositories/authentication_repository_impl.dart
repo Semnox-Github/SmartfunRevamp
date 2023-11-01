@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
+import 'package:semnox/core/domain/entities/notifications_register/notification_register_entity.dart';
 import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
@@ -159,6 +161,30 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return Right(userInfo.data.isNotEmpty);
     } on Exception catch (e) {
       return Left(e.handleException(errorMessage404: 'Email Not Found'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> registerNotificationToken(int userId) async {
+    try {
+      final token = await FirebaseMessaging.instance.getToken();
+      final registeredTokens =
+          (await _api.checkNotificationTokenRegistered(userId)).data.map((e) => e.pushNotificationToken).toList();
+      if (!registeredTokens.contains(token)) {
+        final request = NotificationRegisterEntity(
+          -1,
+          userId,
+          token ?? '',
+          Platform.isAndroid ? 'ANDROID' : 'IOS',
+        );
+
+        await _api.registerNotificationToken([request]);
+      } else {
+        Logger().d('Already Registered');
+      }
+      return const Right(null);
+    } on Exception catch (e) {
+      return Left(e.handleException());
     }
   }
 }

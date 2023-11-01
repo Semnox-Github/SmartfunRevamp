@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/domain/use_cases/authentication/check_notification_token_registered.dart';
 import 'package:semnox/core/domain/use_cases/authentication/delete_profile_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_user_by_phone_or_email_use_case.dart';
@@ -94,6 +95,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (customerDTO) async {
         _loggedUser = customerDTO;
         registerLoggedUser(customerDTO);
+        final CheckNotificationTokenRegisteredUseCase check = Get.find<CheckNotificationTokenRegisteredUseCase>();
+        await check(userId: _loggedUser?.id ?? -1);
         await _localDataSource.saveValue(LocalDataSource.kUserId, customerDTO.id.toString());
         if (customerDTO.verified != true) {
           state = const _CustomerVerificationNeeded();
@@ -163,7 +166,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (l) {
         state = _Error(l.message);
       },
-      (r) {
+      (r) async {
         Get.replace<SmartFunApi>(SmartFunApi('', r));
         state = _Success(_loggedUser);
       },

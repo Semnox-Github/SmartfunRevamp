@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_performance_dio/firebase_performance_dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
@@ -22,6 +23,7 @@ import 'package:semnox/core/domain/entities/lookups/lookups_dto.dart';
 import 'package:semnox/core/domain/entities/membership/membership_info.dart';
 import 'package:semnox/core/domain/entities/membership/membership_tier.dart';
 import 'package:semnox/core/domain/entities/notifications/notifications_response.dart';
+import 'package:semnox/core/domain/entities/notifications_register/notification_register_entity.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
 import 'package:semnox/core/domain/entities/orders/order_status.dart';
 import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway.dart';
@@ -42,9 +44,9 @@ abstract class SmartFunApi {
       AuthorizationInterceptor(),
       PrettyDioLogger(
         requestBody: true,
-        responseBody: false,
+        responseBody: true,
         requestHeader: true,
-        responseHeader: false,
+        responseHeader: true,
         request: true,
         error: true,
         compact: true,
@@ -57,8 +59,9 @@ abstract class SmartFunApi {
       receiveTimeout: const Duration(seconds: 20),
       connectTimeout: const Duration(seconds: 20),
       headers: {
-        'Authorization': token,
-        'content-type': 'application/json',
+        HttpHeaders.authorizationHeader: token,
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'Origin': dotenv.env['CENTRAL_API_ORIGIN'],
       },
     );
     return _SmartFunApi(dio);
@@ -290,5 +293,14 @@ abstract class SmartFunApi {
   Future<HttpResponse> validateOTP(
     @Body() Map<String, dynamic> body,
     @Path('id') otpId,
+  );
+
+  @GET('Communication/PushNotificationDevices')
+  Future<ListDataWrapper<NotificationRegisterEntity>> checkNotificationTokenRegistered(
+      @Query('customerId') int customerId);
+
+  @POST('Communication/PushNotificationDevices')
+  Future<HttpResponse> registerNotificationToken(
+    @Body() List<NotificationRegisterEntity> body,
   );
 }

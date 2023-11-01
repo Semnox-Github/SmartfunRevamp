@@ -61,7 +61,6 @@ class MoreView extends ConsumerWidget {
               ),
               ...items.map(
                 (e) {
-                  Logger().d(e.toJson());
                   return MoreOptionItemFromCMS(
                     item: e,
                     membershipInfo: membershipInfo,

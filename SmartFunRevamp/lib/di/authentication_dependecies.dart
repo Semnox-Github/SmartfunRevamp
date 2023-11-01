@@ -1,6 +1,7 @@
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/data/repositories/authentication_repository_impl.dart';
 import 'package:semnox/core/domain/repositories/authentication_repository.dart';
+import 'package:semnox/core/domain/use_cases/authentication/check_notification_token_registered.dart';
 import 'package:semnox/core/domain/use_cases/authentication/delete_profile_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_app_config_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_config_execution_context_use_case.dart';
@@ -34,4 +35,5 @@ void authenticaionDependecies() {
   Get.lazyPut<GetAppConfigUseCase>(() => GetAppConfigUseCase(Get.find()));
   Get.lazyPut<GetConfigExecutionContextUseCase>(() => GetConfigExecutionContextUseCase(Get.find()));
   Get.lazyPut<VerifyEmailExistsUseCase>(() => VerifyEmailExistsUseCase(Get.find()));
+  Get.lazyPut<CheckNotificationTokenRegisteredUseCase>(() => CheckNotificationTokenRegisteredUseCase(Get.find()));
 }

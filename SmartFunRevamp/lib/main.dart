@@ -12,7 +12,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -29,7 +28,6 @@ void main() async {
     resumeCallBack: () async {
       final remoteMessageStream = FirebaseMessaging.onMessageOpenedApp;
       final notificationData = NotificationsData.fromJson((await remoteMessageStream.first).data);
-      Logger().d('TEST -> ${notificationData.toJson()}');
       navigatorKey.currentState?.pushNamed(notificationData.path);
     },
   ));

@@ -54,6 +54,7 @@ class HomePageCMSResponse {
       }
     }
     cmsMenuItems.sort((a, b) => a.displayOrder < b.displayOrder ? -1 : 1);
+    cmsMenuItems.removeWhere((element) => !element.active);
     return cmsMenuItems;
   }
 

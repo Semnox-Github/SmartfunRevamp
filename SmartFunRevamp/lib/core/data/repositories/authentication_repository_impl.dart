@@ -37,7 +37,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     try {
       final response = await _api.signUpUser(body);
       registerUser(response.data);
-      _glutton.saveUser(response.data);
+      await _glutton.saveUser(response.data);
       return Right(response.data);
     } on Exception catch (e) {
       return Left(e.handleException());

@@ -75,7 +75,7 @@ class _MapPageState extends ConsumerState<MapPage> {
 
             context.loaderOverlay.hide();
             registerLoggedUserWithSite(customer!, selectedSite).then(
-              (value) => Navigator.pushReplacementNamed(context, Routes.kHomePage),
+              (value) => Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage, (Route<dynamic> route) => false),
             );
           },
         );

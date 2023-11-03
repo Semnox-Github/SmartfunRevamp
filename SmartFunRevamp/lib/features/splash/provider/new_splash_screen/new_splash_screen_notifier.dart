@@ -144,7 +144,9 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
             _getHomePageCMS(),
           ],
         );
-        final selectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
+        final defaultSite = await _localDataSource.retrieveValue(LocalDataSource.kDefaultSite);
+        final userSelectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
+        final selectedSite = defaultSite ?? userSelectedSite;
         final LocalDataSource glutton = Get.find<LocalDataSource>();
         final customer = await glutton.retrieveCustomer();
         state = _Success(
@@ -165,7 +167,18 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     final response = await getParafaitDefaultsUseCase(siteId ?? 1010);
     return response.fold(
       (l) => throw l,
-      (r) => r,
+      (r) async {
+        //reading default site
+        var defaultSiteId = r.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
+        //if the default site is set then save it
+        if (!defaultSiteId.isNullOrEmpty()) {
+          var selectedSite =
+              SiteViewDTO(siteId: int.parse(defaultSiteId), openDate: DateTime.now(), closureDate: DateTime.now());
+          await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite.toJson());
+          await _localDataSource.saveCustomClass(LocalDataSource.kDefaultSite, selectedSite.toJson());
+        }
+        return r;
+      },
     );
   }
 

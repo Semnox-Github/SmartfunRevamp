@@ -9,6 +9,7 @@ abstract class LocalDataSource {
   static String kSitesListKey = 'sites_list';
   static String kFirstTime = 'first_time';
   static String kSelectedSite = 'selected_site';
+  static String kDefaultSite = 'default_site';
   static String kUserId = 'userId';
   static String kUser = 'user';
   static String kSplashScreenURL = 'splash_image_url';

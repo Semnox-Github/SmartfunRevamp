@@ -71,7 +71,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     void nextPage() => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
-
     ref.listen<NewSplashScreenState>(
       newSplashScreenProvider,
       (_, next) {
@@ -158,11 +157,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                                         if (userSelectedSite != null)
                                           {
                                             ref.read(loginProvider.notifier).setSite(userSelectedSite!),
-                                            Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                            Navigator.pushNamedAndRemoveUntil(
+                                                context, Routes.kHomePage, (Route<dynamic> route) => false),
                                           }
                                         else
                                           {
-                                            Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                            Navigator.pushNamedAndRemoveUntil(
+                                                context, Routes.kHomePage, (Route<dynamic> route) => false),
                                           }
                                       },
                                     ),
@@ -191,11 +192,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                                     if (userSelectedSite != null)
                                       {
                                         ref.read(loginProvider.notifier).setSite(userSelectedSite!),
-                                        Navigator.pushReplacementNamed(context, Routes.kHomePage)
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context, Routes.kHomePage, (Route<dynamic> route) => false),
                                       }
                                     else
                                       {
-                                        Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context, Routes.kHomePage, (Route<dynamic> route) => false),
                                       }
                                   },
                                 ),

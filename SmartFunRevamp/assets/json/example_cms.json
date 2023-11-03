@@ -934,8 +934,8 @@
         "privacy_policy": "https://www.semnox.com/privacy-policy.html",
         "terms_and_conditions": "https://www.semnox.com/privacy-policy.html",
         "help": "https://www.semnox.com/contact-us/",
-        "android_playstore_link": "https://www.google.com/",
-        "ios_appstore_link": "https://www.google.com/"
+        "android_playstore_link": "https://play.google.com/store/apps/details?id=my.aeon.smartfun",
+        "ios_appstore_link": "https://apps.apple.com/app/id1574628712"
       },
       "CardsColor": {
         "color_card_text": "#FF1493",

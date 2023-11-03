@@ -13,16 +13,25 @@ LanguageContainerDTO _$LanguageContainerDTOFromJson(
           .map((e) =>
               LanguageContainerDTOList.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['Hash'] as String,
+      json['Hash'] as String?,
     );
 
 Map<String, dynamic> _$LanguageContainerDTOToJson(
-        LanguageContainerDTO instance) =>
-    <String, dynamic>{
-      'LanguageContainerDTOList':
-          instance.languageContainerDTOList.map((e) => e.toJson()).toList(),
-      'Hash': instance.hash,
-    };
+    LanguageContainerDTO instance) {
+  final val = <String, dynamic>{
+    'LanguageContainerDTOList':
+        instance.languageContainerDTOList.map((e) => e.toJson()).toList(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Hash', instance.hash);
+  return val;
+}
 
 LanguageContainerDTOList _$LanguageContainerDTOListFromJson(
         Map<String, dynamic> json) =>

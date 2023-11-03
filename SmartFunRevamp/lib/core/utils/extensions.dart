@@ -2,11 +2,16 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/errors/failures.dart';
+import 'package:semnox/core/routes.dart';
+import 'package:semnox/features/sign_up/pages/web_view_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 extension HexColor on Color {
   static Color fromHex(String? hexString) {
@@ -140,5 +145,35 @@ extension ExceptionExtension on Exception {
       }
     }
     return ServerFailure('Uknown Error');
+  }
+}
+
+extension CMSMenuItemExtension on CMSMenuItem {
+  void goToTarget(BuildContext context) {
+    final cleanTarget = target?.replaceAll('sf:/', '') ?? '';
+    Logger().i(cleanTarget.isURL);
+    if (cleanTarget.isURL) {
+      launchUrl(Uri.parse(cleanTarget));
+    } else {
+      switch (cleanTarget) {
+        case '/webview':
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return WebViewPage(url: targetUrl ?? '', title: displayName);
+              },
+            ),
+          );
+          break;
+        default:
+          bool isUrl = Uri.tryParse(target ?? '')?.hasAbsolutePath ?? false;
+          if (isUrl) {
+            Navigator.pushNamed(context, Routes.kPlayPage);
+          } else {
+            Navigator.pushNamed(context, cleanTarget);
+          }
+      }
+    }
   }
 }

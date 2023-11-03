@@ -414,7 +414,8 @@
                   "DisplayOrder": 5,
                   "DisplayName": "Legal",
                   "Description": "LEGAL DESCRIPTION",
-                  "Target": "https://www.semnox.com/privacy-policy.html"
+                  "Target": "sf://webview",
+                  "TargetUrl": "https://www.semnox.com/privacy-policy.html"
                 },
                 {
                   "ItemName": "LIKE",
@@ -422,7 +423,19 @@
                   "Active": true,
                   "DisplayOrder": 6,
                   "DisplayName": "Like the App?",
-                  "Description": "LIKE DESCRIPTION"
+                  "Description": "LIKE DESCRIPTION",
+                  "Target": "https://play.google.com/store/apps/details?id=my.aeon.smartfun",
+                  "Platform": "ios"
+                },
+                {
+                  "ItemName": "LIKE",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 6,
+                  "DisplayName": "Like the App?",
+                  "Description": "LIKE DESCRIPTION",
+                  "Target": "https://play.google.com/store/apps/details?id=my.aeon.smartfun",
+                  "Platform": "android"
                 }
               ]
             }
@@ -939,6 +952,9 @@
       },
       "CardsColor": {
         "color_card_text": "#FF1493",
+        "regular": "#E997C4",
+        "expire": "#6C0F9E",
+        "virtual": "#D79800",
         "silver_gradient": [
           "#FFFFFF",
           "#F0F0F0",
@@ -989,12 +1005,35 @@
       },
       "IsChanged": true,
       "IsChangedRecursive": true,
-      "BuyACardFilters": [[10, 50], [51, 100], [101, 200], [201, 300], [301]],
+      "BuyACardFilters": [
+        [
+          10,
+          50
+        ],
+        [
+          51,
+          100
+        ],
+        [
+          101,
+          200
+        ],
+        [
+          201,
+          300
+        ],
+        [
+          301
+        ]
+      ],
       "CMSModuleColorsHome": {
         "upper_half": "#000022",
         "middle": "#221122",
         "bottom_half": "#22ffff",
-        "profile_picture_gradient": ["#0000ff", "#ff0000"]
+        "profile_picture_gradient": [
+          "#0000ff",
+          "#ff0000"
+        ]
       }
     }
   ]

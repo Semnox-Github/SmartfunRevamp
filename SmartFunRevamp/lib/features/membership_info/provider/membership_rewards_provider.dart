@@ -46,7 +46,9 @@ class MembershipRewardsProvider extends StateNotifier<MembershipRewardsState> {
 
   void filter(DateTime from, DateTime to) async {
     state = const _InProgress();
-    final filteredList = _list.where((element) => (element.periodFrom?.isAfter(from) ?? false) && (element.periodTo?.isBefore(to) ?? false)).toList();
+    final filteredList = _list
+        .where((element) => (element.periodFrom?.isAfter(from) ?? false) && (element.periodTo?.isBefore(to) ?? false))
+        .toList();
     state = _Success(filteredList);
   }
 }

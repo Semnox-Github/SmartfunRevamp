@@ -170,7 +170,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
         final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
         final cms = HomePageCMSResponse.fromJson(data['data'][0]);
         state = _Success(
-          homePageCMSResponse: useLocalCmsJson ? cms : r,
+          homePageCMSResponse: cms,
           languageContainerDTO: _languageContainerDTO,
           siteViewDTO: masterSite!,
           parafaitDefaultsResponse: _parafaitDefaultsResponse,

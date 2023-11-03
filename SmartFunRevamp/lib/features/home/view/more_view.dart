@@ -1,10 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
@@ -21,7 +17,6 @@ import 'package:semnox/features/sign_up/pages/web_view_page.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MoreView extends ConsumerWidget {
   const MoreView({Key? key}) : super(key: key);
@@ -127,7 +122,7 @@ class MoreOptionItemFromCMS extends ConsumerWidget {
             membershipInfo?.membershipValidity.formatDate('dd MMM yyyy') ?? '',
           )
         : item.description ?? 'Please add a description to the CMS';
-    final externalLinks = ref.watch(newHomePageCMSProvider)?.externalUrls;
+
     return MoreOptions(
       item: item,
       desc: description,
@@ -136,27 +131,37 @@ class MoreOptionItemFromCMS extends ConsumerWidget {
       onTap: () {
         final cleanTarget = item.target?.replaceAll('sf:/', '') ?? '';
         if (item.itemName == 'LIKE') {
-          final storeLink =
-              Platform.isAndroid ? externalLinks?.androidPlaystoreLink ?? '' : externalLinks?.iosAppstoreLink ?? '';
-          launchUrl(Uri.parse(storeLink));
-          Logger().d(storeLink);
-          return;
+          // final storeLink =
+          //     Platform.isAndroid ? externalLinks?.androidPlaystoreLink ?? '' : externalLinks?.iosAppstoreLink ?? '';
+          // launchUrl(Uri.parse(storeLink));
+          // Logger().d(storeLink);
+          // return;
         }
-        if (cleanTarget.isNullOrEmpty()) {
-          Fluttertoast.showToast(msg: "URL is not configured");
-        } else if (cleanTarget.isURL) {
+        if (cleanTarget == '/webview') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => WebViewPage(
-                url: cleanTarget,
-                title: SplashScreenNotifier.getLanguageLabel('Help'),
-              ),
+              builder: (context) {
+                return WebViewPage(url: item.targetUrl ?? '', title: item.displayName);
+              },
             ),
           );
-        } else {
-          Navigator.pushNamed(context, cleanTarget);
         }
+        // if (cleanTarget.isNullOrEmpty()) {
+        //   Fluttertoast.showToast(msg: "URL is not configured");
+        // } else if (cleanTarget.isURL) {
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => WebViewPage(
+        //         url: cleanTarget,
+        //         title: SplashScreenNotifier.getLanguageLabel('Help'),
+        //       ),
+        //     ),
+        //   );
+        // } else {
+        //   Navigator.pushNamed(context, cleanTarget);
+        // }
       },
       title: item.displayName,
     );

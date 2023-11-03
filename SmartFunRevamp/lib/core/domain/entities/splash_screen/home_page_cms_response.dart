@@ -25,7 +25,6 @@ class HomePageCMSResponse {
   @JsonKey(name: 'CardsColor')
   final CardsColor? cardsColor;
   final List<HomePageOrder> homePageOrder;
-  final ExternalUrls? externalUrls;
   final List<List<int>>? buyACardFilters;
 
   HomePageCMSResponse(
@@ -38,7 +37,6 @@ class HomePageCMSResponse {
     this.cmsModuleColorsHome,
     this.cardsColor,
     this.homePageOrder,
-    this.externalUrls,
     this.buyACardFilters,
   );
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
@@ -236,6 +234,7 @@ class CMSMenuItem {
   final int displayOrder;
   final String itemUrl;
   final String? target;
+  final String? targetUrl;
   final String? description;
   final int? creditType;
   CMSMenuItem(
@@ -247,6 +246,7 @@ class CMSMenuItem {
     this.target,
     this.description,
     this.creditType,
+    this.targetUrl,
   );
   factory CMSMenuItem.fromJson(Map<String, dynamic> json) => _$CMSMenuItemFromJson(json);
   Map<String, dynamic> toJson() => _$CMSMenuItemToJson(this);
@@ -342,23 +342,4 @@ class HomePageOrder {
   );
   factory HomePageOrder.fromJson(Map<String, dynamic> json) => _$HomePageOrderFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageOrderToJson(this);
-}
-
-@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class ExternalUrls {
-  final String privacyPolicy;
-  final String termsAndConditions;
-  final String help;
-  final String androidPlaystoreLink;
-  final String iosAppstoreLink;
-
-  ExternalUrls(
-    this.privacyPolicy,
-    this.termsAndConditions,
-    this.help,
-    this.iosAppstoreLink,
-    this.androidPlaystoreLink,
-  );
-  factory ExternalUrls.fromJson(Map<String, dynamic> json) => _$ExternalUrlsFromJson(json);
-  Map<String, dynamic> toJson() => _$ExternalUrlsToJson(this);
 }

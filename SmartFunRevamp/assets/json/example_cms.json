@@ -414,7 +414,8 @@
                   "DisplayOrder": 5,
                   "DisplayName": "Legal",
                   "Description": "LEGAL DESCRIPTION",
-                  "Target": "https://www.semnox.com/privacy-policy.html"
+                  "Target": "sf://webview",
+                  "TargetUrl": "https://www.semnox.com/privacy-policy.html"
                 },
                 {
                   "ItemName": "LIKE",

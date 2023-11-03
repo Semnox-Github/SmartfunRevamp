@@ -28,9 +28,6 @@ HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
       (json['HomePageOrder'] as List<dynamic>)
           .map((e) => HomePageOrder.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['ExternalUrls'] == null
-          ? null
-          : ExternalUrls.fromJson(json['ExternalUrls'] as Map<String, dynamic>),
       (json['BuyACardFilters'] as List<dynamic>?)
           ?.map((e) => (e as List<dynamic>).map((e) => e as int).toList())
           .toList(),
@@ -56,7 +53,6 @@ Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
   writeNotNull('CMSModuleColorsHome', instance.cmsModuleColorsHome?.toJson());
   writeNotNull('CardsColor', instance.cardsColor?.toJson());
   val['HomePageOrder'] = instance.homePageOrder.map((e) => e.toJson()).toList();
-  writeNotNull('ExternalUrls', instance.externalUrls?.toJson());
   writeNotNull('BuyACardFilters', instance.buyACardFilters);
   return val;
 }
@@ -191,6 +187,7 @@ CMSMenuItem _$CMSMenuItemFromJson(Map<String, dynamic> json) => CMSMenuItem(
       json['Target'] as String?,
       json['Description'] as String?,
       json['CreditType'] as int?,
+      json['TargetUrl'] as String?,
     );
 
 Map<String, dynamic> _$CMSMenuItemToJson(CMSMenuItem instance) {
@@ -209,6 +206,7 @@ Map<String, dynamic> _$CMSMenuItemToJson(CMSMenuItem instance) {
   }
 
   writeNotNull('Target', instance.target);
+  writeNotNull('TargetUrl', instance.targetUrl);
   writeNotNull('Description', instance.description);
   writeNotNull('CreditType', instance.creditType);
   return val;
@@ -303,20 +301,3 @@ Map<String, dynamic> _$HomePageOrderToJson(HomePageOrder instance) {
   writeNotNull('display_section', instance.displaySection);
   return val;
 }
-
-ExternalUrls _$ExternalUrlsFromJson(Map<String, dynamic> json) => ExternalUrls(
-      json['privacy_policy'] as String,
-      json['terms_and_conditions'] as String,
-      json['help'] as String,
-      json['ios_appstore_link'] as String,
-      json['android_playstore_link'] as String,
-    );
-
-Map<String, dynamic> _$ExternalUrlsToJson(ExternalUrls instance) =>
-    <String, dynamic>{
-      'privacy_policy': instance.privacyPolicy,
-      'terms_and_conditions': instance.termsAndConditions,
-      'help': instance.help,
-      'android_playstore_link': instance.androidPlaystoreLink,
-      'ios_appstore_link': instance.iosAppstoreLink,
-    };

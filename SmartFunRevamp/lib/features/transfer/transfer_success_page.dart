@@ -3,7 +3,8 @@ import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/home/pages/home_page.dart';
+import 'package:semnox/features/home/view/home_view.dart';
+
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class TransferSuccessPage extends StatelessWidget {
@@ -41,7 +42,7 @@ class TransferSuccessPage extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const HomePage(),
+                  builder: (context) => const HomeView(),
                 ),
               ),
               label: SplashScreenNotifier.getLanguageLabel('DONE'),

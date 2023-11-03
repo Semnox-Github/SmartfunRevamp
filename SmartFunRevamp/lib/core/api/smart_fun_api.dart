@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_performance_dio/firebase_performance_dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:semnox/core/api/api_interceptor.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
@@ -42,16 +41,16 @@ abstract class SmartFunApi {
     final dio = Dio();
     dio.interceptors.addAll([
       AuthorizationInterceptor(),
-      PrettyDioLogger(
-        requestBody: true,
-        responseBody: true,
-        requestHeader: true,
-        responseHeader: true,
-        request: true,
-        error: true,
-        compact: true,
-        maxWidth: 150,
-      ),
+      // PrettyDioLogger(
+      //   requestBody: true,
+      //   responseBody: true,
+      //   requestHeader: true,
+      //   responseHeader: true,
+      //   request: true,
+      //   error: true,
+      //   compact: true,
+      //   maxWidth: 150,
+      // ),
       DioFirebasePerformanceInterceptor(),
     ]);
     dio.options = BaseOptions(

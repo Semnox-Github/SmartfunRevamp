@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -59,19 +60,27 @@ class HomePageCMSResponse {
   List<CMSMenuItem> getFooterMenuItems() {
     final footerItems = geMenuItems('FOOTER');
     footerItems.removeWhere((element) => element.active == false);
+    footerItems.retainWhere((element) => element.platform == null || element.platform == Platform.operatingSystem);
     return footerItems;
   }
 
   List<CMSMenuItem> getHeaderMenuItems() {
-    return geMenuItems('HEADER');
+    final items = geMenuItems('HEADER');
+    items.retainWhere((element) => element.platform == null || element.platform == Platform.operatingSystem);
+    return items;
   }
 
   List<CMSMenuItem> getCardDetailMenuItems() {
-    return geMenuItems('CARD_DETAILS');
+    final items = geMenuItems('CARD_DETAILS');
+    items.removeWhere((element) => element.active == false);
+    items.retainWhere((element) => element.platform == null || element.platform == Platform.operatingSystem);
+    return items;
   }
 
   List<CMSMenuItem> getMoreMenuItems() {
-    return geMenuItems('MORE');
+    final items = geMenuItems('MORE');
+    items.retainWhere((element) => element.platform == null || element.platform == Platform.operatingSystem);
+    return items;
   }
 
   List<CMSModulePage> getLinks(String displaySection) {
@@ -237,6 +246,7 @@ class CMSMenuItem {
   final String? targetUrl;
   final String? description;
   final int? creditType;
+  final String? platform;
   CMSMenuItem(
     this.itemName,
     this.displayName,
@@ -247,6 +257,7 @@ class CMSMenuItem {
     this.description,
     this.creditType,
     this.targetUrl,
+    this.platform,
   );
   factory CMSMenuItem.fromJson(Map<String, dynamic> json) => _$CMSMenuItemFromJson(json);
   Map<String, dynamic> toJson() => _$CMSMenuItemToJson(this);

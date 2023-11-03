@@ -188,6 +188,7 @@ CMSMenuItem _$CMSMenuItemFromJson(Map<String, dynamic> json) => CMSMenuItem(
       json['Description'] as String?,
       json['CreditType'] as int?,
       json['TargetUrl'] as String?,
+      json['Platform'] as String?,
     );
 
 Map<String, dynamic> _$CMSMenuItemToJson(CMSMenuItem instance) {
@@ -209,6 +210,7 @@ Map<String, dynamic> _$CMSMenuItemToJson(CMSMenuItem instance) {
   writeNotNull('TargetUrl', instance.targetUrl);
   writeNotNull('Description', instance.description);
   writeNotNull('CreditType', instance.creditType);
+  writeNotNull('Platform', instance.platform);
   return val;
 }
 

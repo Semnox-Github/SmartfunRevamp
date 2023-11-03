@@ -10,7 +10,7 @@ import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/widgets/image_handler.dart';
 
 import 'package:semnox/core/widgets/virtual_card_widget.dart';
-import 'package:semnox/features/home/pages/home_page.dart';
+import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
@@ -32,7 +32,7 @@ class ViewVirtualCardPage extends ConsumerWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomePage(),
+                    builder: (context) => const HomeView(),
                   ),
                 ),
               }),

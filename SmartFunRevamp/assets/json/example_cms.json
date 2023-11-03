@@ -423,7 +423,19 @@
                   "Active": true,
                   "DisplayOrder": 6,
                   "DisplayName": "Like the App?",
-                  "Description": "LIKE DESCRIPTION"
+                  "Description": "LIKE DESCRIPTION",
+                  "Target": "https://play.google.com/store/apps/details?id=my.aeon.smartfun",
+                  "Platform": "ios"
+                },
+                {
+                  "ItemName": "LIKE",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 6,
+                  "DisplayName": "Like the App?",
+                  "Description": "LIKE DESCRIPTION",
+                  "Target": "https://play.google.com/store/apps/details?id=my.aeon.smartfun",
+                  "Platform": "android"
                 }
               ]
             }
@@ -931,15 +943,11 @@
         "select_location_image_path": "https://placehold.co/1200x400.png",
         "transfer_success_image_path": "https://placehold.co/1200x400.png"
       },
-      "ExternalUrls": {
-        "privacy_policy": "https://www.semnox.com/privacy-policy.html",
-        "terms_and_conditions": "https://www.semnox.com/privacy-policy.html",
-        "help": "https://www.semnox.com/contact-us/",
-        "android_playstore_link": "https://www.google.com/",
-        "ios_appstore_link": "https://www.google.com/"
-      },
       "CardsColor": {
         "color_card_text": "#FF1493",
+        "regular": "#E997C4",
+        "expire": "#6C0F9E",
+        "virtual": "#D79800",
         "silver_gradient": [
           "#FFFFFF",
           "#F0F0F0",

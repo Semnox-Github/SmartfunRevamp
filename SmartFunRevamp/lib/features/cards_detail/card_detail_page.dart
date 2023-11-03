@@ -102,26 +102,12 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   final cardDetailItem = items[index];
-                  if (cardDetailItem.active) {
-                    return CardDetailItemFromCMS(
-                      cardDetails: cardDetails,
-                      item: cardDetailItem,
-                    );
-                  }
-                  return null;
+                  return CardDetailItemFromCMS(
+                    cardDetails: cardDetails,
+                    item: cardDetailItem,
+                  );
                 },
               ),
-              // GridView(
-              //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              //     crossAxisCount: 3,
-              //   ),
-              //   shrinkWrap: true,
-              //   physics: const NeverScrollableScrollPhysics(),
-              //   children: [
-              //     for (final item in items)
-              //       if (item.active) CardDetailItemFromCMS(item: item, cardDetails: cardDetails),
-              //   ],
-              // ),
               if (!(cardDetails.isBlocked() || cardDetails.isExpired()))
                 CustomButton(
                   onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
@@ -267,6 +253,42 @@ class MoreActionListTile extends StatelessWidget {
   }
 }
 
+class CardDetailItemFromCMS extends StatelessWidget {
+  const CardDetailItemFromCMS({
+    Key? key,
+    required this.item,
+    required this.cardDetails,
+  }) : super(key: key);
+  final CMSMenuItem item;
+  final CardDetails cardDetails;
+
+  @override
+  Widget build(BuildContext context) {
+    return CardDetailItem(
+      item: item,
+      color: CustomColors.customOrange,
+      image: 'bonus_points',
+      amount: item.itemName == "COURTESY"
+          ? cardDetails.totalCourtesyBalance?.toStringAsFixed(0) ?? ''
+          : cardDetails.pointsBasedOnCreditType(item.creditType ?? 0),
+      onTap: item.creditType == null
+          ? null
+          : () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BonusSummaryPage(
+                    cardNumber: cardDetails.accountNumber ?? '',
+                    creditPlusType: item.creditType,
+                    pageTitle: SplashScreenNotifier.getLanguageLabel(item.displayName),
+                  ),
+                ),
+              );
+            },
+    );
+  }
+}
+
 class CardDetailItem extends StatelessWidget {
   const CardDetailItem({
     Key? key,
@@ -320,42 +342,6 @@ class CardDetailItem extends StatelessWidget {
           ],
         );
       }),
-    );
-  }
-}
-
-class CardDetailItemFromCMS extends StatelessWidget {
-  const CardDetailItemFromCMS({
-    Key? key,
-    required this.item,
-    required this.cardDetails,
-  }) : super(key: key);
-  final CMSMenuItem item;
-  final CardDetails cardDetails;
-
-  @override
-  Widget build(BuildContext context) {
-    return CardDetailItem(
-      item: item,
-      color: CustomColors.customOrange,
-      image: 'bonus_points',
-      amount: item.itemName == "COURTESY"
-          ? cardDetails.totalCourtesyBalance?.toStringAsFixed(0) ?? ''
-          : cardDetails.pointsBasedOnCreditType(item.creditType ?? 0),
-      onTap: item.creditType == null
-          ? null
-          : () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BonusSummaryPage(
-                    cardNumber: cardDetails.accountNumber ?? '',
-                    creditPlusType: item.creditType,
-                    pageTitle: SplashScreenNotifier.getLanguageLabel(item.displayName),
-                  ),
-                ),
-              );
-            },
     );
   }
 }

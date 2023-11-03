@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
-import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/home/widgets/custom_bottom_navigation_bar_item.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
@@ -31,18 +30,11 @@ class CustomBottomBar extends ConsumerWidget {
         unselectedFontSize: 0.0,
         onTap: (index) {
           final currentRoute = ModalRoute.of(context)?.settings.name ?? '';
-          final route = items[index].target?.replaceAll('sf:/', '') ?? '';
-          bool isUrl = Uri.tryParse(items[index].target ?? '')?.hasAbsolutePath ?? false;
-          if (isUrl) {
-            Navigator.pushNamed(context, Routes.kPlayPage);
-          } else if (currentRoute != route) {
-            if (route == Routes.kHomePage) {
-              Navigator.popUntil(context, (route) => route.isFirst);
-              Navigator.pushNamed(context, route);
-            } else {
-              Navigator.pushNamed(context, route);
-            }
+          final itemRoute = items[index].target?.replaceAll('sf:/', '') ?? '';
+          if (currentRoute == itemRoute) {
+            return;
           }
+          items[index].goToTarget(context);
         },
         items: [
           for (CMSMenuItem item in items)

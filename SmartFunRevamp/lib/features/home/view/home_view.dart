@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
@@ -117,7 +118,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
             ),
           ),
           TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
+            onPressed: () => {
+              SystemNavigator.pop(),
+              Navigator.of(context).pop(true),
+            },
             child: MulishText(
               text: SplashScreenNotifier.getLanguageLabel('Yes'),
             ),

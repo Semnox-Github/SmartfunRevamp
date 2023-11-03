@@ -54,33 +54,28 @@ class HomePageCMSResponse {
     }
     cmsMenuItems.sort((a, b) => a.displayOrder < b.displayOrder ? -1 : 1);
     cmsMenuItems.removeWhere((element) => !element.active);
+    cmsMenuItems.retainWhere((element) => element.platform == null || element.platform == Platform.operatingSystem);
     return cmsMenuItems;
   }
 
   List<CMSMenuItem> getFooterMenuItems() {
-    final footerItems = geMenuItems('FOOTER');
-    footerItems.removeWhere((element) => element.active == false);
-    footerItems.retainWhere((element) => element.platform == null || element.platform == Platform.operatingSystem);
-    return footerItems;
+    return geMenuItems('FOOTER');
   }
 
   List<CMSMenuItem> getHeaderMenuItems() {
-    final items = geMenuItems('HEADER');
-    items.retainWhere((element) => element.platform == null || element.platform == Platform.operatingSystem);
-    return items;
+    return geMenuItems('HEADER');
   }
 
   List<CMSMenuItem> getCardDetailMenuItems() {
-    final items = geMenuItems('CARD_DETAILS');
-    items.removeWhere((element) => element.active == false);
-    items.retainWhere((element) => element.platform == null || element.platform == Platform.operatingSystem);
-    return items;
+    return geMenuItems('CARD_DETAILS');
   }
 
   List<CMSMenuItem> getMoreMenuItems() {
-    final items = geMenuItems('MORE');
-    items.retainWhere((element) => element.platform == null || element.platform == Platform.operatingSystem);
-    return items;
+    return geMenuItems('MORE');
+  }
+
+  List<CMSMenuItem> getCardDetailsLinks() {
+    return geMenuItems('CARD_DETAILS_LINKS');
   }
 
   List<CMSModulePage> getLinks(String displaySection) {

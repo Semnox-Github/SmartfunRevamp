@@ -6,18 +6,15 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
-import 'package:semnox/features/activity/card_activity_log_page.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
-import 'package:semnox/features/gameplays/pages/gameplays_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
-import 'package:semnox/features/lost_card/pages/selected_lost_card_page.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
-import 'package:semnox/features/transfer/transfer_page.dart';
 
 class CardDetailPage extends ConsumerStatefulWidget {
   const CardDetailPage({Key? key, required this.cardDetails, this.cardIndex}) : super(key: key);
@@ -35,6 +32,7 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
   Widget build(BuildContext context) {
     final cms = ref.watch(newHomePageCMSProvider);
     final items = cms?.getCardDetailMenuItems() ?? [];
+    final links = cms?.getCardDetailsLinks() ?? [];
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     return Scaffold(
       appBar: AppBar(
@@ -123,57 +121,20 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                       text: SplashScreenNotifier.getLanguageLabel('More Actions'),
                       fontWeight: FontWeight.bold,
                     ),
-                    if (!cardDetails.isBlocked() && !cardDetails.isExpired())
-                      MoreActionListTile(
+                    ...links.map((e) {
+                      return MoreActionListTile(
+                        title: e.displayName,
+                        subTitle: e.description ?? '',
+                        svgImage: e.itemUrl,
                         color: CustomColors.customOrange,
-                        subTitle: SplashScreenNotifier.getLanguageLabel('Report your lost card and get replacement'),
-                        title: SplashScreenNotifier.getLanguageLabel('Lost Card'),
-                        svgImage: 'assets/home/lost_card.svg',
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SelectedCardLostPage(cardDetails: cardDetails),
-                            ),
-                          );
+                          if ((cardDetails.isBlocked() || cardDetails.isExpired()) && e.itemName == 'LOST_CARD') {
+                            return;
+                          }
+                          e.goToTarget(context);
                         },
-                      ),
-                    MoreActionListTile(
-                      color: CustomColors.customPurple,
-                      subTitle: SplashScreenNotifier.getLanguageLabel('Transfer credits from one card to another'),
-                      title: SplashScreenNotifier.getLanguageLabel('Transfer Credit'),
-                      svgImage: 'assets/home/transfer_credit.svg',
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TransferPage(),
-                        ),
-                      ),
-                    ),
-                    MoreActionListTile(
-                      color: CustomColors.customGreen,
-                      subTitle: SplashScreenNotifier.getLanguageLabel('View all your gameplay records'),
-                      title: SplashScreenNotifier.getLanguageLabel('Game Plays'),
-                      svgImage: 'assets/home/gameplays.svg',
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const GameplaysPage(),
-                        ),
-                      ),
-                    ),
-                    MoreActionListTile(
-                      color: CustomColors.customYellow,
-                      subTitle: SplashScreenNotifier.getLanguageLabel('View Transactions, Recharges and more.'),
-                      title: SplashScreenNotifier.getLanguageLabel('Activity'),
-                      svgImage: 'assets/home/activities.svg',
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const CardActivityLogPage(),
-                        ),
-                      ),
-                    )
+                      );
+                    }).toList()
                   ],
                 ),
               )
@@ -219,7 +180,7 @@ class MoreActionListTile extends StatelessWidget {
                   color: color,
                 ),
                 padding: const EdgeInsets.all(13.0),
-                child: SvgPicture.asset(svgImage),
+                child: CachedNetworkImage(imageUrl: svgImage),
               ),
               Expanded(
                 child: Column(

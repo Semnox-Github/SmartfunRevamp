@@ -74,7 +74,6 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
         orElse: () => context.loaderOverlay.hide(),
         success: (user) {
           context.loaderOverlay.hide();
-          Navigator.pushReplacementNamed(context, Routes.kHomePage);
           ref.read(userProvider.notifier).update((_) => user);
         },
         customerVerificationNeeded: () {

@@ -67,47 +67,10 @@ class SplashScreen extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _SplashScreenState();
 }
 
-class SplashScreenImage extends StatelessWidget {
-  final String? url;
-  const SplashScreenImage(this.url, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    if (url.isNullOrEmpty()) {
-      return Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/splash_screen/splash_screen.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-    }
-    return CachedNetworkImage(
-      imageUrl: url!,
-      height: double.infinity,
-      width: double.infinity,
-      fit: BoxFit.fill,
-      placeholder: (_, __) => const Center(child: CircularProgressIndicator.adaptive()),
-      errorWidget: (context, url, error) {
-        return Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/splash_screen/splash_screen.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     void nextPage() => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
-
     ref.listen<NewSplashScreenState>(
       newSplashScreenProvider,
       (_, next) {
@@ -194,11 +157,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                                         if (userSelectedSite != null)
                                           {
                                             ref.read(loginProvider.notifier).setSite(userSelectedSite!),
-                                            Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                            Navigator.pushNamedAndRemoveUntil(
+                                                context, Routes.kHomePage, (Route<dynamic> route) => false),
                                           }
                                         else
                                           {
-                                            Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                            Navigator.pushNamedAndRemoveUntil(
+                                                context, Routes.kHomePage, (Route<dynamic> route) => false),
                                           }
                                       },
                                     ),
@@ -227,11 +192,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                                     if (userSelectedSite != null)
                                       {
                                         ref.read(loginProvider.notifier).setSite(userSelectedSite!),
-                                        Navigator.pushReplacementNamed(context, Routes.kHomePage)
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context, Routes.kHomePage, (Route<dynamic> route) => false),
                                       }
                                     else
                                       {
-                                        Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context, Routes.kHomePage, (Route<dynamic> route) => false),
                                       }
                                   },
                                 ),
@@ -354,7 +321,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           );
         },
         inProgress: () {
-          context.loaderOverlay.show();
           return Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -377,7 +343,43 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   void initState() {
-    ref.read(newSplashScreenProvider.notifier).getSplashImage();
+    ref.read(newSplashScreenProvider.notifier).initApp();
     super.initState();
+  }
+}
+
+class SplashScreenImage extends StatelessWidget {
+  final String? url;
+  const SplashScreenImage(this.url, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    if (url.isNullOrEmpty()) {
+      return Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/splash_screen/splash_screen.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+    }
+    return CachedNetworkImage(
+      imageUrl: url!,
+      height: double.infinity,
+      width: double.infinity,
+      fit: BoxFit.fill,
+      placeholder: (_, __) => const Center(child: CircularProgressIndicator.adaptive()),
+      errorWidget: (context, url, error) {
+        return Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/splash_screen/splash_screen.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
+      },
+    );
   }
 }

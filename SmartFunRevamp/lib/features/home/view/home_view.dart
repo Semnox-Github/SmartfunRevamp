@@ -101,268 +101,304 @@ class _HomeViewState extends ConsumerState<HomeView> {
       loading: () => context.loaderOverlay.show(),
       skipLoadingOnRefresh: false,
     );
-    return Scaffold(
-      backgroundColor: CustomColors.customLigthBlue,
-      bottomNavigationBar: const CustomBottomBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Container(
-            color: Colors.white,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 0,
-                  width: 0,
-                  child: Consumer(
-                    builder: (context, ref, child) {
-                      return ref.watch(getAllSitesProvider).maybeWhen(
-                            orElse: () => Container(),
-                          );
-                    },
+    AlertDialog buildExitDialog(BuildContext context) {
+      return AlertDialog(
+        title: MulishText(
+          text: SplashScreenNotifier.getLanguageLabel('Please confirm'),
+        ),
+        content: MulishText(
+          text: SplashScreenNotifier.getLanguageLabel('Do you want to exit the app?'),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: MulishText(
+              text: SplashScreenNotifier.getLanguageLabel('No'),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: MulishText(
+              text: SplashScreenNotifier.getLanguageLabel('Yes'),
+            ),
+          ),
+        ],
+      );
+    }
+
+    Future<bool> onWillPop(BuildContext context) async {
+      bool? exitResult = await showDialog(
+        context: context,
+        builder: (context) => buildExitDialog(context),
+      );
+      return exitResult ?? false;
+    }
+
+    return WillPopScope(
+      onWillPop: () => onWillPop(context),
+      child: Scaffold(
+        backgroundColor: CustomColors.customLigthBlue,
+        bottomNavigationBar: const CustomBottomBar(),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: Container(
+              color: Colors.white,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 0,
+                    width: 0,
+                    child: Consumer(
+                      builder: (context, ref, child) {
+                        return ref.watch(getAllSitesProvider).maybeWhen(
+                              orElse: () => Container(),
+                            );
+                      },
+                    ),
                   ),
-                ),
-                Container(
-                  color: CustomColors.customLigthBlue,
-                  padding: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-                  child: Row(
-                    children: [
-                      ProfilePicture(customerDTO: user!),
-                      const SizedBox(width: 10.0),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${user.profileDto?.firstName} ${user.profileDto?.lastName}',
-                            style: const TextStyle(
-                              color: CustomColors.customBlue,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          ref.watch(membershipInfoProvider).when(
-                                error: (_, __) => const MulishText(text: 'Error '),
-                                loading: () => const ShimmerLoading(
-                                  height: 10.0,
-                                  width: 50,
-                                ),
-                                data: (data) {
-                                  if (data.membershipId == -1) {
-                                    return Container();
-                                  }
-                                  return MulishText(
-                                    text: SplashScreenNotifier.getLanguageLabel('${data.memberShipName}'),
-                                    fontWeight: FontWeight.bold,
-                                  );
-                                },
+                  Container(
+                    color: CustomColors.customLigthBlue,
+                    padding: const EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
+                    child: Row(
+                      children: [
+                        ProfilePicture(customerDTO: user!),
+                        const SizedBox(width: 10.0),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${user.profileDto?.firstName} ${user.profileDto?.lastName}',
+                              style: const TextStyle(
+                                color: CustomColors.customBlue,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
                               ),
-                        ],
-                      ),
-                      const Spacer(),
-                      HomeTopBarIcons(
-                        onSearchTap: () => Navigator.pushNamed(context, Routes.kSearch),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ...itemsOrder?.map(
-                          (e) {
-                            List<CMSModulePage>? content =
-                                ref.watch(newHomePageCMSProvider)?.getLinks(e.displaySection ?? '');
-                            switch (e.widget) {
-                              case "CARDS":
-                                return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                                  decoration: BoxDecoration(
-                                    color: HexColor.fromHex(homeColor?.upperHalf),
-                                    borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            ref.watch(membershipInfoProvider).when(
+                                  error: (_, __) => const MulishText(text: 'Error '),
+                                  loading: () => const ShimmerLoading(
+                                    height: 10.0,
+                                    width: 50,
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        SplashScreenNotifier.getLanguageLabel(e.title),
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20.0,
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.symmetric(vertical: 10.0),
-                                        child: cardsWatch.when(
-                                          skipLoadingOnRefresh: false,
-                                          loading: () => const ShimmerLoading(height: 200),
-                                          error: (_, __) => Center(
-                                            child: MulishText(
-                                                text: SplashScreenNotifier.getLanguageLabel('No Cards found')),
+                                  data: (data) {
+                                    if (data.membershipId == -1) {
+                                      return Container();
+                                    }
+                                    return MulishText(
+                                      text: SplashScreenNotifier.getLanguageLabel('${data.memberShipName}'),
+                                      fontWeight: FontWeight.bold,
+                                    );
+                                  },
+                                ),
+                          ],
+                        ),
+                        const Spacer(),
+                        HomeTopBarIcons(
+                          onSearchTap: () => Navigator.pushNamed(context, Routes.kSearch),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ...itemsOrder?.map(
+                            (e) {
+                              List<CMSModulePage>? content =
+                                  ref.watch(newHomePageCMSProvider)?.getLinks(e.displaySection ?? '');
+                              switch (e.widget) {
+                                case "CARDS":
+                                  return Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                                    decoration: BoxDecoration(
+                                      color: HexColor.fromHex(homeColor?.upperHalf),
+                                      borderRadius: BorderRadius.circular(15.0),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          SplashScreenNotifier.getLanguageLabel(e.title),
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20.0,
                                           ),
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.symmetric(vertical: 10.0),
+                                          child: cardsWatch.when(
+                                            skipLoadingOnRefresh: false,
+                                            loading: () => const ShimmerLoading(height: 200),
+                                            error: (_, __) => Center(
+                                              child: MulishText(
+                                                  text: SplashScreenNotifier.getLanguageLabel('No Cards found')),
+                                            ),
+                                            data: (data) {
+                                              return Column(
+                                                children: [
+                                                  data.isNotEmpty
+                                                      ? CarouselCards(
+                                                          cards: data,
+                                                          onCardChanged: (cardIndex) {
+                                                            setState(() {
+                                                              _cardIndex = cardIndex;
+                                                            });
+                                                            if (cardIndex != data.length) {
+                                                              ref
+                                                                  .read(currentCardProvider.notifier)
+                                                                  .update((state) => data[cardIndex]);
+                                                            } else {
+                                                              ref
+                                                                  .read(currentCardProvider.notifier)
+                                                                  .update((state) => null);
+                                                            }
+                                                          },
+                                                        )
+                                                      : LinkACard(),
+                                                  if (data.isNotEmpty && _cardIndex != data.length)
+                                                    RechargeCardDetailsButton(
+                                                      cardDetails: cardDetails ?? data.first,
+                                                      cardIndex: _cardIndex,
+                                                    )
+                                                  else
+                                                    const BuyNewCardButton(),
+                                                ],
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                case "LINKS":
+                                  return Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          SplashScreenNotifier.getLanguageLabel(e.title),
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20.0,
+                                          ),
+                                        ),
+                                        cardsWatch.when(
+                                          error: (error, stackTrace) => Container(),
+                                          loading: () => const ShimmerLoading(height: 200.0),
                                           data: (data) {
-                                            return Column(
-                                              children: [
-                                                data.isNotEmpty
-                                                    ? CarouselCards(
-                                                        cards: data,
-                                                        onCardChanged: (cardIndex) {
-                                                          setState(() {
-                                                            _cardIndex = cardIndex;
-                                                          });
-                                                          if (cardIndex != data.length) {
-                                                            ref
-                                                                .read(currentCardProvider.notifier)
-                                                                .update((state) => data[cardIndex]);
+                                            bool hasCard = data.isNotEmpty ? true : false;
+                                            String msgCardNoLink = SplashScreenNotifier.getLanguageLabel(
+                                                'No card is associated with customer, please link your card.');
+                                            if (content.isNullOrEmpty()) {
+                                              return const MulishText(
+                                                  text: 'No quicklinks setup. Contact your administrator');
+                                            }
+                                            return GridView.builder(
+                                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 3,
+                                              ),
+                                              shrinkWrap: true,
+                                              physics: const NeverScrollableScrollPhysics(),
+                                              itemCount: content!.length,
+                                              itemBuilder: (context, index) {
+                                                final quickLink = content[index];
+                                                return SizedBox(
+                                                  height: 45,
+                                                  width: 45,
+                                                  child: QuickLinkItem(
+                                                    color: quickLink.backgroundColor,
+                                                    imageUrl: quickLink.contentURL,
+                                                    text: SplashScreenNotifier.getLanguageLabel(quickLink.contentName),
+                                                    onTap: () {
+                                                      if (quickLink.source.toLowerCase() == 'recharge') {
+                                                        if (!hasCard) {
+                                                          Dialogs.showMessageInfo(
+                                                              context,
+                                                              SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                                              msgCardNoLink);
+                                                        } else {
+                                                          //if the user has no card selected show dialog
+                                                          if (cardDetails == null) {
+                                                            Dialogs.showMessageInfo(
+                                                              context,
+                                                              SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                                              SplashScreenNotifier.getLanguageLabel(
+                                                                  "Please select a card to recharge."),
+                                                            );
+                                                            //if there is a card selected and is not blocked or expired then navigate
+                                                          } else if (!(cardDetails.isBlocked() ||
+                                                              cardDetails.isExpired())) {
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder: (context) => const SelectCardRechargePage(),
+                                                              ),
+                                                            );
                                                           } else {
-                                                            ref
-                                                                .read(currentCardProvider.notifier)
-                                                                .update((state) => null);
+                                                            //else show dialog
+                                                            Dialogs.showMessageInfo(
+                                                              context,
+                                                              SplashScreenNotifier.getLanguageLabel('Recharge Card'),
+                                                              SplashScreenNotifier.getLanguageLabel(
+                                                                  "Temporary or expired cards can't be recharged."),
+                                                            );
                                                           }
-                                                        },
-                                                      )
-                                                    : LinkACard(),
-                                                if (data.isNotEmpty && _cardIndex != data.length)
-                                                  RechargeCardDetailsButton(
-                                                    cardDetails: cardDetails ?? data.first,
-                                                    cardIndex: _cardIndex,
-                                                  )
-                                                else
-                                                  const BuyNewCardButton(),
-                                              ],
+                                                        }
+                                                      } else {
+                                                        if (hasCard) {
+                                                          Navigator.pushNamed(
+                                                              context, quickLink.contentKey.replaceAll('sf:/', ''));
+                                                        } else {
+                                                          Dialogs.showMessageInfo(
+                                                              context,
+                                                              SplashScreenNotifier.getLanguageLabel('Activities'),
+                                                              msgCardNoLink);
+                                                        }
+                                                      }
+                                                    },
+                                                  ),
+                                                );
+                                              },
                                             );
                                           },
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              case "LINKS":
-                                return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        SplashScreenNotifier.getLanguageLabel(e.title),
-                                        style: const TextStyle(
+                                      ],
+                                    ),
+                                  );
+                                case "CAROUSEL":
+                                  return Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        MulishText(
+                                          text: SplashScreenNotifier.getLanguageLabel(e.title),
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20.0,
                                         ),
-                                      ),
-                                      cardsWatch.when(
-                                        error: (error, stackTrace) => Container(),
-                                        loading: () => const ShimmerLoading(height: 200.0),
-                                        data: (data) {
-                                          bool hasCard = data.isNotEmpty ? true : false;
-                                          String msgCardNoLink = SplashScreenNotifier.getLanguageLabel(
-                                              'No card is associated with customer, please link your card.');
-                                          if (content.isNullOrEmpty()) {
-                                            return const MulishText(
-                                                text: 'No quicklinks setup. Contact your administrator');
-                                          }
-                                          return GridView.builder(
-                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 3,
-                                            ),
-                                            shrinkWrap: true,
-                                            physics: const NeverScrollableScrollPhysics(),
-                                            itemCount: content!.length,
-                                            itemBuilder: (context, index) {
-                                              final quickLink = content[index];
-                                              return SizedBox(
-                                                height: 45,
-                                                width: 45,
-                                                child: QuickLinkItem(
-                                                  color: quickLink.backgroundColor,
-                                                  imageUrl: quickLink.contentURL,
-                                                  text: SplashScreenNotifier.getLanguageLabel(quickLink.contentName),
-                                                  onTap: () {
-                                                    if (quickLink.source.toLowerCase() == 'recharge') {
-                                                      if (!hasCard) {
-                                                        Dialogs.showMessageInfo(
-                                                            context,
-                                                            SplashScreenNotifier.getLanguageLabel('Recharge Card'),
-                                                            msgCardNoLink);
-                                                      } else {
-                                                        //if the user has no card selected show dialog
-                                                        if (cardDetails == null) {
-                                                          Dialogs.showMessageInfo(
-                                                            context,
-                                                            SplashScreenNotifier.getLanguageLabel('Recharge Card'),
-                                                            SplashScreenNotifier.getLanguageLabel(
-                                                                "Please select a card to recharge."),
-                                                          );
-                                                          //if there is a card selected and is not blocked or expired then navigate
-                                                        } else if (!(cardDetails.isBlocked() ||
-                                                            cardDetails.isExpired())) {
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) => const SelectCardRechargePage(),
-                                                            ),
-                                                          );
-                                                        } else {
-                                                          //else show dialog
-                                                          Dialogs.showMessageInfo(
-                                                            context,
-                                                            SplashScreenNotifier.getLanguageLabel('Recharge Card'),
-                                                            SplashScreenNotifier.getLanguageLabel(
-                                                                "Temporary or expired cards can't be recharged."),
-                                                          );
-                                                        }
-                                                      }
-                                                    } else {
-                                                      if (hasCard) {
-                                                        Navigator.pushNamed(
-                                                            context, quickLink.contentKey.replaceAll('sf:/', ''));
-                                                      } else {
-                                                        Dialogs.showMessageInfo(
-                                                            context,
-                                                            SplashScreenNotifier.getLanguageLabel('Activities'),
-                                                            msgCardNoLink);
-                                                      }
-                                                    }
-                                                  },
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              case "CAROUSEL":
-                                return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      MulishText(
-                                        text: SplashScreenNotifier.getLanguageLabel(e.title),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.0,
-                                      ),
-                                      PromoImages(
-                                        contentDisplay: e.displaySection ?? '',
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              default:
-                                return Container();
-                            }
-                          },
-                        ).toList() ??
-                        [],
-                  ],
-                ),
-              ],
+                                        PromoImages(
+                                          contentDisplay: e.displaySection ?? '',
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                default:
+                                  return Container();
+                              }
+                            },
+                          ).toList() ??
+                          [],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -4,7 +4,7 @@ part 'language_container_dto.g.dart';
 @JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class LanguageContainerDTO {
   final List<LanguageContainerDTOList> languageContainerDTOList;
-  final String hash;
+  final String? hash;
 
   LanguageContainerDTO(this.languageContainerDTOList, this.hash);
 

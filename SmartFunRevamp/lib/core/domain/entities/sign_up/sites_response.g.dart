@@ -16,5 +16,6 @@ GetAllSitesResponse _$GetAllSitesResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$GetAllSitesResponseToJson(
         GetAllSitesResponse instance) =>
     <String, dynamic>{
-      'SiteContainerDTOList': instance.siteContainerDTOList,
+      'SiteContainerDTOList':
+          instance.siteContainerDTOList.map((e) => e.toJson()).toList(),
     };

@@ -943,6 +943,13 @@
         "select_location_image_path": "https://placehold.co/1200x400.png",
         "transfer_success_image_path": "https://placehold.co/1200x400.png"
       },
+      "ExternalUrls": {
+        "privacy_policy": "https://www.semnox.com/privacy-policy.html",
+        "terms_and_conditions": "https://www.semnox.com/privacy-policy.html",
+        "help": "https://www.semnox.com/contact-us/",
+        "android_playstore_link": "https://play.google.com/store/apps/details?id=my.aeon.smartfun",
+        "ios_appstore_link": "https://apps.apple.com/app/id1574628712"
+      },
       "CardsColor": {
         "color_card_text": "#FF1493",
         "regular": "#E997C4",
@@ -998,12 +1005,35 @@
       },
       "IsChanged": true,
       "IsChangedRecursive": true,
-      "BuyACardFilters": [[10, 50], [51, 100], [101, 200], [201, 300], [301]],
+      "BuyACardFilters": [
+        [
+          10,
+          50
+        ],
+        [
+          51,
+          100
+        ],
+        [
+          101,
+          200
+        ],
+        [
+          201,
+          300
+        ],
+        [
+          301
+        ]
+      ],
       "CMSModuleColorsHome": {
         "upper_half": "#000022",
         "middle": "#221122",
         "bottom_half": "#22ffff",
-        "profile_picture_gradient": ["#0000ff", "#ff0000"]
+        "profile_picture_gradient": [
+          "#0000ff",
+          "#ff0000"
+        ]
       }
     }
   ]

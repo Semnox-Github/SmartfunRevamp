@@ -1,0 +1,4752 @@
+{
+  "ParafaitDefaultContainerDTOList": [
+    {
+      "DefaultValueName": "CARD_FACE_VALUE",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "TOKEN_PRICE",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "POS_CARD_READER_BAUDRATE",
+      "DefaultValue": "9600"
+    },
+    {
+      "DefaultValueName": "DEFAULT_FONT",
+      "DefaultValue": "arial"
+    },
+    {
+      "DefaultValueName": "DATETIME_FORMAT",
+      "DefaultValue": "dd-MMM-yyyy h:mm tt"
+    },
+    {
+      "DefaultValueName": "DATE_FORMAT",
+      "DefaultValue": "dd-MMM-yyyy"
+    },
+    {
+      "DefaultValueName": "NUMBER_FORMAT",
+      "DefaultValue": "#,###"
+    },
+    {
+      "DefaultValueName": "AMOUNT_FORMAT",
+      "DefaultValue": "#,##0.0000"
+    },
+    {
+      "DefaultValueName": "CURRENCY_CODE",
+      "DefaultValue": "USD"
+    },
+    {
+      "DefaultValueName": "TICKET_PRICE",
+      "DefaultValue": "0.00"
+    },
+    {
+      "DefaultValueName": "MINIMUM_SPEND_FOR_VIP_STATUS",
+      "DefaultValue": "1000"
+    },
+    {
+      "DefaultValueName": "DEFAULT_FONT_SIZE",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "POS_SKIN_COLOR",
+      "DefaultValue": "gray"
+    },
+    {
+      "DefaultValueName": "CURRENCY_SYMBOL",
+      "DefaultValue": "USD"
+    },
+    {
+      "DefaultValueName": "CREDIT_PRICE",
+      "DefaultValue": "1.00"
+    },
+    {
+      "DefaultValueName": "BONUS_PRICE",
+      "DefaultValue": "1.00"
+    },
+    {
+      "DefaultValueName": "COURTESY_PRICE",
+      "DefaultValue": "1.00"
+    },
+    {
+      "DefaultValueName": "WEBSERVICE_UPLOAD_FREQUENCY",
+      "DefaultValue": "5"
+    },
+    {
+      "DefaultValueName": "WEBSERVICE_UPLOAD_URL",
+      "DefaultValue": "https://parafaitposredemptionreports.parafait.com/parafaitws/service.asmx "
+    },
+    {
+      "DefaultValueName": "TICKET_COST",
+      "DefaultValue": "8"
+    },
+    {
+      "DefaultValueName": "REAL_TICKET_MODE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DEFAULT_GRID_FONT",
+      "DefaultValue": "Tahoma"
+    },
+    {
+      "DefaultValueName": "DEFAULT_GRID_FONT_SIZE",
+      "DefaultValue": "8"
+    },
+    {
+      "DefaultValueName": "FISCAL_YEAR_END_MONTH",
+      "DefaultValue": "1"
+    },
+    {
+      "DefaultValueName": "PURGE_DATA_BEFORE_YEARS",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "MIN_SECONDS_BETWEEN_GAMETIME_PLAY",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "CARD_VALIDITY",
+      "DefaultValue": "12"
+    },
+    {
+      "DefaultValueName": "DEFAULT_PAY_MODE",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "PDF_WRITER_PRINTER",
+      "DefaultValue": "Bullzip PDF Printer"
+    },
+    {
+      "DefaultValueName": "PDF_CONFIG_EXE",
+      "DefaultValue": "C:\\Program Files\\Bullzip\\PDF Printer\\api\\EXE\\config.exe"
+    },
+    {
+      "DefaultValueName": "PDF_OUTPUT_DIR",
+      "DefaultValue": "E:\\Parafait Home\\Reports"
+    },
+    {
+      "DefaultValueName": "SMTP_HOST",
+      "DefaultValue": "smtp.gmail.com"
+    },
+    {
+      "DefaultValueName": "SMTP_PORT",
+      "DefaultValue": "587"
+    },
+    {
+      "DefaultValueName": "SMTP_NETWORK_CREDENTIAL_USERNAME",
+      "DefaultValue": "qawebalerts@gmail.com"
+    },
+    {
+      "DefaultValueName": "SMTP_NETWORK_CREDENTIAL_PASSWORD",
+      "DefaultValue": "semnoX!1"
+    },
+    {
+      "DefaultValueName": "SMTP_FROM_DISPLAY_NAME",
+      "DefaultValue": "HQ TestEmails"
+    },
+    {
+      "DefaultValueName": "POS_FINGER_PRINT_AUTHENTICATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_REFUND_OF_CARD_CREDITS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "BACKUP_INTERVAL",
+      "DefaultValue": "15"
+    },
+    {
+      "DefaultValueName": "BACKUP_DIRECTORY",
+      "DefaultValue": "E:\\Parafait Home\\Backup"
+    },
+    {
+      "DefaultValueName": "MAINTENANCE_START_HOUR",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "MAINTENANCE_END_HOUR",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "MAIN_SERVER_HEARTBEAT_INTERVAL",
+      "DefaultValue": "60"
+    },
+    {
+      "DefaultValueName": "REMOTE_BACKUP_PATH",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "REPORT_SERVER_ENABLED",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "WEB_UPLOAD_SERVER_ENABLED",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_REDEMPTION_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MAIN_SERVER_RESTART_ATTEMPTS",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "SHOW_POS_SHIFT_COLLECTION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "HUB_HEARTBEAT_INTERVAL",
+      "DefaultValue": "25000"
+    },
+    {
+      "DefaultValueName": "MIN_SECONDS_BETWEEN_REPEAT_PLAY",
+      "DefaultValue": "1"
+    },
+    {
+      "DefaultValueName": "ALLOW_ROAMING_CARDS",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "CHECK_FOR_CARD_EXCEPTIONS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MIN_TIME_BETWEEN_POLLS",
+      "DefaultValue": "1000"
+    },
+    {
+      "DefaultValueName": "CONSECUTIVE_TRX_FAIL_COUNT_BEFORE_HUB_REBOOT",
+      "DefaultValue": "300"
+    },
+    {
+      "DefaultValueName": "READER_DISPLAY_SITENAME",
+      "DefaultValue": "Parafait"
+    },
+    {
+      "DefaultValueName": "PRINT_TRANSACTION_ITEM_SLIPS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "LOG_TRANSMISSION_FAILURES",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "LOG_RECEIVE_FAILURES",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_POS_FILTER_IN_TRX_REPORT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_TRANSACTION_ON_ZERO_STOCK",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TRANSACTION_ITEM_SLIPS_GAP",
+      "DefaultValue": "6"
+    },
+    {
+      "DefaultValueName": "SECONDS_BEFORE_TIMER_BLINK",
+      "DefaultValue": "60"
+    },
+    {
+      "DefaultValueName": "ENABLE_MANUAL_PRODUCT_SEARCH_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "GROUP_TIMER_EXTEND_AFTER_INTERVAL_PERCENT",
+      "DefaultValue": "20"
+    },
+    {
+      "DefaultValueName": "WEB_UPLOAD_BATCH_DAYS",
+      "DefaultValue": "20"
+    },
+    {
+      "DefaultValueName": "SHOW_PRINT_DIALOG_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_CASH_IN_PAYMENT_GATEWAY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_CREDITCARD_IN_PAYMENT_GATEWAY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_LOYALTY_ON_GAMEPLAY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PRINT_TRANSACTION_ITEM_TICKETS",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "PRINT_RECEIPT_ON_BILL_PRINTER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "HIDE_SHIFT_OPEN_CLOSE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "READER_HARDWARE_VERSION",
+      "DefaultValue": "1.5"
+    },
+    {
+      "DefaultValueName": "TRX_AUTO_PRINT_AFTER_SAVE",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "CLEAR_TRX_AFTER_PRINT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "READER_PRICE_DISPLAY_FORMAT",
+      "DefaultValue": "#,##0.00"
+    },
+    {
+      "DefaultValueName": "PRINT_TICKET_FOR_PRODUCT_TYPES",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "PRINT_TICKET_FOR_EACH_QUANTITY",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ALLOW_ONLY_GAMECARD_PAYMENT_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_PRICE_UPDATE_IN_PO",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "USB_READER_VID",
+      "DefaultValue": "VID_08FF"
+    },
+    {
+      "DefaultValueName": "USB_READER_PID",
+      "DefaultValue": "PID_0009"
+    },
+    {
+      "DefaultValueName": "USB_READER_OPT_STRING",
+      "DefaultValue": "0000"
+    },
+    {
+      "DefaultValueName": "ALLOW_TRX_PRINT_BEFORE_SAVING",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CARD_ISSUE_MANDATORY_FOR_CHECKIN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CHECKIN_PHOTO_DIRECTORY",
+      "DefaultValue": "C:\\Parafait Home\\Images\\CheckIn\\"
+    },
+    {
+      "DefaultValueName": "PHOTO_MANDATORY_FOR_CHECKIN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "REFUND_REMARKS_MANDATORY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "WRIST_BAND_FACE_VALUE",
+      "DefaultValue": "80"
+    },
+    {
+      "DefaultValueName": "CARD_ISSUE_MANDATORY_FOR_CHECKIN_DETAILS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CHECKIN_DETAILS_RFID_TAG",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "PURGE_DATA_BEFORE_DAYS",
+      "DefaultValue": "3650"
+    },
+    {
+      "DefaultValueName": "PURGE_BEFORE_YEAR_OR_DAYS",
+      "DefaultValue": "1"
+    },
+    {
+      "DefaultValueName": "DAYS_TO_KEEP_PHOTOS_FOR",
+      "DefaultValue": "60"
+    },
+    {
+      "DefaultValueName": "USB_BARCODE_READER_VID",
+      "DefaultValue": "VID_04B4"
+    },
+    {
+      "DefaultValueName": "USB_BARCODE_READER_PID",
+      "DefaultValue": "PID_0100"
+    },
+    {
+      "DefaultValueName": "USB_BARCODE_READER_OPT_STRING",
+      "DefaultValue": "0000"
+    },
+    {
+      "DefaultValueName": "TAX_IDENTIFICATION_NUMBER",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MAX_TOKEN_NUMBER",
+      "DefaultValue": "1000"
+    },
+    {
+      "DefaultValueName": "ENABLE_PRODUCTS_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_DISCOUNTS_IN_POS",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_TASKS_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_MY_TRANSACTIONS_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_REFUND_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "RECEIPT_PRINT_TEMPLATE",
+      "DefaultValue": "1"
+    },
+    {
+      "DefaultValueName": "TOKEN_MACHINE_GAMEPLAY_CARD",
+      "DefaultValue": "FFFFFFFFFF"
+    },
+    {
+      "DefaultValueName": "TICKETS_TO_REDEEM_PER_BONUS",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "LOG_FREQUENCY_IN_POLLS",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "MAX_TICKETS_PER_GAMEPLAY",
+      "DefaultValue": "100"
+    },
+    {
+      "DefaultValueName": "ENABLE_CARD_DETAILS_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "LEFT_TRIM_CARD_NUMBER",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "RIGHT_TRIM_CARD_NUMBER",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "LEFT_TRIM_BARCODE",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "RIGHT_TRIM_BARCODE",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "ALLOW_PARTIAL_REFUND",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_REFUND_OF_CARD_DEPOSIT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CARD_NUMBER_LENGTH",
+      "DefaultValue": "8"
+    },
+    {
+      "DefaultValueName": "AD_IMAGE_DIRECTORY",
+      "DefaultValue": "C:\\Parafait Home\\Images\\AdImages\\  "
+    },
+    {
+      "DefaultValueName": "CONSUME_CREDITS_BEFORE_BONUS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AD_PUBLISH_WINDOW_START",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "AD_PUBLISH_WINDOW_END",
+      "DefaultValue": "1"
+    },
+    {
+      "DefaultValueName": "AD_SHOW_WINDOW_START",
+      "DefaultValue": "1"
+    },
+    {
+      "DefaultValueName": "AD_SHOW_WINDOW_END",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "IMAGE_DIRECTORY",
+      "DefaultValue": "C:\\Parafait Home\\Images\\OtherImages"
+    },
+    {
+      "DefaultValueName": "AUTO_POPUP_CARD_PROMOTIONS_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_ON_DEMAND_ROAMING",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "AUTOMATIC_ON_DEMAND_ROAMING",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DEBUG_MODE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_PRINT_IN_SHIFT_OPEN_CLOSE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DEFAULT_TCP_PORT",
+      "DefaultValue": "2000"
+    },
+    {
+      "DefaultValueName": "REGISTRATION_MANDATORY_FOR_VIP",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_UPDATE_PHYSICAL_TICKETS_ON_CARD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_SMTP_SSL",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_FINGER_PRINT_ATTENDANCE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "OPEN_CASH_DRAWER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CASH_DRAWER_INTERFACE",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "CASH_DRAWER_PRINT_STRING",
+      "DefaultValue": "27, 112, 0, 100, 250"
+    },
+    {
+      "DefaultValueName": "CASH_DRAWER_SERIAL_PORT",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "CASH_DRAWER_SERIAL_PORT_BAUD",
+      "DefaultValue": "1200"
+    },
+    {
+      "DefaultValueName": "CASH_DRAWER_SERIALPORT_STRING",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MINIMUM_REDEEM_TICKETS_FOR_SIGNAGE",
+      "DefaultValue": "25"
+    },
+    {
+      "DefaultValueName": "COMMUNICATION_FAILURE_RETRIES",
+      "DefaultValue": "3"
+    },
+    {
+      "DefaultValueName": "PRINT_TICKET_BORDER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MIFARE_CARD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_REFUND_OF_CREDITPLUS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CREDITCARD_DETAILS_MANDATORY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PREFERRED_NON-CASH_PAYMENT_MODE",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "AUTO_PRINT_SHIFT_CLOSE_RECEIPT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "COMMUNICATION_RETRY_DELAY",
+      "DefaultValue": "50"
+    },
+    {
+      "DefaultValueName": "IP_MASK_FOR_NETWORK_SCAN",
+      "DefaultValue": "192.168.1.x"
+    },
+    {
+      "DefaultValueName": "COMMUNICATION_SEND_DELAY",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "SOCKET_SEND_RECEIVE_TIMEOUT",
+      "DefaultValue": "2000"
+    },
+    {
+      "DefaultValueName": "ALLOW_CONCURRENT_USER_LOGIN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_POLLING_INDICATOR",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_DETAILED_POLL_STATUS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PRINTER_PAGE_LEFT_MARGIN",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "PRINTER_PAGE_RIGHT_MARGIN",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "INVENTORY_QUANTITY_FORMAT",
+      "DefaultValue": "#,##0.000 "
+    },
+    {
+      "DefaultValueName": "INVENTORY_COST_FORMAT",
+      "DefaultValue": "#,##0.000 "
+    },
+    {
+      "DefaultValueName": "MINIMUM_RECHARGE_FOR_VIP_STATUS",
+      "DefaultValue": "5000 "
+    },
+    {
+      "DefaultValueName": "REGISTRATION_MANDATORY_FOR_MEMBERSHIP",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "GAMEPLAY_TICKETS_EXPIRY_DAYS",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "AUTO_EXTEND_GAMEPLAY_TICKETS_ON_RELOAD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "LOAD_BONUS_EXPIRY_DAYS",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "AUTO_EXTEND_BONUS_ON_RELOAD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_MANUAL_CARD_IN_REDEMPTION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DISPLAY_VIP_PRICE_ONLY_IF_DIFFERENT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CARD_MANDATORY_FOR_TRANSACTION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CARD_ISSUE_MANDATORY_FOR_CHECKOUT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "USE_ORIGINAL_TRXNO_FOR_REFUND",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "EXCLUDE_ZERO_PRICE_SALE_IN_TRX_REPORT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "EXCLUDE_SPECIAL_PRICING_IN_TRX_REPORT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_MANUAL_CARD_UPDATE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_REDEMPTION_WITHOUT_CARD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "COIN_ACCEPTOR",
+      "DefaultValue": "UCA2"
+    },
+    {
+      "DefaultValueName": "BILL_ACCEPTOR",
+      "DefaultValue": "NV9USB"
+    },
+    {
+      "DefaultValueName": "CARD_DISPENSER",
+      "DefaultValue": "K720"
+    },
+    {
+      "DefaultValueName": "VIP_POS_ALERT_RECHARGE_THRESHOLD",
+      "DefaultValue": "1000"
+    },
+    {
+      "DefaultValueName": "VIP_POS_ALERT_SPEND_THRESHOLD",
+      "DefaultValue": "500"
+    },
+    {
+      "DefaultValueName": "LOG_TICKET_UPDATE_EVENT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CARD_DISPENSER_READER_OPT_STRING",
+      "DefaultValue": "10F9"
+    },
+    {
+      "DefaultValueName": "UNIQUE_ID_MANDATORY_FOR_VIP",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "FISCAL_PRINTER_PORT_NUMBER",
+      "DefaultValue": "11"
+    },
+    {
+      "DefaultValueName": "FISCAL_PRINTER_BAUD_RATE",
+      "DefaultValue": "9600"
+    },
+    {
+      "DefaultValueName": "FISCAL_PRINTER_PASSWORD",
+      "DefaultValue": "cU+AJ7IAJfU="
+    },
+    {
+      "DefaultValueName": "USE_FISCAL_PRINTER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "RESET_TRXNO_AT_POS_LEVEL",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_MANUAL_OVERRIDE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "QUEUE_ENTRY_ADVANCE_TIME",
+      "DefaultValue": "180"
+    },
+    {
+      "DefaultValueName": "QUEUE_MAX_ENTRIES",
+      "DefaultValue": "20"
+    },
+    {
+      "DefaultValueName": "GAMEPLAY_END_WAIT_TIME",
+      "DefaultValue": "5"
+    },
+    {
+      "DefaultValueName": "QUEUE_SETUP_TIME",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "QUEUE_BUFFER_TIME",
+      "DefaultValue": "5"
+    },
+    {
+      "DefaultValueName": "END_OF_PLAY_WARNING_TIME",
+      "DefaultValue": "5"
+    },
+    {
+      "DefaultValueName": "END_OF_PLAY_ERROR_TIME",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "PLAY_START_ALERT_TIME",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "THIRD_PARTY_SYSTEM_SYNCH_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "THIRD_PARTY_SYSTEM_SYNCH_FREQUENCY",
+      "DefaultValue": "60"
+    },
+    {
+      "DefaultValueName": "LOAD_BONUS_LIMIT",
+      "DefaultValue": "1500"
+    },
+    {
+      "DefaultValueName": "LOAD_TICKETS_LIMIT",
+      "DefaultValue": "1500"
+    },
+    {
+      "DefaultValueName": "TRANSACTION_AMOUNT_LIMIT",
+      "DefaultValue": "20000"
+    },
+    {
+      "DefaultValueName": "MONEY_SCREEN_TIMEOUT",
+      "DefaultValue": "20"
+    },
+    {
+      "DefaultValueName": "LOAD_FULL_VAR_AMOUNT_AS_CREDITS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "INVALIDATE_SRC_CARD_ON_CONSOLIDATE",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ADDRESS1",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ADDRESS2",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ADDRESS3",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CITY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "STATE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "COUNTRY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PIN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "EMAIL",
+      "DefaultValue": "M"
+    },
+    {
+      "DefaultValueName": "BIRTH_DATE",
+      "DefaultValue": "O"
+    },
+    {
+      "DefaultValueName": "GENDER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ANNIVERSARY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CONTACT_PHONE",
+      "DefaultValue": "O"
+    },
+    {
+      "DefaultValueName": "CONTACT_PHONE2",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "NOTES",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "COMPANY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DESIGNATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "UNIQUE_ID",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "USERNAME",
+      "DefaultValue": "O"
+    },
+    {
+      "DefaultValueName": "FBUSERID",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "FBACCESSTOKEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TWACCESSTOKEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TWACCESSSECRET",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "RIGHTHANDED",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TEAMUSER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ADD_CREDITPLUS_IN_CARD_INFO",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "REDEMPTION_TICKET_NAME_VARIANT",
+      "DefaultValue": "Tickets"
+    },
+    {
+      "DefaultValueName": "REVERSE_DESKTOP_CARD_NUMBER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_USERNAME_LENGTH",
+      "DefaultValue": "8"
+    },
+    {
+      "DefaultValueName": "AUTO_CHECK_IN_PRODUCT",
+      "DefaultValue": "-1"
+    },
+    {
+      "DefaultValueName": "AUTO_CHECK_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CARD_PRODUCT_BUTTON_SIZE",
+      "DefaultValue": "100"
+    },
+    {
+      "DefaultValueName": "NON-CARD_PRODUCT_BUTTON_SIZE",
+      "DefaultValue": "100"
+    },
+    {
+      "DefaultValueName": "ENABLE_DIGITAL_TOKEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DIGITAL_TOKEN_ENABLE_COUNT",
+      "DefaultValue": "5"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_EMAIL_OR_PHONE_MANDATORY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_DEBITCARD_PAYMENT_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_SAVE_CHECKIN-CHECKOUT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ADDITIONAL_BACKUP_PATH",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ENABLE_PHYSICAL_TICKET_RECEIPT_SCAN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "KIOSK_PRODUCT_SCREEN_GREETING",
+      "DefaultValue": "Welcome"
+    },
+    {
+      "DefaultValueName": "ZERO_PRICE_GAMETIME_PLAY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ZERO_PRICE_CARDGAME_PLAY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "UNIQUE_PRODUCT_REMARKS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "LAST_NAME",
+      "DefaultValue": "O"
+    },
+    {
+      "DefaultValueName": "RETAIN_BACKUP_FILES_FOR_DAYS",
+      "DefaultValue": "3"
+    },
+    {
+      "DefaultValueName": "RETAIN_REMOTE_BACKUP_FILES_FOR_DAYS",
+      "DefaultValue": "3"
+    },
+    {
+      "DefaultValueName": "ROUND_OFF_AMOUNT_TO",
+      "DefaultValue": "100"
+    },
+    {
+      "DefaultValueName": "ROUNDING_TYPE",
+      "DefaultValue": "NONE"
+    },
+    {
+      "DefaultValueName": "DEFAULT_LANGUAGE",
+      "DefaultValue": "-1"
+    },
+    {
+      "DefaultValueName": "ENABLE_AUTO_PURGE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CRM_SMTP_HOST",
+      "DefaultValue": "smtp.gmail.com"
+    },
+    {
+      "DefaultValueName": "CRM_SMTP_PORT",
+      "DefaultValue": "587"
+    },
+    {
+      "DefaultValueName": "CRM_SMTP_NETWORK_USERNAME",
+      "DefaultValue": "qawebalerts@gmail.com"
+    },
+    {
+      "DefaultValueName": "CRM_SMTP_NETWORK_PASSWORD",
+      "DefaultValue": "kD4ZlkZs2eTNbxTaI/89ZQ=="
+    },
+    {
+      "DefaultValueName": "CRM_SMTP_FROM_NAME",
+      "DefaultValue": "Test"
+    },
+    {
+      "DefaultValueName": "CRM_ENABLE_SMTP_SSL",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "CRM_SMS_PROVIDER_URL",
+      "DefaultValue": "http://tran.rocktwosms.com/api.php?username=@UserId&password=@Password&to=@PhoneNumber&from=semnox&message=@Message"
+    },
+    {
+      "DefaultValueName": "CRM_SMS_USERNAME",
+      "DefaultValue": "semnox"
+    },
+    {
+      "DefaultValueName": "CRM_SMS_PASSWORD",
+      "DefaultValue": "Sem@543"
+    },
+    {
+      "DefaultValueName": "POLE_DISPLAY_BAUDRATE",
+      "DefaultValue": "9600"
+    },
+    {
+      "DefaultValueName": "ATTENDANCE_TYPE_DETERMINATION_METHOD",
+      "DefaultValue": "ALTERNATIVE_IN_OUT"
+    },
+    {
+      "DefaultValueName": "DEFAULT_WORKSHIFT_STARTTIME",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_PHOTO",
+      "DefaultValue": "O"
+    },
+    {
+      "DefaultValueName": "REQUIRE_LOGIN_FOR_EACH_TRX",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "POS_INACTIVE_TIMEOUT",
+      "DefaultValue": "19982"
+    },
+    {
+      "DefaultValueName": "INCLUDE_TAXAMOUNT_FOR_LOYALTY_CALC",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "BUSINESS_DAY_START_TIME",
+      "DefaultValue": "6"
+    },
+    {
+      "DefaultValueName": "ENABLE_POS_ATTENDANCE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ATTRACTION_BOOKING_GRACE_PERIOD",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "CUT_RECEIPT_PAPER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CUT_TICKET_PAPER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CUT_PAPER_PRINTER_COMMAND",
+      "DefaultValue": "27, 64, 29, 86, 1 "
+    },
+    {
+      "DefaultValueName": "RELOGIN_USER_AFTER_INACTIVE_TIMEOUT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHUTDOWN_SERVERS_DURING_MAINTENANCE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "REGISTRATION_MANDATORY_FOR_REDEMPTION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "LOG_INACTIVE_TERMINALS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "COMBO_PRODUCT_BUTTON_SIZE",
+      "DefaultValue": "100"
+    },
+    {
+      "DefaultValueName": "ALLOW_TECH_CARD_UPDATE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "FISCAL_PRINTER",
+      "DefaultValue": "None"
+    },
+    {
+      "DefaultValueName": "FISCAL_PRINTER_FILE_FOLDER",
+      "DefaultValue": "C:\\Temp"
+    },
+    {
+      "DefaultValueName": "LOAD_PRODUCT_ON_REGISTRATION",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MIFARE_READONLY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_POS_DEBUG",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DISABLE_TRX_COMPLETE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DISABLE_ORDER_SUSPEND",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "REACTIVATE_EXPIRED_CARD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MAKE_CARD_NEW_ON_FULL_REFUND",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "INITLOAD_BATCH_SIZE",
+      "DefaultValue": "2000"
+    },
+    {
+      "DefaultValueName": "ENABLE_BOOKINGS_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_ORDER_SHARE_ACROSS_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_MANUAL_TICKET_IN_REDEMPTION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "READER_TYPE",
+      "DefaultValue": "2"
+    },
+    {
+      "DefaultValueName": "KIOSK_CREDITCARD_PAYMENT_MODE",
+      "DefaultValue": "-1"
+    },
+    {
+      "DefaultValueName": "REGISTER_CUSTOMER_WITHOUT_CARD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CARD_EXPIRY_RULE",
+      "DefaultValue": "NONE"
+    },
+    {
+      "DefaultValueName": "KDS_TERMINAL_REFRESH_INTERVAL",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "KDS_DELIVERY_ALERT_INTERVALS",
+      "DefaultValue": "5|10"
+    },
+    {
+      "DefaultValueName": "PARAFAIT_HOME",
+      "DefaultValue": "C:\\Parafait Home"
+    },
+    {
+      "DefaultValueName": "CONCURRENT_MANAGER_ENABLED",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "REDEMPTION_GRACE_TICKETS",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "REDEMPTION_GRACE_TICKETS_PERCENTAGE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "DOWNGRADE_MEMBERSHIP_IF_INACTIVE_FOR",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "KDS_ORDER_DISPLAY_PANEL_WIDTH",
+      "DefaultValue": "222"
+    },
+    {
+      "DefaultValueName": "FULL_SCREEN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MINIMUM_BREAK_TIME",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "MAXIMUM_BREAK_TIME",
+      "DefaultValue": "40"
+    },
+    {
+      "DefaultValueName": "SHOW_DISPLAY_GROUP_BUTTONS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CLOCK_IN_MANDATORY_FOR_TRX",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_MANUAL_CARD_IN_LOAD_BONUS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_SHOW_TENDERED_AMOUNT_KEY_PAD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "HIDE_REFUND_IN_PRODUCT_TAB",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "HIDE_CC_DETAILS_IN_PAYMENT_SCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_REFRESH_POS_PRODUCTS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "OPEN_CASH_DRAWER_REQUIRES_MANAGER_APPROVAL",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_NEW_CARDS_FOR_CHILDCARDS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_PARENTCARD_PAYMENT_WITHOUT_CARD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "IGNORE_CUSTOMER_BIRTH_YEAR",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PLAY_KIOSK_AUDIO",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_MANUAL_CARD_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "Y",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_KIOSK_LANGUAGE_CHANGE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "POPUP_FAKE_NOTE_DETECTION_ALERT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "POS_QUANTITY_DECIMALS",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "CARD_DISPENSER_READER_VID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CARD_DISPENSER_READER_PID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ENABLE_CLOSE_IN_READ_CARD_SCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "STATE_LOOKUP_FOR_COUNTRY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "KIOSK_CARD_VALUE_FORMAT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "READER_PING_TIMEOUT",
+      "DefaultValue": "2000"
+    },
+    {
+      "DefaultValueName": "NETWORK_SCAN_FREQUENCY",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "SHOW_REGISTRATION_AGE_GATE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "REGISTRATION_AGE_LIMIT",
+      "DefaultValue": "13"
+    },
+    {
+      "DefaultValueName": "KIOSK_VARIABLE_TOPUP_PRODUCT",
+      "DefaultValue": "-1"
+    },
+    {
+      "DefaultValueName": "CANCEL_PRINTED_TRX_LINE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_PRINT_KOT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PAYMENT_DENOMINATIONS",
+      "DefaultValue": "10|5|1"
+    },
+    {
+      "DefaultValueName": "IS_ALOHA_ENV",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALOHA_TERM_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ALOHA_JOB_CODE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ALLOW_ONLY_CC_PAYMENT_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALOHA_USER_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ALOHA_USER_PASSWORD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CARD_ACCEPTOR_BAUDRATE",
+      "DefaultValue": "38400"
+    },
+    {
+      "DefaultValueName": "PRINT_THRID_PARTY_RECEIPT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DISABLE_PURCHASE_ON_CARD_LOW_LEVEL",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "RELAY_BOARD_INTERFACE",
+      "DefaultValue": "None"
+    },
+    {
+      "DefaultValueName": "HIDE_CHECK-IN_DETAILS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_GAME_READER_ATTENDANCE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "REPORTS_VERSION",
+      "DefaultValue": "1"
+    },
+    {
+      "DefaultValueName": "ENFORCE_PARENT_ACCOUNT_FOR_GAMEPLAY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_LOAD_BALANCE_TICKETS_TO_CARD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_PRINT_BALANCE_TICKETS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TICKET_VOUCHER_CHECK_DIGIT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MAX_MANUAL_TICKETS_PER_REDEMPTION",
+      "DefaultValue": "100"
+    },
+    {
+      "DefaultValueName": "AUTO_PRINT_REDEMPTION_RECEIPT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "UPLOAD_DIRECTORY",
+      "DefaultValue": "\\\\MLR-DEV-VM01\\Signage"
+    },
+    {
+      "DefaultValueName": "AUTO_CREATE_MISSING_MIFARE_CARD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CREATE_FF_GAMEPLAY_IF_CARD_NOT_FOUND",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CSV_REPORTNAME_TIMESTAMP_FORMAT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "REPORT_FIELD_DELIMITER",
+      "DefaultValue": ","
+    },
+    {
+      "DefaultValueName": "POLE_DISPLAY_DATA_ENCODING",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_ORDER_SHARE_ACROSS_USERS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_ORDER_SHARE_ACROSS_POS_COUNTERS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DEFAULT_USER_SECURITY_POLICY",
+      "DefaultValue": "-1"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_PHONE_NUMBER_WIDTH",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_NAME_VALIDATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_WEIGHTED_AVERAGE_COST_METHOD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "LOAD_CREDITS_INSTEAD_OF_CARD_BALANCE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MAINTENANCE_UPLOAD_DIRECTORY",
+      "DefaultValue": "C:\\ "
+    },
+    {
+      "DefaultValueName": "LOCKER_SELECTION_MODE",
+      "DefaultValue": "FIXED"
+    },
+    {
+      "DefaultValueName": "LOCKER_LOCK_MAKE",
+      "DefaultValue": "NONE"
+    },
+    {
+      "DefaultValueName": "CARD_DISPENSER_ADDRESS",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "ALLOW_VARIABLE_NEW_CARD_ISSUE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ELEMENT_EXPRESS_ACCOUNT_ID",
+      "DefaultValue": "1011290"
+    },
+    {
+      "DefaultValueName": "ELEMENT_EXPRESS_ACCOUNT_TOKEN",
+      "DefaultValue": "6B31A66FA16C2069083DB7587F4BB64C02AAA80E3CA129378516CB0AC3897672786C1E01 "
+    },
+    {
+      "DefaultValueName": "ELEMENT_EXPRESS_APPLICATION_ID",
+      "DefaultValue": "2742"
+    },
+    {
+      "DefaultValueName": "ELEMENT_EXPRESS_ACCEPTOR_ID",
+      "DefaultValue": "3928907"
+    },
+    {
+      "DefaultValueName": "ELEMENT_TERMINAL_ID",
+      "DefaultValue": "0001"
+    },
+    {
+      "DefaultValueName": "ELEMENT_EXPRESS_URL",
+      "DefaultValue": "https://certtransaction.elementexpress.com/express.asmx"
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_TERMINAL_PORT_NO",
+      "DefaultValue": "21"
+    },
+    {
+      "DefaultValueName": "CREDITCALL_TERMINAL_ID",
+      "DefaultValue": "99961124"
+    },
+    {
+      "DefaultValueName": "CREDITCALL_SERVER_ADDRESS",
+      "DefaultValue": "127.0.0.1 "
+    },
+    {
+      "DefaultValueName": "CREDITCALL_SERVER_PORT",
+      "DefaultValue": "1869"
+    },
+    {
+      "DefaultValueName": "IS_HAWKEYE_ENVIRONMENT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "READ_LOCKER_INFO_ON_CARD_READ",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "IGNORE_THIRD_PARTY_SYNCH_ERROR",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SPLIT_AND_MAP_VARIABLE_PRODUCT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_KIOSK_CUSTOMER_VERIFICATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MANUAL_CARD_UPDATE_ENT_LIMIT",
+      "DefaultValue": "500"
+    },
+    {
+      "DefaultValueName": "MANUAL_CARD_UPDATE_GAMES_LIMIT",
+      "DefaultValue": "200"
+    },
+    {
+      "DefaultValueName": "LOAD_BONUS_REMARKS_MANDATORY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "LOAD_BONUS_DEFAULT_ENT_TYPE",
+      "DefaultValue": "A"
+    },
+    {
+      "DefaultValueName": "ENABLE_LOAD_BONUS_IN_ADMIN_SCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "VIP_TERM_VARIANT",
+      "DefaultValue": "VIP"
+    },
+    {
+      "DefaultValueName": "ALLOW_CUSTOMER_INFO_EDIT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "BALANCE_SCREEN_TIMEOUT",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "MINIMAL_DETAILS_IN_ACTIVITY_SCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_OVERPAY_IN_KIOSK",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "REGISTER_BEFORE_PURCHASE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_REGISTRATION_TERMS_AND_CONDITIONS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "KIOSK_ACTIVITY_DISPLAY_DURATION",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "LOG_CHECK_BALANCE_EVENT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_MIX_MODE_PAYMENT_IN_KIOSK",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_PRINT_LOAD_BONUS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MANAGER_APPROVAL_TO_ADD_MANUAL_TICKET",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SITE_FILE_FORMAT",
+      "DefaultValue": "Sites_"
+    },
+    {
+      "DefaultValueName": "VENDOR_FILE_FORMAT",
+      "DefaultValue": "Suppliers_"
+    },
+    {
+      "DefaultValueName": "PRODUCT_FILE_FORMAT",
+      "DefaultValue": "SupplierParts_"
+    },
+    {
+      "DefaultValueName": "PO_FILE_FORMAT",
+      "DefaultValue": "PO_"
+    },
+    {
+      "DefaultValueName": "RECEIPT_FILE_FORMAT",
+      "DefaultValue": "Receipt_"
+    },
+    {
+      "DefaultValueName": "INVENTORY_UPLOAD_SERVICE_URL",
+      "DefaultValue": "NULL"
+    },
+    {
+      "DefaultValueName": "SUCCESS_EMAIL_LIST",
+      "DefaultValue": "lakshminarayana.rao@semnox.com, shilpa.j@semnox.com"
+    },
+    {
+      "DefaultValueName": "FAILURE_EMAIL_LIST",
+      "DefaultValue": "lakshminarayana.rao@semnox.com, shilpa.j@semnox.com"
+    },
+    {
+      "DefaultValueName": "FTP_URL",
+      "DefaultValue": "ftp://10.2.0.67/"
+    },
+    {
+      "DefaultValueName": "FTP_USERNAME",
+      "DefaultValue": "semnoxadministrator"
+    },
+    {
+      "DefaultValueName": "FTP_PASSSWORD",
+      "DefaultValue": "wWK4tSW%a_GdTDUt@67"
+    },
+    {
+      "DefaultValueName": "FTP_SITE_FOLDER",
+      "DefaultValue": "Sites"
+    },
+    {
+      "DefaultValueName": "FTP_VENDOR_FOLDER",
+      "DefaultValue": "Suppliers"
+    },
+    {
+      "DefaultValueName": "FTP_PRODUCT_FOLDER",
+      "DefaultValue": "SupplierParts"
+    },
+    {
+      "DefaultValueName": "FTP_PO_FOLDER",
+      "DefaultValue": "OrdersOutbound"
+    },
+    {
+      "DefaultValueName": "FTP_RECEIPT_FOLDER",
+      "DefaultValue": "OrdersInbound"
+    },
+    {
+      "DefaultValueName": "SITE_TEMPLATE_FILE_PATH",
+      "DefaultValue": "NULL"
+    },
+    {
+      "DefaultValueName": "VENDOR_TEMPLATE_FILE_PATH",
+      "DefaultValue": "NULL"
+    },
+    {
+      "DefaultValueName": "PRODUCT_TEMPLATE_FILE_PATH",
+      "DefaultValue": "NULL"
+    },
+    {
+      "DefaultValueName": "PO_TEMPLATE_FILE_PATH",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "INVENTORY_FILE_DOWNLOAD_DIRECTORY",
+      "DefaultValue": "C:\\Semnox\\Inventory Data\\DownloadDir"
+    },
+    {
+      "DefaultValueName": "SEND_SUMMARY_EMAIL",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "INVENTORY_FILE_ARCHIVE_DIRECTORY",
+      "DefaultValue": "C:\\Semnox\\Inventory Data\\DownloadFileArchive"
+    },
+    {
+      "DefaultValueName": "DELETE_ALERT_EMAIL_LIST",
+      "DefaultValue": "lakshminarayana.rao@semnox.com, shilpa.j@semnox.com"
+    },
+    {
+      "DefaultValueName": "INVENTORY_FILE_UPLOAD_DIRECTORY",
+      "DefaultValue": "C:\\Semnox\\Inventory Data\\Outbound"
+    },
+    {
+      "DefaultValueName": "ALLOW_PHYSICAL_COUNT_ONLY_FOR_MANAGER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MISSING_RECORDS_THRESHOLD_PERCENTAGE",
+      "DefaultValue": "100"
+    },
+    {
+      "DefaultValueName": "MASTER_FILES_UPLOAD_HOUR",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "MAX_VARIABLE_RECHARGE_AMOUNT",
+      "DefaultValue": "10000"
+    },
+    {
+      "DefaultValueName": "HIDE_DENOMINATION_GRID",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TITLE",
+      "DefaultValue": "O"
+    },
+    {
+      "DefaultValueName": "CARD_EXPIRY_GRACE_PERIOD",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "CARD_EXPIRY_ALERT_GAP",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CARD_EXPIRY_MESSAGE_FREQUENCY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PROMO_SMS_PROVIDER_URL",
+      "DefaultValue": "http://bulk.rocktwosms.com/spanelv2/"
+    },
+    {
+      "DefaultValueName": "PROMO_SMS_USERNAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PROMO_SMS_PASSWORD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PROMO_SMS_START_TIME",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "PROMO_SMS_END_TIME",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "ENABLE_SALESFORCE_MARKETING_INTERFACE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SALESFORCE_OPT-IN_SUBSCRIBER_LISTNAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SALESFORCE_OPT-OUT_SUBSCRIBER_LISTNAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_TERMINAL_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_MERCHANT_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_GROUP_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_DID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_CLIENT_TIMEOUT",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_VERSION",
+      "DefaultValue": "3"
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_SERVICE_ID",
+      "DefaultValue": "160"
+    },
+    {
+      "DefaultValueName": "GATEWAY_CURRENCY_CODE",
+      "DefaultValue": "840"
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_SRS_APP",
+      "DefaultValue": "RAPIDCONNECTSRS"
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_TRANSACTION_APP",
+      "DefaultValue": "RAPIDCONNECTVXN"
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_SRS_URL",
+      "DefaultValue": "https://stg.dw.us.fdcnet.biz/rc  "
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_TRANSACTION_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_TOKEN_TYPE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_DOMAIN",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "FIRST_DATA_BRAND",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_MCC",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MERCURY_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MERCURY_MERCHANT_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MERCURY_MERCHANTID_PASSWORD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PRINT_MERCHANT_RECEIPT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PRINT_CUSTOMER_RECEIPT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PERFORM_DIRECT_ALOHA_SYNC",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SALES_REPORT_FTP_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SALES_REPORT_FTP_USERNAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SALES_REPORT_FTP_PASSWORD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SALES_REPORT_FAILURE_MAIL_IDS",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SITE_IMAGE_FILENAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SHOW_TIP_AMOUNT_KEYPAD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_PARTIAL_APPROVAL",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "APPLY_GST_PERCENTAGE_IN_GAME_METRIC_REPORT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PRINT_COMBO_DETAILS",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "CANCEL_TRANSACTION_LINE_REQUIRES_MANAGER_APPROVAL",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TRANSACTION_REPRINT_REQUIRES_MANAGER_APPROVAL",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MAINTENANCE_JOB_CREATION_TIME",
+      "DefaultValue": "4"
+    },
+    {
+      "DefaultValueName": "ONDEMAND_REMOTING_SERVER_URL",
+      "DefaultValue": "http://ParafaitServer:8000"
+    },
+    {
+      "DefaultValueName": "FREE_PLAY_MODE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "FREE_PLAY_CARD_MAGIC_COUNTER",
+      "DefaultValue": "5346"
+    },
+    {
+      "DefaultValueName": "PATCH_DOWNLOAD_PATH",
+      "DefaultValue": "https://52.42.200.36:449/"
+    },
+    {
+      "DefaultValueName": "WRAPPER_INSTALLER_RUN_FREQUENCY",
+      "DefaultValue": "60"
+    },
+    {
+      "DefaultValueName": "MAIN_INSTALLER_RUN_FREQUENCY",
+      "DefaultValue": "1200"
+    },
+    {
+      "DefaultValueName": "REVERSE_KIOSK_TOPUP_CARD_NUMBER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "UPC_TYPE",
+      "DefaultValue": "1"
+    },
+    {
+      "DefaultValueName": "AUTO_LOAD_CARD_ENTITLEMENT_SCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_GAME_ACTIVITY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "FISCAL_DEVICE_SERIAL_NUMBER",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "FISCAL_DEVICE_TCP/IP_ADDRESS",
+      "DefaultValue": "http://localhost:1200/ftrest/json/v1/Sign "
+    },
+    {
+      "DefaultValueName": "FISCAL_CASH_REGISTER_ID",
+      "DefaultValue": "b2c738f6-9100-4893-a547-5d7242373710"
+    },
+    {
+      "DefaultValueName": "WAIVER_CONFIRMATION_REQUIRED",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SALES_REPORT_DATA_UPLOAD_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "DEFAULT_SALES_REPORT_FORMAT",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "IS_SALES_REPORT_ENVIRONMENT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TENANT_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CARD_READER_SERIAL_NUMBER",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "DISPENSER_READER_SERIAL_NUMBER",
+      "DefaultValue": "DISPENSER"
+    },
+    {
+      "DefaultValueName": "ENABLE_ERP_INTEGRATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ERP_EXTERNAL_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ERP_SENDERCODE",
+      "DefaultValue": "004"
+    },
+    {
+      "DefaultValueName": "ENABLE_SINGLE_USER_MULTI_SCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_POPUP_TRX_PROFILE_OPTIONS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "POLE_DISPLAY_CHARACTER_SET_CODE",
+      "DefaultValue": "GB18030"
+    },
+    {
+      "DefaultValueName": "FORFEIT_BALANCE_RETURN_AMOUNT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "RETURN_WITHIN_DAYS",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "EXCLUDE_PRODUCT_BREAKDOWN_IN_TRX_REPORT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "EXCLUDE_DISPLAY_GROUP_BREAKDOWN_IN_TRX_REPORT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_CAPILLARY_INTEGRATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CAPILLARY_INTEGRATION_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CAPILLARY_INTEGRATION_USERNAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CAPILLARY_INTEGRATION_PASSWORD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ENABLE_KIOSK_DIRECT_CASH",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TRX_PROFILE_OPTIONS_MANDATORY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_ROAM_CUSTOMERS_ACROSS_ZONES",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_HQ_CONTROLLED_INTER_STORE_ADJUSTMENT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_INTER_STORE_ADJUSTMENT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "INTER_STORE_ADJUSTMENT_ISSUE_DEFAULT_APPROVER",
+      "DefaultValue": "2c077396-62bd-4f4c-9e5a-f7fbd114acaf"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_ENCRYPTION_PASS_PHRASE",
+      "DefaultValue": "ParafaiT!1"
+    },
+    {
+      "DefaultValueName": "ENABLE_CUSTOMER_BACKWARD_COMPATIBILITY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SPLIT_PAYMENT_REQUIRES_MANAGER_APPROVAL",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CREATE_SALE_TRANSACTION",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "APPROVER_ROLE_FOR_INTER_STORE_ADJUSTMENT_RECEIVE",
+      "DefaultValue": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_NAME",
+      "DefaultValue": "M"
+    },
+    {
+      "DefaultValueName": "AUTOLOAD_GAMECARD_IN_PAYMENT_SCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_TIP_ENTRY_DURING_CLOCKOUT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_ORDER_SPLIT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_CHECKIN_PHOTO_IN_CARD_ENTITLEMENT_SCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SMS_GATEWAY",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "WAIVER_ENCRYPTION_KEY",
+      "DefaultValue": "Wa1ver!321"
+    },
+    {
+      "DefaultValueName": "SHOW_CUSTOM_ATTRIBUTES_IN_WAIVER_SCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MANAGEMENT_STUDIO_INACTIVE_TIMEOUT",
+      "DefaultValue": "99999"
+    },
+    {
+      "DefaultValueName": "REGISTRATION_BONUS_ON_VERIFICATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "GAME_COMMUNICATION_RATIO_UPDATE_FREQUENCY",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "ENABLE_AUTO_CLOCKOUT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SHOW_GAME_NAME_IN_GAME_MANAGEMENT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DOWNLOAD_FILES_FROM_HQ",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DOWNLOAD_FILES_MODIFIED_BEFORE_DAYS",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "ATTRIBUTE_DEFINITION_FOLDER",
+      "DefaultValue": "C:\\Semnox\\AttributeDefinitions\\"
+    },
+    {
+      "DefaultValueName": "PURGE_STAGING_DATA_BEFORE_DAYS",
+      "DefaultValue": "100"
+    },
+    {
+      "DefaultValueName": "RECEIPT_FILE_CREATION_HOUR",
+      "DefaultValue": "13"
+    },
+    {
+      "DefaultValueName": "SEND_CUSTOMER_REGISTRATION_EMAIL",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_REGISTRATION_EMAIL_TEMPLATE",
+      "DefaultValue": "ONLINE_CUSTOMER_ACTIVATION_EMAIL_TEMPLATE"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_ONLINE_DEFAULT_PASSWORD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "FTP_IMAGE_FOLDER",
+      "DefaultValue": "Images"
+    },
+    {
+      "DefaultValueName": "ENABLE_PRODUCT_SEARCH_BY_VENDOR",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "LINKCARD_CUSTOMERAPP",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "NEWCARD_CUSTOMERAPP",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "TRANSFERBALANCE_CUSTOMERAPP",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "REDEEMCARD_CUSTOMERAPP",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "RECHARGECARD_CUSTOMERAPP",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SHOW_SITE_HIERARCHY_IN_REPORTS",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "CREATE_RESERVATION_CHECKLIST_BEFORE_DAYS",
+      "DefaultValue": "5"
+    },
+    {
+      "DefaultValueName": "PARTY_BOOKING_PRINT_TYPE",
+      "DefaultValue": "RECEIPT"
+    },
+    {
+      "DefaultValueName": "APP_SPLASH_IMAGE",
+      "DefaultValue": "semnoxicon.png"
+    },
+    {
+      "DefaultValueName": "APP_CARD_IMAGE",
+      "DefaultValue": "cardBackground.png"
+    },
+    {
+      "DefaultValueName": "GOOGLE_REGISTRATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "FACEBOOK_REGISTRATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PROMOTION_LAYOUT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "GAMES_LAYOUT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "EVENTS_LAYOUT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "APP_IDLE_TIMEOUT",
+      "DefaultValue": "2"
+    },
+    {
+      "DefaultValueName": "APP_HQ_REFRESH_THRESHOLD",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "APP_VALIDITY_CHECK_DELAY",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "KDS_DELIVERY_ALERT_COLORS",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "KDS_ORDER_DISPLAY_PANEL_HEIGHT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "NUMBER_OF_KDS_ORDERS_PER_PAGE",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "SHOW_DELIVERED_ORDERS_IN_KITCHEN_TERMINAL",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "KDS_PREPARED_ORDER_COLOR",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "LOSTCARD_CUSTOMERAPP",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SHOW_TICKETS_ON_CARD",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SHOW_LOYALTY_ON_CARD",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SHOW_COURTESY_ON_CARD",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SHOW_BONUS_ON_CARD",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SHOW_TIME_ON_CARD",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SHOW_CREDITS_ON_CARD",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ONLINE_RECEIPT_EMAIL_TEMPLATE",
+      "DefaultValue": "ONLINE_RECEIPT_EMAIL_TEMPLATE"
+    },
+    {
+      "DefaultValueName": "ONDEMAND_REMOTING_SERVICE_TIMEOUT",
+      "DefaultValue": "20"
+    },
+    {
+      "DefaultValueName": "WEB_API_ORIGIN_KEY",
+      "DefaultValue": "ParafaitPOS"
+    },
+    {
+      "DefaultValueName": "",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "WEB_API_URL",
+      "DefaultValue": "https://webmngapi.parafait.com/"
+    },
+    {
+      "DefaultValueName": "GAMEPLAY_CUSTOMERAPP",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "PLAYBOX_LINK",
+      "DefaultValue": "https://virtualarcadeplay.pixgrammer.com?customerId=@customerId&url=parafaitapivirtualarcade.parafait.com"
+    },
+    {
+      "DefaultValueName": "SHOW_MEMBERSHIP_ON_CARD",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "PROMO_IMAGE_FOLDER_URL",
+      "DefaultValue": "/images/promotions"
+    },
+    {
+      "DefaultValueName": "SEND_CUSTOMER_NOTFICATION_EMAIL",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SEND_CUSTOMER_NOTFICATION_SMS",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "CCAVENUE_HOSTED_PAYMENT_MERCHANT_ID",
+      "DefaultValue": "229653"
+    },
+    {
+      "DefaultValueName": "CCAVENUE_HOSTED_PAYMENT_ACCESS_CODE",
+      "DefaultValue": "AVQB02GL99AM63BQMA"
+    },
+    {
+      "DefaultValueName": "CCAVENUE_HOSTED_PAYMENT_WORKING_KEY",
+      "DefaultValue": "23F5967B232A070CB5F4593B9CE38341"
+    },
+    {
+      "DefaultValueName": "CCAVENUE_HOSTED_PAYMENT_TRANSACTION_URL",
+      "DefaultValue": "https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"
+    },
+    {
+      "DefaultValueName": "MANAGER_APPROVAL_TO_REPRINT_TICKET_RECEIPT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_REFUND_OPTION_FOR_ADMIN",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "AGE_OF_MAJORITY",
+      "DefaultValue": "18"
+    },
+    {
+      "DefaultValueName": "WAIVER_DEACTIVATION_NEEDS_MANAGER_APPROVAL",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "WAIVER_CODE_IS_MANDATORY_TO_FETCH_CUSTOMER",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "CHECK_WAIVER_REGISTRATION_COUNT_FOR_TRANSACTION",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "OTP_CHECK_REQUIRED_FOR_WAIVER_REGISTRATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "VALIDITY_PERIOD_FOR_WAIVER_REGISTRATION_OTP",
+      "DefaultValue": "5"
+    },
+    {
+      "DefaultValueName": "ENABLE_WAIVER_SIGN_IN_KIOSK",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SIGN_WAIVER_WITHOUT_CUSTOMER_REGISTRATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SEND_SIGNED_WAIVER_COPY_EMAIL_TEMPLATE",
+      "DefaultValue": "SignedWaiverCopyEmailTemplate"
+    },
+    {
+      "DefaultValueName": "WAIVER_OVERRIDE_NEEDS_MANAGER_APPROVAL",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ALLOW_WAIVER_OVERRIDE",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SEND_WAIVER_OTP_EMAIL_TEMPLATE",
+      "DefaultValue": "WaiverOTPEmailTemplate"
+    },
+    {
+      "DefaultValueName": "TIME_SPAN_FOR_ATTRACTION_SCHEDULE",
+      "DefaultValue": "5"
+    },
+    {
+      "DefaultValueName": "VIRTUAL_STORE_SITE_ID",
+      "DefaultValue": "1040"
+    },
+    {
+      "DefaultValueName": "DISABLE_SPLIT_PAYMENTS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DISABLE_REVERSAL_OF_CLOSED_TRANSACTION_PAST_DAYS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SEND_CUSTOMER_REGISTRATION_SMS",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_REGISTRATION_SMS_TEMPLATE",
+      "DefaultValue": "SMSTemplate"
+    },
+    {
+      "DefaultValueName": "CRM_OTP_SMS_USERNAME",
+      "DefaultValue": "semnox"
+    },
+    {
+      "DefaultValueName": "CRM_OTP_SMS_PASSWORD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CRM_OTP_SMS_PROVIDER_URL",
+      "DefaultValue": "http://tran.rocktwosms.com/api.php?username=@UserId&password=@Password&to=@PhoneNumber&from=semnox&message=@Message"
+    },
+    {
+      "DefaultValueName": "ENABLE_CHECKSUM",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AMOUNT_FORMAT_UI",
+      "DefaultValue": "2.2-2"
+    },
+    {
+      "DefaultValueName": "NUMBER_FORMAT_UI",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "TOPUP",
+      "DefaultValue": "-1"
+    },
+    {
+      "DefaultValueName": "GOOGLE_RECAPTCHA_SECRET_KEY",
+      "DefaultValue": "6LfyPbsUAAAAAN192BlbLhpraWWUU1evtPVat8gZ"
+    },
+    {
+      "DefaultValueName": "GOOGLE_ANALYTICS_KEY",
+      "DefaultValue": "-1"
+    },
+    {
+      "DefaultValueName": "GOOGLE_RECAPTCHA_URL",
+      "DefaultValue": "https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}"
+    },
+    {
+      "DefaultValueName": "BASE_URL_FOR_EMAIL_TEMPLATES",
+      "DefaultValue": "http://localhost:4200"
+    },
+    {
+      "DefaultValueName": "ENABLE_ACCOUNT_ACTIVATION_EMAIL",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ONLINE_REGISTRATION_BASE_URL_FOR_INTEGRATORS",
+      "DefaultValue": "-1"
+    },
+    {
+      "DefaultValueName": "ENABLE_GOOGLE_RECAPTCHA",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_LINKING_CARD",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "JWTTOKEN_EXPIRY_TIME",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "GOOGLE_RECAPTCHA_CLIENT_ID",
+      "DefaultValue": "6LfyPbsUAAAAAJhOCH6OIVRhZy4jCa7s_pIhyZBD"
+    },
+    {
+      "DefaultValueName": "ONLINE_CUSTOMER_ACTIVATION_EMAIL_TEMPLATE",
+      "DefaultValue": "ONLINE_CUSTOMER_ACTIVATION_EMAIL_TEMPLATE"
+    },
+    {
+      "DefaultValueName": "ONLINE_PASSWORD_RESET_EMAIL_TEMPLATE",
+      "DefaultValue": "ONLINE_PASSWORD_RESET_EMAIL_TEMPLATE"
+    },
+    {
+      "DefaultValueName": "ONLINE_TICKETS_B2C_EMAIL_TEMPLATE",
+      "DefaultValue": "ONLINE_TICKET_EMAIL_TEMPLATE"
+    },
+    {
+      "DefaultValueName": "PER_USER_DAILY_LIMIT_FOR_ADDING_MANUAL_TICKETS",
+      "DefaultValue": "600"
+    },
+    {
+      "DefaultValueName": "ENABLE_AUTOPRINT_RECEIPT_ON_CLOCKIN",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_AUTOPRINT_RECEIPT_ON_CLOCKOUT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "OPTIONS_FOR_WAIVER_SET_SELECTION",
+      "DefaultValue": "BOTH"
+    },
+    {
+      "DefaultValueName": "CONSOLIDATION_TASK_FROM_CARD_PRODUCT",
+      "DefaultValue": "33683"
+    },
+    {
+      "DefaultValueName": "CONSOLIDATION_TASK_TO_CARD_PRODUCT",
+      "DefaultValue": "33684"
+    },
+    {
+      "DefaultValueName": "LOAD_BONUS_TASK_PRODUCT",
+      "DefaultValue": "33685"
+    },
+    {
+      "DefaultValueName": "LOAD_CARD_ENTITLEMENT_ON_TRANSACTION_COMPLETE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CUSTOMERTYPE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ATTRACTIONS_WITHIN_RESERVATION_PERIOD_ONLY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "RESERVATION_WAIVER_SIGNATURE_EMAIL_TEMPLATE",
+      "DefaultValue": "ReservationSignWaiverURLEmailTemplate"
+    },
+    {
+      "DefaultValueName": "TRANSACTION_WAIVER_SIGNATURE_EMAIL_TEMPLATE",
+      "DefaultValue": "TransactionSignWaiverURLEmailTemplate"
+    },
+    {
+      "DefaultValueName": "MAXIMUM_PRODUCTS_IN_KDS_ORDER",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "ENABLE_MULTI_USER_MULTI_SCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_ALL_REDEMPTION_SCREENS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PARAFAIT_EXTERNAL_SALES_ENVIRONMENT",
+      "DefaultValue": "NONE"
+    },
+    {
+      "DefaultValueName": "IS_CENTER_EDGE_ENVIRONMENT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PARAFAIT_EXTERNAL_SALES_PASSWORD_HASH",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PARAFAIT_EXTERNAL_SALES_STATION_NUMBER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PARAFAIT_EXTERNAL_SALES_API_READ_WRITE_TIMEOUT",
+      "DefaultValue": "5"
+    },
+    {
+      "DefaultValueName": "PARAFAIT_EXTERNAL_SALES_USER_NAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PARAFAIT_EXTERNAL_SALES_API_HOST",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PARAFAIT_EXTERNAL_SALES_API_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "APP_PROMOS_IMAGE_DIRECTORY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ADYEN_HOSTED_PAYMENT_MERCHANT_ID",
+      "DefaultValue": "Semnox837ECOM"
+    },
+    {
+      "DefaultValueName": "ADYEN_HOSTED_PAYMENT_API_KEY",
+      "DefaultValue": "AQEkhmfuXNWTK0Qc+iSDl2k2qPzDG9xbXX28zHnXITUr2k6eawJwEMFdWw2+5HzctViMSCJMYAc=-rz/W2xjJ5UwdOJVMFgPOlyJXDRL5y8D4S9dl+GuKyiQ=-djc[3tYCwWnQ)22Z"
+    },
+    {
+      "DefaultValueName": "ADYEN_HOSTED_PAYMENT_ORIGIN_KEY",
+      "DefaultValue": "pub.v2.8016034468933226.aHR0cHM6Ly9kZW1vd2ViNS5wYXJhZmFpdC5jb20.VF6Wli9EBzWHZ4WOEQMpuwbUtcMjFasQpqfRMXWVj6g"
+    },
+    {
+      "DefaultValueName": "ADYEN_HOSTED_PAYMENT_ENVIRONMENT",
+      "DefaultValue": "TEST"
+    },
+    {
+      "DefaultValueName": "CORVUSPAY_HOSTED_PAYMENT_STORE_ID",
+      "DefaultValue": "8679"
+    },
+    {
+      "DefaultValueName": "CORVUSPAY_HOSTED_PAYMENT_SECURITY_KEY",
+      "DefaultValue": "jUzqR8kaNdRTGHGP0DJQqqOOE"
+    },
+    {
+      "DefaultValueName": "CORVUSPAY_HOSTED_PAYMENT_LANGUAGE",
+      "DefaultValue": "en"
+    },
+    {
+      "DefaultValueName": "CORVUSPAY_HOSTED_PAYMENT_VERSION",
+      "DefaultValue": "1.3"
+    },
+    {
+      "DefaultValueName": "CORVUSPAY_HOSTED_PAYMENT_TRANSACTION_POST_URL",
+      "DefaultValue": "https://test-wallet.corvuspay.com/checkout/"
+    },
+    {
+      "DefaultValueName": "CORVUSPAY_HOSTED_PAYMENT_API_POST_URL",
+      "DefaultValue": "https://testcps.corvus.hr/"
+    },
+    {
+      "DefaultValueName": "ADYEN_HOSTED_PAYMENT_REFUND_URL",
+      "DefaultValue": "https://pal-test.adyen.com/pal/servlet/Payment/v52"
+    },
+    {
+      "DefaultValueName": "ADYEN_HOSTED_PAYMENT_COUNTRY_CODE",
+      "DefaultValue": "NL"
+    },
+    {
+      "DefaultValueName": "REPEAT_BREAKCOLUMN_DATA_IN_CUSTOM_REPORTS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "RESERVATION_COMPLETION_TIME_LIMIT",
+      "DefaultValue": "15"
+    },
+    {
+      "DefaultValueName": "DAYS_TILL_RESERVATION_RESCHEDULE",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "ALLOW_INACTIVE_ITEMS_IN_RESERVATION_RESCHEDULE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MANAGER_APPROVAL_TO_ALLOW_INACTIVE_ITEMS",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_REGISTRATION_SECURITY_POLICY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CARD_CONNECT_HOSTED_PAYMENT_MERCHANT_ID",
+      "DefaultValue": "800000000139"
+    },
+    {
+      "DefaultValueName": "CARD_CONNECT_HOSTED_PAYMENT_USER_NAME",
+      "DefaultValue": "testing"
+    },
+    {
+      "DefaultValueName": "CARD_CONNECT_HOSTED_PAYMENT_PASSWORD",
+      "DefaultValue": "testing123"
+    },
+    {
+      "DefaultValueName": "CARD_CONNECT_HOSTED_PAYMENT_BASE_URL",
+      "DefaultValue": "https://boltgw-uat.cardconnect.com/"
+    },
+    {
+      "DefaultValueName": "ENABLE_GUEST_LOGIN",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ONLINE_REGISTRATION_BASE_URL",
+      "DefaultValue": "http://localhost:8080"
+    },
+    {
+      "DefaultValueName": "IS_LOGIN_MANDATORY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_$0PRODUCTS_TRANSACTION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TRANSACTION_PAYMENT_LINK_TEMPLATE",
+      "DefaultValue": "PaymentLinkEmailTemplate"
+    },
+    {
+      "DefaultValueName": "WAIT_TIME_FOR_LAST_PAYMENT_REQ_STATUS_CHECK",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_REQUERY_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_VOID_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ECOMMPAY_HOSTED_PAYMENT_PROJECT_ID",
+      "DefaultValue": "16231"
+    },
+    {
+      "DefaultValueName": "ECOMMPAY_HOSTED_PAYMENT_SECRET_KEY",
+      "DefaultValue": "e211a378dd6c0b9fa5d9fbcdac542b3e7b0d5db9bc746aadbdea96c11846a9468669b6228e1d8b62317860b63b58bd1e9ecc012b946f81c7740307996ff0b836"
+    },
+    {
+      "DefaultValueName": "ECOMMPAY_HOSTED_PAYMENT_POST_URL",
+      "DefaultValue": "https://paymentpage.ecommpay.com/payment"
+    },
+    {
+      "DefaultValueName": "ECOMMPAY_HOSTED_PAYMENT_BASE_URL",
+      "DefaultValue": "https://api.ecommpay.com/"
+    },
+    {
+      "DefaultValueName": "ENABLE_GAMEPLAY_REVERSAL_IN_POS",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "CAPTURE_REASON_CODE_FOR_TRX_LINE_CANCELLATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "EMPLOYEE_AGE_OF_MAJORITY",
+      "DefaultValue": "18"
+    },
+    {
+      "DefaultValueName": "ALLOW_ATTENDANCE_MODIFICATION_WITHIN_X_DAYS",
+      "DefaultValue": "15"
+    },
+    {
+      "DefaultValueName": "PROMPT_SHIFT_ENDING_MESSAGE_BEFORE_X_MINUTES",
+      "DefaultValue": "15"
+    },
+    {
+      "DefaultValueName": "ENFORCE_MANAGER_APPROVAL_ON_SHIFT_END",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_SHIFT_TRACKING",
+      "DefaultValue": "NONE"
+    },
+    {
+      "DefaultValueName": "USERS_ENCRYPTION_PASS_PHRASE",
+      "DefaultValue": "ParafaiT!1"
+    },
+    {
+      "DefaultValueName": "PHONE_NUMBER_FORMAT_REGEX",
+      "DefaultValue": "^([0]|\\+91)?[6-9]\\d{9}$"
+    },
+    {
+      "DefaultValueName": "BIOMETRIC_DEVICE_TYPE",
+      "DefaultValue": "None"
+    },
+    {
+      "DefaultValueName": "CLUBSPEED_AUTHENTICATION_KEY",
+      "DefaultValue": "yJNrgg7TNECNGh637G4W"
+    },
+    {
+      "DefaultValueName": "CLUBSPEED_STATUS_INTERVAL",
+      "DefaultValue": "60000"
+    },
+    {
+      "DefaultValueName": "CLUBSPEED_MASTER_DATA_INTERVAL",
+      "DefaultValue": "3600000"
+    },
+    {
+      "DefaultValueName": "CLUBSPEED_TRANSACTIONAL_DATA_INTERVAL",
+      "DefaultValue": "60000"
+    },
+    {
+      "DefaultValueName": "CLUBSPEED_INTERFACE_URI",
+      "DefaultValue": "http://50.73.242.99/api/index.php/"
+    },
+    {
+      "DefaultValueName": "CLUBSPEED_RACERS_DEFAULT_VALUE_SOURCE",
+      "DefaultValue": "386"
+    },
+    {
+      "DefaultValueName": "CLUBSPEED_RACERS_DEFAULT_VALUE_HOTEL",
+      "DefaultValue": "4"
+    },
+    {
+      "DefaultValueName": "CLUBSPEED_USER_ID",
+      "DefaultValue": "306"
+    },
+    {
+      "DefaultValueName": "ENABLE_CLUBSPEED_EVENT_INTERFACE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "FORECASTING_PERIOD_TYPE",
+      "DefaultValue": "MOVINGAVERAGE"
+    },
+    {
+      "DefaultValueName": "WHO_CAN_SIGN_FOR_MINOR",
+      "DefaultValue": "ADULT"
+    },
+    {
+      "DefaultValueName": "SMTP_FROM_MAIL_ADDRESS",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ROW_COUNT_PER_PAGE_IN_CUSTOM_REPORTS",
+      "DefaultValue": "10000"
+    },
+    {
+      "DefaultValueName": "LOCALIZATION_FILES_FOLDER",
+      "DefaultValue": "C:\\Program Files (x86)\\Semnox Solutions\\Parafait\\LocalizationFiles"
+    },
+    {
+      "DefaultValueName": "ENABLE_$0_PRODUCTS_TRANSACTION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "READER_CONFIGURATION_PASSCODE",
+      "DefaultValue": "097531"
+    },
+    {
+      "DefaultValueName": "SHOW_ORDER_CAPTURE_FOR_ALL_TRANSACTIONS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "FISKALTRUST_POS_SYSTEM_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ACCOUNT_ACTIVATION_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SUSPENDED_REDEMPTION_RECEIPT_TEMPLATE",
+      "DefaultValue": "336"
+    },
+    {
+      "DefaultValueName": "SUBSCRIPTION_BILLING_PRODUCT",
+      "DefaultValue": "38406"
+    },
+    {
+      "DefaultValueName": "ENABLE_MANUAL_TICKET_ENTRY_IN_REDEMPTION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "HOSTED_PAYMENT_GATEWAY_MERCHANT_ID",
+      "DefaultValue": "cwpdsemnoxtest001"
+    },
+    {
+      "DefaultValueName": "HOSTED_PAYMENT_GATEWAY_MERCHANT_KEY",
+      "DefaultValue": "8f4c8a12b9c935dbaca031fa209120e6"
+    },
+    {
+      "DefaultValueName": "HOSTED_PAYMENT_GATEWAY_API_URL",
+      "DefaultValue": "apitest.cybersource.com"
+    },
+    {
+      "DefaultValueName": "HOSTED_PAYMENT_GATEWAY_REQUERY_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MAX_DEVICE_CONNECTION_ATTEMPTS",
+      "DefaultValue": "3"
+    },
+    {
+      "DefaultValueName": "WEAK_RSSI_DURATION_BEFORE_ROAM",
+      "DefaultValue": "120"
+    },
+    {
+      "DefaultValueName": "UPDATE_DEVICEINFO_INTERVAL",
+      "DefaultValue": "15"
+    },
+    {
+      "DefaultValueName": "DBLOG_DEVICEINFO_INTERVAL",
+      "DefaultValue": "120"
+    },
+    {
+      "DefaultValueName": "REFRESH_DEVICES_FROM_INVENTORY",
+      "DefaultValue": "600"
+    },
+    {
+      "DefaultValueName": "REFRESH_NOTIFICATIONS_INTERVAL",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "GATEWAY_PING_INTERVAL",
+      "DefaultValue": "15"
+    },
+    {
+      "DefaultValueName": "VIRTUAL_SCORE_TO_VIRTUAL_POINTS_CONVERSION_RATIO",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "VIRTUAL_ARCADE_UPLOAD_DIRECTORY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "VIRTUAL_ARCADE_API_URL",
+      "DefaultValue": "https://parafaitapivirtualarcade.parafait.com/"
+    },
+    {
+      "DefaultValueName": "APP_IMAGES_FOLDER",
+      "DefaultValue": "C:\\Parafait Home\\Images\\AppImagesGiga"
+    },
+    {
+      "DefaultValueName": "APP_PROMO_IMAGES_FOLDER",
+      "DefaultValue": "C:\\Parafait Home\\Images\\AppPromoImages"
+    },
+    {
+      "DefaultValueName": "APP_PRODUCT_IMAGES_FOLDER",
+      "DefaultValue": "C:\\Parafait Home\\Images\\ProductImages"
+    },
+    {
+      "DefaultValueName": "PROMOTION_LAYOUT_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "STORE_LOCATOR_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SUPPORT_CONTACT_NUMBER",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SUPPORT_CONTACT_EMAIL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SUPPORT_MESSAGE_TEXT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SHOW_CARD_EXPIRY",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SHOW_CARD_ISSUED",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SOCIAL_LAYOUT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "STORE_LOCATOR_LAYOUT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_TOTAL_CREDITS_AND_BONUS_BALANCE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ENABLE_SUSPEND_IN_REDEMPTION",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "BATTERY_STATUS_THRESHOLD_FOR_SALE",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "ENABLE_MACHINE_POLLING_IN_SERIAL_MODE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "KITCHEN_LOAD_FACTOR",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "SERVICE_CHARGE",
+      "DefaultValue": "2"
+    },
+    {
+      "DefaultValueName": "PACKING_CHARGE",
+      "DefaultValue": "2"
+    },
+    {
+      "DefaultValueName": "HOSTED_PAYMENT_GATEWAY_SECRET_KEY",
+      "DefaultValue": "Ga+dQUuctbdudg7Pzw8yvzh6yttlwF6TjKfbCj8sQ5c="
+    },
+    {
+      "DefaultValueName": "HOSTED_PAYMENT_GATEWAY_PUBLISHABLE_KEY",
+      "DefaultValue": "E167EB40-7916-4912-8591-6BD74E9C7454"
+    },
+    {
+      "DefaultValueName": "INBOX_INTERVAL",
+      "DefaultValue": "60"
+    },
+    {
+      "DefaultValueName": "PRODUCT_LOW_STOCK_QUANTITY_LIMIT",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "VIRTUAL_ARCADE_IMAGE_SITE_URL",
+      "DefaultValue": "https://parafaitapidemo5.parafait.com/"
+    },
+    {
+      "DefaultValueName": "SHOW_CUSTOMER_AGE_ONSCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TABLEAU_TOKENIZATION_URL",
+      "DefaultValue": "https://tableau.parafait.com/trusted"
+    },
+    {
+      "DefaultValueName": "TABLEAU_DASHBOARDS_URL",
+      "DefaultValue": "https://tableau.parafait.com/"
+    },
+    {
+      "DefaultValueName": "SIGN_IN_DAYS_FOR_APP",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "VC_QRCODE_PAY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "VC_BLE_PAY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "VC_WALLET_PAY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "VC_QRCODE_PLAY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "VC_BLE_PLAY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "VC_WALLET_PLAY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SCANTAG_QRCODE_LIFETIME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SCANTAG_QRCODE_VALIDATE_IN_HQ",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SCANTAG_BLECODE_LIFETIME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SCANTAG_BLE_VALIDATE_IN_HQ",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SCANTAG_WALLETCODE_LIFETIME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "GOOGLE_WALLET_ISSUER_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "APPLE_WALLET_ISSUER_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ALLOW_ONLINE_RECHARGE_LOCATION_OVERIDE",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "WAIVER_CUSTOMER_LINK_ATTRIBUTES",
+      "DefaultValue": "PROFILE_FIRST_NAME,PROFILE_MIDDLE_NAME,PROFILE_LAST_NAME,PROFILE_DATE_OF_BIRTH,EMAIL_LIST,PHONE_NUMBER_LIST"
+    },
+    {
+      "DefaultValueName": "ENABLE_MANAGER_APPROVAL_FOR_END_OF_DAY",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "LOYALTY_PROGRAM",
+      "DefaultValue": "PUNCHH"
+    },
+    {
+      "DefaultValueName": "LOYALTY_INTERFACE_API_URL",
+      "DefaultValue": "https://pos.punchh.com/  "
+    },
+    {
+      "DefaultValueName": "LOYALTY_INTERFACE_AUTHORIZATION_KEY",
+      "DefaultValue": "Token token=4fc42b8c38fdbec54a50182340e58325,btoken=26679a1b-c22e-400d-8a61-dd577a2c5fc6"
+    },
+    {
+      "DefaultValueName": "ATTENDANCE_VALIDATION_BEHAVIOR",
+      "DefaultValue": "USERENFORCEMENT"
+    },
+    {
+      "DefaultValueName": "LOAD_BONUS_PRINT_TEMPLATE",
+      "DefaultValue": "352"
+    },
+    {
+      "DefaultValueName": "ADDRESS_TYPE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "WECHAT_ACCESS_TOKEN",
+      "DefaultValue": "O"
+    },
+    {
+      "DefaultValueName": "MIDDLE_NAME",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "REDEMPTION_TRANSACTION_TICKET_LIMIT",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "ONLINE_WEBSITE_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ONLINE_RESERVATION_MAIL_SERVER_PORT",
+      "DefaultValue": "587"
+    },
+    {
+      "DefaultValueName": "COMMONWEB_HOSTED_PAYMENT_MERCHANT_ID",
+      "DefaultValue": "TESTJADDEVEVAL01"
+    },
+    {
+      "DefaultValueName": "COMMONWEB_HOSTED_PAYMENT_USERNAME",
+      "DefaultValue": "merchant.TESTJADDEVEVAL01"
+    },
+    {
+      "DefaultValueName": "COMMONWEB_HOSTED_PAYMENT_PASSWORD",
+      "DefaultValue": "fc38f066bb3fbb78db83736adf0b44b4"
+    },
+    {
+      "DefaultValueName": "COMMONWEB_HOSTED_PAYMENT_SESSION_URL",
+      "DefaultValue": "https://paymentgateway.commbank.com.au/api/rest/version/46/merchant/MerchantId/session"
+    },
+    {
+      "DefaultValueName": "LOAD_PRODUCT_FOR_ACTIVATION",
+      "DefaultValue": "-1"
+    },
+    {
+      "DefaultValueName": "SHOW_AMOUNT_FIELDS_MYTRANSACTIONS",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "STAFF_CARD_GAME_LIMIT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CARD_BALANCE_RECEIPT_TEMPLATE",
+      "DefaultValue": "353"
+    },
+    {
+      "DefaultValueName": "ENABLE_ALOHA_LOYALTY_INTERFACE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PRINTER_PORT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "BILL_ACCEPTOR_PORT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CARD_DISPENSER_PORT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "COIN_ACCEPTOR_PORT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CARD_ACCEPTOR_PORT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "UI_THEME_NO",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "DISABLE_PURCHASE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "REGISTRATION_ALLOWED",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DISABLE_NEW_CARD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "IGNORE_PRINTER_ERROR",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_BONUS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_COURTESY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_GAMES",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_TICKETS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_LOYALTY_POINTS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_TRANSFER",
+      "DefaultValue": "DISABLE"
+    },
+    {
+      "DefaultValueName": "ENABLE_REDEEM_TOKENS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_FAQ",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_TIME",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "REDEMPTION_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "ENABLE_LOYALTY_INTERFACE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_DEVICE_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_HOST_USERNAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_HOST_PASSWORD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_TERMINAL_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ENABLE_CREDIT_CARD_DEVICE_BEEP_SOUND",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ALLOW_CUSTOMER_TO_DECIDE_ENTRY_MODE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_ADDRESS_VALIDATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "REDEMPTION_REVERSAL_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "ALLOW_DECIMALS_IN_VARIABLE_RECHARGE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ONLINE_WAIVER_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ENABLE_REDEMPTION_CURRENCY_ACCESS_CONTROL",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "REPORT_COMMAND_TIMEOUT",
+      "DefaultValue": "1800"
+    },
+    {
+      "DefaultValueName": "ENABLE_REDEMPTION_CURRENCY_SHORTCUT_KEYS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_RDS_SYSTEM",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_POPUP_ONSCREEN_KEYBOARD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_SIGNATURE_VERIFICATION",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "WORLDPAY_HOSTED_PAYMENT_USERNAME",
+      "DefaultValue": "Administrator"
+    },
+    {
+      "DefaultValueName": "WORLDPAY_HOSTED_PAYMENT_MERCHANT_ID",
+      "DefaultValue": "48c8e745-5150-4bfe-8662-0a1c6412d407"
+    },
+    {
+      "DefaultValueName": "WORLDPAY_HOSTED_PAYMENT_CLIENTKEY",
+      "DefaultValue": "T_C_1f42bed1-96ac-4042-abd3-2e181cbb8f8b"
+    },
+    {
+      "DefaultValueName": "WORLDPAY_HOSTED_PAYMENT_SERVICEKEY",
+      "DefaultValue": "T_S_05ab8a40-2ff7-4028-8efb-2a660ae06d72"
+    },
+    {
+      "DefaultValueName": "WORLDPAY_HOSTED_PAYMENT_SESSION_URL",
+      "DefaultValue": "https://api.worldpay.com/v1"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_REGISTRATION_IS_MANDATORY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "EMAIL_SINGLE_TICKET_PDF_BOOKINGS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_RECEIPT_PORT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ALLOW_PRODUCT_CREATION_IN_DPL",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "KIOSK_ENABLE_SALES_OPTION",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "KIOSK_ENABLE_EXECUTE_TRANSACTION_OPTION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CONSIDER_ID_FOR_EXECUTE_TRANSACTION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "OPT_IN_PROMOTIONS_MODE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TERMS_AND_CONDITIONS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_AUTO_CREDITCARD_AUTHORIZATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_INACTIVATION_METHOD",
+      "DefaultValue": "None"
+    },
+    {
+      "DefaultValueName": "BOOKING_COMPLETION_TIME_LIMIT",
+      "DefaultValue": "5"
+    },
+    {
+      "DefaultValueName": "SHOW_ORDER_SCREEN_ON_POS_LOAD",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "MAX_TIP_AMOUNT_PERCENTAGE",
+      "DefaultValue": "200"
+    },
+    {
+      "DefaultValueName": "ENABLE_REMOTE_SHIFT_OPEN_AND_CLOSE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_PRODUCTS_TOBE_MARKED_UNAVAILABLE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_PRODUCT_DETAILS_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MINMUM_AGE_FOR_REGISTRATION",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "REDEEM_VIRTUAL_POINT_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "MONERIS_HOSTED_STORE_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MONERIS_HOSTED_HPP_KEY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MONERIS_HOSTED_PAYMENT_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CARD_DISPENSER_BAUDRATE",
+      "DefaultValue": "115200"
+    },
+    {
+      "DefaultValueName": "REPORT_WEBSITE_URL",
+      "DefaultValue": "https://telerikreportshq.parafait.com/"
+    },
+    {
+      "DefaultValueName": "SMARTFUN_IMAGES_URL",
+      "DefaultValue": "https://parafaitapidemo3.parafait.com/"
+    },
+    {
+      "DefaultValueName": "CANCEL_SUBSCRIPTION_REQUIRES_MANAGER_APPROVAL",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "MANAGER_APPROVAL_FOR_PAUSE_UNPAUSE_SUBSCRIPTION",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "MANAGER_APPROVAL_TO_OVERRIDE_SUBSCRIPTION_PRICE",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_OVERRIDE_SUBSCRIPTION_PRICE_IN_UI",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_CHECK-IN_PRODUCTS_IN_KIOSK",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_MANDATORY_FOR_CHECK-IN",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SHOW_ADD_RELATION_IN_CUSTOMER_SCREEN",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SUCCESS_SCREEN_TIMEOUT",
+      "DefaultValue": "5"
+    },
+    {
+      "DefaultValueName": "HOSTED_PAYMENT_GATEWAY_BASE_URL",
+      "DefaultValue": "https://testsecureacceptance.cybersource.com/pay"
+    },
+    {
+      "DefaultValueName": "PAYMENT_GATEWAY_CHANNEL_NAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "DISABLE_RECHARGE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CHECK_IN_OPTIONS_IN_POS",
+      "DefaultValue": "NO"
+    },
+    {
+      "DefaultValueName": "ONLINE_CARD_REGISTRATION_EMAIL_TEMPLATE",
+      "DefaultValue": "Online Card Registration"
+    },
+    {
+      "DefaultValueName": "MODIFIER_BUTTON_SIZE",
+      "DefaultValue": "100"
+    },
+    {
+      "DefaultValueName": "COUNT_OF_LATEST_WAIVER__SIGNED_CUSTOMERS",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "INVOICE_API_TOKEN",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SHOW_VIRTUAL_POINTS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CMS_SMARTFUN_IMAGE_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SCORING_ENGINE_RUN_FREQUENCY",
+      "DefaultValue": "300"
+    },
+    {
+      "DefaultValueName": "ENABLE_SCORING_ENGINE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "HOSTED_PAYMENT_GATEWAY_SESSION_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PRODUCT_MENU_BUTTON_WIDTH",
+      "DefaultValue": "144"
+    },
+    {
+      "DefaultValueName": "PRODUCT_MENU_BUTTON_HEIGHT",
+      "DefaultValue": "72"
+    },
+    {
+      "DefaultValueName": "PRODUCT_MENU_BUTTON_BACKGROUND_COLOR",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PRODUCT_MENU_BUTTON_TEXT_COLOR",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PRODUCT_MENU_BUTTON_TEXT_FONT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PRODUCT_MENU_BUTTON_TEXT_FONT_SIZE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CASHDRAWER_ASSIGNMENT_MODE",
+      "DefaultValue": "AUTOMATIC"
+    },
+    {
+      "DefaultValueName": "CASHDRAWER_INTERFACE_MODE",
+      "DefaultValue": "SINGLE"
+    },
+    {
+      "DefaultValueName": "CASHDRAWER_ASSIGNMENT_MANDATORY_FOR_TRX",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "OPEN_CASHDRAWER_FOR_ZERO_AMOUNT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "MANAGER_APPROVAL_FOR_CASHDRAWER_ASSIGNMENT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "AUTO_REFRESH_NEW_DELIVERY_COUNT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "FREQUENCY_FOR_NEW_DELIVERY_REFRESH",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "GENERIC_TABLE_COLOR_CODE",
+      "DefaultValue": "105,105,105"
+    },
+    {
+      "DefaultValueName": "SHOW_ORDER_DETAILS_WHILE_INITIATING_ORDER",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_TENT_NUMBER_IN_ORDER_DETAILS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TABLE_STATUS_REFRESH_FREQUENCY_IN_SECONDS",
+      "DefaultValue": "60"
+    },
+    {
+      "DefaultValueName": "DEFAULT_EMAIL_SUBTYPE",
+      "DefaultValue": "729E44D7-5E02-420A-AE5E-F29921266598"
+    },
+    {
+      "DefaultValueName": "DEFAULT_PHONE_SUBTYPE",
+      "DefaultValue": "7988E39F-3150-4A82-AB3A-9F4494E49BF0"
+    },
+    {
+      "DefaultValueName": "DEFAULT_ADDRESS_TYPE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "EXTERNALSYSTEMREF",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "LOAD_BONUS_PRODUCT_ON_CUST_REGISTRATION",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "DEFAULT_TRANSACTION_PROFILE",
+      "DefaultValue": "FD9FD377-E080-4B48-8880-5D243EAD4146"
+    },
+    {
+      "DefaultValueName": "ENABLE_SEAT_BASED_ORDERING",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_PRODUCT_MENU_ON_RIGHT_SIDE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PREFERRED_PAYMENT_MODE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "DEFAULT_PAYMENT_MODE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MAX_API_REQUEST_RETRIES",
+      "DefaultValue": "3"
+    },
+    {
+      "DefaultValueName": "PAYMENT_MODE_OTP_THRESHOLD_TIME",
+      "DefaultValue": "300"
+    },
+    {
+      "DefaultValueName": "PAYMENT_MODE_OTP_OVERRIDE_ALLOWED",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_GAMECARD_KEYIN_FOR_PAYMENT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_REMOTE_DEBUG",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_INSTALLMENT_MONTH_SELECTION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_PASSWORD_ON_SMARTFUN",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SMARTFUN_LOGIN_CHANNEL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SITE_BATCH_SIZE_FOR_ALOHA_SYNCH",
+      "DefaultValue": "20"
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_MIN_PREAUTH",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ONLINE_CARD_REGISTRATION_SMS_TEXT_TEMPLATE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "AUTO_PRINT_SHIFT_OPEN_RECEIPT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "TestDownload",
+      "DefaultValue": "O"
+    },
+    {
+      "DefaultValueName": "RACE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "HOSTED_PAYMENT_GATEWAY_PARTNER_ID",
+      "DefaultValue": "RVA8YQK8"
+    },
+    {
+      "DefaultValueName": "HOSTED_PAYMENT_GATEWAY_PUBLIC_KEY",
+      "DefaultValue": "3d249232-bfe6-46ff-87dc-332ed320f9a9"
+    },
+    {
+      "DefaultValueName": "OPT_OUT_WHATSAPP_MESSAGE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "COUNTRY_CODE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_GOOGLE_RECAPTCHA_FOR_REGISTRATION",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CUSTOMER_UNIQUE_ATTRIBUTE_1",
+      "DefaultValue": "PHONE"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_UNIQUE_ATTRIBUTE_2",
+      "DefaultValue": "EMAIL"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_UNIQUE_ATTRIBUTE_3",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "GENERIC_EVENT_EMAIL_TEMPLATE",
+      "DefaultValue": "GENERIC_OTP_EMAIL_TEMPLATE"
+    },
+    {
+      "DefaultValueName": "GENERIC_EVENT_SMS_TEMPLATE",
+      "DefaultValue": "GENERIC_OTP_SMS_TEMPLATE"
+    },
+    {
+      "DefaultValueName": "LOGIN_OTP_EVENT_EMAIL_TEMPLATE",
+      "DefaultValue": "GENERIC_OTP_EMAIL_TEMPLATE"
+    },
+    {
+      "DefaultValueName": "LOGIN_OTP_EVENT_SMS_TEMPLATE",
+      "DefaultValue": "GENERIC_OTP_SMS_TEMPLATE"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_DELETE_OTP_EVENT_EMAIL_TEMPLATE",
+      "DefaultValue": "GENERIC_OTP_EMAIL_TEMPLATE"
+    },
+    {
+      "DefaultValueName": "CUSTOMER_DELETE_OTP_EVENT_SMS_TEMPLATE",
+      "DefaultValue": "GENERIC_OTP_SMS_TEMPLATE"
+    },
+    {
+      "DefaultValueName": "HOSTED_PAYMENT_TRX_WINDOW_TIME",
+      "DefaultValue": "15"
+    },
+    {
+      "DefaultValueName": "ALLOW_FIRST_TRANSACTION_REPRINT_WITHOUT_APPROVAL",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALLOW_PRODUCT_UPLOAD_IN_INVENTORY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TRANSACTION_PENDING_ONPRINT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PETTY_CASH_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "3000"
+    },
+    {
+      "DefaultValueName": "MAXIMUM_PETTY_CASH_LIMIT",
+      "DefaultValue": "4000"
+    },
+    {
+      "DefaultValueName": "PETTY_CARD_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "MAXIMUM_PETTY_CARD_LIMIT",
+      "DefaultValue": "100"
+    },
+    {
+      "DefaultValueName": "SALESFORCE_MARKETING",
+      "DefaultValue": "None"
+    },
+    {
+      "DefaultValueName": "BAMBORA_HOSTED_PAYMENT_MERCHANT_ID",
+      "DefaultValue": "30WWW0205142"
+    },
+    {
+      "DefaultValueName": "BAMBORA_HOSTED_PAYMENT_HASHKEY",
+      "DefaultValue": "EB66D3CA-AF72-4513-B411-522E0A4D"
+    },
+    {
+      "DefaultValueName": "BAMBORA_HOSTED_PAYMENT_URL",
+      "DefaultValue": "https://web.na.bambora.com/scripts/payment/payment.asp"
+    },
+    {
+      "DefaultValueName": "AUTO_ACCEPT_SIGNATURE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DEFAULT_POS_COUNTER_TICKET_STATION",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "UNIQUE_ATTRIBUTES",
+      "DefaultValue": " "
+    },
+    {
+      "DefaultValueName": "LOCKER_RETURN_ALLOWED_AFTER_EXPIRY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MANAGER_APPROVAL_REQUIRED_FOR_TIP_ADJUSTMENT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_MANAGER_APPROVAL_FOR_PAYMENT_REVERSAL",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_BIR_REGULATION_PROCESS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "LOCKER_REASSIGN_TEMPLATE",
+      "DefaultValue": "-1"
+    },
+    {
+      "DefaultValueName": "VARIABLE_REFUND_APPROVAL_LIMIT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ENABLE_MANAGER_APPROVAL_FOR_VARIABLE_REFUND",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_VARIABLE_REFUND",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "GATEWAY_APPID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "GATEWAY_PID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CC_PAYMENT_RECEIPT_PRINT",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ASPIRATIONAL_PERCENTAGE",
+      "DefaultValue": "50"
+    },
+    {
+      "DefaultValueName": "SEASONAL_PERCENTAGE",
+      "DefaultValue": "20"
+    },
+    {
+      "DefaultValueName": "HISTORICAL_DAYS",
+      "DefaultValue": "365"
+    },
+    {
+      "DefaultValueName": "EVENT_OFFSET",
+      "DefaultValue": "24"
+    },
+    {
+      "DefaultValueName": "ENABLE_FORECASTING_BATCH_JOB",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PURGE_FORECASTING_DATA_BEFORE_DAYS",
+      "DefaultValue": "366"
+    },
+    {
+      "DefaultValueName": "THRESHOLD_MINS_FOR_ACCOUNT_QR_CODE_VALIDATION",
+      "DefaultValue": "5"
+    },
+    {
+      "DefaultValueName": "RFID_PRINTER_SLEEP_TIME",
+      "DefaultValue": "1500"
+    },
+    {
+      "DefaultValueName": "RFID_PRINTER_SLEEP_WAIT_GAP",
+      "DefaultValue": "300"
+    },
+    {
+      "DefaultValueName": "CARD_PRINT_ERROR_RECEIPT_TEMPLATE",
+      "DefaultValue": "357"
+    },
+    {
+      "DefaultValueName": "ENABLE_TRX_VIEW_IN_ADMIN_SCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_SFTP_IN_SALES_REPORT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DELIVERY_ORDERS_REFRESH_FREQUENCY",
+      "DefaultValue": "180"
+    },
+    {
+      "DefaultValueName": "AUTO_APPLY_SERVICE_CHARGE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SERVICE_CHARGE_PERCENTAGE",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "MINIMUM_GUEST_QTY_FOR_SERVICE_CHARGE",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "MINIMUM_GUEST_QTY_FOR_RESERVATION_SERVICE_CHARGE",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "AUTO_APPLY_GRATUITY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "GRATUITY_AMOUNT_PERCENTAGE",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "MINIMUM_GUEST_QTY_FOR_GRATUITY",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "MINIMUM_GUEST_QTY_FOR_RESERVATION_GRATUITY",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "BUSINESS_DAY_END_TIME",
+      "DefaultValue": "2"
+    },
+    {
+      "DefaultValueName": "DOWNLOAD_BATCH_IN_MINUTES",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "ENABLE_ROAMING_ON_WEAK_RSSI",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_IDLE_FLASH",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "MAX_DEVICES_PER_GATEWAY",
+      "DefaultValue": "100"
+    },
+    {
+      "DefaultValueName": "AUTO_CHECK_IN_MINIUTES",
+      "DefaultValue": "1"
+    },
+    {
+      "DefaultValueName": "MAXIMUM_WAIT_PERIOD_IN_MINIUTES",
+      "DefaultValue": "3"
+    },
+    {
+      "DefaultValueName": "ALLOW_DUPLICATE_UNIQUE_ID",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PRINT_COMBO_DETAILS_QUANTITY",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_SEQUENCES_VALIDATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "WORKDAY_USER_SYNCH_ENABLED",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "WORKDAY_INTEGRATION_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "WORKDAY_INTEGRATION_USERNAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "WORKDAY_INTEGRATION_PASSWORD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "INCOTEX_INPUT_FOLDER",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "INCOTEX_OUTPUT_FOLDER",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "INCOTEX_ERROR_FOLDER",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ALLOW_ONE_TRANSACTION_REPRINT_WITH_APPROVAL",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ALCOHOL_SALE_AGE_LIMIT",
+      "DefaultValue": "21"
+    },
+    {
+      "DefaultValueName": "ALCOHOL_SALE_QUANTITY_LIMIT",
+      "DefaultValue": "2"
+    },
+    {
+      "DefaultValueName": "PARAFAIT_GATEWAY_URL",
+      "DefaultValue": "http://ParafaitServer:80"
+    },
+    {
+      "DefaultValueName": "ENABLE_CUSTOMER_FEEDBACK_PROCESS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_IN_WAIVER",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "NCR_LANE_NO",
+      "DefaultValue": "1"
+    },
+    {
+      "DefaultValueName": "WEBSITE_TIME_ZONE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ONLINE_TICKETS_PRINT_BARCODE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "EMAIL_SINGLE_TICKET_PDF",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ONLINE_TICKETS_ENABLE_SMS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ONLINE_TICKETS_SMS_TEXT_TEMPLATE",
+      "DefaultValue": "Dear Customer  , Thank you for booking.  Your Booking id  @transactionId is confirmed.Total amount  is @amount ."
+    },
+    {
+      "DefaultValueName": "ENABLE_GUEST_USER_LOGIN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CYBERSOURCE_HOSTED_PAYMENT_PROFILE_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CYBERSOURCE_HOSTED_PAYMENT_ACCESS_KEY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CYBERSOURCE_HOSTED_PAYMENT_PAYMENT_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PAYEEZY_HOSTED_PAYMENT_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PAYEEZY_HOSTED_LOGIN",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PAYEEZY_HOSTED_TRANSACTION_KEY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "EBS_HOSTED_PAYMENT_ACCOUNT_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "EBS_HOSTED_PAYMENT_SECRET_KEY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "EBS_HOSTED_PAYMENT_GATEWAY_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "EBS_HOSTED_PAYMENT_GATEWAY_MODE",
+      "DefaultValue": "TEST"
+    },
+    {
+      "DefaultValueName": "CREDIT_CALL_HOSTED_PAYMENT_SELLER_ID",
+      "DefaultValue": "99963918"
+    },
+    {
+      "DefaultValueName": "CREDIT_CALL_HOSTED_PAYMENT_SELLER_KEY",
+      "DefaultValue": "8gmsHtfQ"
+    },
+    {
+      "DefaultValueName": "CREDIT_CALL_HOSTED_PAYMENT_URL",
+      "DefaultValue": "https://test.ekashu.com"
+    },
+    {
+      "DefaultValueName": "CREDIT_CALL_HOSTED_PAYMENT_HASH_KEY",
+      "DefaultValue": "4JWVKDZHcRNsyWDj"
+    },
+    {
+      "DefaultValueName": "ONLINE_TICKETS_B2B_EMAIL_TEMPLATE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ONLINE_RESERVATION_EMAIL_TEMPLATE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ENABLE_MERKLE_INTEGRATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SFTP_HOST_ADDRESS",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SFTP_USERNAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SFTP_PASSWORD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SFTP_PORT_NUMBER",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "TEMP_FILE_STORE_PATH",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ENCRYPTION_KEY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MERKLE_API_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MERKLE_API_SECRETID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MERKLE_API_UUID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "DYNAMIC_QUERY_EVENT_FREQUENCY",
+      "DefaultValue": "300"
+    },
+    {
+      "DefaultValueName": "THEME_REFRESH_FREQUENCY",
+      "DefaultValue": "900"
+    },
+    {
+      "DefaultValueName": "REPORT_SERVER_POLL_FREQUENCY",
+      "DefaultValue": "15"
+    },
+    {
+      "DefaultValueName": "STAFF_CARD_CREDITS_LIMIT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "STAFF_CARD_TRANSFER_LIMIT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "GAMECARD_TRANSACTION_CREDIT_LIMIT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "GAMECARD_CREDIT_LIMIT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MAX_TIME_BONUS_ALLOWED_TO_LOAD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "STAFF_CARD_PRODUCTS_DISPLAY_GROUP",
+      "DefaultValue": "-1"
+    },
+    {
+      "DefaultValueName": "AUTO_PRINT_LOAD_TICKETS",
+      "DefaultValue": "A"
+    },
+    {
+      "DefaultValueName": "ALLOW_CHANGE_TICKET_MODE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TICKETS_TO_REDEEM_PER_CREDIT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MINIMUM_BONUS_VALUE_FOR_TICKET_REDEMPTION",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SMTP_MAIL_ADDRESS_DOMAIN",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "HQ_PING_PROCESS_FREQUENCY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ENABLE_HQ_PING_PROCESS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SALESFORCE_DATAEXTENSION_NAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "IS_ONLINE_OPTION_ENABLED",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ONLINE_LOCKER_SERVICE_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "DISABLE_CUSTOMER_REGISTRATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PAYFORT_HOSTED_PAYMENT_ACCESS_CODE",
+      "DefaultValue": "MFqx810rChT2fYuOhj9a"
+    },
+    {
+      "DefaultValueName": "PAYFORT_HOSTED_PAYMENT_MERCHANT_IDENTIFIER",
+      "DefaultValue": "edECgNma"
+    },
+    {
+      "DefaultValueName": "PAYFORT_HOSTED_PAYMENT_URL",
+      "DefaultValue": "https://sbcheckout.payfort.com/FortAPI/paymentPage"
+    },
+    {
+      "DefaultValueName": "PAYFORT_HOSTED_PAYMENT_HASH_KEY",
+      "DefaultValue": "TESTSHAIN"
+    },
+    {
+      "DefaultValueName": "PAYFORT_HOSTED_PAYMENT_CALLBACK_ENABLE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "PAYPAL_HOSTED_PAYMENT_LOGIN",
+      "DefaultValue": "semnox"
+    },
+    {
+      "DefaultValueName": "PAYPAL_HOSTED_PAYMENT_PARTNER",
+      "DefaultValue": "PayPal"
+    },
+    {
+      "DefaultValueName": "PAYPAL_HOSTED_PAYMENT_URL",
+      "DefaultValue": "https://payflowlink.paypal.com"
+    },
+    {
+      "DefaultValueName": "PAYPAL_HOSTED_PAYMENT_CALLBACK_ENABLE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "TOKEN_FOR_CREDIT_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "LOAD_TICKET_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "LOAD_BONUS_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "REDEEM_BONUS_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "REDEEM_TICKET_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "REDEEM_LOYALTY_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "REFUND_AMOUNT_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "ADD_TICKET_LIMIT_FOR_MANAGER_APPROVAL_REDEMPTION",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_HOST_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_STORE_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CREDIT_CARD_TOKEN_ID",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ALLOW_CREDIT_CARD_AUTHORIZATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "FINGERPRINT_READ_ATTEMPTS",
+      "DefaultValue": "3"
+    },
+    {
+      "DefaultValueName": "ROAMING_CARD_HQ_REFRESH_THRESHOLD",
+      "DefaultValue": "60"
+    },
+    {
+      "DefaultValueName": "REPORT_TRANSACTION_COUNT_FOR_AUTO_EMAIL",
+      "DefaultValue": "100000"
+    },
+    {
+      "DefaultValueName": "REPORT_GATEWAY_URL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SHOW_DEBIT_CARD_BUTTON",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "DEACTIVATE_FINGERPRINT_REQUIRES_MANAGER_APPROVAL",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "TIME_IN_MINUTES_PER_CREDIT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ENABLE_END_OF_DAY_ON_CLOSE_SHIFT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "EASY_PAYMENTS_HOSTED_PAYMENT_USER_CODE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "EASY_PAYMENTS_HOSTED_PAYMENT_PASS_CODE",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "EASY_PAYMENTS_HOSTED_PAYMENT_HASH_KEY",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "EASY_PAYMENTS_HOSTED_PAYMENT_URL",
+      "DefaultValue": "https://epay.federalbank.co.in/FedPaymentsV1/EasyPayments.ashx"
+    },
+    {
+      "DefaultValueName": "CONVERTED_TIME_ENTITLEMENT_VALID_FOR_DAYS",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "TIME_BASED_SCHEDULE_POLL_FREQUENCY",
+      "DefaultValue": "15"
+    },
+    {
+      "DefaultValueName": "DATA_BASED_SCHEDULE_POLL_FREQUENCY",
+      "DefaultValue": "15"
+    },
+    {
+      "DefaultValueName": "RETAIN_REPORT_FILES_FOR_DAYS",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "SHOW_MESSAGES_FOR_DAYS_IN_INBOX",
+      "DefaultValue": "2"
+    },
+    {
+      "DefaultValueName": "ALLOW_MULTIPLE_TRX_PRINT_COPIES",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ONLINE_DISCOUNT_APPLY_ALLOWED",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ONLINE_DISCOUNT_DISPLAY_NAME",
+      "DefaultValue": "Apply Coupon"
+    },
+    {
+      "DefaultValueName": "STAFF_CARD_TIME_LIMIT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "MAX_ALLOWED_TIME_PAUSE",
+      "DefaultValue": "1"
+    },
+    {
+      "DefaultValueName": "TAXCODE",
+      "DefaultValue": "O"
+    },
+    {
+      "DefaultValueName": "ALLOW_POINTS_TO_TIME_CONVERSION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_PAUSE_CARD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "REDEMPTION_RECEIPT_TEMPLATE",
+      "DefaultValue": "358"
+    },
+    {
+      "DefaultValueName": "TICKET_VOUCHER_TEMPLATE",
+      "DefaultValue": "359"
+    },
+    {
+      "DefaultValueName": "ONLINE_RESERVATION_SENDER_EMAIL",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ONLINE_RESERVATION_SENDER_PASSWORD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ONLINE_RESERVATION_SENDER_NAME",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ONLINE_RESERVATION_MAIL_SERVER",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ONLINE_RESERVATION_MAIL_SERVER_SSL_ENABLED",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ONLINE_EMAIL_SENDER_PASSWORD",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "ALLOW_BOOKING_AFTER_N_DAYS",
+      "DefaultValue": "1"
+    },
+    {
+      "DefaultValueName": "OPT_IN_PROMOTIONS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "MERGE_SOURCE_CARD_HISTORY_ON_INACTIVATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_DEBIT_PIN_PAYMENT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_CHECK-IN_TERMS_AND_CONDITIONS",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ALLOW_EDIT_BIRTH_DAY_AND_MONTH",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_WINDOWS_KEYBOARD",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "THRESHOLD_AGE_CHECK_IN_CHILD_SCREEN",
+      "DefaultValue": "18"
+    },
+    {
+      "DefaultValueName": "THRESHOLD_AGE_CHECK_IN_ADULT_SCREEN",
+      "DefaultValue": "999"
+    },
+    {
+      "DefaultValueName": "AUTO_APPLY_CARD_CREDITPLUS_CONSUMPTION",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "NEED_CONFIRMATION_FOR_CASH_PAYMENT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CREATE_TRX_TOKEN_REDEMPTION_MACHINE",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_CART_IN_KIOSK",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_FNB_PRODUCTS_IN_KIOSK",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_PAYMENT_MODE_DRIVEN_SALES",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "KIOSK_RECEIPT_DELIVERY_MODE",
+      "DefaultValue": "PRINT"
+    },
+    {
+      "DefaultValueName": "CARD_DISPENSER_ERROR_RECEIPT_TEMPLATE",
+      "DefaultValue": "361"
+    },
+    {
+      "DefaultValueName": "CUTOFF_SCORE_FOR_APP_RATING",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "FSK_KIOSK_TYPE",
+      "DefaultValue": "NONE"
+    },
+    {
+      "DefaultValueName": "ALLOW_EDITCOUPON_VALIDITY_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "JWT_TOKEN_LIFE_TIME",
+      "DefaultValue": "2"
+    },
+    {
+      "DefaultValueName": "ALLOW_EDIT_COUPON_VALIDITY_IN_POS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "DROP_CARD_FROM_DISPENSER_MOUTH",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "SHOW_TICKET_MODE_IN_CARD_ACTIVITY",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SHOW_DETAILED_COSTS_IN_PO_RECEIPT",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "OVERRIDING_WAIVER_SET",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "LOAD_TICKET_DEDUCTION_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "LOAD_TICKETS_DEDUCTION_LIMIT",
+      "DefaultValue": "3000"
+    },
+    {
+      "DefaultValueName": "PER_USER_DAILY_LIMIT_FOR_DEDUCTING_MANUAL_TICKETS",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "LOAD_BONUS_DEDUCTION_LIMIT_FOR_MANAGER_APPROVAL",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "LOAD_BONUS_DEDUCTION_LIMIT",
+      "DefaultValue": "2000"
+    },
+    {
+      "DefaultValueName": "DO_INCREMENTAL_KIOSK_PRINT_SUMMARY",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "HOSTED_PAYMENT_GATEWAY_ENVIRONMENT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "CARD_COACH_MARK",
+      "DefaultValue": "QRCODE"
+    },
+    {
+      "DefaultValueName": "GOOGLE_MAP_API_KEY",
+      "DefaultValue": "AIzaSyB67vvkYTzY9Dl7oWFsQltqYK4X3yh1kMI"
+    },
+    {
+      "DefaultValueName": "USERPAY_EFFECTIVEDATE_PAST_THRESHOLD",
+      "DefaultValue": "30"
+    },
+    {
+      "DefaultValueName": "AUTO_SHOW_PRODUCT_MENU_IN_SINGLE_SCREEN",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "AUTO_SHOW_CURRENCY_MENU_IN_SINGLE_SCREEN",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "GROUP_REDEMPTION_CURRENCY",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "PRINT_ZERO_PRICE_FOR_AMOUNT_FIELDS",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "SHOW_KEYBOARD_IN_COUPON_SCREEN",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "AUTO_SHOW_PRODUCT_MENU_SEARCH_SECTION",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "ENABLE_USER_ENTRY_OF_MACHINE",
+      "DefaultValue": "Y"
+    },
+    {
+      "DefaultValueName": "PRODUCT_MENU_PAGE_SIZE",
+      "DefaultValue": "20"
+    },
+    {
+      "DefaultValueName": "ENABLE_ATTRACTION_PRODUCTS_IN_KIOSK",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "HIDE_AVAILABLE_SLOTS_FOR_ATTRACTION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "LOYALTY_GAMEPLAY_INCL_CREDITS_EXCL_ENTITLEMENTS",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "ENABLE_OVERRIDE_GAMEPLAY_DURATION",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "CREDITS_TEXT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "PRICE_TEXT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "VIP_PRICE_TEXT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "TICKET_TEXT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "BONUS_TEXT",
+      "DefaultValue": ""
+    },
+    {
+      "DefaultValueName": "AUTO_GENERATE_NICKNAME",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "NICKNAME",
+      "DefaultValue": "N"
+    },
+    {
+      "DefaultValueName": "APP_STORE_URL",
+      "DefaultValue": "https://apps.apple.com/app/id1574628712"
+    },
+    {
+      "DefaultValueName": "PLAY_STORE_URL",
+      "DefaultValue": "https://play.google.com/store/apps/details?id=my.aeon.smartfun"
+    },
+    {
+      "DefaultValueName": "ROUNDING_PRECISION",
+      "DefaultValue": "4"
+    },
+    {
+      "DefaultValueName": "AMOUNT_WITH_CURRENCY_SYMBOL",
+      "DefaultValue": "USD #,##0.0000"
+    },
+    {
+      "DefaultValueName": "AMOUNT_WITH_CURRENCY_CODE",
+      "DefaultValue": "USD #,##0.0000"
+    }
+  ]
+}

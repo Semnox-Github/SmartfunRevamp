@@ -41,7 +41,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
         orElse: () => context.loaderOverlay.hide(),
         otpVerified: () {
           context.loaderOverlay.hide();
-          Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage, (Route<dynamic> route) => false);
         },
         otpVerificationError: (message) {
           context.loaderOverlay.hide();

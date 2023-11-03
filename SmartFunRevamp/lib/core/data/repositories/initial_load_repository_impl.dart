@@ -1,13 +1,12 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
-import 'package:flutter/services.dart';
+import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
-import 'package:semnox/core/data/datasources/local_data_source.dart';
-import 'package:semnox/core/domain/entities/data.dart';
+import 'package:semnox/core/data/datasources/initial/initial_local_data_source.dart';
+import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/entities/lookups/lookups_dto.dart';
+import 'package:semnox/core/domain/entities/splash_screen/authenticate_system_user.dart';
 
 import 'package:semnox/core/domain/repositories/initial_load_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
@@ -15,51 +14,84 @@ import 'package:semnox/core/utils/extensions.dart';
 
 class InitialLoadRepositoryImpl implements InitialLoadRepository {
   final SmartFunApi _api;
-  final LocalDataSource _localDataSource;
+  final InitialLocalDatasource _localDataSource;
 
   InitialLoadRepositoryImpl(this._api, this._localDataSource);
 
   @override
   Future<Either<Failure, LanguageContainerDTO>> getParafaitLanguages({required String siteId}) async {
     try {
-      final localLanguagesMap = await _localDataSource.retrieveJsonClass(LocalDataSource.kLanguagesContainer);
-      if (localLanguagesMap == null) {
-        final localJson = await json.decode(await rootBundle.loadString('assets/json/language_container.json'))
-            as Map<String, dynamic>;
-        final response = Data<LanguageContainerDTO>.fromJson(
-            localJson, (json) => LanguageContainerDTO.fromJson(json as Map<String, dynamic>));
-        _localDataSource.saveCustomClass(LocalDataSource.kLanguagesContainer, response.data.toJson());
-        _updateLocalLanguages(siteId);
-        return Right(response.data);
-      } else {
-        final localLanguages = LanguageContainerDTO.fromJson(localLanguagesMap);
-        _updateLocalLanguages(siteId);
-        return Right(localLanguages);
-      }
-    } on Exception catch (e) {
+      final localLanguages = await _localDataSource.getSavedJson<LanguageContainerDTO>(
+        kSavedLanguagesKey,
+        (json) {
+          return LanguageContainerDTO(
+              (json['LanguageContainerDTOList'] as List<dynamic>)
+                  .map((e) => LanguageContainerDTOList.fromJson(Map<String, dynamic>.from(e)))
+                  .toList(),
+              '');
+        },
+        'assets/json/language_container.json',
+      );
+      _api.getParafaitLanguages(siteId).then((value) {
+        _localDataSource.updateLocalJson(value.data.toJson(), kSavedLanguagesKey);
+        Logger().d('Language Container DTO Updated');
+      }).catchError((e) {
+        Logger().e('Unable to update Local Languages', e);
+      });
+      return Right(localLanguages);
+    } on Exception catch (e, s) {
+      Logger().e('Exception ', e, s);
       return Left(e.handleException());
     }
   }
 
-  void _updateLocalLanguages(String siteId) {
-    _api.getParafaitLanguages(siteId).then((value) {
-      Logger().d("Background Update Success");
-      _localDataSource.saveCustomClass(LocalDataSource.kLanguagesContainer, value.data.toJson());
-    }).catchError((e) {
-      Logger().e("Background Update Failed");
-      Logger().e(e);
-    });
+  @override
+  Future<Either<Failure, ParafaitDefaultsResponse>> getParafaitDefaults(int siteId) async {
+    try {
+      final systemUser = Get.find<SystemUser>();
+      final defaults = await _localDataSource.getSavedJson<ParafaitDefaultsResponse>(
+        kParafaitDefaultsKey,
+        (json) {
+          return ParafaitDefaultsResponse(
+            (json['ParafaitDefaultContainerDTOList'] as List<dynamic>)
+                .map((e) => ParafaitDefault.fromJson(Map<String, dynamic>.from(e)))
+                .toList(),
+          );
+        },
+        'assets/json/parafait_defaults_local.json',
+      );
+      _api.getParafaitDefaults(siteId.toString(), systemUser.userPKId, systemUser.machineId).then((value) {
+        _localDataSource.updateLocalJson(value.data.toJson(), kParafaitDefaultsKey);
+        Logger().d('Parafait Defaults Updated');
+      }).catchError((e) {
+        Logger().e('Unable to update Parafait Defaults', e);
+      });
+      return Right(defaults);
+    } on Exception catch (e, s) {
+      Logger().e('Exception ', e, s);
+      return Left(e.handleException());
+    }
   }
 
   @override
-  Future<Either<Failure, Map<String, dynamic>>> getStringsForLocalization(
-      {required String siteId, required String languageId, String outputForm = 'JSON'}) async {
+  Future<Either<Failure, Map<String, dynamic>>> getStringsForLocalization({
+    required String siteId,
+    required String languageId,
+    String outputForm = 'JSON',
+  }) async {
     try {
       final response = await _api.getStringsForLocalization(siteId, languageId, outputForm);
-
+      await _localDataSource.updateLocalJson(Map<String, dynamic>.from(response.data), kStringForLocalizationKey);
+      Logger().d('Local Language Updated');
       return Right(Map<String, dynamic>.from(response.data));
     } on Exception catch (e) {
-      return Left(e.handleException());
+      Logger().e(e);
+      final localStringsForLocalization = await _localDataSource.getSavedJson<Map<String, dynamic>>(
+        kStringForLocalizationKey,
+        (json) => json,
+        'assets/json/strings_for_localization.json',
+      );
+      return Right(localStringsForLocalization);
     }
   }
 
@@ -67,7 +99,6 @@ class InitialLoadRepositoryImpl implements InitialLoadRepository {
   Future<Either<Failure, LookupsContainer>> getLookups({required String siteId, bool rebuildCache = true}) async {
     try {
       final response = await _api.getLookups(siteId, rebuildCache);
-
       return Right(response.data);
     } on Exception catch (e) {
       return Left(e.handleException());

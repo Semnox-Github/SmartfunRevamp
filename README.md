@@ -29,6 +29,7 @@ How to configure a new app for a customer
   - BUILD_NUMBER: app version number, used to check if there is a new version available against api
   - BUILD_SECURITY_CODE: security code for the build to send to the api with the version number
   - USE_LOCAL_CMS_JSON: if true, the app will use the local json file for CMS configuration. If false, the app will fetch the configuration from the API. Only for using during development, for production this should be false
+  - APP_TITLE: this is the title of the app that is shown when switching between apps in the device
 
 # 4. Firebase keys
 Follow instructions on official Firebase documentation https://firebase.google.com/docs/flutter/setup
@@ -42,69 +43,81 @@ Follow instructions on official Goole Maps package documentation https://pub.dev
 # 7. Native splash screen
 This is the screen that is shown natively in the app before the flutter app is loaded
 1. Save chosen image file in `SmartFunRevamp/assets/splash_screen/splash_screen.png` (you can change the name of the file, but you need to update the name in the next step).
-2. Open file `SmartFunRevamp/flutter_native_splash.yaml` and update `background_image` and `color`. You can ommit this step if you used the default name for the image file in the step 1
+2. Open file `SmartFunRevamp/flutter_native_splash.yaml` and update `background_image` and `color`. You can ommit `background_image` if you used the default name for the image file in the step 1
 3. Run generation tool: `flutter pub pub run flutter_native_splash:create`
 
 # 8. Native icon app
 This is the icon of the app that is shown in the device berfore opening the app
-1. Save image file in `SmartFunRevamp/assets/icon/icon.png` (you change the name of the file, but you need to update the name in the step 3). PNG file with transparent background is recommended
-2. Open file `SmartFunRevamp/flutter_native_icons.yaml` and update image path if you change it in the step 1
+1. Save image file in `SmartFunRevamp/assets/icon/icon.png` (you can change the name of the file, but you need to update the name in the step 3). PNG file with transparent background is recommended.
+2. Open file `SmartFunRevamp/flutter_native_icons.yaml` and update image path if you change it in the step 1.
 3. Run generation tool: `flutter pub run flutter_launcher_icons`
 
 # 9. JSON configuration
-There are serveral parts of the app that can be configured by json files. For every configuration there is a file that is shipped inside the app and that is read by default the first time the app is opened. After that, the app will fetch a new configuration from the API and will store it in the device. The json local file and the API response are merged and the result is stored in the device, so they should have the same format, keys and structure.
-
-_WARNING: this feature is not implemented yet, so the app will always fetch the configuration from the API until ticket #1005 is done_
+There are serveral parts of the app that can be configured by json files. For every configuration there is a file that is shipped inside the app and that is read by default the first time the app is opened. After that, the app will fetch a new configuration from the API and will store it in the device. Next time the app is opened, the json from the API will be used instead of the one shipped with the app.
 
 **Below is a list of the json files that can be configured:**
 
 ## 9.1. Available languages
-The app can be configured to support multiple languages. The list of available languages is defined in `SmartFunRevamp/assets/json/available_languages.json` file. The format of the file is:
+The app can be configured to support multiple languages. The list of available languages is defined in `SmartFunRevamp/assets/json/language_container.json` file. The format of the file is:
 ```
-[
-  {
-    "code": "en",
-    "name": "English"
-  },
-  {
-    "code": "es",
-    "name": "Español"
-  }
-]
+{
+  "LanguageContainerDTOList": [
+    {
+      "LanguageId": 2,
+      "LanguageName": "English",
+      "LanguageCode": "en-US",
+      "CultureCode": "en-US"
+    },
+    {
+      "LanguageId": 3,
+      "LanguageName": "Spanish",
+      "LanguageCode": "es-ES",
+      "CultureCode": "es-ES"
+    },
+    {
+      "LanguageId": 4,
+      "LanguageName": "French",
+      "LanguageCode": "fr-FR",
+      "CultureCode": "fr-FR"
+    }
+  ]
+}
 ```
 
 ## 9.2. Default translated strings
-The app can be configured to support multiple languages. The list of available languages is defined in `SmartFunRevamp/assets/json/default_translated_strings_en.json` file for the english file, and the language code changes for every language. The format of the file is:
+The app can be configured to support multiple languages. The first time the app is opened the translations strings are shown from the file `SmartFunRevamp/assets/localization/strings.json`. The format of the file is:
 ```
 {
-  "hello": "Hello",
-  "world": "World"
+  "string": "Translated string",
+  "hello": "hello translated",
+  "world": "world translated"
 }
 ```
 
 ## 9.3. Parafait defaults
-The file should be located at `SmartFunRevamp/assets/json/parafait_defaults.json`. The format of the file is:
+The file should be located at `SmartFunRevamp/assets/json/parafait_defaults_local.json`. The format of the file is:
 ```
 {
-    "data": {
-        "ParafaitDefaultContainerDTOList": [
-            {
-                "DefaultValueName": "CARD_FACE_VALUE",
-                "DefaultValue": "0"
-            },
-            {
-                "DefaultValueName": "TOKEN_PRICE",
-                "DefaultValue": "10"
-            },
-            # more items here ...
-        ]
-    }
+  "ParafaitDefaultContainerDTOList": [
+    {
+      "DefaultValueName": "CARD_FACE_VALUE",
+      "DefaultValue": "0"
+    },
+    {
+      "DefaultValueName": "TOKEN_PRICE",
+      "DefaultValue": "10"
+    },
+    {
+      "DefaultValueName": "POS_CARD_READER_BAUDRATE",
+      "DefaultValue": "9600"
+    },
+    # more items here...
+  ]
 }
 ```
 
 ## 9.4. CMS configuration
 It contains data to configure the app such as: home containers, menu itesm, colors, etc. The file is `SmartFunRevamp/assets/json/example_cms.json`
-_TO DO: we need to change the name of this file because is not an example anymore, it is the real file that is shipped with the app_
 The next items are configured in the same file.
 
 ### 9.4.1. Home containers
@@ -207,8 +220,6 @@ This is the format of the `HomePageOrder` list:
 
 ```
 
-
-
 ### 9.4.2. Menu items
 Menu items are inside the key `CMSModuleMenuDTOList`
 
@@ -276,7 +287,8 @@ the configuration for this items is the following:
   - 5: bonus 
   - 6: time 
 - PLAY: in this case the `Target` key is not the internal route inside the app, but the url to open inside the webview.
-
+- When the `Target` key is eaqual to `sf://webview` an extra key called `TargetUrl` is being used to determine which url should be opened inside the webview.
+- Then the `Target` key starts with `http://` or `https://` the url is opened in the device browser.
 
 ### 9.4.3. App Colors, fonts and images
 
@@ -290,6 +302,7 @@ This is the structure:
     "profile_picture_gradient": ["#FFFFF2AD", "#FFFFA322"]
   },
   "CardsColor": {
+    "color_card_text": "#ffffff",
     "regular": "#FF613F75",
     "expired": "#FFE5C3D1",
     "virtual": "#FFEF798A"
@@ -325,3 +338,36 @@ The publicly visible app version is taken from `SmartFunRevamp/pubspec.yaml` fil
 You can also change the app description in that file.
 
 *DO NOT change app name*, because code compiling will fail.
+
+# 11. Other App colors
+
+All colors that are not defined in the json files are defined in the file `SmartFunRevamp/lib/colors/colors.dart`.
+The colors are used in serveral places of the app such as: buttons, text, backgrounds, gradients, etc. Changing colors in this file will affect the app globally, but the colors are not semantcally defined, so you will need to trial and test to understand which colors you are changing.
+
+# 12. Disable debug banner
+
+To disable the debug banner in the app, open the file `SmartFunRevamp/lib/main.dart` and change the value of the variable `debugShowCheckedModeBanner` to `false`
+
+# 13. Missing translations strings
+
+Every string that has not a corresponding translation in the configuration file `SmartFunRevamp/assets/localization/strings.json` or its API version, will be shown in the app as the key of the string. For example, if the app is configured to support english and spanish, and the string `hello` is not defined in the configuration file, the app will show `hello` in english and `hello` in spanish.
+
+In order to help with recopilating all non-translated strings, every time that a string is not found it's saved in the local storage. You can go to `SmartFunRevamp/lib/features/splash/provider/splash_screen_notifier.dart` and remove the comment in line 84 so the code `Logger().d(labels);` shows the list of every untranslated string.
+
+# 14. Deploy and upgrade the app
+
+The tool we recommend is [Microsfot App Center](https://appcenter.ms), a cloud-based service that helps developers build, test, distribute, and monitor their apps. It offers a wide range of features, including:
+
+- Continuous integration and continuous delivery (CI/CD): App Center can automatically build and test your app whenever you push changes to your Git repository. This helps you to release your app more frequently and with confidence.
+- App distribution: App Center makes it easy to distribute your app to testers and to the app stores. You can create distribution groups and assign different builds to different groups. You can also promote builds from one group to another, such as from beta testers to the app store.
+- App monitoring: App Center provides crash analytics and other insights into how your app is performing in the real world. This information can help you to identify and fix problems quickly.
+
+*Automatic deployment from Git branches:*
+
+App Center makes it super easy to connect Git branches with app versions for automatic deployment. To do this, you simply need to add a post-merge hook to your Git repository. This hook will automatically build and deploy your app to the selected distribution group whenever you push changes to a specific branch.
+
+*Alternatives to Microsoft App Center:*
+
+- Firebase App Distribution: Firebase App Distribution is a similar service to App Center that offers app distribution and monitoring features. However, it does not offer CI/CD features.
+- AWS Amplify: AWS Amplify is a mobile development platform that offers a variety of features, including CI/CD, app distribution, and app monitoring. However, it is more complex to use than App Center.
+- Bitrise: Bitrise is another cloud-based CI/CD platform that can be used to distribute apps. However, it is not as user-friendly as App Center.

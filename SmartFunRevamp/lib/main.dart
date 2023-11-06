@@ -20,6 +20,7 @@ import 'package:semnox/firebase/firebase_api.dart';
 import 'package:semnox/firebase_options.dart';
 import 'package:semnox/lifecycle_handler.dart';
 import 'package:semnox/themes/main_theme.dart';
+
 import 'di/injection_container.dart' as di;
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -90,7 +91,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
         child: MaterialApp(
-          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: true,
+          title: dotenv.env['APP_TITLE']!,
           navigatorKey: navigatorKey,
           routes: Routes.routesMap,
           onUnknownRoute: (settings) {

@@ -45,7 +45,7 @@ class Routes {
   static const kEnableLocation = '/enable_location';
   static const kCustomerVerification = '/customer_verification';
   static const kRechargePageCard = '/recharge_card';
-  static const kLostPageCard = '/lostcard';
+  static const kLostPageCard = '/lost_card';
   static const kGameplays = '/gameplays';
   static const kActivities = '/myactivities';
   static const kTransfers = '/transfer';

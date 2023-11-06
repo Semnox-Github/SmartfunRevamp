@@ -32,7 +32,8 @@ class SelectLocationProvider extends StateNotifier<SelectLocationState> {
   final LocalDataSource _localDataSource;
   final GetExecutionContextUseCase _getExecutionContextUseCase;
   final List<SiteViewDTO> _sites;
-  SelectLocationProvider(this._localDataSource, this._getExecutionContextUseCase, this._sites) : super(_Success(_sites));
+  SelectLocationProvider(this._localDataSource, this._getExecutionContextUseCase, this._sites)
+      : super(_Success(_sites));
 
   void selectSite(SiteViewDTO selectedSite) async {
     state = const _InProgress();
@@ -52,7 +53,8 @@ class SelectLocationProvider extends StateNotifier<SelectLocationState> {
     if (filter.isEmpty) {
       state = _Success(_sites);
     } else {
-      final filtered = _sites.where((element) => element.siteName?.toLowerCase().contains(filter.toLowerCase()) ?? false).toList();
+      final filtered =
+          _sites.where((element) => element.siteName?.toLowerCase().contains(filter.toLowerCase()) ?? false).toList();
       state = _Success(filtered);
     }
   }

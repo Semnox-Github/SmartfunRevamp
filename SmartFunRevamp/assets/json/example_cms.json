@@ -414,7 +414,18 @@
                   "DisplayOrder": 5,
                   "DisplayName": "Legal",
                   "Description": "Know your rights",
-                  "Target": "https://www.semnox.com/privacy-policy.html"
+                  "Target": "sf://webview",
+                  "TargetUrl": "https://www.semnox.com/privacy-policy.html"
+                },
+                {
+                  "ItemName": "LIKE IOS",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 6,
+                  "DisplayName": "Like the App?",
+                  "Description": "Share your feedback",
+                  "Target": "https://play.google.com/store/apps/details?id=my.aeon.smartfun",
+                  "Platform": "ios"
                 },
                 {
                   "ItemName": "LIKE",
@@ -422,7 +433,56 @@
                   "Active": true,
                   "DisplayOrder": 6,
                   "DisplayName": "Like the App?",
-                  "Description": "Share your feedback"
+                  "Description": "Share your feedback",
+                  "Target": "https://play.google.com/store/apps/details?id=my.aeon.smartfun",
+                  "Platform": "android"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "CMSMenusDTOList": [
+            {
+              "Name": "SMARTFUN_CARD_DETAILS_LINKS",
+              "Active": true,
+              "Type": "CARD_DETAILS_LINKS",
+              "CMSMenuItemsDTOList": [
+                {
+                  "ItemName": "LOST_CARD",
+                  "Description": "Report your lost card and get replacement",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 100,
+                  "DisplayName": "Lost Card",
+                  "Target": "sf://lost_card"
+                },
+                {
+                  "ItemName": "TRANSFER_CREDIT",
+                  "ItemUrl": "https://w7.pngwing.com/pngs/789/188/png-transparent-round-black-analog-clock-illustration-clock-time-icon-time-noun-project-symbol-scalable-vector-graphics-thumbnail.png",
+                  "Active": true,
+                  "DisplayOrder": 2,
+                  "DisplayName": "Transfer Credit",
+                  "Description": "Transfer credits from one card to another",
+                  "Target": "sf://transfer"
+                },
+                {
+                  "ItemName": "GAME_PLAYS",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/iconNotificationBell.png",
+                  "Active": true,
+                  "DisplayOrder": 3,
+                  "DisplayName": "Game Plays",
+                  "Description": "View all your gameplay records",
+                  "Target": "sf://gameplays"
+                },
+                {
+                  "ItemName": "ACTIVITY",
+                  "ItemUrl": "https://parafaitapihqdemo.parafait.com/images/ftHomeIcon.png",
+                  "Active": true,
+                  "DisplayOrder": 4,
+                  "DisplayName": "Activity",
+                  "Description": "View Transactions, Recharges and more.N",
+                  "Target": "sf://myactivities"
                 }
               ]
             }
@@ -887,8 +947,8 @@
         "privacy_policy": "https://www.semnox.com/privacy-policy.html",
         "terms_and_conditions": "https://www.semnox.com/privacy-policy.html",
         "help": "https://www.semnox.com/contact-us/",
-        "android_playstore_link": "https://www.google.com/",
-        "ios_appstore_link": "https://www.google.com/"
+        "android_playstore_link": "https://play.google.com/store/apps/details?id=my.aeon.smartfun",
+        "ios_appstore_link": "https://apps.apple.com/app/id1574628712"
       },
       "CardsColor": {
         "color_card_text": "#ffffff",
@@ -965,7 +1025,7 @@
         [
           50
         ]
-      ]
+      ],
     }
   ]
 }

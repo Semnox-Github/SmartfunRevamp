@@ -37,7 +37,7 @@ abstract class ParafaitApi {
       headers: {
         HttpHeaders.authorizationHeader: token,
         HttpHeaders.contentTypeHeader: 'application/json',
-        'Origin': 'mQ/btZP6wd74Sgd59JETzEtAkBO8QIL4KpE2pjz9hRg=',
+        'Origin': dotenv.env['CENTRAL_API_ORIGIN'],
       },
     );
     return _ParafaitApi(dio);

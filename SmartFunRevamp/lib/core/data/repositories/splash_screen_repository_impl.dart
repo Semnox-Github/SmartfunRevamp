@@ -108,16 +108,4 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
       return Left(e.handleException());
     }
   }
-
-  @override
-  Future<Either<Failure, void>> getStringsForLocalization(
-      {required String siteId, required String languageId, String outputForm = 'JSON'}) async {
-    try {
-      final response = await _api.getStringsForLocalization(siteId, languageId, outputForm);
-      Logger().d(response);
-      return const Right(null);
-    } on Exception catch (e) {
-      return Left(e.handleException());
-    }
-  }
 }

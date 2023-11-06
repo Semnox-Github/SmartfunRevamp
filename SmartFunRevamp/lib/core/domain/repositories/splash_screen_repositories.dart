@@ -17,12 +17,6 @@ abstract class SplashScreenRepository {
     required String siteId,
   });
 
-  Future<Either<Failure, void>> getStringsForLocalization({
-    required String siteId,
-    required String languageId,
-    String outputForm = 'JSON',
-  });
-
   Future<Either<Failure, void>> getAppImages({
     required String imageType,
     required String lastModifiedDate,

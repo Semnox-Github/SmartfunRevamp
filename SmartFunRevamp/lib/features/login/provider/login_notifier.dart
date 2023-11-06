@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/domain/use_cases/authentication/check_notification_token_registered.dart';
 import 'package:semnox/core/domain/use_cases/authentication/delete_profile_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_user_by_phone_or_email_use_case.dart';
@@ -65,23 +66,16 @@ class LoginNotifier extends StateNotifier<LoginState> {
   String otpId = '';
   String? previousUserId;
   SiteViewDTO? selectedSite;
+  SiteViewDTO? defaultSite;
   String get phone => _phone;
   ParafaitDefaultsResponse? parafaitDefault;
   String? defaultSiteId;
   CustomerDTO? _loggedUser;
 
   void loginUser(String loginId, String password) async {
-    // setDefaultSite();
+    setDefaultOrSelectedSite();
     state = const _InProgress();
     _phone = loginId;
-    final selectedLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
-    selectedLocationResponse.fold(
-      (l) => Logger().e('No site has been selected'),
-      (r) {
-        Logger().d(r);
-        selectedSite = SiteViewDTO.fromJson(r);
-      },
-    );
     previousUserId = await _localDataSource.retrieveValue<String>(LocalDataSource.kUserId);
     final loginResponse = await _loginUserUseCase(
       {
@@ -94,11 +88,16 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (customerDTO) async {
         _loggedUser = customerDTO;
         registerLoggedUser(customerDTO);
+        final CheckNotificationTokenRegisteredUseCase check = Get.find<CheckNotificationTokenRegisteredUseCase>();
+        await check(userId: _loggedUser?.id ?? -1);
         await _localDataSource.saveValue(LocalDataSource.kUserId, customerDTO.id.toString());
         if (customerDTO.verified != true) {
+          if (defaultSite?.siteId != null) {
+            getNewToken();
+          }
           state = const _CustomerVerificationNeeded();
-        } else if (selectedSite?.siteName == null ||
-            (previousUserId != customerDTO.id.toString() && previousUserId != null)) {
+        } else if (defaultSite?.siteId == null &&
+            (selectedSite?.siteId == null || (previousUserId != customerDTO.id.toString() && previousUserId != null))) {
           state = _SelectLocationNeeded(customerDTO);
         } else {
           getNewToken();
@@ -107,9 +106,9 @@ class LoginNotifier extends StateNotifier<LoginState> {
     );
   }
 
-  void setDefaultSite() async {
+  void setDefaultSite(int siteId) async {
     //reading defaults
-    final defaults = await _getParafaitDefaultsUseCase(0);
+    final defaults = await _getParafaitDefaultsUseCase(siteId);
     defaults.fold(
       (l) => null,
       (r) => parafaitDefault = r,
@@ -120,6 +119,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
     if (!defaultSiteId.isNullOrEmpty()) {
       selectedSite =
           SiteViewDTO(siteId: int.parse(defaultSiteId!), openDate: DateTime.now(), closureDate: DateTime.now());
+      await _localDataSource.saveCustomClass(LocalDataSource.kDefaultSite, selectedSite!.toJson());
       await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite!.toJson());
     }
   }
@@ -132,13 +132,27 @@ class LoginNotifier extends StateNotifier<LoginState> {
     await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite!.toJson());
   }
 
-  void _getUserInfo(String phoneOrEmail) async {
-    //setDefaultSite();
+  void setDefaultOrSelectedSite() async {
     final selectedLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
-    selectedLocationResponse.fold(
+    final defaultLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
+    defaultLocationResponse.fold(
       (l) => Logger().e('No site has been selected'),
-      (r) => selectedSite = SiteViewDTO.fromJson(r),
+      (r) {
+        selectedSite = SiteViewDTO.fromJson(r);
+        defaultSite = SiteViewDTO.fromJson(r);
+      },
     );
+    if (selectedSite == null) {
+      selectedLocationResponse.fold(
+        (l) => Logger().e('No site has been selected'),
+        (r) => selectedSite = SiteViewDTO.fromJson(r),
+      );
+    }
+  }
+
+  void _getUserInfo(String phoneOrEmail) async {
+    setDefaultOrSelectedSite();
+
     previousUserId = await _localDataSource.retrieveValue<String>(LocalDataSource.kUserId);
     final response = await _byPhoneOrEmailUseCase(phoneOrEmail);
     response.fold(
@@ -151,7 +165,11 @@ class LoginNotifier extends StateNotifier<LoginState> {
         if (r.verified != true) {
           state = const _CustomerVerificationNeeded();
         } else {
-          state = _SelectLocationNeeded(r);
+          if (selectedSite == null) {
+            state = _SelectLocationNeeded(r);
+          } else {
+            await getNewToken();
+          }
         }
       },
     );
@@ -163,7 +181,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (l) {
         state = _Error(l.message);
       },
-      (r) {
+      (r) async {
         Get.replace<SmartFunApi>(SmartFunApi('', r));
         state = _Success(_loggedUser);
       },

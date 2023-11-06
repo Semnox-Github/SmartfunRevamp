@@ -19,4 +19,5 @@ abstract class AuthenticationRepository {
   Future<Either<Failure, AppConfigResponse>> getAppConfig(int siteId);
   Future<Either<Failure, HomePageCMSResponse>> getHomePageCMS();
   Future<Either<Failure, bool>> validateEmail(String email);
+  Future<Either<Failure, void>> registerNotificationToken(int userId);
 }

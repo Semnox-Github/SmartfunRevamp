@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
@@ -17,11 +14,9 @@ import 'package:semnox/features/home/widgets/custom_bottom_bar.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/more_options.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_presentation_card.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
-import 'package:semnox/features/sign_up/pages/web_view_page.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MoreView extends ConsumerWidget {
   const MoreView({Key? key}) : super(key: key);
@@ -61,7 +56,6 @@ class MoreView extends ConsumerWidget {
               ),
               ...items.map(
                 (e) {
-                  Logger().d(e.toJson());
                   return MoreOptionItemFromCMS(
                     item: e,
                     membershipInfo: membershipInfo,
@@ -128,36 +122,18 @@ class MoreOptionItemFromCMS extends ConsumerWidget {
             membershipInfo?.membershipValidity.formatDate('dd MMM yyyy') ?? '',
           )
         : item.description ?? 'Please add a description to the CMS';
-    final externalLinks = ref.watch(newHomePageCMSProvider)?.externalUrls;
+
     return MoreOptions(
       item: item,
       desc: description,
       iconBgColor: Colors.white,
       iconPath: 'gold_medal',
       onTap: () {
-        final cleanTarget = item.target?.replaceAll('sf:/', '') ?? '';
-        if (item.itemName == 'LIKE') {
-          final storeLink =
-              Platform.isAndroid ? externalLinks?.androidPlaystoreLink ?? '' : externalLinks?.iosAppstoreLink ?? '';
-          launchUrl(Uri.parse(storeLink));
-          Logger().d(storeLink);
+        if (item.itemName == "REWARDS" && membershipInfo?.membershipCard.isNullOrEmpty() == true) {
+          Fluttertoast.showToast(msg: "You don't have membership cards");
           return;
         }
-        if (cleanTarget.isNullOrEmpty()) {
-          Fluttertoast.showToast(msg: "URL is not configured");
-        } else if (cleanTarget.isURL) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WebViewPage(
-                url: cleanTarget,
-                title: SplashScreenNotifier.getLanguageLabel('Help'),
-              ),
-            ),
-          );
-        } else {
-          Navigator.pushNamed(context, cleanTarget);
-        }
+        item.goToTarget(context);
       },
       title: item.displayName,
     );

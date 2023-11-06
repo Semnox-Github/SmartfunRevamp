@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -19,7 +18,6 @@ import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/login/widgets/social_logins_container.dart';
-import 'package:semnox/features/sign_up/pages/web_view_page.dart';
 import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -49,7 +47,6 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     final isPasswordDisabled = ref.watch(isPasswordDisabledProvider);
-    final externalUrls = ref.watch(newHomePageCMSProvider)?.externalUrls;
     ref.listen<SignUpState>(signUpNotifier, (_, next) {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),
@@ -77,7 +74,6 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
         orElse: () => context.loaderOverlay.hide(),
         success: (user) {
           context.loaderOverlay.hide();
-          Navigator.pushReplacementNamed(context, Routes.kHomePage);
           ref.read(userProvider.notifier).update((_) => user);
         },
         customerVerificationNeeded: () {
@@ -237,19 +233,19 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              if (externalUrls?.termsAndConditions != null &&
-                                  externalUrls!.termsAndConditions.isNotEmpty) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => WebViewPage(
-                                        url: externalUrls.termsAndConditions,
-                                        title: SplashScreenNotifier.getLanguageLabel('Terms of Service')),
-                                  ),
-                                );
-                              } else {
-                                Fluttertoast.showToast(msg: "URL not configured");
-                              }
+                              // if (externalUrls?.termsAndConditions != null &&
+                              //     externalUrls!.termsAndConditions.isNotEmpty) {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //       builder: (context) => WebViewPage(
+                              //           url: externalUrls.termsAndConditions,
+                              //           title: SplashScreenNotifier.getLanguageLabel('Terms of Service')),
+                              //     ),
+                              //   );
+                              // } else {
+                              //   Fluttertoast.showToast(msg: "URL not configured");
+                              // }
                             }),
                       const TextSpan(text: ' '),
                       TextSpan(
@@ -263,18 +259,18 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            if (externalUrls?.privacyPolicy != null && externalUrls!.privacyPolicy.isNotEmpty) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => WebViewPage(
-                                      url: externalUrls.privacyPolicy,
-                                      title: SplashScreenNotifier.getLanguageLabel('Privacy Policy')),
-                                ),
-                              );
-                            } else {
-                              Fluttertoast.showToast(msg: "URL not configured");
-                            }
+                            // if (externalUrls?.privacyPolicy != null && externalUrls!.privacyPolicy.isNotEmpty) {
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => WebViewPage(
+                            //           url: externalUrls.privacyPolicy,
+                            //           title: SplashScreenNotifier.getLanguageLabel('Privacy Policy')),
+                            //     ),
+                            //   );
+                            // } else {
+                            //   Fluttertoast.showToast(msg: "URL not configured");
+                            // }
                           },
                       ),
                     ],

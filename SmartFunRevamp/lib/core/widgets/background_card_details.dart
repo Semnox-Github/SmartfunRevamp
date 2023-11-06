@@ -77,6 +77,7 @@ class BackgroundCard extends ConsumerWidget {
                 ImageHandler(
                   height: 70,
                   imageKey: "blocked_image_path",
+                  errorImageFlag: false,
                 ),
                 SizedBox(height: 10.0),
                 MulishText(
@@ -99,6 +100,7 @@ class BackgroundCard extends ConsumerWidget {
                 ImageHandler(
                   height: 70,
                   imageKey: "expired_image_path",
+                  errorImageFlag: false,
                 ),
                 SizedBox(height: 10.0),
                 MulishText(

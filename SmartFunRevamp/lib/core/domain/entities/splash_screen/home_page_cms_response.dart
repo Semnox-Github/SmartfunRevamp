@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,6 @@ class HomePageCMSResponse {
   @JsonKey(name: 'CardsColor')
   final CardsColor? cardsColor;
   final List<HomePageOrder> homePageOrder;
-  final ExternalUrls? externalUrls;
   final List<List<int>>? buyACardFilters;
 
   HomePageCMSResponse(
@@ -38,7 +38,6 @@ class HomePageCMSResponse {
     this.cmsModuleColorsHome,
     this.cardsColor,
     this.homePageOrder,
-    this.externalUrls,
     this.buyACardFilters,
   );
   factory HomePageCMSResponse.fromJson(Map<String, dynamic> json) => _$HomePageCMSResponseFromJson(json);
@@ -54,13 +53,13 @@ class HomePageCMSResponse {
       }
     }
     cmsMenuItems.sort((a, b) => a.displayOrder < b.displayOrder ? -1 : 1);
+    cmsMenuItems.removeWhere((element) => !element.active);
+    cmsMenuItems.retainWhere((element) => element.platform == null || element.platform == Platform.operatingSystem);
     return cmsMenuItems;
   }
 
   List<CMSMenuItem> getFooterMenuItems() {
-    final footerItems = geMenuItems('FOOTER');
-    footerItems.removeWhere((element) => element.active == false);
-    return footerItems;
+    return geMenuItems('FOOTER');
   }
 
   List<CMSMenuItem> getHeaderMenuItems() {
@@ -73,6 +72,10 @@ class HomePageCMSResponse {
 
   List<CMSMenuItem> getMoreMenuItems() {
     return geMenuItems('MORE');
+  }
+
+  List<CMSMenuItem> getCardDetailsLinks() {
+    return geMenuItems('CARD_DETAILS_LINKS');
   }
 
   List<CMSModulePage> getLinks(String displaySection) {
@@ -235,8 +238,10 @@ class CMSMenuItem {
   final int displayOrder;
   final String itemUrl;
   final String? target;
+  final String? targetUrl;
   final String? description;
   final int? creditType;
+  final String? platform;
   CMSMenuItem(
     this.itemName,
     this.displayName,
@@ -246,6 +251,8 @@ class CMSMenuItem {
     this.target,
     this.description,
     this.creditType,
+    this.targetUrl,
+    this.platform,
   );
   factory CMSMenuItem.fromJson(Map<String, dynamic> json) => _$CMSMenuItemFromJson(json);
   Map<String, dynamic> toJson() => _$CMSMenuItemToJson(this);
@@ -341,23 +348,4 @@ class HomePageOrder {
   );
   factory HomePageOrder.fromJson(Map<String, dynamic> json) => _$HomePageOrderFromJson(json);
   Map<String, dynamic> toJson() => _$HomePageOrderToJson(this);
-}
-
-@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class ExternalUrls {
-  final String privacyPolicy;
-  final String termsAndConditions;
-  final String help;
-  final String androidPlaystoreLink;
-  final String iosAppstoreLink;
-
-  ExternalUrls(
-    this.privacyPolicy,
-    this.termsAndConditions,
-    this.help,
-    this.iosAppstoreLink,
-    this.androidPlaystoreLink,
-  );
-  factory ExternalUrls.fromJson(Map<String, dynamic> json) => _$ExternalUrlsFromJson(json);
-  Map<String, dynamic> toJson() => _$ExternalUrlsToJson(this);
 }

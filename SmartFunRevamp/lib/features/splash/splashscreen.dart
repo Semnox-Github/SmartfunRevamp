@@ -2,27 +2,29 @@ import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/instance_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
+import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
-import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
+import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 SiteViewDTO? userSelectedSite;
+LanguageContainerDTOList? userSelectedLanguage;
 Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   final localDataSource = Get.find<LocalDataSource>();
   final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
@@ -44,47 +46,25 @@ Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   );
 }
 
+Future<void> setSelectedLanguage() async {
+  final localDataSource = Get.find<LocalDataSource>();
+  final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedLanguage);
+  final selectedLanguage = response.fold(
+    (l) => null,
+    (r) {
+      return LanguageContainerDTOList.fromJson(r);
+    },
+  );
+  if (selectedLanguage != null) {
+    userSelectedLanguage = selectedLanguage;
+  }
+}
+
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SplashScreenState();
-}
-
-class SplashScreenImage extends StatelessWidget {
-  final String? url;
-  const SplashScreenImage(this.url, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    if (url.isNullOrEmpty()) {
-      return Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/splash_screen/splash_screen.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-    }
-    return CachedNetworkImage(
-      imageUrl: url!,
-      height: double.infinity,
-      width: double.infinity,
-      fit: BoxFit.fill,
-      placeholder: (_, __) => const Center(child: CircularProgressIndicator.adaptive()),
-      errorWidget: (context, url, error) {
-        return Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/splash_screen/splash_screen.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
-        );
-      },
-    );
-  }
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
@@ -115,6 +95,23 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             ref.read(parafaitDefaultsProvider.notifier).update((_) => parafaitDefaults);
             ref.read(userProvider.notifier).update((_) => user);
             final parafaitDefault = ref.watch(parafaitDefaultsProvider);
+            setSelectedLanguage().then((value) {
+              final languageContainerDTO = ref.watch(languangeContainerProvider);
+
+              if (languageContainerDTO == null || languageContainerDTO.languageContainerDTOList.isEmpty) {
+                return null;
+              } else {
+                if (userSelectedLanguage != null) {
+                  final sLang = languageContainerDTO.languageContainerDTOList
+                          .firstWhereOrNull((element) => element.languageCode == userSelectedLanguage?.languageCode) ??
+                      languageContainerDTO.languageContainerDTOList
+                          .firstWhereOrNull((element) => element.languageCode == 'en-US');
+                  ref.read(currentLanguageProvider.notifier).state = sLang;
+                  return sLang;
+                }
+              }
+            });
+
             //get the update status "O" => optional | "M" => mandatory | other value => not necesary
             final deprecated = Get.find<String>(tag: 'appVersionDeprecated');
             final isAndroid = Platform.isAndroid;
@@ -160,11 +157,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                                         if (userSelectedSite != null)
                                           {
                                             ref.read(loginProvider.notifier).setSite(userSelectedSite!),
-                                            Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                            Navigator.pushNamedAndRemoveUntil(
+                                                context, Routes.kHomePage, (Route<dynamic> route) => false),
                                           }
                                         else
                                           {
-                                            Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                            Navigator.pushNamedAndRemoveUntil(
+                                                context, Routes.kHomePage, (Route<dynamic> route) => false),
                                           }
                                       },
                                     ),
@@ -193,11 +192,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                                     if (userSelectedSite != null)
                                       {
                                         ref.read(loginProvider.notifier).setSite(userSelectedSite!),
-                                        Navigator.pushReplacementNamed(context, Routes.kHomePage)
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context, Routes.kHomePage, (Route<dynamic> route) => false),
                                       }
                                     else
                                       {
-                                        Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context, Routes.kHomePage, (Route<dynamic> route) => false),
                                       }
                                   },
                                 ),
@@ -320,7 +321,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           );
         },
         inProgress: () {
-          context.loaderOverlay.show();
           return Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -343,7 +343,43 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   void initState() {
-    ref.read(newSplashScreenProvider.notifier).getSplashImage();
+    ref.read(newSplashScreenProvider.notifier).initApp();
     super.initState();
+  }
+}
+
+class SplashScreenImage extends StatelessWidget {
+  final String? url;
+  const SplashScreenImage(this.url, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    if (url.isNullOrEmpty()) {
+      return Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/splash_screen/splash_screen.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+    }
+    return CachedNetworkImage(
+      imageUrl: url!,
+      height: double.infinity,
+      width: double.infinity,
+      fit: BoxFit.fill,
+      placeholder: (_, __) => const Center(child: CircularProgressIndicator.adaptive()),
+      errorWidget: (context, url, error) {
+        return Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/splash_screen/splash_screen.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
+      },
+    );
   }
 }

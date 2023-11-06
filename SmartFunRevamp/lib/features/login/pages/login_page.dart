@@ -58,7 +58,7 @@ class LoginPage extends ConsumerWidget {
         orElse: () => context.loaderOverlay.hide(),
         success: (user) {
           context.loaderOverlay.hide();
-          Navigator.pushReplacementNamed(context, Routes.kHomePage);
+          Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage, (Route<dynamic> route) => false);
           ref.read(userProvider.notifier).update((_) => user);
         },
         customerVerificationNeeded: () {

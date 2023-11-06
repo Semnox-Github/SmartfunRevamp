@@ -2,11 +2,13 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/routes.dart';
@@ -53,7 +55,14 @@ class _CustomerVerificationPage extends ConsumerState<CustomerVerificationPage> 
               btnOkText: SplashScreenNotifier.getLanguageLabel("Continue"),
               btnOkOnPress: () {},
               onDismissCallback: (_) {
-                Navigator.pushReplacementNamed(context, Routes.kEnableLocation);
+                GluttonLocalDataSource().retrieveCustomClass(LocalDataSource.kDefaultSite).then((value) async => {
+                      value.fold(
+                        (l) => Navigator.pushReplacementNamed(context, Routes.kEnableLocation),
+                        (r) {
+                          Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage, (Route<dynamic> route) => false);
+                        },
+                      ),
+                    });
               },
               body: Container(
                 margin: const EdgeInsets.symmetric(vertical: 10.0),

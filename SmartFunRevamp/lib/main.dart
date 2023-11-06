@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -25,11 +25,11 @@ import 'di/injection_container.dart' as di;
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   WidgetsBinding.instance.addObserver(LifecycleEventHandler(
     resumeCallBack: () async {
       final remoteMessageStream = FirebaseMessaging.onMessageOpenedApp;
       final notificationData = NotificationsData.fromJson((await remoteMessageStream.first).data);
-      Logger().d('TEST -> ${notificationData.toJson()}');
       navigatorKey.currentState?.pushNamed(notificationData.path);
     },
   ));

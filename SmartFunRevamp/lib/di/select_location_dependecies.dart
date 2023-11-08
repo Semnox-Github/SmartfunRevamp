@@ -1,6 +1,5 @@
 import 'package:get/instance_manager.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
-import 'package:semnox/core/data/datasources/initial/initial_local_data_source.dart';
 import 'package:semnox/core/data/repositories/select_location_repository_impl.dart';
 import 'package:semnox/core/domain/repositories/select_location_repository.dart';
 import 'package:semnox/core/domain/use_cases/select_location/get_all_sites_use_case.dart';
@@ -11,7 +10,6 @@ void selectLocationDependecies() {
   Get.lazyPut<SelectLocationRepository>(
     () => SelectLocationRepositoryImpl(
       Get.find<SmartFunApi>(),
-      Get.find<InitialLocalDatasource>(),
     ),
   );
 

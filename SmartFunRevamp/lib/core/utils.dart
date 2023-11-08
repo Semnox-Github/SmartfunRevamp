@@ -12,7 +12,8 @@ Future<String> generateHashCode({
   String appId = 'com.semnox.smartfunrevamp',
   String securityCode = '704I5M76',
 }) async {
-  Logger().d(securityCode);
+  Logger().d(
+      "security code ${securityCode} appId ${appId} generatedTime ${generatedTime}");
   final mString = '$appId$securityCode$generatedTime';
   final encodedWord = utf8.encode(mString);
   final hashDigest = sha1.convert(encodedWord);

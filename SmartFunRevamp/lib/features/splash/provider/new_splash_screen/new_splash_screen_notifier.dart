@@ -173,7 +173,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
         //if the default site is set then save it
         if (!defaultSiteId.isNullOrEmpty()) {
           var selectedSite =
-              SiteViewDTO(siteId: int.parse(defaultSiteId), openDate: DateTime.now(), closureDate: DateTime.now());
+              SiteViewDTO(siteId: int.parse(defaultSiteId!), openDate: DateTime.now(), closureDate: DateTime.now());
           await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite.toJson());
           await _localDataSource.saveCustomClass(LocalDataSource.kDefaultSite, selectedSite.toJson());
         }
@@ -218,9 +218,9 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
           );
           Logger().d(languageLabes);
         } else {
-          Logger().d('Customer not selcted');
+          Logger().d('Customer not selected');
         }
-        return useLocalCmsJson ? r : cms;
+        return useLocalCmsJson ? cms : r;
       },
     );
   }

@@ -163,8 +163,9 @@ class _SelectCardRechargePageState extends ConsumerState<SelectCardRechargePage>
                 final defaults = ref.watch(parafaitDefaultsProvider);
                 final isOnlineRechargeEnabled =
                     defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) == 'Y';
+                final virtualStoreSiteId = defaults?.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
                 return SitesAppBarDropdown(
-                  isEnabled: isOnlineRechargeEnabled,
+                  isEnabled: isOnlineRechargeEnabled && (virtualStoreSiteId == null),
                   onChanged: (selectedSite) {
                     ref.read(selectedSiteIdProvider.notifier).update((state) => state = selectedSite?.siteId ?? -1);
                   },

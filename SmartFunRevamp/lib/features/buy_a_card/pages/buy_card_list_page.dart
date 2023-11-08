@@ -56,9 +56,11 @@ class BuyCardListPage extends StatelessWidget {
             Consumer(
               builder: (_, ref, __) {
                 final defaults = ref.watch(parafaitDefaultsProvider);
-                final isOnlineRechargeEnabled = defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) == 'Y';
+                final isOnlineRechargeEnabled =
+                    defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) == 'Y';
+                final virtualStoreSiteId = defaults?.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
                 return SitesAppBarDropdown(
-                  isEnabled: isOnlineRechargeEnabled,
+                  isEnabled: isOnlineRechargeEnabled && (virtualStoreSiteId == null),
                   onChanged: (selectedSite) {
                     ref.read(selectedSiteIdProvider.notifier).update((state) => selectedSite?.siteId ?? -1);
                     ref.read(filterProvider.notifier).update((state) => []);
@@ -74,9 +76,14 @@ class BuyCardListPage extends StatelessWidget {
                         loading: () => const Center(child: CircularProgressIndicator.adaptive()),
                         data: (responseCards) {
                           List<CardProduct> cards = List.from(responseCards);
-                          cards = cards..removeWhere((element) => (element.productType != "CARDSALE" && element.productType != "NEW"));
+                          cards = cards
+                            ..removeWhere(
+                                (element) => (element.productType != "CARDSALE" && element.productType != "NEW"));
                           if (!filterStr.isNullOrEmpty()) {
-                            cards = cards.where((element) => (element.productName.toLowerCase().contains(filterStr.toString().toLowerCase()))).toList();
+                            cards = cards
+                                .where((element) =>
+                                    (element.productName.toLowerCase().contains(filterStr.toString().toLowerCase())))
+                                .toList();
                           }
                           if (cards.isEmpty) {
                             return Center(

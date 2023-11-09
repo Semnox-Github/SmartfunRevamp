@@ -50,19 +50,26 @@ List<Color> randomCard(CardsColor? cardColors) {
   int diceRoll = Random().nextInt(6) + 1;
   switch (diceRoll) {
     case 1:
-      return cardColors?.silverGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
+      return cardColors?.silverGradient.getColorList() ??
+          [CustomColors.hardOrange, CustomColors.hardOrange];
     case 2:
-      return cardColors?.silverGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
+      return cardColors?.silverGradient.getColorList() ??
+          [CustomColors.hardOrange, CustomColors.hardOrange];
     case 3:
-      return cardColors?.goldGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
+      return cardColors?.goldGradient.getColorList() ??
+          [CustomColors.hardOrange, CustomColors.hardOrange];
     case 4:
-      return cardColors?.goldGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
+      return cardColors?.goldGradient.getColorList() ??
+          [CustomColors.hardOrange, CustomColors.hardOrange];
     case 5:
-      return cardColors?.platinumGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
+      return cardColors?.platinumGradient.getColorList() ??
+          [CustomColors.hardOrange, CustomColors.hardOrange];
     case 6:
-      return cardColors?.platinumGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
+      return cardColors?.platinumGradient.getColorList() ??
+          [CustomColors.hardOrange, CustomColors.hardOrange];
     default:
-      return cardColors?.silverGradient.getColorList() ?? [CustomColors.hardOrange, CustomColors.hardOrange];
+      return cardColors?.silverGradient.getColorList() ??
+          [CustomColors.hardOrange, CustomColors.hardOrange];
   }
 }
 
@@ -73,12 +80,17 @@ class CardType extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
-    final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
-    final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
+    final currency =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ??
+            'USD';
+    final format =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
+            '#,##0.00';
     final cardColors = ref.watch(newHomePageCMSProvider)?.cardsColor;
     final colors = randomCard(cardColors);
 
-    double discount = ((card.basePrice - card.finalPrice) * 100) / card.basePrice;
+    double discount =
+        ((card.basePrice - card.finalPrice) * 100) / card.basePrice;
     final String baseUrl = Get.find<String>(tag: 'baseURL');
     return InkWell(
       onTap: () => Dialogs.showCardInfo(context, card),
@@ -118,7 +130,8 @@ class CardType extends ConsumerWidget {
                     gradient: LinearGradient(colors: colors),
                   ),
                   child: CachedNetworkImage(
-                    imageUrl: '$baseUrl/APP_PRODUCT_IMAGES_FOLDER/${card.imageFileName?.trim()}',
+                    imageUrl:
+                        '$baseUrl/APP_PRODUCT_IMAGES_FOLDER/${card.imageFileName?.trim()}',
                     fit: BoxFit.cover,
                     placeholder: (_, __) => const ShimmerLoading(height: 100),
                     errorWidget: (_, __, ___) => Padding(
@@ -166,7 +179,8 @@ class CardType extends ConsumerWidget {
                             ),
                             const SizedBox(width: 8.0),
                             MulishText(
-                              text: '${discount.toStringAsFixed(0)}% ${SplashScreenNotifier.getLanguageLabel('OFF')}',
+                              text:
+                                  '${discount.toStringAsFixed(0)}% ${SplashScreenNotifier.getLanguageLabel('OFF')}',
                               fontColor: CustomColors.discountPercentColor,
                               fontWeight: FontWeight.w600,
                               fontSize: 14.0,

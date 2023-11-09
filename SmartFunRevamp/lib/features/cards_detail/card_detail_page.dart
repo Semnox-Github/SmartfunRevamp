@@ -17,7 +17,8 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CardDetailPage extends ConsumerStatefulWidget {
-  const CardDetailPage({Key? key, required this.cardDetails, this.cardIndex}) : super(key: key);
+  const CardDetailPage({Key? key, required this.cardDetails, this.cardIndex})
+      : super(key: key);
   final CardDetails cardDetails;
   final int? cardIndex;
 
@@ -65,7 +66,9 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                     skipLoadingOnRefresh: false,
                     loading: () => const ShimmerLoading(height: 200),
                     error: (_, __) => Center(
-                      child: MulishText(text: SplashScreenNotifier.getLanguageLabel('No Cards found')),
+                      child: MulishText(
+                          text: SplashScreenNotifier.getLanguageLabel(
+                              'No Cards found')),
                     ),
                     data: (data) {
                       return Column(
@@ -75,12 +78,16 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                             initialPosition: _cardIndex,
                             onCardChanged: (cardIndex) {
                               if (cardIndex != data.length) {
-                                ref.read(currentCardProvider.notifier).update((state) => data[cardIndex]);
+                                ref
+                                    .read(currentCardProvider.notifier)
+                                    .update((state) => data[cardIndex]);
                                 setState(() {
                                   cardDetails = data[cardIndex];
                                 });
                               } else {
-                                ref.read(currentCardProvider.notifier).update((state) => null);
+                                ref
+                                    .read(currentCardProvider.notifier)
+                                    .update((state) => null);
                               }
                               _cardIndex = cardIndex;
                             },
@@ -108,9 +115,11 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
               ),
               if (!(cardDetails.isBlocked() || cardDetails.isExpired()))
                 CustomButton(
-                  onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
+                  onTap: () =>
+                      Navigator.pushNamed(context, Routes.kRechargePageCard),
                   label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
-                  margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10.0),
                 ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -118,7 +127,8 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MulishText(
-                      text: SplashScreenNotifier.getLanguageLabel('More Actions'),
+                      text:
+                          SplashScreenNotifier.getLanguageLabel('More Actions'),
                       fontWeight: FontWeight.bold,
                     ),
                     ...links.map((e) {
@@ -126,9 +136,11 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                         title: e.displayName,
                         subTitle: e.description ?? '',
                         svgImage: e.itemUrl,
-                        color: CustomColors.customOrange,
+                        color: Colors.white, //CustomColors.customOrange,
                         onPressed: () {
-                          if ((cardDetails.isBlocked() || cardDetails.isExpired()) && e.itemName == 'LOST_CARD') {
+                          if ((cardDetails.isBlocked() ||
+                                  cardDetails.isExpired()) &&
+                              e.itemName == 'LOST_CARD') {
                             return;
                           }
                           e.goToTarget(context);
@@ -227,7 +239,7 @@ class CardDetailItemFromCMS extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardDetailItem(
       item: item,
-      color: CustomColors.customOrange,
+      color: Colors.white, //CustomColors.customOrange,
       image: 'bonus_points',
       amount: item.itemName == "COURTESY"
           ? cardDetails.totalCourtesyBalance?.toStringAsFixed(0) ?? ''
@@ -241,7 +253,8 @@ class CardDetailItemFromCMS extends StatelessWidget {
                   builder: (context) => BonusSummaryPage(
                     cardNumber: cardDetails.accountNumber ?? '',
                     creditPlusType: item.creditType,
-                    pageTitle: SplashScreenNotifier.getLanguageLabel(item.displayName),
+                    pageTitle:
+                        SplashScreenNotifier.getLanguageLabel(item.displayName),
                   ),
                 ),
               );
@@ -282,8 +295,10 @@ class CardDetailItem extends StatelessWidget {
                 imageUrl: item.itemUrl,
                 height: constrains.maxHeight * 0.3,
                 width: constrains.maxHeight * 0.3,
-                placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
-                errorWidget: (context, url, error) => SvgPicture.asset('assets/card_details/$image.svg'),
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator.adaptive(),
+                errorWidget: (context, url, error) =>
+                    SvgPicture.asset('assets/card_details/$image.svg'),
               ),
             ),
             const SizedBox(height: 10.0),

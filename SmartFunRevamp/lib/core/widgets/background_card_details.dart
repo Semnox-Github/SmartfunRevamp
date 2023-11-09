@@ -38,7 +38,9 @@ class BackgroundCard extends ConsumerWidget {
     final cardColors = ref.watch(newHomePageCMSProvider)?.cardsColor;
     return Stack(alignment: AlignmentDirectional.center, children: [
       GestureDetector(
-        onTap: !isVirtual ? () {} : () => Dialogs.showBarcodeTempCard(context, cardNumber),
+        onTap: !isVirtual
+            ? () {}
+            : () => Dialogs.showBarcodeTempCard(context, cardNumber),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.25,
           width: double.infinity,
@@ -74,12 +76,12 @@ class BackgroundCard extends ConsumerWidget {
             child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ImageHandler(
-                  height: 70,
-                  imageKey: "blocked_image_path",
-                  errorImageFlag: false,
-                ),
-                SizedBox(height: 10.0),
+                // ImageHandler(
+                //   height: 70,
+                //   imageKey: "blocked_image_path",
+                //   errorImageFlag: false,
+                // ),
+                SizedBox(height: 80.0), //10.0 if image there
                 MulishText(
                   text: 'VIRTUAL',
                   fontColor: Colors.black,

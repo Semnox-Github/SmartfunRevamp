@@ -5,7 +5,8 @@ import 'package:semnox/core/domain/entities/feedback/survey_details.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 
-final optionSelectedProvider = StateProvider.autoDispose<Map<SurveyDetails, dynamic>>((ref) {
+final optionSelectedProvider =
+    StateProvider.autoDispose<Map<SurveyDetails, dynamic>>((ref) {
   return {};
 });
 
@@ -19,7 +20,8 @@ class FeedbackValueOption extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final optionSelected = ref.watch(optionSelectedProvider);
-    final responseValues = surveyDetail.surveyQuestion.questionResponse.responseValues;
+    final responseValues =
+        surveyDetail.surveyQuestion.questionResponse.responseValues;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -39,8 +41,11 @@ class FeedbackValueOption extends ConsumerWidget {
                     if (!e.image.isNullOrEmpty()) {
                       return GestureDetector(
                         onTap: () {
-                          ref.read(optionSelectedProvider.notifier).update((state) {
-                            final tempMap = Map<SurveyDetails, dynamic>.from(state);
+                          ref
+                              .read(optionSelectedProvider.notifier)
+                              .update((state) {
+                            final tempMap =
+                                Map<SurveyDetails, dynamic>.from(state);
                             tempMap[surveyDetail] = e;
                             return tempMap;
                           });
@@ -48,11 +53,18 @@ class FeedbackValueOption extends ConsumerWidget {
                         child: Container(
                           padding: const EdgeInsets.all(1.0),
                           decoration: BoxDecoration(
-                            color: optionSelected[surveyDetail] == e ? CustomColors.customOrange : Colors.transparent,
+                            color: optionSelected[surveyDetail] == e
+                                ? CustomColors.customOrange
+                                : Colors.transparent,
                           ),
-                          child: Image.memory(
-                            e.base64Image!,
-                            scale: 2.0,
+                          child: Opacity(
+                            opacity:
+                                optionSelected[surveyDetail] == e ? 1.0 : 0.5,
+                            child: Image.memory(
+                              e.base64Image!,
+                              scale: 2.0,
+                              // color: Colors.black,
+                            ),
                           ),
                         ),
                       );
@@ -61,12 +73,16 @@ class FeedbackValueOption extends ConsumerWidget {
                     return Flexible(
                       child: FilledButton(
                         style: FilledButton.styleFrom(
-                          backgroundColor:
-                              optionSelected[surveyDetail] == e ? CustomColors.customOrange : Colors.grey.shade200,
+                          backgroundColor: optionSelected[surveyDetail] == e
+                              ? CustomColors.customOrange
+                              : Colors.grey.shade200,
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         ),
-                        onPressed: () => ref.read(optionSelectedProvider.notifier).update((state) {
-                          final tempMap = Map<SurveyDetails, dynamic>.from(state);
+                        onPressed: () => ref
+                            .read(optionSelectedProvider.notifier)
+                            .update((state) {
+                          final tempMap =
+                              Map<SurveyDetails, dynamic>.from(state);
                           tempMap[surveyDetail] = e;
                           return tempMap;
                         }),

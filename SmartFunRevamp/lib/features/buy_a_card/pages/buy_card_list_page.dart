@@ -56,13 +56,18 @@ class BuyCardListPage extends StatelessWidget {
             Consumer(
               builder: (_, ref, __) {
                 final defaults = ref.watch(parafaitDefaultsProvider);
-                final isOnlineRechargeEnabled =
-                    defaults?.getDefault(ParafaitDefaultsResponse.onlineRechargeEnabledKey) == 'Y';
-                final virtualStoreSiteId = defaults?.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
+                final isOnlineRechargeEnabled = defaults?.getDefault(
+                        ParafaitDefaultsResponse.onlineRechargeEnabledKey) ==
+                    'Y';
+                final virtualStoreSiteId = defaults
+                    ?.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
                 return SitesAppBarDropdown(
-                  isEnabled: isOnlineRechargeEnabled && (virtualStoreSiteId == null),
+                  isEnabled:
+                      isOnlineRechargeEnabled && (virtualStoreSiteId == null),
                   onChanged: (selectedSite) {
-                    ref.read(selectedSiteIdProvider.notifier).update((state) => selectedSite?.siteId ?? -1);
+                    ref
+                        .read(selectedSiteIdProvider.notifier)
+                        .update((state) => selectedSite?.siteId ?? -1);
                     ref.read(filterProvider.notifier).update((state) => []);
                   },
                 );
@@ -73,29 +78,36 @@ class BuyCardListPage extends StatelessWidget {
                 builder: (context, ref, child) {
                   return ref.watch(buyCardProvider).maybeWhen(
                         orElse: () => Container(),
-                        loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                        loading: () => const Center(
+                            child: CircularProgressIndicator.adaptive()),
                         data: (responseCards) {
                           List<CardProduct> cards = List.from(responseCards);
                           cards = cards
-                            ..removeWhere(
-                                (element) => (element.productType != "CARDSALE" && element.productType != "NEW"));
+                            ..removeWhere((element) =>
+                                (element.productType != "CARDSALE" &&
+                                    element.productType != "NEW"));
                           if (!filterStr.isNullOrEmpty()) {
                             cards = cards
-                                .where((element) =>
-                                    (element.productName.toLowerCase().contains(filterStr.toString().toLowerCase())))
+                                .where((element) => (element.productName
+                                    .toLowerCase()
+                                    .contains(
+                                        filterStr.toString().toLowerCase())))
                                 .toList();
                           }
                           if (cards.isEmpty) {
                             return Center(
-                              child: Text(SplashScreenNotifier.getLanguageLabel('No cards found')),
+                              child: Text(SplashScreenNotifier.getLanguageLabel(
+                                  'No cards found')),
                             );
                           }
                           return ListView.separated(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
                             itemCount: cards.length,
                             shrinkWrap: true,
                             physics: const ClampingScrollPhysics(),
-                            separatorBuilder: (_, __) => const SizedBox(height: 10.0),
+                            separatorBuilder: (_, __) =>
+                                const SizedBox(height: 10.0),
                             itemBuilder: (context, index) {
                               return CardType(
                                 card: cards[index],

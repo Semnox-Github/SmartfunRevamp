@@ -68,13 +68,15 @@ abstract class SmartFunApi {
   }
 
   @POST('Login/AuthenticateUsers')
-  Future<HttpResponse> authenticateSystemUser(@Body() Map<String, dynamic> body);
+  Future<HttpResponse> authenticateSystemUser(
+      @Body() Map<String, dynamic> body);
 
   @POST('Customer/Customers/{CustomerId}/Delete')
   Future<void> deleteProfile(@Path('CustomerId') int customerId);
 
   @POST('Transaction/Transactions')
-  Future<Data<EstimateTransactionResponse>> estimateTransaction(@Body() Map<String, dynamic> body);
+  Future<Data<EstimateTransactionResponse>> estimateTransaction(
+      @Body() Map<String, dynamic> body);
 
   //----- Transaction -----// <-
 
@@ -97,7 +99,8 @@ abstract class SmartFunApi {
   Future<Data<GetAllSitesResponse>> getAllSites();
 
   @GET('CustomerApp/CustomerAppConfiguration')
-  Future<Data<AppConfigResponse>> getAppConfiguration(@Query('siteId') int siteId);
+  Future<Data<AppConfigResponse>> getAppConfiguration(
+      @Query('siteId') int siteId);
 
   @GET('Common/Images')
   Future<HttpResponse> getAppImages(
@@ -157,7 +160,8 @@ abstract class SmartFunApi {
   });
 
   @GET('Transaction/CustomerTransactionStatus')
-  Future<ListDataWrapper<OrderStatus>> getCustomerTransactionStatus(@Query('customerId') String customerId);
+  Future<ListDataWrapper<OrderStatus>> getCustomerTransactionStatus(
+      @Query('customerId') String customerId);
 
   @GET('ParafaitEnvironment/ExecutionContext')
   Future<HttpResponse> getExecutionContext({
@@ -168,13 +172,13 @@ abstract class SmartFunApi {
   });
 
   @GET('Customer/Account/{customerId}/AccountGamesSummary')
-  Future<ListDataWrapper<AccountCreditPlusConsumptionDTO>> getGamesAccountSummart(
-      @Path('customerId') String customerId);
+  Future<ListDataWrapper<AccountCreditPlusConsumptionDTO>>
+      getGamesAccountSummart(@Path('customerId') String customerId);
 
   @GET('Common/FileResource')
   Future<ListDataWrapper<HomePageCMSResponse>> getHomePageCMS({
     @Query('defaultValueName') String defaultValueName = 'IMAGE_DIRECTORY',
-    @Query('fileName') String fileName = 'CMSSmartFun.json',
+    @Query('fileName') String fileName = 'CMSSmartFun_v1.json',
     @Query('secure') bool secure = true,
   });
 
@@ -186,7 +190,8 @@ abstract class SmartFunApi {
   );
 
   @GET('Lookups/LookupsContainer')
-  Future<Data<LookupsContainer>> getLookups(@Query('siteId') String siteId, @Query('rebuildCache') bool rebuildCache);
+  Future<Data<LookupsContainer>> getLookups(
+      @Query('siteId') String siteId, @Query('rebuildCache') bool rebuildCache);
 
   @GET('Customer/Membership/MembershipsContainer')
   Future<MembershipContainerResponse> getMembershipContainer(
@@ -195,7 +200,8 @@ abstract class SmartFunApi {
   });
 
   @GET('Customer/{CustomerId}/Summary')
-  Future<Data<MembershipInfo>> getMembershipInfo(@Path('CustomerId') int customerId);
+  Future<Data<MembershipInfo>> getMembershipInfo(
+      @Path('CustomerId') int customerId);
 
   @GET('Configuration/ParafaitDefaultContainer')
   Future<Data<ParafaitDefaultsResponse>> getParafaitDefaults(
@@ -256,7 +262,8 @@ abstract class SmartFunApi {
   });
 
   @GET('Customer/Account/LinkedAccountsSummary')
-  Future<ListDataWrapper<CardDetails>> getUserCards(@Query('customerId') String customerId);
+  Future<ListDataWrapper<CardDetails>> getUserCards(
+      @Query('customerId') String customerId);
 
   @POST('Customer/Account/AccountService/LinkAccountToCustomers')
   Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
@@ -286,7 +293,8 @@ abstract class SmartFunApi {
   @POST('Customer/Account/AccountService/TransferBalances')
   Future<Data<String>> transferBalance(@Body() Map<String, dynamic> body);
   @POST('Customer/Account/{accountId}/AccountIdentifier')
-  Future<void> updateCardNickname(@Path('accountId') String accountId, @Body() Map<String, dynamic> body);
+  Future<void> updateCardNickname(
+      @Path('accountId') String accountId, @Body() Map<String, dynamic> body);
 
   ///Default code OTP 141448
   @POST('CommonServices/GenericOTP/{id}/Validate')
@@ -296,8 +304,8 @@ abstract class SmartFunApi {
   );
 
   @GET('Communication/PushNotificationDevices')
-  Future<ListDataWrapper<NotificationRegisterEntity>> checkNotificationTokenRegistered(
-      @Query('customerId') int customerId);
+  Future<ListDataWrapper<NotificationRegisterEntity>>
+      checkNotificationTokenRegistered(@Query('customerId') int customerId);
 
   @POST('Communication/PushNotificationDevices')
   Future<HttpResponse> registerNotificationToken(

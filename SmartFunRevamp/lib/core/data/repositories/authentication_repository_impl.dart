@@ -168,8 +168,17 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<Either<Failure, void>> registerNotificationToken(int userId) async {
     try {
       final token = await FirebaseMessaging.instance.getToken();
-      final registeredTokens =
-          (await _api.checkNotificationTokenRegistered(userId)).data.map((e) => e.pushNotificationToken).toList();
+      List<String> registeredTokens = [];
+      try {
+        final registeredTokensResponse = (await _api.checkNotificationTokenRegistered(userId));
+
+        //validate if response has data
+        if (!registeredTokensResponse.data.isNullOrEmpty()) {
+          registeredTokens = registeredTokensResponse.data.map((e) => e.pushNotificationToken).toList();
+        }
+      } catch (e) {
+        Logger().e('error getting registered notification tokens');
+      }
       if (!registeredTokens.contains(token)) {
         final request = NotificationRegisterEntity(
           -1,

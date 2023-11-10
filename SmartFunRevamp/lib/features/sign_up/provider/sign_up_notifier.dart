@@ -8,7 +8,6 @@ import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/execution_context/model/execution_context_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
-
 part 'sign_up_state.dart';
 part 'sign_up_notifier.freezed.dart';
 
@@ -28,9 +27,8 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
   SignUpNotifier(this._executionContextDTO, this._signUpUserUseCase) : super(const _Initial());
 
   void signUpUser(SignUpEntity signUpEntity) async {
-    
     state = const _InProgress();
-    
+
     final customerDTO = CustomerDTO(
       customDataSetDto: signUpEntity.customDataSetDto,
       profileDto: signUpEntity.profileDto,

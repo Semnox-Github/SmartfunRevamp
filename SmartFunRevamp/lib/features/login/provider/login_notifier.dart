@@ -162,6 +162,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
       },
       (r) async {
         await _localDataSource.saveValue(LocalDataSource.kUserId, r.id.toString());
+        registerLoggedUser(r);
+        _loggedUser = r;
         if (r.verified != true) {
           state = const _CustomerVerificationNeeded();
         } else {

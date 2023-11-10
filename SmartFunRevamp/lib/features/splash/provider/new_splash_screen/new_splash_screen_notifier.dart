@@ -176,6 +176,8 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
               SiteViewDTO(siteId: int.parse(defaultSiteId!), openDate: DateTime.now(), closureDate: DateTime.now());
           await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite.toJson());
           await _localDataSource.saveCustomClass(LocalDataSource.kDefaultSite, selectedSite.toJson());
+        } else {
+          await _localDataSource.retrieveCustomClass(LocalDataSource.kDefaultSite);
         }
         return r;
       },

@@ -2458,7 +2458,7 @@
     },
     {
       "DefaultValueName": "VIRTUAL_STORE_SITE_ID",
-      "DefaultValue": "1040"
+      "DefaultValue": ""
     },
     {
       "DefaultValueName": "DISABLE_SPLIT_PAYMENTS",

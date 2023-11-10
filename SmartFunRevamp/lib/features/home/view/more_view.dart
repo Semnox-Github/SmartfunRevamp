@@ -71,6 +71,7 @@ class MoreView extends ConsumerWidget {
                       onPressed: () async {
                         localDatasource.logoutUser().then(
                           (value) {
+                            Navigator.popUntil(context, (route) => route.isFirst);
                             Navigator.popAndPushNamed(context, Routes.kAfterSplashScreenPage);
                           },
                         );

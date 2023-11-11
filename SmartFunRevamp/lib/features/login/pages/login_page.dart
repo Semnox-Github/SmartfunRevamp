@@ -61,8 +61,9 @@ class LoginPage extends ConsumerWidget {
           ref.read(userProvider.notifier).update((_) => user);
           Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage, (Route<dynamic> route) => false);
         },
-        customerVerificationNeeded: () {
+        customerVerificationNeeded: (user) {
           context.loaderOverlay.hide();
+          ref.read(userProvider.notifier).update((_) => user);
           Navigator.pushReplacementNamed(context, Routes.kCustomerVerification);
         },
         selectLocationNeeded: (user) {

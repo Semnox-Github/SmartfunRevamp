@@ -49,7 +49,9 @@ class _TransferPageState extends ConsumerState<TransferPage> {
       cardsFrom = cards;
     }
     cardFrom = cardsFrom.first;
-    cardTo = cards.first;
+    if (cards.isNotEmpty) {
+      cardTo = cards.first;
+    }
   }
 
   @override

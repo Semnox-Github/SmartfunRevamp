@@ -37,13 +37,15 @@ Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   );
   userSelectedSite = selectedSite;
   registerUser(customerDTO);
-  final executionContextResponse = await getExecutionContextUseCase(selectedSite!.siteId!);
-  executionContextResponse.fold(
-    (l) {},
-    (r) {
-      Get.replace<SmartFunApi>(SmartFunApi('', r));
-    },
-  );
+  if (selectedSite != null) {
+    final executionContextResponse = await getExecutionContextUseCase(selectedSite.siteId!);
+    executionContextResponse.fold(
+      (l) {},
+      (r) {
+        Get.replace<SmartFunApi>(SmartFunApi('', r));
+      },
+    );
+  }
 }
 
 Future<void> setSelectedLanguage() async {

@@ -3,6 +3,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
+import 'package:glutton/glutton.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
@@ -95,7 +96,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
           if (defaultSite?.siteId != null) {
             getNewToken();
           }
-          state = const _CustomerVerificationNeeded();
+          state = _CustomerVerificationNeeded(customerDTO);
         } else if (defaultSite?.siteId == null &&
             (selectedSite?.siteId == null || (previousUserId != customerDTO.id.toString() && previousUserId != null))) {
           state = _SelectLocationNeeded(customerDTO);
@@ -165,7 +166,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
         registerLoggedUser(r);
         _loggedUser = r;
         if (r.verified != true) {
-          state = const _CustomerVerificationNeeded();
+          state = _CustomerVerificationNeeded(r);
         } else {
           if (selectedSite == null) {
             state = _SelectLocationNeeded(r);
@@ -208,6 +209,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   void loginUserWithOTP(String phoneOrEmail) async {
+    _phone = phoneOrEmail;
     state = const _InProgress();
     final response = await _sendOTPUseCase(
         {phoneOrEmail.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail, 'Source': 'LOGIN_OTP_EVENT'});
@@ -276,6 +278,14 @@ class LoginNotifier extends StateNotifier<LoginState> {
         state = _OtpVerificationError(l.message);
       },
       (r) {
+        try {
+          Glutton.digest(LocalDataSource.kUserId);
+          Glutton.digest(LocalDataSource.kUser);
+          Glutton.digest(LocalDataSource.kSelectedSite);
+          Glutton.digest(LocalDataSource.kTransactionId);
+        } catch (e) {
+          Logger().e(e);
+        }
         state = const _OtpVerified();
       },
     );

@@ -6,7 +6,7 @@ class LoginState with _$LoginState {
   const factory LoginState.inProgress() = _InProgress;
   const factory LoginState.success(CustomerDTO? customer) = _Success;
   const factory LoginState.selectLocationNeeded(CustomerDTO? customer) = _SelectLocationNeeded;
-  const factory LoginState.customerVerificationNeeded() = _CustomerVerificationNeeded;
+  const factory LoginState.customerVerificationNeeded(CustomerDTO? customer) = _CustomerVerificationNeeded;
   const factory LoginState.error(String message) = _Error;
   const factory LoginState.otpGenerated() = _OtpGenerated;
   const factory LoginState.otpResend() = _OtpResend;

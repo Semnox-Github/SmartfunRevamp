@@ -20,7 +20,8 @@ mixin _$SignUpState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(SignUpEntity signUpEntity) success,
+    required TResult Function(SignUpEntity signUpEntity, CustomerDTO customer)
+        success,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +29,7 @@ mixin _$SignUpState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(SignUpEntity signUpEntity)? success,
+    TResult? Function(SignUpEntity signUpEntity, CustomerDTO customer)? success,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +37,7 @@ mixin _$SignUpState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(SignUpEntity signUpEntity)? success,
+    TResult Function(SignUpEntity signUpEntity, CustomerDTO customer)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -125,7 +126,8 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(SignUpEntity signUpEntity) success,
+    required TResult Function(SignUpEntity signUpEntity, CustomerDTO customer)
+        success,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -136,7 +138,7 @@ class _$_Initial implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(SignUpEntity signUpEntity)? success,
+    TResult? Function(SignUpEntity signUpEntity, CustomerDTO customer)? success,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -147,7 +149,7 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(SignUpEntity signUpEntity)? success,
+    TResult Function(SignUpEntity signUpEntity, CustomerDTO customer)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -239,7 +241,8 @@ class _$_InProgress implements _InProgress {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(SignUpEntity signUpEntity) success,
+    required TResult Function(SignUpEntity signUpEntity, CustomerDTO customer)
+        success,
     required TResult Function(String message) error,
   }) {
     return inProgress();
@@ -250,7 +253,7 @@ class _$_InProgress implements _InProgress {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(SignUpEntity signUpEntity)? success,
+    TResult? Function(SignUpEntity signUpEntity, CustomerDTO customer)? success,
     TResult? Function(String message)? error,
   }) {
     return inProgress?.call();
@@ -261,7 +264,7 @@ class _$_InProgress implements _InProgress {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(SignUpEntity signUpEntity)? success,
+    TResult Function(SignUpEntity signUpEntity, CustomerDTO customer)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -319,7 +322,7 @@ abstract class _$$_SuccessCopyWith<$Res> {
           _$_Success value, $Res Function(_$_Success) then) =
       __$$_SuccessCopyWithImpl<$Res>;
   @useResult
-  $Res call({SignUpEntity signUpEntity});
+  $Res call({SignUpEntity signUpEntity, CustomerDTO customer});
 }
 
 /// @nodoc
@@ -333,12 +336,17 @@ class __$$_SuccessCopyWithImpl<$Res>
   @override
   $Res call({
     Object? signUpEntity = null,
+    Object? customer = null,
   }) {
     return _then(_$_Success(
       null == signUpEntity
           ? _value.signUpEntity
           : signUpEntity // ignore: cast_nullable_to_non_nullable
               as SignUpEntity,
+      null == customer
+          ? _value.customer
+          : customer // ignore: cast_nullable_to_non_nullable
+              as CustomerDTO,
     ));
   }
 }
@@ -346,14 +354,16 @@ class __$$_SuccessCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Success implements _Success {
-  const _$_Success(this.signUpEntity);
+  const _$_Success(this.signUpEntity, this.customer);
 
   @override
   final SignUpEntity signUpEntity;
+  @override
+  final CustomerDTO customer;
 
   @override
   String toString() {
-    return 'SignUpState.success(signUpEntity: $signUpEntity)';
+    return 'SignUpState.success(signUpEntity: $signUpEntity, customer: $customer)';
   }
 
   @override
@@ -362,11 +372,13 @@ class _$_Success implements _Success {
         (other.runtimeType == runtimeType &&
             other is _$_Success &&
             (identical(other.signUpEntity, signUpEntity) ||
-                other.signUpEntity == signUpEntity));
+                other.signUpEntity == signUpEntity) &&
+            (identical(other.customer, customer) ||
+                other.customer == customer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, signUpEntity);
+  int get hashCode => Object.hash(runtimeType, signUpEntity, customer);
 
   @JsonKey(ignore: true)
   @override
@@ -379,10 +391,11 @@ class _$_Success implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(SignUpEntity signUpEntity) success,
+    required TResult Function(SignUpEntity signUpEntity, CustomerDTO customer)
+        success,
     required TResult Function(String message) error,
   }) {
-    return success(signUpEntity);
+    return success(signUpEntity, customer);
   }
 
   @override
@@ -390,10 +403,10 @@ class _$_Success implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(SignUpEntity signUpEntity)? success,
+    TResult? Function(SignUpEntity signUpEntity, CustomerDTO customer)? success,
     TResult? Function(String message)? error,
   }) {
-    return success?.call(signUpEntity);
+    return success?.call(signUpEntity, customer);
   }
 
   @override
@@ -401,12 +414,12 @@ class _$_Success implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(SignUpEntity signUpEntity)? success,
+    TResult Function(SignUpEntity signUpEntity, CustomerDTO customer)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(signUpEntity);
+      return success(signUpEntity, customer);
     }
     return orElse();
   }
@@ -450,9 +463,11 @@ class _$_Success implements _Success {
 }
 
 abstract class _Success implements SignUpState {
-  const factory _Success(final SignUpEntity signUpEntity) = _$_Success;
+  const factory _Success(
+      final SignUpEntity signUpEntity, final CustomerDTO customer) = _$_Success;
 
   SignUpEntity get signUpEntity;
+  CustomerDTO get customer;
   @JsonKey(ignore: true)
   _$$_SuccessCopyWith<_$_Success> get copyWith =>
       throw _privateConstructorUsedError;
@@ -522,7 +537,8 @@ class _$_Error implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(SignUpEntity signUpEntity) success,
+    required TResult Function(SignUpEntity signUpEntity, CustomerDTO customer)
+        success,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -533,7 +549,7 @@ class _$_Error implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(SignUpEntity signUpEntity)? success,
+    TResult? Function(SignUpEntity signUpEntity, CustomerDTO customer)? success,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -544,7 +560,7 @@ class _$_Error implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(SignUpEntity signUpEntity)? success,
+    TResult Function(SignUpEntity signUpEntity, CustomerDTO customer)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

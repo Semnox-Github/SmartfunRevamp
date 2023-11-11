@@ -51,9 +51,10 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
       next.maybeWhen(
         inProgress: () => context.loaderOverlay.show(),
         orElse: () => context.loaderOverlay.hide(),
-        success: (signUpEntity) {
+        success: (signUpEntity, user) {
+          ref.read(userProvider.notifier).update((_) => user);
           if (isPasswordDisabled) {
-            ref.read(loginProvider.notifier).loginUserWithOTP(signUpEntity.email ?? '');
+            ref.read(loginProvider.notifier).loginUserWithOTP(signUpEntity.email ?? signUpEntity.phone ?? '');
           } else {
             ref.read(loginProvider.notifier).loginUser(signUpEntity.email!, signUpEntity.password!);
           }
@@ -76,8 +77,9 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
           context.loaderOverlay.hide();
           ref.read(userProvider.notifier).update((_) => user);
         },
-        customerVerificationNeeded: () {
+        customerVerificationNeeded: (user) {
           context.loaderOverlay.hide();
+          ref.read(userProvider.notifier).update((_) => user);
           Navigator.pushReplacementNamed(context, Routes.kCustomerVerification);
         },
         error: (message) {

@@ -18,7 +18,8 @@ class SelectCardLostPage extends ConsumerStatefulWidget {
   const SelectCardLostPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SelectCardLostPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SelectCardLostPageState();
 }
 
 class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
@@ -30,7 +31,8 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
   void initState() {
     super.initState();
     _cardIndex = 0;
-    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+    cards = List<CardDetails>.from(
+        ref.read(CardsProviders.userCardsProvider).value ?? []);
     cardDetails = ref.read(currentCardProvider);
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     if (cardDetails != null) {
@@ -59,7 +61,8 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
         child: Column(
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+              margin:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
               child: CarouselCards(
                 initialPosition: _cardIndex,
                 cards: cards,
@@ -78,7 +81,8 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
                   children: [
                     const SizedBox(height: 20.0),
                     MulishText(
-                      text: SplashScreenNotifier.getLanguageLabel('Lost Card Terms'),
+                      text: SplashScreenNotifier.getLanguageLabel(
+                          'Terms for Lost Card'),
                       fontColor: CustomColors.hardOrange,
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -119,7 +123,8 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
         ),
       ),
       bottomSheet: BottomSheetButton(
-        label: SplashScreenNotifier.getLanguageLabel('BLOCK & ISSUE REPLACEMENT'),
+        label:
+            SplashScreenNotifier.getLanguageLabel('BLOCK & ISSUE REPLACEMENT'),
         onTap: () {
           Logger().d(selectedCard.accountNumber);
           ref.listenManual(
@@ -136,7 +141,8 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => LostCardPage(cardDetails: selectedCard),
+                      builder: (context) =>
+                          LostCardPage(cardDetails: selectedCard),
                     ),
                   );
                 },
@@ -147,8 +153,8 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
                     dialogType: DialogType.error,
                     animType: AnimType.scale,
                     title: SplashScreenNotifier.getLanguageLabel('Lost Card'),
-                    desc:
-                        SplashScreenNotifier.getLanguageLabel('Sorry, we have had a problem. Please contact our Staff'),
+                    desc: SplashScreenNotifier.getLanguageLabel(
+                        'Sorry, we have had a problem. Please contact our Staff'),
                     btnOkOnPress: () {},
                   ).show();
                 },

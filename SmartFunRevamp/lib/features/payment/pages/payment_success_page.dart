@@ -28,11 +28,16 @@ class PaymentSuccessPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //Glutton.digest(LocalDataSource.kTransactionId);
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
-    final currency = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
-    final format = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
+    final currency =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ??
+            'USD';
+    final format =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
+            '#,##0.00';
     final String fixedAmount = amount.toCurrency(currency, format);
     final DateTime dateToday = DateTime.now();
-    final DateTime dateOneYearLater = DateTime(dateToday.year + 1, dateToday.month, dateToday.day);
+    final DateTime dateOneYearLater =
+        DateTime(dateToday.year + 1, dateToday.month, dateToday.day);
     if (transactionType == "newcard") {
       return Scaffold(
         body: Center(
@@ -46,14 +51,16 @@ class PaymentSuccessPage extends ConsumerWidget {
               const SizedBox(height: 10.0),
               MulishText(
                 textAlign: TextAlign.center,
-                text: SplashScreenNotifier.getLanguageLabel('Payment Successful'),
+                text:
+                    SplashScreenNotifier.getLanguageLabel('Payment Successful'),
                 fontColor: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
               ),
               MulishText(
                 textAlign: TextAlign.center,
-                text: SplashScreenNotifier.getLanguageLabel('Your new card has been added to your account'),
+                text: SplashScreenNotifier.getLanguageLabel(
+                    'Your new card has been added to your account'),
                 fontColor: Colors.black45,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -86,7 +93,8 @@ class PaymentSuccessPage extends ConsumerWidget {
                                 ),
                                 const SizedBox(height: 7.0),
                                 Text(
-                                  SplashScreenNotifier.getLanguageLabel('+Add nickname'),
+                                  SplashScreenNotifier.getLanguageLabel(
+                                      '+Add nickname'),
                                   style: const TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Colors.white,
@@ -96,7 +104,8 @@ class PaymentSuccessPage extends ConsumerWidget {
                               ],
                             ),
                             GestureDetector(
-                              onTap: () => Dialogs.showBarcodeTempCard(context, cardNumber!),
+                              onTap: () => Dialogs.showBarcodeTempCard(
+                                  context, cardNumber!),
                               child: const ImageHandler(
                                 height: 42.0,
                                 imageKey: "QR_image_path",
@@ -116,10 +125,10 @@ class PaymentSuccessPage extends ConsumerWidget {
                         const SizedBox(height: 20.0),
                         Row(
                           children: [
-                            const ImageHandler(
-                              height: 32,
-                              imageKey: "coin_image_path",
-                            ),
+                            //   const ImageHandler(
+                            //     height: 32,
+                            //     imageKey: "coin_image_path",
+                            //   ),
                             Text(
                               fixedAmount,
                               style: const TextStyle(
@@ -145,7 +154,8 @@ class PaymentSuccessPage extends ConsumerWidget {
               ),
               MulishText(
                 textAlign: TextAlign.center,
-                text: SplashScreenNotifier.getLanguageLabel('Convert your virtual card to a Physical Card'),
+                text: SplashScreenNotifier.getLanguageLabel(
+                    'Convert your virtual card to a Physical Card'),
                 fontColor: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 29,
@@ -169,7 +179,8 @@ class PaymentSuccessPage extends ConsumerWidget {
           ),
           margin: const EdgeInsets.all(3),
           child: TextButton(
-            onPressed: () => Navigator.pushReplacementNamed(context, Routes.kFeedback),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, Routes.kFeedback),
             child: Text(
               SplashScreenNotifier.getLanguageLabel('BACK TO HOME'),
               style: const TextStyle(
@@ -193,14 +204,16 @@ class PaymentSuccessPage extends ConsumerWidget {
               const SizedBox(height: 10.0),
               MulishText(
                 textAlign: TextAlign.center,
-                text: SplashScreenNotifier.getLanguageLabel('Recharge Successful'),
+                text: SplashScreenNotifier.getLanguageLabel(
+                    'Recharge Successful'),
                 fontColor: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
               ),
               MulishText(
                 textAlign: TextAlign.center,
-                text: 'You have successfully recharged $productName on to your $cardNumber',
+                text:
+                    'You have successfully recharged $productName on to your $cardNumber',
                 fontColor: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -216,7 +229,8 @@ class PaymentSuccessPage extends ConsumerWidget {
           ),
           margin: const EdgeInsets.all(3),
           child: TextButton(
-            onPressed: () => Navigator.pushReplacementNamed(context, Routes.kFeedback),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, Routes.kFeedback),
             child: Text(
               SplashScreenNotifier.getLanguageLabel('BACK TO HOME'),
               style: const TextStyle(

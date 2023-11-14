@@ -14,7 +14,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'splash_screen_state.dart';
 part 'splash_screen_notifier.freezed.dart';
 
-final splashScreenProvider = StateNotifierProvider<SplashScreenNotifier, SplashScreenState>(
+final splashScreenProvider =
+    StateNotifierProvider<SplashScreenNotifier, SplashScreenState>(
   (ref) => SplashScreenNotifier(),
 );
 
@@ -48,13 +49,16 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
         response = termsUrl;
         break;
       case "SUCCESS_REDIRECT_URL":
-        response = successRedirectURL;
+        print("success redirect url $successRedirectURL");
+        response = successRedirectURL.split("?")[0];
         break;
       case "FAILURE_REDIRECT_URL":
-        response = failureRedirectURL;
+        print("failure redirect url $failureRedirectURL");
+        response = failureRedirectURL.split("?")[0];
         break;
       case "CANCEL_REDIRECT_URL":
-        response = cancelRedirectURL;
+        print("CANCEL_REDIRECT_URL $failureRedirectURL");
+        response = cancelRedirectURL.split("?")[0];
         break;
     }
     return response;
@@ -95,7 +99,9 @@ class SplashScreenNotifier extends StateNotifier<SplashScreenState> {
     final GetLookupsUseCase getLookupsUseCase = Get.find<GetLookupsUseCase>();
     final masterSiteId = ref.watch(masterSiteProvider)?.siteId ?? 1010;
     final response = await getLookupsUseCase(
-      siteId: (ref.read(loginProvider.notifier).selectedSite?.siteId.toString() ?? masterSiteId.toString()),
+      siteId:
+          (ref.read(loginProvider.notifier).selectedSite?.siteId.toString() ??
+              masterSiteId.toString()),
     );
     const infoLookupName = "SELFSERVICEAPP_CUSTOMLINKS";
     const webSiteConfig = "WEB_SITE_CONFIGURATION";

@@ -152,19 +152,30 @@ class ExpansionPaymentMethodsList extends StatefulWidget {
 
 class _ExpansionPaymentMethodsListState extends State<ExpansionPaymentMethodsList> {
   List<PanelItem> _data = [];
+  bool requestedPaymentOnLoad = false;
   final webviewController = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted);
   @override
   void initState() {
-    super.initState();
     _data = widget.paymentsMode
         .map((e) => PanelItem(paymentMode: e, isExpanded: widget.paymentsMode.length == 1 ? true : false))
         .toList();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, __) {
+        if (_data.length == 1 && requestedPaymentOnLoad == false) {
+          requestedPaymentOnLoad = true;
+          ref.read(hostedPaymentProvider.notifier).getHtml(
+                HostedPaymentGatewayRequest(
+                  hostedPaymentGateway: _data[0].paymentMode.paymentGateway?.lookupValue ?? '',
+                  amount: widget.transactionResponse.transactionNetAmount,
+                  transactionId: widget.transactionResponse.transactionId,
+                ),
+              );
+        }
         return SizedBox(
           height: MediaQuery.of(context).size.height * 0.70,
           child: SingleChildScrollView(

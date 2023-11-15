@@ -16,15 +16,24 @@ class FeedbackRepositoryImpl implements FeedbackRepository {
   FeedbackRepositoryImpl(this._api);
   @override
   Future<Either<Failure, List<SurveyDetails>>> getFeedbackActions() async {
+    print("inside survey details *****");
     try {
       // final response = await _api.getCustomerFeedbackActions();
-      final String response = await rootBundle.loadString('assets/json/feedback_response.json');
-      final data = (await json.decode(response)) as Map<String, dynamic>;
-      final info =
-          ListDataWrapper.fromJson(data, (json) => SurveyDetailsResponse.fromJson(json as Map<String, dynamic>));
+      // print(
+      //     "response from the survey details ${json.decode(jsonEncode(response))}");
+      final String response =
+          await rootBundle.loadString('assets/json/feedback_response.json');
+
+      final data =
+          (await json.decode(jsonEncode(response))) as Map<String, dynamic>;
+      final info = ListDataWrapper.fromJson(
+          data,
+          (json) =>
+              SurveyDetailsResponse.fromJson(json as Map<String, dynamic>));
 
       for (var element in info.data.first.surveyDetails) {
-        for (var t in element.surveyQuestion.questionResponse.responseValues ?? <CustomerFeedbackResponseValues>[]) {
+        for (var t in element.surveyQuestion.questionResponse.responseValues ??
+            <CustomerFeedbackResponseValues>[]) {
           if (t.image != null) {
             t.base64Image = base64Decode(t.image!);
           }
@@ -37,7 +46,8 @@ class FeedbackRepositoryImpl implements FeedbackRepository {
   }
 
   @override
-  Future<Either<Failure, void>> postCustomerFeedback(SurveyRequest request) async {
+  Future<Either<Failure, void>> postCustomerFeedback(
+      SurveyRequest request) async {
     try {
       final body = [request];
       await _api.sendCustomerFeedback(body);

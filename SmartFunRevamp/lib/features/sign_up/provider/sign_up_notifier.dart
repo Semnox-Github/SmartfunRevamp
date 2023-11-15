@@ -25,7 +25,8 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
   SiteViewDTO? selectedSite;
   ParafaitDefaultsResponse? parafaitDefault;
   String? defaultSiteId;
-  SignUpNotifier(this._executionContextDTO, this._signUpUserUseCase) : super(const _Initial());
+  SignUpNotifier(this._executionContextDTO, this._signUpUserUseCase)
+      : super(const _Initial());
 
   void signUpUser(SignUpEntity signUpEntity) async {
     state = const _InProgress();
@@ -37,6 +38,8 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       phone: signUpEntity.phone,
       siteId: _executionContextDTO.siteId,
     );
+
+    print("customer DTO ${customerDTO.toJson()}");
     final response = await _signUpUserUseCase(customerDTO.toJson());
     response.fold(
       (l) => state = _Error(l.message),

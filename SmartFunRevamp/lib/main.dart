@@ -21,15 +21,18 @@ import 'package:semnox/firebase_options.dart';
 import 'package:semnox/lifecycle_handler.dart';
 import 'package:semnox/themes/main_theme.dart';
 import 'di/injection_container.dart' as di;
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   WidgetsBinding.instance.addObserver(LifecycleEventHandler(
     resumeCallBack: () async {
       final remoteMessageStream = FirebaseMessaging.onMessageOpenedApp;
-      final notificationData = NotificationsData.fromJson((await remoteMessageStream.first).data);
+      final notificationData =
+          NotificationsData.fromJson((await remoteMessageStream.first).data);
       navigatorKey.currentState?.pushNamed(notificationData.path);
     },
   ));
@@ -70,8 +73,14 @@ const _posibleLoadings = [
   )
 ];
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -99,7 +108,9 @@ class MyApp extends StatelessWidget {
               builder: (BuildContext context) => Scaffold(
                 appBar: AppBar(),
                 body: Center(
-                  child: MulishText(text: '404 Page not found.\n Route ${settings.name} not found'),
+                  child: MulishText(
+                      text:
+                          '404 Page not found.\n Route ${settings.name} not found'),
                 ),
               ),
             );
@@ -109,5 +120,12 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    print("dispose the value");
+    DefaultCacheManager().emptyCache();
+    super.dispose();
   }
 }

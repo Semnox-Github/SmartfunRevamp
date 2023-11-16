@@ -246,24 +246,29 @@ class SignUpEntity {
           profile.policyTermsAccepted = value["value"] == 'true' ? true : false;
           break;
         case "EMAIL":
-          phoneContactDTO.add(PhoneContactDTO(
-            contactTypeId: ContactType.email.typeId,
-            contactType: ContactType.email.type,
-            attribute1: value["value"],
-            isActive: true,
-          ));
-          email = value["value"];
-          profile.userName = value["value"];
+          if (value["value"] != "") {
+            phoneContactDTO.add(PhoneContactDTO(
+              contactTypeId: ContactType.email.typeId,
+              contactType: ContactType.email.type,
+              attribute1: value["value"],
+              isActive: true,
+            ));
+            email = value["value"];
+            profile.userName = value["value"];
+          }
           break;
         case "CONTACT_PHONE":
-          phoneContactDTO.add(PhoneContactDTO(
-            contactTypeId: ContactType.phone.typeId,
-            contactType: ContactType.phone.type,
-            attribute1: value["value"],
-            isActive: true,
-          ));
-          phone = value["value"];
+          if (value["value"] != "") {
+            phoneContactDTO.add(PhoneContactDTO(
+              contactTypeId: ContactType.phone.typeId,
+              contactType: ContactType.phone.type,
+              attribute1: value["value"],
+              isActive: true,
+            ));
+            phone = value["value"];
+          }
           break;
+
         case "WECHAT_ACCESS_TOKEN":
           phoneContactDTO.add(PhoneContactDTO(
             contactTypeId: ContactType.wechat.typeId,
@@ -290,7 +295,7 @@ class SignUpEntity {
       }
     });
     //if contact list has elements then set value
-    if (phoneContactDTO.length > 1) {
+    if (phoneContactDTO.length > 0) {
       profile.contactDtoList = phoneContactDTO;
     }
 

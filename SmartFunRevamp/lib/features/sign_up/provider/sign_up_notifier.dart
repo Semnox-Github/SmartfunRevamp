@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
@@ -30,6 +32,8 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
 
   void signUpUser(SignUpEntity signUpEntity) async {
     state = const _InProgress();
+
+    print("profile DTO ***** ${signUpEntity.profileDto}");
 
     final customerDTO = CustomerDTO(
       customDataSetDto: signUpEntity.customDataSetDto,

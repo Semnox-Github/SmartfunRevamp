@@ -81,7 +81,9 @@ class BuyCardListPage extends StatelessWidget {
                         loading: () => const Center(
                             child: CircularProgressIndicator.adaptive()),
                         data: (responseCards) {
+                          debugPrint("card product $responseCards");
                           List<CardProduct> cards = List.from(responseCards);
+                          debugPrint("card product ${cards.toString()}");
                           cards = cards
                             ..removeWhere((element) =>
                                 (element.productType != "CARDSALE" &&
@@ -100,6 +102,21 @@ class BuyCardListPage extends StatelessWidget {
                                   'No cards found')),
                             );
                           }
+                          cards.sort((a, b) {
+                            final sortOrderA = a.sortOrder as double?;
+                            final sortOrderB = b.sortOrder as double?;
+
+                            if (sortOrderA == null && sortOrderB == null) {
+                              return 0; // If both are null, leave them unchanged relative to each other
+                            } else if (sortOrderA == null) {
+                              return 1; // Null values go to the end
+                            } else if (sortOrderB == null) {
+                              return -1; // Null values go to the end
+                            } else {
+                              return sortOrderA.compareTo(sortOrderB);
+                            }
+                          });
+                          // debugPrint("sort order $cards");
                           return ListView.separated(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),

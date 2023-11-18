@@ -14,19 +14,20 @@ class CardProduct {
   final String webDescription;
   // ignore: non_constant_identifier_names
   final String QuantityPrompt;
+  final double sortOrder;
 
   CardProduct(
-    this.finalPrice,
-    this.productName,
-    this.basePrice,
-    this.imageFileName,
-    this.productId,
-    this.credits,
-    this.productType,
-    this.description,
-    this.webDescription,
-    this.QuantityPrompt,
-  );
+      this.finalPrice,
+      this.productName,
+      this.basePrice,
+      this.imageFileName,
+      this.productId,
+      this.credits,
+      this.productType,
+      this.description,
+      this.webDescription,
+      this.QuantityPrompt,
+      this.sortOrder);
   factory CardProduct.fromJson(Map<String, dynamic> json) =>
       _$CardProductFromJson(json);
   Map<String, dynamic> toJson() => _$CardProductToJson(this);

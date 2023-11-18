@@ -20,14 +20,17 @@ import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 SiteViewDTO? userSelectedSite;
 LanguageContainerDTOList? userSelectedLanguage;
 Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   final localDataSource = Get.find<LocalDataSource>();
-  final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
+  final response =
+      await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
   final getExecutionContextUseCase = Get.find<GetExecutionContextUseCase>();
   final selectedSite = response.fold(
     (l) => null,
@@ -38,7 +41,8 @@ Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   userSelectedSite = selectedSite;
   registerUser(customerDTO);
   if (selectedSite != null) {
-    final executionContextResponse = await getExecutionContextUseCase(selectedSite.siteId!);
+    final executionContextResponse =
+        await getExecutionContextUseCase(selectedSite.siteId!);
     executionContextResponse.fold(
       (l) {},
       (r) {
@@ -50,7 +54,8 @@ Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
 
 Future<void> setSelectedLanguage() async {
   final localDataSource = Get.find<LocalDataSource>();
-  final response = await localDataSource.retrieveCustomClass(LocalDataSource.kSelectedLanguage);
+  final response = await localDataSource
+      .retrieveCustomClass(LocalDataSource.kSelectedLanguage);
   final selectedLanguage = response.fold(
     (l) => null,
     (r) {
@@ -72,7 +77,8 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    void nextPage() => Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
+    void nextPage() =>
+        Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
     ref.listen<NewSplashScreenState>(
       newSplashScreenProvider,
       (_, next) {
@@ -90,24 +96,34 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               },
             ).show();
           },
-          success: (cms, langDto, masterSite, parafaitDefaults, needsSiteSelection, user, notificationData) {
+          success: (cms, langDto, masterSite, parafaitDefaults,
+              needsSiteSelection, user, notificationData) {
             ref.read(newHomePageCMSProvider.notifier).update((_) => cms);
-            ref.read(languangeContainerProvider.notifier).update((_) => langDto);
+            ref
+                .read(languangeContainerProvider.notifier)
+                .update((_) => langDto);
             ref.read(masterSiteProvider.notifier).update((_) => masterSite);
-            ref.read(parafaitDefaultsProvider.notifier).update((_) => parafaitDefaults);
+            ref
+                .read(parafaitDefaultsProvider.notifier)
+                .update((_) => parafaitDefaults);
             ref.read(userProvider.notifier).update((_) => user);
             final parafaitDefault = ref.watch(parafaitDefaultsProvider);
             setSelectedLanguage().then((value) {
-              final languageContainerDTO = ref.watch(languangeContainerProvider);
+              final languageContainerDTO =
+                  ref.watch(languangeContainerProvider);
 
-              if (languageContainerDTO == null || languageContainerDTO.languageContainerDTOList.isEmpty) {
+              if (languageContainerDTO == null ||
+                  languageContainerDTO.languageContainerDTOList.isEmpty) {
                 return null;
               } else {
                 if (userSelectedLanguage != null) {
                   final sLang = languageContainerDTO.languageContainerDTOList
-                          .firstWhereOrNull((element) => element.languageCode == userSelectedLanguage?.languageCode) ??
+                          .firstWhereOrNull((element) =>
+                              element.languageCode ==
+                              userSelectedLanguage?.languageCode) ??
                       languageContainerDTO.languageContainerDTOList
-                          .firstWhereOrNull((element) => element.languageCode == 'en-US');
+                          .firstWhereOrNull(
+                              (element) => element.languageCode == 'en-US');
                   ref.read(currentLanguageProvider.notifier).state = sLang;
                   return sLang;
                 }
@@ -122,12 +138,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             final currentDate = DateTime.now().toIso8601String().split("T")[0];
             //get the application download url based on the OS
             final storeUrl = isAndroid
-                ? parafaitDefault?.getDefault(ParafaitDefaultsResponse.playStoreUrl) ?? ""
+                ? parafaitDefault
+                        ?.getDefault(ParafaitDefaultsResponse.playStoreUrl) ??
+                    ""
                 : isIOS
-                    ? parafaitDefault?.getDefault(ParafaitDefaultsResponse.appStoreUrl) ?? ""
+                    ? parafaitDefault?.getDefault(
+                            ParafaitDefaultsResponse.appStoreUrl) ??
+                        ""
                     : "";
             //Get the last app update reminder date
-            GluttonLocalDataSource().retrieveValue(LocalDataSource.kAppUpdateReminderDate).then(
+            GluttonLocalDataSource()
+                .retrieveValue(LocalDataSource.kAppUpdateReminderDate)
+                .then(
                   (value) async => {
                     //if application url is not set don't show the update message
 
@@ -135,9 +157,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         //if update is mandatory, show everytime the app starts
                         (deprecated == "M" ||
                             //if is optional, show once a day
-                            (deprecated == "O" && currentDate != value.toString())))
+                            (deprecated == "O" &&
+                                currentDate != value.toString())))
                       {
-                        GluttonLocalDataSource().saveValue(LocalDataSource.kAppUpdateReminderDate, currentDate),
+                        GluttonLocalDataSource().saveValue(
+                            LocalDataSource.kAppUpdateReminderDate,
+                            currentDate),
                         await Dialogs.downloadUpdateDialog(context, storeUrl),
                         if (deprecated != "M")
                           {
@@ -150,7 +175,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                                 if (needsSiteSelection)
                                   {
                                     if (context.mounted)
-                                      Navigator.pushReplacementNamed(context, Routes.kEnableLocation),
+                                      Navigator.pushReplacementNamed(
+                                          context, Routes.kEnableLocation),
                                   }
                                 else
                                   {
@@ -158,14 +184,22 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                                       (value) => {
                                         if (userSelectedSite != null)
                                           {
-                                            ref.read(loginProvider.notifier).setSite(userSelectedSite!),
+                                            ref
+                                                .read(loginProvider.notifier)
+                                                .setSite(userSelectedSite!),
                                             Navigator.pushNamedAndRemoveUntil(
-                                                context, Routes.kHomePage, (Route<dynamic> route) => false),
+                                                context,
+                                                Routes.kHomePage,
+                                                (Route<dynamic> route) =>
+                                                    false),
                                           }
                                         else
                                           {
                                             Navigator.pushNamedAndRemoveUntil(
-                                                context, Routes.kHomePage, (Route<dynamic> route) => false),
+                                                context,
+                                                Routes.kHomePage,
+                                                (Route<dynamic> route) =>
+                                                    false),
                                           }
                                       },
                                     ),
@@ -185,7 +219,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                           {
                             if (needsSiteSelection)
                               {
-                                Navigator.pushReplacementNamed(context, Routes.kEnableLocation),
+                                Navigator.pushReplacementNamed(
+                                    context, Routes.kEnableLocation),
                               }
                             else
                               {
@@ -193,14 +228,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                                   (value) => {
                                     if (userSelectedSite != null)
                                       {
-                                        ref.read(loginProvider.notifier).setSite(userSelectedSite!),
+                                        ref
+                                            .read(loginProvider.notifier)
+                                            .setSite(userSelectedSite!),
                                         Navigator.pushNamedAndRemoveUntil(
-                                            context, Routes.kHomePage, (Route<dynamic> route) => false),
+                                            context,
+                                            Routes.kHomePage,
+                                            (Route<dynamic> route) => false),
                                       }
                                     else
                                       {
                                         Navigator.pushNamedAndRemoveUntil(
-                                            context, Routes.kHomePage, (Route<dynamic> route) => false),
+                                            context,
+                                            Routes.kHomePage,
+                                            (Route<dynamic> route) => false),
                                       }
                                   },
                                 ),
@@ -336,17 +377,57 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           return SplashScreenImage(url);
         },
         success: (_, __, ___, ____, _____, ______, _______) {
-          final imageUrl = ref.read(newSplashScreenProvider.notifier).splashImageUrl;
+          final imageUrl =
+              ref.read(newSplashScreenProvider.notifier).splashImageUrl;
           return SplashScreenImage(imageUrl);
         },
       ),
     );
   }
 
+  Future<bool> isNetworkConnected() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    return connectivityResult != ConnectivityResult.none;
+  }
+
+  Future<void> checkNetworkConnectivity() async {
+    bool isConnected = await isNetworkConnected();
+
+    if (isConnected) {
+      // Network is available, proceed with your splash screen logic
+      ref.read(newSplashScreenProvider.notifier).initApp();
+    } else {
+      // Network is not available, show an error message or handle accordingly
+      showNetworkErrorDialog();
+    }
+  }
+
   @override
   void initState() {
     ref.read(newSplashScreenProvider.notifier).initApp();
     super.initState();
+    checkNetworkConnectivity();
+  }
+
+  void showNetworkErrorDialog() {
+    AwesomeDialog(
+      context: context,
+      headerAnimationLoop: false,
+      desc: 'No internet connection',
+      dialogType: DialogType.error,
+      btnOkOnPress: () {
+        SystemNavigator.pop();
+      },
+      descTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
+      ),
+      btnOkText: SplashScreenNotifier.getLanguageLabel('OK'),
+      btnOkColor: Colors.red,
+      onDismissCallback: (type) {
+        SystemNavigator.pop();
+      },
+    ).show();
   }
 }
 
@@ -371,7 +452,8 @@ class SplashScreenImage extends StatelessWidget {
       height: double.infinity,
       width: double.infinity,
       fit: BoxFit.fill,
-      placeholder: (_, __) => const Center(child: CircularProgressIndicator.adaptive()),
+      placeholder: (_, __) =>
+          const Center(child: CircularProgressIndicator.adaptive()),
       errorWidget: (context, url, error) {
         return Container(
           decoration: const BoxDecoration(

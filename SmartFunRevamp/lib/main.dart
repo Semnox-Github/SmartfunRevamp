@@ -80,7 +80,13 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -124,8 +130,16 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    print("dispose the value");
-    DefaultCacheManager().emptyCache();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    // debugPrint("$state");
+    if (state == AppLifecycleState.inactive) {
+      // The app is closed, clear the cache
+      await DefaultCacheManager().emptyCache();
+    }
   }
 }

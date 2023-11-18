@@ -179,8 +179,10 @@ class PaymentSuccessPage extends ConsumerWidget {
           ),
           margin: const EdgeInsets.all(3),
           child: TextButton(
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, Routes.kFeedback),
+            onPressed: () => Navigator.pushReplacementNamed(
+                context,
+                Routes
+                    .kHomePage), // Routes.kFeedback disable feedback api not implemented
             child: Text(
               SplashScreenNotifier.getLanguageLabel('BACK TO HOME'),
               style: const TextStyle(

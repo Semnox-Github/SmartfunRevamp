@@ -253,55 +253,22 @@ class _ExpansionPaymentMethodsListState
                                       encoding: Encoding.getByName('UTF-8'))
                                   .toString());
                               webviewController.loadRequest(uri);
+
                               webviewController.setNavigationDelegate(
                                 NavigationDelegate(
                                   onPageStarted: (String url) {
-                                    print('Page started loading: $url');
-                                    if (url.contains(
-                                        SplashScreenNotifier.getLookupValue(
-                                            "CANCEL_REDIRECT_URL"))) {
-                                      print('Page started loading: $url');
-                                      //return NavigationDecision.prevent;
-                                    } else if (url
-                                        .contains(data.cancelURL.toString())) {
-                                      print('Page started loading: $url');
-                                    }
+                                    debugPrint("onLoad start $url");
                                   },
                                   onPageFinished: (String url) {
-                                    print('Page finished loading: $url');
-                                    print('Page started loading: $url');
-                                    if (url.contains(
-                                        SplashScreenNotifier.getLookupValue(
-                                            "CANCEL_REDIRECT_URL"))) {
-                                      print('Page started loading: $url');
-                                      //return NavigationDecision.prevent;
-                                    } else if (url
-                                        .contains(data.cancelURL.toString())) {
-                                      print('Page started loading: $url');
-                                    }
+                                    debugPrint("onLoad finish $url");
                                   },
                                   onUrlChange: (UrlChange change) {
-                                    print(
-                                        'WebView navigated to: ${change.url}');
-                                    if (change.url?.contains(
-                                            SplashScreenNotifier.getLookupValue(
-                                                "CANCEL_REDIRECT_URL")) ??
-                                        false) {
-                                      print('Navigated to an example.com page');
-                                    }
+                                    debugPrint("change url ${change.url}");
                                   },
-
-                                  // onProgress: (progress) {
-                                  //   print("Change $progress");
-                                  //   print("url changed");
-                                  // },
-                                  // onProgress: (progress) => ,
                                   onNavigationRequest:
                                       (NavigationRequest request) {
-                                    // print("request url ${request.url}");
                                     Logger().e(request.url);
-                                    // Logger().e("data ${jsonEncode(data.toJson())}");
-                                    //Lookups callback URLs
+
                                     if (request.url.contains(
                                         SplashScreenNotifier.getLookupValue(
                                             "SUCCESS_REDIRECT_URL"))) {

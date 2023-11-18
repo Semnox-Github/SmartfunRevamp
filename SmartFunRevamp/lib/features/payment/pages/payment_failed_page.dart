@@ -4,6 +4,8 @@ import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../../core/routes.dart';
+
 class PaymentFailedPage extends StatelessWidget {
   const PaymentFailedPage({Key? key}) : super(key: key);
   @override
@@ -26,7 +28,8 @@ class PaymentFailedPage extends StatelessWidget {
                   const SizedBox(height: 10.0),
                   MulishText(
                     textAlign: TextAlign.center,
-                    text: SplashScreenNotifier.getLanguageLabel('Payment Failed'),
+                    text:
+                        SplashScreenNotifier.getLanguageLabel('Payment Failed'),
                     fontColor: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
@@ -50,7 +53,8 @@ class PaymentFailedPage extends StatelessWidget {
                 ),
                 margin: const EdgeInsets.all(3),
                 child: TextButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.pushNamed(
+                      context, Routes.kHomePage), //.pop(context),
                   child: Text(
                     SplashScreenNotifier.getLanguageLabel('RETRY PAYMENT'),
                     style: const TextStyle(

@@ -41,11 +41,11 @@ class FeedbackPage extends ConsumerWidget {
               ],
             );
           },
-          data: (surveyDetails) {
+          data: (surveyDetailsResponse) {
             return SingleChildScrollView(
               child: Column(
                 children: List.of([
-                  ...surveyDetails.map(
+                  ...surveyDetailsResponse.surveyDetails.map(
                     (surveyDetail) {
                       return FeedbackValueOption(surveyDetail: surveyDetail);
                     },

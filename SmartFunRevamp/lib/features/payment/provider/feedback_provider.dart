@@ -9,7 +9,7 @@ import 'package:semnox/core/domain/use_cases/feedback/post_feedback_use_case.dar
 import 'package:semnox/features/buy_a_card/pages/estimated_transaction_page.dart';
 import 'package:semnox/features/payment/widgets/feedback_value_item.dart';
 
-final surveyDetailsProvider = FutureProvider.autoDispose<List<SurveyDetails>>((ref) async {
+final surveyDetailsProvider = FutureProvider.autoDispose<SurveyDetailsResponse>((ref) async {
   final GetFeedbackActionsUseCase getFeedbackActionsUseCase = Get.find<GetFeedbackActionsUseCase>();
   final response = await getFeedbackActionsUseCase();
   return response.fold(

@@ -15,9 +15,9 @@ class FeedbackRepositoryImpl implements FeedbackRepository {
 
   FeedbackRepositoryImpl(this._api);
   @override
-  Future<Either<Failure, List<SurveyDetails>>> getFeedbackActions() async {
+  Future<Either<Failure, SurveyDetailsResponse>> getFeedbackActions() async {
     try {
-      // final response = await _api.getCustomerFeedbackActions();
+      //final response = await _api.getCustomerFeedbackActions();
       final String response = await rootBundle.loadString('assets/json/feedback_response.json');
       final data = (await json.decode(response)) as Map<String, dynamic>;
       final info =
@@ -30,7 +30,7 @@ class FeedbackRepositoryImpl implements FeedbackRepository {
           }
         }
       }
-      return Right(info.data.first.surveyDetails);
+      return Right(info.data.first);
     } on Exception catch (e) {
       return Left(e.handleException());
     }

@@ -94,10 +94,12 @@ SurveyDetailsResponse _$SurveyDetailsResponseFromJson(
       (json['SurveyDetails'] as List<dynamic>)
           .map((e) => SurveyDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
+      json['IsResponseMandatory'] as bool,
     );
 
 Map<String, dynamic> _$SurveyDetailsResponseToJson(
         SurveyDetailsResponse instance) =>
     <String, dynamic>{
       'SurveyDetails': instance.surveyDetails.map((e) => e.toJson()).toList(),
+      'IsResponseMandatory': instance.isResponseMandatory,
     };

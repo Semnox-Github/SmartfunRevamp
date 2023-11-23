@@ -163,6 +163,7 @@ class ExpansionPaymentMethodsList extends StatefulWidget {
 class _ExpansionPaymentMethodsListState
     extends State<ExpansionPaymentMethodsList> {
   List<PanelItem> _data = [];
+  //Flag to know if hosted payment provider was updated on view load
   bool requestedPaymentOnLoad = false;
   final webviewController = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted);
@@ -180,6 +181,7 @@ class _ExpansionPaymentMethodsListState
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, __) {
+        //If a single payment method is set and this wasn't requested before then update the hosted payment provider
         if (_data.length == 1 && requestedPaymentOnLoad == false) {
           requestedPaymentOnLoad = true;
           ref.read(hostedPaymentProvider.notifier).getHtml(

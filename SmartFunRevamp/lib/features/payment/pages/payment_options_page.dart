@@ -257,6 +257,47 @@ class _ExpansionPaymentMethodsListState
                               webviewController.loadRequest(uri);
                               webviewController.setNavigationDelegate(
                                 NavigationDelegate(
+                                  onPageStarted: (String url) {
+                                    print('Page started loading: $url');
+                                    if (url.contains(
+                                        SplashScreenNotifier.getLookupValue(
+                                            "CANCEL_REDIRECT_URL"))) {
+                                      print('Page started loading: $url');
+                                      //return NavigationDecision.prevent;
+                                    } else if (url
+                                        .contains(data.cancelURL.toString())) {
+                                      print('Page started loading: $url');
+                                    }
+                                  },
+                                  onPageFinished: (String url) {
+                                    print('Page finished loading: $url');
+                                    print('Page started loading: $url');
+                                    if (url.contains(
+                                        SplashScreenNotifier.getLookupValue(
+                                            "CANCEL_REDIRECT_URL"))) {
+                                      print('Page started loading: $url');
+                                      //return NavigationDecision.prevent;
+                                    } else if (url
+                                        .contains(data.cancelURL.toString())) {
+                                      print('Page started loading: $url');
+                                    }
+                                  },
+                                  onUrlChange: (UrlChange change) {
+                                    print(
+                                        'WebView navigated to: ${change.url}');
+                                    if (change.url?.contains(
+                                            SplashScreenNotifier.getLookupValue(
+                                                "CANCEL_REDIRECT_URL")) ??
+                                        false) {
+                                      print('Navigated to an example.com page');
+                                    }
+                                  },
+
+                                  // onProgress: (progress) {
+                                  //   print("Change $progress");
+                                  //   print("url changed");
+                                  // },
+                                  // onProgress: (progress) => ,
                                   onNavigationRequest:
                                       (NavigationRequest request) {
                                     // print("request url ${request.url}");

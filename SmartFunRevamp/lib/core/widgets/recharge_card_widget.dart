@@ -10,15 +10,21 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class RechargeCardWidget extends ConsumerWidget {
-  const RechargeCardWidget({Key? key, required this.cardProduct}) : super(key: key);
+  const RechargeCardWidget({Key? key, required this.cardProduct})
+      : super(key: key);
   final CardProduct cardProduct;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
-    final currencySymbol = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
-    final currencyFormat = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
-    double discount = ((cardProduct.basePrice - cardProduct.finalPrice) * 100) / cardProduct.basePrice;
+    final currencySymbol =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ??
+            'USD';
+    final currencyFormat =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
+            '#,##0.00';
+    double discount = ((cardProduct.basePrice - cardProduct.finalPrice) * 100) /
+        cardProduct.basePrice;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20.0),
@@ -48,7 +54,8 @@ class RechargeCardWidget extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    cardProduct.finalPrice.toCurrency(currencySymbol, currencyFormat),
+                    cardProduct.finalPrice
+                        .toCurrency(currencySymbol, currencyFormat),
                     style: GoogleFonts.mulish(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -57,7 +64,8 @@ class RechargeCardWidget extends ConsumerWidget {
                   ),
                   const SizedBox(width: 5.0),
                   Text(
-                    cardProduct.basePrice.toCurrency(currencySymbol, currencyFormat),
+                    cardProduct.basePrice
+                        .toCurrency(currencySymbol, currencyFormat),
                     style: GoogleFonts.mulish(
                       color: CustomColors.customLigthGray,
                       fontWeight: FontWeight.w600,
@@ -83,14 +91,14 @@ class RechargeCardWidget extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 10.0),
-          Text(
-            SplashScreenNotifier.getLanguageLabel('Valid for 11 months from date of purchase'),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12.0,
-              fontWeight: FontWeight.w500,
-            ),
-          )
+          // Text(
+          //   SplashScreenNotifier.getLanguageLabel('Valid for 11 months from date of purchase'),
+          //   style: const TextStyle(
+          //     color: Colors.white,
+          //     fontSize: 12.0,
+          //     fontWeight: FontWeight.w500,
+          //   ),
+          // )
         ],
       ),
     );

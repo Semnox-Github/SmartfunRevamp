@@ -16,12 +16,15 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class OrdersSummaryDetailPage extends ConsumerWidget {
-  const OrdersSummaryDetailPage({Key? key, required this.transactionId}) : super(key: key);
+  const OrdersSummaryDetailPage({Key? key, required this.transactionId})
+      : super(key: key);
   final String transactionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(OrdersProviders.orderSummaryDetailProvider.notifier).getDetail(transactionId);
+    ref
+        .read(OrdersProviders.orderSummaryDetailProvider.notifier)
+        .getDetail(transactionId);
     return Scaffold(
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel("Transaction Details"),
@@ -30,150 +33,185 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Consumer(
           builder: (context, ref, child) {
-            return ref.watch(OrdersProviders.orderSummaryDetailProvider).maybeWhen(
-                  orElse: () => Container(),
-                  error: (_) {
-                    return const Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        MulishText(
-                          text: "Can't load the detail of this transaction",
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
-                      ],
-                    );
-                  },
-                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
-                  successOrderDetail: (responseData) {
-                    TransactionLinesDTOList transactionLines = responseData.transactionLinesDTOList![0];
+            return SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: ref
+                    .watch(OrdersProviders.orderSummaryDetailProvider)
+                    .maybeWhen(
+                      orElse: () => Container(),
+                      error: (_) {
+                        return const Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MulishText(
+                              text: "Can't load the detail of this transaction",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ],
+                        );
+                      },
+                      inProgress: () => const Center(
+                          child: CircularProgressIndicator.adaptive()),
+                      successOrderDetail: (responseData) {
+                        TransactionLinesDTOList transactionLines =
+                            responseData.transactionLinesDTOList![0];
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        MulishText(
-                          text: transactionLines.productName.toString(),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
-                        MulishText(
-                          text: '${SplashScreenNotifier.getLanguageLabel("Card")}: ${transactionLines.cardNumber}',
-                          fontSize: 14.0,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.1,
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          child: QrImageView(
-                            data: responseData.transactionOTP,
-                            version: QrVersions.auto,
-                            size: MediaQuery.of(context).size.width * 0.6,
-                          ),
-                        ),
-                        MulishText(
-                          text: '${SplashScreenNotifier.getLanguageLabel("OTP")}: ${responseData.transactionOTP}',
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.1,
-                        ),
-                        Expanded(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Expanded(
-                                child: MulishText(
-                                  text: SplashScreenNotifier.getLanguageLabel("Reference Id"),
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                  textAlign: TextAlign.start,
-                                ),
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            MulishText(
+                              text: transactionLines.productName.toString(),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                            MulishText(
+                              text:
+                                  '${SplashScreenNotifier.getLanguageLabel("Card")}: ${transactionLines.cardNumber}',
+                              fontSize: 14.0,
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.1,
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              child: QrImageView(
+                                data: responseData.transactionOTP,
+                                version: QrVersions.auto,
+                                size: MediaQuery.of(context).size.width * 0.6,
                               ),
-                              Expanded(
-                                child: MulishText(
-                                  text: responseData.transactionId.toString(),
-                                  fontSize: 14.0,
-                                  textAlign: TextAlign.end,
-                                ),
+                            ),
+                            MulishText(
+                              text:
+                                  '${SplashScreenNotifier.getLanguageLabel("OTP")}: ${responseData.transactionOTP}',
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.1,
+                            ),
+                            Expanded(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Expanded(
+                                    child: MulishText(
+                                      text:
+                                          SplashScreenNotifier.getLanguageLabel(
+                                              "Reference Id"),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: MulishText(
+                                      text:
+                                          responseData.transactionId.toString(),
+                                      fontSize: 14.0,
+                                      textAlign: TextAlign.end,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                        MulishText(
-                          text: '${responseData.transactionDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${responseData.transactionDate.formatDate(DateFormat.HOUR_MINUTE)}',
-                          fontSize: 14.0,
-                          textAlign: TextAlign.end,
-                        ),
-                        const Divider(
-                          height: 10,
-                          thickness: 1,
-                          indent: 0,
-                          endIndent: 0,
-                          color: Colors.black,
-                        ),
-                        Expanded(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Expanded(
-                                child: MulishText(text: transactionLines.productName.toString(), fontSize: 14.0, fontWeight: FontWeight.bold, textAlign: TextAlign.start),
+                            ),
+                            MulishText(
+                              text:
+                                  '${responseData.transactionDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${responseData.transactionDate.formatDate(DateFormat.HOUR_MINUTE)}',
+                              fontSize: 14.0,
+                              textAlign: TextAlign.end,
+                            ),
+                            const Divider(
+                              height: 10,
+                              thickness: 1,
+                              indent: 0,
+                              endIndent: 0,
+                              color: Colors.black,
+                            ),
+                            Expanded(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child: MulishText(
+                                        text: transactionLines.productName
+                                            .toString(),
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold,
+                                        textAlign: TextAlign.start),
+                                  ),
+                                  Expanded(
+                                    child: MulishText(
+                                        text: responseData.transactionAmount
+                                            .toString(),
+                                        fontSize: 14.0,
+                                        textAlign: TextAlign.end),
+                                  ),
+                                ],
                               ),
-                              Expanded(
-                                child: MulishText(text: responseData.transactionAmount.toString(), fontSize: 14.0, textAlign: TextAlign.end),
+                            ),
+                            MulishText(
+                                text: responseData.taxAmount.toString(),
+                                fontSize: 14.0,
+                                textAlign: TextAlign.end),
+                            MulishText(
+                                text: responseData.transactionDiscountAmount
+                                    .toString(),
+                                fontSize: 14.0,
+                                textAlign: TextAlign.end),
+                            const Divider(
+                              height: 10,
+                              thickness: 1,
+                              indent: 0,
+                              endIndent: 0,
+                              color: Colors.black,
+                            ),
+                            Expanded(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Expanded(
+                                    child: MulishText(
+                                      text: 'Total',
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: MulishText(
+                                      text: responseData.transactionNetAmount
+                                          .toString(),
+                                      fontSize: 14.0,
+                                      textAlign: TextAlign.end,
+                                    ),
+                                  )
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                        MulishText(text: responseData.taxAmount.toString(), fontSize: 14.0, textAlign: TextAlign.end),
-                        MulishText(text: responseData.transactionDiscountAmount.toString(), fontSize: 14.0, textAlign: TextAlign.end),
-                        const Divider(
-                          height: 10,
-                          thickness: 1,
-                          indent: 0,
-                          endIndent: 0,
-                          color: Colors.black,
-                        ),
-                        Expanded(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Expanded(
-                                child: MulishText(
-                                  text: 'Total',
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                              Expanded(
-                                child: MulishText(
-                                  text: responseData.transactionNetAmount.toString(),
-                                  fontSize: 14.0,
-                                  textAlign: TextAlign.end,
-                                ),
+                            ),
+                            if (responseData.receipt != null)
+                              CustomButton(
+                                onTap: () => _createFileFromString(
+                                    responseData.receipt.toString(),
+                                    responseData.transactionId.toString()),
+                                label: SplashScreenNotifier.getLanguageLabel(
+                                    'DOWNLOAD'),
                               )
-                            ],
-                          ),
-                        ),
-                        if (responseData.receipt != null)
-                          CustomButton(
-                            onTap: () => _createFileFromString(responseData.receipt.toString(), responseData.transactionId.toString()),
-                            label: SplashScreenNotifier.getLanguageLabel('DOWNLOAD'),
-                          )
-                      ],
-                    );
-                  },
-                );
+                          ],
+                        );
+                      },
+                    ),
+              ),
+            );
           },
         ),
       ),

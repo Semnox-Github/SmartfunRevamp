@@ -144,6 +144,7 @@ abstract class SmartFunApi {
   Future<ListDataWrapper<CustomerDTO>> getCustomerByPhoneorEmail(
     @Query('phoneoremail') String phoneOrEmail, {
     @Query('buildChildRecords') bool buildChildRecords = true,
+    @Query('LoadAdultOnly') bool loadAdultOnly = true,
   });
 
   @GET('Customer/FeedbackSurvey/FeedbackSurveys')

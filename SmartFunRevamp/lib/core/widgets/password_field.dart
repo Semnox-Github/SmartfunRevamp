@@ -29,10 +29,12 @@ class _PasswordFieldState extends State<PasswordField> {
         ),
         const SizedBox(height: 5.0),
         TextFormField(
-          initialValue: 'testuser2!123@12',
+          initialValue: '', //testuser2!123@12
           obscureText: _isObscured,
           onSaved: (newValue) => widget.onSaved(newValue!),
-          validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+          validator: (value) => value!.isEmpty
+              ? SplashScreenNotifier.getLanguageLabel('Required')
+              : null,
           cursorColor: Colors.black,
           keyboardType: TextInputType.visiblePassword,
           decoration: InputDecoration(

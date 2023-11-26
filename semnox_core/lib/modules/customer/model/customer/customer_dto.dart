@@ -20,6 +20,7 @@ class CustomerDTO {
     String? phone,
     String? email,
     bool? verified,
+    // bool? loadAdultOnly,
   }) {
     _id = id;
     _profileId = profileId;
@@ -35,6 +36,7 @@ class CustomerDTO {
     _phone = phone;
     _email = email;
     _verified = verified;
+    // loadAdultOnly = loadAdultOnly;
   }
 
   int? _id;
@@ -51,6 +53,7 @@ class CustomerDTO {
   String? _phone;
   String? _email;
   bool? _verified;
+  // bool? _loadAdultOnly;
 
   int? get id => _id;
   int? get profileId => _profileId;
@@ -65,6 +68,7 @@ class CustomerDTO {
   String? get phone => _phone;
   String? get email => _email;
   bool? get verified => _verified;
+  // bool? get loadAdultOnly => _loadAdultOnly;
 
   // ProfileDTO gettter
   ProfileDTO? get profileDto => _profileDto;

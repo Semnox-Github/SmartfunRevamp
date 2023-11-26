@@ -444,11 +444,13 @@ class _SmartFunApi implements SmartFunApi {
   Future<ListDataWrapper<CustomerDTO>> getCustomerByPhoneorEmail(
     String phoneOrEmail, {
     bool buildChildRecords = true,
+    bool loadAdultOnly = true,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'phoneoremail': phoneOrEmail,
       r'buildChildRecords': buildChildRecords,
+      r'LoadAdultOnly': loadAdultOnly,
     };
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;

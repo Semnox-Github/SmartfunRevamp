@@ -105,7 +105,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           ),
         ),
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'SmartFun',
           navigatorKey: navigatorKey,
           routes: Routes.routesMap,
           onUnknownRoute: (settings) {

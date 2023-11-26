@@ -174,7 +174,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             BillDetailRow(
                               description:
                                   SplashScreenNotifier.getLanguageLabel(
-                                      'Recharge Amount'),
+                                      'Amount'),
                               amount: transactionResponse.transactionAmount
                                   .toCurrency(currency, format),
                             ),

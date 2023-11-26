@@ -51,7 +51,8 @@ class _CarouselCardsState extends State<CarouselCards> {
     if (_cards.isEmpty) {
       return Center(
         child: MulishText(
-          text: SplashScreenNotifier.getLanguageLabel("You don't have any cards"),
+          text:
+              SplashScreenNotifier.getLanguageLabel("You don't have any cards"),
           fontWeight: FontWeight.bold,
           fontSize: 20.0,
         ),
@@ -62,7 +63,8 @@ class _CarouselCardsState extends State<CarouselCards> {
       children: [
         CarouselSlider.builder(
           options: CarouselOptions(
-            initialPage: widget.initialPosition ?? 0,
+            initialPage: widget.initialPosition ??
+                0, // when the transfer credit ois pressed i  want to set the initialPage cards.length i need help here phind
             enableInfiniteScroll: false,
             height: MediaQuery.of(context).size.height * 0.25,
             viewportFraction: 1,
@@ -76,7 +78,8 @@ class _CarouselCardsState extends State<CarouselCards> {
             },
           ),
           itemCount: _cards.length + (widget.showLinkCard ? 1 : 0),
-          itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
+          itemBuilder:
+              (BuildContext context, int itemIndex, int pageViewIndex) {
             if (itemIndex == _cards.length && widget.showLinkCard) {
               return LinkACard();
             }
@@ -133,7 +136,8 @@ class CarouselCardItemState extends State<CarouselCardItem> {
           cardNumber: card.accountNumber!,
           child: Consumer(
             builder: (context, ref, _) {
-              final textColor = HexColor.fromHex(ref.watch(newHomePageCMSProvider)?.cardsColor?.colorCardText);
+              final textColor = HexColor.fromHex(
+                  ref.watch(newHomePageCMSProvider)?.cardsColor?.colorCardText);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -182,14 +186,16 @@ class CarouselCardItemState extends State<CarouselCardItem> {
                                   ),
                                 ),
                                 const SizedBox(width: 5.0),
-                                const Icon(Icons.edit, color: Colors.white, size: 15.0),
+                                const Icon(Icons.edit,
+                                    color: Colors.white, size: 15.0),
                               ],
                             ),
                           ),
                         ],
                       ),
                       GestureDetector(
-                        onTap: () => Dialogs.showBarcodeTempCard(context, card.accountNumber!),
+                        onTap: () => Dialogs.showBarcodeTempCard(
+                            context, card.accountNumber!),
                         child: const ImageHandler(
                           height: 42.0,
                           imageKey: "QR_image_path",

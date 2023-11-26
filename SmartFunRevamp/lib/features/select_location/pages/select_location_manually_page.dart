@@ -43,7 +43,8 @@ class SelectLocationManuallyPage extends ConsumerWidget {
             ref.read(loginProvider.notifier).saveSelectedSite();
             context.loaderOverlay.hide();
             registerLoggedUserWithSite(customer!, selectedSite).then((value) =>
-                Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage, (Route<dynamic> route) => false));
+                Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage,
+                    (Route<dynamic> route) => false));
           },
         );
       },
@@ -62,7 +63,9 @@ class SelectLocationManuallyPage extends ConsumerWidget {
           padding: const EdgeInsets.all(25.0),
           child: CustomButton(
             onTap: () {
-              ref.read(selectLocationStateProvider.notifier).selectSite(selectedSite);
+              ref
+                  .read(selectLocationStateProvider.notifier)
+                  .selectSite(selectedSite);
             },
             label: SplashScreenNotifier.getLanguageLabel('CONFIRM LOCATION'),
           ),
@@ -74,7 +77,9 @@ class SelectLocationManuallyPage extends ConsumerWidget {
           child: Column(
             children: [
               SearchTextField(
-                onChanged: (filter) => ref.read(selectLocationStateProvider.notifier).filterSites(filter),
+                onChanged: (filter) => ref
+                    .read(selectLocationStateProvider.notifier)
+                    .filterSites(filter),
               ),
               const SizedBox(height: 10.0),
               GestureDetector(
@@ -142,19 +147,24 @@ class _LocationListViewState extends State<LocationListView> {
               ),
               success: (data) {
                 return ListView.separated(
-                  separatorBuilder: (context, index) => const Divider(color: Colors.white),
+                  separatorBuilder: (context, index) =>
+                      const Divider(color: Colors.white),
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Container(
                       decoration: BoxDecoration(
-                        gradient: locationSelected == index ? CustomGradients.linearGradient : null,
+                        gradient: locationSelected == index
+                            ? CustomGradients.linearGradient
+                            : null,
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: ListTile(
                         title: MulishText(
                           text: data[index].siteName ?? '',
-                          fontColor: locationSelected == index ? Colors.white : Colors.black,
+                          fontColor: locationSelected == index
+                              ? Colors.white
+                              : Colors.black,
                         ),
                         onTap: () {
                           setState(() {

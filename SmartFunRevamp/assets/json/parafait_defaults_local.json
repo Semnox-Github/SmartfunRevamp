@@ -3714,7 +3714,7 @@
     },
     {
       "DefaultValueName": "ENABLE_PASSWORD_ON_SMARTFUN",
-      "DefaultValue": "Y"
+      "DefaultValue": "N"
     },
     {
       "DefaultValueName": "SMARTFUN_LOGIN_CHANNEL",

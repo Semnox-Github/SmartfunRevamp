@@ -28,10 +28,12 @@ class CustomerVerificationPage extends ConsumerStatefulWidget {
   const CustomerVerificationPage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CustomerVerificationPage();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CustomerVerificationPage();
 }
 
-class _CustomerVerificationPage extends ConsumerState<CustomerVerificationPage> {
+class _CustomerVerificationPage
+    extends ConsumerState<CustomerVerificationPage> {
   final _formKey = GlobalKey<FormState>();
   Map<String, dynamic> request = {};
 
@@ -55,14 +57,20 @@ class _CustomerVerificationPage extends ConsumerState<CustomerVerificationPage> 
               btnOkText: SplashScreenNotifier.getLanguageLabel("Continue"),
               btnOkOnPress: () {},
               onDismissCallback: (_) {
-                GluttonLocalDataSource().retrieveCustomClass(LocalDataSource.kDefaultSite).then((value) async => {
-                      value.fold(
-                        (l) => Navigator.pushReplacementNamed(context, Routes.kEnableLocation),
-                        (r) {
-                          Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage, (Route<dynamic> route) => false);
-                        },
-                      ),
-                    });
+                GluttonLocalDataSource()
+                    .retrieveCustomClass(LocalDataSource.kDefaultSite)
+                    .then((value) async => {
+                          value.fold(
+                            (l) => Navigator.pushReplacementNamed(
+                                context, Routes.kEnableLocation),
+                            (r) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  Routes.kHomePage,
+                                  (Route<dynamic> route) => false);
+                            },
+                          ),
+                        });
               },
               body: Container(
                 margin: const EdgeInsets.symmetric(vertical: 10.0),
@@ -86,7 +94,8 @@ class _CustomerVerificationPage extends ConsumerState<CustomerVerificationPage> 
     );
 
     return Scaffold(
-      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Verification')),
+      appBar: CustomAppBar(
+          title: SplashScreenNotifier.getLanguageLabel('Verification')),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -96,7 +105,8 @@ class _CustomerVerificationPage extends ConsumerState<CustomerVerificationPage> 
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 metaData.when(
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
                   error: (_, __) => const Center(
                     child: Icon(
                       Icons.error,
@@ -104,45 +114,73 @@ class _CustomerVerificationPage extends ConsumerState<CustomerVerificationPage> 
                     ),
                   ),
                   data: (metadata) {
-                    List<CustomerUIMetaData> propertiesToValidate = [...metadata];
+                    List<CustomerUIMetaData> propertiesToValidate = [
+                      ...metadata
+                    ];
                     //propertiesToValidate.removeWhere((element) => element.customerFieldName != "CONTACT_PHONE" && element.customerFieldName != "EMAIL");
                     return Column(
                       children: propertiesToValidate.map((field) {
                         if (field.customerFieldName == "CONTACT_PHONE") {
-                          return CustomVerifyTextField(
-                            onSaved: (value) => request[field.customerFieldName] = {
-                              "value": value.toString(),
-                              "customAttributeId": field.customAttributeId,
-                              "customerFieldType": field.customerFieldType
-                            },
-                            label:
-                                '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
-                            initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                            margins: const EdgeInsets.symmetric(vertical: 10.0),
-                            contactType: ContactType.phone,
-                            phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                            formatters: [FilteringTextInputFormatter.digitsOnly],
-                            required: field.validationType == "M",
-                            key: const Key("PhoneV"),
-                            verificationStatusInitialValue: false,
+                          return Visibility(
+                            visible: returnValue(field.customerFieldName,
+                                    field.customAttributeId)
+                                .toString()
+                                .isNotEmpty,
+                            child: CustomVerifyTextField(
+                              onSaved: (value) =>
+                                  request[field.customerFieldName] = {
+                                "value": value.toString(),
+                                "customAttributeId": field.customAttributeId,
+                                "customerFieldType": field.customerFieldType
+                              },
+                              label:
+                                  '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
+                              initialValue: returnValue(field.customerFieldName,
+                                      field.customAttributeId)
+                                  .toString(),
+                              margins:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              contactType: ContactType.phone,
+                              phoneOrEmail: returnValue(field.customerFieldName,
+                                      field.customAttributeId)
+                                  .toString(),
+                              formatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              required: field.validationType == "M",
+                              key: const Key("PhoneV"),
+                              verificationStatusInitialValue: false,
+                            ),
                           );
                         }
                         if (field.customerFieldName == "EMAIL") {
-                          return CustomVerifyTextField(
-                            onSaved: (value) => request[field.customerFieldName] = {
-                              "value": value.toString(),
-                              "customAttributeId": field.customAttributeId,
-                              "customerFieldType": field.customerFieldType
-                            },
-                            label:
-                                '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
-                            initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                            margins: const EdgeInsets.symmetric(vertical: 10.0),
-                            contactType: ContactType.email,
-                            phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                            required: field.validationType == "M",
-                            key: const Key("EmailV"),
-                            verificationStatusInitialValue: false,
+                          return Visibility(
+                            visible: returnValue(field.customerFieldName,
+                                    field.customAttributeId)
+                                .toString()
+                                .isNotEmpty,
+                            child: CustomVerifyTextField(
+                              onSaved: (value) =>
+                                  request[field.customerFieldName] = {
+                                "value": value.toString(),
+                                "customAttributeId": field.customAttributeId,
+                                "customerFieldType": field.customerFieldType
+                              },
+                              label:
+                                  '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
+                              initialValue: returnValue(field.customerFieldName,
+                                      field.customAttributeId)
+                                  .toString(),
+                              margins:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              contactType: ContactType.email,
+                              phoneOrEmail: returnValue(field.customerFieldName,
+                                      field.customAttributeId)
+                                  .toString(),
+                              required: field.validationType == "M",
+                              key: const Key("EmailV"),
+                              verificationStatusInitialValue: false,
+                            ),
                           );
                         }
                         //set all other fields with visibility false (to get the model populated)
@@ -156,46 +194,77 @@ class _CustomerVerificationPage extends ConsumerState<CustomerVerificationPage> 
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption),
-                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                      SplashScreenNotifier.getLanguageLabel(
+                                          field.entityFieldCaption),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     DropdownButtonFormField<String>(
-                                      value: returnValue(field.customerFieldName, field.customAttributeId).toString() ==
+                                      value: returnValue(
+                                                      field.customerFieldName,
+                                                      field.customAttributeId)
+                                                  .toString() ==
                                               ""
                                           ? field.customerFieldValues.first
-                                          : returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                                      items: List<String>.from(field.customerFieldValues).map((title) {
+                                          : returnValue(field.customerFieldName,
+                                                  field.customAttributeId)
+                                              .toString(),
+                                      items: List<String>.from(
+                                              field.customerFieldValues)
+                                          .map((title) {
                                         return DropdownMenuItem<String>(
                                           value: title,
-                                          child: Text(SplashScreenNotifier.getLanguageLabel(title)),
+                                          child: Text(SplashScreenNotifier
+                                              .getLanguageLabel(title)),
                                         );
                                       }).toList(),
-                                      onChanged: (title) => request[field.customerFieldName] = {
+                                      onChanged: (title) =>
+                                          request[field.customerFieldName] = {
                                         "value": title,
-                                        "customAttributeId": field.customAttributeId,
-                                        "customerFieldType": field.customerFieldType
+                                        "customAttributeId":
+                                            field.customAttributeId,
+                                        "customerFieldType":
+                                            field.customerFieldType
                                       },
                                     ),
                                   ],
                                 );
                               }
-                              if (field.customerFieldName == "BIRTH_DATE" || field.customerFieldType == "DATE") {
+                              if (field.customerFieldName == "BIRTH_DATE" ||
+                                  field.customerFieldType == "DATE") {
                                 return CustomDatePicker(
-                                  initialText: returnValue(field.customerFieldName, field.customAttributeId) == null
-                                      ? SplashScreenNotifier.getLanguageLabel('Date of birth')
-                                      : returnValue(field.customerFieldName, field.customAttributeId)
+                                  initialText: returnValue(
+                                              field.customerFieldName,
+                                              field.customAttributeId) ==
+                                          null
+                                      ? SplashScreenNotifier.getLanguageLabel(
+                                          'Date of birth')
+                                      : returnValue(field.customerFieldName,
+                                              field.customAttributeId)
                                           .toString()
                                           .split("T")[0],
-                                  initialDateTime: returnValue(field.customerFieldName, field.customAttributeId) == null
+                                  initialDateTime: returnValue(
+                                              field.customerFieldName,
+                                              field.customAttributeId) ==
+                                          null
                                       ? DateTime.now()
-                                      : DateTime.parse(
-                                          returnValue(field.customerFieldName, field.customAttributeId).toString()),
-                                  margin: const EdgeInsets.symmetric(vertical: 10.0),
-                                  labelText: SplashScreenNotifier.getLanguageLabel('Date of birth'),
+                                      : DateTime.parse(returnValue(
+                                              field.customerFieldName,
+                                              field.customAttributeId)
+                                          .toString()),
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  labelText:
+                                      SplashScreenNotifier.getLanguageLabel(
+                                          'Date of birth'),
                                   format: 'MM-dd-yyyy',
-                                  onItemSelected: (dob) => request[field.customerFieldName] = {
-                                    "value": DateFormat('MM-dd-yyyy').format(dob).toString(),
-                                    "customAttributeId": field.customAttributeId,
+                                  onItemSelected: (dob) =>
+                                      request[field.customerFieldName] = {
+                                    "value": DateFormat('MM-dd-yyyy')
+                                        .format(dob)
+                                        .toString(),
+                                    "customAttributeId":
+                                        field.customAttributeId,
                                     "customerFieldType": field.customerFieldType
                                   },
                                   suffixIcon: const Icon(
@@ -205,15 +274,20 @@ class _CustomerVerificationPage extends ConsumerState<CustomerVerificationPage> 
                                 );
                               }
                               return CustomTextField(
-                                initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                                onSaved: (value) => request[field.customerFieldName] = {
+                                initialValue: returnValue(
+                                        field.customerFieldName,
+                                        field.customAttributeId)
+                                    .toString(),
+                                onSaved: (value) =>
+                                    request[field.customerFieldName] = {
                                   "value": value.toString(),
                                   "customAttributeId": field.customAttributeId,
                                   "customerFieldType": field.customerFieldType
                                 },
                                 label:
                                     '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
-                                margins: const EdgeInsets.symmetric(vertical: 10.0),
+                                margins:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
                                 required: field.validationType == "M",
                                 formatters: field.customerFieldType == "NUMBER"
                                     ? [FilteringTextInputFormatter.digitsOnly]
@@ -229,7 +303,9 @@ class _CustomerVerificationPage extends ConsumerState<CustomerVerificationPage> 
                     if (_formKey.currentState!.validate()) {
                       user.verified = true;
                       _formKey.currentState!.save();
-                      ref.read(updateAccountProvider.notifier).updateProfile(user, request);
+                      ref
+                          .read(updateAccountProvider.notifier)
+                          .updateProfile(user, request);
                     }
                   },
                   label: SplashScreenNotifier.getLanguageLabel('CONFIRM'),
@@ -266,7 +342,8 @@ class CustomPasswordTextField extends StatefulWidget {
   final bool required;
 
   @override
-  State<CustomPasswordTextField> createState() => _CustomPasswordTextFieldState();
+  State<CustomPasswordTextField> createState() =>
+      _CustomPasswordTextFieldState();
 }
 
 dynamic returnValue(String key, int customId) {
@@ -330,8 +407,9 @@ dynamic returnValue(String key, int customId) {
     //
     case "WECHAT_ACCESS_TOKEN":
       try {
-        var contactDtoList =
-            user.contactDtoList!.where((element) => element.contactType == ContactType.wechat.type).first;
+        var contactDtoList = user.contactDtoList!
+            .where((element) => element.contactType == ContactType.wechat.type)
+            .first;
         return contactDtoList.attribute1;
       } catch (e) {
         return "";
@@ -341,8 +419,9 @@ dynamic returnValue(String key, int customId) {
       CustomDataDTO customDataDtoList;
       dynamic returnValue;
       try {
-        customDataDtoList =
-            user.customDataSetDto!.customDataDtoList!.where((element) => element.customAttributeId == customId).first;
+        customDataDtoList = user.customDataSetDto!.customDataDtoList!
+            .where((element) => element.customAttributeId == customId)
+            .first;
         if (customDataDtoList.customDataText != null) {
           returnValue = customDataDtoList.customDataText;
         } else if (customDataDtoList.customDataDate != null) {
@@ -388,13 +467,15 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
           TextFormField(
             initialValue: widget.initialValue,
             onSaved: (newValue) => widget.onSaved(newValue!),
-            validator: (value) =>
-                value!.isEmpty && widget.required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+            validator: (value) => value!.isEmpty && widget.required
+                ? SplashScreenNotifier.getLanguageLabel('Required')
+                : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             obscureText: !_passwordVisible, //This will obscure text dynamically
             decoration: InputDecoration(
-              hintText: SplashScreenNotifier.getLanguageLabel('Enter your password'),
+              hintText:
+                  SplashScreenNotifier.getLanguageLabel('Enter your password'),
               // Here is key idea
               suffixIcon: IconButton(
                 icon: Icon(

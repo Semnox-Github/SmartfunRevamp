@@ -20,9 +20,11 @@ class EmailTextField extends StatelessWidget {
         ),
         const SizedBox(height: 5.0),
         TextFormField(
-          initialValue: 'new@mail1.com',
+          initialValue: '', //new@mail1.com
           onSaved: (newValue) => onSaved(newValue!),
-          validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+          validator: (value) => value!.isEmpty
+              ? SplashScreenNotifier.getLanguageLabel('Required')
+              : null,
           cursorColor: Colors.black,
           keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(

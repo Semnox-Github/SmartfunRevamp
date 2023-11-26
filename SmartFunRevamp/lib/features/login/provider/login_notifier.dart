@@ -1,5 +1,6 @@
 // ignore_for_file: unused_field
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/instance_manager.dart';
@@ -77,7 +78,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
     setDefaultOrSelectedSite();
     state = const _InProgress();
     _phone = loginId;
-    previousUserId = await _localDataSource.retrieveValue<String>(LocalDataSource.kUserId);
+    previousUserId =
+        await _localDataSource.retrieveValue<String>(LocalDataSource.kUserId);
     final loginResponse = await _loginUserUseCase(
       {
         "UserName": loginId,
@@ -89,16 +91,20 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (customerDTO) async {
         _loggedUser = customerDTO;
         registerLoggedUser(customerDTO);
-        final CheckNotificationTokenRegisteredUseCase check = Get.find<CheckNotificationTokenRegisteredUseCase>();
+        final CheckNotificationTokenRegisteredUseCase check =
+            Get.find<CheckNotificationTokenRegisteredUseCase>();
         await check(userId: _loggedUser?.id ?? -1);
-        await _localDataSource.saveValue(LocalDataSource.kUserId, customerDTO.id.toString());
+        await _localDataSource.saveValue(
+            LocalDataSource.kUserId, customerDTO.id.toString());
         if (customerDTO.verified != true) {
           if (defaultSite?.siteId != null) {
             getNewToken();
           }
           state = _CustomerVerificationNeeded(customerDTO);
         } else if (defaultSite?.siteId == null &&
-            (selectedSite?.siteId == null || (previousUserId != customerDTO.id.toString() && previousUserId != null))) {
+            (selectedSite?.siteId == null ||
+                (previousUserId != customerDTO.id.toString() &&
+                    previousUserId != null))) {
           state = _SelectLocationNeeded(customerDTO);
         } else {
           getNewToken();
@@ -115,13 +121,18 @@ class LoginNotifier extends StateNotifier<LoginState> {
       (r) => parafaitDefault = r,
     );
     //reading default site
-    defaultSiteId = parafaitDefault?.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
+    defaultSiteId = parafaitDefault
+        ?.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
     //if the default site is set then save it
     if (!defaultSiteId.isNullOrEmpty()) {
-      selectedSite =
-          SiteViewDTO(siteId: int.parse(defaultSiteId!), openDate: DateTime.now(), closureDate: DateTime.now());
-      await _localDataSource.saveCustomClass(LocalDataSource.kDefaultSite, selectedSite!.toJson());
-      await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite!.toJson());
+      selectedSite = SiteViewDTO(
+          siteId: int.parse(defaultSiteId!),
+          openDate: DateTime.now(),
+          closureDate: DateTime.now());
+      await _localDataSource.saveCustomClass(
+          LocalDataSource.kDefaultSite, selectedSite!.toJson());
+      await _localDataSource.saveCustomClass(
+          LocalDataSource.kSelectedSite, selectedSite!.toJson());
     }
   }
 
@@ -130,12 +141,15 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   void saveSelectedSite() async {
-    await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite!.toJson());
+    await _localDataSource.saveCustomClass(
+        LocalDataSource.kSelectedSite, selectedSite!.toJson());
   }
 
   void setDefaultOrSelectedSite() async {
-    final selectedLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
-    final defaultLocationResponse = await _localDataSource.retrieveCustomClass(LocalDataSource.kSelectedSite);
+    final selectedLocationResponse = await _localDataSource
+        .retrieveCustomClass(LocalDataSource.kSelectedSite);
+    final defaultLocationResponse = await _localDataSource
+        .retrieveCustomClass(LocalDataSource.kSelectedSite);
     defaultLocationResponse.fold(
       (l) => Logger().e('No site has been selected'),
       (r) {
@@ -154,7 +168,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
   void _getUserInfo(String phoneOrEmail) async {
     setDefaultOrSelectedSite();
 
-    previousUserId = await _localDataSource.retrieveValue<String>(LocalDataSource.kUserId);
+    previousUserId =
+        await _localDataSource.retrieveValue<String>(LocalDataSource.kUserId);
     final response = await _byPhoneOrEmailUseCase(phoneOrEmail);
     response.fold(
       (l) {
@@ -162,7 +177,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
         state = _Error(l.message);
       },
       (r) async {
-        await _localDataSource.saveValue(LocalDataSource.kUserId, r.id.toString());
+        await _localDataSource.saveValue(
+            LocalDataSource.kUserId, r.id.toString());
         registerLoggedUser(r);
         _loggedUser = r;
         if (r.verified != true) {
@@ -196,13 +212,16 @@ class LoginNotifier extends StateNotifier<LoginState> {
     state = const _InProgress();
     _phone = phoneOrEmail;
     final userExists = await _verifyEmailExistsUseCase(phoneOrEmail);
+    debugPrint("user exists $userExists");
     userExists.fold(
-      (l) => state = _Error('${phoneOrEmail.contains('@') ? 'Email' : 'Phone'} not registered'),
+      (l) => state = _Error(
+          '${phoneOrEmail.contains('@') ? 'Email' : 'Phone'} not registered'),
       (r) {
         if (r) {
           loginUserWithOTP(phoneOrEmail);
         } else {
-          state = _Error('${phoneOrEmail.contains('@') ? 'Email' : 'Phone'} not registered');
+          state = _Error(
+              '${phoneOrEmail.contains('@') ? 'Email' : 'Phone'} not registered');
         }
       },
     );
@@ -211,8 +230,10 @@ class LoginNotifier extends StateNotifier<LoginState> {
   void loginUserWithOTP(String phoneOrEmail) async {
     _phone = phoneOrEmail;
     state = const _InProgress();
-    final response = await _sendOTPUseCase(
-        {phoneOrEmail.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail, 'Source': 'LOGIN_OTP_EVENT'});
+    final response = await _sendOTPUseCase({
+      phoneOrEmail.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail,
+      'Source': 'LOGIN_OTP_EVENT'
+    });
     state = response.fold(
       (l) {
         Logger().e(l);
@@ -227,8 +248,10 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
   void resendOtp() async {
     state = const _InProgress();
-    final response =
-        await _sendOTPUseCase({_phone.contains('@') ? 'EmailId' : 'Phone': _phone, 'Source': 'LOGIN_OTP_EVENT'});
+    final response = await _sendOTPUseCase({
+      _phone.contains('@') ? 'EmailId' : 'Phone': _phone,
+      'Source': 'LOGIN_OTP_EVENT'
+    });
     state = response.fold(
       (l) => _Error(l.message),
       (r) {
@@ -239,8 +262,10 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   void resendDeleteOtp(String phoneOrEmail) async {
-    final response = await _sendOTPUseCase(
-        {_phone.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail, 'Source': 'Customer_Delete_Otp_Event'});
+    final response = await _sendOTPUseCase({
+      _phone.contains('@') ? 'EmailId' : 'Phone': phoneOrEmail,
+      'Source': 'Customer_Delete_Otp_Event'
+    });
     state = response.fold(
       (l) => _Error(l.message),
       (r) {

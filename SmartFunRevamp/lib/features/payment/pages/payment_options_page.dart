@@ -49,6 +49,7 @@ class PaymentOptionsPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           SplashScreenNotifier.getLanguageLabel('Payment Options'),
           style: const TextStyle(
@@ -262,8 +263,25 @@ class _ExpansionPaymentMethodsListState
                                   onPageFinished: (String url) {
                                     debugPrint("onLoad finish $url");
                                   },
-                                  onUrlChange: (UrlChange change) {
-                                    debugPrint("change url ${change.url}");
+                                  onUrlChange: (change) {
+                                    debugPrint(
+                                        " change url type ${change.url.runtimeType}");
+                                    debugPrint(
+                                        " change url type ${change.url}");
+                                    if (change.url?.contains(
+                                            SplashScreenNotifier.getLookupValue(
+                                                "CANCEL_REDIRECT_URL")) ??
+                                        false) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const PaymentFailedPage(),
+                                        ),
+                                      );
+
+                                      NavigationDecision.prevent;
+                                    }
                                   },
                                   onNavigationRequest:
                                       (NavigationRequest request) {
@@ -304,6 +322,13 @@ class _ExpansionPaymentMethodsListState
                                     } else if (request.url.contains(
                                         SplashScreenNotifier.getLookupValue(
                                             "CANCEL_REDIRECT_URL"))) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const PaymentFailedPage(),
+                                        ),
+                                      );
                                       return NavigationDecision.prevent;
                                     }
                                     //Payment Method callback URLs

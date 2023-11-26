@@ -20,10 +20,11 @@ class LoginWithOTP extends ConsumerWidget {
         children: [
           CustomTextField(
             onSaved: (value) => phone = value,
-            label: SplashScreenNotifier.getLanguageLabel('Enter registered phone number or email'),
+            label: SplashScreenNotifier.getLanguageLabel(
+                'Enter registered phone number or email'),
             inputType: TextInputType.emailAddress,
             fillColor: Colors.white,
-            initialValue: 'gkodaja@gmail.com',
+            initialValue: '', //gkodaja@gmail.com
           ),
           const SizedBox(height: 20.0),
           CustomButton(
@@ -31,7 +32,9 @@ class LoginWithOTP extends ConsumerWidget {
             onTap: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                ref.read(loginProvider.notifier).validateEmailOrPhoneExists(phone);
+                ref
+                    .read(loginProvider.notifier)
+                    .validateEmailOrPhoneExists(phone);
               }
             },
           ),

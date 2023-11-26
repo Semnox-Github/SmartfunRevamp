@@ -283,7 +283,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                 children: [
                                                   data.isNotEmpty
                                                       ? CarouselCards(
-                                                          //when the transfer credits link pressed i am updating  _cardIndex  which  is initial position  i need help here phind
                                                           initialPosition:
                                                               _cardIndex,
                                                           cards: data,
@@ -443,45 +442,47 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                       } else if (quickLink
                                                               .source
                                                               .toLowerCase() ==
-                                                          'transfer credits') {
+                                                          'link card') {
                                                         Navigator.pushNamed(
                                                             context,
                                                             Routes
                                                                 .kLinkPageCard);
-                                                        //Here i am trying  to update the initial position of the Carousel  widget to _cardlength so CarouselCards widget  will automatically move to that position  i need here help here phind
-
-                                                        // if (hasCard) {
-                                                        //   if (cardDetails ==
-                                                        //           null ||
-                                                        //       cardDetails
-                                                        //           .isBlocked() ||
-                                                        //       cardDetails
-                                                        //           .isExpired()) {
-                                                        //     Dialogs.showMessageInfo(
-                                                        //         context,
-                                                        //         SplashScreenNotifier
-                                                        //             .getLanguageLabel(
-                                                        //                 'Transfer Credits'),
-                                                        //         SplashScreenNotifier
-                                                        //             .getLanguageLabel(
-                                                        //                 'Please select an active card'));
-                                                        //   } else {
-                                                        //     Navigator.pushNamed(
-                                                        //         context,
-                                                        //         quickLink
-                                                        //             .contentKey
-                                                        //             .replaceAll(
-                                                        //                 'sf:/',
-                                                        //                 ''));
-                                                        //   }
-                                                        // } else {
-                                                        //   Dialogs.showMessageInfo(
-                                                        //       context,
-                                                        //       SplashScreenNotifier
-                                                        //           .getLanguageLabel(
-                                                        //               'Transfer Credits'),
-                                                        //       msgCardNoLink);
-                                                        // }
+                                                      } else if (quickLink
+                                                              .source
+                                                              .toLowerCase() ==
+                                                          'transfer credits') {
+                                                        if (hasCard) {
+                                                          if (cardDetails ==
+                                                                  null ||
+                                                              cardDetails
+                                                                  .isBlocked() ||
+                                                              cardDetails
+                                                                  .isExpired()) {
+                                                            Dialogs.showMessageInfo(
+                                                                context,
+                                                                SplashScreenNotifier
+                                                                    .getLanguageLabel(
+                                                                        'Transfer Credits'),
+                                                                SplashScreenNotifier
+                                                                    .getLanguageLabel(
+                                                                        'Please select an active card'));
+                                                          } else {
+                                                            Navigator.pushNamed(
+                                                                context,
+                                                                quickLink
+                                                                    .contentKey
+                                                                    .replaceAll(
+                                                                        'sf:/',
+                                                                        ''));
+                                                          }
+                                                        } else {
+                                                          Dialogs.showMessageInfo(
+                                                              context,
+                                                              SplashScreenNotifier
+                                                                  .getLanguageLabel(
+                                                                      'Transfer Credits'),
+                                                              msgCardNoLink);
+                                                        }
                                                       } else {
                                                         if (hasCard) {
                                                           Navigator.pushNamed(

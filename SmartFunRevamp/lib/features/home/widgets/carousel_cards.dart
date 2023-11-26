@@ -63,8 +63,7 @@ class _CarouselCardsState extends State<CarouselCards> {
       children: [
         CarouselSlider.builder(
           options: CarouselOptions(
-            initialPage: widget.initialPosition ??
-                0, // when the transfer credit ois pressed i  want to set the initialPage cards.length i need help here phind
+            initialPage: widget.initialPosition ?? 0,
             enableInfiniteScroll: false,
             height: MediaQuery.of(context).size.height * 0.25,
             viewportFraction: 1,

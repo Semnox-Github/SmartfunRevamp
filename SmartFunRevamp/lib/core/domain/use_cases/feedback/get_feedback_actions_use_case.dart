@@ -6,7 +6,7 @@ import 'package:semnox/core/errors/failures.dart';
 class GetFeedbackActionsUseCase {
   final FeedbackRepository _repository;
   GetFeedbackActionsUseCase(this._repository);
-  Future<Either<Failure, List<SurveyDetails>>> call() async {
+  Future<Either<Failure, SurveyDetailsResponse>> call() async {
     return await _repository.getFeedbackActions();
   }
 }

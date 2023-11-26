@@ -33,8 +33,7 @@ class QuestionResponse {
   final bool isActive;
 
   QuestionResponse(this.responseValues, this.isActive);
-  factory QuestionResponse.fromJson(Map<String, dynamic> json) =>
-      _$QuestionResponseFromJson(json);
+  factory QuestionResponse.fromJson(Map<String, dynamic> json) => _$QuestionResponseFromJson(json);
   Map<String, dynamic> toJson() => _$QuestionResponseToJson(this);
 }
 
@@ -45,10 +44,8 @@ class SurveyQuestion {
   final String question;
   final bool isActive;
 
-  SurveyQuestion(
-      this.questionResponse, this.questionNo, this.question, this.isActive);
-  factory SurveyQuestion.fromJson(Map<String, dynamic> json) =>
-      _$SurveyQuestionFromJson(json);
+  SurveyQuestion(this.questionResponse, this.questionNo, this.question, this.isActive);
+  factory SurveyQuestion.fromJson(Map<String, dynamic> json) => _$SurveyQuestionFromJson(json);
 
   Map<String, dynamic> toJson() => _$SurveyQuestionToJson(this);
 }
@@ -61,18 +58,17 @@ class SurveyDetails {
     this.surveyQuestion,
     this.custFbSurveyDetailId,
   );
-  factory SurveyDetails.fromJson(Map<String, dynamic> json) =>
-      _$SurveyDetailsFromJson(json);
+  factory SurveyDetails.fromJson(Map<String, dynamic> json) => _$SurveyDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$SurveyDetailsToJson(this);
 }
 
 @JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class SurveyDetailsResponse {
   final List<SurveyDetails> surveyDetails;
+  final bool isResponseMandatory;
 
-  SurveyDetailsResponse(this.surveyDetails);
+  SurveyDetailsResponse(this.surveyDetails, this.isResponseMandatory);
 
-  factory SurveyDetailsResponse.fromJson(Map<String, dynamic> json) =>
-      _$SurveyDetailsResponseFromJson(json);
+  factory SurveyDetailsResponse.fromJson(Map<String, dynamic> json) => _$SurveyDetailsResponseFromJson(json);
   Map<String, dynamic> toJson() => _$SurveyDetailsResponseToJson(this);
 }

@@ -1,1 +1,8 @@
-Ensure Computer Name is updated for Customer App POS or create new POS in HQ Master Site for new API payment to work
+1) Ensure Computer Name is updated for Customer App POS or create new POS in HQ Master Site for new API payment to work
+
+2) Set Latitude and Longitue for the site  
+update site
+set Latitude ='12.915605', Longitude = '74.855965'
+where site_id = 1011
+
+

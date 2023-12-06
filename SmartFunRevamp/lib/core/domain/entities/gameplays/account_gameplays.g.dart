@@ -16,6 +16,10 @@ AccountGameplays _$AccountGameplaysFromJson(Map<String, dynamic> json) =>
       (json['Courtesy'] as num).toDouble(),
       (json['Bonus'] as num).toDouble(),
       (json['Time'] as num).toDouble(),
+      (json['CPBonus'] as num).toDouble(),
+      (json['CPCredits'] as num).toDouble(),
+      (json['CPCardBalance'] as num).toDouble(),
+      (json['CardGame'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$AccountGameplaysToJson(AccountGameplays instance) {
@@ -36,5 +40,10 @@ Map<String, dynamic> _$AccountGameplaysToJson(AccountGameplays instance) {
   val['Courtesy'] = instance.courtesy;
   val['Bonus'] = instance.bonus;
   val['Time'] = instance.time;
+  val['CPBonus'] = instance.cpBonus;
+  val['CPCredits'] = instance.cpCredits;
+  val['CPCardBalance'] = instance.cpCardBalance;
+  val['CardGame'] = instance.cardGame;
+
   return val;
 }

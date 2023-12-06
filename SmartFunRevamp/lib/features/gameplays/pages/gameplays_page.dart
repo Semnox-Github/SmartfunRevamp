@@ -34,7 +34,8 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
   void initState() {
     super.initState();
     _cardIndex = 0;
-    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+    cards = List<CardDetails>.from(
+        ref.read(CardsProviders.userCardsProvider).value ?? []);
     cardDetails = ref.read(currentCardProvider);
     // cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     if (cardDetails != null) {
@@ -78,9 +79,13 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
               Expanded(
                 child: Consumer(
                   builder: (context, ref, child) {
-                    return ref.watch(GameplaysProvider.accountGameplaysProvider(selectedCard.accountId ?? 0)).maybeWhen(
+                    return ref
+                        .watch(GameplaysProvider.accountGameplaysProvider(
+                            selectedCard.accountId ?? 0))
+                        .maybeWhen(
                           orElse: () => Container(),
-                          loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                          loading: () => const Center(
+                              child: CircularProgressIndicator.adaptive()),
                           error: (error, stackTrace) => const Center(
                             child: MulishText(
                               text: 'No Gameplays Found',
@@ -91,14 +96,16 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                             if (data.isEmpty) {
                               return Center(
                                 child: MulishText(
-                                  text: SplashScreenNotifier.getLanguageLabel('This card has no gameplays'),
+                                  text: SplashScreenNotifier.getLanguageLabel(
+                                      'This card has no gameplays'),
                                   fontSize: 30.0,
                                 ),
                               );
                             }
                             return ListView.builder(
                               itemCount: data.length,
-                              padding: const EdgeInsets.symmetric(vertical: 10.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
                               shrinkWrap: true,
                               physics: const ClampingScrollPhysics(),
                               itemBuilder: (context, index) {
@@ -111,25 +118,35 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                                     ),
                                   ),
                                   child: ListTile(
-                                    contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
                                     title: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        MulishText(text: '${item.game}', fontSize: 16, fontWeight: FontWeight.bold),
                                         MulishText(
-                                          text: DateFormat('MMM d, yyyy, h:mm a')
-                                              .format(DateTime.parse(item.playDate ?? "")),
+                                            text: '${item.game}',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                        MulishText(
+                                          text:
+                                              DateFormat('MMM d, yyyy, h:mm a')
+                                                  .format(DateTime.parse(
+                                                      item.playDate ?? "")),
                                           fontSize: 14,
                                           fontColor: Colors.grey,
                                         ),
                                       ],
                                     ),
                                     subtitle: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             MulishText(
@@ -183,7 +200,8 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
               fontSize: 20.0,
             ),
             MulishText(
-              text: SplashScreenNotifier.getLanguageLabel("Balance consumed during gameplay"),
+              text: SplashScreenNotifier.getLanguageLabel(
+                  "Balance consumed during gameplay"),
               fontSize: 12,
               fontColor: Colors.grey,
             ),
@@ -202,11 +220,11 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                 children: [
                   DialogItem(
                     title: SplashScreenNotifier.getLanguageLabel("Credits"),
-                    value: item.credits.toStringAsFixed(0),
+                    value: item.totalCredits.toStringAsFixed(0),
                   ),
                   DialogItem(
                     title: SplashScreenNotifier.getLanguageLabel("Bonus"),
-                    value: item.bonus.toStringAsFixed(0),
+                    value: item.totalBonus.toStringAsFixed(0),
                   ),
                   DialogItem(
                     title: SplashScreenNotifier.getLanguageLabel("Time"),
@@ -214,7 +232,8 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                   ),
                   DialogItem(
                     title: SplashScreenNotifier.getLanguageLabel("Card Game"),
-                    value: item.courtesy.toStringAsFixed(0),
+                    value: item.cardGame
+                        .toStringAsFixed(0), //item.courtesy.toStringAsFixed(0),
                   ),
                 ],
               ),

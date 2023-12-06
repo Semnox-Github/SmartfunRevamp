@@ -11,8 +11,29 @@ class AccountGameplays {
   final double courtesy;
   final double bonus;
   final double time;
+  final double cpBonus;
+  final double cpCredits;
+  final double cpCardBalance;
+  final double cardGame;
+  final double totalBonus;
+  final double totalCredits;
 
-  AccountGameplays(this.gameplayId, this.playDate, this.game, this.site, this.credits, this.courtesy, this.bonus, this.time);
-  factory AccountGameplays.fromJson(Map<String, dynamic> json) => _$AccountGameplaysFromJson(json);
+  AccountGameplays(
+      this.gameplayId,
+      this.playDate,
+      this.game,
+      this.site,
+      this.credits,
+      this.courtesy,
+      this.bonus,
+      this.time,
+      this.cpBonus,
+      this.cpCredits,
+      this.cpCardBalance,
+      this.cardGame)
+      : totalBonus = bonus + cpBonus,
+        totalCredits = credits + cpCredits + cpCardBalance;
+  factory AccountGameplays.fromJson(Map<String, dynamic> json) =>
+      _$AccountGameplaysFromJson(json);
   Map<String, dynamic> toJson() => _$AccountGameplaysToJson(this);
 }

@@ -11,9 +11,9 @@ class OrderDetails {
   final String transactionOTP;
   final String? receiptHTML;
   final String? receipt;
+  final String? status;
   final DateTime? transactionDate;
   final List<TransactionLinesDTOList>? transactionLinesDTOList;
-
 
   OrderDetails(
     this.transactionId,
@@ -25,9 +25,11 @@ class OrderDetails {
     this.transactionDate,
     this.receiptHTML,
     this.receipt,
+    this.status,
     this.transactionLinesDTOList,
   );
-  factory OrderDetails.fromJson(Map<String, dynamic> json) => _$OrderDetailsFromJson(json);
+  factory OrderDetails.fromJson(Map<String, dynamic> json) =>
+      _$OrderDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$OrderDetailsToJson(this);
 }
 
@@ -38,10 +40,8 @@ class TransactionLinesDTOList {
   final String? productName;
 
   TransactionLinesDTOList(
-    this.transactionId,
-    this.cardNumber,
-    this.productName
-  );
-  factory TransactionLinesDTOList.fromJson(Map<String, dynamic> json) => _$TransactionLinesDTOListFromJson(json);
+      this.transactionId, this.cardNumber, this.productName);
+  factory TransactionLinesDTOList.fromJson(Map<String, dynamic> json) =>
+      _$TransactionLinesDTOListFromJson(json);
   Map<String, dynamic> toJson() => _$TransactionLinesDTOListToJson(this);
 }

@@ -94,6 +94,7 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                               height: MediaQuery.of(context).size.height * 0.1,
                             ),
                             Expanded(
+                              flex: 1,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -120,12 +121,22 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                                 ],
                               ),
                             ),
+                            Expanded(
+                              flex: 1,
+                              child: MulishText(
+                                text: '${responseData.status}',
+                                fontSize: 14.0,
+                                textAlign: TextAlign.end,
+                              ),
+                            ),
+
                             MulishText(
                               text:
                                   '${responseData.transactionDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${responseData.transactionDate.formatDate(DateFormat.HOUR_MINUTE)}',
                               fontSize: 14.0,
                               textAlign: TextAlign.end,
                             ),
+
                             const Divider(
                               height: 10,
                               thickness: 1,
@@ -157,15 +168,15 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                                 ],
                               ),
                             ),
-                            MulishText(
-                                text: responseData.taxAmount.toString(),
-                                fontSize: 14.0,
-                                textAlign: TextAlign.end),
-                            MulishText(
-                                text: responseData.transactionDiscountAmount
-                                    .toString(),
-                                fontSize: 14.0,
-                                textAlign: TextAlign.end),
+                            // MulishText(
+                            //     text: responseData.taxAmount.toString(),
+                            //     fontSize: 14.0,
+                            //     textAlign: TextAlign.end),
+                            // MulishText(
+                            //     text: responseData.transactionDiscountAmount
+                            //         .toString(),
+                            //     fontSize: 14.0,
+                            //     textAlign: TextAlign.end),
                             const Divider(
                               height: 10,
                               thickness: 1,
@@ -198,7 +209,8 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                                 ],
                               ),
                             ),
-                            if (responseData.receipt != null)
+                            if (responseData.receipt != null &&
+                                responseData.status == "CLOSED")
                               CustomButton(
                                 onTap: () => _createFileFromString(
                                     responseData.receipt.toString(),

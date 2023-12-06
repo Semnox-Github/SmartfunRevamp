@@ -15,6 +15,9 @@ class LinkACard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String mCardNumber = '';
+    bool isAlertShown = false;
+    bool enableLink = false;
+
     ref.listen(
       linkCardProvider,
       (previous, next) {
@@ -22,28 +25,37 @@ class LinkACard extends ConsumerWidget {
           orElse: () => {},
           success: () async {
             context.loaderOverlay.hide();
-            AwesomeDialog(
-              context: context,
-              dialogType: DialogType.success,
-              animType: AnimType.scale,
-              title: SplashScreenNotifier.getLanguageLabel('Link A Card'),
-              desc: SplashScreenNotifier.getLanguageLabel('Card linked successfully.'),
-              btnOkOnPress: () {},
-              onDismissCallback: (_) {
-                ref.invalidate(CardsProviders.userCardsProvider);
-              },
-            ).show();
+            enableLink = true;
+            if (!isAlertShown) {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.success,
+                animType: AnimType.scale,
+                title: SplashScreenNotifier.getLanguageLabel('Link A Card'),
+                desc: SplashScreenNotifier.getLanguageLabel(
+                    'Card linked successfully.'),
+                btnOkOnPress: () {},
+                onDismissCallback: (_) {
+                  ref.invalidate(CardsProviders.userCardsProvider);
+                },
+              ).show();
+              isAlertShown = true;
+            }
           },
           error: (e) {
             context.loaderOverlay.hide();
-            AwesomeDialog(
-              context: context,
-              dialogType: DialogType.error,
-              animType: AnimType.scale,
-              title: SplashScreenNotifier.getLanguageLabel('Link A Card'),
-              desc: e,
-              btnOkOnPress: () {},
-            ).show();
+            enableLink = true;
+            if (!isAlertShown) {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.error,
+                animType: AnimType.scale,
+                title: SplashScreenNotifier.getLanguageLabel('Link A Card'),
+                desc: e,
+                btnOkOnPress: () {},
+              ).show();
+              isAlertShown = true;
+            }
           },
           inProgress: () => context.loaderOverlay.show(),
         );
@@ -63,7 +75,8 @@ class LinkACard extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              SplashScreenNotifier.getLanguageLabel('Add your card and manage your recharges, activities, gameplays and more with smartfun'),
+              SplashScreenNotifier.getLanguageLabel(
+                  'Add your card and manage your recharges, activities, gameplays and more with smartfun'),
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
@@ -76,9 +89,10 @@ class LinkACard extends ConsumerWidget {
               children: [
                 Expanded(
                   child: InputTextField(
-                   // initialValue: 'X6PIS313',
+                    // initialValue: 'X6PIS313',
                     onSaved: (cardNumber) => mCardNumber = cardNumber,
-                    hintText: SplashScreenNotifier.getLanguageLabel('Enter Card Number'),
+                    hintText: SplashScreenNotifier.getLanguageLabel(
+                        'Enter Card Number'),
                     prefixIcon: IconButton(
                       icon: const Icon(
                         Icons.add_card,
@@ -106,9 +120,15 @@ class LinkACard extends ConsumerWidget {
                     margin: const EdgeInsets.all(3),
                     child: TextButton(
                       onPressed: () {
+                        if (enableLink) {
+                          isAlertShown = false;
+                        }
+
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          ref.read(linkCardProvider.notifier).linkCard(mCardNumber);
+                          ref
+                              .read(linkCardProvider.notifier)
+                              .linkCard(mCardNumber);
                         }
                       },
                       child: Text(

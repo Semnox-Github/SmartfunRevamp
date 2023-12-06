@@ -17,7 +17,9 @@ class OrdersSummaryPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customerId = ref.watch(userProvider)?.id.toString() ?? '';
-    ref.read(OrdersProviders.ordersSummaryProvider.notifier).getSummary(customerId);
+    ref
+        .read(OrdersProviders.ordersSummaryProvider.notifier)
+        .getSummary(customerId);
     return Scaffold(
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel("Orders"),
@@ -31,10 +33,12 @@ class OrdersSummaryPage extends ConsumerWidget {
                   error: (_) {
                     return Container();
                   },
-                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  inProgress: () =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
                   success: (responseData) {
                     List<OrderDetails> data = List.from(responseData);
-                    data.removeWhere((element) => element.transactionLinesDTOList == null);
+                    data.removeWhere(
+                        (element) => element.transactionLinesDTOList == null);
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -46,27 +50,35 @@ class OrdersSummaryPage extends ConsumerWidget {
                             itemBuilder: (context, index) {
                               final summary = data[index];
                               return Container(
-                                margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 10.0),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: CustomColors.customLigthBlue),
+                                  border: Border.all(
+                                      color: CustomColors.customLigthBlue),
                                   borderRadius: BorderRadius.circular(20.0),
                                 ),
-                                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 12),
                                 child: InkWell(
                                   onTap: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            OrdersSummaryDetailPage(transactionId: summary.transactionId.toString()),
+                                            OrdersSummaryDetailPage(
+                                                transactionId: summary
+                                                    .transactionId
+                                                    .toString()),
                                       ),
                                     );
                                   },
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           MulishText(
                                             text:
@@ -74,12 +86,27 @@ class OrdersSummaryPage extends ConsumerWidget {
                                             fontWeight: FontWeight.bold,
                                           ),
                                           MulishText(
-                                              text:
-                                                  '${SplashScreenNotifier.getLanguageLabel("Reference")} ${summary.transactionId.toString()}'),
+                                            text:
+                                                '${SplashScreenNotifier.getLanguageLabel("Reference")} ${summary.transactionId.toString()}',
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const MulishText(
+                                            text: '',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          MulishText(
+                                            text: '${summary.status}',
+                                          ),
                                         ],
                                       ),
                                       const Column(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
                                         children: [
                                           Icon(
                                             Icons.arrow_forward_ios_outlined,

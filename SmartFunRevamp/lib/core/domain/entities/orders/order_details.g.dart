@@ -18,6 +18,7 @@ OrderDetails _$OrderDetailsFromJson(Map<String, dynamic> json) => OrderDetails(
           : DateTime.parse(json['TransactionDate'] as String),
       json['ReceiptHTML'] as String?,
       json['Receipt'] as String?,
+      json['Status'] as String?,
       (json['TransactionLinesDTOList'] as List<dynamic>?)
           ?.map((e) =>
               TransactionLinesDTOList.fromJson(e as Map<String, dynamic>))
@@ -32,6 +33,7 @@ Map<String, dynamic> _$OrderDetailsToJson(OrderDetails instance) {
     'TaxAmount': instance.taxAmount,
     'TransactionNetAmount': instance.transactionNetAmount,
     'TransactionOTP': instance.transactionOTP,
+    'Status': instance.status
   };
 
   void writeNotNull(String key, dynamic value) {

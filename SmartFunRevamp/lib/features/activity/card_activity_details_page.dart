@@ -17,8 +17,10 @@ import 'package:semnox/features/activity/card_activity_receipt_page.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-final _getTrxDetail = FutureProvider.autoDispose.family<CardActivityDetails, String>((ref, transactionId) async {
-  final GetCardActivityTransactionDetailUseCase getTrxDetail = Get.find<GetCardActivityTransactionDetailUseCase>();
+final _getTrxDetail = FutureProvider.autoDispose
+    .family<CardActivityDetails, String>((ref, transactionId) async {
+  final GetCardActivityTransactionDetailUseCase getTrxDetail =
+      Get.find<GetCardActivityTransactionDetailUseCase>();
   final response = await getTrxDetail(transactionId, false);
   return response.fold(
     (l) => throw l,
@@ -33,8 +35,12 @@ class CardActivityDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
-    final currencySymbol = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ?? 'USD';
-    final currencyFormat = parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ?? '#,##0.00';
+    final currencySymbol =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ??
+            'USD';
+    final currencyFormat =
+        parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
+            '#,##0.00';
     return Scaffold(
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel('Transaction Details'),
@@ -45,7 +51,8 @@ class CardActivityDetailPage extends ConsumerWidget {
           builder: (context, ref, child) {
             return ref.watch(_getTrxDetail(transactionId)).maybeWhen(
                   orElse: () => Container(),
-                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
                   error: (error, stackTrace) => Center(
                     child: MulishText(
                       text: (error as ServerFailure).message,
@@ -55,7 +62,8 @@ class CardActivityDetailPage extends ConsumerWidget {
                     return Column(
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 25.0, vertical: 10.0),
                           margin: const EdgeInsets.only(bottom: 30.0),
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -67,15 +75,18 @@ class CardActivityDetailPage extends ConsumerWidget {
                             children: [
                               const SizedBox(height: 10.0),
                               MulishText(
-                                text: data.transactionLinesDTOList?.first.productName ??
-                                    SplashScreenNotifier.getLanguageLabel('Variable App Recharge'),
+                                text: data.transactionLinesDTOList?.first
+                                        .productName ??
+                                    SplashScreenNotifier.getLanguageLabel(
+                                        'Variable App Recharge'),
                                 fontWeight: FontWeight.bold,
                                 fontColor: Colors.white,
                                 fontSize: 20.0,
                               ),
                               const SizedBox(height: 10.0),
                               MulishText(
-                                text: data.transactionLinesDTOList?.first.productName ??
+                                text: data.transactionLinesDTOList?.first
+                                        .productName ??
                                     '${SplashScreenNotifier.getLanguageLabel('Card')} - XXXXXXXX',
                                 fontWeight: FontWeight.bold,
                                 fontColor: Colors.white,
@@ -86,20 +97,26 @@ class CardActivityDetailPage extends ConsumerWidget {
                                 lineThickness: 1.5,
                               ),
                               Container(
-                                margin: const EdgeInsets.symmetric(vertical: 20.0),
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 20.0),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         MulishText(
-                                          text: SplashScreenNotifier.getLanguageLabel('OTP'),
+                                          text: SplashScreenNotifier
+                                              .getLanguageLabel('OTP'),
                                           fontColor: Colors.white,
                                         ),
                                         const SizedBox(height: 10.0),
                                         MulishText(
-                                          text: data.transactionOTP.isEmpty ? 'XXXXXXXXX' : data.transactionOTP,
+                                          text: data.transactionOTP.isEmpty
+                                              ? 'XXXXXXXXX'
+                                              : data.transactionOTP,
                                           fontColor: Colors.white,
                                         ),
                                       ],
@@ -115,10 +132,12 @@ class CardActivityDetailPage extends ConsumerWidget {
                           ),
                         ),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             MulishText(
-                              text: SplashScreenNotifier.getLanguageLabel('Reference Id'),
+                              text: SplashScreenNotifier.getLanguageLabel(
+                                  'Reference Id'),
                             ),
                             Column(
                               mainAxisSize: MainAxisSize.min,
@@ -127,6 +146,10 @@ class CardActivityDetailPage extends ConsumerWidget {
                                 MulishText(
                                   text: '${data.transactionId}',
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                                MulishText(
+                                  text: '${data.status}',
                                   fontSize: 15,
                                 ),
                                 MulishText(
@@ -142,7 +165,10 @@ class CardActivityDetailPage extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             MulishText(
-                              text: SplashScreenNotifier.getLanguageLabel('Variable App Recharge'),
+                              text: data.transactionLinesDTOList?.first
+                                      .productName ??
+                                  SplashScreenNotifier.getLanguageLabel(
+                                      'Variable App Recharge'),
                             ),
                             MulishText(
                               text:
@@ -156,7 +182,8 @@ class CardActivityDetailPage extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             MulishText(
-                              text: SplashScreenNotifier.getLanguageLabel('Tax'),
+                              text:
+                                  SplashScreenNotifier.getLanguageLabel('Tax'),
                             ),
                             MulishText(
                               text:
@@ -174,7 +201,8 @@ class CardActivityDetailPage extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             MulishText(
-                              text: SplashScreenNotifier.getLanguageLabel('Payed Amount'),
+                              text: SplashScreenNotifier.getLanguageLabel(
+                                  'Paid Amount'),
                               fontWeight: FontWeight.bold,
                             ),
                             const MulishText(
@@ -185,21 +213,23 @@ class CardActivityDetailPage extends ConsumerWidget {
                           ],
                         ),
                         const Spacer(),
-                        CustomButton(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CardActivityReceiptPage(
-                                transactionId: transactionId,
+                        if (data.status == "CLOSED")
+                          CustomButton(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CardActivityReceiptPage(
+                                  transactionId: transactionId,
+                                ),
                               ),
                             ),
+                            label: SplashScreenNotifier.getLanguageLabel(
+                                'VIEW RECEIPT'),
+                            icon: const Icon(
+                              Icons.receipt_rounded,
+                              color: Colors.white,
+                            ),
                           ),
-                          label: SplashScreenNotifier.getLanguageLabel('VIEW RECEIPT'),
-                          icon: const Icon(
-                            Icons.receipt_rounded,
-                            color: Colors.white,
-                          ),
-                        ),
                       ],
                     );
                   },

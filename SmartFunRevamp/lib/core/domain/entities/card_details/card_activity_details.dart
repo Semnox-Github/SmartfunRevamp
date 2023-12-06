@@ -8,20 +8,22 @@ class CardActivityDetails {
   final String transactionOTP;
   final String? receiptHTML;
   final String? receipt;
+  final String? status;
   final DateTime? transactionDate;
   final List<TransactionLinesDTO>? transactionLinesDTOList;
   final List<TrxPaymentsDTOList>? trxPaymentDTOList;
 
   CardActivityDetails(
-    this.transactionId,
-    this.transactionOTP,
-    this.transactionDate,
-    this.transactionLinesDTOList,
-    this.trxPaymentDTOList,
-    this.receiptHTML,
-    this.receipt
-  );
-  factory CardActivityDetails.fromJson(Map<String, dynamic> json) => _$CardActivityDetailsFromJson(json);
+      this.transactionId,
+      this.transactionOTP,
+      this.transactionDate,
+      this.transactionLinesDTOList,
+      this.trxPaymentDTOList,
+      this.receiptHTML,
+      this.receipt,
+      this.status);
+  factory CardActivityDetails.fromJson(Map<String, dynamic> json) =>
+      _$CardActivityDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$CardActivityDetailsToJson(this);
 }
 
@@ -30,6 +32,7 @@ class TrxPaymentsDTOList {
   final num amount;
 
   TrxPaymentsDTOList(this.amount);
-  factory TrxPaymentsDTOList.fromJson(Map<String, dynamic> json) => _$TrxPaymentsDTOListFromJson(json);
+  factory TrxPaymentsDTOList.fromJson(Map<String, dynamic> json) =>
+      _$TrxPaymentsDTOListFromJson(json);
   Map<String, dynamic> toJson() => _$TrxPaymentsDTOListToJson(this);
 }

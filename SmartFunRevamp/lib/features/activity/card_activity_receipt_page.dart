@@ -97,28 +97,28 @@ class CardActivityReceiptPage extends StatelessWidget {
                                 (PDFViewController pdfViewController) {},
                           ),
                         ),
-                        CustomButton(
-                          onTap: () async {
-                            // Placeholder for your download logic
-                            // Update this part based on your actual download requirements
-                            File fileDef = File(path);
-                            DocumentFileSavePlus().saveFile(
-                                fileDef.readAsBytesSync(),
-                                'receipt.pdf',
-                                'application/pdf');
-                            if (Platform.isAndroid) {
-                              Fluttertoast.showToast(
-                                  msg: SplashScreenNotifier.getLanguageLabel(
-                                      'Receipt Downloaded'));
-                            }
-                          },
-                          label:
-                              SplashScreenNotifier.getLanguageLabel('DOWNLOAD'),
-                          icon: const Icon(
-                            Icons.download_rounded,
-                            color: Colors.white,
-                          ),
-                        ),
+                        // CustomButton(
+                        //   onTap: () async {
+                        //     // Placeholder for your download logic
+                        //     // Update this part based on your actual download requirements
+                        //     File fileDef = File(path);
+                        //     DocumentFileSavePlus().saveFile(
+                        //         fileDef.readAsBytesSync(),
+                        //         'receipt.pdf',
+                        //         'application/pdf');
+                        //     if (Platform.isAndroid) {
+                        //       Fluttertoast.showToast(
+                        //           msg: SplashScreenNotifier.getLanguageLabel(
+                        //               'Receipt Downloaded'));
+                        //     }
+                        //   },
+                        //   label:
+                        //       SplashScreenNotifier.getLanguageLabel('DOWNLOAD'),
+                        //   icon: const Icon(
+                        //     Icons.download_rounded,
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
                       ],
                     );
                   },

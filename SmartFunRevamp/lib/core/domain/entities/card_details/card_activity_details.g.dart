@@ -21,6 +21,7 @@ CardActivityDetails _$CardActivityDetailsFromJson(Map<String, dynamic> json) =>
           .toList(),
       json['ReceiptHTML'] as String?,
       json['Receipt'] as String?,
+      json['Status'] as String?,
     );
 
 Map<String, dynamic> _$CardActivityDetailsToJson(CardActivityDetails instance) {
@@ -37,6 +38,7 @@ Map<String, dynamic> _$CardActivityDetailsToJson(CardActivityDetails instance) {
 
   writeNotNull('ReceiptHTML', instance.receiptHTML);
   writeNotNull('Receipt', instance.receipt);
+  writeNotNull('Status', instance.status);
   writeNotNull('TransactionDate', instance.transactionDate?.toIso8601String());
   writeNotNull('TransactionLinesDTOList', instance.transactionLinesDTOList);
   writeNotNull('TrxPaymentDTOList', instance.trxPaymentDTOList);

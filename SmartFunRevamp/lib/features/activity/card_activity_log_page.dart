@@ -16,8 +16,10 @@ import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-final _getActivityLog = FutureProvider.autoDispose.family<List<CardActivity>, String>((ref, cardId) async {
-  final GetCardActivityLogUseCase getCardActivityLogUseCase = Get.find<GetCardActivityLogUseCase>();
+final _getActivityLog = FutureProvider.autoDispose
+    .family<List<CardActivity>, String>((ref, cardId) async {
+  final GetCardActivityLogUseCase getCardActivityLogUseCase =
+      Get.find<GetCardActivityLogUseCase>();
   final response = await getCardActivityLogUseCase(cardId);
   return response.fold(
     (l) => throw l,
@@ -29,7 +31,8 @@ class CardActivityLogPage extends ConsumerStatefulWidget {
   const CardActivityLogPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CardActivityLogPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CardActivityLogPageState();
 }
 
 class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
@@ -41,7 +44,8 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
   void initState() {
     super.initState();
     _cardIndex = 0;
-    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+    cards = List<CardDetails>.from(
+        ref.read(CardsProviders.userCardsProvider).value ?? []);
     cardDetails = ref.read(currentCardProvider);
     // cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     if (cardDetails != null) {
@@ -84,17 +88,21 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
               ),
             ),
             Expanded(
-              child: ref.watch(_getActivityLog(selectedCard.accountId.toString())).maybeWhen(
+              child: ref
+                  .watch(_getActivityLog(selectedCard.accountId.toString()))
+                  .maybeWhen(
                     orElse: () => Container(),
                     error: (error, stackTrace) {
                       return Center(
                         child: MulishText(
-                          text: SplashScreenNotifier.getLanguageLabel('No activities on this Card'),
+                          text: SplashScreenNotifier.getLanguageLabel(
+                              'No activities on this Card'),
                           fontSize: 20.0,
                         ),
                       );
                     },
-                    loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                    loading: () => const Center(
+                        child: CircularProgressIndicator.adaptive()),
                     data: (data) {
                       return ListView.builder(
                         itemCount: data.length,
@@ -103,34 +111,42 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
                         itemBuilder: (context, index) {
                           final activity = data[index];
                           return Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
                             decoration: BoxDecoration(
-                              border: Border.all(color: CustomColors.customLigthBlue),
+                              border: Border.all(
+                                  color: CustomColors.customLigthBlue),
                               borderRadius: BorderRadius.circular(20.0),
                             ),
-                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 12),
                             child: InkWell(
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        CardActivityDetailPage(transactionId: activity.refId.toString()),
+                                        CardActivityDetailPage(
+                                            transactionId:
+                                                activity.refId.toString()),
                                   ),
                                 );
                               },
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       MulishText(
                                         text: '${activity.activityType}',
                                         fontWeight: FontWeight.bold,
                                       ),
                                       MulishText(text: '${activity.site}'),
-                                      MulishText(text: 'Ref: ${activity.refId}'),
+                                      MulishText(
+                                          text: 'Ref: ${activity.refId}'),
                                     ],
                                   ),
                                   Column(

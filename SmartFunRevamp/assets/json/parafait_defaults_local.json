@@ -1021,6 +1021,10 @@
       "DefaultValue": "N"
     },
     {
+      "DefaultValueName": "CARD_COACH_MARK",
+      "DefaultValue": "BARCODE"
+    },
+    {
       "DefaultValueName": "CRM_SMTP_HOST",
       "DefaultValue": "smtp.gmail.com"
     },

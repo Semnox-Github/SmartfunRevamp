@@ -76,7 +76,7 @@ class LinkACard extends ConsumerWidget {
               children: [
                 Expanded(
                   child: InputTextField(
-                    initialValue: 'X6PIS313',
+                   // initialValue: 'X6PIS313',
                     onSaved: (cardNumber) => mCardNumber = cardNumber,
                     hintText: SplashScreenNotifier.getLanguageLabel('Enter Card Number'),
                     prefixIcon: IconButton(

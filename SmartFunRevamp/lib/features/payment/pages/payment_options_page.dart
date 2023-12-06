@@ -47,85 +47,88 @@ class PaymentOptionsPage extends ConsumerWidget {
         parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
             '#,##0.00';
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          SplashScreenNotifier.getLanguageLabel('Payment Options'),
-          style: const TextStyle(
-            color: CustomColors.customBlue,
-            fontWeight: FontWeight.bold,
+    return WillPopScope(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text(
+            SplashScreenNotifier.getLanguageLabel('Payment Options'),
+            style: const TextStyle(
+              color: CustomColors.customBlue,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        body: SafeArea(
+          minimum: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                SplashScreenNotifier.getLanguageLabel('Value'),
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFEEB2),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      cardProduct.productName,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      transactionResponse.transactionNetAmount
+                          .toCurrency(currency, format),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              Expanded(
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    return ref
+                        .watch(PaymentOptionsProvider.paymentModesProvider)
+                        .when(
+                          error: (e, s) =>
+                              MulishText(text: 'An error has ocurred $e'),
+                          loading: () => const Center(
+                              child: CircularProgressIndicator.adaptive()),
+                          data: (data) {
+                            return ExpansionPaymentMethodsList(
+                              paymentsMode: data,
+                              transactionResponse: transactionResponse,
+                              cardProduct: cardProduct,
+                              transactionType: transactionType,
+                              cardDetails: cardDetails,
+                              finalPrice: finalPrice,
+                            );
+                          },
+                        );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),
-      body: SafeArea(
-        minimum: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              SplashScreenNotifier.getLanguageLabel('Value'),
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFEEB2),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    cardProduct.productName,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    transactionResponse.transactionNetAmount
-                        .toCurrency(currency, format),
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Expanded(
-              child: Consumer(
-                builder: (context, ref, child) {
-                  return ref
-                      .watch(PaymentOptionsProvider.paymentModesProvider)
-                      .when(
-                        error: (e, s) =>
-                            MulishText(text: 'An error has ocurred $e'),
-                        loading: () => const Center(
-                            child: CircularProgressIndicator.adaptive()),
-                        data: (data) {
-                          return ExpansionPaymentMethodsList(
-                            paymentsMode: data,
-                            transactionResponse: transactionResponse,
-                            cardProduct: cardProduct,
-                            transactionType: transactionType,
-                            cardDetails: cardDetails,
-                            finalPrice: finalPrice,
-                          );
-                        },
-                      );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      onWillPop: () async => false,
     );
   }
 }

@@ -5,6 +5,7 @@ part 'parafait_defaults_response.g.dart';
 @JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class ParafaitDefaultsResponse {
   static const String passwordKey = 'ENABLE_PASSWORD_ON_SMARTFUN';
+  static const String cardCoachMark = "CARD_COACH_MARK";
   static const String enableDiscounts = "ENABLE_DISCOUNTS_IN_POS";
   static const String onlineRechargeEnabledKey =
       'ALLOW_ONLINE_RECHARGE_LOCATION_OVERIDE';

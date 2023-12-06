@@ -99,6 +99,19 @@ class HomeView extends ConsumerStatefulWidget {
 
 class _HomeViewState extends ConsumerState<HomeView> {
   late int _cardIndex = -1;
+  late int _cardLength = 0;
+  final CarouselController _carouselController = CarouselController();
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _carouselCardsKey = GlobalKey();
+
+  void _scrollToCarouselCards() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final RenderBox renderBox =
+          _carouselCardsKey.currentContext!.findRenderObject() as RenderBox;
+      final position = renderBox.localToGlobal(Offset.zero).dy;
+      _scrollController.jumpTo(position);
+    });
+  }
 
   @override
   void initState() {
@@ -168,6 +181,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         bottomNavigationBar: const CustomBottomBar(),
         body: SafeArea(
           child: SingleChildScrollView(
+            controller: _scrollController,
             physics: const ClampingScrollPhysics(),
             child: Container(
               color: Colors.white,
@@ -283,6 +297,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                 children: [
                                                   data.isNotEmpty
                                                       ? CarouselCards(
+                                                          key:
+                                                              _carouselCardsKey,
+                                                          carouselController:
+                                                              _carouselController,
                                                           initialPosition:
                                                               _cardIndex,
                                                           cards: data,
@@ -291,6 +309,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                             setState(() {
                                                               _cardIndex =
                                                                   cardIndex;
+                                                              _cardLength =
+                                                                  data.length;
                                                             });
                                                             if (cardIndex !=
                                                                 data.length) {
@@ -443,6 +463,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                               .source
                                                               .toLowerCase() ==
                                                           'link card') {
+                                                        _scrollToCarouselCards();
+                                                        _carouselController
+                                                            .animateToPage(
+                                                                _cardLength);
+
+                                                        // Scroll to CarouselCards
                                                         Navigator.pushNamed(
                                                             context,
                                                             Routes

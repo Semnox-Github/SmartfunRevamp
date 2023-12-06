@@ -19,11 +19,13 @@ import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CarouselCards extends StatefulWidget {
+  final CarouselController? carouselController;
   const CarouselCards({
     Key? key,
     required this.cards,
     required this.onCardChanged,
     this.showLinkCard = true,
+    this.carouselController,
     this.initialPosition,
   }) : super(key: key);
   final Function(int) onCardChanged;
@@ -37,12 +39,16 @@ class CarouselCards extends StatefulWidget {
 
 class _CarouselCardsState extends State<CarouselCards> {
   int currentPosition = 0;
+  late CarouselController controller;
   late List<CardDetails> _cards;
+  //  late PageController _pageController;
 
   @override
   void initState() {
     currentPosition = widget.initialPosition ?? 0;
     _cards = List<CardDetails>.from(widget.cards);
+    controller = widget.carouselController ?? CarouselController();
+    // _pageController = PageController(initialPage: widget.initialPosition ?? 0);
     super.initState();
   }
 
@@ -76,6 +82,7 @@ class _CarouselCardsState extends State<CarouselCards> {
               }
             },
           ),
+          carouselController: controller,
           itemCount: _cards.length + (widget.showLinkCard ? 1 : 0),
           itemBuilder:
               (BuildContext context, int itemIndex, int pageViewIndex) {

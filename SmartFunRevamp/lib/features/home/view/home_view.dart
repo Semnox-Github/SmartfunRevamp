@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -100,6 +101,7 @@ class HomeView extends ConsumerStatefulWidget {
 class _HomeViewState extends ConsumerState<HomeView> {
   late int _cardIndex = -1;
   late int _cardLength = 0;
+  bool enableTabPress = false;
   final CarouselController _carouselController = CarouselController();
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _carouselCardsKey = GlobalKey();
@@ -178,7 +180,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
       onWillPop: () => onWillPop(context),
       child: Scaffold(
         backgroundColor: CustomColors.customLigthBlue,
-        bottomNavigationBar: const CustomBottomBar(),
+        bottomNavigationBar: CustomBottomBar(
+          handleRoute: handleRoute(),
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
             controller: _scrollController,
@@ -469,10 +473,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                                 _cardLength);
 
                                                         // Scroll to CarouselCards
-                                                        Navigator.pushNamed(
-                                                            context,
-                                                            Routes
-                                                                .kLinkPageCard);
                                                       } else if (quickLink
                                                               .source
                                                               .toLowerCase() ==
@@ -584,6 +584,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
         ),
       ),
     );
+  }
+
+  bool? handleRoute() {
+    if (_cardIndex > 0) {
+      return true;
+    }
+    return null;
   }
 }
 

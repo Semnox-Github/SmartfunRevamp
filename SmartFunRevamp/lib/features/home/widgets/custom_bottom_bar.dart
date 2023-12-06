@@ -8,7 +8,9 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CustomBottomBar extends ConsumerWidget {
+  final bool? handleRoute;
   const CustomBottomBar({
+    this.handleRoute,
     Key? key,
   }) : super(key: key);
 
@@ -31,7 +33,7 @@ class CustomBottomBar extends ConsumerWidget {
         onTap: (index) {
           final currentRoute = ModalRoute.of(context)?.settings.name ?? '';
           final itemRoute = items[index].target?.replaceAll('sf:/', '') ?? '';
-          if (currentRoute == itemRoute) {
+          if (currentRoute == itemRoute && !handleRoute!) {
             return;
           }
           items[index].goToTarget(context);
@@ -51,7 +53,8 @@ class CustomBottomBar extends ConsumerWidget {
                     child: CachedNetworkImage(
                       imageUrl: item.itemUrl,
                       placeholder: (context, url) => const SizedBox.shrink(),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                   text: SplashScreenNotifier.getLanguageLabel(item.displayName),

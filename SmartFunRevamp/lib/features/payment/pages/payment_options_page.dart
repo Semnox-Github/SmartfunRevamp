@@ -22,6 +22,8 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../home/provider/cards_provider.dart';
+
 class PaymentOptionsPage extends ConsumerWidget {
   const PaymentOptionsPage(
       {Key? key,
@@ -295,6 +297,8 @@ class _ExpansionPaymentMethodsListState
                                     if (request.url.contains(
                                         SplashScreenNotifier.getLookupValue(
                                             "SUCCESS_REDIRECT_URL"))) {
+                                      ref.invalidate(
+                                          CardsProviders.userCardsProvider);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

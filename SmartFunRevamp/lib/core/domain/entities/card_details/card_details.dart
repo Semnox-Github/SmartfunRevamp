@@ -173,7 +173,7 @@ class CardDetails {
   String pointsBasedOnCreditType(int creditType) {
     switch (creditType) {
       case 0:
-        return totalCreditsBalance?.toStringAsFixed(0) ?? '';
+        return totalGamePlayCreditsBalance?.toStringAsFixed(0) ?? '';
       case 1:
         return totalLoyaltyBalance?.toStringAsFixed(0) ?? '';
       case 2:

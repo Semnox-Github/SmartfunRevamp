@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/themes/custom_button_theme.dart';
+import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CustomCancelButton extends StatelessWidget {
   const CustomCancelButton({
@@ -116,6 +118,86 @@ class CustomDisabledButton extends StatelessWidget {
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomPrimaryButton extends StatelessWidget {
+  final Function() onTap;
+  final String label;
+  final EdgeInsets margin;
+
+  const CustomPrimaryButton({
+    super.key,
+    required this.onTap,
+    required this.label,
+    this.margin = const EdgeInsets.all(3),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        gradient: CustomGradients.linearGradient,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
+          gradient: CustomGradients.linearGradient,
+        ),
+        margin: margin,
+        child: TextButton(
+          onPressed: onTap,
+          child: Text(
+            SplashScreenNotifier.getLanguageLabel(label),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomSecondaryButton extends StatelessWidget {
+  final Function() onTap;
+  final String label;
+  final EdgeInsets margin;
+
+  const CustomSecondaryButton({
+    super.key,
+    required this.onTap,
+    required this.label,
+    this.margin = const EdgeInsets.all(3),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        color: Colors.white,
+        gradient: CustomGradients.linearGradient,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
+          color: Colors.white,
+        ),
+        margin: margin,
+        child: TextButton(
+          onPressed: onTap,
+          child: Text(
+            SplashScreenNotifier.getLanguageLabel(label),
+            style: const TextStyle(
+              color: CustomColors.hardOrange,
+            ),
           ),
         ),
       ),

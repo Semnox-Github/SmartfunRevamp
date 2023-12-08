@@ -31,7 +31,11 @@ class MoreView extends ConsumerWidget {
     return Scaffold(
       backgroundColor: CustomColors.customLigthBlue,
       appBar: AppBar(
-        leading: Container(),
+        title: MulishText(
+          text: SplashScreenNotifier.getLanguageLabel('More'),
+          fontColor: CustomColors.customBlue,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       bottomNavigationBar: const CustomBottomBar(),
       body: SafeArea(

@@ -5,6 +5,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/features/cards_detail/card_detail_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
@@ -56,59 +57,19 @@ class RechargeCardDetailsButton extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: CustomGradients.linearGradient,
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.0),
-                    gradient: CustomGradients.linearGradient,
-                  ),
-                  margin: const EdgeInsets.all(3),
-                  child: TextButton(
-                    onPressed: () => Navigator.pushNamed(context, Routes.kRechargePageCard),
-                    child: Text(
-                      SplashScreenNotifier.getLanguageLabel('RECHARGE NOW'),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              child: CustomPrimaryButton(
+                  onTap: () => Navigator.pushNamed(context, Routes.kRechargePageCard), label: "RECHARGE NOW"),
             ),
             const SizedBox(width: 20.0),
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: CustomGradients.linearGradient,
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.0),
-                    color: Colors.white,
-                  ),
-                  margin: const EdgeInsets.all(3),
-                  child: TextButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CardDetailPage(cardDetails: cardDetails, cardIndex: cardIndex),
+              child: CustomSecondaryButton(
+                  onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CardDetailPage(cardDetails: cardDetails, cardIndex: cardIndex),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      SplashScreenNotifier.getLanguageLabel('CARD DETAILS'),
-                      style: const TextStyle(
-                        color: CustomColors.hardOrange,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+                  label: "CARD DETAILS"),
             ),
           ],
         ),

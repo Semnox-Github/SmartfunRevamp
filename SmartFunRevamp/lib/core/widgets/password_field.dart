@@ -32,7 +32,7 @@ class _PasswordFieldState extends State<PasswordField> {
           initialValue: '', //testuser2!123@12
           obscureText: _isObscured,
           onSaved: (newValue) => widget.onSaved(newValue!),
-          validator: (value) => value!.isEmpty
+          validator: (value) => value?.isEmpty ?? false
               ? SplashScreenNotifier.getLanguageLabel('Required')
               : null,
           cursorColor: Colors.black,

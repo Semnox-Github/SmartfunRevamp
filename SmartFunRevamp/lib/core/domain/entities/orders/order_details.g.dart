@@ -33,7 +33,6 @@ Map<String, dynamic> _$OrderDetailsToJson(OrderDetails instance) {
     'TaxAmount': instance.taxAmount,
     'TransactionNetAmount': instance.transactionNetAmount,
     'TransactionOTP': instance.transactionOTP,
-    'Status': instance.status
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -44,6 +43,7 @@ Map<String, dynamic> _$OrderDetailsToJson(OrderDetails instance) {
 
   writeNotNull('ReceiptHTML', instance.receiptHTML);
   writeNotNull('Receipt', instance.receipt);
+  writeNotNull('Status', instance.status);
   writeNotNull('TransactionDate', instance.transactionDate?.toIso8601String());
   writeNotNull('TransactionLinesDTOList', instance.transactionLinesDTOList);
   return val;

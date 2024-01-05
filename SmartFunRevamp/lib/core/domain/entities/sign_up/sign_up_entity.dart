@@ -245,6 +245,14 @@ class SignUpEntity {
         case "TERMS_AND_CONDITIONS":
           profile.policyTermsAccepted = value["value"] == 'true' ? true : false;
           break;
+        case "VERIFIED":
+          break;
+        case "CUSTOMER_ID_PROOF":
+          break;
+        case "ADDRESS1":
+          break;
+        case "ADDRESS_TYPE":
+          break;
         case "EMAIL":
           if (value["value"] != "") {
             phoneContactDTO.add(PhoneContactDTO(

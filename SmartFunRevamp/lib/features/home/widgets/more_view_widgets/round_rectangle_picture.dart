@@ -15,8 +15,8 @@ class RoundRectanglePicture extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fInitial = user.firstName!.isNotEmpty ? '${user.firstName?[0]}' : '';
-    final lInitial = user.lastName!.isNotEmpty ? '${user.lastName?[0]}' : '';
+    final fInitial = user.firstName?.isNotEmpty ?? false ? '${user.firstName?[0]}' : '';
+    final lInitial = user.lastName?.isNotEmpty ?? false ? '${user.lastName?[0]}' : '';
     final noImageGradient =
         ref.watch(newHomePageCMSProvider)?.cmsModuleColorsHome?.profilePictureGradient.getColorList() ??
             [CustomColors.hardOrange, CustomColors.customOrange];

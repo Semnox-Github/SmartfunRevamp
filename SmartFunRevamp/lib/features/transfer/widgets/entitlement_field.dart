@@ -19,7 +19,7 @@ class EntitlementField extends StatelessWidget {
         ),
         const SizedBox(height: 10.0),
         CustomNativeDropdown(
-          items: const ['Credits', 'Bonus', 'Tickets'],
+          items: const ['Credits', 'Bonus', 'Tickets' , 'Play Credits'],
           onChanged: onChanged,
         ),
       ],

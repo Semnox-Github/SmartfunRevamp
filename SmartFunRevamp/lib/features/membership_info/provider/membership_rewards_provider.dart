@@ -5,6 +5,9 @@ import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto
 import 'package:semnox/core/domain/use_cases/cards/get_bonus_summary_use_case.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 
+import '../../../core/domain/entities/card_details/credit_plus_summary.dart';
+import '../../../core/domain/use_cases/cards/get_bonus_credit_summary_use_case.dart';
+
 part 'membership_rewards_state.dart';
 part 'membership_rewards_provider.freezed.dart';
 
@@ -12,7 +15,7 @@ final membershipRewardsProvider = StateNotifierProvider.autoDispose<MembershipRe
   (ref) {
     final accountNumber = ref.watch(CardsProviders.membershipCardProvider).accountNumber ?? '-1';
     return MembershipRewardsProvider(
-      Get.find<GetBonusSummaryUseCase>(),
+      Get.find<GetBonusCreditSummaryUseCase>(),
       accountNumber,
     );
   },
@@ -25,13 +28,13 @@ final toDateProvider = StateProvider.autoDispose<DateTime>((ref) {
 });
 
 class MembershipRewardsProvider extends StateNotifier<MembershipRewardsState> {
-  final GetBonusSummaryUseCase _getBonusSummary;
+  final GetBonusCreditSummaryUseCase _getBonusSummary;
   final String _accountNumber;
 
   MembershipRewardsProvider(this._getBonusSummary, this._accountNumber) : super(const _InProgress()) {
     _getMembershipRewards(_accountNumber);
   }
-  List<AccountCreditPlusDTOList> _list = [];
+  List<CreditPlusSummary> _list = [];
   void _getMembershipRewards(String accountNumber) async {
     final response = await _getBonusSummary(accountNumber);
     response.fold(

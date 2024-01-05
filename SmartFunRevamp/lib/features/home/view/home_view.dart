@@ -109,7 +109,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
   void _scrollToCarouselCards() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final RenderBox renderBox =
-          _carouselCardsKey.currentContext!.findRenderObject() as RenderBox;
+          _carouselCardsKey.currentContext?.findRenderObject() as RenderBox;
       final position = renderBox.localToGlobal(Offset.zero).dy;
       _scrollController.jumpTo(position);
     });
@@ -131,7 +131,18 @@ class _HomeViewState extends ConsumerState<HomeView> {
         .sorted((a, b) => a.position.compareTo(b.position));
     itemsOrder?.removeWhere((element) => !element.isVisible);
 
-    ref.watch(SplashScreenNotifier.getInitialData);
+    ref.watch(SplashScreenNotifier.getPosMachineData).maybeWhen(
+      orElse: () {},
+      data: (data) {
+        ref.watch(SplashScreenNotifier.getPaymentModeData).maybeWhen(
+          orElse: () {},
+          data: (data) {
+            ref.watch(SplashScreenNotifier.getInitialData);
+          },
+        );
+      },
+    );
+
     final cardDetails = ref.watch(currentCardProvider);
     // debugPrint("carddetalis $cardDetails");
     cardsWatch.maybeWhen(
@@ -395,24 +406,22 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                               shrinkWrap: true,
                                               physics:
                                                   const NeverScrollableScrollPhysics(),
-                                              itemCount: content!.length,
+                                              itemCount: content?.length ?? 0,
                                               itemBuilder: (context, index) {
                                                 final quickLink =
-                                                    content[index];
+                                                    content?[index];
                                                 return SizedBox(
                                                   height: 45,
                                                   width: 45,
                                                   child: QuickLinkItem(
-                                                    color: quickLink
-                                                        .backgroundColor,
+                                                    color: quickLink?.backgroundColor ?? Colors.transparent,
                                                     imageUrl:
-                                                        quickLink.contentURL,
+                                                        quickLink?.contentURL ?? "",
                                                     text: SplashScreenNotifier
                                                         .getLanguageLabel(
-                                                            quickLink
-                                                                .contentName),
+                                                            quickLink?.contentName ?? ""),
                                                     onTap: () {
-                                                      if (quickLink.source
+                                                      if (quickLink?.source
                                                               .toLowerCase() ==
                                                           'recharge') {
                                                         if (!hasCard) {
@@ -463,8 +472,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                             );
                                                           }
                                                         }
-                                                      } else if (quickLink
-                                                              .source
+                                                      } else if (quickLink?.source
                                                               .toLowerCase() ==
                                                           'link card') {
                                                         _scrollToCarouselCards();
@@ -473,8 +481,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                                 _cardLength);
 
                                                         // Scroll to CarouselCards
-                                                      } else if (quickLink
-                                                              .source
+                                                      } else if (quickLink?.source
                                                               .toLowerCase() ==
                                                           'transfer credits') {
                                                         if (hasCard) {
@@ -495,11 +502,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                           } else {
                                                             Navigator.pushNamed(
                                                                 context,
-                                                                quickLink
-                                                                    .contentKey
+                                                                quickLink?.contentKey
                                                                     .replaceAll(
                                                                         'sf:/',
-                                                                        ''));
+                                                                        '') ?? "");
                                                           }
                                                         } else {
                                                           Dialogs.showMessageInfo(
@@ -513,20 +519,19 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                         if (hasCard) {
                                                           Navigator.pushNamed(
                                                               context,
-                                                              quickLink
-                                                                  .contentKey
+                                                              quickLink?.contentKey
                                                                   .replaceAll(
                                                                       'sf:/',
-                                                                      ''));
+                                                                      '') ?? "");
                                                         } else if (!hasCard &&
-                                                            quickLink.source
+                                                            quickLink?.source
                                                                     .toLowerCase() ==
                                                                 "buy a card") {
                                                           Navigator.pushNamed(
                                                             context,
-                                                            quickLink.contentKey
+                                                            quickLink?.contentKey
                                                                 .replaceAll(
-                                                                    'sf:/', ''),
+                                                                    'sf:/', '') ?? "",
                                                           );
                                                         } else {
                                                           Dialogs.showMessageInfo(

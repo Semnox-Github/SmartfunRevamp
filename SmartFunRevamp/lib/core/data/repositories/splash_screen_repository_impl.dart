@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/parafait_api.dart';
@@ -11,6 +12,9 @@ import 'package:semnox/core/domain/repositories/splash_screen_repositories.dart'
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
+
+import '../datasources/local_data_source.dart';
 
 class SplashScreenRepositoryImpl implements SplashScreenRepository {
   final SmartFunApi _api;
@@ -46,18 +50,45 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
   Future<Either<Failure, SystemUser>> authenticateBaseURL() async {
     try {
       final response = await _api.authenticateSystemUser(
-        {
-          "LoginId": "SmartFun",
-          "Password": "",
-          "LoginToken": await jwtGenerator(secretKey: dotenv.env['SECRET_KEY']!),
-        },
+          {
+            "LoginId": dotenv.env['LOGIN_ID'],
+            "Password": dotenv.env['PASSWORD'],
+            "MachineName" : dotenv.env['MACHINE_NAME']
+          }
       );
-      final token = response.response.headers.value(HttpHeaders.authorizationHeader);
-      final systemUserResponse = await _api.getExecutionContext(
-        token: token,
+
+      var siteId = "";
+      var storedSiteViewDto = await GluttonLocalDataSource().retrieveValue(LocalDataSource.kSelectedSite);
+      if(storedSiteViewDto != null){
+        final site= SiteViewDTO.fromJson(storedSiteViewDto);
+        if(site?.siteId != null){
+          siteId = site?.siteId.toString() ?? "";
+        }
+      }
+
+
+      final systemUserResponse = await _api.authenticateSystemUserContext(
+          {
+            "LoginId": dotenv.env['LOGIN_ID'],
+            "Password": dotenv.env['PASSWORD'],
+            "Siteid": siteId,
+            "MachineName" : dotenv.env['MACHINE_NAME']
+          }
       );
       final systemUser = SystemUser.fromJson(Map<String, dynamic>.from(systemUserResponse.response.data)['data']);
-      systemUser.webApiToken = token;
+
+      if(storedSiteViewDto != null) {
+        var Site =
+        SiteViewDTO(siteId: systemUserResponse.data['data']['SiteId'],
+            openDate: DateTime.now(),
+            closureDate: DateTime.now());
+        await GluttonLocalDataSource().saveCustomClass(
+            LocalDataSource.kSelectedSite, Site.toJson());
+      }
+
+      // await GluttonLocalDataSource().saveValue(LocalDataSource.kSelectedSite, systemUserResponse.response.data['data']['SiteId'].toString());
+      GluttonLocalDataSource().saveValue(LocalDataSource.POSMachineId,systemUserResponse.response.data['data']['MachineId']);
+      systemUser.webApiToken = systemUserResponse.response.data['data']['WebApiToken'];
       return Right(systemUser);
     } on Exception catch (e) {
       return Left(e.handleException());

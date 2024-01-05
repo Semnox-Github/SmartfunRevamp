@@ -25,6 +25,9 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
+import '../../core/domain/entities/membership/membership_tier.dart';
+import '../../core/domain/entities/sign_up/country_data.dart';
+import '../../core/domain/entities/sign_up/user_metadataui.dart';
 import 'widget/custom_verify_textfiel.dart';
 
 class AccountPage extends ConsumerStatefulWidget {
@@ -49,6 +52,10 @@ class _AccountPage extends ConsumerState<AccountPage> {
       },
     );
     final metaData = ref.watch(uiMetaDataProvider);
+    final countryData = ref.watch(countryProvider);
+    final membershipData = ref.watch(membershipContainerProvider);
+    List<MembershipTier> membershipList = membershipData.value ?? [];
+    List<CountryData> countryList = countryData.value ?? [];
     final user = Get.find<CustomerDTO>();
     ref.listen(
       updateAccountProvider,
@@ -83,7 +90,8 @@ class _AccountPage extends ConsumerState<AccountPage> {
     );
 
     return Scaffold(
-      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Account')),
+      appBar:
+          CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Account')),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -111,7 +119,9 @@ class _AccountPage extends ConsumerState<AccountPage> {
                       icon: const Icon(Icons.edit_square),
                       color: CustomColors.hardOrange,
                     ),
-                    MulishText(text: SplashScreenNotifier.getLanguageLabel('Edit Photo'))
+                    MulishText(
+                        text:
+                            SplashScreenNotifier.getLanguageLabel('Edit Photo'))
                   ],
                 ),
                 Row(
@@ -124,7 +134,9 @@ class _AccountPage extends ConsumerState<AccountPage> {
                       icon: const Icon(Icons.language),
                       color: CustomColors.hardOrange,
                     ),
-                    MulishText(text: SplashScreenNotifier.getLanguageLabel('Select language'))
+                    MulishText(
+                        text: SplashScreenNotifier.getLanguageLabel(
+                            'Select language'))
                   ],
                 ),
 
@@ -132,7 +144,8 @@ class _AccountPage extends ConsumerState<AccountPage> {
                 //   height: 10.0,
                 // ),
                 metaData.when(
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
                   error: (_, __) => const Center(
                     child: Icon(
                       Icons.error,
@@ -142,111 +155,227 @@ class _AccountPage extends ConsumerState<AccountPage> {
                   data: (metadata) {
                     return Column(
                       children: metadata.map((field) {
-                        if (field.customerFieldValues is List) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption),
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                        if (!field.isReadOnly) {
+                          if (field.customerFieldValueList is List && field.fieldType == "LIST") {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  SplashScreenNotifier.getLanguageLabel(
+                                      field.fieldLabel),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                DropdownButtonFormField<String>(
+                                  value: returnValue(field.fieldName, field.customeAttributeId).toString() == ""
+                                      ? field.customerFieldValueList.isNotEmpty ? field.customerFieldValueList.first['FieldName'] : "" // Assuming field.customerFieldValueList is a List<CustomerFieldValue>
+                                      : returnValue(field.fieldName, field.customeAttributeId).toString(),
+                                  items: List<Map<String, dynamic>>.from(
+                                          field.customerFieldValueList)
+                                      .map((value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value[
+                                          'Key'], // Assigning CustomerFieldValue to value
+                                      child: Text(
+                                          SplashScreenNotifier.getLanguageLabel(
+                                              value['Value'])),
+                                    );
+                                  }).toList(),
+                                  onChanged: (title) =>
+                                      request[field.fieldName] = {
+                                    "value": title,
+                                    "customAttributeId":
+                                        field.customeAttributeId,
+                                    "customerFieldType": field.fieldType
+                                  },
+                                ),
+                              ],
+                            );
+                          }
+                          if (field.fieldName == "BIRTH_DATE" ||
+                              field.fieldType == "DATE") {
+                            return CustomDatePicker(
+                              initialText: returnValue(field.fieldName,
+                                          field.customeAttributeId) ==
+                                      null
+                                  ? SplashScreenNotifier.getLanguageLabel(
+                                      'Date of birth')
+                                  : returnValue(field.fieldName,
+                                          field.customeAttributeId)
+                                      .toString()
+                                      .split("T")[0],
+                              initialDateTime: returnValue(field.fieldName,
+                                          field.customeAttributeId) ==
+                                      null
+                                  ? DateTime.now()
+                                  : DateTime.parse(returnValue(field.fieldName,
+                                          field.customeAttributeId)
+                                      .toString()),
+                              margin:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              labelText: SplashScreenNotifier.getLanguageLabel(
+                                  'Date of birth'),
+                              format: 'MM-dd-yyyy',
+                              onItemSelected: (dob) =>
+                                  request[field.fieldName] = {
+                                "value": DateFormat('MM-dd-yyyy')
+                                    .format(dob)
+                                    .toString(),
+                                "customAttributeId": field.customeAttributeId,
+                                "customerFieldType": field.fieldType
+                              },
+                              suffixIcon: const Icon(
+                                Icons.date_range_outlined,
+                                color: CustomColors.hardOrange,
                               ),
-                              DropdownButtonFormField<String>(
-                                value: returnValue(field.customerFieldName, field.customAttributeId).toString() == ""
-                                    ? field.customerFieldValues.first
-                                    : returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                                items: List<String>.from(field.customerFieldValues).map((title) {
-                                  return DropdownMenuItem<String>(
-                                    value: title,
-                                    child: Text(SplashScreenNotifier.getLanguageLabel(title)),
-                                  );
-                                }).toList(),
-                                onChanged: (title) => request[field.customerFieldName] = {
-                                  "value": title,
-                                  "customAttributeId": field.customAttributeId,
-                                  "customerFieldType": field.customerFieldType
-                                },
-                              ),
-                            ],
-                          );
-                        }
-                        if (field.customerFieldName == "BIRTH_DATE" || field.customerFieldType == "DATE") {
-                          return CustomDatePicker(
-                            initialText: returnValue(field.customerFieldName, field.customAttributeId) == null
-                                ? SplashScreenNotifier.getLanguageLabel('Date of birth')
-                                : returnValue(field.customerFieldName, field.customAttributeId)
-                                    .toString()
-                                    .split("T")[0],
-                            initialDateTime: returnValue(field.customerFieldName, field.customAttributeId) == null
-                                ? DateTime.now()
-                                : DateTime.parse(
-                                    returnValue(field.customerFieldName, field.customAttributeId).toString()),
-                            margin: const EdgeInsets.symmetric(vertical: 10.0),
-                            labelText: SplashScreenNotifier.getLanguageLabel('Date of birth'),
-                            format: 'MM-dd-yyyy',
-                            onItemSelected: (dob) => request[field.customerFieldName] = {
-                              "value": DateFormat('MM-dd-yyyy').format(dob).toString(),
-                              "customAttributeId": field.customAttributeId,
-                              "customerFieldType": field.customerFieldType
-                            },
-                            suffixIcon: const Icon(
-                              Icons.date_range_outlined,
-                              color: CustomColors.hardOrange,
-                            ),
-                          );
-                        }
-                        if (field.customerFieldName == "CONTACT_PHONE") {
-                          return CustomVerifyTextField(
-                            onSaved: (value) => request[field.customerFieldName] = {
+                            );
+                          }
+                          if (field.fieldName == "CONTACT_PHONE") {
+                            return CustomVerifyTextField(
+                              onSaved: (value) => request[field.fieldName] = {
+                                "value": value.toString(),
+                                "customAttributeId": field.customeAttributeId,
+                                "customerFieldType": field.fieldType
+                              },
+                              label:
+                                  '${SplashScreenNotifier.getLanguageLabel(field.fieldLabel)}${field.validationType == "M" ? "*" : ""}',
+                              initialValue: returnValue(
+                                      field.fieldName, field.customeAttributeId)
+                                  .toString(),
+                              margins:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              contactType: ContactType.phone,
+                              phoneOrEmail: returnValue(
+                                      field.fieldName, field.customeAttributeId)
+                                  .toString(),
+                              formatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              required: field.validationType == "M",
+                              key: const Key("Phone"),
+                              verificationStatusInitialValue: true,
+                            );
+                          }
+                          if (field.fieldName == "EMAIL") {
+                            return CustomVerifyTextField(
+                              onSaved: (value) => request[field.fieldName] = {
+                                "value": value.toString(),
+                                "customAttributeId": field.customeAttributeId,
+                                "customerFieldType": field.fieldType
+                              },
+                              label:
+                                  '${SplashScreenNotifier.getLanguageLabel(field.fieldLabel)}${field.validationType == "M" ? "*" : ""}',
+                              initialValue: returnValue(
+                                      field.fieldName, field.customeAttributeId)
+                                  .toString(),
+                              margins:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              contactType: ContactType.email,
+                              phoneOrEmail: returnValue(
+                                      field.fieldName, field.customeAttributeId)
+                                  .toString(),
+                              required: field.validationType == "M",
+                              key: const Key("Email"),
+                              verificationStatusInitialValue: true,
+                            );
+                          }
+                          if (field.fieldName == "MEMBERSHIP_ID") {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  SplashScreenNotifier.getLanguageLabel(
+                                      field.fieldLabel),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                DropdownButtonFormField<String>(
+                                  // value: returnValue(field.fieldName, field.customeAttributeId).toString() == ""
+                                  //     ? field.customerFieldValueList.first.value // Assuming field.customerFieldValueList is a List<CustomerFieldValue>
+                                  //     : returnValue(field.fieldName, field.customeAttributeId).toString(),
+                                  items:
+                                      List<MembershipTier>.from(membershipList)
+                                          .map((value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value.membershipName,
+                                      child: Text(
+                                          SplashScreenNotifier.getLanguageLabel(
+                                              value.membershipName)),
+                                    );
+                                  }).toList(),
+                                  onChanged: (title) =>
+                                      request[field.fieldName] = {
+                                    "value": title,
+                                    "customAttributeId":
+                                        field.customeAttributeId,
+                                    "customerFieldType": field.fieldType
+                                  },
+                                ),
+                              ],
+                            );
+                          }
+                          if (field.fieldName == "COUNTRY_CODE" ||
+                              field.fieldName == "COUNTRY_NAME") {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  SplashScreenNotifier.getLanguageLabel(
+                                      field.fieldLabel),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                DropdownButtonFormField<String>(
+                                  // value: returnValue(field.fieldName, field.customeAttributeId).toString() == ""
+                                  //     ? field.customerFieldValueList.first.value // Assuming field.customerFieldValueList is a List<CustomerFieldValue>
+                                  //     : returnValue(field.fieldName, field.customeAttributeId).toString(),
+                                  items: List<CountryData>.from(countryList)
+                                      .map((value) {
+                                    return DropdownMenuItem<String>(
+                                      value: field.fieldName == "COUNTRY_CODE"
+                                          ? value.countryCode
+                                          : value.countryId.toString(),
+                                      child: Text(
+                                          SplashScreenNotifier.getLanguageLabel(
+                                              field.fieldName == "COUNTRY_CODE"
+                                                  ? value.countryCode
+                                                  : value.countryName)),
+                                    );
+                                  }).toList(),
+                                  onChanged: (title) =>
+                                      request[field.fieldName] = {
+                                    "value": title,
+                                    "customAttributeId":
+                                        field.customeAttributeId,
+                                    "customerFieldType": field.fieldType
+                                  },
+                                ),
+                              ],
+                            );
+                          }
+                          return CustomTextField(
+                            initialValue: returnValue(
+                                    field.fieldName, field.customeAttributeId)
+                                .toString(),
+                            onSaved: (value) => request[field.fieldName] = {
                               "value": value.toString(),
-                              "customAttributeId": field.customAttributeId,
-                              "customerFieldType": field.customerFieldType
+                              "customAttributeId": field.customeAttributeId,
+                              "customerFieldType": field.fieldType
                             },
                             label:
-                                '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
-                            initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
+                                '${SplashScreenNotifier.getLanguageLabel(field.fieldLabel)}${field.validationType == "M" ? "*" : ""}',
                             margins: const EdgeInsets.symmetric(vertical: 10.0),
-                            contactType: ContactType.phone,
-                            phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                            formatters: [FilteringTextInputFormatter.digitsOnly],
                             required: field.validationType == "M",
-                            key: const Key("Phone"),
-                            verificationStatusInitialValue: true,
+                            formatters: field.fieldType == "NUMBER"
+                                ? [FilteringTextInputFormatter.digitsOnly]
+                                : null,
                           );
+                        } else {
+                          return SizedBox();
                         }
-                        if (field.customerFieldName == "EMAIL") {
-                          return CustomVerifyTextField(
-                            onSaved: (value) => request[field.customerFieldName] = {
-                              "value": value.toString(),
-                              "customAttributeId": field.customAttributeId,
-                              "customerFieldType": field.customerFieldType
-                            },
-                            label:
-                                '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
-                            initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                            margins: const EdgeInsets.symmetric(vertical: 10.0),
-                            contactType: ContactType.email,
-                            phoneOrEmail: returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                            required: field.validationType == "M",
-                            key: const Key("Email"),
-                            verificationStatusInitialValue: true,
-                          );
-                        }
-
-                        return CustomTextField(
-                          initialValue: returnValue(field.customerFieldName, field.customAttributeId).toString(),
-                          onSaved: (value) => request[field.customerFieldName] = {
-                            "value": value.toString(),
-                            "customAttributeId": field.customAttributeId,
-                            "customerFieldType": field.customerFieldType
-                          },
-                          label:
-                              '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
-                          margins: const EdgeInsets.symmetric(vertical: 10.0),
-                          required: field.validationType == "M",
-                          formatters:
-                              field.customerFieldType == "NUMBER" ? [FilteringTextInputFormatter.digitsOnly] : null,
-                        );
                       }).toList(),
                     );
                   },
@@ -292,9 +421,11 @@ class _AccountPage extends ConsumerState<AccountPage> {
                 // ),
                 CustomButton(
                   onTap: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      ref.read(updateAccountProvider.notifier).updateProfile(user, request);
+                    if (_formKey.currentState?.validate() ?? false) {
+                      _formKey.currentState?.save();
+                      ref
+                          .read(updateAccountProvider.notifier)
+                          .updateProfile(user, request);
                     }
                   },
                   label: SplashScreenNotifier.getLanguageLabel('SAVE'),
@@ -302,12 +433,14 @@ class _AccountPage extends ConsumerState<AccountPage> {
                 ),
                 CustomButton(
                   onTap: () => {
-                    ref
-                        .read(loginProvider.notifier)
-                        .resendDeleteOtp(user.phone == null || user.phone == "" ? user.email! : user.phone!),
+                    ref.read(loginProvider.notifier).resendDeleteOtp(
+                        user.phone == null || user.phone == ""
+                            ? user.email!
+                            : user.phone!),
                     Navigator.pushNamed(context, Routes.kDeleteOTP)
                   },
-                  label: SplashScreenNotifier.getLanguageLabel('DELETE PROFILE'),
+                  label:
+                      SplashScreenNotifier.getLanguageLabel('DELETE PROFILE'),
                 )
               ],
             ),
@@ -340,7 +473,8 @@ class CustomPasswordTextField extends StatefulWidget {
   final bool required;
 
   @override
-  State<CustomPasswordTextField> createState() => _CustomPasswordTextFieldState();
+  State<CustomPasswordTextField> createState() =>
+      _CustomPasswordTextFieldState();
 }
 
 dynamic returnValue(String key, int customId) {
@@ -404,25 +538,27 @@ dynamic returnValue(String key, int customId) {
     //
     case "WECHAT_ACCESS_TOKEN":
       try {
-        var contactDtoList =
-            user.contactDtoList!.where((element) => element.contactType == ContactType.wechat.type).first;
-        return contactDtoList.attribute1;
+        var contactDtoList = user.contactDtoList
+            ?.where((element) => element.contactType == ContactType.wechat.type)
+            .first;
+        return contactDtoList?.attribute1 ?? "";
       } catch (e) {
         return "";
       }
 
     default:
-      CustomDataDTO customDataDtoList;
+      CustomDataDTO? customDataDtoList;
       dynamic returnValue;
       try {
-        customDataDtoList =
-            user.customDataSetDto!.customDataDtoList!.where((element) => element.customAttributeId == customId).first;
-        if (customDataDtoList.customDataText != null) {
-          returnValue = customDataDtoList.customDataText;
-        } else if (customDataDtoList.customDataDate != null) {
-          returnValue = customDataDtoList.customDataDate;
-        } else if (customDataDtoList.customDataNumber != null) {
-          returnValue = customDataDtoList.customDataNumber;
+        customDataDtoList = user.customDataSetDto?.customDataDtoList
+            ?.where((element) => element.customAttributeId == customId)
+            .first;
+        if (customDataDtoList?.customDataText != null) {
+          returnValue = customDataDtoList?.customDataText;
+        } else if (customDataDtoList?.customDataDate != null) {
+          returnValue = customDataDtoList?.customDataDate;
+        } else if (customDataDtoList?.customDataNumber != null) {
+          returnValue = customDataDtoList?.customDataNumber;
         }
         return returnValue;
       } catch (e) {
@@ -434,7 +570,7 @@ dynamic returnValue(String key, int customId) {
     //     customAttributeId: value["customAttributeId"],
     //     customDataText: value["customerFieldType"] == "NUMBER" || value["customerFieldType"] == "DATE" ? null : value["value"],
     //     customDataNumber: value["customerFieldType"] == "NUMBER" ? int.parse(value["value"]) : null,
-    //     customDataDate: value["customerFieldType"] == "DATE" ? DateTime.parse(value["value"]) : null
+    //     customDataDate: value["fieldType"] == "DATE" ? DateTime.parse(value["value"]) : null
     //   );
     //   customDataDtoList.add(customDataDTO);
   }
@@ -461,14 +597,16 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
           const SizedBox(height: 5.0),
           TextFormField(
             initialValue: widget.initialValue,
-            onSaved: (newValue) => widget.onSaved(newValue!),
-            validator: (value) =>
-                value!.isEmpty && widget.required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+            onSaved: (newValue) => widget.onSaved(newValue ?? ""),
+            validator: (value) => (value?.isEmpty ?? false) && widget.required
+                ? SplashScreenNotifier.getLanguageLabel('Required')
+                : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             obscureText: !_passwordVisible, //This will obscure text dynamically
             decoration: InputDecoration(
-              hintText: SplashScreenNotifier.getLanguageLabel('Enter your password'),
+              hintText:
+                  SplashScreenNotifier.getLanguageLabel('Enter your password'),
               // Here is key idea
               suffixIcon: IconButton(
                 icon: Icon(

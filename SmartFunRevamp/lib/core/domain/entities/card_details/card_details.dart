@@ -145,7 +145,7 @@ class CardDetails {
   Map<String, dynamic> toJson() => _$CardDetailsToJson(this);
 
   bool isBlocked() {
-    if (accountNumber!.startsWith('T')) {
+    if (accountNumber?.startsWith('T') ?? false) {
       return true;
     }
     return false;
@@ -173,11 +173,13 @@ class CardDetails {
   String pointsBasedOnCreditType(int creditType) {
     switch (creditType) {
       case 0:
-        return totalGamePlayCreditsBalance?.toStringAsFixed(0) ?? '';
+        return totalCreditsBalance?.toStringAsFixed(0) ?? '';
       case 1:
         return totalLoyaltyBalance?.toStringAsFixed(0) ?? '';
       case 2:
         return totalTicketsBalance?.toStringAsFixed(0) ?? '';
+      case 3:
+        return totalGamePlayCreditsBalance?.toStringAsFixed(0) ?? '';
       case 5:
         return totalBonusBalance?.toStringAsFixed(0) ?? '';
       case 6:

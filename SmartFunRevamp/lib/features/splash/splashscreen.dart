@@ -43,9 +43,11 @@ Future<void> registerLoggedUser(CustomerDTO customerDTO) async {
   if (selectedSite != null) {
     final executionContextResponse =
         await getExecutionContextUseCase(selectedSite.siteId!);
+        // await getExecutionContextUseCase(selectedSite.siteId!);
     executionContextResponse.fold(
       (l) {},
       (r) {
+
         Get.replace<SmartFunApi>(SmartFunApi('', r));
       },
     );

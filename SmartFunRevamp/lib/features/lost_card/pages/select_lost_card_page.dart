@@ -37,7 +37,7 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     if (cardDetails != null) {
       cards.forEachIndexed((index, element) {
-        if (element.accountNumber == cardDetails!.accountNumber) {
+        if (element.accountNumber == cardDetails?.accountNumber) {
           _cardIndex = index;
         }
       });

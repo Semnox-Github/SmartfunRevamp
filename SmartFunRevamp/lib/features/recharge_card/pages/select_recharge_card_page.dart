@@ -24,6 +24,7 @@ import 'package:semnox/features/recharge_card/widgets/recharge_card_offers.dart'
 import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 class SelectCardRechargePage extends ConsumerStatefulWidget {
   final String? filterStr;
@@ -116,6 +117,7 @@ class _SelectCardRechargePageState
         .then((value) async => {
               if (value != null)
                 {
+                  debugPrint("valueee "+value.toString()),
                   Dialogs.lastTransactionDialog(context, ref, value.toString()),
                 }
             });
@@ -180,8 +182,12 @@ class _SelectCardRechargePageState
                     ?.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
                 return SitesAppBarDropdown(
                   isEnabled:
-                      isOnlineRechargeEnabled && (virtualStoreSiteId == null),
+                      isOnlineRechargeEnabled && (virtualStoreSiteId?.isEmpty ?? false || virtualStoreSiteId == null),
                   onChanged: (selectedSite) {
+
+                    var Site =
+                    SiteViewDTO(siteId: selectedSite?.siteId ?? 0, openDate: DateTime.now(), closureDate: DateTime.now());
+                    GluttonLocalDataSource().saveCustomClass(LocalDataSource.kSelectedSite, Site.toJson());
                     ref
                         .read(selectedSiteIdProvider.notifier)
                         .update((state) => state = selectedSite?.siteId ?? -1);
@@ -221,6 +227,7 @@ class _SelectCardRechargePageState
                           error: (error, stackTrace) =>
                               const MulishText(text: 'Error'),
                           data: (offers) {
+
                             offers.sort((a, b) {
                               final sortOrderA = a.sortOrder as double?;
                               final sortOrderB = b.sortOrder as double?;
@@ -235,6 +242,7 @@ class _SelectCardRechargePageState
                                 return sortOrderA.compareTo(sortOrderB);
                               }
                             });
+
                             List<CardProduct> offersFiltered = offers;
                             if (!widget.filterStr.isNullOrEmpty()) {
                               offersFiltered = offers
@@ -252,7 +260,7 @@ class _SelectCardRechargePageState
                                 if (selectedCardNumber != null) {
                                   setState(() {
                                     offerSelected = offer;
-                                    finalPrice = offerSelected!.finalPrice;
+                                    finalPrice = offerSelected?.finalPrice ?? 0.0;
                                     qty = 1;
                                   });
                                   if (offer.productType == "VARIABLECARD") {

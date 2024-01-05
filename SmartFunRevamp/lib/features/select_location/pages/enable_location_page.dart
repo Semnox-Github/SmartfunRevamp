@@ -16,7 +16,8 @@ import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 Future<void> registerLoggedUserWithSite(CustomerDTO customerDTO, SiteViewDTO? selectedSite) async {
   final getExecutionContextUseCase = Get.find<GetExecutionContextUseCase>();
   registerUser(customerDTO);
-  final executionContextResponse = await getExecutionContextUseCase(selectedSite!.siteId!);
+  // final executionContextResponse = await getExecutionContextUseCase(selectedSite.siteId!);
+  final executionContextResponse = await getExecutionContextUseCase(selectedSite?.siteId ?? 0);
   executionContextResponse.fold(
     (l) {},
     (r) {

@@ -106,15 +106,206 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
-  Future<ListDataWrapper<AccountGameplays>> getAccountGamePlays(
-    int accountId, {
-    bool urlId = true,
-  }) async {
+  Future<Data<AddCardProductResponse>> addDiscount(
+    dynamic transactionId,
+    Map<String, dynamic> body,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'accountId': accountId,
-      r'gameplayId': urlId,
-    };
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Data<AddCardProductResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Transaction/Transactions/${transactionId}/Discount',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Data<AddCardProductResponse>.fromJson(
+      _result.data!,
+      (json) => AddCardProductResponse.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<Data<DiscountCountResponse>> saveTransaction(
+      dynamic transactionId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Data<DiscountCountResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Transaction/Transaction/${transactionId}/Save',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Data<DiscountCountResponse>.fromJson(
+      _result.data!,
+      (json) => DiscountCountResponse.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<Data<CreateOrderResponse>> createOrder(
+      Map<String, dynamic> body) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Data<CreateOrderResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Transaction/Order',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Data<CreateOrderResponse>.fromJson(
+      _result.data!,
+      (json) => CreateOrderResponse.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<Data<CreateTransactionResponse>> createTransaction(
+    dynamic transactionId,
+    Map<String, dynamic> body,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Data<CreateTransactionResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Transaction/V2/Order/${transactionId}/Transaction',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Data<CreateTransactionResponse>.fromJson(
+      _result.data!,
+      (json) =>
+          CreateTransactionResponse.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<HttpResponse<dynamic>> linkCustomer(
+    dynamic transactionId,
+    int body,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = body;
+    final _result =
+        await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Transaction/Transaction/${transactionId}/Customer',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data;
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<Data<AddCardProductResponse>> addCardProduct(
+    dynamic transactionId,
+    dynamic body,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = body;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Data<AddCardProductResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Transaction/Transactions/${transactionId}/TransactionLines',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Data<AddCardProductResponse>.fromJson(
+      _result.data!,
+      (json) => AddCardProductResponse.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<ListDataWrapper<AccountGameplays>> getAccountGamePlays(
+      int accountId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -125,7 +316,7 @@ class _SmartFunApi implements SmartFunApi {
     )
             .compose(
               _dio.options,
-              'Transaction/Gameplays',
+              'Customer/Account/${accountId}/GamePlaySummaries',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -341,6 +532,37 @@ class _SmartFunApi implements SmartFunApi {
     final value = ListDataWrapper<CardDetails>.fromJson(
       _result.data!,
       (json) => CardDetails.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<ListDataWrapper<CreditPlusSummary>> getCreditPlusSummary(
+      String accountNumber) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'accountId': accountNumber};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ListDataWrapper<CreditPlusSummary>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Customer/Account/AccountCreditPlusSummary',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ListDataWrapper<CreditPlusSummary>.fromJson(
+      _result.data!,
+      (json) => CreditPlusSummary.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }
@@ -623,6 +845,36 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
+  Future<HttpResponse<dynamic>> authenticateSystemUserContext(
+      Map<String, dynamic> body) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _result =
+        await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Login/AuthenticateSystemUsers',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data;
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
   Future<ListDataWrapper<AccountCreditPlusConsumptionDTO>>
       getGamesAccountSummart(String customerId) async {
     const _extra = <String, dynamic>{};
@@ -768,6 +1020,36 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
+  Future<Data<PosMachineContainer>> getPosMachine(String siteId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'siteId': siteId};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Data<PosMachineContainer>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'POS/POSMachinesContainer',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Data<PosMachineContainer>.fromJson(
+      _result.data!,
+      (json) => PosMachineContainer.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
   Future<MembershipContainerResponse> getMembershipContainer(
     int siteId, {
     bool rebuildCachec = false,
@@ -899,6 +1181,37 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
+  Future<Data<PaymentModeContainer>> getPaymentModeContainer(
+      String siteId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'siteId': siteId};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Data<PaymentModeContainer>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'V2/Transaction/PaymentModesContainer',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Data<PaymentModeContainer>.fromJson(
+      _result.data!,
+      (json) => PaymentModeContainer.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
   Future<ListDataWrapper<PaymentMode>> getPaymentModes(
     String siteId, {
     int isActive = 1,
@@ -921,6 +1234,36 @@ class _SmartFunApi implements SmartFunApi {
             .compose(
               _dio.options,
               'Transaction/PaymentModes',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ListDataWrapper<PaymentMode>.fromJson(
+      _result.data!,
+      (json) => PaymentMode.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<ListDataWrapper<PaymentMode>> getPaymentMode(String siteId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'siteId': siteId};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ListDataWrapper<PaymentMode>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'V2/Transaction/PaymentModesContainer',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -1018,6 +1361,67 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
+  Future<Data<UserUIMetaDataResponse>> getSignUpMetadataConfig(
+      String siteId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'siteId': siteId};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Data<UserUIMetaDataResponse>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Customer/CustomerFieldConfigurationContainer',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Data<UserUIMetaDataResponse>.fromJson(
+      _result.data!,
+      (json) => UserUIMetaDataResponse.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<Data<CountryDataResponse>> getCountriesContainer(String siteId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'siteId': siteId};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Data<CountryDataResponse>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Common/CountriesContainer',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Data<CountryDataResponse>.fromJson(
+      _result.data!,
+      (json) => CountryDataResponse.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
   Future<HttpResponse<dynamic>> getStringsForLocalization(
     String siteId,
     String languageId,
@@ -1092,6 +1496,39 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
+  Future<ListDataWrapper<TransactionPrint>> getTransactionPrint(
+    String transactionId, {
+    String formats = "PDF",
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'formats': formats};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ListDataWrapper<TransactionPrint>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Transaction/Transactions/${transactionId}/Receipt',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ListDataWrapper<TransactionPrint>.fromJson(
+      _result.data!,
+      (json) => TransactionPrint.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
   Future<ListDataWrapper<CardActivityDetails>> getTransactionDetail(
     String transactionId, {
     bool buildReceipt = true,
@@ -1130,6 +1567,86 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
+  Future<ListDataWrapper<TransactionDetail>> getTransaction(
+    String transactionId, {
+    int pageSize = 50,
+    String sortByField = "TransactionDate",
+    String sortOrder = "desc",
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'transactionId': transactionId,
+      r'pageSize': pageSize,
+      r'sortByField': sortByField,
+      r'sortOrder': sortOrder,
+    };
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ListDataWrapper<TransactionDetail>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Transaction/V2/Transactions',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ListDataWrapper<TransactionDetail>.fromJson(
+      _result.data!,
+      (json) => TransactionDetail.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<ListDataWrapper<TransactionDetail>> getTransactionWithCustomerId(
+    String customerId, {
+    int pageSize = 50,
+    String sortByField = "TransactionDate",
+    String sortOrder = "desc",
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'customerId': customerId,
+      r'pageSize': pageSize,
+      r'sortByField': sortByField,
+      r'sortOrder': sortOrder,
+    };
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ListDataWrapper<TransactionDetail>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Transaction/V2/Transactions',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ListDataWrapper<TransactionDetail>.fromJson(
+      _result.data!,
+      (json) => TransactionDetail.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
   Future<ListDataWrapper<CardDetails>> getUserCards(String customerId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'customerId': customerId};
@@ -1160,14 +1677,47 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
-  Future<Data<String>> linkCardToCustomer(Map<String, dynamic> body) async {
+  Future<HttpResponse<dynamic>> linkAccountToCustomer(
+    String accountId,
+    Map<String, dynamic> body,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<Data<String>>(Options(
+    final _result =
+        await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'Customer/Customers/${accountId}/AddAccount',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data;
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<dynamic>> linkCardToCustomer(
+      Map<String, dynamic> body) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _result =
+        await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -1183,11 +1733,9 @@ class _SmartFunApi implements SmartFunApi {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = Data<String>.fromJson(
-      _result.data!,
-      (json) => json as String,
-    );
-    return value;
+    final value = _result.data;
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
   }
 
   @override
@@ -1364,12 +1912,12 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
-  Future<Data<String>> transferBalance(Map<String, dynamic> body) async {
+  Future<Data<String>> transferBalance(
+      List<TransferBalanceRequest> body) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(body);
+    final _data = body.map((e) => e.toJson()).toList();
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<Data<String>>(Options(
       method: 'POST',
@@ -1378,7 +1926,7 @@ class _SmartFunApi implements SmartFunApi {
     )
             .compose(
               _dio.options,
-              'Customer/Account/AccountService/TransferBalances',
+              'Customer/Account/AccountTask/TransferAccountBalance',
               queryParameters: queryParameters,
               data: _data,
             )

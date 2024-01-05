@@ -49,7 +49,7 @@ class RechargeCardDetailsButton extends ConsumerWidget {
           ),
         ],
       );
-    } else if (!cardDetails.accountNumber!.startsWith('T')) {
+    } else if (!(cardDetails.accountNumber?.startsWith('T') ?? false)) {
       return Padding(
         padding: const EdgeInsets.all(5.0),
         child: Row(

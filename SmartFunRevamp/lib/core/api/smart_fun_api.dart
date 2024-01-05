@@ -34,12 +34,24 @@ import 'package:semnox/core/domain/entities/splash_screen/app_config_response.da
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
+import '../domain/entities/buy_card/create_order_response.dart';
+import '../domain/entities/buy_card/create_transaction_response.dart';
+import '../domain/entities/buy_card/discount_coupon.dart';
+import '../domain/entities/card_details/credit_plus_summary.dart';
+import '../domain/entities/card_details/transaction_details.dart';
+import '../domain/entities/orders/transaction_print.dart';
+import '../domain/entities/posMachine/posmachine_dto.dart';
+import '../domain/entities/sign_up/country_data.dart';
+import '../domain/entities/sign_up/user_metadataui.dart';
+import '../domain/entities/transfer/transfer_balance_request.dart';
+
 part 'smart_fun_api.g.dart';
 
 @RestApi()
 abstract class SmartFunApi {
   factory SmartFunApi([String baseUrl = '', String token = '']) {
     final dio = Dio();
+    print("siteTokenAPI "+token);
     dio.interceptors.addAll([
       AuthorizationInterceptor(),
       PrettyDioLogger(
@@ -61,7 +73,7 @@ abstract class SmartFunApi {
       headers: {
         HttpHeaders.authorizationHeader: token,
         HttpHeaders.contentTypeHeader: 'application/json',
-        'Origin': dotenv.env['CENTRAL_API_ORIGIN'],
+        //'Origin': dotenv.env['CENTRAL_API_ORIGIN'],
       },
     );
     return _SmartFunApi(dio);
@@ -78,15 +90,37 @@ abstract class SmartFunApi {
   Future<Data<EstimateTransactionResponse>> estimateTransaction(
       @Body() Map<String, dynamic> body);
 
+  @POST('Transaction/Transactions/{transactionId}/Discount')
+  Future<Data<AddCardProductResponse>> addDiscount(
+      @Path('transactionId') transactionId,@Body() Map<String, dynamic> body);
+
+  @POST('Transaction/Transaction/{transactionId}/Save')
+  Future<Data<DiscountCountResponse>> saveTransaction(
+      @Path('transactionId') transactionId);
+
+  @POST('Transaction/Order')
+  Future<Data<CreateOrderResponse>> createOrder(
+      @Body() Map<String, dynamic> body);
+
+  @POST('Transaction/V2/Order/{transactionId}/Transaction')
+  Future<Data<CreateTransactionResponse>> createTransaction(
+    @Path('transactionId') transactionId, @Body() Map<String, dynamic> body);
+
+  @POST('Transaction/Transaction/{transactionId}/Customer')
+  Future<HttpResponse> linkCustomer(
+      @Path('transactionId') transactionId, @Body() int body);
+
+  @POST('Transaction/Transactions/{transactionId}/TransactionLines')
+  Future<Data<AddCardProductResponse>> addCardProduct(
+      @Path('transactionId') transactionId, @Body() dynamic body);
+
   //----- Transaction -----// <-
 
   //----- Gameplays -----// ->
 
-  @GET('Transaction/Gameplays')
+  @GET('Customer/Account/{accountId}/GamePlaySummaries')
   Future<ListDataWrapper<AccountGameplays>> getAccountGamePlays(
-    @Query('accountId') int accountId, {
-    @Query('gameplayId') bool urlId = true,
-  });
+    @Path('accountId') int accountId);
 
   @GET('Communication/MessagingRequests?MessageType=A')
   Future<ListDataWrapper<NotificationsResponse>> getAllNotifications(
@@ -120,6 +154,10 @@ abstract class SmartFunApi {
     @Query('activeRecordsOnly') bool activeRecordsOnly = true,
     @Query('buildChildRecords') bool buildChildRecords = true,
   });
+
+  @GET('Customer/Account/AccountCreditPlusSummary')
+  Future<ListDataWrapper<CreditPlusSummary>> getCreditPlusSummary(
+      @Query('accountId') String accountNumber);
 
   @GET('Customer/Account/{accountId}/AccountActivity')
   Future<ListDataWrapper<CardActivity>> getCardActivityDetail(
@@ -172,6 +210,10 @@ abstract class SmartFunApi {
     @Query('posMachineName') String posMachineName = 'CustomerApp',
   });
 
+  @POST('Login/AuthenticateSystemUsers')
+  Future<HttpResponse> authenticateSystemUserContext(
+      @Body() Map<String, dynamic> body);
+
   @GET('Customer/Account/{customerId}/AccountGamesSummary')
   Future<ListDataWrapper<AccountCreditPlusConsumptionDTO>>
       getGamesAccountSummart(@Path('customerId') String customerId);
@@ -193,6 +235,10 @@ abstract class SmartFunApi {
   @GET('Lookups/LookupsContainer')
   Future<Data<LookupsContainer>> getLookups(
       @Query('siteId') String siteId, @Query('rebuildCache') bool rebuildCache);
+
+  @GET('POS/POSMachinesContainer')
+  Future<Data<PosMachineContainer>> getPosMachine(
+      @Query('siteId') String siteId);
 
   @GET('Customer/Membership/MembershipsContainer')
   Future<MembershipContainerResponse> getMembershipContainer(
@@ -218,12 +264,20 @@ abstract class SmartFunApi {
 
   //----- Transaction -----// ->
 
+  @GET('V2/Transaction/PaymentModesContainer')
+  Future<Data<PaymentModeContainer>> getPaymentModeContainer(
+    @Query('siteId') String siteId);
+
   @GET('Transaction/PaymentModes')
   Future<ListDataWrapper<PaymentMode>> getPaymentModes(
-    @Query('siteId') String siteId, {
-    @Query('isActive') int isActive = 1,
-    @Query('paymentChannel') String paymentChannel = 'CUSTOMER_APP_PAYMENT',
-  });
+      @Query('siteId') String siteId, {
+        @Query('isActive') int isActive = 1,
+        @Query('paymentChannel') String paymentChannel = 'CUSTOMER_APP_PAYMENT',
+      });
+
+  @POST('V2/Transaction/PaymentModesContainer')
+  Future<ListDataWrapper<PaymentMode>> getPaymentMode(
+      @Query('siteId') String siteId);
 
   @GET('Product/ProductPrice')
   Future<ListDataWrapper<CardProduct>> getProductsPrices(
@@ -241,6 +295,14 @@ abstract class SmartFunApi {
     @Query('rebuildCache') bool rebuildCache = false,
   });
 
+  @GET('Customer/CustomerFieldConfigurationContainer')
+  Future<Data<UserUIMetaDataResponse>> getSignUpMetadataConfig(
+      @Query('siteId') String siteId);
+
+  @GET('Common/CountriesContainer')
+  Future<Data<CountryDataResponse>> getCountriesContainer(
+      @Query('siteId') String siteId);
+
   @GET('Localization/Headers')
   Future<HttpResponse> getStringsForLocalization(
     @Query('siteId') String siteId,
@@ -255,6 +317,11 @@ abstract class SmartFunApi {
     @Query('buildChildRecords') bool buildChildRecords = true,
   });
 
+  @GET('Transaction/Transactions/{transactionId}/Receipt')
+  Future<ListDataWrapper<TransactionPrint>> getTransactionPrint(
+      @Path('transactionId') String transactionId, {
+      @Query('formats') String formats = "PDF"});
+
   @GET('Transaction/Transactions')
   Future<ListDataWrapper<CardActivityDetails>> getTransactionDetail(
     @Query('transactionId') String transactionId, {
@@ -262,12 +329,28 @@ abstract class SmartFunApi {
     @Query('buildChildRecords') bool buildChildRecords = true,
   });
 
+  @GET('Transaction/V2/Transactions')
+  Future<ListDataWrapper<TransactionDetail>> getTransaction(
+      @Query('transactionId') String transactionId,{
+        @Query('pageSize') int pageSize = 50,
+        @Query('sortByField') String sortByField = "TransactionDate",
+        @Query('sortOrder') String sortOrder = "desc",
+      });
+
+  @GET('Transaction/V2/Transactions')
+  Future<ListDataWrapper<TransactionDetail>> getTransactionWithCustomerId(
+      @Query('customerId') String customerId);
+
   @GET('Customer/Account/LinkedAccountsSummary')
   Future<ListDataWrapper<CardDetails>> getUserCards(
       @Query('customerId') String customerId);
 
+  @POST('Customer/Customers/{accountId}/AddAccount')
+  Future<HttpResponse> linkAccountToCustomer(@Path('accountId') String accountId,@Body() Map<String, dynamic> body);
+
+
   @POST('Customer/Account/AccountService/LinkAccountToCustomers')
-  Future<Data<String>> linkCardToCustomer(@Body() Map<String, dynamic> body);
+  Future<HttpResponse> linkCardToCustomer(@Body() Map<String, dynamic> body);
 
   @POST('Customer/CustomerLogin')
   Future<Data<CustomerDTO>> loginUser(@Body() Map<String, dynamic> body);
@@ -291,8 +374,9 @@ abstract class SmartFunApi {
   @POST('/Customer/Customers')
   Future<Data<CustomerDTO>> signUpUser(@Body() Map<String, dynamic> body);
 
-  @POST('Customer/Account/AccountService/TransferBalances')
-  Future<Data<String>> transferBalance(@Body() Map<String, dynamic> body);
+  @POST('Customer/Account/AccountTask/TransferAccountBalance')
+  Future<Data<String>> transferBalance(@Body() List<TransferBalanceRequest> body);
+
   @POST('Customer/Account/{accountId}/AccountIdentifier')
   Future<void> updateCardNickname(
       @Path('accountId') String accountId, @Body() Map<String, dynamic> body);

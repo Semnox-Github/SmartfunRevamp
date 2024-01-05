@@ -148,12 +148,12 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                   ),
                 ],
                 rows: List<DataRow>.generate(
-                  gamesIncluded!.isEmpty ? 1 : gamesIncluded.length,
+                  gamesIncluded?.isEmpty ?? false ? 1 : gamesIncluded?.length ?? 0,
                   (int index) => DataRow(
                     cells: <DataCell>[
-                      DataCell(Text(gamesIncluded.isEmpty ? '--' : gamesIncluded[index].gameProfileId.toString())),
-                      DataCell(Text(gamesIncluded.isEmpty ? '--' : gamesIncluded[index].gameId.toString())),
-                      DataCell(Text(gamesIncluded.isEmpty ? '--' : gamesIncluded[index].playLimitPerGame.toString())),
+                      DataCell(Text(gamesIncluded?.isEmpty ?? false ? '--' : gamesIncluded?[index].gameProfileId.toString() ?? "")),
+                      DataCell(Text(gamesIncluded?.isEmpty ?? false ? '--' : gamesIncluded?[index].gameId.toString() ?? "")),
+                      DataCell(Text(gamesIncluded?.isEmpty ?? false ? '--' : gamesIncluded?[index].playLimitPerGame.toString() ?? "")),
                     ],
                   ),
                 ),
@@ -217,12 +217,12 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                   ),
                 ],
                 rows: List<DataRow>.generate(
-                  gamesExcluded!.isEmpty ? 1 : gamesExcluded.length,
+                  gamesExcluded?.isEmpty ?? false ? 1 : gamesExcluded?.length ?? 0,
                   (int index) => DataRow(
                     cells: <DataCell>[
-                      DataCell(Text(gamesExcluded.isEmpty ? '--' : gamesExcluded[index].gameProfileId.toString())),
-                      DataCell(Text(gamesExcluded.isEmpty ? '--' : gamesExcluded[index].gameId.toString())),
-                      DataCell(Text(gamesExcluded.isEmpty ? '--' : gamesExcluded[index].playLimitPerGame.toString())),
+                      DataCell(Text(gamesExcluded?.isEmpty ?? false ? '--' : gamesExcluded?[index].gameProfileId.toString() ?? "")),
+                      DataCell(Text(gamesExcluded?.isEmpty  ?? false ? '--' : gamesExcluded?[index].gameId.toString() ?? "")),
+                      DataCell(Text(gamesExcluded?.isEmpty  ?? false ? '--' : gamesExcluded?[index].playLimitPerGame.toString()?? "")),
                     ],
                   ),
                 ),

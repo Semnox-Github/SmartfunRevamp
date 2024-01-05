@@ -13,7 +13,7 @@ class VirtualCardWidget extends StatelessWidget {
   final CardDetails cardDetails;
   @override
   Widget build(BuildContext context) {
-    String virtualNumber = 'T${cardDetails.accountNumber!.substring(1)}';
+    String virtualNumber = 'T${cardDetails.accountNumber?.substring(1) ?? ""}';
     return Stack(children: [
       Container(
         height: MediaQuery.of(context).size.height * 0.25,

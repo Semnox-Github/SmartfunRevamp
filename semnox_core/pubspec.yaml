@@ -34,8 +34,8 @@ dependencies:
   auto_animated: ^3.0.0
   barcode_reader:
     git:
-      # url: https://github.com/nitinpai-semnox/Parafait-BarCodeReader
-      url: git@github.com:nitinpai-semnox/Parafait-BarCodeReader.git
+      url: https://github.com/nitinpai-semnox/Parafait-BarCodeReader
+      #url: git@github.com:nitinpai-semnox/Parafait-BarCodeReader.git
       ref: master
   bottom_sheet: ^3.1.2
   connectivity_plus: ^2.3.9
@@ -68,8 +68,8 @@ dependencies:
   network_tools: ^3.0.0+3
   nfc:
     git:
-      # url: https://github.com/nitinpai-semnox/Parafait-NFC
-      url: git@github.com:nitinpai-semnox/Parafait-NFC.git
+      url: https://github.com/nitinpai-semnox/Parafait-NFC
+      #url: git@github.com:nitinpai-semnox/Parafait-NFC.git
       ref: main
   package_info_plus: ^4.0.2
   pretty_dio_logger: ^1.1.1

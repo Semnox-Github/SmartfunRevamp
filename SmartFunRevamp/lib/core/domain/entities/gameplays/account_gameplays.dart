@@ -7,16 +7,16 @@ class AccountGameplays {
   final String? playDate;
   final String? game;
   final String? site;
-  final double credits;
+  final double? credits;
   final double courtesy;
-  final double bonus;
+  final double? bonus;
   final double time;
-  final double cpBonus;
-  final double cpCredits;
-  final double cpCardBalance;
+  final double? cpBonus;
+  final double? cpCredits;
+  final double? cpCardBalance;
   final double cardGame;
-  final double totalBonus;
-  final double totalCredits;
+  final double? CPBonus;
+  final double? CPCredits;
 
   AccountGameplays(
       this.gameplayId,
@@ -30,9 +30,10 @@ class AccountGameplays {
       this.cpBonus,
       this.cpCredits,
       this.cpCardBalance,
-      this.cardGame)
-      : totalBonus = bonus + cpBonus,
-        totalCredits = credits + cpCredits + cpCardBalance;
+      this.cardGame,
+      this.CPBonus,
+      this.CPCredits
+      );
   factory AccountGameplays.fromJson(Map<String, dynamic> json) =>
       _$AccountGameplaysFromJson(json);
   Map<String, dynamic> toJson() => _$AccountGameplaysToJson(this);

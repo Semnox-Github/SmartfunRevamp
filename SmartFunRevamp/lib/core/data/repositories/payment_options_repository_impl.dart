@@ -12,7 +12,7 @@ class PaymentOptionsRepositoryImpl implements PaymentOptionsRepository {
   PaymentOptionsRepositoryImpl(this._api);
 
   @override
-  Future<Either<Failure, List<PaymentMode>>> getPaymentModes(
+  Future<Either<Failure, List<PaymentMode>>> getPaymentModeContainer(
     String siteId,
   ) async {
     try {
@@ -24,6 +24,8 @@ class PaymentOptionsRepositoryImpl implements PaymentOptionsRepository {
     }
   }
 
+
+
   @override
   Future<Either<Failure, HostedPaymentGateway>> getHostedPaymentGateways(
       {required String hostedPaymentGateway, required double amount, required int transactionId}) async {
@@ -34,4 +36,5 @@ class PaymentOptionsRepositoryImpl implements PaymentOptionsRepository {
       return Left(e.handleException());
     }
   }
+
 }

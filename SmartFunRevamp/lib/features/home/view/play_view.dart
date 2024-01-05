@@ -32,7 +32,7 @@ class _PlayViewState extends ConsumerState<PlayView> {
     final cms = ref.watch(newHomePageCMSProvider);
     final currentLang = ref.watch(currentLanguageProvider);
     final siteId = ref.watch(masterSiteProvider)?.siteId;
-    final playUrl = cms!.playUrl(currentLang: currentLang, siteId: siteId.toString());
+    final playUrl = cms?.playUrl(currentLang: currentLang, siteId: siteId.toString());
     if (playUrl != null) {
       controller.loadRequest(playUrl);
     }

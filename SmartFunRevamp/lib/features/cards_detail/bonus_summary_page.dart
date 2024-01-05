@@ -12,6 +12,8 @@ import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../core/domain/entities/card_details/credit_plus_summary.dart';
+
 class BonusSummaryPage extends ConsumerWidget {
   const BonusSummaryPage({
     Key? key,
@@ -40,12 +42,14 @@ class BonusSummaryPage extends ConsumerWidget {
                   },
                   inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
                   success: (responseData) {
-                    List<AccountCreditPlusDTOList> data = List.from(responseData);
+                    List<CreditPlusSummary> data = List.from(responseData);
                     data = data
-                      ..removeWhere((element) => (element.creditPlusType != creditPlusType && creditPlusType != null));
+                      ..removeWhere((element) {
+                        return (element.creditPlusType != creditPlusType && creditPlusType != null);
+                      });
                     int totalBonus = 0;
                     for (var element in data) {
-                      totalBonus += element.creditPlusBalance.toInt();
+                      totalBonus += element.creditPlusBalance?.toInt() ?? 0;
                     }
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +119,7 @@ class BonusSummaryPage extends ConsumerWidget {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             MulishText(
-                                              text: summary.remarks,
+                                              text: summary.remarks ?? "",
                                               fontWeight: FontWeight.bold,
                                             ),
                                             MulishText(
@@ -137,7 +141,7 @@ class BonusSummaryPage extends ConsumerWidget {
                                                   text: 'Value Loaded',
                                                 ),
                                                 MulishText(
-                                                  text: '${summary.creditPlus.toInt()}',
+                                                  text: '${summary.creditPlus?.toInt() ?? 0}',
                                                 ),
                                               ],
                                             ),
@@ -147,7 +151,7 @@ class BonusSummaryPage extends ConsumerWidget {
                                                   text: 'Balance',
                                                 ),
                                                 MulishText(
-                                                  text: '${summary.creditPlusBalance.toInt()}',
+                                                  text: '${summary.creditPlusBalance?.toInt() ?? 0}',
                                                 ),
                                               ],
                                             ),

@@ -33,7 +33,7 @@ class PaymentOptionsPage extends ConsumerWidget {
       required this.transactionType,
       this.finalPrice})
       : super(key: key);
-  final EstimateTransactionResponse transactionResponse;
+  final AddCardProductResponse transactionResponse;
   final CardProduct cardProduct;
   final CardDetails? cardDetails;
   final String transactionType;
@@ -42,6 +42,7 @@ class PaymentOptionsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
+
     final currency =
         parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ??
             'USD';
@@ -156,7 +157,7 @@ class ExpansionPaymentMethodsList extends StatefulWidget {
     this.finalPrice,
   });
   final List<PaymentMode> paymentsMode;
-  final EstimateTransactionResponse transactionResponse;
+  final AddCardProductResponse transactionResponse;
   final CardProduct cardProduct;
   final CardDetails? cardDetails;
   final String transactionType;
@@ -189,6 +190,10 @@ class _ExpansionPaymentMethodsListState
       builder: (context, ref, __) {
         //If a single payment method is set and this wasn't requested before then update the hosted payment provider
         if (_data.length == 1 && requestedPaymentOnLoad == false) {
+          print("_data[0].paymentMode.paymentGateway?.lookupValue "+_data[0].paymentMode.paymentGateway!.lookupValue.toString() ?? "");
+          print("_data[0].paymentMode.paymentGateway?.lookupValue "+_data[0].paymentMode.paymentGateway!.lookupName.toString() ?? "");
+          print("_data[0].paymentMode.paymentGateway?.lookupValue "+_data[0].paymentMode.paymentGateway!.lookupId.toString() ?? "");
+          print("_data[0].paymentMode.paymentGateway?.lookupValue "+_data[0].paymentMode.paymentGateway!.lookupValueId.toString() ?? "");
           requestedPaymentOnLoad = true;
           ref.read(hostedPaymentProvider.notifier).getHtml(
                 HostedPaymentGatewayRequest(
@@ -254,6 +259,8 @@ class _ExpansionPaymentMethodsListState
                                 gestureRecognizers = {
                               Factory(() => EagerGestureRecognizer())
                             };
+
+
                             if (htmlString.isNotEmpty && panelItem.isExpanded) {
                               final uri = Uri.parse(Uri.dataFromString(
                                       htmlString,
@@ -275,10 +282,13 @@ class _ExpansionPaymentMethodsListState
                                         " change url type ${change.url.runtimeType}");
                                     debugPrint(
                                         " change url type ${change.url}");
-                                    if (change.url?.contains(
-                                            SplashScreenNotifier.getLookupValue(
-                                                "CANCEL_REDIRECT_URL")) ??
-                                        false) {
+                                    final cancelRedirectUrl =
+                                        SplashScreenNotifier.getLookupValue(
+                                            "CANCEL_REDIRECT_URL");
+                                    if (
+                                        (change.url
+                                                ?.contains(cancelRedirectUrl) ??
+                                            false)) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -286,17 +296,20 @@ class _ExpansionPaymentMethodsListState
                                               const PaymentFailedPage(),
                                         ),
                                       );
-
                                       NavigationDecision.prevent;
                                     }
                                   },
                                   onNavigationRequest:
                                       (NavigationRequest request) {
-                                    Logger().e(request.url);
+                                    Logger().e("requestUrl "+request.url);
 
-                                    if (request.url.contains(
+                                    final RedirectUrl =
                                         SplashScreenNotifier.getLookupValue(
-                                            "SUCCESS_REDIRECT_URL"))) {
+                                            "SUCCESS_REDIRECT_URL");
+
+                                    if (RedirectUrl.isNotEmpty &&
+                                        (request.url?.contains(RedirectUrl) ??
+                                            false)) {
                                       ref.invalidate(
                                           CardsProviders.userCardsProvider);
                                       Navigator.push(
@@ -320,6 +333,7 @@ class _ExpansionPaymentMethodsListState
                                     } else if (request.url.contains(
                                         SplashScreenNotifier.getLookupValue(
                                             "FAILURE_REDIRECT_URL"))) {
+
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -331,6 +345,7 @@ class _ExpansionPaymentMethodsListState
                                     } else if (request.url.contains(
                                         SplashScreenNotifier.getLookupValue(
                                             "CANCEL_REDIRECT_URL"))) {
+
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -341,8 +356,10 @@ class _ExpansionPaymentMethodsListState
                                       return NavigationDecision.prevent;
                                     }
                                     //Payment Method callback URLs
+
                                     if (request.url
                                         .contains(data.successURL.toString())) {
+
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -363,6 +380,7 @@ class _ExpansionPaymentMethodsListState
                                       return NavigationDecision.navigate;
                                     } else if (request.url
                                         .contains(data.failureURL.toString())) {
+
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

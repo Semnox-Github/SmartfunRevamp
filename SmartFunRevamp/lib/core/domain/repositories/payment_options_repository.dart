@@ -4,7 +4,9 @@ import 'package:semnox/core/domain/entities/payment/hosted_payment_gateway.dart'
 import 'package:semnox/core/errors/failures.dart';
 
 abstract class PaymentOptionsRepository {
-  Future<Either<Failure, List<PaymentMode>>> getPaymentModes(
+
+
+  Future<Either<Failure, List<PaymentMode>>> getPaymentModeContainer(
     String siteId,
   );
 

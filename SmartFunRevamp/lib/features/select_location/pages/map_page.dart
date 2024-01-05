@@ -53,6 +53,8 @@ class _MapPageState extends ConsumerState<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+
+
     late CustomerDTO? customer = ref.watch(userProvider);
     try {
       customer = Get.find<CustomerDTO>();
@@ -70,6 +72,7 @@ class _MapPageState extends ConsumerState<MapPage> {
           },
           inProgress: () => context.loaderOverlay.show(),
           newContextSuccess: (selectedSite) {
+
             ref.read(loginProvider.notifier).selectedSite = selectedSite;
             ref.read(loginProvider.notifier).saveSelectedSite();
 
@@ -122,8 +125,9 @@ class _MapPageState extends ConsumerState<MapPage> {
           builder: (context, ref, _) {
             return ref.watch(_locationProvider).when(
                   error: (_, __) => const SizedBox.shrink(),
-                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  loading: () {   return const Center(child: CircularProgressIndicator.adaptive());},
                   data: (data) {
+
                     Set<Marker> markers = {};
                     Marker resultMarker = Marker(
                       markerId: const MarkerId('ME'),

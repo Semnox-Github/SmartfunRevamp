@@ -5,8 +5,9 @@ class TransferBalance {
   CardDetails to;
   final num amount;
   final String entitlement;
+  final int entitlementType;
 
-  TransferBalance(this.from, this.to, this.amount, this.entitlement);
+  TransferBalance(this.from, this.to, this.amount, this.entitlement, this.entitlementType);
 
   Map<String, dynamic> toJson() {
     return {

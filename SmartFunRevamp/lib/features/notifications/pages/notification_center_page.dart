@@ -95,11 +95,11 @@ class NotificationCenterPage extends StatelessWidget {
                               ],
                             ),
                             ListView.builder(
-                              itemCount: notifications!.length,
+                              itemCount: notifications?.length ?? 0,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                final notification = notifications[index];
+                                final notification = notifications?[index];
                                 return Container(
                                   margin: const EdgeInsets.symmetric(vertical: 20.0),
                                   child: Dismissible(
@@ -124,12 +124,12 @@ class NotificationCenterPage extends StatelessWidget {
                                     ),
                                     direction: DismissDirection.endToStart,
                                     onDismissed: (_) {
-                                      ref.read(NotificationsProvider.notificationsStateProvider.notifier).removeNotification(notification);
+                                      ref.read(NotificationsProvider.notificationsStateProvider.notifier).removeNotification(notification!);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(20.0),
                                       decoration: BoxDecoration(
-                                        color: notification.isUnread ? CustomColors.customOrange : CustomColors.customLigthGray,
+                                        color: notification?.isUnread ?? false ? CustomColors.customOrange : CustomColors.customLigthGray,
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
                                       child: Row(
@@ -149,18 +149,18 @@ class NotificationCenterPage extends StatelessWidget {
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     MulishText(
-                                                      text: notification.subject,
+                                                      text: notification?.subject ?? "",
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                     MulishText(
-                                                      text: notification.sendDate.formatDate('HH:mm a'),
+                                                      text: notification?.sendDate.formatDate('HH:mm a') ?? "",
                                                       fontSize: 12,
                                                       fontColor: CustomColors.couponTextColor,
                                                     ),
                                                   ],
                                                 ),
                                                 MulishText(
-                                                  text: notification.body,
+                                                  text: notification?.body ?? "",
                                                   fontSize: 12,
                                                   fontColor: CustomColors.couponTextColor,
                                                 ),

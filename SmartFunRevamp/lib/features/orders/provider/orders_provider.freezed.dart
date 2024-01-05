@@ -20,7 +20,7 @@ mixin _$OrdersState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<TransactionDetail> ordersSummary) success,
     required TResult Function(List<OrderStatus> customerUrdersStatus)
         successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
@@ -33,7 +33,7 @@ mixin _$OrdersState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<TransactionDetail> ordersSummary)? success,
     TResult? Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -45,7 +45,7 @@ mixin _$OrdersState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<TransactionDetail> ordersSummary)? success,
     TResult Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -151,7 +151,7 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<TransactionDetail> ordersSummary) success,
     required TResult Function(List<OrderStatus> customerUrdersStatus)
         successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
@@ -167,7 +167,7 @@ class _$_Initial implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<TransactionDetail> ordersSummary)? success,
     TResult? Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -182,7 +182,7 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<TransactionDetail> ordersSummary)? success,
     TResult Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -291,7 +291,7 @@ class _$_InProgress implements _InProgress {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<TransactionDetail> ordersSummary) success,
     required TResult Function(List<OrderStatus> customerUrdersStatus)
         successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
@@ -307,7 +307,7 @@ class _$_InProgress implements _InProgress {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<TransactionDetail> ordersSummary)? success,
     TResult? Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -322,7 +322,7 @@ class _$_InProgress implements _InProgress {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<TransactionDetail> ordersSummary)? success,
     TResult Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -397,7 +397,7 @@ abstract class _$$_SuccessCopyWith<$Res> {
           _$_Success value, $Res Function(_$_Success) then) =
       __$$_SuccessCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<OrderDetails> ordersSummary});
+  $Res call({List<TransactionDetail> ordersSummary});
 }
 
 /// @nodoc
@@ -416,7 +416,7 @@ class __$$_SuccessCopyWithImpl<$Res>
       null == ordersSummary
           ? _value._ordersSummary
           : ordersSummary // ignore: cast_nullable_to_non_nullable
-              as List<OrderDetails>,
+              as List<TransactionDetail>,
     ));
   }
 }
@@ -424,12 +424,12 @@ class __$$_SuccessCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Success implements _Success {
-  const _$_Success(final List<OrderDetails> ordersSummary)
+  const _$_Success(final List<TransactionDetail> ordersSummary)
       : _ordersSummary = ordersSummary;
 
-  final List<OrderDetails> _ordersSummary;
+  final List<TransactionDetail> _ordersSummary;
   @override
-  List<OrderDetails> get ordersSummary {
+  List<TransactionDetail> get ordersSummary {
     if (_ordersSummary is EqualUnmodifiableListView) return _ordersSummary;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_ordersSummary);
@@ -464,7 +464,7 @@ class _$_Success implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<TransactionDetail> ordersSummary) success,
     required TResult Function(List<OrderStatus> customerUrdersStatus)
         successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
@@ -480,7 +480,7 @@ class _$_Success implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<TransactionDetail> ordersSummary)? success,
     TResult? Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -495,7 +495,7 @@ class _$_Success implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<TransactionDetail> ordersSummary)? success,
     TResult Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -561,9 +561,10 @@ class _$_Success implements _Success {
 }
 
 abstract class _Success implements OrdersState {
-  const factory _Success(final List<OrderDetails> ordersSummary) = _$_Success;
+  const factory _Success(final List<TransactionDetail> ordersSummary) =
+      _$_Success;
 
-  List<OrderDetails> get ordersSummary;
+  List<TransactionDetail> get ordersSummary;
   @JsonKey(ignore: true)
   _$$_SuccessCopyWith<_$_Success> get copyWith =>
       throw _privateConstructorUsedError;
@@ -648,7 +649,7 @@ class _$_SuccessCustomerOrderStatus implements _SuccessCustomerOrderStatus {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<TransactionDetail> ordersSummary) success,
     required TResult Function(List<OrderStatus> customerUrdersStatus)
         successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
@@ -664,7 +665,7 @@ class _$_SuccessCustomerOrderStatus implements _SuccessCustomerOrderStatus {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<TransactionDetail> ordersSummary)? success,
     TResult? Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -679,7 +680,7 @@ class _$_SuccessCustomerOrderStatus implements _SuccessCustomerOrderStatus {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<TransactionDetail> ordersSummary)? success,
     TResult Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -823,7 +824,7 @@ class _$_SuccessOrderDetail implements _SuccessOrderDetail {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<TransactionDetail> ordersSummary) success,
     required TResult Function(List<OrderStatus> customerUrdersStatus)
         successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
@@ -839,7 +840,7 @@ class _$_SuccessOrderDetail implements _SuccessOrderDetail {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<TransactionDetail> ordersSummary)? success,
     TResult? Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -854,7 +855,7 @@ class _$_SuccessOrderDetail implements _SuccessOrderDetail {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<TransactionDetail> ordersSummary)? success,
     TResult Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -969,7 +970,7 @@ class _$_OrderDetailInProgress implements _OrderDetailInProgress {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<TransactionDetail> ordersSummary) success,
     required TResult Function(List<OrderStatus> customerUrdersStatus)
         successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
@@ -985,7 +986,7 @@ class _$_OrderDetailInProgress implements _OrderDetailInProgress {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<TransactionDetail> ordersSummary)? success,
     TResult? Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -1000,7 +1001,7 @@ class _$_OrderDetailInProgress implements _OrderDetailInProgress {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<TransactionDetail> ordersSummary)? success,
     TResult Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -1133,7 +1134,7 @@ class _$_Error implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<OrderDetails> ordersSummary) success,
+    required TResult Function(List<TransactionDetail> ordersSummary) success,
     required TResult Function(List<OrderStatus> customerUrdersStatus)
         successCustomerOrderStatus,
     required TResult Function(OrderDetails ordersSummaryDetails)
@@ -1149,7 +1150,7 @@ class _$_Error implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<OrderDetails> ordersSummary)? success,
+    TResult? Function(List<TransactionDetail> ordersSummary)? success,
     TResult? Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult? Function(OrderDetails ordersSummaryDetails)? successOrderDetail,
@@ -1164,7 +1165,7 @@ class _$_Error implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<OrderDetails> ordersSummary)? success,
+    TResult Function(List<TransactionDetail> ordersSummary)? success,
     TResult Function(List<OrderStatus> customerUrdersStatus)?
         successCustomerOrderStatus,
     TResult Function(OrderDetails ordersSummaryDetails)? successOrderDetail,

@@ -128,7 +128,7 @@ class CarouselCardItemState extends State<CarouselCardItem> {
     card = widget.card;
     cardNickname = widget.card.accountIdentifier.isNullOrEmpty()
         ? widget.card.customerName!
-        : widget.card.accountIdentifier!.characters.take(15).toString();
+        : widget.card.accountIdentifier?.characters.take(15).toString() ?? "";
   }
 
   @override

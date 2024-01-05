@@ -37,7 +37,11 @@ class SelectLocationProvider extends StateNotifier<SelectLocationState> {
 
   void selectSite(SiteViewDTO selectedSite) async {
     state = const _InProgress();
-    final response = await _getExecutionContextUseCase(selectedSite.siteId!);
+    // final response = await _getExecutionContextUseCase(selectedSite.siteId!);
+    var Site =
+    SiteViewDTO(siteId: selectedSite?.siteId ?? 0, openDate: DateTime.now(), closureDate: DateTime.now());
+    GluttonLocalDataSource().saveCustomClass(LocalDataSource.kSelectedSite, Site.toJson());
+    final response = await _getExecutionContextUseCase(selectedSite.siteId ?? 1010);
     response.fold(
       (l) => state = _Error(l.message),
       (r) async {

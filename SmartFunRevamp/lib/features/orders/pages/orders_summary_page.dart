@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/domain/entities/card_details/transaction_details.dart';
 import 'package:semnox/core/domain/entities/orders/order_details.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
@@ -36,9 +37,9 @@ class OrdersSummaryPage extends ConsumerWidget {
                   inProgress: () =>
                       const Center(child: CircularProgressIndicator.adaptive()),
                   success: (responseData) {
-                    List<OrderDetails> data = List.from(responseData);
+                    List<TransactionDetail> data = List.from(responseData);
                     data.removeWhere(
-                        (element) => element.transactionLinesDTOList == null);
+                        (element) => element.transactionLineDTOList == null);
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

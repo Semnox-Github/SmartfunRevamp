@@ -12,6 +12,9 @@ import 'package:semnox/features/recharge_card/providers/products_price_provider.
 import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
+
+import '../../../core/data/datasources/local_data_source.dart';
 
 class BuyCardListPage extends StatelessWidget {
   const BuyCardListPage({
@@ -63,8 +66,15 @@ class BuyCardListPage extends StatelessWidget {
                     ?.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
                 return SitesAppBarDropdown(
                   isEnabled:
-                      isOnlineRechargeEnabled && (virtualStoreSiteId == null),
+                      isOnlineRechargeEnabled && (virtualStoreSiteId?.isEmpty?? false || virtualStoreSiteId == null),
                   onChanged: (selectedSite) {
+                    var Site =
+                    SiteViewDTO(siteId: selectedSite?.siteId ?? 0, openDate: DateTime.now(), closureDate: DateTime.now());
+
+
+                     GluttonLocalDataSource().saveCustomClass(LocalDataSource.kSelectedSite, Site.toJson());
+
+
                     ref
                         .read(selectedSiteIdProvider.notifier)
                         .update((state) => selectedSite?.siteId ?? -1);
@@ -126,6 +136,7 @@ class BuyCardListPage extends StatelessWidget {
                             separatorBuilder: (_, __) =>
                                 const SizedBox(height: 10.0),
                             itemBuilder: (context, index) {
+                              debugPrint("pictureforcard "+cards[index].toString());
                               return CardType(
                                 card: cards[index],
                               );

@@ -41,6 +41,41 @@ Map<String, dynamic> _$EstimateTransactionResponseToJson(
   return val;
 }
 
+AddCardProductResponse _$AddCardProductResponseFromJson(
+        Map<String, dynamic> json) =>
+    AddCardProductResponse(
+      json['TransactionId'] as int,
+      (json['TransactionAmount'] as num).toDouble(),
+      (json['TransactionTaxTotal'] as num).toDouble(),
+      (json['TransactionDiscountTotal'] as num).toDouble(),
+      (json['TransactionNetAmount'] as num).toDouble(),
+      (json['CouponDiscountAmount'] as num?)?.toDouble(),
+      json['CouponNumber'] as String?,
+      json['PrimaryCard'] as String?,
+    );
+
+Map<String, dynamic> _$AddCardProductResponseToJson(
+    AddCardProductResponse instance) {
+  final val = <String, dynamic>{
+    'TransactionId': instance.transactionId,
+    'TransactionAmount': instance.transactionAmount,
+    'TransactionTaxTotal': instance.transactionTaxTotal,
+    'TransactionDiscountTotal': instance.transactionDiscountTotal,
+    'TransactionNetAmount': instance.transactionNetAmount,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CouponDiscountAmount', instance.couponDiscountAmount);
+  writeNotNull('CouponNumber', instance.couponNumber);
+  writeNotNull('PrimaryCard', instance.primaryCard);
+  return val;
+}
+
 EstimateTransactionRequest _$EstimateTransactionRequestFromJson(
         Map<String, dynamic> json) =>
     EstimateTransactionRequest(

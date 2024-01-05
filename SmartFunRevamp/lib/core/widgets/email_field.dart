@@ -22,7 +22,7 @@ class EmailTextField extends StatelessWidget {
         TextFormField(
           initialValue: '', //new@mail1.com
           onSaved: (newValue) => onSaved(newValue!),
-          validator: (value) => value!.isEmpty
+          validator: (value) => value?.isEmpty ?? false
               ? SplashScreenNotifier.getLanguageLabel('Required')
               : null,
           cursorColor: Colors.black,

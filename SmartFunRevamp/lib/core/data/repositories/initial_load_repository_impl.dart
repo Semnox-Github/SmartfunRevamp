@@ -12,6 +12,9 @@ import 'package:semnox/core/domain/repositories/initial_load_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils/extensions.dart';
 
+import '../../domain/entities/payment/payment_mode.dart';
+import '../../domain/entities/posMachine/posmachine_dto.dart';
+
 class InitialLoadRepositoryImpl implements InitialLoadRepository {
   final SmartFunApi _api;
   final InitialLocalDatasource _localDataSource;
@@ -104,4 +107,29 @@ class InitialLoadRepositoryImpl implements InitialLoadRepository {
       return Left(e.handleException());
     }
   }
+
+  @override
+  Future<Either<Failure, PaymentModeContainer>> getPaymentModesContainer({
+   required String siteId,
+  }) async {
+    try {
+      final response = await _api.getPaymentModeContainer(siteId);
+      //final paymentModes = response.data.PaymentModeContainerDTOList..removeWhere((element) => element.Gateway == -1);
+      return Right(response.data);
+    } on Exception catch (e) {
+      return Left(e.handleException());
+    }
+  }
+
+
+  @override
+  Future<Either<Failure, PosMachineContainer>> getPosMachine({required String siteId, bool rebuildCache = true}) async {
+    try {
+      final response = await _api.getPosMachine(siteId);
+      return Right(response.data);
+    } on Exception catch (e) {
+      return Left(e.handleException());
+    }
+  }
+
 }

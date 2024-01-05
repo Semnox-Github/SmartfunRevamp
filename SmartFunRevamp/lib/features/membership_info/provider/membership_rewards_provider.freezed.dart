@@ -20,7 +20,7 @@ mixin _$MembershipRewardsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<AccountCreditPlusDTOList> rewards) success,
+    required TResult Function(List<CreditPlusSummary> rewards) success,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$MembershipRewardsState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<AccountCreditPlusDTOList> rewards)? success,
+    TResult? Function(List<CreditPlusSummary> rewards)? success,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$MembershipRewardsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<AccountCreditPlusDTOList> rewards)? success,
+    TResult Function(List<CreditPlusSummary> rewards)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -126,7 +126,7 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<AccountCreditPlusDTOList> rewards) success,
+    required TResult Function(List<CreditPlusSummary> rewards) success,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -137,7 +137,7 @@ class _$_Initial implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<AccountCreditPlusDTOList> rewards)? success,
+    TResult? Function(List<CreditPlusSummary> rewards)? success,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -148,7 +148,7 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<AccountCreditPlusDTOList> rewards)? success,
+    TResult Function(List<CreditPlusSummary> rewards)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -240,7 +240,7 @@ class _$_InProgress implements _InProgress {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<AccountCreditPlusDTOList> rewards) success,
+    required TResult Function(List<CreditPlusSummary> rewards) success,
     required TResult Function(String message) error,
   }) {
     return inProgress();
@@ -251,7 +251,7 @@ class _$_InProgress implements _InProgress {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<AccountCreditPlusDTOList> rewards)? success,
+    TResult? Function(List<CreditPlusSummary> rewards)? success,
     TResult? Function(String message)? error,
   }) {
     return inProgress?.call();
@@ -262,7 +262,7 @@ class _$_InProgress implements _InProgress {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<AccountCreditPlusDTOList> rewards)? success,
+    TResult Function(List<CreditPlusSummary> rewards)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -320,7 +320,7 @@ abstract class _$$_SuccessCopyWith<$Res> {
           _$_Success value, $Res Function(_$_Success) then) =
       __$$_SuccessCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<AccountCreditPlusDTOList> rewards});
+  $Res call({List<CreditPlusSummary> rewards});
 }
 
 /// @nodoc
@@ -339,7 +339,7 @@ class __$$_SuccessCopyWithImpl<$Res>
       null == rewards
           ? _value._rewards
           : rewards // ignore: cast_nullable_to_non_nullable
-              as List<AccountCreditPlusDTOList>,
+              as List<CreditPlusSummary>,
     ));
   }
 }
@@ -347,12 +347,11 @@ class __$$_SuccessCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Success implements _Success {
-  const _$_Success(final List<AccountCreditPlusDTOList> rewards)
-      : _rewards = rewards;
+  const _$_Success(final List<CreditPlusSummary> rewards) : _rewards = rewards;
 
-  final List<AccountCreditPlusDTOList> _rewards;
+  final List<CreditPlusSummary> _rewards;
   @override
-  List<AccountCreditPlusDTOList> get rewards {
+  List<CreditPlusSummary> get rewards {
     if (_rewards is EqualUnmodifiableListView) return _rewards;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_rewards);
@@ -386,7 +385,7 @@ class _$_Success implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<AccountCreditPlusDTOList> rewards) success,
+    required TResult Function(List<CreditPlusSummary> rewards) success,
     required TResult Function(String message) error,
   }) {
     return success(rewards);
@@ -397,7 +396,7 @@ class _$_Success implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<AccountCreditPlusDTOList> rewards)? success,
+    TResult? Function(List<CreditPlusSummary> rewards)? success,
     TResult? Function(String message)? error,
   }) {
     return success?.call(rewards);
@@ -408,7 +407,7 @@ class _$_Success implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<AccountCreditPlusDTOList> rewards)? success,
+    TResult Function(List<CreditPlusSummary> rewards)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -457,10 +456,9 @@ class _$_Success implements _Success {
 }
 
 abstract class _Success implements MembershipRewardsState {
-  const factory _Success(final List<AccountCreditPlusDTOList> rewards) =
-      _$_Success;
+  const factory _Success(final List<CreditPlusSummary> rewards) = _$_Success;
 
-  List<AccountCreditPlusDTOList> get rewards;
+  List<CreditPlusSummary> get rewards;
   @JsonKey(ignore: true)
   _$$_SuccessCopyWith<_$_Success> get copyWith =>
       throw _privateConstructorUsedError;
@@ -530,7 +528,7 @@ class _$_Error implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() inProgress,
-    required TResult Function(List<AccountCreditPlusDTOList> rewards) success,
+    required TResult Function(List<CreditPlusSummary> rewards) success,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -541,7 +539,7 @@ class _$_Error implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? inProgress,
-    TResult? Function(List<AccountCreditPlusDTOList> rewards)? success,
+    TResult? Function(List<CreditPlusSummary> rewards)? success,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -552,7 +550,7 @@ class _$_Error implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? inProgress,
-    TResult Function(List<AccountCreditPlusDTOList> rewards)? success,
+    TResult Function(List<CreditPlusSummary> rewards)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

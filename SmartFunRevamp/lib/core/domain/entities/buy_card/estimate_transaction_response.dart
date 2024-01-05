@@ -28,6 +28,31 @@ class EstimateTransactionResponse {
   Map<String, dynamic> toJson() => _$EstimateTransactionResponseToJson(this);
 }
 
+@JsonSerializable(fieldRename: FieldRename.pascal)
+class AddCardProductResponse {
+  final int transactionId;
+  final double transactionAmount;
+  final double transactionTaxTotal;
+  final double transactionDiscountTotal;
+  final double transactionNetAmount;
+  double? couponDiscountAmount;
+  String? couponNumber;
+  String? primaryCard;
+
+  AddCardProductResponse(
+      this.transactionId,
+      this.transactionAmount,
+      this.transactionTaxTotal,
+      this.transactionDiscountTotal,
+      this.transactionNetAmount,
+      this.couponDiscountAmount,
+      this.couponNumber,
+      this.primaryCard,
+      );
+  factory AddCardProductResponse.fromJson(Map<String, dynamic> json) => _$AddCardProductResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$AddCardProductResponseToJson(this);
+}
+
 @JsonSerializable(fieldRename: FieldRename.pascal, explicitToJson: true)
 class EstimateTransactionRequest {
   final int transactionId;

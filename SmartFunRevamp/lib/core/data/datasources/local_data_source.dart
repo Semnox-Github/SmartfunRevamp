@@ -11,6 +11,7 @@ abstract class LocalDataSource {
   static String kSelectedSite = 'selected_site';
   static String kDefaultSite = 'default_site';
   static String kUserId = 'userId';
+  static String POSMachineId = 'posMachineId';
   static String kUser = 'user';
   static String kSplashScreenURL = 'splash_image_url';
   static String kTransactionId = 'transaction_id';

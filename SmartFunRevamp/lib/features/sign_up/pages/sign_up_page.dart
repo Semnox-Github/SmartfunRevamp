@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/sign_up/sign_up_entity.dart';
-import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_user_metadata_use_case.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/routes.dart';
@@ -22,10 +21,41 @@ import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-final uiMetaDataProvider = FutureProvider<List<CustomerUIMetaData>>((ref) async {
+import '../../../core/domain/entities/membership/membership_tier.dart';
+import '../../../core/domain/entities/sign_up/country_data.dart';
+import '../../../core/domain/entities/sign_up/user_metadataui.dart';
+import '../../../core/domain/use_cases/authentication/get_country_use_case.dart';
+import '../../../core/domain/use_cases/membership/get_membership_container_use_case.dart';
+
+final uiMetaDataProvider =
+    FutureProvider<List<CustomerFieldConfiguration>>((ref) async {
   final getUiMetaData = Get.find<GetUserMetaDataUseCase>();
   final siteId = ref.watch(masterSiteProvider)?.siteId;
   final response = await getUiMetaData(siteId ?? 1010);
+
+  return response.fold(
+    (l) => throw l,
+    (r) => r,
+  );
+});
+
+final membershipContainerProvider = FutureProvider<List<MembershipTier>>(
+  (ref) async {
+    final siteId = ref.watch(masterSiteProvider)?.siteId;
+    final getMembershipContainer = Get.find<GetMembershipContainerUseCase>();
+    final response = await getMembershipContainer(siteId ?? 1010);
+    return response.fold(
+      (l) => throw l,
+      (r) => r,
+    );
+  },
+);
+
+final countryProvider = FutureProvider<List<CountryData>>((ref) async {
+  final getCountryData = Get.find<GetCountryUseCase>();
+  final siteId = ref.watch(masterSiteProvider)?.siteId;
+  final response = await getCountryData(siteId ?? 1010);
+
   return response.fold(
     (l) => throw l,
     (r) => r,
@@ -54,9 +84,12 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
         success: (signUpEntity, user) {
           ref.read(userProvider.notifier).update((_) => user);
           if (isPasswordDisabled) {
-            ref.read(loginProvider.notifier).loginUserWithOTP(signUpEntity.email ?? signUpEntity.phone ?? '');
+            ref.read(loginProvider.notifier).loginUserWithOTP(
+                signUpEntity.email ?? signUpEntity.phone ?? '');
           } else {
-            ref.read(loginProvider.notifier).loginUser(signUpEntity.email!, signUpEntity.password!);
+            ref
+                .read(loginProvider.notifier)
+                .loginUser(signUpEntity.email ?? "", signUpEntity.password!);
           }
         },
         error: (message) {
@@ -89,6 +122,10 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
       );
     });
     final metaData = ref.watch(uiMetaDataProvider);
+    final countryData = ref.watch(countryProvider);
+    final membershipData = ref.watch(membershipContainerProvider);
+    List<MembershipTier> membershipList = membershipData.value ?? [];
+    List<CountryData> countryList = countryData.value ?? [];
     final configExecutionContext = ref.watch(preConfigProvider);
     return Scaffold(
       appBar: AppBar(
@@ -120,90 +157,149 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                 ),
                 const SizedBox(height: 20.0),
                 metaData.when(
-                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
-                  error: (_, __) => const Center(
-                    child: Icon(
-                      Icons.error,
-                      color: Colors.red,
-                    ),
-                  ),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
+                  error: (_, __) {
+                    return const Center(
+                      child: Icon(
+                        Icons.error,
+                        color: Colors.red,
+                      ),
+                    );
+                  },
                   data: (metadata) {
                     return Column(
                       children: metadata.map((field) {
-                        if (field.customerFieldValues is List) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption),
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                        if (!field.isReadOnly) {
+                          if (field.fieldType == "LIST" ||
+                              field.fieldType == "OBJECT") {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  SplashScreenNotifier.getLanguageLabel(
+                                      field.fieldLabel),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                DropdownButtonFormField<String>(
+                                  items: field.fieldType == "LIST"
+                                      ? List<Map<String, dynamic>>.from(
+                                              field.customerFieldValueList)
+                                          .map((value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value['Key'],
+                                            child: Text(SplashScreenNotifier
+                                                .getLanguageLabel(
+                                                    value['Value'])),
+                                          );
+                                        }).toList()
+                                      : field.fieldName == "MEMBERSHIP_ID"
+                                          ? List<MembershipTier>.from(
+                                                  membershipList)
+                                              .map((value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value.membershipName,
+                                                child: Text(SplashScreenNotifier
+                                                    .getLanguageLabel(
+                                                        value.membershipName)),
+                                              );
+                                            }).toList()
+                                          : List<CountryData>.from(countryList)
+                                              .map((value) {
+                                              return DropdownMenuItem<String>(
+                                                value: field.fieldName ==
+                                                        "COUNTRY_CODE"
+                                                    ? value.countryCode
+                                                    : value.countryId
+                                                        .toString(),
+                                                child: Text(SplashScreenNotifier
+                                                    .getLanguageLabel(field
+                                                                .fieldName ==
+                                                            "COUNTRY_CODE"
+                                                        ? value.countryCode
+                                                        : value.countryName)),
+                                              );
+                                            }).toList(),
+                                  onChanged: (value) =>
+                                      request[field.fieldName] = {
+                                    "value": value,
+                                    "customAttributeId":
+                                        field.customeAttributeId,
+                                    "customerFieldType": field.fieldType
+                                  },
+                                ),
+                              ],
+                            );
+                          }
+                          if (field.fieldName == "BIRTH_DATE" ||
+                              field.fieldType == "DATE") {
+                            return CustomDatePicker(
+                              margin:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              labelText: SplashScreenNotifier.getLanguageLabel(
+                                  'Date of birth'),
+                              format: 'MM-dd-yyyy',
+                              onItemSelected: (dob) =>
+                                  request[field.fieldName] = {
+                                "value": DateFormat('MM-dd-yyyy')
+                                    .format(dob)
+                                    .toString(),
+                                "customAttributeId": field.customeAttributeId,
+                                "customerFieldType": field.fieldType
+                              },
+                              suffixIcon: const Icon(
+                                Icons.date_range_outlined,
+                                color: CustomColors.hardOrange,
                               ),
-                              DropdownButtonFormField<String>(
-                                items: List<String>.from(field.customerFieldValues).map((title) {
-                                  return DropdownMenuItem<String>(
-                                    value: title,
-                                    child: Text(SplashScreenNotifier.getLanguageLabel(title)),
-                                  );
-                                }).toList(),
-                                onChanged: (title) => request[field.customerFieldName] = {
-                                  "value": title,
-                                  "customAttributeId": field.customAttributeId,
-                                  "customerFieldType": field.customerFieldType
-                                },
-                              ),
-                            ],
-                          );
-                        }
-                        if (field.customerFieldName == "BIRTH_DATE" || field.customerFieldType == "DATE") {
-                          return CustomDatePicker(
-                            margin: const EdgeInsets.symmetric(vertical: 10.0),
-                            labelText: SplashScreenNotifier.getLanguageLabel('Date of birth'),
-                            format: 'MM-dd-yyyy',
-                            onItemSelected: (dob) => request[field.customerFieldName] = {
-                              "value": DateFormat('MM-dd-yyyy').format(dob).toString(),
-                              "customAttributeId": field.customAttributeId,
-                              "customerFieldType": field.customerFieldType
+                            );
+                          }
+                          return CustomTextField(
+                            onSaved: (value) => request[field.fieldName] = {
+                              "value": value.toString(),
+                              "customAttributeId": field.customeAttributeId,
+                              "customerFieldType": field.fieldType
                             },
-                            suffixIcon: const Icon(
-                              Icons.date_range_outlined,
-                              color: CustomColors.hardOrange,
-                            ),
+                            label:
+                                '${SplashScreenNotifier.getLanguageLabel(field.fieldLabel)}${field.isMandatory ? "*" : ""}',
+                            margins: const EdgeInsets.symmetric(vertical: 10.0),
+                            required: field.isMandatory,
+                            initialValue: field.defaultValue.isNotEmpty
+                                ? field.defaultValue
+                                : "",
+                            formatters: field.fieldName == "CONTACT_PHONE" ||
+                                    field.fieldType == "NUMBER"
+                                ? [FilteringTextInputFormatter.digitsOnly]
+                                : null,
                           );
+                        } else {
+                          return SizedBox();
                         }
-                        return CustomTextField(
-                          onSaved: (value) => request[field.customerFieldName] = {
-                            "value": value.toString(),
-                            "customAttributeId": field.customAttributeId,
-                            "customerFieldType": field.customerFieldType
-                          },
-                          label:
-                              '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
-                          margins: const EdgeInsets.symmetric(vertical: 10.0),
-                          required: field.validationType == "M",
-                          formatters: field.customerFieldName == "CONTACT_PHONE" || field.customerFieldType == "NUMBER"
-                              ? [FilteringTextInputFormatter.digitsOnly]
-                              : null,
-                        );
                       }).toList(),
                     );
                   },
                 ),
                 if (!isPasswordDisabled)
-                  Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    CustomPasswordTextField(
-                      onSaved: (value) => request["PASSWORD"] = {
-                        "value": value.toString(),
-                        "customAttributeId": -1,
-                        "customerFieldType": "TEXT"
-                      },
-                      label: '${SplashScreenNotifier.getLanguageLabel("Password")}*',
-                      margins: const EdgeInsets.symmetric(vertical: 10.0),
-                      required: true,
-                    ),
-                  ]),
+                  Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomPasswordTextField(
+                          onSaved: (value) => request["PASSWORD"] = {
+                            "value": value.toString(),
+                            "customAttributeId": -1,
+                            "customerFieldType": "TEXT"
+                          },
+                          label:
+                              '${SplashScreenNotifier.getLanguageLabel("Password")}*',
+                          margins: const EdgeInsets.symmetric(vertical: 10.0),
+                          required: true,
+                        ),
+                      ]),
                 configExecutionContext.when(
-                  loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
                   error: (error, _) {
                     if (error is Failure) {
                       return const Icon(Icons.error, color: Colors.red);
@@ -226,17 +322,19 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                     ),
                     children: [
                       TextSpan(
-                        text: '${SplashScreenNotifier.getLanguageLabel('By Logging in you agree to our')} ',
+                        text:
+                            '${SplashScreenNotifier.getLanguageLabel('By Logging in you agree to our')} ',
                       ),
                       TextSpan(
-                          text: SplashScreenNotifier.getLanguageLabel('Terms of Service'),
+                          text: SplashScreenNotifier.getLanguageLabel(
+                              'Terms of Service'),
                           style: const TextStyle(
                             color: CustomColors.hardOrange,
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               // if (externalUrls?.termsAndConditions != null &&
-                              //     externalUrls!.termsAndConditions.isNotEmpty) {
+                              //     externalUrls.termsAndConditions.isNotEmpty) {
                               //   Navigator.push(
                               //     context,
                               //     MaterialPageRoute(
@@ -255,13 +353,14 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                       ),
                       const TextSpan(text: ' '),
                       TextSpan(
-                        text: SplashScreenNotifier.getLanguageLabel('Privacy Policy'),
+                        text: SplashScreenNotifier.getLanguageLabel(
+                            'Privacy Policy'),
                         style: const TextStyle(
                           color: CustomColors.hardOrange,
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            // if (externalUrls?.privacyPolicy != null && externalUrls!.privacyPolicy.isNotEmpty) {
+                            // if (externalUrls?.privacyPolicy != null && externalUrls.privacyPolicy.isNotEmpty) {
                             //   Navigator.push(
                             //     context,
                             //     MaterialPageRoute(
@@ -281,9 +380,11 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                 const SizedBox(height: 20.0),
                 CustomButton(
                   onTap: () {
-                    if (_key.currentState!.validate()) {
-                      _key.currentState!.save();
-                      ref.read(signUpNotifier.notifier).signUpUser(SignUpEntity.fromMetaData(request));
+                    if (_key.currentState?.validate() ?? false) {
+                      _key.currentState?.save();
+                      ref
+                          .read(signUpNotifier.notifier)
+                          .signUpUser(SignUpEntity.fromMetaData(request));
                     }
                   },
                   label: SplashScreenNotifier.getLanguageLabel('SIGN UP'),
@@ -341,7 +442,9 @@ class CustomTextField extends StatelessWidget {
             initialValue: initialValue,
             inputFormatters: formatters,
             onSaved: (newValue) => onSaved(newValue!),
-            validator: (value) => value!.isEmpty && required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+            validator: (value) => (value?.isEmpty ?? false) && required
+                ? SplashScreenNotifier.getLanguageLabel('Required')
+                : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
@@ -381,7 +484,8 @@ class CustomPasswordTextField extends StatefulWidget {
   final bool required;
 
   @override
-  State<CustomPasswordTextField> createState() => _CustomPasswordTextFieldState();
+  State<CustomPasswordTextField> createState() =>
+      _CustomPasswordTextFieldState();
 }
 
 class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
@@ -407,13 +511,15 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
             initialValue: widget.initialValue,
             inputFormatters: widget.formatters,
             onSaved: (newValue) => widget.onSaved(newValue!),
-            validator: (value) =>
-                value!.isEmpty && widget.required ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+            validator: (value) => (value?.isEmpty ?? false) && widget.required
+                ? SplashScreenNotifier.getLanguageLabel('Required')
+                : null,
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             obscureText: !_passwordVisible, //This will obscure text dynamically
             decoration: InputDecoration(
-              hintText: SplashScreenNotifier.getLanguageLabel('Enter your password'),
+              hintText:
+                  SplashScreenNotifier.getLanguageLabel('Enter your password'),
               // Here is key idea
               suffixIcon: IconButton(
                 icon: Icon(

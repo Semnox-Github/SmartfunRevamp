@@ -21,8 +21,9 @@ mixin _$EstimateState {
     required TResult Function() inProgress,
     required TResult Function(String message) error,
     required TResult Function(String message) invalidCoupon,
-    required TResult Function(EstimateTransactionResponse response)
+    required TResult Function(AddCardProductResponse response)
         transactionEstimated,
+    required TResult Function(DiscountCountResponse response) transactionSaved,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,8 +31,8 @@ mixin _$EstimateState {
     TResult? Function()? inProgress,
     TResult? Function(String message)? error,
     TResult? Function(String message)? invalidCoupon,
-    TResult? Function(EstimateTransactionResponse response)?
-        transactionEstimated,
+    TResult? Function(AddCardProductResponse response)? transactionEstimated,
+    TResult? Function(DiscountCountResponse response)? transactionSaved,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -39,8 +40,8 @@ mixin _$EstimateState {
     TResult Function()? inProgress,
     TResult Function(String message)? error,
     TResult Function(String message)? invalidCoupon,
-    TResult Function(EstimateTransactionResponse response)?
-        transactionEstimated,
+    TResult Function(AddCardProductResponse response)? transactionEstimated,
+    TResult Function(DiscountCountResponse response)? transactionSaved,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -50,6 +51,7 @@ mixin _$EstimateState {
     required TResult Function(_Error value) error,
     required TResult Function(_InvalidCoupon value) invalidCoupon,
     required TResult Function(_TransactionEstimated value) transactionEstimated,
+    required TResult Function(_TransactionSaved value) transactionSaved,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -58,6 +60,7 @@ mixin _$EstimateState {
     TResult? Function(_Error value)? error,
     TResult? Function(_InvalidCoupon value)? invalidCoupon,
     TResult? Function(_TransactionEstimated value)? transactionEstimated,
+    TResult? Function(_TransactionSaved value)? transactionSaved,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -66,6 +69,7 @@ mixin _$EstimateState {
     TResult Function(_Error value)? error,
     TResult Function(_InvalidCoupon value)? invalidCoupon,
     TResult Function(_TransactionEstimated value)? transactionEstimated,
+    TResult Function(_TransactionSaved value)? transactionSaved,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -130,8 +134,9 @@ class _$_InProgress implements _InProgress {
     required TResult Function() inProgress,
     required TResult Function(String message) error,
     required TResult Function(String message) invalidCoupon,
-    required TResult Function(EstimateTransactionResponse response)
+    required TResult Function(AddCardProductResponse response)
         transactionEstimated,
+    required TResult Function(DiscountCountResponse response) transactionSaved,
   }) {
     return inProgress();
   }
@@ -142,8 +147,8 @@ class _$_InProgress implements _InProgress {
     TResult? Function()? inProgress,
     TResult? Function(String message)? error,
     TResult? Function(String message)? invalidCoupon,
-    TResult? Function(EstimateTransactionResponse response)?
-        transactionEstimated,
+    TResult? Function(AddCardProductResponse response)? transactionEstimated,
+    TResult? Function(DiscountCountResponse response)? transactionSaved,
   }) {
     return inProgress?.call();
   }
@@ -154,8 +159,8 @@ class _$_InProgress implements _InProgress {
     TResult Function()? inProgress,
     TResult Function(String message)? error,
     TResult Function(String message)? invalidCoupon,
-    TResult Function(EstimateTransactionResponse response)?
-        transactionEstimated,
+    TResult Function(AddCardProductResponse response)? transactionEstimated,
+    TResult Function(DiscountCountResponse response)? transactionSaved,
     required TResult orElse(),
   }) {
     if (inProgress != null) {
@@ -171,6 +176,7 @@ class _$_InProgress implements _InProgress {
     required TResult Function(_Error value) error,
     required TResult Function(_InvalidCoupon value) invalidCoupon,
     required TResult Function(_TransactionEstimated value) transactionEstimated,
+    required TResult Function(_TransactionSaved value) transactionSaved,
   }) {
     return inProgress(this);
   }
@@ -182,6 +188,7 @@ class _$_InProgress implements _InProgress {
     TResult? Function(_Error value)? error,
     TResult? Function(_InvalidCoupon value)? invalidCoupon,
     TResult? Function(_TransactionEstimated value)? transactionEstimated,
+    TResult? Function(_TransactionSaved value)? transactionSaved,
   }) {
     return inProgress?.call(this);
   }
@@ -193,6 +200,7 @@ class _$_InProgress implements _InProgress {
     TResult Function(_Error value)? error,
     TResult Function(_InvalidCoupon value)? invalidCoupon,
     TResult Function(_TransactionEstimated value)? transactionEstimated,
+    TResult Function(_TransactionSaved value)? transactionSaved,
     required TResult orElse(),
   }) {
     if (inProgress != null) {
@@ -271,8 +279,9 @@ class _$_Error implements _Error {
     required TResult Function() inProgress,
     required TResult Function(String message) error,
     required TResult Function(String message) invalidCoupon,
-    required TResult Function(EstimateTransactionResponse response)
+    required TResult Function(AddCardProductResponse response)
         transactionEstimated,
+    required TResult Function(DiscountCountResponse response) transactionSaved,
   }) {
     return error(message);
   }
@@ -283,8 +292,8 @@ class _$_Error implements _Error {
     TResult? Function()? inProgress,
     TResult? Function(String message)? error,
     TResult? Function(String message)? invalidCoupon,
-    TResult? Function(EstimateTransactionResponse response)?
-        transactionEstimated,
+    TResult? Function(AddCardProductResponse response)? transactionEstimated,
+    TResult? Function(DiscountCountResponse response)? transactionSaved,
   }) {
     return error?.call(message);
   }
@@ -295,8 +304,8 @@ class _$_Error implements _Error {
     TResult Function()? inProgress,
     TResult Function(String message)? error,
     TResult Function(String message)? invalidCoupon,
-    TResult Function(EstimateTransactionResponse response)?
-        transactionEstimated,
+    TResult Function(AddCardProductResponse response)? transactionEstimated,
+    TResult Function(DiscountCountResponse response)? transactionSaved,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -312,6 +321,7 @@ class _$_Error implements _Error {
     required TResult Function(_Error value) error,
     required TResult Function(_InvalidCoupon value) invalidCoupon,
     required TResult Function(_TransactionEstimated value) transactionEstimated,
+    required TResult Function(_TransactionSaved value) transactionSaved,
   }) {
     return error(this);
   }
@@ -323,6 +333,7 @@ class _$_Error implements _Error {
     TResult? Function(_Error value)? error,
     TResult? Function(_InvalidCoupon value)? invalidCoupon,
     TResult? Function(_TransactionEstimated value)? transactionEstimated,
+    TResult? Function(_TransactionSaved value)? transactionSaved,
   }) {
     return error?.call(this);
   }
@@ -334,6 +345,7 @@ class _$_Error implements _Error {
     TResult Function(_Error value)? error,
     TResult Function(_InvalidCoupon value)? invalidCoupon,
     TResult Function(_TransactionEstimated value)? transactionEstimated,
+    TResult Function(_TransactionSaved value)? transactionSaved,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -419,8 +431,9 @@ class _$_InvalidCoupon implements _InvalidCoupon {
     required TResult Function() inProgress,
     required TResult Function(String message) error,
     required TResult Function(String message) invalidCoupon,
-    required TResult Function(EstimateTransactionResponse response)
+    required TResult Function(AddCardProductResponse response)
         transactionEstimated,
+    required TResult Function(DiscountCountResponse response) transactionSaved,
   }) {
     return invalidCoupon(message);
   }
@@ -431,8 +444,8 @@ class _$_InvalidCoupon implements _InvalidCoupon {
     TResult? Function()? inProgress,
     TResult? Function(String message)? error,
     TResult? Function(String message)? invalidCoupon,
-    TResult? Function(EstimateTransactionResponse response)?
-        transactionEstimated,
+    TResult? Function(AddCardProductResponse response)? transactionEstimated,
+    TResult? Function(DiscountCountResponse response)? transactionSaved,
   }) {
     return invalidCoupon?.call(message);
   }
@@ -443,8 +456,8 @@ class _$_InvalidCoupon implements _InvalidCoupon {
     TResult Function()? inProgress,
     TResult Function(String message)? error,
     TResult Function(String message)? invalidCoupon,
-    TResult Function(EstimateTransactionResponse response)?
-        transactionEstimated,
+    TResult Function(AddCardProductResponse response)? transactionEstimated,
+    TResult Function(DiscountCountResponse response)? transactionSaved,
     required TResult orElse(),
   }) {
     if (invalidCoupon != null) {
@@ -460,6 +473,7 @@ class _$_InvalidCoupon implements _InvalidCoupon {
     required TResult Function(_Error value) error,
     required TResult Function(_InvalidCoupon value) invalidCoupon,
     required TResult Function(_TransactionEstimated value) transactionEstimated,
+    required TResult Function(_TransactionSaved value) transactionSaved,
   }) {
     return invalidCoupon(this);
   }
@@ -471,6 +485,7 @@ class _$_InvalidCoupon implements _InvalidCoupon {
     TResult? Function(_Error value)? error,
     TResult? Function(_InvalidCoupon value)? invalidCoupon,
     TResult? Function(_TransactionEstimated value)? transactionEstimated,
+    TResult? Function(_TransactionSaved value)? transactionSaved,
   }) {
     return invalidCoupon?.call(this);
   }
@@ -482,6 +497,7 @@ class _$_InvalidCoupon implements _InvalidCoupon {
     TResult Function(_Error value)? error,
     TResult Function(_InvalidCoupon value)? invalidCoupon,
     TResult Function(_TransactionEstimated value)? transactionEstimated,
+    TResult Function(_TransactionSaved value)? transactionSaved,
     required TResult orElse(),
   }) {
     if (invalidCoupon != null) {
@@ -506,7 +522,7 @@ abstract class _$$_TransactionEstimatedCopyWith<$Res> {
           $Res Function(_$_TransactionEstimated) then) =
       __$$_TransactionEstimatedCopyWithImpl<$Res>;
   @useResult
-  $Res call({EstimateTransactionResponse response});
+  $Res call({AddCardProductResponse response});
 }
 
 /// @nodoc
@@ -526,7 +542,7 @@ class __$$_TransactionEstimatedCopyWithImpl<$Res>
       null == response
           ? _value.response
           : response // ignore: cast_nullable_to_non_nullable
-              as EstimateTransactionResponse,
+              as AddCardProductResponse,
     ));
   }
 }
@@ -537,7 +553,7 @@ class _$_TransactionEstimated implements _TransactionEstimated {
   const _$_TransactionEstimated(this.response);
 
   @override
-  final EstimateTransactionResponse response;
+  final AddCardProductResponse response;
 
   @override
   String toString() {
@@ -569,8 +585,9 @@ class _$_TransactionEstimated implements _TransactionEstimated {
     required TResult Function() inProgress,
     required TResult Function(String message) error,
     required TResult Function(String message) invalidCoupon,
-    required TResult Function(EstimateTransactionResponse response)
+    required TResult Function(AddCardProductResponse response)
         transactionEstimated,
+    required TResult Function(DiscountCountResponse response) transactionSaved,
   }) {
     return transactionEstimated(response);
   }
@@ -581,8 +598,8 @@ class _$_TransactionEstimated implements _TransactionEstimated {
     TResult? Function()? inProgress,
     TResult? Function(String message)? error,
     TResult? Function(String message)? invalidCoupon,
-    TResult? Function(EstimateTransactionResponse response)?
-        transactionEstimated,
+    TResult? Function(AddCardProductResponse response)? transactionEstimated,
+    TResult? Function(DiscountCountResponse response)? transactionSaved,
   }) {
     return transactionEstimated?.call(response);
   }
@@ -593,8 +610,8 @@ class _$_TransactionEstimated implements _TransactionEstimated {
     TResult Function()? inProgress,
     TResult Function(String message)? error,
     TResult Function(String message)? invalidCoupon,
-    TResult Function(EstimateTransactionResponse response)?
-        transactionEstimated,
+    TResult Function(AddCardProductResponse response)? transactionEstimated,
+    TResult Function(DiscountCountResponse response)? transactionSaved,
     required TResult orElse(),
   }) {
     if (transactionEstimated != null) {
@@ -610,6 +627,7 @@ class _$_TransactionEstimated implements _TransactionEstimated {
     required TResult Function(_Error value) error,
     required TResult Function(_InvalidCoupon value) invalidCoupon,
     required TResult Function(_TransactionEstimated value) transactionEstimated,
+    required TResult Function(_TransactionSaved value) transactionSaved,
   }) {
     return transactionEstimated(this);
   }
@@ -621,6 +639,7 @@ class _$_TransactionEstimated implements _TransactionEstimated {
     TResult? Function(_Error value)? error,
     TResult? Function(_InvalidCoupon value)? invalidCoupon,
     TResult? Function(_TransactionEstimated value)? transactionEstimated,
+    TResult? Function(_TransactionSaved value)? transactionSaved,
   }) {
     return transactionEstimated?.call(this);
   }
@@ -632,6 +651,7 @@ class _$_TransactionEstimated implements _TransactionEstimated {
     TResult Function(_Error value)? error,
     TResult Function(_InvalidCoupon value)? invalidCoupon,
     TResult Function(_TransactionEstimated value)? transactionEstimated,
+    TResult Function(_TransactionSaved value)? transactionSaved,
     required TResult orElse(),
   }) {
     if (transactionEstimated != null) {
@@ -642,11 +662,165 @@ class _$_TransactionEstimated implements _TransactionEstimated {
 }
 
 abstract class _TransactionEstimated implements EstimateState {
-  const factory _TransactionEstimated(
-      final EstimateTransactionResponse response) = _$_TransactionEstimated;
+  const factory _TransactionEstimated(final AddCardProductResponse response) =
+      _$_TransactionEstimated;
 
-  EstimateTransactionResponse get response;
+  AddCardProductResponse get response;
   @JsonKey(ignore: true)
   _$$_TransactionEstimatedCopyWith<_$_TransactionEstimated> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_TransactionSavedCopyWith<$Res> {
+  factory _$$_TransactionSavedCopyWith(
+          _$_TransactionSaved value, $Res Function(_$_TransactionSaved) then) =
+      __$$_TransactionSavedCopyWithImpl<$Res>;
+  @useResult
+  $Res call({DiscountCountResponse response});
+}
+
+/// @nodoc
+class __$$_TransactionSavedCopyWithImpl<$Res>
+    extends _$EstimateStateCopyWithImpl<$Res, _$_TransactionSaved>
+    implements _$$_TransactionSavedCopyWith<$Res> {
+  __$$_TransactionSavedCopyWithImpl(
+      _$_TransactionSaved _value, $Res Function(_$_TransactionSaved) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? response = null,
+  }) {
+    return _then(_$_TransactionSaved(
+      null == response
+          ? _value.response
+          : response // ignore: cast_nullable_to_non_nullable
+              as DiscountCountResponse,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_TransactionSaved implements _TransactionSaved {
+  const _$_TransactionSaved(this.response);
+
+  @override
+  final DiscountCountResponse response;
+
+  @override
+  String toString() {
+    return 'EstimateState.transactionSaved(response: $response)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_TransactionSaved &&
+            (identical(other.response, response) ||
+                other.response == response));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, response);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_TransactionSavedCopyWith<_$_TransactionSaved> get copyWith =>
+      __$$_TransactionSavedCopyWithImpl<_$_TransactionSaved>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() inProgress,
+    required TResult Function(String message) error,
+    required TResult Function(String message) invalidCoupon,
+    required TResult Function(AddCardProductResponse response)
+        transactionEstimated,
+    required TResult Function(DiscountCountResponse response) transactionSaved,
+  }) {
+    return transactionSaved(response);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? inProgress,
+    TResult? Function(String message)? error,
+    TResult? Function(String message)? invalidCoupon,
+    TResult? Function(AddCardProductResponse response)? transactionEstimated,
+    TResult? Function(DiscountCountResponse response)? transactionSaved,
+  }) {
+    return transactionSaved?.call(response);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? inProgress,
+    TResult Function(String message)? error,
+    TResult Function(String message)? invalidCoupon,
+    TResult Function(AddCardProductResponse response)? transactionEstimated,
+    TResult Function(DiscountCountResponse response)? transactionSaved,
+    required TResult orElse(),
+  }) {
+    if (transactionSaved != null) {
+      return transactionSaved(response);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_InProgress value) inProgress,
+    required TResult Function(_Error value) error,
+    required TResult Function(_InvalidCoupon value) invalidCoupon,
+    required TResult Function(_TransactionEstimated value) transactionEstimated,
+    required TResult Function(_TransactionSaved value) transactionSaved,
+  }) {
+    return transactionSaved(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_InProgress value)? inProgress,
+    TResult? Function(_Error value)? error,
+    TResult? Function(_InvalidCoupon value)? invalidCoupon,
+    TResult? Function(_TransactionEstimated value)? transactionEstimated,
+    TResult? Function(_TransactionSaved value)? transactionSaved,
+  }) {
+    return transactionSaved?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_InProgress value)? inProgress,
+    TResult Function(_Error value)? error,
+    TResult Function(_InvalidCoupon value)? invalidCoupon,
+    TResult Function(_TransactionEstimated value)? transactionEstimated,
+    TResult Function(_TransactionSaved value)? transactionSaved,
+    required TResult orElse(),
+  }) {
+    if (transactionSaved != null) {
+      return transactionSaved(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TransactionSaved implements EstimateState {
+  const factory _TransactionSaved(final DiscountCountResponse response) =
+      _$_TransactionSaved;
+
+  DiscountCountResponse get response;
+  @JsonKey(ignore: true)
+  _$$_TransactionSavedCopyWith<_$_TransactionSaved> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -6,6 +6,8 @@ import 'package:semnox/core/domain/entities/orders/order_status.dart';
 import 'package:semnox/core/domain/use_cases/orders/get_customer_transaction_status_use_case.dart';
 import 'package:semnox/core/domain/use_cases/orders/get_customer_transactions_use_case.dart';
 import 'package:semnox/core/domain/use_cases/orders/get_transaction_detail_use_case.dart';
+
+import '../../../core/domain/entities/card_details/transaction_details.dart';
 part 'orders_state.dart';
 part 'orders_provider.freezed.dart';
 
@@ -55,7 +57,7 @@ class OrdersSummaryProvider extends StateNotifier<OrdersState> {
   final GetCustomerTransactionsUseCase _getCustomerTransactionsUseCase;
 
   OrdersSummaryProvider(this._getCustomerTransactionsUseCase) : super(const _InProgress());
-  List<OrderDetails> _list = [];
+  List<TransactionDetail> _list = [];
   void getSummary(String customerId) async {
     final response = await _getCustomerTransactionsUseCase(customerId);
     response.fold(

@@ -81,7 +81,7 @@ class CardWidget extends StatelessWidget {
                 imageKey: "coin_image_path",
               ),
               Text(
-                '  \$ ${cardDetails.creditPlusCardBalance!.toStringAsFixed(2)}',
+                '  \$ ${cardDetails.creditPlusCardBalance?.toStringAsFixed(2)}',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 32.0,

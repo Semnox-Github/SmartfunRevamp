@@ -87,7 +87,7 @@ class LoyaltyPointsInfoPage extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           MulishText(text: SplashScreenNotifier.getLanguageLabel('Loyalty Points Earned')),
-                          MulishText(text: '${transaction.loyaltyPoints!.toInt()}'),
+                          MulishText(text: '${transaction.loyaltyPoints?.toInt() ?? 0}'),
                         ],
                       ),
                     )

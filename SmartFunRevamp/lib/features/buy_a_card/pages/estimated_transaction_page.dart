@@ -17,6 +17,9 @@ import 'package:semnox/features/recharge_card/providers/products_price_provider.
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../../core/data/datasources/local_data_source.dart';
+import '../../../core/domain/entities/buy_card/estimate_transaction_response.dart';
+
 final currentTransactionIdProvider = StateProvider<int?>((ref) {
   return null;
 });
@@ -40,46 +43,87 @@ class EstimatedTransactionPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     /* Ver card number acount Numbre*/
-    final siteId = ref.watch(selectedSiteIdProvider);
-    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct,
-        cardNumber: cardSelected != null ? cardSelected!.accountNumber : '',
-        quantity: qty,
-        siteId: siteId,
-        finalPrice: finalPrice!);
+    bool confirmPayemnt = false;
+
+    ref.read(estimateStateProvider.notifier).getProductInfo(
+        cardProduct,
+        cardSelected != null ? cardSelected?.accountNumber ?? '': '',
+        transactionType,
+        qty,
+        finalPrice!);
+    ref.read(estimateStateProvider.notifier).createOrder();
+
     ref.listen(estimateStateProvider, (previous, next) {
       next.maybeWhen(
         orElse: () => {},
-        transactionEstimated: (estimated) {
-          if (estimated.couponDiscountAmount != null) {
-            Dialogs.couponSuccessDialog(
-                context, estimated.transactionDiscountAmount);
+        error: (error) {
+          Dialogs.showErrorMessage(context, error);
+        },
+        transactionEstimated: (transactionResponse){
+          if(confirmPayemnt){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    PaymentOptionsPage(
+                      transactionResponse:
+                      transactionResponse,
+                      cardProduct: cardProduct,
+                      cardDetails: cardSelected,
+                      transactionType:
+                      transactionType,
+                      finalPrice: finalPrice,
+                    ),
+              ),
+            );
           }
-          ref
-              .read(currentTransactionIdProvider.notifier)
-              .update((_) => estimated.transactionId);
         },
-        error: (message) {
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.error,
-            animType: AnimType.scale,
-            title: SplashScreenNotifier.getLanguageLabel('Error'),
-            desc: message,
-            btnOkOnPress: () => {},
-          ).show();
-        },
-        invalidCoupon: (message) {
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.error,
-            animType: AnimType.scale,
-            title: SplashScreenNotifier.getLanguageLabel('Error'),
-            desc: message,
-            btnOkOnPress: () => {},
-          ).show();
-        },
+        inProgress: () =>
+        const Center(child: CircularProgressIndicator.adaptive()),
       );
     });
+
+    // ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct,
+    //     cardNumber: cardSelected != null ? cardSelected.accountNumber : '',
+    //     quantity: qty,
+    //     siteId: siteId,
+    //     finalPrice: finalPrice!);
+    // ref.listen(estimateStateProvider, (previous, next) {
+    //   next.maybeWhen(
+    //     orElse: () => {},
+    //     transactionEstimated: (estimated) {
+    //       if (estimated.couponDiscountAmount != null) {
+    //         Dialogs.couponSuccessDialog(
+    //             context, estimated.transactionDiscountTotal);
+    //       }
+    //       ref
+    //           .read(currentTransactionIdProvider.notifier)
+    //           .update((_) => estimated.transactionId);
+    //     },
+    //     error: (message) {
+    //       AwesomeDialog(
+    //         context: context,
+    //         dialogType: DialogType.error,
+    //         animType: AnimType.scale,
+    //         title: SplashScreenNotifier.getLanguageLabel('Error'),
+    //         desc: message,
+    //         btnOkOnPress: () => {},
+    //       ).show();
+    //     },
+    //     invalidCoupon: (message) {
+    //       AwesomeDialog(
+    //         context: context,
+    //         dialogType: DialogType.error,
+    //         animType: AnimType.scale,
+    //         title: SplashScreenNotifier.getLanguageLabel('Error'),
+    //         desc: message,
+    //         btnOkOnPress: () => {},
+    //       ).show();
+    //     },
+    //   );
+    // });
+
+    // final transactionId = ref.watch(currentTransactionIdProvider);
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
     final areDiscountsEnabled =
         parafaitDefault?.getDefault(ParafaitDefaultsResponse.enableDiscounts) ==
@@ -90,6 +134,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
     final format =
         parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
             '#,##0.00';
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -181,7 +226,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             BillDetailRow(
                               description:
                                   SplashScreenNotifier.getLanguageLabel('Tax'),
-                              amount: transactionResponse.taxAmount
+                              amount: transactionResponse.transactionTaxTotal
                                   .toCurrency(currency, format),
                             ),
                             BillDetailRow(
@@ -189,7 +234,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                   SplashScreenNotifier.getLanguageLabel(
                                       'Discount (Offer)'),
                               amount: transactionResponse
-                                  .transactionDiscountAmount
+                                  .transactionDiscountTotal
                                   .toCurrency(currency, format),
                             ),
                             if (transactionResponse.couponDiscountAmount !=
@@ -242,19 +287,17 @@ class EstimatedTransactionPage extends ConsumerWidget {
                               ),
                             ),
                             CustomButton(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PaymentOptionsPage(
-                                      transactionResponse: transactionResponse,
-                                      cardProduct: cardProduct,
-                                      cardDetails: cardSelected,
-                                      transactionType: transactionType,
-                                      finalPrice: finalPrice,
-                                    ),
-                                  ),
-                                );
+                              onTap: () async{
+                               await GluttonLocalDataSource()
+                                    .retrieveValue(
+                                        LocalDataSource.kTransactionId)
+                                    .then((value) async => {
+                                        confirmPayemnt = true,
+                                          ref
+                                              .watch(estimateStateProvider
+                                                  .notifier)
+                                              .addSaveTransaction(value ?? 0,transactionResponse)
+                                        });
                               },
                               label: SplashScreenNotifier.getLanguageLabel(
                                   'PROCEED TO PAY'),

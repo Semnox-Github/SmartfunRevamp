@@ -53,8 +53,8 @@ class ForgotPasswordPage extends ConsumerWidget {
               const Spacer(),
               CustomButton(
                 onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
+                  if (_formKey.currentState?.validate() ?? false) {
+                    _formKey.currentState?.save();
                   }
                 },
                 label: SplashScreenNotifier.getLanguageLabel('SEND'),

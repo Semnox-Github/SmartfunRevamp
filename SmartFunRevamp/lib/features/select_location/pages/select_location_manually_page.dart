@@ -41,6 +41,7 @@ class SelectLocationManuallyPage extends ConsumerWidget {
           newContextSuccess: (selectedSite) {
             ref.read(loginProvider.notifier).selectedSite = selectedSite;
             ref.read(loginProvider.notifier).saveSelectedSite();
+            //ref.read(masterSiteProvider.notifier).update((_) => selectedSite);
             context.loaderOverlay.hide();
             registerLoggedUserWithSite(customer!, selectedSite).then((value) =>
                 Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage,

@@ -17,8 +17,8 @@ class ProfilePicture extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fInitial = customerDTO.firstName!.isNotEmpty ? '${customerDTO.firstName?[0]}' : '';
-    final lInitial = customerDTO.lastName!.isNotEmpty ? '${customerDTO.lastName?[0]}' : '';
+    final fInitial = customerDTO.firstName?.isNotEmpty ?? false ? '${customerDTO.firstName?[0]}' : '';
+    final lInitial = customerDTO.lastName?.isNotEmpty ?? false ? '${customerDTO.lastName?[0]}' : '';
 
     final noImageGradient =
         ref.watch(newHomePageCMSProvider)?.cmsModuleColorsHome?.profilePictureGradient.getColorList() ??

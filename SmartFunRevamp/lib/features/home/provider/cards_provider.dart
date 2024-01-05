@@ -16,6 +16,9 @@ import 'package:semnox/core/domain/use_cases/cards/lost_card_use_case.dart';
 import 'package:semnox/core/domain/use_cases/home/get_user_cards_use_case.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
+
+import '../../../core/domain/entities/card_details/credit_plus_summary.dart';
+import '../../../core/domain/use_cases/cards/get_bonus_credit_summary_use_case.dart';
 part 'cards_state.dart';
 part 'cards_provider.freezed.dart';
 
@@ -42,7 +45,7 @@ class CardsProviders {
     int loyaltyBalance = 0;
     for (var card in cards) {
       if (card.totalLoyaltyBalance != null) {
-        loyaltyBalance += card.totalLoyaltyBalance!.toInt();
+        loyaltyBalance += card.totalLoyaltyBalance?.toInt() ?? 0;
       }
     }
     return loyaltyBalance;
@@ -83,7 +86,7 @@ class CardsProviders {
   static final bonusSummaryProvider =
       StateNotifierProvider.autoDispose<CardBonusSummaryProvider, CardsState>(
     (ref) => CardBonusSummaryProvider(
-      Get.find<GetBonusSummaryUseCase>(),
+      Get.find<GetBonusCreditSummaryUseCase>(),
     ),
   );
   static final accountGamesSummaryProvider = StateNotifierProvider.autoDispose<
@@ -128,10 +131,10 @@ class CardsProviders {
 }
 
 class CardBonusSummaryProvider extends StateNotifier<CardsState> {
-  final GetBonusSummaryUseCase _getBonusSummary;
+  final GetBonusCreditSummaryUseCase _getBonusSummary;
 
   CardBonusSummaryProvider(this._getBonusSummary) : super(const _InProgress());
-  List<AccountCreditPlusDTOList> _list = [];
+  List<CreditPlusSummary> _list = [];
   void getSummary(String accountNumber) async {
     final response = await _getBonusSummary(accountNumber);
     response.fold(

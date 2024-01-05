@@ -8,7 +8,8 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CustomNativeDropdown extends StatelessWidget {
-  const CustomNativeDropdown({super.key, required this.items, required this.onChanged});
+  const CustomNativeDropdown(
+      {super.key, required this.items, required this.onChanged});
   final List<String> items;
   final Function(String?) onChanged;
   @override
@@ -27,7 +28,8 @@ class CustomNativeDropdown extends StatelessWidget {
 }
 
 class CustomCupertinoPicker extends StatefulWidget {
-  const CustomCupertinoPicker({super.key, required this.items, required this.onChanged});
+  const CustomCupertinoPicker(
+      {super.key, required this.items, required this.onChanged});
   final List<String> items;
   final Function(String?) onChanged;
 
@@ -64,7 +66,9 @@ class _CustomCupertinoPickerState extends State<CustomCupertinoPicker> {
       decoration: InputDecoration(
         hintText: SplashScreenNotifier.getLanguageLabel('Select'),
       ),
-      validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+      validator: (value) => value?.isEmpty ?? false
+          ? SplashScreenNotifier.getLanguageLabel('Required')
+          : null,
       onTap: () {
         if (_controller.text.isBlank ?? true) {
           selectedEntitlement ??= _items.first.toLowerCase();
@@ -106,14 +110,17 @@ class _CustomCupertinoPickerState extends State<CustomCupertinoPicker> {
 }
 
 class CustomAndroidPicker extends StatelessWidget {
-  const CustomAndroidPicker({super.key, required this.onChanged, required this.items});
+  const CustomAndroidPicker(
+      {super.key, required this.onChanged, required this.items});
   final Function(String?) onChanged;
   final List<String> items;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      validator: (value) => value!.toString().isNullOrEmpty() ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+      validator: (value) => value?.toString().isNullOrEmpty() ?? false
+          ? SplashScreenNotifier.getLanguageLabel('Required')
+          : null,
       decoration: InputDecoration(
         hintText: SplashScreenNotifier.getLanguageLabel('Select'),
       ),

@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
-import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
@@ -23,6 +22,8 @@ import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
+
+import '../../../core/domain/entities/sign_up/user_metadataui.dart';
 
 class CustomerVerificationPage extends ConsumerStatefulWidget {
   const CustomerVerificationPage({super.key});
@@ -114,35 +115,34 @@ class _CustomerVerificationPage
                     ),
                   ),
                   data: (metadata) {
-                    List<CustomerUIMetaData> propertiesToValidate = [
+                    List<CustomerFieldConfiguration> propertiesToValidate = [
                       ...metadata
                     ];
                     //propertiesToValidate.removeWhere((element) => element.customerFieldName != "CONTACT_PHONE" && element.customerFieldName != "EMAIL");
                     return Column(
                       children: propertiesToValidate.map((field) {
-                        if (field.customerFieldName == "CONTACT_PHONE") {
+                        if (field.fieldName == "CONTACT_PHONE") {
                           return Visibility(
-                            visible: returnValue(field.customerFieldName,
-                                    field.customAttributeId)
+                            visible: returnValue(
+                                    field.fieldName, field.customeAttributeId)
                                 .toString()
                                 .isNotEmpty,
                             child: CustomVerifyTextField(
-                              onSaved: (value) =>
-                                  request[field.customerFieldName] = {
+                              onSaved: (value) => request[field.fieldName] = {
                                 "value": value.toString(),
-                                "customAttributeId": field.customAttributeId,
-                                "customerFieldType": field.customerFieldType
+                                "customAttributeId": field.customeAttributeId,
+                                "customerFieldType": field.fieldType
                               },
                               label:
-                                  '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
-                              initialValue: returnValue(field.customerFieldName,
-                                      field.customAttributeId)
+                                  '${SplashScreenNotifier.getLanguageLabel(field.fieldLabel)}${field.validationType == "M" ? "*" : ""}',
+                              initialValue: returnValue(
+                                      field.fieldName, field.customeAttributeId)
                                   .toString(),
                               margins:
                                   const EdgeInsets.symmetric(vertical: 10.0),
                               contactType: ContactType.phone,
-                              phoneOrEmail: returnValue(field.customerFieldName,
-                                      field.customAttributeId)
+                              phoneOrEmail: returnValue(
+                                      field.fieldName, field.customeAttributeId)
                                   .toString(),
                               formatters: [
                                 FilteringTextInputFormatter.digitsOnly
@@ -153,29 +153,28 @@ class _CustomerVerificationPage
                             ),
                           );
                         }
-                        if (field.customerFieldName == "EMAIL") {
+                        if (field.fieldName == "EMAIL") {
                           return Visibility(
-                            visible: returnValue(field.customerFieldName,
-                                    field.customAttributeId)
+                            visible: returnValue(
+                                    field.fieldName, field.customeAttributeId)
                                 .toString()
                                 .isNotEmpty,
                             child: CustomVerifyTextField(
-                              onSaved: (value) =>
-                                  request[field.customerFieldName] = {
+                              onSaved: (value) => request[field.fieldName] = {
                                 "value": value.toString(),
-                                "customAttributeId": field.customAttributeId,
-                                "customerFieldType": field.customerFieldType
+                                "customAttributeId": field.customeAttributeId,
+                                "customerFieldType": field.fieldType
                               },
                               label:
-                                  '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
-                              initialValue: returnValue(field.customerFieldName,
-                                      field.customAttributeId)
+                                  '${SplashScreenNotifier.getLanguageLabel(field.fieldLabel)}${field.validationType == "M" ? "*" : ""}',
+                              initialValue: returnValue(
+                                      field.fieldName, field.customeAttributeId)
                                   .toString(),
                               margins:
                                   const EdgeInsets.symmetric(vertical: 10.0),
                               contactType: ContactType.email,
-                              phoneOrEmail: returnValue(field.customerFieldName,
-                                      field.customAttributeId)
+                              phoneOrEmail: returnValue(
+                                      field.fieldName, field.customeAttributeId)
                                   .toString(),
                               required: field.validationType == "M",
                               key: const Key("EmailV"),
@@ -188,69 +187,67 @@ class _CustomerVerificationPage
                             visible: false,
                             maintainState: true,
                             child: (() {
-                              if (field.customerFieldValues is List) {
+                              if (field.fieldType == "LIST") {
                                 return Column(
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       SplashScreenNotifier.getLanguageLabel(
-                                          field.entityFieldCaption),
+                                          field.fieldLabel),
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
                                     DropdownButtonFormField<String>(
-                                      value: returnValue(
-                                                      field.customerFieldName,
-                                                      field.customAttributeId)
-                                                  .toString() ==
-                                              ""
-                                          ? field.customerFieldValues.first
-                                          : returnValue(field.customerFieldName,
-                                                  field.customAttributeId)
-                                              .toString(),
-                                      items: List<String>.from(
-                                              field.customerFieldValues)
-                                          .map((title) {
+                                      // value: returnValue(
+                                      //                 field.fieldName,
+                                      //                 field.customeAttributeId)
+                                      //             .toString() ==
+                                      //         ""
+                                      //     ? field.customerFieldValueList.first.value['Value']
+                                      //     : returnValue(field.fieldName,
+                                      //             field.customeAttributeId)
+                                      //         .toString(),
+                                      items: List<Map<String, dynamic>>.from(
+                                              field.customerFieldValueList)
+                                          .map((value) {
                                         return DropdownMenuItem<String>(
-                                          value: title,
+                                          value: value['Value'],
                                           child: Text(SplashScreenNotifier
-                                              .getLanguageLabel(title)),
+                                              .getLanguageLabel(
+                                                  value['Value'])),
                                         );
                                       }).toList(),
                                       onChanged: (title) =>
-                                          request[field.customerFieldName] = {
+                                          request[field.fieldName] = {
                                         "value": title,
                                         "customAttributeId":
-                                            field.customAttributeId,
-                                        "customerFieldType":
-                                            field.customerFieldType
+                                            field.customeAttributeId,
+                                        "customerFieldType": field.fieldType
                                       },
                                     ),
                                   ],
                                 );
                               }
-                              if (field.customerFieldName == "BIRTH_DATE" ||
-                                  field.customerFieldType == "DATE") {
+                              if (field.fieldName == "BIRTH_DATE" ||
+                                  field.fieldType == "DATE") {
                                 return CustomDatePicker(
-                                  initialText: returnValue(
-                                              field.customerFieldName,
-                                              field.customAttributeId) ==
+                                  initialText: returnValue(field.fieldName,
+                                              field.customeAttributeId) ==
                                           null
                                       ? SplashScreenNotifier.getLanguageLabel(
                                           'Date of birth')
-                                      : returnValue(field.customerFieldName,
-                                              field.customAttributeId)
+                                      : returnValue(field.fieldName,
+                                              field.customeAttributeId)
                                           .toString()
                                           .split("T")[0],
-                                  initialDateTime: returnValue(
-                                              field.customerFieldName,
-                                              field.customAttributeId) ==
+                                  initialDateTime: returnValue(field.fieldName,
+                                              field.customeAttributeId) ==
                                           null
                                       ? DateTime.now()
                                       : DateTime.parse(returnValue(
-                                              field.customerFieldName,
-                                              field.customAttributeId)
+                                              field.fieldName,
+                                              field.customeAttributeId)
                                           .toString()),
                                   margin: const EdgeInsets.symmetric(
                                       vertical: 10.0),
@@ -259,13 +256,13 @@ class _CustomerVerificationPage
                                           'Date of birth'),
                                   format: 'MM-dd-yyyy',
                                   onItemSelected: (dob) =>
-                                      request[field.customerFieldName] = {
+                                      request[field.fieldName] = {
                                     "value": DateFormat('MM-dd-yyyy')
                                         .format(dob)
                                         .toString(),
                                     "customAttributeId":
-                                        field.customAttributeId,
-                                    "customerFieldType": field.customerFieldType
+                                        field.customeAttributeId,
+                                    "customerFieldType": field.fieldType
                                   },
                                   suffixIcon: const Icon(
                                     Icons.date_range_outlined,
@@ -274,22 +271,20 @@ class _CustomerVerificationPage
                                 );
                               }
                               return CustomTextField(
-                                initialValue: returnValue(
-                                        field.customerFieldName,
-                                        field.customAttributeId)
+                                initialValue: returnValue(field.fieldName,
+                                        field.customeAttributeId)
                                     .toString(),
-                                onSaved: (value) =>
-                                    request[field.customerFieldName] = {
+                                onSaved: (value) => request[field.fieldName] = {
                                   "value": value.toString(),
-                                  "customAttributeId": field.customAttributeId,
-                                  "customerFieldType": field.customerFieldType
+                                  "customAttributeId": field.customeAttributeId,
+                                  "customerFieldType": field.fieldType
                                 },
                                 label:
-                                    '${SplashScreenNotifier.getLanguageLabel(field.entityFieldCaption)}${field.validationType == "M" ? "*" : ""}',
+                                    '${SplashScreenNotifier.getLanguageLabel(field.fieldLabel)}${field.validationType == "M" ? "*" : ""}',
                                 margins:
                                     const EdgeInsets.symmetric(vertical: 10.0),
                                 required: field.validationType == "M",
-                                formatters: field.customerFieldType == "NUMBER"
+                                formatters: field.fieldType == "NUMBER"
                                     ? [FilteringTextInputFormatter.digitsOnly]
                                     : null,
                               );
@@ -300,9 +295,9 @@ class _CustomerVerificationPage
                 ),
                 CustomButton(
                   onTap: () {
-                    if (_formKey.currentState!.validate()) {
+                    if (_formKey.currentState?.validate() ?? false) {
                       user.verified = true;
-                      _formKey.currentState!.save();
+                      _formKey.currentState?.save();
                       ref
                           .read(updateAccountProvider.notifier)
                           .updateProfile(user, request);
@@ -419,9 +414,8 @@ dynamic returnValue(String key, int customId) {
       CustomDataDTO customDataDtoList;
       dynamic returnValue;
       try {
-        customDataDtoList = user.customDataSetDto!.customDataDtoList!
-            .where((element) => element.customAttributeId == customId)
-            .first;
+        customDataDtoList = user.customDataSetDto?.customDataDtoList ??
+            [].where((element) => element.customAttributeId == customId).first;
         if (customDataDtoList.customDataText != null) {
           returnValue = customDataDtoList.customDataText;
         } else if (customDataDtoList.customDataDate != null) {
@@ -467,7 +461,7 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
           TextFormField(
             initialValue: widget.initialValue,
             onSaved: (newValue) => widget.onSaved(newValue!),
-            validator: (value) => value!.isEmpty && widget.required
+            validator: (value) => (value?.isEmpty ?? false) && widget.required
                 ? SplashScreenNotifier.getLanguageLabel('Required')
                 : null,
             cursorColor: Colors.black,

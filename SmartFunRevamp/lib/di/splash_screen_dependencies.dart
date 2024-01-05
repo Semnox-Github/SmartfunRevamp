@@ -14,6 +14,9 @@ import 'package:semnox/core/domain/use_cases/splash_screen/get_parafait_language
 import 'package:semnox/core/domain/use_cases/splash_screen/get_string_for_localization_use_case.dart';
 import 'package:semnox/core/domain/use_cases/splash_screen/get_lookups_use_case.dart';
 
+import '../core/domain/use_cases/splash_screen/get_pos_machine_use_case.dart';
+import '../core/domain/use_cases/splash_screen/payment_mode_use_case.dart';
+
 void splashScreenDependencies() {
   //Repository
   Get.lazyPut<SplashScreenRepository>(
@@ -31,5 +34,7 @@ void splashScreenDependencies() {
   Get.lazyPut<GetStringForLocalizationUseCase>(() => GetStringForLocalizationUseCase(Get.find()));
   Get.lazyPut<GetHomePageCMSUseCase>(() => GetHomePageCMSUseCase(Get.find()));
   Get.lazyPut<GetLookupsUseCase>(() => GetLookupsUseCase(Get.find()));
+  Get.lazyPut<GetPosMachineUseCase>(() => GetPosMachineUseCase(Get.find()));
+  Get.lazyPut<GetPaymentModeUseCase>(() => GetPaymentModeUseCase(Get.find()));
   Get.lazyPut<GetParafaitDefaultsUseCase>(() => GetParafaitDefaultsUseCase(Get.find()));
 }

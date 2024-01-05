@@ -24,7 +24,7 @@ class InputTextField extends StatelessWidget {
         TextFormField(
           initialValue: initialValue,
           onSaved: (newValue) => onSaved(newValue!),
-          validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+          validator: (value) => value?.isEmpty ?? false ? SplashScreenNotifier.getLanguageLabel('Required') : null,
           cursorColor: Colors.black,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(

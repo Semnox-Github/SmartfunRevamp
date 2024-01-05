@@ -43,7 +43,7 @@ Map<String, dynamic> _$LookupsContainerDTOListToJson(
 LookupValuesContainerDTOList _$LookupValuesContainerDTOListFromJson(
         Map<String, dynamic> json) =>
     LookupValuesContainerDTOList(
-      json['LoolkupValueId'] as int?,
+      json['LookupValueId'] as int?,
       json['LookupValue'] as String?,
       json['Description'] as String?,
       json['LookupName'] as String?,
@@ -59,7 +59,7 @@ Map<String, dynamic> _$LookupValuesContainerDTOListToJson(
     }
   }
 
-  writeNotNull('LoolkupValueId', instance.loolkupValueId);
+  writeNotNull('LookupValueId', instance.lookupValueId);
   writeNotNull('LookupValue', instance.lookupValue);
   writeNotNull('Description', instance.description);
   writeNotNull('LookupName', instance.lookupName);

@@ -23,6 +23,7 @@ class AccountProvider extends StateNotifier<UpdateAccountState> {
     List<CustomDataDTO> customDataDtoList = [];
 
     request.forEach((key, value) {
+      print("keyyyy "+key);
       switch (key) {
         case "FIRST_NAME":
           customerDTO.profileDto?.firtName = value["value"];
@@ -75,6 +76,14 @@ class AccountProvider extends StateNotifier<UpdateAccountState> {
         case "TERMS_AND_CONDITIONS":
           customerDTO.profileDto?.policyTermsAccepted = value["value"];
           break;
+        case "VERIFIED":
+          break;
+        case "CUSTOMER_ID_PROOF":
+          break;
+        case "ADDRESS1":
+          break;
+        case "MEMBERSHIP_ID":
+          break;
         case "EMAIL":
           customerDTO.profileDto?.userName = value["value"];
           customerDTO.email = value["value"];
@@ -122,6 +131,7 @@ class AccountProvider extends StateNotifier<UpdateAccountState> {
     });
     customerDTO.profileDto?.contactDtoList = newPhoneContactDTOList;
     customerDTO.profileDto?.isChanged = true;
+    print("customerDTO.profileDto ${customerDTO.profileDto?.toJson().toString()}");
     customerDTO.customDataSetDto = CustomDataSetDTO(customDataDtoList: customDataDtoList);
     state = const _Loading();
     final response = await _updateUseCase(customerDTO.toJson());

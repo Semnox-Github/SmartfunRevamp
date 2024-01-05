@@ -8,15 +8,17 @@ import 'package:semnox/core/domain/repositories/orders_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils/extensions.dart';
 
+import '../../domain/entities/card_details/transaction_details.dart';
+
 class OrdersRepositoryImpl implements OrdersRepository {
   final SmartFunApi _api;
 
   OrdersRepositoryImpl(this._api);
 
   @override
-  Future<Either<Failure, List<OrderDetails>>> getCustomerTransactions(String customerId) async {
+  Future<Either<Failure, List<TransactionDetail>>> getCustomerTransactions(String customerId) async {
     try {
-      final response = await _api.getCustomerTransactions(customerId);
+      final response = await _api.getTransactionWithCustomerId(customerId);
       Logger().d('Transactions ${response.data.length}');
       return Right(response.data);
     } on Exception catch (e) {

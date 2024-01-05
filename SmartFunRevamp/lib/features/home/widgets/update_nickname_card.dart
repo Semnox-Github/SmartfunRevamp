@@ -98,7 +98,7 @@ class UpdateNicknameCard extends ConsumerWidget {
               children: [
                 Expanded(
                   child: InputTextField(
-                    initialValue: cardDetails.accountIdentifier.isNullOrEmpty() ? cardDetails.customerName! : cardDetails.accountIdentifier!.characters.take(15).toString(),
+                    initialValue: cardDetails.accountIdentifier.isNullOrEmpty() ? cardDetails.customerName! : cardDetails.accountIdentifier?.characters.take(15).toString(),
                     onSaved: (newNickname) => cardNickname = newNickname,
                     hintText: SplashScreenNotifier.getLanguageLabel('Choose nickname'),
                     prefixIcon: IconButton(
@@ -128,9 +128,9 @@ class UpdateNicknameCard extends ConsumerWidget {
                     margin: const EdgeInsets.all(3),
                     child: TextButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        if (_formKey.currentState?.validate() ?? false) {
                           Logger().d('updating nickname');
-                          _formKey.currentState!.save();
+                          _formKey.currentState?.save();
                           ref.read(updateCardNicknameProvider.notifier).updateCardNickname(cardDetails.accountId!, cardNickname);
                         }
                       },

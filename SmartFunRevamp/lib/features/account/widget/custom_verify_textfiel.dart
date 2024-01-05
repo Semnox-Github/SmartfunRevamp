@@ -44,6 +44,8 @@ class CustomVerifyTextField extends ConsumerStatefulWidget {
 class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
   late bool emailVerifiedFlag = widget.verificationStatusInitialValue;
   late bool phoneVerifiedFlag = widget.verificationStatusInitialValue;
+  String phoneEmailVal = "";
+
 
   callBackVerification() {
     switch (widget.contactType.valueString) {
@@ -52,6 +54,7 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
         break;
       case "Email":
         emailVerifiedFlag = true;
+
         break;
     }
     ref.invalidate(sendOtpStateProvider);
@@ -59,6 +62,7 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
 
   @override
   Widget build(BuildContext context) {
+    phoneEmailVal = phoneEmailVal.isEmpty ? widget.phoneOrEmail : phoneEmailVal;
     return Container(
       padding: widget.padding,
       margin: widget.margins,
@@ -99,12 +103,13 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
                             case "Email":
                               setState(() {
                                 emailVerifiedFlag = false;
+                                phoneEmailVal = value;
                               });
                               break;
                           }
                         },
                         validator: (value) {
-                          if (value!.isEmpty && widget.required) {
+                          if (value?.isEmpty ?? false && widget.required) {
                             return SplashScreenNotifier.getLanguageLabel(
                                 'Required');
                           } else if ((widget.contactType.valueString ==
@@ -138,7 +143,7 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
                     VerifyButton(
                         key: Key(widget.contactType.valueString),
                         contactType: widget.contactType,
-                        phoneOrEmail: widget.phoneOrEmail,
+                        phoneOrEmail: phoneEmailVal,
                         isVerified: () {
                           callBackVerification();
                         }),

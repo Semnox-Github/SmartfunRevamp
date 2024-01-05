@@ -16,6 +16,7 @@ final selectedSiteIdProvider = StateProvider.autoDispose<int>((ref) {
   );
   return selectedSite.siteId ?? -1;
 });
+
 final rechargeProductsProvider = FutureProvider.autoDispose<List<CardProduct>>((ref) async {
   final GetProductsPriceUseCase getProductsPriceUseCase = Get.find<GetProductsPriceUseCase>();
   final siteId = ref.watch(selectedSiteIdProvider);

@@ -30,6 +30,7 @@ class HostedPaymentProvider extends StateNotifier<HostedPaymentState> {
     state = const _InProgress();
     final response = await _getHostedPaymentGatewayUseCase(
       amount: request.amount,
+
       hostedPaymentGateway: request.hostedPaymentGateway,
       transactionId: request.transactionId,
     );

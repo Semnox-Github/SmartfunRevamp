@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/notifications_register/notification_register_entity.dart';
-import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/domain/entities/splash_screen/app_config_response.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/errors/failures.dart';
@@ -15,6 +15,10 @@ import 'package:semnox/core/domain/repositories/authentication_repository.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/di/injection_container.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
+import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
+
+import '../../domain/entities/sign_up/country_data.dart';
+import '../../domain/entities/sign_up/user_metadataui.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final SmartFunApi _api;
@@ -45,17 +49,31 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, List<CustomerUIMetaData>>> getUserMetaData(int siteId) async {
+  Future<Either<Failure, List<CustomerFieldConfiguration>>> getUserMetaData(int siteId) async {
     try {
-      final response = await _api.getSignUpMetadata(siteId.toString());
-      final uiMetadataList = response.data.customerUIMetadataContainerDTOList;
-      uiMetadataList.removeWhere((element) => element.customerFieldName == 'USERNAME');
-      uiMetadataList.sort((a, b) => a.customerFieldOrder.compareTo(b.customerFieldOrder));
+      // final response = await _api.getSignUpMetadata(siteId.toString());
+      final response = await _api.getSignUpMetadataConfig(siteId.toString());
+      final countryResponse = await _api.getCountriesContainer(siteId.toString());
+      final uiMetadataList = response.data.customerFieldConfigurationContainerDTOList;
+      uiMetadataList.removeWhere((element) => element.fieldName == 'USERNAME');
+      uiMetadataList.sort((a, b) => a.fieldOrder.compareTo(b.fieldOrder));
       return Right(uiMetadataList);
     } on Exception catch (e) {
       return Left(e.handleException());
     }
   }
+
+  @override
+  Future<Either<Failure, List<CountryData>>> getCountriesContainer(int siteId) async {
+    try {
+      final response = await _api.getCountriesContainer(
+          siteId.toString());
+      final countryResponse = response.data.CountryContainerDTOList;
+      return Right(countryResponse);
+    } on Exception catch (e) {
+      return Left(e.handleException());
+  }
+}
 
   @override
   Future<Either<Failure, String>> sendOTP(Map<String, dynamic> body) async {
@@ -82,7 +100,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<Either<Failure, CustomerDTO>> getUserByPhoneOrEmail(String phoneOrEmail) async {
     try {
       final response = await _api.getCustomerByPhoneorEmail(phoneOrEmail);
-      _glutton.saveUser(response.data.first);
+      if(response.data.isNotEmpty){
+        _glutton.saveUser(response.data.first);
+      }
       return Right(response.data.first);
     } on Exception catch (e) {
       return Left(e.handleException());
@@ -90,10 +110,19 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, String>> getUserExecutionController(int siteId) async {
+  Future<Either<Failure, String>> getUserExecutionController(int selectedSite) async {
     try {
-      final response = await _api.getExecutionContext(siteId: siteId);
-      final token = response.response.headers.value(HttpHeaders.authorizationHeader) ?? '';
+      //final response = await _api.getExecutionContext(siteId: siteId);
+      final response =  await _api.authenticateSystemUserContext(
+          {
+             "LoginId": dotenv.env['LOGIN_ID'],
+            "Password": dotenv.env['PASSWORD'],
+            "Siteid" :selectedSite,
+            "MachineName" : dotenv.env['MACHINE_NAME']
+          }
+      );
+      final token = response.response.data['data']['WebApiToken'] ?? '';
+      GluttonLocalDataSource().saveValue(LocalDataSource.POSMachineId,response.response.data['data']['MachineId']);
       return Right(token);
     } on Exception catch (e) {
       return Left(e.handleException());
@@ -103,8 +132,17 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<Either<Failure, int>> getConfigExecutionController() async {
     try {
-      final response = await _api.getExecutionContext();
+      //final response = await _api.getExecutionContext();
+      final response =  await _api.authenticateSystemUserContext(
+          {
+            "LoginId": dotenv.env['LOGIN_ID'],
+            "Password": dotenv.env['PASSWORD'],
+            "MachineName" : dotenv.env['MACHINE_NAME']
+          }
+      );
       final data = Map.from(response.data);
+
+      GluttonLocalDataSource().saveValue(LocalDataSource.POSMachineId,response.response.data['data']['MachineId']);
       return Right(data['data']['SiteId'] as int);
     } on Exception catch (e) {
       return Left(e.handleException());

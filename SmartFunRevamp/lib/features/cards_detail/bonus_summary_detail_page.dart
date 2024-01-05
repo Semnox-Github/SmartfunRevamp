@@ -8,10 +8,69 @@ import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../core/domain/entities/card_details/credit_plus_summary.dart';
+import '../../core/domain/entities/data.dart';
+
 class BonusSummaryDetailPage extends StatelessWidget {
   const BonusSummaryDetailPage({Key? key, required this.summary, required this.pageTitle}) : super(key: key);
-  final AccountCreditPlusDTOList summary;
+  final CreditPlusSummary summary;
   final String pageTitle;
+
+ List<DataRow> getSection(bool Function(AccountCreditPlusConsumptionSummaryDTOList) condition){
+   final list = summary.accountCreditPlusConsumptionSummaryDTOList?.where(condition)
+    .map((data) {
+      return  DataRow(
+        cells: [
+          DataCell(Text((data.gameProfileName?.isNotEmpty ?? false) ? data.gameProfileName ?? "--" : "--")),
+          DataCell(Text((data.gameName?.isNotEmpty ?? false) ? data.gameName ?? "--" : "--")),
+          DataCell(Text(data.consumptionBalance?.toString() ?? "")),
+        ],
+      );
+    }
+    ).toList() ?? [];
+
+   if(list.isEmpty){
+     return const <DataRow>[
+       DataRow(
+         cells: <DataCell>[
+           DataCell(Text('--')),
+           DataCell(Text('--')),
+           DataCell(Text('')),
+         ],
+       )
+     ];
+   }else{
+     return list;
+   }
+  }
+
+  List<DataRow> getCategorySection(){
+    final list = summary.accountCreditPlusConsumptionSummaryDTOList?.where((data) => data.categoryName != "")
+        .map((data) {
+      return  DataRow(
+        cells: [
+          DataCell(Text((data.categoryName?.isNotEmpty ?? false) ? data.categoryName  ?? "--" : "--")),
+          DataCell(Text((data.productName?.isNotEmpty ?? false) ? data.productName ?? "--" : "--")),
+          DataCell(Text(data.consumptionBalance?.toString() ?? "")),
+        ],
+      );
+    }
+    ).toList() ?? [];
+
+    if(list.isEmpty){
+      return const <DataRow>[
+        DataRow(
+          cells: <DataCell>[
+            DataCell(Text('--')),
+            DataCell(Text('--')),
+            DataCell(Text('')),
+          ],
+        )
+      ];
+    }else{
+      return list;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +81,7 @@ class BonusSummaryDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             MulishText(
-              text: summary.remarks,
+              text: summary.remarks ?? "",
               fontColor: CustomColors.customBlue,
               fontWeight: FontWeight.bold,
             ),
@@ -87,7 +146,7 @@ class BonusSummaryDetailPage extends StatelessWidget {
                 ],
               ),
               TotalBonusBalance(
-                totalBonus: summary.creditPlusBalance.toInt(),
+                totalBonus: summary.creditPlusBalance?.toInt() ?? 0,
                 pageTitle: pageTitle,
               ),
               const SizedBox(height: 10.0),
@@ -147,15 +206,7 @@ class BonusSummaryDetailPage extends StatelessWidget {
                       ),
                     ),
                   ],
-                  rows: const <DataRow>[
-                    DataRow(
-                      cells: <DataCell>[
-                        DataCell(Text('--')),
-                        DataCell(Text('--')),
-                        DataCell(Text('--')),
-                      ],
-                    )
-                  ],
+                  rows: getCategorySection()
                 ),
               ),
               const SizedBox(height: 10.0),
@@ -283,15 +334,7 @@ class BonusSummaryDetailPage extends StatelessWidget {
                       ),
                     ),
                   ],
-                  rows: const <DataRow>[
-                    DataRow(
-                      cells: <DataCell>[
-                        DataCell(Text('--')),
-                        DataCell(Text('--')),
-                        DataCell(Text('--')),
-                      ],
-                    )
-                  ],
+                  rows: getSection((data) => data.gameProfileName != "" || data.gameName != "")
                 ),
               ),
               const SizedBox(height: 10.0),

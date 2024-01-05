@@ -30,8 +30,8 @@ class LoginWithOTP extends ConsumerWidget {
           CustomButton(
             label: SplashScreenNotifier.getLanguageLabel('SEND OTP'),
             onTap: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
+              if (_formKey.currentState?.validate() ?? false) {
+                _formKey.currentState?.save();
                 ref
                     .read(loginProvider.notifier)
                     .validateEmailOrPhoneExists(phone);

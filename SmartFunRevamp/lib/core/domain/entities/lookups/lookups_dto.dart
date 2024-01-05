@@ -33,13 +33,13 @@ class LookupsContainerDTOList{
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
 class LookupValuesContainerDTOList{
-  final int? loolkupValueId;
+  final int? lookupValueId;
   final String? lookupValue;
   final String? description;
   final String? lookupName;
 
   LookupValuesContainerDTOList(
-    this.loolkupValueId,
+    this.lookupValueId,
     this.lookupValue,
     this.description,
     this.lookupName,

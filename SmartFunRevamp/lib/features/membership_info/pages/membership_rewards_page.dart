@@ -124,7 +124,7 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
                                         MulishText(
-                                          text: data[index].remarks,
+                                          text: data[index].remarks ?? "",
                                           fontWeight: FontWeight.bold,
                                         ),
                                         const MulishText(
@@ -145,7 +145,7 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                                         children: [
                                           const MulishText(text: 'Value Loaded'),
                                           MulishText(
-                                            text: '${data[index].creditPlus.toInt()}',
+                                            text: '${data[index].creditPlus?.toInt() ?? 0}',
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ],
@@ -154,7 +154,7 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                                         children: [
                                           const MulishText(text: 'Balance'),
                                           MulishText(
-                                            text: '${data[index].creditPlusBalance.toInt()}',
+                                            text: '${data[index].creditPlusBalance?.toInt() ?? 0}',
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ],

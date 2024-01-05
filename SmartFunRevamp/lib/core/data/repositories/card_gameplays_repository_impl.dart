@@ -19,9 +19,11 @@ class CardGameplaysRepositoryImpl implements CardGameplaysRepository {
   Future<Either<Failure, List<AccountGameplays>>> getAccountGamePlays({int accountId = 0}) async {
     try {
       final response = await _api.getAccountGamePlays(accountId);
-      Logger().d(response.data);
-      return Right(response.data);
-    } on DioException catch (e) {
+      List<AccountGameplays> _accountGamePlays = response.data;
+      Logger().d(_accountGamePlays);
+      return Right(_accountGamePlays);
+    }
+    on DioException catch (e) {
       Logger().e(e);
       switch (e.response?.statusCode) {
         case 404:
@@ -32,7 +34,8 @@ class CardGameplaysRepositoryImpl implements CardGameplaysRepository {
           final message = json.decode(e.response.toString());
           return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel(message['data'])));
       }
-    } catch (e) {
+    }
+    catch (e) {
       Logger().e(e);
       return Left(ServerFailure(SplashScreenNotifier.getLanguageLabel('Gameplays Not Found')));
     }

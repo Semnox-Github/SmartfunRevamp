@@ -14,7 +14,7 @@ class CouponContainer extends ConsumerWidget {
       {Key? key})
       : super(key: key);
   final CardProduct cardProduct;
-  final EstimateTransactionResponse estimated;
+  final AddCardProductResponse estimated;
   final int qty;
   final String transactionType;
 
@@ -43,7 +43,9 @@ class CouponContainer extends ConsumerWidget {
                 ref,
                 cardProduct,
                 transactionType == "newcard" ? null : estimated.primaryCard,
-                qty),
+                qty,
+                estimated
+            ),
             child: Container(
               padding: const EdgeInsets.all(20.0),
               decoration: BoxDecoration(

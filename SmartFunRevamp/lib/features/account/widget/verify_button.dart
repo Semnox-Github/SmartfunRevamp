@@ -16,6 +16,7 @@ class VerifyButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print("phoneoremail "+phoneOrEmail.toString());
     ref.listen(
       sendOtpStateProvider,
       (_, next) {

@@ -26,6 +26,7 @@ class TransferPage extends ConsumerStatefulWidget {
 class _TransferPageState extends ConsumerState<TransferPage> {
   bool isAmountVisible = false;
   String entitlement = '';
+  int entitlementType = 0;
   num amount = 0;
   final formKey = GlobalKey<FormState>();
   CardDetails? cardFrom;
@@ -54,6 +55,21 @@ class _TransferPageState extends ConsumerState<TransferPage> {
     }
   }
 
+  getEntityId(entitlementType){
+    switch (entitlementType) {
+      case 'Credits':
+        return 0;
+      case 'Play Credits':
+        return 3;
+      case 'Bonus':
+        return 5;
+      case 'Tickets':
+        return 2;
+      default:
+        return 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +86,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                   onChanged: (selected) {
                     setState(() {
                       isAmountVisible = true;
+                      entitlementType = getEntityId(selected);
                       entitlement = toBeginningOfSentenceCase(selected) ?? '';
                     });
                   },
@@ -108,11 +125,11 @@ class _TransferPageState extends ConsumerState<TransferPage> {
       ),
       bottomSheet: BottomSheetButton(
         onTap: () {
-          if (!formKey.currentState!.validate()) {
+          if (!(formKey.currentState?.validate() ?? false)) {
             return;
           }
-          formKey.currentState!.save();
-          if (cardFrom!.isSameCard(cardTo)) {
+          formKey.currentState?.save();
+          if (cardFrom?.isSameCard(cardTo) ?? false) {
             Dialogs.showErrorMessage(
               context,
               SplashScreenNotifier.getLanguageLabel("You can't transfer from/to the same card"),
@@ -123,6 +140,7 @@ class _TransferPageState extends ConsumerState<TransferPage> {
               cardTo!,
               amount,
               entitlement,
+              entitlementType
             );
             ref.listenManual(
               CardsProviders.transferBalance(transferBalance),

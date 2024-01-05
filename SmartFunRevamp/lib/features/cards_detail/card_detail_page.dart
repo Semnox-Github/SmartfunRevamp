@@ -254,7 +254,7 @@ class CardDetailItemFromCMS extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => BonusSummaryPage(
-                    cardNumber: cardDetails.accountNumber ?? '',
+                    cardNumber: cardDetails.accountId.toString() ?? '',
                     creditPlusType: item.creditType,
                     pageTitle: SplashScreenNotifier.getLanguageLabel(item.displayName),
                   ),

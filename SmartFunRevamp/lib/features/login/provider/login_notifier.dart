@@ -130,9 +130,9 @@ class LoginNotifier extends StateNotifier<LoginState> {
           openDate: DateTime.now(),
           closureDate: DateTime.now());
       await _localDataSource.saveCustomClass(
-          LocalDataSource.kDefaultSite, selectedSite!.toJson());
+          LocalDataSource.kDefaultSite, selectedSite?.toJson() ?? {});
       await _localDataSource.saveCustomClass(
-          LocalDataSource.kSelectedSite, selectedSite!.toJson());
+          LocalDataSource.kSelectedSite, selectedSite?.toJson() ?? {});
     }
   }
 
@@ -142,7 +142,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
   void saveSelectedSite() async {
     await _localDataSource.saveCustomClass(
-        LocalDataSource.kSelectedSite, selectedSite!.toJson());
+        LocalDataSource.kSelectedSite, selectedSite?.toJson() ?? {});
   }
 
   void setDefaultOrSelectedSite() async {
@@ -195,7 +195,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   Future<void> getNewToken() async {
-    final response = await _getExecutionContextUseCase(selectedSite!.siteId!);
+    // final response = await _getExecutionContextUseCase(selectedSite.siteId!);
+    final response = await _getExecutionContextUseCase(selectedSite?.siteId ?? 0);
     response.fold(
       (l) {
         state = _Error(l.message);

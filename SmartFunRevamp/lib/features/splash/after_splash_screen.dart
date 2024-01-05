@@ -31,6 +31,7 @@ class AfterSplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final localDataSource = Get.find<LocalDataSource>();
     final currenLang = ref.watch(currentLanguageProvider);
     ref.watch(getStringForLocalization).maybeWhen(
@@ -98,7 +99,7 @@ class AfterSplashScreen extends ConsumerWidget {
                           );
                         }).toList(),
                         onChanged: (value) {
-                          localDataSource.saveCustomClass(LocalDataSource.kSelectedLanguage, value!.toJson());
+                          localDataSource.saveCustomClass(LocalDataSource.kSelectedLanguage, value?.toJson() ??{});
                           ref.read(currentLanguageProvider.notifier).state = value;
                         },
                       );

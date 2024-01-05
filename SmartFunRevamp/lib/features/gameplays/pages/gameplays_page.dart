@@ -40,7 +40,7 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
     // cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     if (cardDetails != null) {
       cards.forEachIndexed((index, element) {
-        if (element.accountNumber == cardDetails!.accountNumber) {
+        if (element.accountNumber == cardDetails?.accountNumber) {
           _cardIndex = index;
         }
       });
@@ -186,6 +186,9 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
   }
 
   void showBalanceDialog(AccountGameplays item) {
+    final CPBonus = (item.bonus ?? 0) + (item.cpBonus ?? 0);
+    final CPCredits = (item.credits ?? 0) + (item.cpCredits ?? 0) + (item.cpCardBalance ?? 0);
+
     AwesomeDialog(
         context: context,
         dialogType: DialogType.noHeader,
@@ -220,19 +223,19 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                 children: [
                   DialogItem(
                     title: SplashScreenNotifier.getLanguageLabel("Credits"),
-                    value: item.totalCredits.toStringAsFixed(0),
+                    value: CPCredits.toStringAsFixed(0),
                   ),
                   DialogItem(
                     title: SplashScreenNotifier.getLanguageLabel("Bonus"),
-                    value: item.totalBonus.toStringAsFixed(0),
+                    value: CPBonus.toStringAsFixed(0),
                   ),
                   DialogItem(
                     title: SplashScreenNotifier.getLanguageLabel("Time"),
-                    value: item.time.toStringAsFixed(0),
+                    value: item.time?.toStringAsFixed(0) ?? "",
                   ),
                   DialogItem(
                     title: SplashScreenNotifier.getLanguageLabel("Card Game"),
-                    value: item.cardGame
+                    value: item.cardGame!
                         .toStringAsFixed(0), //item.courtesy.toStringAsFixed(0),
                   ),
                 ],

@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
@@ -6,11 +8,17 @@ import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.d
 import 'package:semnox/core/domain/entities/card_details/card_activity.dart';
 import 'package:semnox/core/domain/entities/card_details/card_activity_details.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/orders/transaction_print.dart';
 import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/domain/repositories/cards_repository.dart';
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+
+import '../../domain/entities/card_details/credit_plus_summary.dart';
+import '../../domain/entities/card_details/transaction_details.dart';
+import '../../domain/entities/splash_screen/authenticate_system_user.dart';
+import '../../domain/entities/transfer/transfer_balance_request.dart';
 
 class CardsRepositoryImpl implements CardsRepository {
   final SmartFunApi _api;
@@ -62,6 +70,20 @@ class CardsRepositoryImpl implements CardsRepository {
       cleanList?.removeWhere((element) => element.periodFrom == null);
       return Right(cleanList ?? []);
     } on Exception catch (e) {
+      Logger().e(e);
+      return Left(e.handleException());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CreditPlusSummary>>> getBonusCreditSummary(String accountNumber) async {
+    try {
+      final response = await _api.getCreditPlusSummary(accountNumber);
+      // final cleanList = response.data.first.accountCreditPlusDTOList;
+      // cleanList?.removeWhere((element) => element.periodFrom == null);
+      return Right(response.data);
+    } on Exception catch (e) {
+      Logger().e(e);
       return Left(e.handleException());
     }
   }
@@ -83,17 +105,23 @@ class CardsRepositoryImpl implements CardsRepository {
   Future<Either<Failure, void>> linkCardToUser(String cardNumber, String userId) async {
     try {
       final cardDetail = await _api.getCardDetails(cardNumber);
+
       if (cardDetail.data.isEmpty) {
         return Left(ServerFailure('Card has no info'));
       }
       if (cardDetail.data.first.customerId != -1) {
         return Left(ServerFailure('Card is already linked to another user'));
       }
-      final response = await _api.linkCardToCustomer({
-        "SourceAccountDTO": {"AccountId": cardDetail.data.first.accountId},
-        "CustomerDTO": {"Id": userId}
+
+      final response = await _api.linkAccountToCustomer(userId.toString(),{
+        "TagNumber": cardNumber
       });
-      Logger().d(response.data);
+
+      // final response = await _api.linkCardToCustomer({
+      //   "SourceAccountDTO": {"AccountId": cardDetail.data.first.accountId},
+      //   "CustomerDTO": {"Id": userId}
+      // });
+      Logger().d(response.data.toString());
       return const Right(null);
     } on Exception catch (e) {
       return Left(e.handleException());
@@ -121,10 +149,10 @@ class CardsRepositoryImpl implements CardsRepository {
   }
 
   @override
-  Future<Either<Failure, CardActivityDetails>> getCardActivityTransactionDetail(
+  Future<Either<Failure, TransactionDetail>> getCardActivityTransactionDetail(
       String transactionId, bool buildReceipt) async {
     try {
-      final response = await _api.getTransactionDetail(transactionId, buildReceipt: buildReceipt);
+      final response = await _api.getTransaction(transactionId);
       return Right(response.data.first);
     } on Exception catch (e) {
       return Left(
@@ -133,12 +161,42 @@ class CardsRepositoryImpl implements CardsRepository {
   }
 
   @override
+  Future<Either<Failure, TransactionPrint>> getCardActivityTransactionPrint(
+      String transactionId) async {
+    try {
+      final response = await _api.getTransactionPrint(transactionId);
+      return Right(response.data.first);
+    } on Exception catch (e) {
+      return Left(
+          e.handleException(errorMessage: SplashScreenNotifier.getLanguageLabel('This card has no activities')));
+    }
+  }
+
+
+
+  @override
   Future<Either<Failure, String>> transferBalance(TransferBalance transferBalance) async {
     try {
+      final systemUser = Get.find<SystemUser>();
       if (transferBalance.to.accountId == null) {
         transferBalance.to = (await _api.getCardDetails(transferBalance.to.accountNumber ?? '')).data.first;
       }
-      final response = await _api.transferBalance(transferBalance.toJson());
+
+      final request = TransferBalanceRequest(
+           transferBalance.from.accountId ?? 0,
+           transferBalance.to.accountId ?? 0,
+           transferBalance.amount.toDouble(),
+            DateTime.now().toString(),
+          transferBalance.from.accountNumber ?? "",
+          transferBalance.to.accountNumber ?? "",
+           systemUser.machineId,
+           systemUser.userPKId,
+          transferBalance.entitlementType.toString()
+      );
+
+      final response = await _api.transferBalance(
+          [request]
+      );
 
       return Right(response.data);
     } on Exception catch (e) {

@@ -15,6 +15,8 @@ import 'package:semnox/features/orders/provider/orders_provider.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../../../core/domain/entities/card_details/transaction_details.dart';
+
 class OrdersSummaryDetailPage extends ConsumerWidget {
   const OrdersSummaryDetailPage({Key? key, required this.transactionId})
       : super(key: key);
@@ -56,21 +58,35 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                       inProgress: () => const Center(
                           child: CircularProgressIndicator.adaptive()),
                       successOrderDetail: (responseData) {
-                        TransactionLinesDTOList transactionLines =
-                            responseData.transactionLinesDTOList![0];
+                        if(responseData.transactionLinesDTOList?.isEmpty ?? false){
+                          return const Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              MulishText(
+                                text: "Can't load the detail of this transaction",
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ],
+                          );
+                        }
+
+                        TransactionLinesDTOList? transactionLines =
+                            responseData.transactionLinesDTOList?.first;
 
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             MulishText(
-                              text: transactionLines.productName.toString(),
+                              text: transactionLines?.productName.toString() ?? "",
                               fontWeight: FontWeight.bold,
                               fontSize: 16.0,
                             ),
                             MulishText(
                               text:
-                                  '${SplashScreenNotifier.getLanguageLabel("Card")}: ${transactionLines.cardNumber}',
+                                  '${SplashScreenNotifier.getLanguageLabel("Card")}: ${transactionLines?.cardNumber ?? ""}',
                               fontSize: 14.0,
                             ),
                             SizedBox(
@@ -152,15 +168,15 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                                 children: [
                                   Expanded(
                                     child: MulishText(
-                                        text: transactionLines.productName
-                                            .toString(),
+                                        text: transactionLines?.productName
+                                            .toString() ?? "",
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.bold,
                                         textAlign: TextAlign.start),
                                   ),
                                   Expanded(
                                     child: MulishText(
-                                        text: responseData.transactionAmount
+                                        text: responseData.transactionNetAmount
                                             .toString(),
                                         fontSize: 14.0,
                                         textAlign: TextAlign.end),

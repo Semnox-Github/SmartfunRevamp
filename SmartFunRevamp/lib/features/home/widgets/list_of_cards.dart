@@ -18,7 +18,7 @@ class ListOfCard extends StatelessWidget {
     return CarouselSlider(
       options: CarouselOptions(height: 200.0),
       items: data.map((i) {
-        bool hasBlocked = i.accountNumber!.startsWith('T') ? true : false;
+        bool hasBlocked = i.accountNumber?.startsWith('T') ?? false ? true : false;
         late final DateTime timeNow = DateTime.now();
         late final DateTime expirationDate = i.expiryDate != null ? DateTime.parse(i.expiryDate.toString()) : timeNow;
         late final int daysUntilExpiration = (expirationDate.difference(timeNow).inHours / 24).round();

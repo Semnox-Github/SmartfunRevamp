@@ -16,15 +16,17 @@ import 'package:semnox/core/widgets/custom_button.dart'; // Import the CustomBut
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../core/domain/use_cases/cards/get_card_activity_transaction_print_use_case.dart';
+
 final _getReceipt = FutureProvider.autoDispose
     .family<String, String>((ref, transactionId) async {
-  final GetCardActivityTransactionDetailUseCase getTrxDetail =
-      Get.find<GetCardActivityTransactionDetailUseCase>();
+  final GetCardActivityTransactionPrintUseCase getTrxDetail =
+      Get.find<GetCardActivityTransactionPrintUseCase>();
   final response = await getTrxDetail(transactionId, true);
   return response.fold(
     (l) => throw l,
     (r) async {
-      final bytes = base64Decode(r.receipt ?? '');
+      final bytes = base64Decode(r.data ?? '');
       print('Bytes length: ${bytes.length}');
       final output = await getTemporaryDirectory();
       final file = File("${output.path}/receipt.pdf");
@@ -97,28 +99,28 @@ class CardActivityReceiptPage extends StatelessWidget {
                                 (PDFViewController pdfViewController) {},
                           ),
                         ),
-                        // CustomButton(
-                        //   onTap: () async {
-                        //     // Placeholder for your download logic
-                        //     // Update this part based on your actual download requirements
-                        //     File fileDef = File(path);
-                        //     DocumentFileSavePlus().saveFile(
-                        //         fileDef.readAsBytesSync(),
-                        //         'receipt.pdf',
-                        //         'application/pdf');
-                        //     if (Platform.isAndroid) {
-                        //       Fluttertoast.showToast(
-                        //           msg: SplashScreenNotifier.getLanguageLabel(
-                        //               'Receipt Downloaded'));
-                        //     }
-                        //   },
-                        //   label:
-                        //       SplashScreenNotifier.getLanguageLabel('DOWNLOAD'),
-                        //   icon: const Icon(
-                        //     Icons.download_rounded,
-                        //     color: Colors.white,
-                        //   ),
-                        // ),
+                        CustomButton(
+                          onTap: () async {
+                            // Placeholder for your download logic
+                            // Update this part based on your actual download requirements
+                            File fileDef = File(path);
+                            DocumentFileSavePlus().saveFile(
+                                fileDef.readAsBytesSync(),
+                                'receipt.pdf',
+                                'application/pdf');
+                            if (Platform.isAndroid) {
+                              Fluttertoast.showToast(
+                                  msg: SplashScreenNotifier.getLanguageLabel(
+                                      'Receipt Downloaded'));
+                            }
+                          },
+                          label:
+                              SplashScreenNotifier.getLanguageLabel('DOWNLOAD'),
+                          icon: const Icon(
+                            Icons.download_rounded,
+                            color: Colors.white,
+                          ),
+                        ),
                       ],
                     );
                   },

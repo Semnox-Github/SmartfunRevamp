@@ -105,7 +105,9 @@ class EstimateStateProvider extends StateNotifier<EstimateState> {
             "ApprovalDTO": null
           },
         });
-     response.fold((l) => null, (r) {
+     response.fold((l) {
+         state = _Error(l.message);
+     }, (r) {
        createTransaction(r.data.orderId);
     });
   }
@@ -122,7 +124,9 @@ class EstimateStateProvider extends StateNotifier<EstimateState> {
         "TransactionDateTime": _transactionType == "newcard" ? "" : currentTime.toString()
         });
 
-    response.fold((l) => null, (r) {
+    response.fold((l) {
+      state = _Error(l.message);
+    }, (r) {
       GluttonLocalDataSource()
           .saveValue(LocalDataSource.kTransactionId,r.data.transactionId);
       linkToCustomer(r.data.transactionId ?? -1);
@@ -134,6 +138,7 @@ class EstimateStateProvider extends StateNotifier<EstimateState> {
         transactionId,
         _customer.id!);
       addCardProduct(transactionId);
+
   }
 
 

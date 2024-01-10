@@ -18,6 +18,10 @@ HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
           .map((e) => CMSModuleMenu.fromJson(e as Map<String, dynamic>))
           .toList(),
       CMSImages.fromJson(json['images'] as Map<String, dynamic>),
+      json['CMSPageHeaderStyle'] == null
+          ? null
+          : CMSPageHeader.fromJson(
+              json['CMSPageHeaderStyle'] as Map<String, dynamic>),
       json['CMSModuleColorsHome'] == null
           ? null
           : CMSModuleColorsHome.fromJson(
@@ -31,6 +35,10 @@ HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
       (json['BuyACardFilters'] as List<dynamic>?)
           ?.map((e) => (e as List<dynamic>).map((e) => e as int).toList())
           .toList(),
+      json['CMSButtonStyle'] == null
+          ? null
+          : CMSButtonStyle.fromJson(
+              json['CMSButtonStyle'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
@@ -50,10 +58,14 @@ Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
   val['CMSModuleMenuDTOList'] =
       instance.cmsModuleMenu.map((e) => e.toJson()).toList();
   val['images'] = instance.cmsImages.toJson();
+  // val['CMSPageHeaderStyle'] = instance.cmsPageHeader.toJson();
   writeNotNull('CMSModuleColorsHome', instance.cmsModuleColorsHome?.toJson());
   writeNotNull('CardsColor', instance.cardsColor?.toJson());
   val['HomePageOrder'] = instance.homePageOrder.map((e) => e.toJson()).toList();
   writeNotNull('BuyACardFilters', instance.buyACardFilters);
+  writeNotNull('CMSButtonStyle', instance.buttonStyle?.toJson());
+  writeNotNull('CMSPageHeaderStyle', instance.cmsPageHeader?.toJson());
+
   return val;
 }
 
@@ -109,6 +121,54 @@ Map<String, dynamic> _$CMSModuleColorsHomeToJson(
       'middle': instance.middle,
       'bottom_half': instance.bottomHalf,
       'profile_picture_gradient': instance.profilePictureGradient,
+    };
+
+CMSButtonStyle _$CMSButtonStyleFromJson(Map<String, dynamic> json) =>
+    CMSButtonStyle(
+      json['PrimaryButtonStyle'] == null
+          ? null
+          : PrimaryButtonStyle.fromJson(
+              json['PrimaryButtonStyle'] as Map<String, dynamic>),
+      json['SecondaryButtonStyle'] == null
+          ? null
+          : SecondaryButtonStyle.fromJson(
+              json['SecondaryButtonStyle'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$CMSButtonStyleToJson(CMSButtonStyle instance) =>
+    <String, dynamic>{
+      'PrimaryButtonStyle': instance.primaryButtonStyle?.toJson(),
+      'SecondaryButtonStyle': instance.secondaryButtonStyle?.toJson(),
+    };
+
+PrimaryButtonStyle _$PrimaryButtonStyleFromJson(Map<String, dynamic> json) =>
+    PrimaryButtonStyle(
+      (json['Button_Color_gradient'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      json['Button_Text_Color'] as String,
+    );
+
+Map<String, dynamic> _$PrimaryButtonStyleToJson(PrimaryButtonStyle instance) =>
+    <String, dynamic>{
+      'Button_Color_gradient': instance.buttonColorGradient,
+      'Button_Text_Color': instance.buttonTextColor,
+    };
+
+SecondaryButtonStyle _$SecondaryButtonStyleFromJson(
+        Map<String, dynamic> json) =>
+    SecondaryButtonStyle(
+      (json['Button_Color_gradient'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      json['Button_Text_Color'] as String,
+    );
+
+Map<String, dynamic> _$SecondaryButtonStyleToJson(
+        SecondaryButtonStyle instance) =>
+    <String, dynamic>{
+      'Button_Color_gradient': instance.buttonColorGradient,
+      'Button_Text_Color': instance.buttonTextColor,
     };
 
 CMSModulePage _$CMSModulePageFromJson(Map<String, dynamic> json) =>
@@ -211,6 +271,21 @@ Map<String, dynamic> _$CMSMenuItemToJson(CMSMenuItem instance) {
   writeNotNull('Description', instance.description);
   writeNotNull('CreditType', instance.creditType);
   writeNotNull('Platform', instance.platform);
+  return val;
+}
+
+CMSPageHeader _$CMSPageHeaderFromJson(Map<String, dynamic> json) =>
+    CMSPageHeader(
+      json['BackgroundCOlor'] as String,
+      json['TextColor'] as String,
+    );
+
+Map<String, dynamic> _$CMSPageHeaderToJson(CMSPageHeader instance) {
+  final val = <String, dynamic>{
+    'BackgroundCOlor': instance.backgroundColor,
+    'TextColor': instance.textColor,
+  };
+
   return val;
 }
 

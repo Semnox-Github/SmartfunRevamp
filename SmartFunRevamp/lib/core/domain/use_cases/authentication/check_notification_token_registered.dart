@@ -6,6 +6,7 @@ class CheckNotificationTokenRegisteredUseCase {
   final AuthenticationRepository _repository;
   CheckNotificationTokenRegisteredUseCase(this._repository);
   Future<Either<Failure, void>> call({required int userId}) async {
+    // return await _repository.registerNotificationToken(userId);
     return await _repository.registerNotificationToken(userId);
   }
 }

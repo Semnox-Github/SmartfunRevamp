@@ -13,10 +13,12 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
-Future<void> registerLoggedUserWithSite(CustomerDTO customerDTO, SiteViewDTO? selectedSite) async {
+Future<void> registerLoggedUserWithSite(
+    CustomerDTO customerDTO, SiteViewDTO? selectedSite) async {
   final getExecutionContextUseCase = Get.find<GetExecutionContextUseCase>();
   registerUser(customerDTO);
-  final executionContextResponse = await getExecutionContextUseCase(selectedSite!.siteId!);
+  final executionContextResponse =
+      await getExecutionContextUseCase(selectedSite!.siteId!);
   executionContextResponse.fold(
     (l) {},
     (r) {
@@ -62,12 +64,15 @@ class EnableLocationPage extends StatelessWidget {
                   onTap: () async {
                     Navigator.pushNamed(context, Routes.kMap);
                   },
-                  label: SplashScreenNotifier.getLanguageLabel('ENABLE LOCATION SERVICES'),
+                  label: SplashScreenNotifier.getLanguageLabel(
+                      'ENABLE LOCATION SERVICES'),
                 ),
                 const SizedBox(height: 10.0),
-                CustomWhiteButton(
-                  onPresssed: () => Navigator.pushNamed(context, Routes.kSelectLocationManually),
-                  label: SplashScreenNotifier.getLanguageLabel("I'LL LOCATE THE STORE MANUALLY"),
+                SecondaryButton(
+                  onTap: () => Navigator.pushNamed(
+                      context, Routes.kSelectLocationManually),
+                  label: SplashScreenNotifier.getLanguageLabel(
+                      "I'LL LOCATE THE STORE MANUALLY"),
                 ),
               ],
             ),

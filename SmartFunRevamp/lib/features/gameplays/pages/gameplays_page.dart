@@ -16,6 +16,8 @@ import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../../core/widgets/custom_app_bar.dart';
+
 class GameplaysPage extends ConsumerStatefulWidget {
   const GameplaysPage({
     Key? key,
@@ -52,15 +54,18 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
   Widget build(BuildContext context) {
     try {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            SplashScreenNotifier.getLanguageLabel('Game Plays'),
-            style: const TextStyle(
-              color: CustomColors.customBlue,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+        appBar: CustomAppBar(
+          title: SplashScreenNotifier.getLanguageLabel("Game Plays"),
         ),
+        // AppBar(
+        //     title: Text(
+        //       SplashScreenNotifier.getLanguageLabel('Game Plays'),
+        //       style: const TextStyle(
+        //         color: CustomColors.customBlue,
+        //         fontWeight: FontWeight.bold,
+        //       ),
+        //     ),
+        //   ),
         body: SafeArea(
           minimum: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
           child: Column(

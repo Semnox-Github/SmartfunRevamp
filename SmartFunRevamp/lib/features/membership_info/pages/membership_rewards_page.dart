@@ -28,7 +28,7 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
     final toDate = ref.watch(toDateProvider);
     final membershipCard = ref.watch(CardsProviders.membershipCardProvider);
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Card Details'),
+      appBar:  const CustomAppBar(title: 'Card Details'),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
         child: Column(

@@ -22,6 +22,7 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../core/widgets/custom_app_bar.dart';
 import '../../home/provider/cards_provider.dart';
 
 class PaymentOptionsPage extends ConsumerWidget {
@@ -51,16 +52,19 @@ class PaymentOptionsPage extends ConsumerWidget {
 
     return WillPopScope(
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text(
-            SplashScreenNotifier.getLanguageLabel('Payment Options'),
-            style: const TextStyle(
-              color: CustomColors.customBlue,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+        appBar:CustomAppBar(
+        title: SplashScreenNotifier.getLanguageLabel('Payment Options'),
+      ),
+        //  AppBar(
+        //   automaticallyImplyLeading: false,
+        //   title: Text(
+        //     SplashScreenNotifier.getLanguageLabel('Payment Options'),
+        //     style: const TextStyle(
+        //       color: CustomColors.customBlue,
+        //       fontWeight: FontWeight.bold,
+        //     ),
+        //   ),
+        // ),
         body: SafeArea(
           minimum: const EdgeInsets.all(20.0),
           child: Column(

@@ -13,6 +13,8 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../../core/widgets/custom_app_bar.dart';
+
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
@@ -20,7 +22,8 @@ class SearchPage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _SearchPageState();
 }
 
-class _SearchPageState extends ConsumerState<SearchPage> with TickerProviderStateMixin {
+class _SearchPageState extends ConsumerState<SearchPage>
+    with TickerProviderStateMixin {
   CardProduct? offerSelected;
   late CardDetails selectedCardNumber;
   late List<CardDetails> cards;
@@ -34,32 +37,36 @@ class _SearchPageState extends ConsumerState<SearchPage> with TickerProviderStat
   @override
   void initState() {
     super.initState();
-    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+    cards = List<CardDetails>.from(
+        ref.read(CardsProviders.userCardsProvider).value ?? []);
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     if (cards.isNotEmpty) {
       selectedCardNumber = cards.first;
     }
     final int masterSiteId = ref.read(masterSiteProvider)?.siteId ?? 1010;
-    userSite = ref.read(loginProvider.notifier).selectedSite?.siteId ?? masterSiteId;
+    userSite =
+        ref.read(loginProvider.notifier).selectedSite?.siteId ?? masterSiteId;
     tabController = TabController(initialIndex: 0, length: 2, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Column(
-            children: [
-              Text(
-                SplashScreenNotifier.getLanguageLabel('Search'),
-                style: const TextStyle(
-                  color: CustomColors.customBlue,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
+        appBar: CustomAppBar(
+            title: SplashScreenNotifier.getLanguageLabel('Search')),
+        //  AppBar(
+        //   title: Column(
+        //     children: [
+        //       Text(
+        //         SplashScreenNotifier.getLanguageLabel('Search'),
+        //         style: const TextStyle(
+        //           color: CustomColors.customBlue,
+        //           fontWeight: FontWeight.bold,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -103,7 +110,10 @@ Widget _tabSection(BuildContext context, String? filterStr) {
         SizedBox(
           //Add this to give height
           height: MediaQuery.of(context).size.height * 0.8,
-          child: TabBarView(children: [SelectCardRechargePage(filterStr: filterStr), BuyCardListPage(filterStr: filterStr)]),
+          child: TabBarView(children: [
+            SelectCardRechargePage(filterStr: filterStr),
+            BuyCardListPage(filterStr: filterStr)
+          ]),
         ),
       ],
     ),

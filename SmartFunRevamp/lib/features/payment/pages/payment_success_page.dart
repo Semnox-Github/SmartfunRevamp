@@ -9,6 +9,7 @@ import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/background_card_details.dart';
+import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/payment/provider/feedback_provider.dart';
@@ -28,7 +29,6 @@ class PaymentSuccessPage extends ConsumerWidget {
   final String transactionType;
   final String productName;
 
- 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final surveyProvider = ref.watch(surveyDetailsProvider);
@@ -188,32 +188,46 @@ class PaymentSuccessPage extends ConsumerWidget {
                   padding: const EdgeInsets.all(5.0),
                   child: Row(children: [
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: CustomGradients.linearGradient,
-                          borderRadius: BorderRadius.circular(15.0),
+                        child: PrimaryButton(
+                      label:
+                          SplashScreenNotifier.getLanguageLabel('Back To Home'),
+                      onTap: () => Navigator.pushReplacementNamed(
+                          context, Routes.kHomePage),
+                    )
+                        // child: Text(
+                        //   SplashScreenNotifier.getLanguageLabel('Back To Home'),
+                        //   style: const TextStyle(
+                        //     color: Colors.white,
+                        //     fontWeight: FontWeight.bold,
+                        //   ),
+                        // ),
+
+                        //  Container(
+                        //   decoration: BoxDecoration(
+                        //     gradient: CustomGradients.linearGradient,
+                        //     borderRadius: BorderRadius.circular(15.0),
+                        //   ),
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(12.0),
+                        //       gradient: CustomGradients.linearGradient,
+                        //     ),
+                        //     margin: const EdgeInsets.all(3),
+                        //     child: TextButton(
+                        //       onPressed: () => Navigator.pushReplacementNamed(
+                        //           context, Routes.kHomePage),
+                        //       child: Text(
+                        //         SplashScreenNotifier.getLanguageLabel(
+                        //             'Back To Home'),
+                        //         style: const TextStyle(
+                        //           color: Colors.white,
+                        //           fontWeight: FontWeight.bold,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0),
-                            gradient: CustomGradients.linearGradient,
-                          ),
-                          margin: const EdgeInsets.all(3),
-                          child: TextButton(
-                            onPressed: () => Navigator.pushReplacementNamed(
-                                context, Routes.kHomePage),
-                            child: Text(
-                              SplashScreenNotifier.getLanguageLabel(
-                                  'Back To Home'),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                   ]),
                 );
               },
@@ -224,88 +238,108 @@ class PaymentSuccessPage extends ConsumerWidget {
                     children: [
                       if (surveyDetailsResponse.isResponseMandatory)
                         Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: CustomGradients.linearGradient,
-                              borderRadius: BorderRadius.circular(15.0),
+                            child: PrimaryButton(
+                          label: SplashScreenNotifier.getLanguageLabel(
+                              'Back To Home'),
+                          onTap: () => Navigator.pushReplacementNamed(
+                              context, Routes.kFeedback),
+                        )
+
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     gradient: CustomGradients.linearGradient,
+                            //     borderRadius: BorderRadius.circular(15.0),
+                            //   ),
+                            //   child: Container(
+                            //     decoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(12.0),
+                            //       gradient: CustomGradients.linearGradient,
+                            //     ),
+                            //     margin: const EdgeInsets.all(3),
+                            //     child: TextButton(
+                            //       onPressed: () => Navigator.pushReplacementNamed(
+                            //           context, Routes.kFeedback),
+                            //       child: Text(
+                            //         SplashScreenNotifier.getLanguageLabel(
+                            //             'Back To Home'),
+                            //         style: const TextStyle(
+                            //           color: Colors.white,
+                            //           fontWeight: FontWeight.bold,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12.0),
-                                gradient: CustomGradients.linearGradient,
-                              ),
-                              margin: const EdgeInsets.all(3),
-                              child: TextButton(
-                                onPressed: () => Navigator.pushReplacementNamed(
-                                    context, Routes.kFeedback),
-                                child: Text(
-                                  SplashScreenNotifier.getLanguageLabel(
-                                      'Back To Home'),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                       if (!surveyDetailsResponse.isResponseMandatory)
                         Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: CustomGradients.linearGradient,
-                              borderRadius: BorderRadius.circular(15.0),
+                            child: PrimaryButton(
+                          onTap: () => Navigator.pushReplacementNamed(
+                              context, Routes.kHomePage),
+                          label: SplashScreenNotifier.getLanguageLabel(
+                              'Back To Home'),
+                        )
+
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     gradient: CustomGradients.linearGradient,
+                            //     borderRadius: BorderRadius.circular(15.0),
+                            //   ),
+                            //   child: Container(
+                            //     decoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(12.0),
+                            //       gradient: CustomGradients.linearGradient,
+                            //     ),
+                            //     margin: const EdgeInsets.all(3),
+                            //     child: TextButton(
+                            //       onPressed: () => Navigator.pushReplacementNamed(
+                            //           context, Routes.kHomePage),
+                            //       child: Text(
+                            //         SplashScreenNotifier.getLanguageLabel(
+                            //             'Back To Home'),
+                            //         style: const TextStyle(
+                            //           color: Colors.white,
+                            //           fontWeight: FontWeight.bold,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12.0),
-                                gradient: CustomGradients.linearGradient,
-                              ),
-                              margin: const EdgeInsets.all(3),
-                              child: TextButton(
-                                onPressed: () => Navigator.pushReplacementNamed(
-                                    context, Routes.kHomePage),
-                                child: Text(
-                                  SplashScreenNotifier.getLanguageLabel(
-                                      'Back To Home'),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                       if (!surveyDetailsResponse.isResponseMandatory)
                         const SizedBox(width: 20.0),
                       Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: CustomGradients.linearGradient,
-                            borderRadius: BorderRadius.circular(15.0),
+                          child: SecondaryButton(
+                        onTap: () => Navigator.pushReplacementNamed(
+                            context, Routes.kFeedback),
+                        label: SplashScreenNotifier.getLanguageLabel(
+                            'Provide Feedback'),
+                      )
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     gradient: CustomGradients.linearGradient,
+                          //     borderRadius: BorderRadius.circular(15.0),
+                          //   ),
+                          //   child: Container(
+                          //     decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(12.0),
+                          //       color: Colors.white,
+                          //     ),
+                          //     margin: const EdgeInsets.all(3),
+                          //     child: TextButton(
+                          //       onPressed: () => Navigator.pushReplacementNamed(
+                          //           context, Routes.kFeedback),
+                          //       child: Text(
+                          //         SplashScreenNotifier.getLanguageLabel(
+                          //             'Provide Feedback'),
+                          //         style: const TextStyle(
+                          //           color: CustomColors.hardOrange,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                           ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.0),
-                              color: Colors.white,
-                            ),
-                            margin: const EdgeInsets.all(3),
-                            child: TextButton(
-                              onPressed: () => Navigator.pushReplacementNamed(
-                                  context, Routes.kFeedback),
-                              child: Text(
-                                SplashScreenNotifier.getLanguageLabel(
-                                    'Provide Feedback'),
-                                style: const TextStyle(
-                                  color: CustomColors.hardOrange,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 );
@@ -353,30 +387,36 @@ class PaymentSuccessPage extends ConsumerWidget {
                   child: Row(children: [
                     Expanded(
                       child: Container(
-                        decoration: BoxDecoration(
-                          gradient: CustomGradients.linearGradient,
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0),
                             gradient: CustomGradients.linearGradient,
+                            borderRadius: BorderRadius.circular(15.0),
                           ),
-                          margin: const EdgeInsets.all(3),
-                          child: TextButton(
-                            onPressed: () => Navigator.pushReplacementNamed(
+                          child: PrimaryButton(
+                            label: SplashScreenNotifier.getLanguageLabel(
+                                'Back To Home'),
+                            onTap: () => Navigator.pushReplacementNamed(
                                 context, Routes.kHomePage),
-                            child: Text(
-                              SplashScreenNotifier.getLanguageLabel(
-                                  'Back To Home'),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                          )
+                          //   Container(
+                          //     decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(12.0),
+                          //       gradient: CustomGradients.linearGradient,
+                          //     ),
+                          //     margin: const EdgeInsets.all(3),
+                          //     child: TextButton(
+                          //       onPressed: () => Navigator.pushReplacementNamed(
+                          //           context, Routes.kHomePage),
+                          //       child: Text(
+                          //         SplashScreenNotifier.getLanguageLabel(
+                          //             'Back To Home'),
+                          //         style: const TextStyle(
+                          //           color: Colors.white,
+                          //           fontWeight: FontWeight.bold,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
                           ),
-                        ),
-                      ),
                     ),
                   ]),
                 );
@@ -388,88 +428,107 @@ class PaymentSuccessPage extends ConsumerWidget {
                     children: [
                       if (surveyDetailsResponse.isResponseMandatory)
                         Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: CustomGradients.linearGradient,
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12.0),
-                                gradient: CustomGradients.linearGradient,
-                              ),
-                              margin: const EdgeInsets.all(3),
-                              child: TextButton(
-                                onPressed: () => Navigator.pushReplacementNamed(
-                                    context, Routes.kFeedback),
-                                child: Text(
-                                  SplashScreenNotifier.getLanguageLabel(
-                                      'Back To Home'),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
+                          child: PrimaryButton(
+                            label: SplashScreenNotifier.getLanguageLabel(
+                                'Back To Home'),
+                            onTap: () => Navigator.pushReplacementNamed(
+                                context, Routes.kFeedback),
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     gradient: CustomGradients.linearGradient,
+                            //     borderRadius: BorderRadius.circular(15.0),
+                            //   ),
+                            //   child: Container(
+                            //     decoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(12.0),
+                            //       gradient: CustomGradients.linearGradient,
+                            //     ),
+                            //     margin: const EdgeInsets.all(3),
+                            //     child: TextButton(
+                            //       onPressed: () => Navigator.pushReplacementNamed(
+                            //           context, Routes.kFeedback),
+                            //       child: Text(
+                            //         SplashScreenNotifier.getLanguageLabel(
+                            //             'Back To Home'),
+                            //         style: const TextStyle(
+                            //           color: Colors.white,
+                            //           fontWeight: FontWeight.bold,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
                           ),
                         ),
                       if (!surveyDetailsResponse.isResponseMandatory)
                         Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: CustomGradients.linearGradient,
-                              borderRadius: BorderRadius.circular(15.0),
+                            child: PrimaryButton(
+                          label: SplashScreenNotifier.getLanguageLabel(
+                              'Back To Home'),
+                          onTap: () => Navigator.pushReplacementNamed(
+                              context, Routes.kHomePage),
+                        )
+
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     gradient: CustomGradients.linearGradient,
+                            //     borderRadius: BorderRadius.circular(15.0),
+                            //   ),
+                            //   child: Container(
+                            //     decoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(12.0),
+                            //       gradient: CustomGradients.linearGradient,
+                            //     ),
+                            //     margin: const EdgeInsets.all(3),
+                            //     child: TextButton(
+                            //       onPressed: () => Navigator.pushReplacementNamed(
+                            //           context, Routes.kHomePage),
+                            //       child: Text(
+                            //         SplashScreenNotifier.getLanguageLabel(
+                            //             'Back To Home'),
+                            //         style: const TextStyle(
+                            //           color: Colors.white,
+                            //           fontWeight: FontWeight.bold,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12.0),
-                                gradient: CustomGradients.linearGradient,
-                              ),
-                              margin: const EdgeInsets.all(3),
-                              child: TextButton(
-                                onPressed: () => Navigator.pushReplacementNamed(
-                                    context, Routes.kHomePage),
-                                child: Text(
-                                  SplashScreenNotifier.getLanguageLabel(
-                                      'Back To Home'),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                       if (!surveyDetailsResponse.isResponseMandatory)
                         const SizedBox(width: 20.0),
                       Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: CustomGradients.linearGradient,
-                            borderRadius: BorderRadius.circular(15.0),
+                          child: SecondaryButton(
+                        onTap: () => Navigator.pushReplacementNamed(
+                            context, Routes.kFeedback),
+                        label: SplashScreenNotifier.getLanguageLabel(
+                            'Provide Feedback'),
+                      )
+
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     gradient: CustomGradients.linearGradient,
+                          //     borderRadius: BorderRadius.circular(15.0),
+                          //   ),
+                          //   child: Container(
+                          //     decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(12.0),
+                          //       color: Colors.white,
+                          //     ),
+                          //     margin: const EdgeInsets.all(3),
+                          //     child: TextButton(
+                          //       onPressed: () => Navigator.pushReplacementNamed(
+                          //           context, Routes.kFeedback),
+                          //       child: Text(
+                          //         SplashScreenNotifier.getLanguageLabel(
+                          //             'Provide Feedback'),
+                          //         style: const TextStyle(
+                          //           color: CustomColors.hardOrange,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                           ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.0),
-                              color: Colors.white,
-                            ),
-                            margin: const EdgeInsets.all(3),
-                            child: TextButton(
-                              onPressed: () => Navigator.pushReplacementNamed(
-                                  context, Routes.kFeedback),
-                              child: Text(
-                                SplashScreenNotifier.getLanguageLabel(
-                                    'Provide Feedback'),
-                                style: const TextStyle(
-                                  color: CustomColors.hardOrange,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 );

@@ -8,18 +8,19 @@ final kMainTheme = ThemeData(
   iconTheme: const IconThemeData(color: CustomColors.customBlue),
   textTheme: GoogleFonts.mulishTextTheme(),
   radioTheme: RadioThemeData(
-    fillColor: MaterialStateColor.resolveWith((states) => CustomColors.hardOrange),
+    fillColor:
+        MaterialStateColor.resolveWith((states) => CustomColors.hardOrange),
   ),
   appBarTheme: const AppBarTheme(
     elevation: 0.0,
     centerTitle: true,
     iconTheme: IconThemeData(color: CustomColors.customBlue),
     backgroundColor: CustomColors.customLigthBlue,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(
-        bottom: Radius.circular(20),
-      ),
-    ),
+    // shape: RoundedRectangleBorder(
+    //   borderRadius: BorderRadius.vertical(
+    //     bottom: Radius.circular(20),
+    //   ),
+    // ),
   ),
   inputDecorationTheme: InputDecorationTheme(
     isDense: true,

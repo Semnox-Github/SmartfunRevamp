@@ -18,6 +18,14 @@ class NotificationRegisterEntity {
     this.isActive = true,
     this.customerSignedIn = true,
   });
-  factory NotificationRegisterEntity.fromJson(Map<String, dynamic> json) => _$NotificationRegisterEntityFromJson(json);
+
+  factory NotificationRegisterEntity.fromJson(Map<String, dynamic> json) =>
+      _$NotificationRegisterEntityFromJson(json);
   Map<String, dynamic> toJson() => _$NotificationRegisterEntityToJson(this);
+
+  map(Function(dynamic e) param0) {}
+
+  String toString() {
+    return 'NotificationRegisterEntity(id: $id, customerId: $customerId, pushNotificationToken: $pushNotificationToken, deviceType: $deviceType)';
+  }
 }

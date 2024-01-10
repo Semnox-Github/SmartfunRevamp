@@ -17,6 +17,8 @@ import 'package:semnox/features/recharge_card/providers/products_price_provider.
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../../core/widgets/custom_app_bar.dart';
+
 final currentTransactionIdProvider = StateProvider<int?>((ref) {
   return null;
 });
@@ -91,17 +93,22 @@ class EstimatedTransactionPage extends ConsumerWidget {
         parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
             '#,##0.00';
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          SplashScreenNotifier.getLanguageLabel(
-            transactionType == "newcard" ? "Buy a Card" : "Recharge",
-          ),
-          style: const TextStyle(
-            color: CustomColors.customBlue,
-            fontWeight: FontWeight.bold,
-          ),
+      appBar: CustomAppBar(
+        title: SplashScreenNotifier.getLanguageLabel(
+          transactionType == "newcard" ? "Buy a Card" : "Recharge",
         ),
       ),
+      // AppBar(
+      //   title: Text(
+      //     SplashScreenNotifier.getLanguageLabel(
+      //       transactionType == "newcard" ? "Buy a Card" : "Recharge",
+      //     ),
+      //     style: const TextStyle(
+      //       color: CustomColors.customBlue,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      // ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: Consumer(
@@ -241,7 +248,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            CustomButton(
+                            PrimaryButton(
                               onTap: () {
                                 Navigator.push(
                                   context,

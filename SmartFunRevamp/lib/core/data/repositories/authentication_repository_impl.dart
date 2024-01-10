@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/api/smart_fun_api.dart';
@@ -22,7 +24,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   AuthenticationRepositoryImpl(this._api, this._glutton);
   @override
-  Future<Either<Failure, CustomerDTO>> loginUser(Map<String, dynamic> body) async {
+  Future<Either<Failure, CustomerDTO>> loginUser(
+      Map<String, dynamic> body) async {
     try {
       final response = await _api.loginUser(body);
       _glutton.saveUser(response.data);
@@ -33,7 +36,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, CustomerDTO>> signUpUser(Map<String, dynamic> body) async {
+  Future<Either<Failure, CustomerDTO>> signUpUser(
+      Map<String, dynamic> body) async {
     try {
       final response = await _api.signUpUser(body);
       registerUser(response.data);
@@ -45,12 +49,15 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, List<CustomerUIMetaData>>> getUserMetaData(int siteId) async {
+  Future<Either<Failure, List<CustomerUIMetaData>>> getUserMetaData(
+      int siteId) async {
     try {
       final response = await _api.getSignUpMetadata(siteId.toString());
       final uiMetadataList = response.data.customerUIMetadataContainerDTOList;
-      uiMetadataList.removeWhere((element) => element.customerFieldName == 'USERNAME');
-      uiMetadataList.sort((a, b) => a.customerFieldOrder.compareTo(b.customerFieldOrder));
+      uiMetadataList
+          .removeWhere((element) => element.customerFieldName == 'USERNAME');
+      uiMetadataList
+          .sort((a, b) => a.customerFieldOrder.compareTo(b.customerFieldOrder));
       return Right(uiMetadataList);
     } on Exception catch (e) {
       return Left(e.handleException());
@@ -69,7 +76,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> verifyOTP(Map<String, dynamic> body, String otpId) async {
+  Future<Either<Failure, bool>> verifyOTP(
+      Map<String, dynamic> body, String otpId) async {
     try {
       await _api.validateOTP(body, otpId);
       return const Right(true);
@@ -79,7 +87,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, CustomerDTO>> getUserByPhoneOrEmail(String phoneOrEmail) async {
+  Future<Either<Failure, CustomerDTO>> getUserByPhoneOrEmail(
+      String phoneOrEmail) async {
     try {
       final response = await _api.getCustomerByPhoneorEmail(phoneOrEmail);
       _glutton.saveUser(response.data.first);
@@ -93,7 +102,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<Either<Failure, String>> getUserExecutionController(int siteId) async {
     try {
       final response = await _api.getExecutionContext(siteId: siteId);
-      final token = response.response.headers.value(HttpHeaders.authorizationHeader) ?? '';
+      final token =
+          response.response.headers.value(HttpHeaders.authorizationHeader) ??
+              '';
       return Right(token);
     } on Exception catch (e) {
       return Left(e.handleException());
@@ -112,7 +123,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, void>> sendResetPasswordLink(String phoneOrEmail) async {
+  Future<Either<Failure, void>> sendResetPasswordLink(
+      String phoneOrEmail) async {
     try {
       final userInfo = await _api.getCustomerByPhoneorEmail(phoneOrEmail);
       await _api.sendResetPasswordLink({"UserName": userInfo.data.first.email});
@@ -170,15 +182,26 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       final token = await FirebaseMessaging.instance.getToken();
       List<String> registeredTokens = [];
       try {
-        final registeredTokensResponse = (await _api.checkNotificationTokenRegistered(userId));
+        final registeredTokensResponse =
+            await _api.checkNotificationTokenRegistered(token!);
 
+        // Logger()
+        //     .d("registered token ${registeredTokensResponse.data.toString()}");
+
+        // debugPrint(
+        //     "registered token ${registeredTokensResponse.data.toString()}");
         //validate if response has data
         if (!registeredTokensResponse.data.isNullOrEmpty()) {
-          registeredTokens = registeredTokensResponse.data.map((e) => e.pushNotificationToken).toList();
+          registeredTokens = registeredTokensResponse.data
+              .map((e) => e.pushNotificationToken)
+              .toList();
         }
       } catch (e) {
-        Logger().e('error getting registered notification tokens');
+        Logger().e('error getting registered notification tokens $e');
       }
+
+      debugPrint("registeredToken $registeredTokens");
+
       if (!registeredTokens.contains(token)) {
         final request = NotificationRegisterEntity(
           -1,

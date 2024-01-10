@@ -38,13 +38,15 @@ class _TransferPageState extends ConsumerState<TransferPage> {
     super.initState();
     cardDetails = ref.read(currentCardProvider);
     cardsFrom = [];
-    cards = List<CardDetails>.from(ref.read(CardsProviders.userCardsProvider).value ?? []);
+    cards = List<CardDetails>.from(
+        ref.read(CardsProviders.userCardsProvider).value ?? []);
     cards.removeWhere((element) => element.isBlocked() || element.isExpired());
     if (cardDetails != null) {
       //is added to cards list as the only card
       cardsFrom.add(cardDetails!);
       //remove the card from the list
-      cards.removeWhere((element) => element.accountNumber == cardDetails?.accountNumber);
+      cards.removeWhere(
+          (element) => element.accountNumber == cardDetails?.accountNumber);
     } else {
       cardsFrom = cards;
     }
@@ -57,9 +59,11 @@ class _TransferPageState extends ConsumerState<TransferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Transfer')),
+      appBar: CustomAppBar(
+          title: SplashScreenNotifier.getLanguageLabel('Transfer')),
       body: SafeArea(
-        minimum: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0, bottom: 100),
+        minimum: const EdgeInsets.only(
+            top: 15.0, left: 15.0, right: 15.0, bottom: 100),
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
           child: Form(
@@ -82,7 +86,8 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                     children: [
                       AmountFormField(
                         entitlement: entitlement,
-                        onSaved: (newValue) => amount = num.tryParse(newValue!) ?? 0,
+                        onSaved: (newValue) =>
+                            amount = num.tryParse(newValue!) ?? 0,
                       ),
                       FromSelectionContainer(
                         cards: cardsFrom,
@@ -95,7 +100,8 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                         cards: cards,
                         onCardChanged: (index) => cardTo = cards[index],
                         onOtherCardSelected: () => cardTo = null,
-                        onAccountNumberSaved: (accountNumber) => cardTo = CardDetails(accountNumber: accountNumber),
+                        onAccountNumberSaved: (accountNumber) =>
+                            cardTo = CardDetails(accountNumber: accountNumber),
                       ),
                       const SizedBox(height: 10.0),
                     ],
@@ -115,7 +121,8 @@ class _TransferPageState extends ConsumerState<TransferPage> {
           if (cardFrom!.isSameCard(cardTo)) {
             Dialogs.showErrorMessage(
               context,
-              SplashScreenNotifier.getLanguageLabel("You can't transfer from/to the same card"),
+              SplashScreenNotifier.getLanguageLabel(
+                  "You can't transfer from/to the same card"),
             );
           } else {
             TransferBalance transferBalance = TransferBalance(

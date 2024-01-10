@@ -3,6 +3,8 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../core/widgets/custom_app_bar.dart';
+
 class WebViewPage extends StatelessWidget {
   const WebViewPage({super.key, required this.url, required this.title});
   final String url;
@@ -13,15 +15,16 @@ class WebViewPage extends StatelessWidget {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..loadRequest(Uri.parse(url));
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          SplashScreenNotifier.getLanguageLabel(title),
-          style: const TextStyle(
-            color: CustomColors.customBlue,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel(title)),
+      //  AppBar(
+      //   title: Text(
+      //     SplashScreenNotifier.getLanguageLabel(title),
+      //     style: const TextStyle(
+      //       color: CustomColors.customBlue,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      // ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

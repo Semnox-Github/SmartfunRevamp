@@ -11,7 +11,7 @@ class AppVersionTag extends ConsumerWidget {
   }) : super(key: key);
   final Color? color;
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ref.watch(appVersionProvider).when(
         data: (data) {
           return SemnoxText.button(

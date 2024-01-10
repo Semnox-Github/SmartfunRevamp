@@ -16,6 +16,8 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
+import '../../../core/widgets/custom_app_bar.dart';
+
 class SelectLocationManuallyPage extends ConsumerWidget {
   const SelectLocationManuallyPage({Key? key}) : super(key: key);
 
@@ -50,13 +52,15 @@ class SelectLocationManuallyPage extends ConsumerWidget {
       },
     );
     return Scaffold(
-      appBar: AppBar(
-        title: const MulishText(
-          text: 'Select Location',
-          fontWeight: FontWeight.bold,
-          fontColor: CustomColors.customBlue,
-        ),
-      ),
+      appBar: CustomAppBar(
+          title: SplashScreenNotifier.getLanguageLabel('Select Location')),
+      //  AppBar(
+      //   title: const MulishText(
+      //     text: 'Select Location',
+      //     fontWeight: FontWeight.bold,
+      //     fontColor: CustomColors.customBlue,
+      //   ),
+      // ),
       bottomSheet: Material(
         elevation: 20.0,
         child: Container(

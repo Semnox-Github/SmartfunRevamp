@@ -3,6 +3,8 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../core/widgets/custom_app_bar.dart';
+
 class HelpPage extends StatefulWidget {
   const HelpPage({Key? key}) : super(key: key);
 
@@ -18,15 +20,17 @@ class _HelpPageState extends State<HelpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          SplashScreenNotifier.getLanguageLabel('Help'),
-          style: const TextStyle(
-            color: CustomColors.customBlue,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar:
+          CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Help')),
+      //  AppBar(
+      //   title: Text(
+      //     SplashScreenNotifier.getLanguageLabel('Help'),
+      //     style: const TextStyle(
+      //       color: CustomColors.customBlue,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      // ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: Column(

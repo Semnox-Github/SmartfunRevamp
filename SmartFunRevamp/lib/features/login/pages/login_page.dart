@@ -40,7 +40,8 @@ final loginTypeProvider = StateProvider<bool>((ref) {
 });
 final isPasswordDisabledProvider = StateProvider<bool>((ref) {
   final parafaitDefault = ref.watch(parafaitDefaultsProvider);
-  return parafaitDefault?.getDefault(ParafaitDefaultsResponse.passwordKey) == 'N';
+  return parafaitDefault?.getDefault(ParafaitDefaultsResponse.passwordKey) ==
+      'N';
 });
 
 class LoginPage extends ConsumerWidget {
@@ -50,7 +51,7 @@ class LoginPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final configExecutionContext = ref.watch(preConfigProvider);
     final isOTPLoginProvider = ref.watch(loginTypeProvider);
-    final isPasswordDisabled = ref.watch(isPasswordDisabledProvider);
+    final isPasswordDisabled = false; //ref.watch(isPasswordDisabledProvider);
     ref.watch(SplashScreenNotifier.getInitialData);
     ref.listen<LoginState>(loginProvider, (_, next) {
       next.maybeWhen(
@@ -59,7 +60,8 @@ class LoginPage extends ConsumerWidget {
         success: (user) {
           context.loaderOverlay.hide();
           ref.read(userProvider.notifier).update((_) => user);
-          Navigator.pushNamedAndRemoveUntil(context, Routes.kHomePage, (Route<dynamic> route) => false);
+          Navigator.pushNamedAndRemoveUntil(
+              context, Routes.kHomePage, (Route<dynamic> route) => false);
         },
         customerVerificationNeeded: (user) {
           context.loaderOverlay.hide();
@@ -96,12 +98,15 @@ class LoginPage extends ConsumerWidget {
                 LoginWithOTPContainer(
                   isLoginWithOTP: isOTPLoginProvider,
                   onTap: () {
-                    ref.read(loginTypeProvider.notifier).update((state) => !state);
+                    ref
+                        .read(loginTypeProvider.notifier)
+                        .update((state) => !state);
                   },
                 ),
               const SizedBox(height: 10.0),
               configExecutionContext.when(
-                loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                loading: () =>
+                    const Center(child: CircularProgressIndicator.adaptive()),
                 error: (error, _) {
                   if (error is Failure) {
                     return const Icon(Icons.error, color: Colors.red);
@@ -121,12 +126,14 @@ class LoginPage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   MulishText(
-                    text: SplashScreenNotifier.getLanguageLabel('New to SmartFun?'),
+                    text: SplashScreenNotifier.getLanguageLabel(
+                        'New to SmartFun?'),
                     fontColor: Colors.black,
                     fontWeight: FontWeight.w600,
                   ),
                   TextButton(
-                    onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
+                    onPressed: () =>
+                        Navigator.pushNamed(context, Routes.kSignUpPage),
                     child: MulishText(
                       text: SplashScreenNotifier.getLanguageLabel('SIGN UP'),
                       fontColor: CustomColors.hardOrange,

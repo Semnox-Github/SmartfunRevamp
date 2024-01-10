@@ -17,13 +17,17 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 final currentLanguageProvider = StateProvider<LanguageContainerDTOList?>((ref) {
   final languageContainerDTO = ref.watch(languangeContainerProvider);
-  if (languageContainerDTO == null || languageContainerDTO.languageContainerDTOList.isEmpty) {
+  if (languageContainerDTO == null ||
+      languageContainerDTO.languageContainerDTOList.isEmpty) {
     return null;
   }
 
-  return languageContainerDTO.languageContainerDTOList
-          .firstWhereOrNull((element) => element.languageCode == Platform.localeName.replaceAll('_', '-')) ??
-      languageContainerDTO.languageContainerDTOList.firstWhereOrNull((element) => element.languageCode == 'en-US');
+  return languageContainerDTO.languageContainerDTOList.firstWhereOrNull(
+          (element) =>
+              element.languageCode ==
+              Platform.localeName.replaceAll('_', '-')) ??
+      languageContainerDTO.languageContainerDTOList
+          .firstWhereOrNull((element) => element.languageCode == 'en-US');
 });
 
 class AfterSplashScreen extends ConsumerWidget {
@@ -65,7 +69,8 @@ class AfterSplashScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 10.0),
             MulishText(
-              text: SplashScreenNotifier.getLanguageLabel('QUICK CARD RECHARGES DETAIL'),
+              text: SplashScreenNotifier.getLanguageLabel(
+                  'QUICK CARD RECHARGES DETAIL'),
               fontSize: 16.0,
               fontColor: CustomColors.customBlack,
               fontWeight: FontWeight.w500,
@@ -78,7 +83,8 @@ class AfterSplashScreen extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   MulishText(
-                    text: SplashScreenNotifier.getLanguageLabel('Preferred Language to be used in the app'),
+                    text: SplashScreenNotifier.getLanguageLabel(
+                        'Preferred Language to be used in the app'),
                     textAlign: TextAlign.start,
                     fontColor: CustomColors.customBlack,
                     fontSize: 14.0,
@@ -98,8 +104,11 @@ class AfterSplashScreen extends ConsumerWidget {
                           );
                         }).toList(),
                         onChanged: (value) {
-                          localDataSource.saveCustomClass(LocalDataSource.kSelectedLanguage, value!.toJson());
-                          ref.read(currentLanguageProvider.notifier).state = value;
+                          localDataSource.saveCustomClass(
+                              LocalDataSource.kSelectedLanguage,
+                              value!.toJson());
+                          ref.read(currentLanguageProvider.notifier).state =
+                              value;
                         },
                       );
                     },
@@ -115,11 +124,13 @@ class AfterSplashScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MulishText(
-                        text: SplashScreenNotifier.getLanguageLabel("Have an account?"),
+                        text: SplashScreenNotifier.getLanguageLabel(
+                            "Have an account?"),
                       ),
                       CustomButton(
                         onTap: () {
-                          Navigator.pushReplacementNamed(context, Routes.kLogInPage);
+                          Navigator.pushReplacementNamed(
+                              context, Routes.kLogInPage);
                         },
                         label: SplashScreenNotifier.getLanguageLabel("LOGIN"),
                       )
@@ -131,10 +142,12 @@ class AfterSplashScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MulishText(
-                        text: SplashScreenNotifier.getLanguageLabel('New to SmartFun?'),
+                        text: SplashScreenNotifier.getLanguageLabel(
+                            'New to SmartFun?'),
                       ),
-                      CustomCancelButton(
-                        onPressed: () => Navigator.pushNamed(context, Routes.kSignUpPage),
+                      SecondaryButton(
+                        onTap: () =>
+                            Navigator.pushNamed(context, Routes.kSignUpPage),
                         label: SplashScreenNotifier.getLanguageLabel('SIGN UP'),
                       )
                     ],

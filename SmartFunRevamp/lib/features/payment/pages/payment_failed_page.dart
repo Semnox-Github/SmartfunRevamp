@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
@@ -46,25 +47,29 @@ class PaymentFailedPage extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.0),
-                    gradient: CustomGradients.linearGradient,
-                  ),
-                  margin: const EdgeInsets.all(3),
-                  child: TextButton(
-                    onPressed: () => Navigator.pushNamed(
-                        context, Routes.kHomePage), //.pop(context),
-                    child: Text(
-                      SplashScreenNotifier.getLanguageLabel('RETRY PAYMENT'),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                PrimaryButton(
+                  onTap: () => Navigator.pushNamed(context, Routes.kHomePage),
+                  label: SplashScreenNotifier.getLanguageLabel('RETRY PAYMENT'),
                 )
+                // Container(
+                //   width: double.infinity,
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(12.0),
+                //     gradient: CustomGradients.linearGradient,
+                //   ),
+                //   margin: const EdgeInsets.all(3),
+                //   child: TextButton(
+                //     onPressed: () => Navigator.pushNamed(
+                //         context, Routes.kHomePage), //.pop(context),
+                //     child: Text(
+                //       SplashScreenNotifier.getLanguageLabel('RETRY PAYMENT'),
+                //       style: const TextStyle(
+                //         color: Colors.white,
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),

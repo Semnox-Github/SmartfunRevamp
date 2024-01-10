@@ -306,7 +306,8 @@ abstract class SmartFunApi {
 
   @GET('Communication/PushNotificationDevices')
   Future<ListDataWrapper<NotificationRegisterEntity>>
-      checkNotificationTokenRegistered(@Query('customerId') int customerId);
+      checkNotificationTokenRegistered(
+          @Query('PushNotificationToken') String notificationToken);
 
   @POST('Communication/PushNotificationDevices')
   Future<HttpResponse> registerNotificationToken(

@@ -3,10 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/input_text_field.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/provider/link_card/link_card_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+
+import '../../../core/domain/entities/splash_screen/home_page_cms_response.dart';
+
+final primaryButtonStyle = Provider<PrimaryButtonStyle?>((ref) {
+  final cms = ref.watch(newHomePageCMSProvider);
+  return cms?.buttonStyle?.primaryButtonStyle;
+});
 
 class LinkACard extends ConsumerWidget {
   LinkACard({super.key});
@@ -17,6 +26,10 @@ class LinkACard extends ConsumerWidget {
     String mCardNumber = '';
     bool isAlertShown = false;
     bool enableLink = false;
+    final cardColors = ref.watch(newHomePageCMSProvider)?.cardsColor;
+    final buttonStyle = ref.watch(primaryButtonStyle);
+    final btnGradient = buttonStyle?.buttonColorGradient.getColorList();
+    final btnTextColor = buttonStyle?.buttonTextColor;
 
     ref.listen(
       linkCardProvider,
@@ -64,7 +77,7 @@ class LinkACard extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-        color: Colors.purple.shade500,
+        color: HexColor.fromHex(cardColors?.regular), //Colors.purple.shade500,
         borderRadius: BorderRadius.circular(
           20.0,
         ),
@@ -109,13 +122,17 @@ class LinkACard extends ConsumerWidget {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    gradient: CustomGradients.linearGradient,
+                    gradient: btnGradient != null
+                        ? LinearGradient(colors: btnGradient)
+                        : null,
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
-                      gradient: CustomGradients.linearGradient,
+                      gradient: btnGradient != null
+                          ? LinearGradient(colors: btnGradient)
+                          : null,
                     ),
                     margin: const EdgeInsets.all(3),
                     child: TextButton(
@@ -133,8 +150,8 @@ class LinkACard extends ConsumerWidget {
                       },
                       child: Text(
                         SplashScreenNotifier.getLanguageLabel('LINK CARD'),
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: HexColor.fromHex(btnTextColor),
                           fontWeight: FontWeight.bold,
                         ),
                       ),

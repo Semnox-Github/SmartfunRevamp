@@ -16,6 +16,8 @@ import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../pages/estimated_transaction_page.dart';
+
 enum CardValue { silver, gold, platinum }
 
 extension CardValueExtension on CardValue {
@@ -93,7 +95,22 @@ class CardType extends ConsumerWidget {
         ((card.basePrice - card.finalPrice) * 100) / card.basePrice;
     final String baseUrl = Get.find<String>(tag: 'baseURL');
     return InkWell(
-      onTap: () => Dialogs.showCardInfo(context, card),
+      onTap: () {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EstimatedTransactionPage(
+              cardProduct: card,
+              transactionType: "newcard",
+              qty: 1,
+              finalPrice: 0,
+            ),
+          ),
+        );
+      },
+
+      //() => Dialogs.showCardInfo(context, card),
       child: Stack(
         children: [
           Row(

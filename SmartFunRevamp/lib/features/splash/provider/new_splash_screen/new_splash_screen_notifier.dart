@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,13 +34,32 @@ part 'new_splash_screen_state.dart';
 final newHomePageCMSProvider = StateProvider<HomePageCMSResponse?>((ref) {
   return null;
 });
+
+final buttonProvider = StateProvider<ButtonStyle?>((ref) {
+  return null;
+});
+
+final primaryButtonProvider = StateProvider<PrimaryButtonStyle?>((ref) {
+  return null;
+});
+
+final cmsPageHeaderProvider = Provider<CMSPageHeader?>((ref) {
+  final cms = ref.watch(newHomePageCMSProvider);
+  return cms?.cmsPageHeader;
+});
+
+final secondaryButtonProvider = StateProvider<SecondaryButtonStyle?>((ref) {
+  return null;
+});
+
 final languangeContainerProvider = StateProvider<LanguageContainerDTO?>((ref) {
   return null;
 });
 final masterSiteProvider = StateProvider<SiteViewDTO?>((ref) {
   return null;
 });
-final parafaitDefaultsProvider = StateProvider<ParafaitDefaultsResponse?>((ref) {
+final parafaitDefaultsProvider =
+    StateProvider<ParafaitDefaultsResponse?>((ref) {
   return null;
 });
 final userProvider = StateProvider<CustomerDTO?>((ref) {
@@ -54,10 +74,12 @@ final getStringForLocalization = FutureProvider((ref) async {
     return;
   }
   final masterSiteId = ref.watch(masterSiteProvider)?.siteId;
-  final GetStringForLocalizationUseCase getStringForLocalizationUseCase = Get.find<GetStringForLocalizationUseCase>();
+  final GetStringForLocalizationUseCase getStringForLocalizationUseCase =
+      Get.find<GetStringForLocalizationUseCase>();
   final langId = currentLang.languageId.toString();
   //Request language strings always with master site
-  final response = await getStringForLocalizationUseCase(siteId: masterSiteId.toString(), languageId: langId);
+  final response = await getStringForLocalizationUseCase(
+      siteId: masterSiteId.toString(), languageId: langId);
   response.fold(
     (l) => throw l,
     (r) {
@@ -65,8 +87,10 @@ final getStringForLocalization = FutureProvider((ref) async {
     },
   );
 });
+// Provider for CMSPageHeader
 
-final newSplashScreenProvider = StateNotifierProvider<NewSplashScreenNotifier, NewSplashScreenState>(
+final newSplashScreenProvider =
+    StateNotifierProvider<NewSplashScreenNotifier, NewSplashScreenState>(
   (ref) => NewSplashScreenNotifier(
     Get.find<GetBaseURLUseCase>(),
     Get.find<AuthenticateBaseURLUseCase>(),
@@ -75,7 +99,8 @@ final newSplashScreenProvider = StateNotifierProvider<NewSplashScreenNotifier, N
 );
 
 class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
-  NewSplashScreenNotifier(this._getBaseURL, this._authenticateBaseURLUseCase, this._localDataSource)
+  NewSplashScreenNotifier(
+      this._getBaseURL, this._authenticateBaseURLUseCase, this._localDataSource)
       : super(const _InProgress());
   final GetBaseURLUseCase _getBaseURL;
   final AuthenticateBaseURLUseCase _authenticateBaseURLUseCase;
@@ -99,7 +124,8 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     if (initialMessage != null) {
       _notificationData = NotificationsData.fromJson(initialMessage.data);
     }
-    _splashScreenImgURL = await _localDataSource.retrieveValue<String>(LocalDataSource.kSplashScreenURL);
+    _splashScreenImgURL = await _localDataSource
+        .retrieveValue<String>(LocalDataSource.kSplashScreenURL);
     if (!_splashScreenImgURL.isNullOrEmpty()) {
       state = _RetrievedSplashImageURL(_splashScreenImgURL);
     }
@@ -131,7 +157,8 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   }
 
   void _getMasterSite() async {
-    final GetMasterSiteUseCase getMasterSiteUseCase = Get.find<GetMasterSiteUseCase>();
+    final GetMasterSiteUseCase getMasterSiteUseCase =
+        Get.find<GetMasterSiteUseCase>();
     final response = await getMasterSiteUseCase();
     response.fold(
       (l) => state = const _Error('No master site found'),
@@ -144,8 +171,10 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
             _getHomePageCMS(),
           ],
         );
-        final defaultSite = await _localDataSource.retrieveValue(LocalDataSource.kDefaultSite);
-        final userSelectedSite = await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
+        final defaultSite =
+            await _localDataSource.retrieveValue(LocalDataSource.kDefaultSite);
+        final userSelectedSite =
+            await _localDataSource.retrieveValue(LocalDataSource.kSelectedSite);
         final selectedSite = defaultSite ?? userSelectedSite;
         final LocalDataSource glutton = Get.find<LocalDataSource>();
         final customer = await glutton.retrieveCustomer();
@@ -163,21 +192,28 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   }
 
   Future<ParafaitDefaultsResponse> _getParafaitDefaults(int? siteId) async {
-    final GetParafaitDefaultsUseCase getParafaitDefaultsUseCase = Get.find<GetParafaitDefaultsUseCase>();
+    final GetParafaitDefaultsUseCase getParafaitDefaultsUseCase =
+        Get.find<GetParafaitDefaultsUseCase>();
     final response = await getParafaitDefaultsUseCase(siteId ?? 1010);
     return response.fold(
       (l) => throw l,
       (r) async {
         //reading default site
-        var defaultSiteId = r.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
+        var defaultSiteId =
+            r.getDefault(ParafaitDefaultsResponse.virtualStoreSiteId);
         //if the default site is set then save it
         if (!defaultSiteId.isNullOrEmpty()) {
-          var selectedSite =
-              SiteViewDTO(siteId: int.parse(defaultSiteId!), openDate: DateTime.now(), closureDate: DateTime.now());
-          await _localDataSource.saveCustomClass(LocalDataSource.kSelectedSite, selectedSite.toJson());
-          await _localDataSource.saveCustomClass(LocalDataSource.kDefaultSite, selectedSite.toJson());
+          var selectedSite = SiteViewDTO(
+              siteId: int.parse(defaultSiteId!),
+              openDate: DateTime.now(),
+              closureDate: DateTime.now());
+          await _localDataSource.saveCustomClass(
+              LocalDataSource.kSelectedSite, selectedSite.toJson());
+          await _localDataSource.saveCustomClass(
+              LocalDataSource.kDefaultSite, selectedSite.toJson());
         } else {
-          await _localDataSource.retrieveCustomClass(LocalDataSource.kDefaultSite);
+          await _localDataSource
+              .retrieveCustomClass(LocalDataSource.kDefaultSite);
         }
         return r;
       },
@@ -186,7 +222,8 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
 
   Future<LanguageContainerDTO> _getAllParafaitLanguages(int? siteId) async {
     final getParafaitLanguagesUseCase = Get.find<GetParafaitLanguagesUseCase>();
-    final response = await getParafaitLanguagesUseCase(siteId: siteId.toString());
+    final response =
+        await getParafaitLanguagesUseCase(siteId: siteId.toString());
     return response.fold(
       (l) => throw l,
       (r) => r,
@@ -204,12 +241,16 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
       },
       (r) async {
         if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
-          await _localDataSource.saveValue(LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
+          await _localDataSource.saveValue(
+              LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
         }
-        final useLocalCmsJson = dotenv.env['USE_LOCAL_CMS_JSON'] == 'true' ? true : false;
+        final useLocalCmsJson =
+            dotenv.env['USE_LOCAL_CMS_JSON'] == 'true' ? true : false;
         // Load Local Json
-        final String exampleCMSJson = await rootBundle.loadString('assets/json/example_cms.json');
-        final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
+        final String exampleCMSJson =
+            await rootBundle.loadString('assets/json/example_cms.json');
+        final data =
+            (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
         final cms = HomePageCMSResponse.fromJson(data['data'][0]);
 
         if (customer != null) {

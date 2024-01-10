@@ -1456,9 +1456,11 @@ class _SmartFunApi implements SmartFunApi {
 
   @override
   Future<ListDataWrapper<NotificationRegisterEntity>>
-      checkNotificationTokenRegistered(int customerId) async {
+      checkNotificationTokenRegistered(String notificationToken) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'customerId': customerId};
+    final queryParameters = <String, dynamic>{
+      r'PushNotificationToken': notificationToken
+    };
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

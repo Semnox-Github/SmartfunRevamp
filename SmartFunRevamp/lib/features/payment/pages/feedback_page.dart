@@ -11,6 +11,7 @@ import 'package:semnox/features/payment/widgets/feedback_value_item.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import '../../../core/routes.dart';
+import '../../../core/widgets/custom_app_bar.dart';
 
 class FeedbackPage extends ConsumerWidget {
   const FeedbackPage({super.key});
@@ -28,11 +29,12 @@ class FeedbackPage extends ConsumerWidget {
           return false; // prevent the default back button behavior
         },
         child: Scaffold(
-          appBar: AppBar(
-            leading: const SizedBox.shrink(),
-            centerTitle: true,
-            title: const MulishText(text: 'Feedback'),
-          ),
+          appBar:CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Feedback')),
+          //  AppBar(
+          //   leading: const SizedBox.shrink(),
+          //   centerTitle: true,
+          //   title: const MulishText(text: 'Feedback'),
+          // ),
           body: SafeArea(
             minimum: const EdgeInsets.all(20.0),
             child: surveyProvider.when(

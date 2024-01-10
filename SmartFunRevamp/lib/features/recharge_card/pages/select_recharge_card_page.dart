@@ -25,6 +25,8 @@ import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../../core/widgets/custom_app_bar.dart';
+
 class SelectCardRechargePage extends ConsumerStatefulWidget {
   final String? filterStr;
   const SelectCardRechargePage({Key? key, this.filterStr}) : super(key: key);
@@ -84,6 +86,7 @@ class _SelectCardRechargePageState
               ),
               onPressed: () {
                 Navigator.of(context).pop();
+                handleProductSelection(context);
               },
             ),
             TextButton(
@@ -105,6 +108,22 @@ class _SelectCardRechargePageState
           ],
         );
       },
+    );
+  }
+
+  void handleProductSelection(BuildContext context) {
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EstimatedTransactionPage(
+          cardProduct: offerSelected!,
+          cardSelected: selectedCardNumber,
+          transactionType: "recharge",
+          qty: qty,
+          finalPrice: finalPrice,
+        ),
+      ),
     );
   }
 
@@ -130,42 +149,45 @@ class _SelectCardRechargePageState
 
     return Scaffold(
       appBar: widget.filterStr == null
-          ? AppBar(
-              title: Text(
-                SplashScreenNotifier.getLanguageLabel('Recharge a Card'),
-                style: const TextStyle(
-                  color: CustomColors.customBlue,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              shape: const RoundedRectangleBorder(),
+          ? CustomAppBar(
+              title: SplashScreenNotifier.getLanguageLabel('Recharge a Card'),
             )
+          //  AppBar(
+          //     title: Text(
+          //       SplashScreenNotifier.getLanguageLabel('Recharge a Card'),
+          //       style: const TextStyle(
+          //         color: CustomColors.customBlue,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ),
+          //     shape: const RoundedRectangleBorder(),
+          //   )
           : null,
-      bottomSheet: offerSelected != null && selectedCardNumber != null
-          ? BottomSheetButton(
-              label: offerSelected == null
-                  ? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')
-                  : '${SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')} \$ ${(qty * finalPrice).toCurrency(currency, format)}',
-              onTap: () {
-                if (offerSelected != null) {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EstimatedTransactionPage(
-                        cardProduct: offerSelected!,
-                        cardSelected: selectedCardNumber,
-                        transactionType: "recharge",
-                        qty: qty,
-                        finalPrice: finalPrice,
-                      ),
-                    ),
-                  );
-                }
-              },
-            )
-          : DisabledBottomButton(
-              label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')),
+      // bottomSheet: offerSelected != null && selectedCardNumber != null
+      //     ? BottomSheetButton(
+      //         label: offerSelected == null
+      //             ? SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')
+      //             : '${SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')} \$ ${(qty * finalPrice).toCurrency(currency, format)}',
+      //         onTap: () {
+      //           if (offerSelected != null) {
+      //             Navigator.pop(context);
+      //             Navigator.push(
+      //               context,
+      //               MaterialPageRoute(
+      //                 builder: (context) => EstimatedTransactionPage(
+      //                   cardProduct: offerSelected!,
+      //                   cardSelected: selectedCardNumber,
+      //                   transactionType: "recharge",
+      //                   qty: qty,
+      //                   finalPrice: finalPrice,
+      //                 ),
+      //               ),
+      //             );
+      //           }
+      //         },
+      //       )
+      //     : DisabledBottomButton(
+      // label: SplashScreenNotifier.getLanguageLabel('RECHARGE NOW')),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,7 +233,7 @@ class _SelectCardRechargePageState
             ),
             Expanded(
               child: Container(
-                margin: const EdgeInsets.only(bottom: 100.0),
+                //margin: const EdgeInsets.only(bottom: 100.0),
                 child: Consumer(
                   builder: (context, ref, child) {
                     return ref.watch(rechargeProductsProvider).maybeWhen(
@@ -246,6 +268,7 @@ class _SelectCardRechargePageState
                                   .toList();
                             }
 
+                            // print("offers ***** $offersFiltered");
                             return RechargeCardOffers(
                               offers: offersFiltered,
                               onOfferSelected: (offer) {
@@ -255,6 +278,7 @@ class _SelectCardRechargePageState
                                     finalPrice = offerSelected!.finalPrice;
                                     qty = 1;
                                   });
+                                  handleProductSelection(context);
                                   if (offer.productType == "VARIABLECARD") {
                                     amountSelectorDialog(context);
                                   } else if (offer.QuantityPrompt == "Y") {
@@ -328,6 +352,7 @@ class _SelectCardRechargePageState
               ),
               onPressed: () {
                 Navigator.of(context).pop();
+                handleProductSelection(context);
               },
             ),
             TextButton(

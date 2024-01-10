@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_checkbox.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -16,7 +17,9 @@ class FilterDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<List<int>>? buyACardFilters = ref.watch(newHomePageCMSProvider)?.buyACardFilters;
+    final cmsHeader = ref.watch(cmsPageHeaderProvider);
+    List<List<int>>? buyACardFilters =
+        ref.watch(newHomePageCMSProvider)?.buyACardFilters;
     List<List<int>> gFilter = buyACardFilters ??
         [
           [0]
@@ -30,22 +33,25 @@ class FilterDrawer extends ConsumerWidget {
             borderRadius: BorderRadius.circular(12.0),
             child: DrawerHeader(
               margin: EdgeInsets.zero,
-              decoration: const BoxDecoration(
-                color: CustomColors.customLigthBlue,
+              decoration: BoxDecoration(
+                color: HexColor.fromHex(cmsHeader?.backgroundColor),
+                //CustomColors.customLigthBlue,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const MulishText(
+                  MulishText(
                     text: 'Filter',
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
+                    fontColor: HexColor.fromHex(cmsHeader?.textColor),
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.cancel_outlined,
+                      color: HexColor.fromHex(cmsHeader?.textColor),
                     ),
                   ),
                 ],
@@ -68,7 +74,8 @@ class FilterDrawer extends ConsumerWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: gFilter.map((e) {
-                  final text = e.length == 2 ? '\$${e[0]} - \$${e[1]}' : '\$${e[0]}+';
+                  final text =
+                      e.length == 2 ? '\$${e[0]} - \$${e[1]}' : '\$${e[0]}+';
                   return ListTile(
                     contentPadding: EdgeInsets.zero,
                     leading: CustomCheckBox(
@@ -90,7 +97,8 @@ class FilterDrawer extends ConsumerWidget {
           ),
           const Spacer(),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
             child: CustomButton(
               onTap: () {
                 Scaffold.of(context).closeEndDrawer();

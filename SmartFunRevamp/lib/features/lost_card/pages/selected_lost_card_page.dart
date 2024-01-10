@@ -6,23 +6,28 @@ import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/features/lost_card/widgets/block_card_button.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../../core/widgets/custom_app_bar.dart';
+
 class SelectedCardLostPage extends StatelessWidget {
-  const SelectedCardLostPage({Key? key, required this.cardDetails}) : super(key: key);
+  const SelectedCardLostPage({Key? key, required this.cardDetails})
+      : super(key: key);
 
   final CardDetails cardDetails;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          SplashScreenNotifier.getLanguageLabel('Lost Card'),
-          style: const TextStyle(
-            color: CustomColors.customBlue,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: CustomAppBar(
+          title: SplashScreenNotifier.getLanguageLabel('Lost Card')),
+      //  AppBar(
+      //   title: Text(
+      //     SplashScreenNotifier.getLanguageLabel('Lost Card'),
+      //     style: const TextStyle(
+      //       color: CustomColors.customBlue,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      // ),
       bottomSheet: BlockCardButton(cardDetails: cardDetails),
       body: SafeArea(
         child: Column(
@@ -44,48 +49,53 @@ class SelectedCardLostPage extends StatelessWidget {
             Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisSize: MainAxisSize.min, children: [
-                  const SizedBox(height: 20.0),
-                  Text(
-                    SplashScreenNotifier.getLanguageLabel('Lost Card Terms'),
-                    style: const TextStyle(
-                      color: CustomColors.hardOrange,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  Text(
-                    SplashScreenNotifier.getLanguageLabel(
-                        'This Card cannot be used for any further transactions. A temporary will be issued, exachange the temporary card for a new physical carrd at site'),
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.mulish(
-                      color: CustomColors.customBlack,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  const Divider(
-                    color: CustomColors.customLigthBlack,
-                    thickness: 0.5,
-                  ),
-                  const SizedBox(height: 20.0),
-                  Text(
-                    SplashScreenNotifier.getLanguageLabel('40 need to paid while exchanging for a new physical card'),
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.mulish(
-                      color: CustomColors.customBlack,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  const Divider(
-                    color: CustomColors.customLigthBlack,
-                    thickness: 0.5,
-                  ),
-                ]),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 20.0),
+                      Text(
+                        SplashScreenNotifier.getLanguageLabel(
+                            'Lost Card Terms'),
+                        style: const TextStyle(
+                          color: CustomColors.hardOrange,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Text(
+                        SplashScreenNotifier.getLanguageLabel(
+                            'This Card cannot be used for any further transactions. A temporary will be issued, exachange the temporary card for a new physical carrd at site'),
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.mulish(
+                          color: CustomColors.customBlack,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 20.0),
+                      const Divider(
+                        color: CustomColors.customLigthBlack,
+                        thickness: 0.5,
+                      ),
+                      const SizedBox(height: 20.0),
+                      Text(
+                        SplashScreenNotifier.getLanguageLabel(
+                            '40 need to paid while exchanging for a new physical card'),
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.mulish(
+                          color: CustomColors.customBlack,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 20.0),
+                      const Divider(
+                        color: CustomColors.customLigthBlack,
+                        thickness: 0.5,
+                      ),
+                    ]),
               ),
             ),
           ],

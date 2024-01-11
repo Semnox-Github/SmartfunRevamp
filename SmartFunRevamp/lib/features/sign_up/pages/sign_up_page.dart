@@ -13,6 +13,7 @@ import 'package:semnox/core/domain/use_cases/authentication/get_user_metadata_us
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
 import 'package:semnox/features/login/pages/login_page.dart';
@@ -95,21 +96,23 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
     final metaData = ref.watch(uiMetaDataProvider);
     final configExecutionContext = ref.watch(preConfigProvider);
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(
-            Icons.arrow_back,
-            color: CustomColors.customBlue,
-          ),
-        ),
-        title: Text(
-          SplashScreenNotifier.getLanguageLabel('Set Your Account'),
-          style: const TextStyle(
-            color: CustomColors.customBlue,
-          ),
-        ),
-      ),
+      appBar: CustomAppBar(
+          title: SplashScreenNotifier.getLanguageLabel('Set Your Account')),
+      // AppBar(
+      //   leading: IconButton(
+      //     onPressed: () => Navigator.pop(context),
+      //     icon: const Icon(
+      //       Icons.arrow_back,
+      //       color: CustomColors.customBlue,
+      //     ),
+      //   ),
+      //   title: Text(
+      //     SplashScreenNotifier.getLanguageLabel('Set Your Account'),
+      //     style: const TextStyle(
+      //       color: CustomColors.customBlue,
+      //     ),
+      //   ),
+      // ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(

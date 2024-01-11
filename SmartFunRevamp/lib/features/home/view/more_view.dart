@@ -26,12 +26,14 @@ class MoreView extends ConsumerWidget {
     final user = Get.find<CustomerDTO>();
     final localDatasource = Get.find<LocalDataSource>();
     final cms = ref.watch(newHomePageCMSProvider);
+    final cmsHeader = ref.watch(cmsPageHeaderProvider);
     final items = cms?.getMoreMenuItems() ?? [];
     final membershipInfo = ref.watch(membershipInfoProvider).valueOrNull;
     return Scaffold(
       backgroundColor: CustomColors.customLigthBlue,
       appBar: AppBar(
         leading: Container(),
+        backgroundColor: HexColor.fromHex(cmsHeader?.backgroundColor),
       ),
       bottomNavigationBar: const CustomBottomBar(),
       body: SafeArea(
@@ -42,8 +44,9 @@ class MoreView extends ConsumerWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
-                  color: CustomColors.customLigthBlue,
+                decoration: BoxDecoration(
+                  color: HexColor.fromHex(cmsHeader?.backgroundColor),
+                  //  CustomColors.customLigthBlue,
                   borderRadius: BorderRadius.vertical(
                     bottom: Radius.circular(20.0),
                   ),
@@ -71,8 +74,10 @@ class MoreView extends ConsumerWidget {
                       onPressed: () async {
                         localDatasource.logoutUser().then(
                           (value) {
-                            Navigator.popUntil(context, (route) => route.isFirst);
-                            Navigator.popAndPushNamed(context, Routes.kAfterSplashScreenPage);
+                            Navigator.popUntil(
+                                context, (route) => route.isFirst);
+                            Navigator.popAndPushNamed(
+                                context, Routes.kAfterSplashScreenPage);
                           },
                         );
                       },
@@ -86,12 +91,15 @@ class MoreView extends ConsumerWidget {
                     FutureBuilder<PackageInfo>(
                       future: PackageInfo.fromPlatform(),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const CircularProgressIndicator.adaptive();
                         }
                         final info = snapshot.data;
                         return MulishText(
-                          text: SplashScreenNotifier.getLanguageLabel('Build Version &1').replaceAll(
+                          text: SplashScreenNotifier.getLanguageLabel(
+                                  'Build Version &1')
+                              .replaceAll(
                             '&1',
                             info?.version ?? '',
                           ),
@@ -111,7 +119,9 @@ class MoreView extends ConsumerWidget {
 }
 
 class MoreOptionItemFromCMS extends ConsumerWidget {
-  const MoreOptionItemFromCMS({Key? key, required this.item, required this.membershipInfo}) : super(key: key);
+  const MoreOptionItemFromCMS(
+      {Key? key, required this.item, required this.membershipInfo})
+      : super(key: key);
   final CMSMenuItem item;
   final MembershipInfo? membershipInfo;
 
@@ -130,7 +140,8 @@ class MoreOptionItemFromCMS extends ConsumerWidget {
       iconBgColor: Colors.white,
       iconPath: 'gold_medal',
       onTap: () {
-        if (item.itemName == "REWARDS" && membershipInfo?.membershipCard.isNullOrEmpty() == true) {
+        if (item.itemName == "REWARDS" &&
+            membershipInfo?.membershipCard.isNullOrEmpty() == true) {
           Fluttertoast.showToast(msg: "You don't have membership cards");
           return;
         }

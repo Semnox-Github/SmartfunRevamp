@@ -139,6 +139,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
       loading: () => context.loaderOverlay.show(),
       skipLoadingOnRefresh: false,
     );
+
+    final cmsPageHeader = ref.watch(cmsPageHeaderProvider);
+
     AlertDialog buildExitDialog(BuildContext context) {
       return AlertDialog(
         title: MulishText(
@@ -179,7 +182,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
     return WillPopScope(
       onWillPop: () => onWillPop(context),
       child: Scaffold(
-        backgroundColor: CustomColors.customLigthBlue,
+        backgroundColor: HexColor.fromHex(
+            cmsPageHeader?.backgroundColor), //CustomColors.customLigthBlue,
         bottomNavigationBar: CustomBottomBar(
           handleRoute: handleRoute(),
         ),
@@ -188,7 +192,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
             controller: _scrollController,
             physics: const ClampingScrollPhysics(),
             child: Container(
-              color: Colors.white,
+              color:
+                  HexColor.fromHex(cmsPageHeader?.textColor), // Colors.white,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -204,7 +209,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     ),
                   ),
                   Container(
-                    color: CustomColors.customLigthBlue,
+                    color: HexColor.fromHex(cmsPageHeader
+                        ?.backgroundColor), // CustomColors.customLigthBlue,
                     padding: const EdgeInsets.only(
                         bottom: 10.0, left: 10.0, right: 10.0),
                     child: Row(
@@ -218,8 +224,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           children: [
                             Text(
                               '${user.profileDto?.firstName} ${user.profileDto?.lastName}',
-                              style: const TextStyle(
-                                color: CustomColors.customBlue,
+                              style: TextStyle(
+                                color: HexColor.fromHex(cmsPageHeader
+                                    ?.textColor), // CustomColors.customBlue,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16.0,
                               ),

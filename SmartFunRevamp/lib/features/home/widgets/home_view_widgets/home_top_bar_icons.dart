@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/home/widgets/home_view_widgets/notification_button.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
@@ -26,6 +27,7 @@ class HomeTopBarIcons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cms = ref.watch(newHomePageCMSProvider);
+    final cmsPageHeader = ref.watch(cmsPageHeaderProvider);
     final header = _getMenuHeader(cms);
     if (header.isEmpty) {
       return Row(
@@ -50,16 +52,24 @@ class HomeTopBarIcons extends ConsumerWidget {
           onTap: onSearchTap,
           child: CachedNetworkImage(
             height: MediaQuery.of(context).size.width * 0.08,
-            imageUrl: header.firstWhere((element) => element.displayName == 'Search').itemUrl,
-            errorWidget: (context, url, error) => const Icon(Icons.search),
+            imageUrl: header
+                .firstWhere((element) => element.displayName == 'Search')
+                .itemUrl,
+            errorWidget: (context, url, error) => Icon(
+              Icons.search,
+              color: HexColor.fromHex(cmsPageHeader?.textColor),
+            ),
           ),
         ),
         const SizedBox(width: 10.0),
         NotificationsButton(
           notificationIcon: CachedNetworkImage(
             height: MediaQuery.of(context).size.width * 0.08,
-            imageUrl: header.firstWhere((element) => element.displayName == 'Notification').itemUrl,
-            errorWidget: (context, url, error) => const Icon(Icons.notifications),
+            imageUrl: header
+                .firstWhere((element) => element.displayName == 'Notification')
+                .itemUrl,
+            errorWidget: (context, url, error) => Icon(Icons.notifications,
+                color: HexColor.fromHex(cmsPageHeader?.textColor)),
           ),
         ),
       ],

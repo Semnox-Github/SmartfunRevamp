@@ -137,3 +137,7 @@ app.*.symbols
 
 SmartFunRevamp/build/
 SmartFunRevamp/.env
+
+
+#pubspec
+SmartFunRevamp/pubspec.lock

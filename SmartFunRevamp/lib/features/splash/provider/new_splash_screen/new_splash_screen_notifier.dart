@@ -108,13 +108,13 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
 
   Future<String> _getBaseUrl() async {
     final response = await _getBaseURL();
-    final baseUrl = "https://parafaitposredesigntestapi.parafait.com";
     return response.fold(
       (l) => throw l,
       (r) async {
-        Get.put<String>(baseUrl, tag: 'baseURL');
+        print("hea url ${r.gateWayURL}");
+        Get.put<String>(r.gateWayURL, tag: 'baseURL');
         Get.put<String>(r.deprecated, tag: 'appVersionDeprecated');
-        return baseUrl;
+        return r.gateWayURL;
       },
     );
   }

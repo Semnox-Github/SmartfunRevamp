@@ -9,7 +9,7 @@ import 'package:uuid/uuid.dart';
 
 Future<String> generateHashCode({
   required String generatedTime,
-  String appId = 'com.semnox.smartfunrevamp',
+  String appId = 'com.semnox.smartfunrevampnewarch',
   String securityCode = '704I5M76',
 }) async {
   Logger().d(
@@ -38,7 +38,7 @@ Future<String> jwtGenerator({String secretKey = ""}) async {
   final jwt = JWT(
     // Payload
     {
-      'Name': 'com.semnox.smartfunrevamp',
+      'Name': 'com.semnox.smartfunrevampnewarch',
       'UserData': await _getId(),
       'IssuedAt': dateTime,
       'ExpiresAt': dateTime,

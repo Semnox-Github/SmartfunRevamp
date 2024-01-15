@@ -26,7 +26,7 @@ class CreateTransactionResponse {
   String? guestName;
   String? transactionIdentifier;
   double transactionTaxTotal;
-  String channel;
+  int? channel;
   double transactionPaymentTotal;
   String transactionDate;
   double transactionAmount;

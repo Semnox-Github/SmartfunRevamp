@@ -32,7 +32,7 @@ CreateTransactionResponse _$CreateTransactionResponseFromJson(
       json['GuestName'] as String?,
       json['TransactionIdentifier'] as String?,
       (json['TransactionTaxTotal'] as num).toDouble(),
-      json['Channel'] as String,
+      json['Channel'] as int?,
       (json['TransactionPaymentTotal'] as num).toDouble(),
       json['TransactionDate'] as String,
       (json['TransactionAmount'] as num).toDouble(),
@@ -113,7 +113,7 @@ Map<String, dynamic> _$CreateTransactionResponseToJson(
   writeNotNull('GuestName', instance.guestName);
   writeNotNull('TransactionIdentifier', instance.transactionIdentifier);
   val['TransactionTaxTotal'] = instance.transactionTaxTotal;
-  val['Channel'] = instance.channel;
+  writeNotNull('Channel', instance.channel);
   val['TransactionPaymentTotal'] = instance.transactionPaymentTotal;
   val['TransactionDate'] = instance.transactionDate;
   val['TransactionAmount'] = instance.transactionAmount;

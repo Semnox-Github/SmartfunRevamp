@@ -1608,18 +1608,9 @@ class _SmartFunApi implements SmartFunApi {
 
   @override
   Future<ListDataWrapper<TransactionDetail>> getTransactionWithCustomerId(
-    String customerId, {
-    int pageSize = 50,
-    String sortByField = "TransactionDate",
-    String sortOrder = "desc",
-  }) async {
+      String customerId) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'customerId': customerId,
-      r'pageSize': pageSize,
-      r'sortByField': sortByField,
-      r'sortOrder': sortOrder,
-    };
+    final queryParameters = <String, dynamic>{r'customerId': customerId};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

@@ -9,7 +9,7 @@ class GetBaseURLUseCase {
   GetBaseURLUseCase(this._repository);
   Future<Either<Failure, GetBaseUrlResponse>> call() async {
     return await _repository.getBaseURLFromCentral(
-      appId: 'com.semnox.smartfunrevamp',
+      appId: 'com.semnox.smartfunrevampnewarch',
       buildNumber: dotenv.env['BUILD_NUMBER']!,
       generatedTime: "${DateTime.now().toUtc().toIso8601String().split('.')[0]}Z",
       securityCode: dotenv.env['BUILD_SECURITY_CODE']!,

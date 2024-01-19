@@ -7,10 +7,12 @@ import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 
 class VirtualCardWidget extends StatelessWidget {
-  VirtualCardWidget({Key? key, required this.cardDetails}) : super(key: key);
+  VirtualCardWidget({Key? key, required this.cardDetails, this.cardColor})
+      : super(key: key);
 
   final formatter = DateFormat('dd MMM yyyy');
   final CardDetails cardDetails;
+  final Color? cardColor;
   @override
   Widget build(BuildContext context) {
     String virtualNumber = 'T${cardDetails.accountNumber!.substring(1)}';
@@ -22,7 +24,8 @@ class VirtualCardWidget extends StatelessWidget {
         margin: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
-          gradient: CustomGradients.linearGradient,
+          color: cardColor,
+          //gradient: CustomGradients.linearGradient,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,19 +63,22 @@ class VirtualCardWidget extends StatelessWidget {
                         builder: (context) {
                           late String expiryDate;
                           if (cardDetails.expiryDate != null) {
-                            expiryDate = '- ${formatter.format(DateTime.parse(cardDetails.expiryDate!))}';
+                            expiryDate =
+                                '- ${formatter.format(DateTime.parse(cardDetails.expiryDate!))}';
                           } else {
                             expiryDate = '';
                           }
                           return MulishText(
-                            text: '${formatter.format(cardDetails.issueDate ?? DateTime.now())} $expiryDate',
+                            text:
+                                '${formatter.format(cardDetails.issueDate ?? DateTime.now())} $expiryDate',
                             fontColor: Colors.white,
                           );
                         },
                       ),
                     ]),
                 GestureDetector(
-                  onTap: () => Dialogs.showBarcodeTempCard(context, virtualNumber),
+                  onTap: () =>
+                      Dialogs.showBarcodeTempCard(context, virtualNumber),
                   child: const ImageHandler(
                     height: 60,
                     imageKey: "barcode_image_path",

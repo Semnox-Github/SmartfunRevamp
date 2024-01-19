@@ -33,6 +33,7 @@ class RechargeCardOffer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print("Image File Name ${offer.imageFileName}");
     double discount = offer.basePrice != 0
         ? (((offer.basePrice - offer.finalPrice) * 100) / offer.basePrice)
         : 0;
@@ -47,6 +48,9 @@ class RechargeCardOffer extends ConsumerWidget {
     final colors = randomCard(cardColors);
 
     final String baseUrl = Get.find<String>(tag: 'baseURL');
+
+    print(
+        "image URL:$baseUrl/APP_PRODUCT_IMAGES_FOLDER/${offer.imageFileName?.trim()}");
     // return InkWell(
     //   onTap: onTap,
     //   child: Container(

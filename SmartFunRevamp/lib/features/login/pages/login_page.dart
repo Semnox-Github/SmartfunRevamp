@@ -10,6 +10,7 @@ import 'package:semnox/core/domain/use_cases/authentication/get_config_execution
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/login/widgets/login_container.dart';
@@ -51,6 +52,7 @@ class LoginPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final configExecutionContext = ref.watch(preConfigProvider);
     final isOTPLoginProvider = ref.watch(loginTypeProvider);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     final isPasswordDisabled = false; //ref.watch(isPasswordDisabledProvider);
     ref.watch(SplashScreenNotifier.getInitialData);
     ref.listen<LoginState>(loginProvider, (_, next) {
@@ -136,7 +138,7 @@ class LoginPage extends ConsumerWidget {
                         Navigator.pushNamed(context, Routes.kSignUpPage),
                     child: MulishText(
                       text: SplashScreenNotifier.getLanguageLabel('SIGN UP'),
-                      fontColor: CustomColors.hardOrange,
+                      fontColor: HexColor.fromHex(cmsBody?.linkTextColor),
                       fontWeight: FontWeight.bold,
                     ),
                   ),

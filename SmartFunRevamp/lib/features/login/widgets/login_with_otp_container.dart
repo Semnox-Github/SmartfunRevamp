@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class LoginWithOTPContainer extends StatelessWidget {
@@ -14,40 +17,47 @@ class LoginWithOTPContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 20.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.0),
-        border: Border.all(
-          color: CustomColors.customLigthGray,
-          width: 1.0,
+    return Consumer(builder: (context, WidgetRef ref, child) {
+      final cmsBody = ref.watch(cmsBodyStyleProvider);
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+          border: Border.all(
+            color: HexColor.fromHex(cmsBody
+                ?.widgetBackgroundColor), // CustomColors.customLigthGray,
+            width: 1.0,
+          ),
         ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (isLoginWithOTP)
-            MulishText(
-              text: SplashScreenNotifier.getLanguageLabel("Don't worry about password"),
-              fontWeight: FontWeight.bold,
-            ),
-          const SizedBox(height: 10.0),
-          TextButton(
-            onPressed: onTap,
-            child: Text(
-              isLoginWithOTP
-                  ? SplashScreenNotifier.getLanguageLabel('LOGIN WITH OTP')
-                  : SplashScreenNotifier.getLanguageLabel('LOGIN WITH PASSWORD'),
-              style: const TextStyle(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (isLoginWithOTP)
+              MulishText(
+                text: SplashScreenNotifier.getLanguageLabel(
+                    "Don't worry about password"),
                 fontWeight: FontWeight.bold,
-                color: CustomColors.hardOrange,
               ),
-            ),
-          )
-        ],
-      ),
-    );
+            const SizedBox(height: 10.0),
+            TextButton(
+              onPressed: onTap,
+              child: Text(
+                isLoginWithOTP
+                    ? SplashScreenNotifier.getLanguageLabel('LOGIN WITH OTP')
+                    : SplashScreenNotifier.getLanguageLabel(
+                        'LOGIN WITH PASSWORD'),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: HexColor.fromHex(
+                        cmsBody?.linkTextColor) //CustomColors.hardOrange,
+                    ),
+              ),
+            )
+          ],
+        ),
+      );
+    });
   }
 }

@@ -48,6 +48,11 @@ final cmsPageHeaderProvider = Provider<CMSPageHeader?>((ref) {
   return cms?.cmsPageHeader;
 });
 
+final cmsBodyStyleProvider = Provider<CMSPageBodyStyle?>((ref) {
+  final cms = ref.watch(newHomePageCMSProvider);
+  return cms?.cmsBodyStyle;
+});
+
 final secondaryButtonProvider = StateProvider<SecondaryButtonStyle?>((ref) {
   return null;
 });
@@ -231,27 +236,52 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   }
 
   Future<HomePageCMSResponse> _getHomePageCMS() async {
+    String fileName = "CMSSmartFun_2.json";
     final useCase = Get.find<GetHomePageCMSUseCase>();
-    final response = await useCase();
+    final response = await useCase(fileName);
     final LocalDataSource glutton = Get.find<LocalDataSource>();
     final customer = await glutton.retrieveCustomer();
+    final useLocalCmsJson =
+        dotenv.env['USE_LOCAL_CMS_JSON'] == 'true' ? true : false;
+    // Load Local Json
+    final String exampleCMSJson =
+        await rootBundle.loadString('assets/json/CMSSmartFun_0.json');
+    final data = (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
+    final cms = HomePageCMSResponse.fromJson(data['data'][0]);
     return response.fold(
-      (l) {
-        throw l;
+      (l) async {
+        print("cms has failed $l");
+        String fileName = "CMSSmartFun_1.json";
+        final useCase = Get.find<GetHomePageCMSUseCase>();
+        final response = await useCase(fileName);
+
+        return response.fold((l) => cms, (r) async {
+          if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
+            await _localDataSource.saveValue(
+                LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
+          }
+
+          if (customer != null) {
+            languageLabes =
+                await Get.find<InitialLocalDatasource>().getSavedJson(
+              kStringForLocalizationKey,
+              (json) => json,
+              'assets/json/strings_for_localization.json',
+            );
+            Logger().d(languageLabes);
+          } else {
+            Logger().d('Customer not selected');
+          }
+          return useLocalCmsJson ? cms : r;
+        });
+
+        //throw l;
       },
       (r) async {
         if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
           await _localDataSource.saveValue(
               LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
         }
-        final useLocalCmsJson =
-            dotenv.env['USE_LOCAL_CMS_JSON'] == 'true' ? true : false;
-        // Load Local Json
-        final String exampleCMSJson =
-            await rootBundle.loadString('assets/json/example_cms.json');
-        final data =
-            (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
-        final cms = HomePageCMSResponse.fromJson(data['data'][0]);
 
         if (customer != null) {
           languageLabes = await Get.find<InitialLocalDatasource>().getSavedJson(

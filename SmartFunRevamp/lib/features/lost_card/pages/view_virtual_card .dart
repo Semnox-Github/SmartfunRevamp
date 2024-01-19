@@ -7,12 +7,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/image_handler.dart';
 
 import 'package:semnox/core/widgets/virtual_card_widget.dart';
 import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+
+import '../../splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
 class ViewVirtualCardPage extends ConsumerWidget {
   const ViewVirtualCardPage({
@@ -24,6 +27,8 @@ class ViewVirtualCardPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cardColors = ref.watch(newHomePageCMSProvider)?.cardsColor;
+
     return Scaffold(
       bottomSheet: BottomSheetButton(
           label: SplashScreenNotifier.getLanguageLabel('OKAY,  GOT IT'),
@@ -58,8 +63,9 @@ class ViewVirtualCardPage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    SplashScreenNotifier.getLanguageLabel('Here is your virtual card'),
-                    style: const TextStyle(
+                    SplashScreenNotifier.getLanguageLabel(
+                        'Here is your virtual card'),
+                    style: TextStyle(
                       color: CustomColors.hardOrange,
                       fontSize: 22.0,
                       fontWeight: FontWeight.bold,
@@ -68,7 +74,9 @@ class ViewVirtualCardPage extends ConsumerWidget {
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: VirtualCardWidget(cardDetails: cardDetails),
+                    child: VirtualCardWidget(
+                        cardDetails: cardDetails,
+                        cardColor: HexColor.fromHex(cardColors?.virtual)),
                   ),
                   Container(
                     padding: const EdgeInsets.only(right: 60.0),

@@ -118,7 +118,7 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                   return CustomColors.customOrange; // Use the default value.
                 }),
                 decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.customLigthGray),
+                  border: Border.all(color: const Color.fromARGB(255, 18, 157, 249)),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 columns: <DataColumn>[

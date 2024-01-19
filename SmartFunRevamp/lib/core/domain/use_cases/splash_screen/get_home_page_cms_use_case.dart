@@ -6,7 +6,7 @@ import 'package:semnox/core/errors/failures.dart';
 class GetHomePageCMSUseCase {
   final AuthenticationRepository _repository;
   GetHomePageCMSUseCase(this._repository);
-  Future<Either<Failure, HomePageCMSResponse>> call() async {
-    return await _repository.getHomePageCMS();
+  Future<Either<Failure, HomePageCMSResponse>> call(String fileName) async {
+    return await _repository.getHomePageCMS(fileName);
   }
 }

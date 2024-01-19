@@ -17,9 +17,23 @@ class RoundRectanglePicture extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final fInitial = user.firstName!.isNotEmpty ? '${user.firstName?[0]}' : '';
     final lInitial = user.lastName!.isNotEmpty ? '${user.lastName?[0]}' : '';
-    final noImageGradient =
-        ref.watch(newHomePageCMSProvider)?.cmsModuleColorsHome?.profilePictureGradient.getColorList() ??
-            [CustomColors.hardOrange, CustomColors.customOrange];
+    // final noImageGradient =
+    //     ref.watch(newHomePageCMSProvider)?.cmsModuleColorsHome?.profilePictureGradient.getColorList() ??
+    //         [CustomColors.hardOrange, CustomColors.customOrange];
+
+    final noImageGradient = ref
+            .watch(newHomePageCMSProvider)
+            ?.buttonStyle
+            ?.primaryButtonStyle
+            ?.buttonColorGradient
+            .getColorList() ??
+        [CustomColors.hardOrange, CustomColors.customOrange];
+
+    final noTextColor = ref
+        .watch(newHomePageCMSProvider)
+        ?.buttonStyle
+        ?.primaryButtonStyle
+        ?.buttonTextColor;
     return Container(
       padding: const EdgeInsets.all(1.5),
       decoration: BoxDecoration(
@@ -43,6 +57,7 @@ class RoundRectanglePicture extends ConsumerWidget {
                   child: MulishText(
                     text: '$fInitial$lInitial',
                     fontSize: 25.0,
+                    fontColor: HexColor.fromHex(noTextColor),
                   ),
                 ),
         ),

@@ -656,9 +656,10 @@ class _SmartFunApi implements SmartFunApi {
   }
 
   @override
-  Future<ListDataWrapper<HomePageCMSResponse>> getHomePageCMS({
+  Future<ListDataWrapper<HomePageCMSResponse>> getHomePageCMS(
+    String fileName, {
     String defaultValueName = 'IMAGE_DIRECTORY',
-    String fileName = 'CMSSmartFun_v1.json',
+    // = 'CMSSmartFun_v1.json',
     bool secure = true,
   }) async {
     const _extra = <String, dynamic>{};

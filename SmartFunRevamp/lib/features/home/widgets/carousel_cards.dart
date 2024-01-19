@@ -18,7 +18,7 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class CarouselCards extends StatefulWidget {
+class CarouselCards extends ConsumerStatefulWidget {
   final CarouselController? carouselController;
   const CarouselCards({
     Key? key,
@@ -34,10 +34,10 @@ class CarouselCards extends StatefulWidget {
   final int? initialPosition;
 
   @override
-  State<CarouselCards> createState() => _CarouselCardsState();
+  ConsumerState<CarouselCards> createState() => _CarouselCardsState();
 }
 
-class _CarouselCardsState extends State<CarouselCards> {
+class _CarouselCardsState extends ConsumerState<CarouselCards> {
   int currentPosition = 0;
   late CarouselController controller;
   late List<CardDetails> _cards;
@@ -48,12 +48,16 @@ class _CarouselCardsState extends State<CarouselCards> {
     currentPosition = widget.initialPosition ?? 0;
     _cards = List<CardDetails>.from(widget.cards);
     controller = widget.carouselController ?? CarouselController();
+
     // _pageController = PageController(initialPage: widget.initialPosition ?? 0);
     super.initState();
+    final cmsBody = ref.read(cmsBodyStyleProvider);
   }
 
   @override
   Widget build(BuildContext context) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
+    final activeColor = HexColor.fromHex(cmsBody?.linkTextColor);
     if (_cards.isEmpty) {
       return Center(
         child: MulishText(
@@ -100,8 +104,8 @@ class _CarouselCardsState extends State<CarouselCards> {
           child: AnimatedSmoothIndicator(
             activeIndex: currentPosition,
             count: _cards.length,
-            effect: const ScrollingDotsEffect(
-              activeDotColor: CustomColors.hardOrange,
+            effect: ScrollingDotsEffect(
+              activeDotColor: activeColor, // CustomColors.hardOrange,
             ),
           ),
         )

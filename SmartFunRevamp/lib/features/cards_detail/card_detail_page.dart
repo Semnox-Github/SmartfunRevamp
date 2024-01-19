@@ -38,6 +38,7 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
     final items = cms?.getCardDetailMenuItems() ?? [];
     final links = cms?.getCardDetailsLinks() ?? [];
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel('Card Details'),
@@ -60,8 +61,9 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                 height: MediaQuery.of(context).size.height * 0.34,
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 margin: const EdgeInsets.only(bottom: 10.0),
-                decoration: const BoxDecoration(
-                  color: CustomColors.customLigthBlue,
+                decoration: BoxDecoration(
+                  color: HexColor.fromHex(cmsBody
+                      ?.widgetBackgroundColor), //CustomColors.customLigthBlue,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20.0),
                     bottomRight: Radius.circular(20.0),

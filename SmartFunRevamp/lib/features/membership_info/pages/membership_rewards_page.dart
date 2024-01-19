@@ -12,13 +12,15 @@ import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/membership_info/provider/membership_rewards_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class MembershipRewardsPage extends ConsumerStatefulWidget {
   const MembershipRewardsPage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MembershipRewardsPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _MembershipRewardsPageState();
 }
 
 class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
@@ -27,8 +29,9 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
     final fromDate = ref.watch(fromDateProvider);
     final toDate = ref.watch(toDateProvider);
     final membershipCard = ref.watch(CardsProviders.membershipCardProvider);
+
     return Scaffold(
-      appBar:  const CustomAppBar(title: 'Card Details'),
+      appBar: const CustomAppBar(title: 'Card Details'),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
         child: Column(
@@ -52,7 +55,9 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                     format: 'dd-MM-yyyy',
                     onItemSelected: (date) {
                       ref.read(fromDateProvider.notifier).update((_) => date);
-                      ref.read(membershipRewardsProvider.notifier).filter(fromDate, toDate);
+                      ref
+                          .read(membershipRewardsProvider.notifier)
+                          .filter(fromDate, toDate);
                     },
                     initialText: fromDate.formatDate('dd-MM-yyyy'),
                     suffixIcon: const Icon(
@@ -69,7 +74,9 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                     initialText: toDate.formatDate('dd-MM-yyyy'),
                     onItemSelected: (date) {
                       ref.read(toDateProvider.notifier).update((_) => date);
-                      ref.read(membershipRewardsProvider.notifier).filter(fromDate, toDate);
+                      ref
+                          .read(membershipRewardsProvider.notifier)
+                          .filter(fromDate, toDate);
                     },
                     suffixIcon: const Icon(
                       Icons.calendar_month,
@@ -89,7 +96,8 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                         width: 100,
                         color: Colors.red,
                       ),
-                      inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
+                      inProgress: () => const Center(
+                          child: CircularProgressIndicator.adaptive()),
                       success: (data) {
                         if (data.isEmpty) {
                           return const Center(
@@ -121,7 +129,8 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                                       color: CustomColors.customOrange,
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         MulishText(
                                           text: data[index].remarks,
@@ -139,13 +148,16 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                                     ),
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       Column(
                                         children: [
-                                          const MulishText(text: 'Value Loaded'),
+                                          const MulishText(
+                                              text: 'Value Loaded'),
                                           MulishText(
-                                            text: '${data[index].creditPlus.toInt()}',
+                                            text:
+                                                '${data[index].creditPlus.toInt()}',
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ],
@@ -154,7 +166,8 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                                         children: [
                                           const MulishText(text: 'Balance'),
                                           MulishText(
-                                            text: '${data[index].creditPlusBalance.toInt()}',
+                                            text:
+                                                '${data[index].creditPlusBalance.toInt()}',
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ],
@@ -223,7 +236,8 @@ class CardCustomWidget extends StatelessWidget {
                 ],
               ),
               GestureDetector(
-                onTap: () => Dialogs.showBarcodeTempCard(context, card.accountNumber!),
+                onTap: () =>
+                    Dialogs.showBarcodeTempCard(context, card.accountNumber!),
                 child: const ImageHandler(
                   height: 42.0,
                   imageKey: "QR_image_path",

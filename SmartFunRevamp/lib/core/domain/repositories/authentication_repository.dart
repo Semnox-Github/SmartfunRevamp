@@ -19,7 +19,7 @@ abstract class AuthenticationRepository {
   Future<Either<Failure, void>> sendResetPasswordLink(String phoneOrEmail);
   Future<Either<Failure, void>> deleteProfile();
   Future<Either<Failure, AppConfigResponse>> getAppConfig(int siteId);
-  Future<Either<Failure, HomePageCMSResponse>> getHomePageCMS();
+  Future<Either<Failure, HomePageCMSResponse>> getHomePageCMS(String fileName);
   Future<Either<Failure, bool>> validateEmail(String email);
   Future<Either<Failure, void>> registerNotificationToken(int userId);
 }

@@ -26,6 +26,9 @@ class HomePageCMSResponse extends ChangeNotifier {
   @JsonKey(name: 'CMSPageHeaderStyle')
   late final CMSPageHeader? cmsPageHeader;
 
+  @JsonKey(name: 'CMSPageBodyStyle')
+  final CMSPageBodyStyle? cmsBodyStyle;
+
   @JsonKey(name: 'CMSModuleColorsHome')
   final CMSModuleColorsHome? cmsModuleColorsHome;
   @JsonKey(name: 'CardsColor')
@@ -43,6 +46,7 @@ class HomePageCMSResponse extends ChangeNotifier {
     this.cmsModuleMenu,
     this.cmsImages,
     this.cmsPageHeader,
+    this.cmsBodyStyle,
     this.cmsModuleColorsHome,
     this.cardsColor,
     this.homePageOrder,
@@ -213,6 +217,22 @@ class CMSPageHeader {
 
   factory CMSPageHeader.fromJson(Map<String, dynamic> json) =>
       _$CMSPageHeaderFromJson(json);
+
+//   final cmsHeaderProvider = ChangeNotifierProvider<CMSPageHeader >((ref) {
+//   return CMSPageHeader();
+// })
+// ;
+}
+
+class CMSPageBodyStyle {
+  final String widgetBackgroundColor;
+  final String linkTextColor;
+  CMSPageBodyStyle(this.widgetBackgroundColor, this.linkTextColor);
+
+  Map<String, dynamic> toJson() => _$CMSPageBodyStyleToJson(this);
+
+  factory CMSPageBodyStyle.fromJson(Map<String, dynamic> json) =>
+      _$CMSPageBodyStyleFromJson(json);
 
 //   final cmsHeaderProvider = ChangeNotifierProvider<CMSPageHeader >((ref) {
 //   return CMSPageHeader();

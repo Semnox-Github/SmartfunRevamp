@@ -17,12 +17,24 @@ class ProfilePicture extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fInitial = customerDTO.firstName!.isNotEmpty ? '${customerDTO.firstName?[0]}' : '';
-    final lInitial = customerDTO.lastName!.isNotEmpty ? '${customerDTO.lastName?[0]}' : '';
+    final fInitial =
+        customerDTO.firstName!.isNotEmpty ? '${customerDTO.firstName?[0]}' : '';
+    final lInitial =
+        customerDTO.lastName!.isNotEmpty ? '${customerDTO.lastName?[0]}' : '';
 
-    final noImageGradient =
-        ref.watch(newHomePageCMSProvider)?.cmsModuleColorsHome?.profilePictureGradient.getColorList() ??
-            [CustomColors.hardOrange, CustomColors.customOrange];
+    final noImageGradient = ref
+            .watch(newHomePageCMSProvider)
+            ?.buttonStyle
+            ?.primaryButtonStyle
+            ?.buttonColorGradient
+            .getColorList() ?? //cmsModuleColorsHome?.profilePictureGradient.getColorList() ??
+        [CustomColors.hardOrange, CustomColors.customOrange];
+    final noTextColor = ref
+        .watch(newHomePageCMSProvider)
+        ?.buttonStyle
+        ?.primaryButtonStyle
+        ?.buttonTextColor;
+
     return InkWell(
       onTap: () => Navigator.pushNamed(context, Routes.kAccount),
       child: Container(
@@ -43,6 +55,7 @@ class ProfilePicture extends ConsumerWidget {
                 child: Center(
                   child: MulishText(
                     text: '$fInitial$lInitial',
+                    fontColor: HexColor.fromHex(noTextColor),
                   ),
                 ),
               ),

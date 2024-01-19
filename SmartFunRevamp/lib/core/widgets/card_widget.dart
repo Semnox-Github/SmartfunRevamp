@@ -56,7 +56,8 @@ class CardWidget extends StatelessWidget {
                 ],
               ),
               GestureDetector(
-                onTap: () => Dialogs.showBarcodeTempCard(context, cardDetails.accountNumber ?? ''),
+                onTap: () => Dialogs.showBarcodeTempCard(
+                    context, cardDetails.accountNumber ?? ''),
                 child: const ImageHandler(
                   height: 42.0,
                   imageKey: "QR_image_path",

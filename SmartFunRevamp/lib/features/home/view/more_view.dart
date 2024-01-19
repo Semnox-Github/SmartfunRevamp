@@ -27,6 +27,7 @@ class MoreView extends ConsumerWidget {
     final localDatasource = Get.find<LocalDataSource>();
     final cms = ref.watch(newHomePageCMSProvider);
     final cmsHeader = ref.watch(cmsPageHeaderProvider);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     final items = cms?.getMoreMenuItems() ?? [];
     final membershipInfo = ref.watch(membershipInfoProvider).valueOrNull;
     return Scaffold(
@@ -83,7 +84,7 @@ class MoreView extends ConsumerWidget {
                       },
                       child: MulishText(
                         text: SplashScreenNotifier.getLanguageLabel('Logout'),
-                        fontColor: CustomColors.hardOrange,
+                        fontColor: HexColor.fromHex(cmsBody?.linkTextColor),
                         fontWeight: FontWeight.bold,
                         textDecoration: TextDecoration.underline,
                       ),

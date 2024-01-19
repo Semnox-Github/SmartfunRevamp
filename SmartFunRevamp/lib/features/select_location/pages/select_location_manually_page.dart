@@ -6,6 +6,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/login/provider/login_notifier.dart';
@@ -16,7 +17,13 @@ import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
+import '../../../core/domain/entities/splash_screen/home_page_cms_response.dart';
 import '../../../core/widgets/custom_app_bar.dart';
+
+final primaryButtonStyle = Provider<PrimaryButtonStyle?>((ref) {
+  final cms = ref.watch(newHomePageCMSProvider);
+  return cms?.buttonStyle?.primaryButtonStyle;
+});
 
 class SelectLocationManuallyPage extends ConsumerWidget {
   const SelectLocationManuallyPage({Key? key}) : super(key: key);
@@ -144,6 +151,10 @@ class _LocationListViewState extends State<LocationListView> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
+        final buttonStyle = ref.watch(primaryButtonStyle);
+        final btnGradient = buttonStyle?.buttonColorGradient.getColorList();
+        final btnTextColor = HexColor.fromHex(buttonStyle?.buttonTextColor);
+
         return ref.watch(selectLocationStateProvider).maybeWhen(
               orElse: () => Container(),
               inProgress: () => const Center(
@@ -159,7 +170,7 @@ class _LocationListViewState extends State<LocationListView> {
                     return Container(
                       decoration: BoxDecoration(
                         gradient: locationSelected == index
-                            ? CustomGradients.linearGradient
+                            ? LinearGradient(colors: btnGradient!)
                             : null,
                         borderRadius: BorderRadius.circular(15.0),
                       ),
@@ -167,7 +178,7 @@ class _LocationListViewState extends State<LocationListView> {
                         title: MulishText(
                           text: data[index].siteName ?? '',
                           fontColor: locationSelected == index
-                              ? Colors.white
+                              ? btnTextColor //Colors.white
                               : Colors.black,
                         ),
                         onTap: () {
@@ -177,9 +188,9 @@ class _LocationListViewState extends State<LocationListView> {
                           });
                         },
                         trailing: locationSelected == index
-                            ? const Icon(
+                            ? Icon(
                                 Icons.check_circle,
-                                color: Colors.white,
+                                color: btnTextColor, //Colors.white,
                               )
                             : null,
                       ),
@@ -209,7 +220,7 @@ class SearchTextField extends StatelessWidget {
         suffixIcon: Container(
           margin: const EdgeInsets.all(5.0),
           decoration: const BoxDecoration(
-            color: CustomColors.customLigthBlue,
+            color: Colors.white,
             shape: BoxShape.circle,
           ),
           child: const Icon(

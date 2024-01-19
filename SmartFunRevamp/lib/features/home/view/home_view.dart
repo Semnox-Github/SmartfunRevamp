@@ -27,6 +27,7 @@ import 'package:semnox/features/home/widgets/link_a_card.dart';
 import 'package:semnox/features/home/widgets/recharge_card_details_button.dart';
 import 'package:semnox/features/login/widgets/profile_picture.dart';
 import 'package:semnox/features/login/widgets/quick_link_item.dart';
+import 'package:semnox/features/lost_card/pages/lost_card_page.dart';
 import 'package:semnox/features/membership_info/provider/membership_info_provider.dart';
 import 'package:semnox/features/recharge_card/pages/select_recharge_card_page.dart';
 import 'package:semnox/features/select_location/provider/select_location_provider.dart';
@@ -34,6 +35,8 @@ import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_scr
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../lost_card/pages/select_lost_card_page.dart';
 
 final promoImagesProvider = Provider<List<String>>((ref) {
   final cms = ref.watch(newHomePageCMSProvider);
@@ -182,8 +185,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
     return WillPopScope(
       onWillPop: () => onWillPop(context),
       child: Scaffold(
-        backgroundColor: HexColor.fromHex(
-            cmsPageHeader?.backgroundColor), //CustomColors.customLigthBlue,
+        backgroundColor: HexColor.fromHex(cmsPageHeader?.backgroundColor),
+        //CustomColors.customLigthBlue,
+        // HexColor.fromHex(
+        //     cmsPageHeader?.backgroundColor), //CustomColors.customLigthBlue,
         bottomNavigationBar: CustomBottomBar(
           handleRoute: handleRoute(),
         ),
@@ -192,8 +197,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
             controller: _scrollController,
             physics: const ClampingScrollPhysics(),
             child: Container(
-              color:
-                  HexColor.fromHex(cmsPageHeader?.textColor), // Colors.white,
+              color: Colors.white,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -466,7 +470,59 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                                       'Recharge Card'),
                                                               SplashScreenNotifier
                                                                   .getLanguageLabel(
-                                                                      "Temporary or expired cards can't be recharged."),
+                                                                      "Please select an active card"),
+                                                            );
+                                                          }
+                                                        }
+                                                      } else if (quickLink
+                                                              .source
+                                                              .toLowerCase() ==
+                                                          'lost card') {
+                                                        if (!hasCard) {
+                                                          Dialogs.showMessageInfo(
+                                                              context,
+                                                              SplashScreenNotifier
+                                                                  .getLanguageLabel(
+                                                                      'Lost Card'),
+                                                              msgCardNoLink);
+                                                        } else {
+                                                          //if the user has no card selected show dialog
+                                                          if (cardDetails ==
+                                                              null) {
+                                                            Dialogs
+                                                                .showMessageInfo(
+                                                              context,
+                                                              SplashScreenNotifier
+                                                                  .getLanguageLabel(
+                                                                      'Lost Card'),
+                                                              SplashScreenNotifier
+                                                                  .getLanguageLabel(
+                                                                      "Please select an active card"),
+                                                            );
+                                                            //if there is a card selected and is not blocked or expired then navigate
+                                                          } else if (!(cardDetails
+                                                                  .isBlocked() ||
+                                                              cardDetails
+                                                                  .isExpired())) {
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const SelectCardLostPage(),
+                                                              ),
+                                                            );
+                                                          } else {
+                                                            //else show dialog
+                                                            Dialogs
+                                                                .showMessageInfo(
+                                                              context,
+                                                              SplashScreenNotifier
+                                                                  .getLanguageLabel(
+                                                                      'Lost Card'),
+                                                              SplashScreenNotifier
+                                                                  .getLanguageLabel(
+                                                                      "Please select an active card"),
                                                             );
                                                           }
                                                         }

@@ -157,9 +157,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, HomePageCMSResponse>> getHomePageCMS() async {
+  Future<Either<Failure, HomePageCMSResponse>> getHomePageCMS(
+      String fileName) async {
     try {
-      final response = await _api.getHomePageCMS();
+      final response = await _api.getHomePageCMS(fileName);
       return Right(response.data.first);
     } on Exception catch (e) {
       return Left(e.handleException(errorMessage: 'CMS Not Found'));

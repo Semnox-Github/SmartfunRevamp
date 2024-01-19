@@ -177,9 +177,10 @@ abstract class SmartFunApi {
       getGamesAccountSummart(@Path('customerId') String customerId);
 
   @GET('Common/FileResource')
-  Future<ListDataWrapper<HomePageCMSResponse>> getHomePageCMS({
+  Future<ListDataWrapper<HomePageCMSResponse>> getHomePageCMS(
+    @Query('fileName') String fileName, {
     @Query('defaultValueName') String defaultValueName = 'IMAGE_DIRECTORY',
-    @Query('fileName') String fileName = 'CMSSmartFun_v1.json',
+    // @Query('fileName') fileName, // = 'CMSSmartFun_v1.json',
     @Query('secure') bool secure = true,
   });
 

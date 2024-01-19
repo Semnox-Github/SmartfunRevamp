@@ -4,18 +4,25 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/account/provider/verify/verify_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class VerifyButton extends ConsumerWidget {
-  const VerifyButton({super.key, required this.contactType, required this.phoneOrEmail, required this.isVerified});
+  const VerifyButton(
+      {super.key,
+      required this.contactType,
+      required this.phoneOrEmail,
+      required this.isVerified});
   final Function() isVerified;
   final ContactType contactType;
   final String phoneOrEmail;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cmsBody = ref.watch((cmsBodyStyleProvider));
     ref.listen(
       sendOtpStateProvider,
       (_, next) {
@@ -31,7 +38,9 @@ class VerifyButton extends ConsumerWidget {
               context.loaderOverlay.hide();
               Dialogs.verifyDialog(
                 context,
-                (otp) => ref.read(sendOtpStateProvider.notifier).verifyOTP(otp, contactType),
+                (otp) => ref
+                    .read(sendOtpStateProvider.notifier)
+                    .verifyOTP(otp, contactType),
                 contactType,
               );
             }
@@ -42,31 +51,35 @@ class VerifyButton extends ConsumerWidget {
     );
     return TextButton(
       onPressed: () {
-        ref.read(sendOtpStateProvider.notifier).sendOTP(phoneOrEmail, contactType);
+        ref
+            .read(sendOtpStateProvider.notifier)
+            .sendOTP(phoneOrEmail, contactType);
       },
       child: Consumer(
         builder: (context, ref, child) {
           return ref.watch(sendOtpStateProvider).maybeWhen(
-                orElse: ()  { 
-                  return MulishText(
-                    text: SplashScreenNotifier.getLanguageLabel('Verify'),
-                    fontColor: CustomColors.hardOrange,
-                    fontWeight: FontWeight.bold,
-                  );
-                },
-                otpVerified: (type) {
-                  if (type == contactType) {
-                    isVerified();
-                  }
-                  return MulishText(
-                    // text: type == contactType ? SplashScreenNotifier.getLanguageLabel('VERIFIED') : SplashScreenNotifier.getLanguageLabel('Verify'),
-                    // fontColor: type == contactType ? Colors.green : CustomColors.hardOrange,
-                    text: SplashScreenNotifier.getLanguageLabel('Verify'),
-                    fontColor: CustomColors.hardOrange,
-                    fontWeight: FontWeight.bold,
-                  );
-                },
+            orElse: () {
+              return MulishText(
+                text: SplashScreenNotifier.getLanguageLabel('Verify'),
+                fontColor: HexColor.fromHex(
+                    cmsBody?.linkTextColor), //CustomColors.hardOrange,
+                fontWeight: FontWeight.bold,
               );
+            },
+            otpVerified: (type) {
+              if (type == contactType) {
+                isVerified();
+              }
+              return MulishText(
+                // text: type == contactType ? SplashScreenNotifier.getLanguageLabel('VERIFIED') : SplashScreenNotifier.getLanguageLabel('Verify'),
+                // fontColor: type == contactType ? Colors.green : CustomColors.hardOrange,
+                text: SplashScreenNotifier.getLanguageLabel('Verify'),
+                fontColor: HexColor.fromHex(
+                    cmsBody?.linkTextColor), //CustomColors.hardOrange,
+                fontWeight: FontWeight.bold,
+              );
+            },
+          );
         },
       ),
     );

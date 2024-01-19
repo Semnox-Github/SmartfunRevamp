@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/blocked_card_widget.dart';
 import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/features/lost_card/pages/view_virtual_card%20.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import '../../recharge_card/widgets/recharge_bottom_sheet_button.dart';
+import '../../splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
 class LostCardPage extends ConsumerWidget {
   const LostCardPage({
@@ -20,6 +22,8 @@ class LostCardPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cardColors = ref.watch(newHomePageCMSProvider)?.cardsColor;
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
       bottomSheet: BottomSheetButton(
           label: SplashScreenNotifier.getLanguageLabel('VIEW VIRTUAL CARD'),
@@ -28,7 +32,8 @@ class LostCardPage extends ConsumerWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ViewVirtualCardPage(cardDetails: cardDetails),
+                    builder: (context) =>
+                        ViewVirtualCardPage(cardDetails: cardDetails),
                   ),
                 ),
               }),
@@ -54,7 +59,8 @@ class LostCardPage extends ConsumerWidget {
                 children: [
                   const SizedBox(height: 20.0),
                   Text(
-                    SplashScreenNotifier.getLanguageLabel('Card  Sucessfully Blocked'),
+                    SplashScreenNotifier.getLanguageLabel(
+                        'Card  Sucessfully Blocked'),
                     style: const TextStyle(
                       color: CustomColors.hardOrange,
                       fontSize: 22.0,
@@ -80,7 +86,9 @@ class LostCardPage extends ConsumerWidget {
                 height: MediaQuery.of(context).size.height * 0.3,
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 margin: const EdgeInsets.only(bottom: 10.0),
-                child: BlockedCardWidget(cardDetails: cardDetails),
+                child: BlockedCardWidget(
+                    cardDetails: cardDetails,
+                    cardColor: HexColor.fromHex(cardColors?.regular)),
               ),
               Text(
                 SplashScreenNotifier.getLanguageLabel(

@@ -6,6 +6,8 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/view/home_view.dart';
@@ -15,6 +17,7 @@ import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_butt
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import '../../../core/widgets/custom_app_bar.dart';
+import '../../splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
 class SelectCardLostPage extends ConsumerStatefulWidget {
   const SelectCardLostPage({Key? key}) : super(key: key);
@@ -29,6 +32,7 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
   late List<CardDetails> cards;
   late CardDetails? cardDetails;
   late int _cardIndex;
+
   @override
   void initState() {
     super.initState();
@@ -49,6 +53,8 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cardColors = ref.watch(newHomePageCMSProvider)?.cardsColor;
+    final cmsBody = ref.watch(newHomePageCMSProvider)?.cmsBodyStyle;
     return Scaffold(
       appBar: CustomAppBar(
           title: SplashScreenNotifier.getLanguageLabel('Lost Card')),
@@ -88,7 +94,7 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
                     MulishText(
                       text: SplashScreenNotifier.getLanguageLabel(
                           'Terms for Lost Card'),
-                      fontColor: CustomColors.hardOrange,
+                      fontColor: HexColor.fromHex(cmsBody?.linkTextColor),
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),

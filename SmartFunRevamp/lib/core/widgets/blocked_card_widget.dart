@@ -7,10 +7,13 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/utils/extensions.dart';
 
 class BlockedCardWidget extends StatelessWidget {
-  BlockedCardWidget({Key? key, required this.cardDetails}) : super(key: key);
+  BlockedCardWidget({Key? key, required this.cardDetails, this.cardColor})
+      : super(key: key);
 
   final formatter = DateFormat('dd MMM yyyy');
   final CardDetails cardDetails;
+  final Color? cardColor;
+
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
@@ -19,8 +22,8 @@ class BlockedCardWidget extends StatelessWidget {
         padding: const EdgeInsets.only(left: 15, top: 0, right: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
-          gradient: CustomGradients.linearGradient,
-          color: Colors.white.withOpacity(0.5),
+          // gradient: CustomGradients.linearGradient,
+          color: cardColor, //Colors.white.withOpacity(0.5),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,9 +68,19 @@ class BlockedCardWidget extends StatelessWidget {
             const SizedBox(height: 10.0),
             MulishText(
               text:
-                  '${formatter.format(cardDetails.issueDate ?? DateTime.now())} -${formatter.format(DateTime.parse(cardDetails.expiryDate.toString()))}',
+                  '${formatter.format((cardDetails.issueDate ?? DateTime.now()) as DateTime)} - ${formatter.format((cardDetails.expiryDate ?? DateTime.now()) as DateTime)}',
               fontColor: Colors.white,
             )
+            // MulishText(
+            //   text:
+            //       '${formatter.format(cardDetails.issueDate ?? DateTime.now())} - ${formatter.format(cardDetails.expiryDate ?? DateTime.now())}',
+            //   fontColor: Colors.white,
+            // )
+            // MulishText(
+            //   text:
+            //       '${formatter.format(cardDetails.issueDate ?? DateTime.now())} -${formatter.format(DateTime.parse(cardDetails.expiryDate.toString()))}',
+            //   fontColor: Colors.white,
+            // )
           ],
         ),
       ),

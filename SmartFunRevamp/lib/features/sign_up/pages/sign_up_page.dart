@@ -13,6 +13,7 @@ import 'package:semnox/core/domain/use_cases/authentication/get_user_metadata_us
 import 'package:semnox/core/errors/failures.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
@@ -95,6 +96,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
     });
     final metaData = ref.watch(uiMetaDataProvider);
     final configExecutionContext = ref.watch(preConfigProvider);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
       appBar: CustomAppBar(
           title: SplashScreenNotifier.getLanguageLabel('Set Your Account')),
@@ -260,9 +262,10 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                       TextSpan(
                           text: SplashScreenNotifier.getLanguageLabel(
                               'Terms of Service'),
-                          style: const TextStyle(
-                            color: CustomColors.hardOrange,
-                          ),
+                          style: TextStyle(
+                              color: HexColor.fromHex(cmsBody
+                                  ?.linkTextColor) //CustomColors.hardOrange,
+                              ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               // if (externalUrls?.termsAndConditions != null &&
@@ -287,8 +290,8 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                       TextSpan(
                         text: SplashScreenNotifier.getLanguageLabel(
                             'Privacy Policy'),
-                        style: const TextStyle(
-                          color: CustomColors.hardOrange,
+                        style: TextStyle(
+                          color: HexColor.fromHex(cmsBody?.linkTextColor),
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {

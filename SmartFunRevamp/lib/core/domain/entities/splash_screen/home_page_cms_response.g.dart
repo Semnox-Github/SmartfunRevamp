@@ -22,6 +22,10 @@ HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
           ? null
           : CMSPageHeader.fromJson(
               json['CMSPageHeaderStyle'] as Map<String, dynamic>),
+      json['CMSPageBodyStyle'] == null
+          ? null
+          : CMSPageBodyStyle.fromJson(
+              json['CMSPageBodyStyle'] as Map<String, dynamic>),
       json['CMSModuleColorsHome'] == null
           ? null
           : CMSModuleColorsHome.fromJson(
@@ -58,13 +62,13 @@ Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
   val['CMSModuleMenuDTOList'] =
       instance.cmsModuleMenu.map((e) => e.toJson()).toList();
   val['images'] = instance.cmsImages.toJson();
-  // val['CMSPageHeaderStyle'] = instance.cmsPageHeader.toJson();
   writeNotNull('CMSModuleColorsHome', instance.cmsModuleColorsHome?.toJson());
   writeNotNull('CardsColor', instance.cardsColor?.toJson());
   val['HomePageOrder'] = instance.homePageOrder.map((e) => e.toJson()).toList();
   writeNotNull('BuyACardFilters', instance.buyACardFilters);
   writeNotNull('CMSButtonStyle', instance.buttonStyle?.toJson());
   writeNotNull('CMSPageHeaderStyle', instance.cmsPageHeader?.toJson());
+  writeNotNull('CMSPageBodyStyle', instance.cmsBodyStyle?.toJson());
 
   return val;
 }
@@ -284,6 +288,21 @@ Map<String, dynamic> _$CMSPageHeaderToJson(CMSPageHeader instance) {
   final val = <String, dynamic>{
     'BackgroundCOlor': instance.backgroundColor,
     'TextColor': instance.textColor,
+  };
+
+  return val;
+}
+
+CMSPageBodyStyle _$CMSPageBodyStyleFromJson(Map<String, dynamic> json) =>
+    CMSPageBodyStyle(
+      json['WidgetBackGroundColor'] as String,
+      json['LinkTextColor'] as String,
+    );
+
+Map<String, dynamic> _$CMSPageBodyStyleToJson(CMSPageBodyStyle instance) {
+  final val = <String, dynamic>{
+    'WidgetBackGroundColor': instance.widgetBackgroundColor,
+    'LinkTextColor': instance.linkTextColor,
   };
 
   return val;

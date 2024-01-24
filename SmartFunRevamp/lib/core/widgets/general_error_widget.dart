@@ -7,6 +7,7 @@ class GeneralErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Error message: $message");
     return Column(
       children: [
         const Icon(

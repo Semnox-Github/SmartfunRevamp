@@ -13,6 +13,8 @@ class TransferBalance {
       "SourceAccountDTO": {"AccountId": from.accountId},
       "DestinationAccountDTO": {"AccountId": to.accountId},
       entitlement: amount,
+      "Remarks":
+          "Transfer Balances : transfer $amount credits to ${to.accountId}"
     };
   }
 }

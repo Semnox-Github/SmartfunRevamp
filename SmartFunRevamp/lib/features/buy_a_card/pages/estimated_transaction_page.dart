@@ -70,16 +70,16 @@ class EstimatedTransactionPage extends ConsumerWidget {
             btnOkOnPress: () => {},
           ).show();
         },
-        invalidCoupon: (message) {
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.error,
-            animType: AnimType.scale,
-            title: SplashScreenNotifier.getLanguageLabel('Error'),
-            desc: message,
-            btnOkOnPress: () => {},
-          ).show();
-        },
+        // invalidCoupon: (message) {
+        //   AwesomeDialog(
+        //     context: context,
+        //     dialogType: DialogType.error,
+        //     animType: AnimType.scale,
+        //     title: SplashScreenNotifier.getLanguageLabel('Error'),
+        //     desc: message,
+        //     btnOkOnPress: () => {},
+        //   ).show();
+        // },
       );
     });
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
@@ -115,7 +115,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
           builder: (context, ref, child) {
             return ref.watch(estimateStateProvider).maybeWhen(
                   orElse: () => Container(),
-                  error: (message) => GeneralErrorWidget(message: message),
+                  //error: (message) => GeneralErrorWidget(message: message),
                   inProgress: () =>
                       const Center(child: CircularProgressIndicator.adaptive()),
                   transactionEstimated: (transactionResponse) {

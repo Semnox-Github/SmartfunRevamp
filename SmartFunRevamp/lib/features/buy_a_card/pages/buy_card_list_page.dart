@@ -13,6 +13,9 @@ import 'package:semnox/features/recharge_card/widgets/site_dropdown.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../../core/data/datasources/local_data_source.dart';
+import '../../../core/utils/dialogs.dart';
+
 class BuyCardListPage extends StatelessWidget {
   const BuyCardListPage({
     Key? key,
@@ -26,7 +29,17 @@ class BuyCardListPage extends StatelessWidget {
     // final headerStyle = ref.watch(home);
     // final backgroundColor = headerStyle?.backgroundColor;
     // final textColor = headerStyle?.textColor;
+
     return Consumer(builder: (_, WidgetRef ref, __) {
+      GluttonLocalDataSource()
+          .retrieveValue(LocalDataSource.kTransactionId)
+          .then((value) async => {
+                if (value != null)
+                  {
+                    Dialogs.lastTransactionDialog(
+                        context, ref, value.toString()),
+                  }
+              });
       final cmsPageHeader = ref.watch(cmsPageHeaderProvider);
       return Scaffold(
         endDrawer: const FilterDrawer(),

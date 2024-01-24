@@ -73,6 +73,7 @@ class Dialogs {
       CardProduct cardProduct, String? primaryCard, int qty) {
     final key = GlobalKey<FormState>();
     final siteId = ref.watch(selectedSiteIdProvider);
+    bool isOkButtonPressed = false;
     String coupon = '';
     AwesomeDialog(
       context: context,
@@ -89,14 +90,16 @@ class Dialogs {
         ),
       ),
       btnOkOnPress: () {
-        if (key.currentState!.validate()) {
-          key.currentState!.save();
-          ref.read(estimateStateProvider.notifier).getEstimateTransaction(
-              cardProduct,
-              dtoList: DiscountApplicationHistoryDTOList(-1, coupon, -1),
-              siteId: siteId,
-              cardNumber: primaryCard,
-              quantity: qty);
+        if (!isOkButtonPressed) {
+          if (key.currentState!.validate()) {
+            key.currentState!.save();
+            ref.read(estimateStateProvider.notifier).getEstimateTransaction(
+                cardProduct,
+                dtoList: DiscountApplicationHistoryDTOList(-1, coupon, -1),
+                siteId: siteId,
+                cardNumber: primaryCard,
+                quantity: qty);
+          }
         }
       },
     ).show();

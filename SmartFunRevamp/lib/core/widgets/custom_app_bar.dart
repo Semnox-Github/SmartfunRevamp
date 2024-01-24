@@ -12,8 +12,6 @@ final appHeader = Provider<CMSPageHeader?>((ref) {
   return cms?.cmsPageHeader;
 });
 
-
-
 class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
   const CustomAppBar({
     Key? key,
@@ -60,16 +58,24 @@ class CustomAppBarCustomWidget extends ConsumerWidget
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final headerStyle = ref.watch(appHeader);
+    final backgroundColor = headerStyle?.backgroundColor;
+    final textColor = headerStyle?.textColor;
     return AppBar(
       elevation: 0.0,
-      iconTheme: const IconThemeData(color: CustomColors.customBlue),
-      backgroundColor: CustomColors.customBlack, //customLigthBlue,
+
+      iconTheme: IconThemeData(
+        color: HexColor.fromHex(textColor),
+      ),
+      backgroundColor: HexColor.fromHex(
+          backgroundColor), //CustomColors.customBlack, //customLigthBlue,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(20),
         ),
       ),
-      title: title,
+      foregroundColor: HexColor.fromHex(textColor),
+      // title: title,
       centerTitle: false,
     );
   }

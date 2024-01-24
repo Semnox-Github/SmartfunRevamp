@@ -236,7 +236,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   }
 
   Future<HomePageCMSResponse> _getHomePageCMS() async {
-    String fileName = "CMSSmartFun_2.json";
+    String fileName = "CMSSmartFun_3.json";
     final useCase = Get.find<GetHomePageCMSUseCase>();
     final response = await useCase(fileName);
     final LocalDataSource glutton = Get.find<LocalDataSource>();

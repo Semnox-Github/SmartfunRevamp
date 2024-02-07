@@ -57,6 +57,11 @@ final secondaryButtonProvider = StateProvider<SecondaryButtonStyle?>((ref) {
   return null;
 });
 
+final externalUrlProvider = Provider<ExternalUrls?>((ref) {
+  final cms = ref.watch(newHomePageCMSProvider);
+  return cms?.externalUrls;
+});
+
 final languangeContainerProvider = StateProvider<LanguageContainerDTO?>((ref) {
   return null;
 });
@@ -115,6 +120,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
   late String? _splashScreenImgURL = '';
   String get splashImageUrl => _splashScreenImgURL ?? '';
   late SiteViewDTO? masterSite;
+  late ParafaitDefaultsResponse? _parafaitDefaultsResponse;
   NotificationsData? _notificationData;
   void initApp() async {
     final results = await Future.wait([
@@ -173,9 +179,23 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
           [
             _getParafaitDefaults(masterSite?.siteId ?? 1010),
             _getAllParafaitLanguages(masterSite?.siteId ?? 1010),
-            _getHomePageCMS(),
           ],
         );
+
+        final parfaitDefaultResponse = results[0] as ParafaitDefaultsResponse;
+
+        final homePageCMSResponse = await _getHomePageCMS(
+            parfaitDefaultResponse.getDefault("CUSTOMERAPP_THEME_NO") ?? "1");
+
+        // final format = _parafaitDefaultsResponse
+        //         ?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
+        //     '#,##0.00';
+
+        // print("currency format ****** ${format}");
+
+        // final homepageResponse =
+        //     await _getHomePageCMS(_parafaitDefaultsResponse?.getDefault(key));
+
         final defaultSite =
             await _localDataSource.retrieveValue(LocalDataSource.kDefaultSite);
         final userSelectedSite =
@@ -184,7 +204,8 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
         final LocalDataSource glutton = Get.find<LocalDataSource>();
         final customer = await glutton.retrieveCustomer();
         state = _Success(
-          homePageCMSResponse: results[2] as HomePageCMSResponse,
+          homePageCMSResponse: homePageCMSResponse
+              as HomePageCMSResponse, //results[2] as HomePageCMSResponse,
           languageContainerDTO: results[1] as LanguageContainerDTO,
           siteViewDTO: masterSite!,
           parafaitDefaultsResponse: results[0] as ParafaitDefaultsResponse,
@@ -235,14 +256,16 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
     );
   }
 
-  Future<HomePageCMSResponse> _getHomePageCMS() async {
-    String fileName = "CMSSmartFun_3.json";
+  Future<HomePageCMSResponse> _getHomePageCMS(String fileNo) async {
+    String fileName = "CMSSmartFun_$fileNo.json";
+    //print("fileName $fileName");
     final useCase = Get.find<GetHomePageCMSUseCase>();
     final response = await useCase(fileName);
     final LocalDataSource glutton = Get.find<LocalDataSource>();
     final customer = await glutton.retrieveCustomer();
-    final useLocalCmsJson =
-        dotenv.env['USE_LOCAL_CMS_JSON'] == 'true' ? true : false;
+    // final useLocalCmsJson =
+    //     dotenv.env['USE_LOCAL_CMS_JSON'] == 'true' ? true : false;
+
     // Load Local Json
     final String exampleCMSJson =
         await rootBundle.loadString('assets/json/CMSSmartFun_0.json');
@@ -255,7 +278,14 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
         final useCase = Get.find<GetHomePageCMSUseCase>();
         final response = await useCase(fileName);
 
-        return response.fold((l) => cms, (r) async {
+        return response.fold((l) async {
+          final String exampleCMSJson =
+              await rootBundle.loadString('assets/json/CMSSmartFun_0.json');
+          final data =
+              (await json.decode(exampleCMSJson)) as Map<String, dynamic>;
+          final cms = HomePageCMSResponse.fromJson(data['data'][0]);
+          return cms;
+        }, (r) async {
           if (_splashScreenImgURL != r.cmsImages.splashScreenPath) {
             await _localDataSource.saveValue(
                 LocalDataSource.kSplashScreenURL, r.cmsImages.splashScreenPath);
@@ -272,7 +302,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
           } else {
             Logger().d('Customer not selected');
           }
-          return useLocalCmsJson ? cms : r;
+          return r;
         });
 
         //throw l;
@@ -293,7 +323,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
         } else {
           Logger().d('Customer not selected');
         }
-        return useLocalCmsJson ? cms : r;
+        return r;
       },
     );
   }

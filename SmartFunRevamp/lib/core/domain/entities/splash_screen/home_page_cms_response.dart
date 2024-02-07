@@ -23,6 +23,10 @@ class HomePageCMSResponse extends ChangeNotifier {
   final List<CMSModuleMenu> cmsModuleMenu;
   @JsonKey(name: 'images')
   final CMSImages cmsImages;
+
+  @JsonKey(name: 'ExternalUrls')
+  late final ExternalUrls? externalUrls;
+
   @JsonKey(name: 'CMSPageHeaderStyle')
   late final CMSPageHeader? cmsPageHeader;
 
@@ -39,20 +43,20 @@ class HomePageCMSResponse extends ChangeNotifier {
   final CMSButtonStyle? buttonStyle;
 
   HomePageCMSResponse(
-    this.moduleId,
-    this.description,
-    this.title,
-    this.cmsModulePages,
-    this.cmsModuleMenu,
-    this.cmsImages,
-    this.cmsPageHeader,
-    this.cmsBodyStyle,
-    this.cmsModuleColorsHome,
-    this.cardsColor,
-    this.homePageOrder,
-    this.buyACardFilters,
-    this.buttonStyle,
-  );
+      this.moduleId,
+      this.description,
+      this.title,
+      this.cmsModulePages,
+      this.cmsModuleMenu,
+      this.cmsImages,
+      this.cmsPageHeader,
+      this.cmsBodyStyle,
+      this.cmsModuleColorsHome,
+      this.cardsColor,
+      this.homePageOrder,
+      this.buyACardFilters,
+      this.buttonStyle,
+      this.externalUrls);
 
   // CMSPageHeader? get cmsPageHeaderStyle => cmsPageHeader;
 
@@ -435,6 +439,19 @@ class CMSImages {
   factory CMSImages.fromJson(Map<String, dynamic> json) =>
       _$CMSImagesFromJson(json);
   Map<String, dynamic> toJson() => _$CMSImagesToJson(this);
+}
+
+class ExternalUrls {
+  @JsonKey(name: 'privacy_policy')
+  final String privacyPolicy;
+  @JsonKey(name: 'terms_and_conditions')
+  final String termsAndConditions;
+
+  ExternalUrls(this.privacyPolicy, this.termsAndConditions);
+
+  factory ExternalUrls.fromJson(Map<String, dynamic> json) =>
+      _$ExternalUrlsFromJson(json);
+  Map<String, dynamic> toJson() => _$ExternalUrlsToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)

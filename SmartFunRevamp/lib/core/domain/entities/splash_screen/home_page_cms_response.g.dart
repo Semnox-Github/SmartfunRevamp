@@ -43,6 +43,7 @@ HomePageCMSResponse _$HomePageCMSResponseFromJson(Map<String, dynamic> json) =>
           ? null
           : CMSButtonStyle.fromJson(
               json['CMSButtonStyle'] as Map<String, dynamic>),
+      ExternalUrls.fromJson(json['ExternalUrls'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
@@ -62,6 +63,7 @@ Map<String, dynamic> _$HomePageCMSResponseToJson(HomePageCMSResponse instance) {
   val['CMSModuleMenuDTOList'] =
       instance.cmsModuleMenu.map((e) => e.toJson()).toList();
   val['images'] = instance.cmsImages.toJson();
+  val['ExternalUrls'] = instance.externalUrls?.toJson();
   writeNotNull('CMSModuleColorsHome', instance.cmsModuleColorsHome?.toJson());
   writeNotNull('CardsColor', instance.cardsColor?.toJson());
   val['HomePageOrder'] = instance.homePageOrder.map((e) => e.toJson()).toList();
@@ -368,6 +370,19 @@ Map<String, dynamic> _$CMSImagesToJson(CMSImages instance) {
   writeNotNull('select_location_image_path', instance.selectLocationImagePath);
   writeNotNull(
       'transfer_success_image_path', instance.transferSuccessImagePath);
+  return val;
+}
+
+ExternalUrls _$ExternalUrlsFromJson(Map<String, dynamic> json) => ExternalUrls(
+      json['privacy_policy'] as String,
+      json['terms_and_conditions'] as String,
+    );
+
+Map<String, dynamic> _$ExternalUrlsToJson(ExternalUrls instance) {
+  final val = <String, dynamic>{
+    'privacy_policy': instance.privacyPolicy,
+    'terms_and_conditions': instance.termsAndConditions,
+  };
   return val;
 }
 

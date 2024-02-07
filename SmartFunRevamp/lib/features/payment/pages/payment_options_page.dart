@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
+import 'dart:io' show Platform;
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/buy_card/estimate_transaction_response.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -24,6 +25,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../core/widgets/custom_app_bar.dart';
 import '../../home/provider/cards_provider.dart';
+//import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class PaymentOptionsPage extends ConsumerWidget {
   const PaymentOptionsPage(
@@ -52,9 +54,10 @@ class PaymentOptionsPage extends ConsumerWidget {
 
     return WillPopScope(
       child: Scaffold(
-        appBar:CustomAppBar(
-        title: SplashScreenNotifier.getLanguageLabel('Payment Options'),
-      ),
+        resizeToAvoidBottomInset: true,
+        appBar: CustomAppBar(
+          title: SplashScreenNotifier.getLanguageLabel('Payment Options'),
+        ),
         //  AppBar(
         //   automaticallyImplyLeading: false,
         //   title: Text(
@@ -393,7 +396,11 @@ class _ExpansionPaymentMethodsListState
                                         150,
                                 child: WebViewWidget(
                                   controller: webviewController,
-                                  gestureRecognizers: gestureRecognizers,
+                                  gestureRecognizers: Set()
+                                    ..add(Factory<
+                                            VerticalDragGestureRecognizer>(
+                                        () => VerticalDragGestureRecognizer())),
+                                  //gestureRecognizers,
                                 ),
                               );
                             } else {

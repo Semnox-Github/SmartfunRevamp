@@ -14,6 +14,7 @@ class ParafaitDefaultsResponse {
   static const String virtualStoreSiteId = "VIRTUAL_STORE_SITE_ID";
   static const String playStoreUrl = "PLAY_STORE_URL";
   static const String appStoreUrl = "APP_STORE_URL";
+  static const String customerAppThemeNo = "CUSTOMERAPP_THEME_NO";
   //static const String applyDiscount = "ONLINE_DISCOUNT_APPLY_ALLOWED";
   @JsonKey(name: 'ParafaitDefaultContainerDTOList')
   final List<ParafaitDefault> parafaitsDefaults;

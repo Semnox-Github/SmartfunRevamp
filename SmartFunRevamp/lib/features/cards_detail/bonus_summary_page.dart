@@ -12,6 +12,8 @@ import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
+
 class BonusSummaryPage extends ConsumerWidget {
   const BonusSummaryPage({
     Key? key,
@@ -26,8 +28,12 @@ class BonusSummaryPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final today = DateTime.now();
-    ref.read(CardsProviders.bonusSummaryProvider.notifier).getSummary(cardNumber);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
+    ref
+        .read(CardsProviders.bonusSummaryProvider.notifier)
+        .getSummary(cardNumber);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(title: pageTitle),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -38,11 +44,15 @@ class BonusSummaryPage extends ConsumerWidget {
                   error: (message) {
                     return GeneralErrorWidget(message: message);
                   },
-                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  inProgress: () =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
                   success: (responseData) {
-                    List<AccountCreditPlusDTOList> data = List.from(responseData);
+                    List<AccountCreditPlusDTOList> data =
+                        List.from(responseData);
                     data = data
-                      ..removeWhere((element) => (element.creditPlusType != creditPlusType && creditPlusType != null));
+                      ..removeWhere((element) =>
+                          (element.creditPlusType != creditPlusType &&
+                              creditPlusType != null));
                     int totalBonus = 0;
                     for (var element in data) {
                       totalBonus += element.creditPlusBalance.toInt();
@@ -54,15 +64,19 @@ class BonusSummaryPage extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             MulishText(
-                              text: SplashScreenNotifier.getLanguageLabel('Expiring By'),
+                              text: SplashScreenNotifier.getLanguageLabel(
+                                  'Expiring By'),
                               fontWeight: FontWeight.bold,
                             ),
                             CustomDatePicker(
                               labelText: '',
                               format: DateFormat.YEAR_ABBR_MONTH_DAY,
-                              onItemSelected: (dob) =>
-                                  ref.read(CardsProviders.bonusSummaryProvider.notifier).filter(dob),
-                              hintText: SplashScreenNotifier.getLanguageLabel('Enter Date'),
+                              onItemSelected: (dob) => ref
+                                  .read(CardsProviders
+                                      .bonusSummaryProvider.notifier)
+                                  .filter(dob),
+                              hintText: SplashScreenNotifier.getLanguageLabel(
+                                  'Enter Date'),
                               initialDateTime: today,
                               maximunDateTime: DateTime(today.year + 10),
                               minimumDateTime: today,
@@ -73,9 +87,12 @@ class BonusSummaryPage extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        TotalBonusBalance(totalBonus: totalBonus, pageTitle: pageTitle),
+                        TotalBonusBalance(
+                            totalBonus: totalBonus, pageTitle: pageTitle),
                         MulishText(
-                          text: SplashScreenNotifier.getLanguageLabel('&1 Details').replaceAll('&1', pageTitle),
+                          text: SplashScreenNotifier.getLanguageLabel(
+                                  '&1 Details')
+                              .replaceAll('&1', pageTitle),
                           fontWeight: FontWeight.bold,
                         ),
                         Expanded(
@@ -88,7 +105,8 @@ class BonusSummaryPage extends ConsumerWidget {
                                 onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => BonusSummaryDetailPage(
+                                    builder: (context) =>
+                                        BonusSummaryDetailPage(
                                       summary: summary,
                                       pageTitle: pageTitle,
                                     ),
@@ -99,20 +117,24 @@ class BonusSummaryPage extends ConsumerWidget {
                                   padding: const EdgeInsets.only(bottom: 10.0),
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: CustomColors.customLigthGray),
+                                    border: Border.all(
+                                        color: CustomColors.customLigthGray),
                                     borderRadius: BorderRadius.circular(12.0),
                                   ),
                                   child: Column(
                                     children: [
                                       Container(
                                         width: double.infinity,
-                                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10.0, horizontal: 20.0),
                                         decoration: BoxDecoration(
                                           color: CustomColors.customOrange,
-                                          borderRadius: BorderRadius.circular(12.0),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
                                         ),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             MulishText(
                                               text: summary.remarks,
@@ -127,9 +149,11 @@ class BonusSummaryPage extends ConsumerWidget {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Column(
                                               children: [
@@ -137,7 +161,8 @@ class BonusSummaryPage extends ConsumerWidget {
                                                   text: 'Value Loaded',
                                                 ),
                                                 MulishText(
-                                                  text: '${summary.creditPlus.toInt()}',
+                                                  text:
+                                                      '${summary.creditPlus.toInt()}',
                                                 ),
                                               ],
                                             ),
@@ -147,7 +172,8 @@ class BonusSummaryPage extends ConsumerWidget {
                                                   text: 'Balance',
                                                 ),
                                                 MulishText(
-                                                  text: '${summary.creditPlusBalance.toInt()}',
+                                                  text:
+                                                      '${summary.creditPlusBalance.toInt()}',
                                                 ),
                                               ],
                                             ),
@@ -176,7 +202,9 @@ class BonusSummaryPage extends ConsumerWidget {
 }
 
 class TotalBonusBalance extends StatelessWidget {
-  const TotalBonusBalance({Key? key, required this.totalBonus, required this.pageTitle}) : super(key: key);
+  const TotalBonusBalance(
+      {Key? key, required this.totalBonus, required this.pageTitle})
+      : super(key: key);
 
   final int totalBonus;
   final String pageTitle;
@@ -194,7 +222,8 @@ class TotalBonusBalance extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           MulishText(
-            text: SplashScreenNotifier.getLanguageLabel('Total &1 Balance').replaceAll('&1', pageTitle),
+            text: SplashScreenNotifier.getLanguageLabel('Total &1 Balance')
+                .replaceAll('&1', pageTitle),
             fontWeight: FontWeight.bold,
           ),
           MulishText(

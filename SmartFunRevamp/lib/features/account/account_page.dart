@@ -87,6 +87,7 @@ class _AccountPage extends ConsumerState<AccountPage> {
     );
 
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar:
           CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Account')),
       body: SafeArea(

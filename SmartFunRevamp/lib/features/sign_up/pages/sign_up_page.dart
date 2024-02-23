@@ -26,6 +26,8 @@ import 'package:semnox/features/sign_up/provider/sign_up_notifier.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../../core/widgets/mulish_text.dart';
+
 final uiMetaDataProvider =
     FutureProvider<List<CustomerUIMetaData>>((ref) async {
   final getUiMetaData = Get.find<GetUserMetaDataUseCase>();
@@ -101,6 +103,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
     final configExecutionContext = ref.watch(preConfigProvider);
     final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
           title: SplashScreenNotifier.getLanguageLabel('Set Your Account')),
       // AppBar(
@@ -126,8 +129,8 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
             key: _key,
             child: Column(
               children: [
-                Text(
-                  SplashScreenNotifier.getLanguageLabel(
+                MulishText(
+                  text: SplashScreenNotifier.getLanguageLabel(
                       'Hi There, Complete the following details to setup your account and continue using Smartfun App.'),
                 ),
                 const SizedBox(height: 20.0),
@@ -148,12 +151,12 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                SplashScreenNotifier.getLanguageLabel(
-                                    field.entityFieldCaption),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
+                              MulishText(
+                                  text: SplashScreenNotifier.getLanguageLabel(
+                                      field.entityFieldCaption),
+                                  // style: const TextStyle(
+                                  fontWeight: FontWeight.bold),
+                              //),
                               DropdownButtonFormField<String>(
                                 items:
                                     List<String>.from(field.customerFieldValues)
@@ -342,7 +345,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
   }
 }
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends ConsumerWidget {
   const CustomTextField({
     Key? key,
     required this.onSaved,
@@ -366,7 +369,8 @@ class CustomTextField extends StatelessWidget {
   final bool required;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Container(
       padding: padding,
       margin: margins,
@@ -377,9 +381,9 @@ class CustomTextField extends StatelessWidget {
           Text(
             label,
             style: GoogleFonts.mulish(
-              fontWeight: FontWeight.bold,
-              fontSize: 14.0,
-            ),
+                fontWeight: FontWeight.bold,
+                fontSize: 14.0,
+                color: Colors.white),
           ),
           const SizedBox(height: 5.0),
           TextFormField(
@@ -392,10 +396,17 @@ class CustomTextField extends StatelessWidget {
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white, width: 2.0),
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              ),
               isDense: true,
               fillColor: fillColor,
               filled: true,
               floatingLabelBehavior: FloatingLabelBehavior.never,
+            ),
+            style: const TextStyle(
+              color: Colors.white, // This changes the input color
             ),
           )
         ],

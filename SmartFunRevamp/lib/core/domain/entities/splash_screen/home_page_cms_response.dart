@@ -231,7 +231,11 @@ class CMSPageHeader {
 class CMSPageBodyStyle {
   final String widgetBackgroundColor;
   final String linkTextColor;
-  CMSPageBodyStyle(this.widgetBackgroundColor, this.linkTextColor);
+  final String appBackGroundColor;
+  final String appTextColor;
+
+  CMSPageBodyStyle(this.widgetBackgroundColor, this.linkTextColor,
+      this.appBackGroundColor, this.appTextColor);
 
   Map<String, dynamic> toJson() => _$CMSPageBodyStyleToJson(this);
 

@@ -40,6 +40,7 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel('Card Details'),
       ),
@@ -63,7 +64,7 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                 margin: const EdgeInsets.only(bottom: 10.0),
                 decoration: BoxDecoration(
                   color: HexColor.fromHex(cmsBody
-                      ?.widgetBackgroundColor), //CustomColors.customLigthBlue,
+                      ?.appBackGroundColor), //CustomColors.customLigthBlue,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20.0),
                     bottomRight: Radius.circular(20.0),
@@ -219,8 +220,11 @@ class MoreActionListTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.0),
                   color: color,
                 ),
-                padding: const EdgeInsets.all(13.0),
-                child: CachedNetworkImage(imageUrl: svgImage),
+                // padding: const EdgeInsets.all(13.0),
+                child: CachedNetworkImage(
+                  imageUrl: svgImage,
+                  fit: BoxFit.fill,
+                ),
               ),
               Expanded(
                 child: Column(
@@ -314,15 +318,17 @@ class CardDetailItem extends StatelessWidget {
         return Column(
           children: [
             Container(
+              height: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 color: color,
               ),
-              padding: const EdgeInsets.all(13.0),
+              // padding: const EdgeInsets.all(13.0),
               child: CachedNetworkImage(
+                fit: BoxFit.fill,
                 imageUrl: item.itemUrl,
-                height: constrains.maxHeight * 0.3,
-                width: constrains.maxHeight * 0.3,
+                height: 60, //constrains.maxHeight * 0.3,
+                width: 60, //constrains.maxHeight * 0.3,
                 placeholder: (context, url) =>
                     const CircularProgressIndicator.adaptive(),
                 errorWidget: (context, url, error) =>

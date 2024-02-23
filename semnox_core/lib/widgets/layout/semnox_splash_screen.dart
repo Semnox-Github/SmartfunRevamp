@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SemnoxSplashScreen extends StatelessWidget {
+class SemnoxSplashScreen extends ConsumerWidget {
+  //StatelessWidget
   const SemnoxSplashScreen({Key? key, this.message}) : super(key: key);
   final String? message;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    //final cmsBody = ref.watch(cmsBodyStyleProvider);
+
     return Scaffold(
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       body: Stack(

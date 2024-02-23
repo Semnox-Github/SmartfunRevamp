@@ -4,9 +4,11 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/view/home_view.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/features/transfer/transfer_success_page.dart';
 import 'package:semnox/features/transfer/widgets/amount_form_field.dart';
@@ -58,7 +60,9 @@ class _TransferPageState extends ConsumerState<TransferPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
           title: SplashScreenNotifier.getLanguageLabel('Transfer')),
       body: SafeArea(

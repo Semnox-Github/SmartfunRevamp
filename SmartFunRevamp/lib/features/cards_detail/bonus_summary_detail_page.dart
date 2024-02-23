@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/account_credit_plus_dto_list.dart';
@@ -8,15 +9,21 @@ import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class BonusSummaryDetailPage extends StatelessWidget {
-  const BonusSummaryDetailPage({Key? key, required this.summary, required this.pageTitle}) : super(key: key);
+import '../splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
+
+class BonusSummaryDetailPage extends ConsumerWidget {
+  const BonusSummaryDetailPage(
+      {Key? key, required this.summary, required this.pageTitle})
+      : super(key: key);
   final AccountCreditPlusDTOList summary;
   final String pageTitle;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final double width = MediaQuery.of(context).size.width;
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBarCustomWidget(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +65,9 @@ class BonusSummaryDetailPage extends StatelessWidget {
                             text: 'Valid From',
                             fontWeight: FontWeight.bold,
                           ),
-                          MulishText(text: summary.periodFrom.formatDate('dd MMM yyyy')),
+                          MulishText(
+                              text:
+                                  summary.periodFrom.formatDate('dd MMM yyyy')),
                         ],
                       ),
                     ),
@@ -79,7 +88,8 @@ class BonusSummaryDetailPage extends StatelessWidget {
                             text: 'Valid To',
                             fontWeight: FontWeight.bold,
                           ),
-                          MulishText(text: summary.periodTo.formatDate('dd MMM yyyy')),
+                          MulishText(
+                              text: summary.periodTo.formatDate('dd MMM yyyy')),
                         ],
                       ),
                     ),
@@ -102,10 +112,12 @@ class BonusSummaryDetailPage extends StatelessWidget {
                     ),
                     children: [
                       const WidgetSpan(
-                        child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
+                        child: Icon(Icons.check_circle,
+                            size: 18, color: Colors.greenAccent),
                       ),
                       TextSpan(
-                        text: " ${SplashScreenNotifier.getLanguageLabel('Can be used to purchase below packages')}",
+                        text:
+                            " ${SplashScreenNotifier.getLanguageLabel('Can be used to purchase below packages')}",
                       ),
                     ],
                   ),
@@ -114,7 +126,8 @@ class BonusSummaryDetailPage extends StatelessWidget {
               SizedBox(
                 width: width * 0.90,
                 child: DataTable(
-                  headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                  headingRowColor: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states) {
                     return CustomColors.customOrange; // Use the default value.
                   }),
                   decoration: BoxDecoration(
@@ -170,10 +183,12 @@ class BonusSummaryDetailPage extends StatelessWidget {
                     ),
                     children: [
                       const WidgetSpan(
-                        child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
+                        child: Icon(Icons.remove_circle,
+                            size: 18, color: Colors.red),
                       ),
                       TextSpan(
-                        text: " ${SplashScreenNotifier.getLanguageLabel('Below packages are excluded')}",
+                        text:
+                            " ${SplashScreenNotifier.getLanguageLabel('Below packages are excluded')}",
                       ),
                     ],
                   ),
@@ -182,7 +197,8 @@ class BonusSummaryDetailPage extends StatelessWidget {
               SizedBox(
                 width: width * 0.90,
                 child: DataTable(
-                  headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                  headingRowColor: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states) {
                     return CustomColors.customOrange; // Use the default value.
                   }),
                   decoration: BoxDecoration(
@@ -238,10 +254,12 @@ class BonusSummaryDetailPage extends StatelessWidget {
                     ),
                     children: [
                       const WidgetSpan(
-                        child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
+                        child: Icon(Icons.check_circle,
+                            size: 18, color: Colors.greenAccent),
                       ),
                       TextSpan(
-                        text: " ${SplashScreenNotifier.getLanguageLabel('Can be used to play below games')}",
+                        text:
+                            " ${SplashScreenNotifier.getLanguageLabel('Can be used to play below games')}",
                       ),
                     ],
                   ),
@@ -250,7 +268,8 @@ class BonusSummaryDetailPage extends StatelessWidget {
               SizedBox(
                 width: width * 0.90,
                 child: DataTable(
-                  headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                  headingRowColor: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states) {
                     return CustomColors.customOrange; // Use the default value.
                   }),
                   decoration: BoxDecoration(
@@ -306,10 +325,12 @@ class BonusSummaryDetailPage extends StatelessWidget {
                     ),
                     children: [
                       const WidgetSpan(
-                        child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
+                        child: Icon(Icons.remove_circle,
+                            size: 18, color: Colors.red),
                       ),
                       TextSpan(
-                        text: " ${SplashScreenNotifier.getLanguageLabel('Below games are excluded')}",
+                        text:
+                            " ${SplashScreenNotifier.getLanguageLabel('Below games are excluded')}",
                       ),
                     ],
                   ),
@@ -318,7 +339,8 @@ class BonusSummaryDetailPage extends StatelessWidget {
               SizedBox(
                 width: width * 0.90,
                 child: DataTable(
-                  headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                  headingRowColor: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states) {
                     return CustomColors.customOrange; // Use the default value.
                   }),
                   decoration: BoxDecoration(

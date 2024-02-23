@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -14,8 +15,11 @@ class ResetPasswordPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final imagePath = ref.watch(newHomePageCMSProvider)?.cmsImages.resetPasswordImagePath;
+    final imagePath =
+        ref.watch(newHomePageCMSProvider)?.cmsImages.resetPasswordImagePath;
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: Column(
@@ -23,7 +27,8 @@ class ResetPasswordPage extends ConsumerWidget {
             const Spacer(),
             CachedNetworkImage(
               imageUrl: imagePath ?? '',
-              placeholder: (context, url) => ShimmerLoading(height: MediaQuery.of(context).size.height * 0.3),
+              placeholder: (context, url) => ShimmerLoading(
+                  height: MediaQuery.of(context).size.height * 0.3),
               height: MediaQuery.of(context).size.height * 0.3,
               errorWidget: (context, url, error) {
                 Logger().d(error);
@@ -35,7 +40,8 @@ class ResetPasswordPage extends ConsumerWidget {
             ),
             const SizedBox(height: 20.0),
             MulishText(
-              text: SplashScreenNotifier.getLanguageLabel('Reset Password link is sent to your registered email.'),
+              text: SplashScreenNotifier.getLanguageLabel(
+                  'Reset Password link is sent to your registered email.'),
               fontWeight: FontWeight.w500,
               fontSize: 16.0,
               textAlign: TextAlign.center,

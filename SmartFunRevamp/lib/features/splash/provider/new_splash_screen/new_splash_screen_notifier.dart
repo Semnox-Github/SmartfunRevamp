@@ -183,9 +183,10 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
         );
 
         final parfaitDefaultResponse = results[0] as ParafaitDefaultsResponse;
+        final themeNo =
+            parfaitDefaultResponse.getDefault("CUSTOMERAPP_THEME_NO") ?? "1";
 
-        final homePageCMSResponse = await _getHomePageCMS(
-            parfaitDefaultResponse.getDefault("CUSTOMERAPP_THEME_NO") ?? "1");
+        final homePageCMSResponse = await _getHomePageCMS(themeNo);
 
         // final format = _parafaitDefaultsResponse
         //         ?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
@@ -258,7 +259,7 @@ class NewSplashScreenNotifier extends StateNotifier<NewSplashScreenState> {
 
   Future<HomePageCMSResponse> _getHomePageCMS(String fileNo) async {
     String fileName = "CMSSmartFun_$fileNo.json";
-    //print("fileName $fileName");
+    print("fileName $fileName");
     final useCase = Get.find<GetHomePageCMSUseCase>();
     final response = await useCase(fileName);
     final LocalDataSource glutton = Get.find<LocalDataSource>();

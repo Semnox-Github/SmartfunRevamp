@@ -31,7 +31,7 @@ class MoreView extends ConsumerWidget {
     final items = cms?.getMoreMenuItems() ?? [];
     final membershipInfo = ref.watch(membershipInfoProvider).valueOrNull;
     return Scaffold(
-      backgroundColor: CustomColors.customLigthBlue,
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: AppBar(
         leading: Container(),
         backgroundColor: HexColor.fromHex(cmsHeader?.backgroundColor),
@@ -39,7 +39,7 @@ class MoreView extends ConsumerWidget {
       bottomNavigationBar: const CustomBottomBar(),
       body: SafeArea(
         child: Container(
-          color: Colors.white,
+          color: HexColor.fromHex(cmsBody?.appBackGroundColor),
           child: ListView(
             physics: const ClampingScrollPhysics(),
             children: [

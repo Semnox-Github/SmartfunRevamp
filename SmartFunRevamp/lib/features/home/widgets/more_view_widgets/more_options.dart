@@ -46,16 +46,20 @@ class MoreOptions extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(6),
+              height: 50,
+              width: 50,
+              //padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: iconBgColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: CachedNetworkImage(
                 imageUrl: item.itemUrl,
-                height: 36,
-                width: 36,
-                placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
+                height: 50,
+                width: 50,
+                fit: BoxFit.fill,
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator.adaptive(),
                 //this image ('gold_medal') looks like a placeholder for this error widget
                 errorWidget: (context, url, error) => Image.asset(
                   'assets/home/$iconPath.png',
@@ -69,7 +73,8 @@ class MoreOptions extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MulishText(
-                  text: SplashScreenNotifier.getLanguageLabel(title ?? item.displayName),
+                  text: SplashScreenNotifier.getLanguageLabel(
+                      title ?? item.displayName),
                   fontWeight: FontWeight.bold,
                   fontColor: CustomColors.customPantone,
                   fontSize: 16.0,

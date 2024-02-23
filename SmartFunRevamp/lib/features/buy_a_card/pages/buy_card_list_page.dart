@@ -41,7 +41,9 @@ class BuyCardListPage extends StatelessWidget {
                   }
               });
       final cmsPageHeader = ref.watch(cmsPageHeaderProvider);
+      final cmsBody = ref.watch(cmsBodyStyleProvider);
       return Scaffold(
+        backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
         endDrawer: const FilterDrawer(),
         appBar: filterStr == null
             ? AppBar(

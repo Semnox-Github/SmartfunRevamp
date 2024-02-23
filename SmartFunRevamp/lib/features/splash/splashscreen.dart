@@ -77,6 +77,7 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     void nextPage() =>
         Navigator.pushReplacementNamed(context, Routes.kAfterSplashScreenPage);
     ref.listen<NewSplashScreenState>(
@@ -348,6 +349,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       },
     );
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       body: ref.watch(newSplashScreenProvider).maybeWhen(
         orElse: () {
           context.loaderOverlay.hide();

@@ -14,6 +14,7 @@ import 'package:semnox/features/activity/card_activity_details_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 final _getActivityLog = FutureProvider.autoDispose
@@ -59,11 +60,16 @@ class _CardActivityLogPageState extends ConsumerState<CardActivityLogPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
+
     return Scaffold(
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel('Activity'),
       ),
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -32,6 +32,7 @@ class SelectLocationManuallyPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     late SiteViewDTO selectedSite;
     late CustomerDTO? customer = ref.watch(userProvider);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     try {
       customer = Get.find<CustomerDTO>();
     } catch (e) {
@@ -59,6 +60,7 @@ class SelectLocationManuallyPage extends ConsumerWidget {
       },
     );
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
           title: SplashScreenNotifier.getLanguageLabel('Select Location')),
       //  AppBar(
@@ -88,6 +90,7 @@ class SelectLocationManuallyPage extends ConsumerWidget {
           child: Column(
             children: [
               SearchTextField(
+                searchButtonColor: HexColor.fromHex(cmsBody?.appTextColor),
                 onChanged: (filter) => ref
                     .read(selectLocationStateProvider.notifier)
                     .filterSites(filter),
@@ -207,15 +210,19 @@ class _LocationListViewState extends State<LocationListView> {
 class SearchTextField extends StatelessWidget {
   const SearchTextField({
     Key? key,
+    required this.searchButtonColor,
     required this.onChanged,
   }) : super(key: key);
   final Function(String) onChanged;
+  final Color searchButtonColor;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       onChanged: onChanged,
       decoration: InputDecoration(
+        
+        hintStyle: TextStyle(color: searchButtonColor),
         hintText: SplashScreenNotifier.getLanguageLabel('Search'),
         suffixIcon: Container(
           margin: const EdgeInsets.all(5.0),

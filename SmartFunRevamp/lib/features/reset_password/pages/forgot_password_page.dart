@@ -4,11 +4,13 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/reset_password/provider/reset_password_provider.dart';
 import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class ForgotPasswordPage extends ConsumerWidget {
@@ -16,6 +18,7 @@ class ForgotPasswordPage extends ConsumerWidget {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     ref.listen(resetPasswordStateProvider, (_, next) {
       next.maybeWhen(
         orElse: () => Logger().d('orElse'),
@@ -31,7 +34,9 @@ class ForgotPasswordPage extends ConsumerWidget {
       );
     });
     return Scaffold(
-      appBar: CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Forgot Password')),
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
+      appBar: CustomAppBar(
+          title: SplashScreenNotifier.getLanguageLabel('Forgot Password')),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: Form(
@@ -39,16 +44,20 @@ class ForgotPasswordPage extends ConsumerWidget {
           child: Column(
             children: [
               MulishText(
-                text: SplashScreenNotifier.getLanguageLabel('Enter your registered email below to receive password reset instructions.'),
+                text: SplashScreenNotifier.getLanguageLabel(
+                    'Enter your registered email below to receive password reset instructions.'),
                 fontSize: 16.0,
                 fontWeight: FontWeight.w500,
               ),
               const SizedBox(height: 20.0),
               CustomTextField(
                 onSaved: (emailOrPhone) {
-                  ref.read(resetPasswordStateProvider.notifier).sendEmail(emailOrPhone);
+                  ref
+                      .read(resetPasswordStateProvider.notifier)
+                      .sendEmail(emailOrPhone);
                 },
-                label: SplashScreenNotifier.getLanguageLabel('Enter registered email id'),
+                label: SplashScreenNotifier.getLanguageLabel(
+                    'Enter registered email id'),
               ),
               const Spacer(),
               CustomButton(

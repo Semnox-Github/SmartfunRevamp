@@ -16,6 +16,8 @@ import 'package:semnox/core/widgets/custom_button.dart'; // Import the CustomBut
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
+
 final _getReceipt = FutureProvider.autoDispose
     .family<String, String>((ref, transactionId) async {
   final GetCardActivityTransactionDetailUseCase getTrxDetail =
@@ -34,15 +36,17 @@ final _getReceipt = FutureProvider.autoDispose
   );
 });
 
-class CardActivityReceiptPage extends StatelessWidget {
+class CardActivityReceiptPage extends ConsumerWidget {
   const CardActivityReceiptPage({Key? key, required this.transactionId})
       : super(key: key);
 
   final String transactionId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel('Transaction Details'),
       ),

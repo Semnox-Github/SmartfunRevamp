@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -9,6 +10,7 @@ import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/general_error_widget.dart';
+import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/provider/estimate/estimate_provider.dart';
 import 'package:semnox/features/buy_a_card/widgets/bill_detail_row.dart';
 import 'package:semnox/features/buy_a_card/widgets/coupon_container.dart';
@@ -23,7 +25,7 @@ final currentTransactionIdProvider = StateProvider<int?>((ref) {
   return null;
 });
 
-class EstimatedTransactionPage extends ConsumerWidget {
+class EstimatedTransactionPage extends ConsumerStatefulWidget {
   const EstimatedTransactionPage(
       {Key? key,
       required this.cardProduct,
@@ -40,14 +42,51 @@ class EstimatedTransactionPage extends ConsumerWidget {
   final double? finalPrice;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      EstimatedTransactionPageState();
+  // _MyAppState createState() => _MyAppState();
+}
+
+class EstimatedTransactionPageState
+    extends ConsumerState<EstimatedTransactionPage> {
+  bool showAlert = false;
+  String message = '';
+
+  void showErrorDialog(BuildContext context, message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() {});
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     /* Ver card number acount Numbre*/
+
     final siteId = ref.watch(selectedSiteIdProvider);
-    ref.read(estimateStateProvider.notifier).getEstimateTransaction(cardProduct,
-        cardNumber: cardSelected != null ? cardSelected!.accountNumber : '',
-        quantity: qty,
+    ref.read(estimateStateProvider.notifier).getEstimateTransaction(
+        widget.cardProduct,
+        cardNumber: widget.cardSelected != null
+            ? widget.cardSelected!.accountNumber
+            : '',
+        quantity: widget.qty,
         siteId: siteId,
-        finalPrice: finalPrice!);
+        finalPrice: widget.finalPrice!);
     ref.listen(estimateStateProvider, (previous, next) {
       next.maybeWhen(
         orElse: () => {},
@@ -61,14 +100,7 @@ class EstimatedTransactionPage extends ConsumerWidget {
               .update((_) => estimated.transactionId);
         },
         error: (message) {
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.error,
-            animType: AnimType.scale,
-            title: SplashScreenNotifier.getLanguageLabel('Error'),
-            desc: message,
-            btnOkOnPress: () => {},
-          ).show();
+          showErrorDialog(context, message);
         },
         // invalidCoupon: (message) {
         //   AwesomeDialog(
@@ -82,6 +114,11 @@ class EstimatedTransactionPage extends ConsumerWidget {
         // },
       );
     });
+
+    // if (showAlert && mounted) {
+    //   showErrorDialog(context);
+    // }
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
     final areDiscountsEnabled =
         parafaitDefault?.getDefault(ParafaitDefaultsResponse.enableDiscounts) ==
@@ -92,10 +129,12 @@ class EstimatedTransactionPage extends ConsumerWidget {
     final format =
         parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
             '#,##0.00';
+
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel(
-          transactionType == "newcard" ? "Buy a Card" : "Recharge",
+          widget.transactionType == "newcard" ? "Buy a Card" : "Recharge",
         ),
       ),
       // AppBar(
@@ -122,13 +161,13 @@ class EstimatedTransactionPage extends ConsumerWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          SplashScreenNotifier.getLanguageLabel('Value'),
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        MulishText(
+                          text: SplashScreenNotifier.getLanguageLabel('Value'),
+                          // style: const TextStyle(
+                          //color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
+                        // ),
                         const SizedBox(height: 10.0),
                         Container(
                           padding: const EdgeInsets.all(10.0),
@@ -140,28 +179,35 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                cardProduct.productName,
+                                widget.cardProduct.productName,
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
-                                cardProduct.productType == "VARIABLECARD"
-                                    ? finalPrice.toCurrency(currency, format)
-                                    : (cardProduct.finalPrice * qty)
+                              MulishText(
+                                text: widget.cardProduct.productType ==
+                                        "VARIABLECARD"
+                                    ? widget.finalPrice
+                                        .toCurrency(currency, format)
+                                    : (widget.cardProduct.finalPrice *
+                                            widget.qty)
                                         .toCurrency(currency, format),
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                // style: const TextStyle(
+                                //   color: Colors.black,
+                                fontWeight: FontWeight.bold,
+
+                                ///),
                               ),
                             ],
                           ),
                         ),
                         if (areDiscountsEnabled)
-                          CouponContainer(cardProduct, transactionResponse, qty,
-                              transactionType)
+                          CouponContainer(
+                              widget.cardProduct,
+                              transactionResponse,
+                              widget.qty,
+                              widget.transactionType)
                         else
                           const SizedBox(
                             height: 20,
@@ -170,13 +216,13 @@ class EstimatedTransactionPage extends ConsumerWidget {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              SplashScreenNotifier.getLanguageLabel(
+                            MulishText(
+                              text: SplashScreenNotifier.getLanguageLabel(
                                   'Bills Details'),
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              // style: const TextStyle(
+                              //color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              //),
                             ),
                             BillDetailRow(
                               description:
@@ -216,21 +262,21 @@ class EstimatedTransactionPage extends ConsumerWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  SplashScreenNotifier.getLanguageLabel(
+                                MulishText(
+                                  text: SplashScreenNotifier.getLanguageLabel(
                                       'Payable Amount'),
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  // style: const TextStyle(
+                                  // color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  //),
                                 ),
-                                Text(
-                                  transactionResponse.transactionNetAmount
+                                MulishText(
+                                  text: transactionResponse.transactionNetAmount
                                       .toCurrency(currency, format),
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  // style: const TextStyle(
+                                  // color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  // ),
                                 ),
                               ],
                             ),
@@ -240,13 +286,13 @@ class EstimatedTransactionPage extends ConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              transactionResponse.transactionNetAmount
+                            MulishText(
+                              text: transactionResponse.transactionNetAmount
                                   .toCurrency(currency, format),
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              // style: const TextStyle(
+                              //   color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              //),
                             ),
                             PrimaryButton(
                               onTap: () {
@@ -255,10 +301,10 @@ class EstimatedTransactionPage extends ConsumerWidget {
                                   MaterialPageRoute(
                                     builder: (context) => PaymentOptionsPage(
                                       transactionResponse: transactionResponse,
-                                      cardProduct: cardProduct,
-                                      cardDetails: cardSelected,
-                                      transactionType: transactionType,
-                                      finalPrice: finalPrice,
+                                      cardProduct: widget.cardProduct,
+                                      cardDetails: widget.cardSelected,
+                                      transactionType: widget.transactionType,
+                                      finalPrice: widget.finalPrice,
                                     ),
                                   ),
                                 );

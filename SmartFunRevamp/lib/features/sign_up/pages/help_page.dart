@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../core/widgets/custom_app_bar.dart';
+import '../../splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
-class HelpPage extends StatefulWidget {
+class HelpPage extends ConsumerStatefulWidget {
   const HelpPage({Key? key}) : super(key: key);
 
   @override
-  State<HelpPage> createState() => _HelpPageState();
+  ConsumerState<HelpPage> createState() => _HelpPageState();
 }
 
-class _HelpPageState extends State<HelpPage> {
+class _HelpPageState extends ConsumerState<HelpPage> {
   final webviewController = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
     ..loadRequest(Uri.parse(SplashScreenNotifier.getLookupValue("Help")));
 
   @override
   Widget build(BuildContext context) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar:
           CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Help')),
       //  AppBar(

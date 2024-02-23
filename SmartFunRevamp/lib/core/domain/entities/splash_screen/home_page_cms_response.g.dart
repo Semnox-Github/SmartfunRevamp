@@ -297,14 +297,17 @@ Map<String, dynamic> _$CMSPageHeaderToJson(CMSPageHeader instance) {
 
 CMSPageBodyStyle _$CMSPageBodyStyleFromJson(Map<String, dynamic> json) =>
     CMSPageBodyStyle(
-      json['WidgetBackGroundColor'] as String,
-      json['LinkTextColor'] as String,
-    );
+        json['WidgetBackGroundColor'] as String,
+        json['LinkTextColor'] as String,
+        json['AppBackGroundColor'] as String,
+        json['AppTextColor'] as String);
 
 Map<String, dynamic> _$CMSPageBodyStyleToJson(CMSPageBodyStyle instance) {
   final val = <String, dynamic>{
     'WidgetBackGroundColor': instance.widgetBackgroundColor,
     'LinkTextColor': instance.linkTextColor,
+    'AppBackGroundColor': instance.appBackGroundColor,
+    'AppTextColor': instance.appTextColor
   };
 
   return val;

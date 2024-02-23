@@ -9,6 +9,7 @@ import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
@@ -46,7 +47,9 @@ class AfterSplashScreen extends ConsumerWidget {
       },
     );
     ref.watch(SplashScreenNotifier.getInitialData);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       body: SafeArea(
         minimum: const EdgeInsets.all(10.0),
         child: Column(

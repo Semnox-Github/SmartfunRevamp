@@ -139,6 +139,7 @@ class _SelectCardRechargePageState
                 }
             });
 
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
     final currency =
         parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ??
@@ -148,6 +149,7 @@ class _SelectCardRechargePageState
             '#,##0.00';
 
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: widget.filterStr == null
           ? CustomAppBar(
               title: SplashScreenNotifier.getLanguageLabel('Recharge a Card'),

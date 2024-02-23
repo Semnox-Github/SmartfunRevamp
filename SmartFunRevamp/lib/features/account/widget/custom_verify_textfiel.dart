@@ -123,8 +123,14 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           border: InputBorder.none,
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 2.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(4.0)),
+                          ),
                           errorBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
+                          //  enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           focusedErrorBorder: InputBorder.none,
@@ -132,6 +138,9 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
                           fillColor: widget.fillColor,
                           filled: true,
                           floatingLabelBehavior: FloatingLabelBehavior.never,
+                        ),
+                        style: const TextStyle(
+                          color: Colors.white, // This changes the input color
                         ),
                       ),
                     ),

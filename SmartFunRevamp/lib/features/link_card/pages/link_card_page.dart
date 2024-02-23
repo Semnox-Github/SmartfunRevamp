@@ -8,10 +8,11 @@ class LinkCardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
-      appBar:CustomAppBar(
-          title: SplashScreenNotifier.getLanguageLabel("Link A Card"),
-        ),
+      appBar: CustomAppBar(
+        title: SplashScreenNotifier.getLanguageLabel("Link A Card"),
+      ),
       //  AppBar(
       //   title: const Text('Link A Card'),
       //   shape: const RoundedRectangleBorder(

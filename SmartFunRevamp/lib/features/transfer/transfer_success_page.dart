@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/core/domain/entities/transfer/transfer_balance.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/home/view/home_view.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class TransferSuccessPage extends StatelessWidget {
+class TransferSuccessPage extends ConsumerWidget {
   const TransferSuccessPage({super.key, required this.transferBalance});
   final TransferBalance transferBalance;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsPageHeaderProvider);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.backgroundColor),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 54.0, vertical: 20.0),
         child: Column(
@@ -27,7 +32,8 @@ class TransferSuccessPage extends StatelessWidget {
             ),
             MulishText(
               textAlign: TextAlign.center,
-              text: SplashScreenNotifier.getLanguageLabel('Transfer Successful'),
+              text:
+                  SplashScreenNotifier.getLanguageLabel('Transfer Successful'),
               fontWeight: FontWeight.bold,
               fontSize: 20.0,
             ),

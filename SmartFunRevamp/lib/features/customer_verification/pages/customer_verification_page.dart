@@ -13,6 +13,7 @@ import 'package:semnox/core/domain/entities/sign_up/user_metadata.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/custom_date_picker.dart';
@@ -23,6 +24,8 @@ import 'package:semnox/features/sign_up/pages/sign_up_page.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/custom_data_dto.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
+
+import '../../splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
 class CustomerVerificationPage extends ConsumerStatefulWidget {
   const CustomerVerificationPage({super.key});
@@ -39,6 +42,7 @@ class _CustomerVerificationPage
 
   @override
   Widget build(BuildContext context) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     final metaData = ref.watch(uiMetaDataProvider);
     final user = Get.find<CustomerDTO>();
     // ignore: unused_local_variable
@@ -94,6 +98,7 @@ class _CustomerVerificationPage
     );
 
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
           title: SplashScreenNotifier.getLanguageLabel('Verification')),
       body: SafeArea(

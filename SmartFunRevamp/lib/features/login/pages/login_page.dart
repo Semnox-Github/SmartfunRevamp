@@ -86,6 +86,7 @@ class LoginPage extends ConsumerWidget {
       );
     });
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
         child: SingleChildScrollView(

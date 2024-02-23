@@ -16,11 +16,13 @@ class OrdersSummaryPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     final customerId = ref.watch(userProvider)?.id.toString() ?? '';
     ref
         .read(OrdersProviders.ordersSummaryProvider.notifier)
         .getSummary(customerId);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel("Orders"),
       ),

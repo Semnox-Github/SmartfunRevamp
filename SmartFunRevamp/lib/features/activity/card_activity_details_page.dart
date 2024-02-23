@@ -34,6 +34,7 @@ class CardActivityDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     final parafaitDefault = ref.watch(parafaitDefaultsProvider);
     final currencySymbol =
         parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencySymbol) ??
@@ -42,6 +43,7 @@ class CardActivityDetailPage extends ConsumerWidget {
         parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
             '#,##0.00';
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel('Transaction Details'),
       ),

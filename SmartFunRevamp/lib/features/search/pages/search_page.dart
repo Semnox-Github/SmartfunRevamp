@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/buy_card/card_product.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/buy_a_card/pages/buy_card_list_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
@@ -51,7 +52,9 @@ class _SearchPageState extends ConsumerState<SearchPage>
 
   @override
   Widget build(BuildContext context) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
+        backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
         appBar: CustomAppBar(
             title: SplashScreenNotifier.getLanguageLabel('Search')),
         //  AppBar(
@@ -72,6 +75,7 @@ class _SearchPageState extends ConsumerState<SearchPage>
             children: <Widget>[
               const SizedBox(height: 10),
               SearchTextField(
+                searchButtonColor: HexColor.fromHex(cmsBody?.appTextColor),
                 onChanged: (filter) => {
                   setState(() {
                     filterStr = filter;

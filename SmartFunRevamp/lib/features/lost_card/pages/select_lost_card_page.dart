@@ -56,6 +56,7 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
     final cardColors = ref.watch(newHomePageCMSProvider)?.cardsColor;
     final cmsBody = ref.watch(newHomePageCMSProvider)?.cmsBodyStyle;
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
           title: SplashScreenNotifier.getLanguageLabel('Lost Card')),
 
@@ -134,6 +135,7 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
         ),
       ),
       bottomSheet: BottomSheetButton(
+        color: HexColor.fromHex(cmsBody?.appBackGroundColor),
         label:
             SplashScreenNotifier.getLanguageLabel('BLOCK & ISSUE REPLACEMENT'),
         onTap: () {

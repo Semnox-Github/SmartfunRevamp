@@ -10,16 +10,22 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/cards_detail/account_games_summary_detail_page.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/core/utils/extensions.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class AccountGamesSummaryPage extends ConsumerWidget {
-  const AccountGamesSummaryPage({Key? key, required this.cardNumber}) : super(key: key);
+  const AccountGamesSummaryPage({Key? key, required this.cardNumber})
+      : super(key: key);
   final String cardNumber;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(CardsProviders.accountGamesSummaryProvider.notifier).getSummary(cardNumber);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
+    ref
+        .read(CardsProviders.accountGamesSummaryProvider.notifier)
+        .getSummary(cardNumber);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
         title: SplashScreenNotifier.getLanguageLabel("Card Games Balance"),
       ),
@@ -27,12 +33,15 @@ class AccountGamesSummaryPage extends ConsumerWidget {
         minimum: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Consumer(
           builder: (context, ref, child) {
-            return ref.watch(CardsProviders.accountGamesSummaryProvider).maybeWhen(
+            return ref
+                .watch(CardsProviders.accountGamesSummaryProvider)
+                .maybeWhen(
                   orElse: () => Container(),
                   error: (message) {
                     return GeneralErrorWidget(message: message);
                   },
-                  inProgress: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  inProgress: () =>
+                      const Center(child: CircularProgressIndicator.adaptive()),
                   accountGamesSuccess: (responseData) {
                     List<AccountGameDTOList> data = List.from(responseData);
                     int totalBonus = 0;
@@ -46,15 +55,19 @@ class AccountGamesSummaryPage extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             MulishText(
-                              text: SplashScreenNotifier.getLanguageLabel('Expiring By'),
+                              text: SplashScreenNotifier.getLanguageLabel(
+                                  'Expiring By'),
                               fontWeight: FontWeight.bold,
                             ),
                             CustomDatePicker(
                               labelText: '',
                               format: DateFormat.YEAR_ABBR_MONTH_DAY,
-                              onItemSelected: (dob) =>
-                                  ref.read(CardsProviders.bonusSummaryProvider.notifier).filter(dob),
-                              hintText: SplashScreenNotifier.getLanguageLabel('Enter Date'),
+                              onItemSelected: (dob) => ref
+                                  .read(CardsProviders
+                                      .bonusSummaryProvider.notifier)
+                                  .filter(dob),
+                              hintText: SplashScreenNotifier.getLanguageLabel(
+                                  'Enter Date'),
                               suffixIcon: const Icon(
                                 Icons.date_range,
                                 color: CustomColors.hardOrange,
@@ -78,7 +91,9 @@ class AccountGamesSummaryPage extends ConsumerWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => AccountGamesSummaryDetailPage(summary: summary),
+                                      builder: (context) =>
+                                          AccountGamesSummaryDetailPage(
+                                              summary: summary),
                                     ),
                                   );
                                 },
@@ -87,20 +102,24 @@ class AccountGamesSummaryPage extends ConsumerWidget {
                                   padding: const EdgeInsets.only(bottom: 10.0),
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: CustomColors.customLigthGray),
+                                    border: Border.all(
+                                        color: CustomColors.customLigthGray),
                                     borderRadius: BorderRadius.circular(12.0),
                                   ),
                                   child: Column(
                                     children: [
                                       Container(
                                         width: double.infinity,
-                                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10.0, horizontal: 20.0),
                                         decoration: BoxDecoration(
                                           color: CustomColors.customOrange,
-                                          borderRadius: BorderRadius.circular(12.0),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
                                         ),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             MulishText(
                                               text: summary.gameId.toString(),
@@ -115,9 +134,11 @@ class AccountGamesSummaryPage extends ConsumerWidget {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Column(
                                               children: [
@@ -125,7 +146,8 @@ class AccountGamesSummaryPage extends ConsumerWidget {
                                                   text: 'Value Loaded',
                                                 ),
                                                 MulishText(
-                                                  text: '${summary.quantity.toInt()}',
+                                                  text:
+                                                      '${summary.quantity.toInt()}',
                                                 ),
                                               ],
                                             ),
@@ -135,7 +157,8 @@ class AccountGamesSummaryPage extends ConsumerWidget {
                                                   text: 'Balance',
                                                 ),
                                                 MulishText(
-                                                  text: '${summary.balanceGames.toInt()}',
+                                                  text:
+                                                      '${summary.balanceGames.toInt()}',
                                                 ),
                                               ],
                                             ),

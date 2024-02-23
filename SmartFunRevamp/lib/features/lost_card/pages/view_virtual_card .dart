@@ -28,9 +28,12 @@ class ViewVirtualCardPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cardColors = ref.watch(newHomePageCMSProvider)?.cardsColor;
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
 
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       bottomSheet: BottomSheetButton(
+          color: HexColor.fromHex(cmsBody?.appBackGroundColor),
           label: SplashScreenNotifier.getLanguageLabel('OKAY,  GOT IT'),
           onTap: () => {
                 Navigator.pop(context),

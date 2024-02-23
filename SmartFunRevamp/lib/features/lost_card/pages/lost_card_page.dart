@@ -25,7 +25,9 @@ class LostCardPage extends ConsumerWidget {
     final cardColors = ref.watch(newHomePageCMSProvider)?.cardsColor;
     final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       bottomSheet: BottomSheetButton(
+          color: HexColor.fromHex(cmsBody?.appBackGroundColor),
           label: SplashScreenNotifier.getLanguageLabel('VIEW VIRTUAL CARD'),
           onTap: () => {
                 Navigator.pop(context),

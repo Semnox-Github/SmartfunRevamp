@@ -144,6 +144,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
     );
 
     final cmsPageHeader = ref.watch(cmsPageHeaderProvider);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
+    print("cms body provider ${cmsBody?.appBackGroundColor}");
 
     AlertDialog buildExitDialog(BuildContext context) {
       return AlertDialog(
@@ -185,7 +187,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     return WillPopScope(
       onWillPop: () => onWillPop(context),
       child: Scaffold(
-        backgroundColor: HexColor.fromHex(cmsPageHeader?.backgroundColor),
+        backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
         //CustomColors.customLigthBlue,
         // HexColor.fromHex(
         //     cmsPageHeader?.backgroundColor), //CustomColors.customLigthBlue,
@@ -197,7 +199,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
             controller: _scrollController,
             physics: const ClampingScrollPhysics(),
             child: Container(
-              color: Colors.white,
+              //  color: Colors.white,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -279,22 +281,26 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                         horizontal: 10.0, vertical: 10.0),
                                     decoration: BoxDecoration(
                                       color: HexColor.fromHex(
-                                          homeColor?.upperHalf),
+                                          cmsBody?.appBackGroundColor),
+                                      // color: HexColor.fromHex(
+                                      //     homeColor?.upperHalf),
                                       borderRadius: BorderRadius.circular(15.0),
                                     ),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          SplashScreenNotifier.getLanguageLabel(
-                                              e.title),
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20.0,
-                                          ),
+                                        MulishText(
+                                          text: SplashScreenNotifier
+                                              .getLanguageLabel(e.title),
+                                          // style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20.0,
+                                          // ),
                                         ),
                                         Container(
+                                          color: HexColor.fromHex(cmsBody
+                                              ?.appBackGroundColor), //Colors.black,
                                           margin: const EdgeInsets.symmetric(
                                               vertical: 10.0),
                                           child: cardsWatch.when(
@@ -373,13 +379,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text(
-                                          SplashScreenNotifier.getLanguageLabel(
-                                              e.title),
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20.0,
-                                          ),
+                                        MulishText(
+                                          text: SplashScreenNotifier
+                                              .getLanguageLabel(e.title),
+                                          // style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20.0,
+                                          // ),
                                         ),
                                         cardsWatch.when(
                                           error: (error, stackTrace) =>
@@ -422,6 +428,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                         .getLanguageLabel(
                                                             quickLink
                                                                 .contentName),
+                                                    textColor: HexColor.fromHex(
+                                                        cmsBody?.appTextColor),
                                                     onTap: () {
                                                       if (quickLink.source
                                                               .toLowerCase() ==

@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/domain/entities/gameplays/account_gameplays.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/gameplays/provider/gameplays_provider.dart';
@@ -14,6 +15,7 @@ import 'package:semnox/features/gameplays/widgets/dialog_item.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/home/widgets/carousel_cards.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import '../../../core/widgets/custom_app_bar.dart';
@@ -52,8 +54,11 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
+
     try {
       return Scaffold(
+        backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
         appBar: CustomAppBar(
           title: SplashScreenNotifier.getLanguageLabel("Game Plays"),
         ),
@@ -116,6 +121,8 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                               itemBuilder: (context, index) {
                                 final item = data[index];
                                 return Card(
+                                  color: HexColor.fromHex(
+                                      cmsBody?.appBackGroundColor),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                     side: const BorderSide(

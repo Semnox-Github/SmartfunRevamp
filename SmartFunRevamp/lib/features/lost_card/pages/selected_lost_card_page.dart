@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/card_widget.dart';
 import 'package:semnox/features/lost_card/widgets/block_card_button.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import '../../../core/widgets/custom_app_bar.dart';
+import '../../splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
-class SelectedCardLostPage extends StatelessWidget {
+class SelectedCardLostPage extends ConsumerWidget {
   const SelectedCardLostPage({Key? key, required this.cardDetails})
       : super(key: key);
 
   final CardDetails cardDetails;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
           title: SplashScreenNotifier.getLanguageLabel('Lost Card')),
       //  AppBar(

@@ -30,12 +30,13 @@ class CouponContainer extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            SplashScreenNotifier.getLanguageLabel('Coupons'),
-            style: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
+          MulishText(
+            text: SplashScreenNotifier.getLanguageLabel('Coupons'),
+            // style: const TextStyle(
+            // color: Colors.black,
+            fontWeight: FontWeight.bold,
+            textAlign: TextAlign.justify,
+            //),
           ),
           InkWell(
             onTap: () => Dialogs.getCoupongNumberDialog(

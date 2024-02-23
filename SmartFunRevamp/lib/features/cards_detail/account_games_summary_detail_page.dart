@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/colors.dart';
 import 'package:semnox/core/domain/entities/card_details/account_game_dto_list.dart';
@@ -6,19 +7,26 @@ import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_app_bar.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/cards_detail/bonus_summary_page.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class AccountGamesSummaryDetailPage extends StatelessWidget {
-  const AccountGamesSummaryDetailPage({Key? key, required this.summary}) : super(key: key);
+class AccountGamesSummaryDetailPage extends ConsumerWidget {
+  const AccountGamesSummaryDetailPage({Key? key, required this.summary})
+      : super(key: key);
   final AccountGameDTOList summary;
 
   @override
-  Widget build(BuildContext context) {
-    late final List<AccountGameExtendedDTOList>? gamesIncExcDetail = summary.accountGameExtendedDTOList;
-    late List<AccountGameExtendedDTOList>? gamesIncluded = gamesIncExcDetail?..removeWhere((element) => (!element.exclude));
-    late List<AccountGameExtendedDTOList>? gamesExcluded = gamesIncExcDetail?..removeWhere((element) => (element.exclude));
+  Widget build(BuildContext context, WidgetRef ref) {
+    late final List<AccountGameExtendedDTOList>? gamesIncExcDetail =
+        summary.accountGameExtendedDTOList;
+    late List<AccountGameExtendedDTOList>? gamesIncluded = gamesIncExcDetail
+      ?..removeWhere((element) => (!element.exclude));
+    late List<AccountGameExtendedDTOList>? gamesExcluded = gamesIncExcDetail
+      ?..removeWhere((element) => (element.exclude));
     final double width = MediaQuery.of(context).size.width;
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBarCustomWidget(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +37,8 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             MulishText(
-              text: '${summary.fromDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.fromDate.formatDate(DateFormat.HOUR_MINUTE)}',
+              text:
+                  '${summary.fromDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.fromDate.formatDate(DateFormat.HOUR_MINUTE)}',
               fontColor: CustomColors.customBlue,
               fontSize: 16.0,
             ),
@@ -58,7 +67,8 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                           text: 'Valid From',
                           fontWeight: FontWeight.bold,
                         ),
-                        MulishText(text: summary.fromDate.formatDate('dd MMM yyyy')),
+                        MulishText(
+                            text: summary.fromDate.formatDate('dd MMM yyyy')),
                       ],
                     ),
                   ),
@@ -79,7 +89,8 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                           text: 'Valid To',
                           fontWeight: FontWeight.bold,
                         ),
-                        MulishText(text: summary.expiryDate.formatDate('dd MMM yyyy')),
+                        MulishText(
+                            text: summary.expiryDate.formatDate('dd MMM yyyy')),
                       ],
                     ),
                   ),
@@ -88,7 +99,8 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
             ),
             TotalBonusBalance(
               totalBonus: summary.balanceGames.toInt(),
-              pageTitle: SplashScreenNotifier.getLanguageLabel('Can be used to play below games'),
+              pageTitle: SplashScreenNotifier.getLanguageLabel(
+                  'Can be used to play below games'),
             ),
             const SizedBox(height: 10.0),
             Container(
@@ -102,10 +114,12 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                   ),
                   children: [
                     const WidgetSpan(
-                      child: Icon(Icons.check_circle, size: 18, color: Colors.greenAccent),
+                      child: Icon(Icons.check_circle,
+                          size: 18, color: Colors.greenAccent),
                     ),
                     TextSpan(
-                      text: " ${SplashScreenNotifier.getLanguageLabel('Can be used to play below games')}",
+                      text:
+                          " ${SplashScreenNotifier.getLanguageLabel('Can be used to play below games')}",
                     ),
                   ],
                 ),
@@ -114,11 +128,13 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
             SizedBox(
               width: width * 0.90,
               child: DataTable(
-                headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                headingRowColor: MaterialStateProperty.resolveWith<Color?>(
+                    (Set<MaterialState> states) {
                   return CustomColors.customOrange; // Use the default value.
                 }),
                 decoration: BoxDecoration(
-                  border: Border.all(color: const Color.fromARGB(255, 18, 157, 249)),
+                  border: Border.all(
+                      color: const Color.fromARGB(255, 18, 157, 249)),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 columns: <DataColumn>[
@@ -151,9 +167,15 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                   gamesIncluded!.isEmpty ? 1 : gamesIncluded.length,
                   (int index) => DataRow(
                     cells: <DataCell>[
-                      DataCell(Text(gamesIncluded.isEmpty ? '--' : gamesIncluded[index].gameProfileId.toString())),
-                      DataCell(Text(gamesIncluded.isEmpty ? '--' : gamesIncluded[index].gameId.toString())),
-                      DataCell(Text(gamesIncluded.isEmpty ? '--' : gamesIncluded[index].playLimitPerGame.toString())),
+                      DataCell(Text(gamesIncluded.isEmpty
+                          ? '--'
+                          : gamesIncluded[index].gameProfileId.toString())),
+                      DataCell(Text(gamesIncluded.isEmpty
+                          ? '--'
+                          : gamesIncluded[index].gameId.toString())),
+                      DataCell(Text(gamesIncluded.isEmpty
+                          ? '--'
+                          : gamesIncluded[index].playLimitPerGame.toString())),
                     ],
                   ),
                 ),
@@ -171,10 +193,12 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                   ),
                   children: [
                     const WidgetSpan(
-                      child: Icon(Icons.remove_circle, size: 18, color: Colors.red),
+                      child: Icon(Icons.remove_circle,
+                          size: 18, color: Colors.red),
                     ),
                     TextSpan(
-                      text: " ${SplashScreenNotifier.getLanguageLabel('Below games are excluded')}",
+                      text:
+                          " ${SplashScreenNotifier.getLanguageLabel('Below games are excluded')}",
                     ),
                   ],
                 ),
@@ -183,7 +207,8 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
             SizedBox(
               width: width * 0.90,
               child: DataTable(
-                headingRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                headingRowColor: MaterialStateProperty.resolveWith<Color?>(
+                    (Set<MaterialState> states) {
                   return CustomColors.customOrange; // Use the default value.
                 }),
                 decoration: BoxDecoration(
@@ -220,9 +245,15 @@ class AccountGamesSummaryDetailPage extends StatelessWidget {
                   gamesExcluded!.isEmpty ? 1 : gamesExcluded.length,
                   (int index) => DataRow(
                     cells: <DataCell>[
-                      DataCell(Text(gamesExcluded.isEmpty ? '--' : gamesExcluded[index].gameProfileId.toString())),
-                      DataCell(Text(gamesExcluded.isEmpty ? '--' : gamesExcluded[index].gameId.toString())),
-                      DataCell(Text(gamesExcluded.isEmpty ? '--' : gamesExcluded[index].playLimitPerGame.toString())),
+                      DataCell(Text(gamesExcluded.isEmpty
+                          ? '--'
+                          : gamesExcluded[index].gameProfileId.toString())),
+                      DataCell(Text(gamesExcluded.isEmpty
+                          ? '--'
+                          : gamesExcluded[index].gameId.toString())),
+                      DataCell(Text(gamesExcluded.isEmpty
+                          ? '--'
+                          : gamesExcluded[index].playLimitPerGame.toString())),
                     ],
                   ),
                 ),

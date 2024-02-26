@@ -100,6 +100,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           success: (cms, langDto, masterSite, parafaitDefaults,
               needsSiteSelection, user, notificationData) {
             ref.read(newHomePageCMSProvider.notifier).update((_) => cms);
+            ref.read(newHomePageCMSProvider.notifier).state = cms;
             ref
                 .read(languangeContainerProvider.notifier)
                 .update((_) => langDto);

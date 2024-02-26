@@ -28,6 +28,7 @@ class LinkACard extends ConsumerWidget {
     bool enableLink = false;
     final cardColors = ref.watch(newHomePageCMSProvider)?.cardsColor;
     final buttonStyle = ref.watch(primaryButtonStyle);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     final btnGradient = buttonStyle?.buttonColorGradient.getColorList();
     final btnTextColor = buttonStyle?.buttonTextColor;
 
@@ -41,12 +42,18 @@ class LinkACard extends ConsumerWidget {
             enableLink = true;
             if (!isAlertShown) {
               AwesomeDialog(
+                dialogBackgroundColor:
+                    HexColor.fromHex(cmsBody?.widgetBackgroundColor),
+                titleTextStyle:
+                    TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
                 context: context,
                 dialogType: DialogType.success,
                 animType: AnimType.scale,
                 title: SplashScreenNotifier.getLanguageLabel('Link A Card'),
                 desc: SplashScreenNotifier.getLanguageLabel(
                     'Card linked successfully.'),
+                descTextStyle:
+                    TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
                 btnOkOnPress: () {},
                 onDismissCallback: (_) {
                   ref.invalidate(CardsProviders.userCardsProvider);
@@ -60,6 +67,12 @@ class LinkACard extends ConsumerWidget {
             enableLink = true;
             if (!isAlertShown) {
               AwesomeDialog(
+                dialogBackgroundColor:
+                    HexColor.fromHex(cmsBody?.widgetBackgroundColor),
+                titleTextStyle:
+                    TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
+                descTextStyle:
+                    TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
                 context: context,
                 dialogType: DialogType.error,
                 animType: AnimType.scale,

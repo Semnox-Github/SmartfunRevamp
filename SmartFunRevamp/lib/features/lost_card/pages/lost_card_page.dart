@@ -9,6 +9,7 @@ import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/features/lost_card/pages/view_virtual_card%20.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../../core/widgets/mulish_text.dart';
 import '../../recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import '../../splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
@@ -70,17 +71,17 @@ class LostCardPage extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-                  Text(
-                    SplashScreenNotifier.getLanguageLabel(
+                  MulishText(
+                    text: SplashScreenNotifier.getLanguageLabel(
                             'You card  &1 has been blocked and you no longer will be abe to use it.')
                         .replaceAll("&1", cardDetails.accountNumber.toString()),
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.mulish(
-                      color: CustomColors.customBlack,
-                      fontSize: 17.0,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    // textAlign: TextAlign.center,
+                    // style: GoogleFonts.mulish(
+                    //   color: CustomColors.customBlack,
+                    // fontSize: 17.0,
+                    fontWeight: FontWeight.w500,
                   ),
+                  //  ),
                 ],
               ),
               Container(
@@ -92,15 +93,15 @@ class LostCardPage extends ConsumerWidget {
                     cardDetails: cardDetails,
                     cardColor: HexColor.fromHex(cardColors?.regular)),
               ),
-              Text(
-                SplashScreenNotifier.getLanguageLabel(
+              MulishText(
+                text: SplashScreenNotifier.getLanguageLabel(
                     'We have transfered all your credits and other points to a new virtual card.'),
-                textAlign: TextAlign.center,
-                style: GoogleFonts.mulish(
-                  color: CustomColors.customBlack,
-                  fontSize: 17.0,
-                  fontWeight: FontWeight.w500,
-                ),
+                //  textAlign: TextAlign.center,
+                // style: GoogleFonts.mulish(
+                //  color: CustomColors.customBlack,
+                /// fontSize: 17.0,
+                fontWeight: FontWeight.w500,
+                // ),
               ),
             ],
           ),

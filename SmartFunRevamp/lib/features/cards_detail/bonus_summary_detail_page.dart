@@ -106,8 +106,8 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                 child: RichText(
                   textAlign: TextAlign.left,
                   text: TextSpan(
-                    style: const TextStyle(
-                      color: Colors.black,
+                    style: TextStyle(
+                      color: HexColor.fromHex(cmsBody?.appTextColor),
                       fontWeight: FontWeight.bold,
                     ),
                     children: [
@@ -128,7 +128,8 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                 child: DataTable(
                   headingRowColor: MaterialStateProperty.resolveWith<Color?>(
                       (Set<MaterialState> states) {
-                    return CustomColors.customOrange; // Use the default value.
+                    return HexColor.fromHex(cmsBody
+                        ?.tableLineBackGroundColor); //CustomColors.customOrange; // Use the default value.
                   }),
                   decoration: BoxDecoration(
                     border: Border.all(color: CustomColors.customLigthGray),
@@ -177,8 +178,8 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                 child: RichText(
                   textAlign: TextAlign.start,
                   text: TextSpan(
-                    style: const TextStyle(
-                      color: Colors.black,
+                    style: TextStyle(
+                      color: HexColor.fromHex(cmsBody?.appTextColor),
                       fontWeight: FontWeight.bold,
                     ),
                     children: [
@@ -199,7 +200,8 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                 child: DataTable(
                   headingRowColor: MaterialStateProperty.resolveWith<Color?>(
                       (Set<MaterialState> states) {
-                    return CustomColors.customOrange; // Use the default value.
+                    return HexColor.fromHex(cmsBody
+                        ?.tableLineBackGroundColor); //CustomColors.customOrange; // Use the default value.
                   }),
                   decoration: BoxDecoration(
                     border: Border.all(color: CustomColors.customLigthGray),
@@ -248,8 +250,8 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                 child: RichText(
                   textAlign: TextAlign.left,
                   text: TextSpan(
-                    style: const TextStyle(
-                      color: Colors.black,
+                    style: TextStyle(
+                      color: HexColor.fromHex(cmsBody?.appTextColor),
                       fontWeight: FontWeight.bold,
                     ),
                     children: [
@@ -270,7 +272,8 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                 child: DataTable(
                   headingRowColor: MaterialStateProperty.resolveWith<Color?>(
                       (Set<MaterialState> states) {
-                    return CustomColors.customOrange; // Use the default value.
+                    return HexColor.fromHex(cmsBody
+                        ?.tableLineBackGroundColor); // CustomColors.customOrange; // Use the default value.
                   }),
                   decoration: BoxDecoration(
                     border: Border.all(color: CustomColors.customLigthGray),
@@ -319,8 +322,8 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                 child: RichText(
                   textAlign: TextAlign.start,
                   text: TextSpan(
-                    style: const TextStyle(
-                      color: Colors.black,
+                    style: TextStyle(
+                      color: HexColor.fromHex(cmsBody?.appTextColor),
                       fontWeight: FontWeight.bold,
                     ),
                     children: [
@@ -341,7 +344,8 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                 child: DataTable(
                   headingRowColor: MaterialStateProperty.resolveWith<Color?>(
                       (Set<MaterialState> states) {
-                    return CustomColors.customOrange; // Use the default value.
+                    return HexColor.fromHex(cmsBody
+                        ?.tableLineBackGroundColor); // Use the default value.
                   }),
                   decoration: BoxDecoration(
                     border: Border.all(color: CustomColors.customLigthGray),

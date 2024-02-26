@@ -300,14 +300,22 @@ CMSPageBodyStyle _$CMSPageBodyStyleFromJson(Map<String, dynamic> json) =>
         json['WidgetBackGroundColor'] as String,
         json['LinkTextColor'] as String,
         json['AppBackGroundColor'] as String,
-        json['AppTextColor'] as String);
+        json['AppTextColor'] as String,
+        json['TableHeaderBackGroundColor'] as String,
+        json['TableHeaderTextColor'] as String,
+        json['TableLineBackGroundColor'] as String,
+        json['TableLineTextColor'] as String);
 
 Map<String, dynamic> _$CMSPageBodyStyleToJson(CMSPageBodyStyle instance) {
   final val = <String, dynamic>{
     'WidgetBackGroundColor': instance.widgetBackgroundColor,
     'LinkTextColor': instance.linkTextColor,
     'AppBackGroundColor': instance.appBackGroundColor,
-    'AppTextColor': instance.appTextColor
+    'AppTextColor': instance.appTextColor,
+    'TableHeaderBackGroundColor': instance.tableHeaderBackGroundColor,
+    'TableHeaderTextColor': instance.tableHeaderTextColor,
+    'TableLineBackGroundColor': instance.tableLineBackGroundColor,
+    'TableLineTextColor': instance.tableHeaderTextColor
   };
 
   return val;

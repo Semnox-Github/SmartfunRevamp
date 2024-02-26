@@ -276,6 +276,8 @@ class _CustomerVerificationPage
                                     Icons.date_range_outlined,
                                     color: CustomColors.hardOrange,
                                   ),
+                                  textColor:
+                                      HexColor.fromHex(cmsBody?.appTextColor),
                                 );
                               }
                               return CustomTextField(

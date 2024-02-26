@@ -15,6 +15,7 @@ import 'package:semnox/features/home/view/home_view.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
+import '../../../core/widgets/mulish_text.dart';
 import '../../splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 
 class ViewVirtualCardPage extends ConsumerWidget {
@@ -94,15 +95,15 @@ class ViewVirtualCardPage extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-                  Text(
-                    SplashScreenNotifier.getLanguageLabel(
+                  MulishText(
+                    text: SplashScreenNotifier.getLanguageLabel(
                         'Show this Barcode on site to get a new physical card. A payment of 40 will be charged for the replacement on site.'),
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.mulish(
-                      color: CustomColors.customBlack,
-                      fontSize: 17.0,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    // style: GoogleFonts.mulish(
+                    //   color: CustomColors.customBlack,
+                    //fontSize: 17.0,
+                    fontWeight: FontWeight.w500,
+                    // ),
                   ),
                 ],
               )

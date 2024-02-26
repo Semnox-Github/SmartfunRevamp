@@ -71,6 +71,7 @@ class SelectLocationManuallyPage extends ConsumerWidget {
       //   ),
       // ),
       bottomSheet: Material(
+        color: HexColor.fromHex(cmsBody?.appBackGroundColor),
         elevation: 20.0,
         child: Container(
           padding: const EdgeInsets.all(25.0),
@@ -221,7 +222,6 @@ class SearchTextField extends StatelessWidget {
     return TextField(
       onChanged: onChanged,
       decoration: InputDecoration(
-        
         hintStyle: TextStyle(color: searchButtonColor),
         hintText: SplashScreenNotifier.getLanguageLabel('Search'),
         suffixIcon: Container(

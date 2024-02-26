@@ -34,6 +34,7 @@ class SelectedCardLostPage extends ConsumerWidget {
       //   ),
       // ),
       bottomSheet: BlockCardButton(cardDetails: cardDetails),
+      
       body: SafeArea(
         child: Column(
           children: [

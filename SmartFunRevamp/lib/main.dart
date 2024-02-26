@@ -14,9 +14,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:semnox/colors/colors.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 //import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/firebase/firebase_api.dart';
 import 'package:semnox/firebase_options.dart';
 import 'package:semnox/lifecycle_handler.dart';
@@ -126,7 +128,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
             );
           },
           initialRoute: Routes.initialRoute,
-          theme: kMainTheme,
+          theme: kMainTheme, //
         ),
       ),
     );

@@ -28,6 +28,7 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
   Widget build(BuildContext context) {
     final fromDate = ref.watch(fromDateProvider);
     final toDate = ref.watch(toDateProvider);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     final membershipCard = ref.watch(CardsProviders.membershipCardProvider);
 
     return Scaffold(
@@ -64,6 +65,7 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                       Icons.calendar_month,
                       color: CustomColors.hardOrange,
                     ),
+                    textColor: HexColor.fromHex(cmsBody?.appTextColor),
                   ),
                 ),
                 const SizedBox(width: 10.0),
@@ -82,6 +84,7 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
                       Icons.calendar_month,
                       color: CustomColors.hardOrange,
                     ),
+                    textColor: HexColor.fromHex(cmsBody?.appTextColor),
                   ),
                 )
               ],

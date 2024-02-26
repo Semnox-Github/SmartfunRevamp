@@ -1025,7 +1025,11 @@
         "WidgetBackGroundColor": "#ffffff",
         "LinkTextColor": "#6b12b8",
         "AppBackGroundColor": "#00000",
-        "AppTextColor": "#FFFF00"
+        "AppTextColor": "#FFFF00",
+        "TableHeaderBackGroundColor": "#4a4d19",
+        "TableHeaderTextColor": "#ffffff",
+        "TableLineBackGroundColor": "#cddc39",
+        "TableLineTextColor": "#ffffff"
       },
       "CardsColor": {
         "color_card_text": "#ffffff",

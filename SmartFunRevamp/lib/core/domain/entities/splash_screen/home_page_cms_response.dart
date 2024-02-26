@@ -233,9 +233,20 @@ class CMSPageBodyStyle {
   final String linkTextColor;
   final String appBackGroundColor;
   final String appTextColor;
+  final String tableHeaderBackGroundColor;
+  final String tableHeaderTextColor;
+  final String tableLineBackGroundColor;
+  final String tableLineTextColor;
 
-  CMSPageBodyStyle(this.widgetBackgroundColor, this.linkTextColor,
-      this.appBackGroundColor, this.appTextColor);
+  CMSPageBodyStyle(
+      this.widgetBackgroundColor,
+      this.linkTextColor,
+      this.appBackGroundColor,
+      this.appTextColor,
+      this.tableHeaderBackGroundColor,
+      this.tableHeaderTextColor,
+      this.tableLineBackGroundColor,
+      this.tableLineTextColor);
 
   Map<String, dynamic> toJson() => _$CMSPageBodyStyleToJson(this);
 

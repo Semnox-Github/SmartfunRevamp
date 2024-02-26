@@ -6,6 +6,7 @@ import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/lost_card/pages/lost_card_page.dart';
 import 'package:semnox/features/recharge_card/widgets/recharge_bottom_sheet_button.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class BlockCardButton extends ConsumerWidget {
@@ -17,7 +18,9 @@ class BlockCardButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return BottomSheetButton(
+        color: HexColor.fromHex(cmsBody?.appBackGroundColor),
         label:
             SplashScreenNotifier.getLanguageLabel('BLOCK & ISSUE REPLACEMENT'),
         onTap: () {

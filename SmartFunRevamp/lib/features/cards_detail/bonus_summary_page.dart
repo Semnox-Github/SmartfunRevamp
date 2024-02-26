@@ -84,6 +84,8 @@ class BonusSummaryPage extends ConsumerWidget {
                                 Icons.date_range,
                                 color: CustomColors.hardOrange,
                               ),
+                              textColor:
+                                  HexColor.fromHex(cmsBody?.appTextColor),
                             ),
                           ],
                         ),
@@ -128,7 +130,8 @@ class BonusSummaryPage extends ConsumerWidget {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10.0, horizontal: 20.0),
                                         decoration: BoxDecoration(
-                                          color: CustomColors.customOrange,
+                                          color: HexColor.fromHex(cmsBody
+                                              ?.tableLineBackGroundColor), // CustomColors.customOrange,
                                           borderRadius:
                                               BorderRadius.circular(12.0),
                                         ),
@@ -136,9 +139,13 @@ class BonusSummaryPage extends ConsumerWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            MulishText(
-                                              text: summary.remarks,
-                                              fontWeight: FontWeight.bold,
+                                            Text(
+                                              summary.remarks,
+                                              style: TextStyle(
+                                                  color: HexColor.fromHex(
+                                                      cmsBody
+                                                          ?.tableLineTextColor),
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             MulishText(
                                               text:
@@ -201,7 +208,7 @@ class BonusSummaryPage extends ConsumerWidget {
   }
 }
 
-class TotalBonusBalance extends StatelessWidget {
+class TotalBonusBalance extends ConsumerWidget {
   const TotalBonusBalance(
       {Key? key, required this.totalBonus, required this.pageTitle})
       : super(key: key);
@@ -210,26 +217,43 @@ class TotalBonusBalance extends StatelessWidget {
   final String pageTitle;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Container(
       padding: const EdgeInsets.all(20.0),
       margin: const EdgeInsets.symmetric(vertical: 20.0),
       decoration: BoxDecoration(
-        color: CustomColors.customYellow,
+        color: HexColor.fromHex(
+            cmsBody?.tableHeaderBackGroundColor), //CustomColors.customYellow,
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          MulishText(
-            text: SplashScreenNotifier.getLanguageLabel('Total &1 Balance')
+          Text(
+            SplashScreenNotifier.getLanguageLabel('Total &1 Balance')
                 .replaceAll('&1', pageTitle),
-            fontWeight: FontWeight.bold,
+            style: TextStyle(
+              color: HexColor.fromHex(cmsBody?.tableHeaderTextColor),
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          MulishText(
-            text: '$totalBonus',
-            fontWeight: FontWeight.bold,
+          // MulishText(
+          //   text: SplashScreenNotifier.getLanguageLabel('Total &1 Balance')
+          //       .replaceAll('&1', pageTitle),
+          //   fontWeight: FontWeight.bold,
+          // ),
+          Text(
+            '$totalBonus',
+            style: TextStyle(
+              color: HexColor.fromHex(cmsBody?.tableHeaderTextColor),
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          // MulishText(
+          //   text: '$totalBonus',
+          //   fontWeight: FontWeight.bold,
+          // ),
         ],
       ),
     );

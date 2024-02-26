@@ -18,7 +18,7 @@ class LoginWithOTP extends ConsumerWidget {
       key: _formKey,
       child: Column(
         children: [
-          CustomTextField(
+          CustomTextFieldWithFill(
             onSaved: (value) => phone = value,
             label: SplashScreenNotifier.getLanguageLabel(
                 'Enter registered phone number or email'),

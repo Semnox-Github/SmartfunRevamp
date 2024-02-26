@@ -254,17 +254,20 @@ class Dialogs {
   }
 
   static void showMessageInfo(
-      BuildContext context, String title, String meessge) {
+      BuildContext context, String title, String meessge, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     AwesomeDialog(
+      dialogBackgroundColor: HexColor.fromHex(cmsBody?.widgetBackgroundColor),
+      titleTextStyle: TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
       context: context,
       dialogType: DialogType.infoReverse,
       animType: AnimType.scale,
       title: title,
       desc: meessge,
-      descTextStyle: const TextStyle(
-        fontWeight: FontWeight.w400,
-        fontSize: 18,
-      ),
+      descTextStyle: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 18,
+          color: HexColor.fromHex(cmsBody?.appTextColor)),
       btnOkOnPress: () {},
       btnOkText: SplashScreenNotifier.getLanguageLabel('OK'),
       btnOkColor: Colors.blue,

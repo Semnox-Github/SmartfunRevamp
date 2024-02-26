@@ -6,19 +6,20 @@ import 'package:intl/intl.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class CustomDatePicker extends StatefulWidget {
-  const CustomDatePicker({
-    Key? key,
-    required this.labelText,
-    required this.format,
-    required this.onItemSelected,
-    this.hintText = "",
-    this.initialText = '',
-    this.initialDateTime,
-    this.maximunDateTime,
-    this.minimumDateTime,
-    this.margin = EdgeInsets.zero,
-    this.suffixIcon,
-  }) : super(key: key);
+  const CustomDatePicker(
+      {Key? key,
+      required this.labelText,
+      required this.format,
+      required this.onItemSelected,
+      this.hintText = "",
+      this.initialText = '',
+      this.initialDateTime,
+      this.maximunDateTime,
+      this.minimumDateTime,
+      this.margin = EdgeInsets.zero,
+      this.suffixIcon,
+      required this.textColor})
+      : super(key: key);
   final String labelText;
   final String hintText;
   final String? initialText;
@@ -29,6 +30,7 @@ class CustomDatePicker extends StatefulWidget {
   final Function(DateTime) onItemSelected;
   final EdgeInsetsGeometry margin;
   final Icon? suffixIcon;
+  final Color textColor;
 
   @override
   State<StatefulWidget> createState() {
@@ -61,13 +63,15 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         children: [
           Text(
             widget.labelText,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style:
+                TextStyle(fontWeight: FontWeight.bold, color: widget.textColor),
           ),
           TextFormField(
             key: UniqueKey(),
             keyboardType: TextInputType.none,
             controller: _controller,
             readOnly: true,
+            style: TextStyle(color: widget.textColor),
             onTap: () {
               if (Platform.isAndroid) {
                 _showAndroidDatePicker(context);
@@ -76,13 +80,16 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
               }
             },
             decoration: InputDecoration(
-              isDense: true,
-              suffixIcon: widget.suffixIcon,
-              fillColor: Colors.transparent,
-              filled: true,
-              hintText: widget.hintText,
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-            ),
+                hintStyle: TextStyle(color: widget.textColor),
+                isDense: true,
+                suffixIcon: widget.suffixIcon,
+                fillColor: Colors.transparent,
+                filled: true,
+                hintText: widget.hintText,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: widget.textColor),
+                    borderRadius: BorderRadius.circular(12.0))),
           ),
         ],
       ),
@@ -117,7 +124,8 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
             SizedBox(
               height: 150,
               child: CupertinoDatePicker(
-                  maximumYear: widget.maximunDateTime?.year ?? DateTime.now().year,
+                  maximumYear:
+                      widget.maximunDateTime?.year ?? DateTime.now().year,
                   initialDateTime: widget.initialDateTime,
                   minimumDate: widget.minimumDateTime,
                   mode: CupertinoDatePickerMode.date,

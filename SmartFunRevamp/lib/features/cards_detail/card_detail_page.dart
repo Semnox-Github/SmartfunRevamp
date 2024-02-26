@@ -155,7 +155,8 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                                   SplashScreenNotifier.getLanguageLabel(
                                       'Transfer Credits'),
                                   SplashScreenNotifier.getLanguageLabel(
-                                      'Please select an active card'));
+                                      'Please select an active card'),
+                                  ref);
                               return;
                             } else {
                               e.goToTarget(context);
@@ -168,7 +169,8 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                                 SplashScreenNotifier.getLanguageLabel(
                                     'Lost Card'),
                                 SplashScreenNotifier.getLanguageLabel(
-                                    'Please select an active card'));
+                                    'Please select an active card'),
+                                ref);
                             return;
                           } else {
                             e.goToTarget(context);

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:semnox/colors/gradients.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
+import 'package:semnox/themes/main_theme.dart';
 
 class DialogItem extends StatelessWidget {
-  const DialogItem({
-    super.key,
-    required this.value,
-    required this.title,
-  });
+  const DialogItem(
+      {super.key,
+      required this.value,
+      required this.title,
+      required this.color});
   final String value;
   final String title;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,7 @@ class DialogItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Card(
-        color: Colors.white,
+        color: color,
         elevation: 0.0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(

@@ -89,10 +89,11 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                   keyboardType: TextInputType.number,
                   otpPinFieldDecoration:
                       OtpPinFieldDecoration.defaultPinBoxDecoration,
-                  otpPinFieldStyle: const OtpPinFieldStyle(
-                    defaultFieldBorderColor: CustomColors.customOrange,
-                    activeFieldBorderColor: CustomColors.hardOrange,
-                  ),
+                  otpPinFieldStyle: OtpPinFieldStyle(
+                      defaultFieldBorderColor: CustomColors.customOrange,
+                      activeFieldBorderColor: CustomColors.hardOrange,
+                      textStyle: TextStyle(
+                          color: HexColor.fromHex(cmsBody?.appTextColor))),
                   maxLength: 6,
                   fieldHeight: MediaQuery.of(context).size.width * 0.12,
                   fieldWidth: MediaQuery.of(context).size.width * 0.12,

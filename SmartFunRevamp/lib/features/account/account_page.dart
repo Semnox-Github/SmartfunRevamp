@@ -227,10 +227,11 @@ class _AccountPage extends ConsumerState<AccountPage> {
                               "customAttributeId": field.customAttributeId,
                               "customerFieldType": field.customerFieldType
                             },
-                            suffixIcon: const Icon(
+                            suffixIcon: Icon(
                               Icons.date_range_outlined,
-                              color: CustomColors.hardOrange,
+                              color: HexColor.fromHex(cmsBody?.appTextColor),
                             ),
+                            textColor: HexColor.fromHex(cmsBody?.appTextColor),
                           );
                         }
                         if (field.customerFieldName == "CONTACT_PHONE") {

@@ -177,7 +177,7 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                                         )
                                       ],
                                     ),
-                                    onTap: () => showBalanceDialog(item),
+                                    onTap: () => showBalanceDialog(item, ref),
                                   ),
                                 );
                               },
@@ -197,11 +197,15 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
     }
   }
 
-  void showBalanceDialog(AccountGameplays item) {
+  void showBalanceDialog(AccountGameplays item, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     AwesomeDialog(
         context: context,
         dialogType: DialogType.noHeader,
-        dialogBackgroundColor: Theme.of(context).dialogBackgroundColor,
+        titleTextStyle:
+            TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
+        dialogBackgroundColor: HexColor.fromHex(cmsBody
+            ?.appBackGroundColor), //Theme.of(context).dialogBackgroundColor,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         body: Column(
           mainAxisSize: MainAxisSize.min,
@@ -231,22 +235,23 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
                 ),
                 children: [
                   DialogItem(
-                    title: SplashScreenNotifier.getLanguageLabel("Credits"),
-                    value: item.totalCredits.toStringAsFixed(0),
-                  ),
+                      title: SplashScreenNotifier.getLanguageLabel("Credits"),
+                      value: item.totalCredits.toStringAsFixed(0),
+                      color: HexColor.fromHex(cmsBody?.appBackGroundColor)),
                   DialogItem(
-                    title: SplashScreenNotifier.getLanguageLabel("Bonus"),
-                    value: item.totalBonus.toStringAsFixed(0),
-                  ),
+                      title: SplashScreenNotifier.getLanguageLabel("Bonus"),
+                      value: item.totalBonus.toStringAsFixed(0),
+                      color: HexColor.fromHex(cmsBody?.appBackGroundColor)),
                   DialogItem(
-                    title: SplashScreenNotifier.getLanguageLabel("Time"),
-                    value: item.time.toStringAsFixed(0),
-                  ),
+                      title: SplashScreenNotifier.getLanguageLabel("Time"),
+                      value: item.time.toStringAsFixed(0),
+                      color: HexColor.fromHex(cmsBody?.appBackGroundColor)),
                   DialogItem(
-                    title: SplashScreenNotifier.getLanguageLabel("Card Game"),
-                    value: item.cardGame
-                        .toStringAsFixed(0), //item.courtesy.toStringAsFixed(0),
-                  ),
+                      title: SplashScreenNotifier.getLanguageLabel("Card Game"),
+                      value: item.cardGame.toStringAsFixed(0),
+                      color: HexColor.fromHex(cmsBody
+                          ?.appBackGroundColor) //item.courtesy.toStringAsFixed(0),
+                      ),
                 ],
               ),
             ),

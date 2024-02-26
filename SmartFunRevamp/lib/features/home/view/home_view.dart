@@ -149,6 +149,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
     AlertDialog buildExitDialog(BuildContext context) {
       return AlertDialog(
+        backgroundColor: HexColor.fromHex(cmsBody?.widgetBackgroundColor),
         title: MulishText(
           text: SplashScreenNotifier.getLanguageLabel('Please confirm'),
         ),
@@ -440,21 +441,21 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                               SplashScreenNotifier
                                                                   .getLanguageLabel(
                                                                       'Recharge Card'),
-                                                              msgCardNoLink);
+                                                              msgCardNoLink,
+                                                              ref);
                                                         } else {
                                                           //if the user has no card selected show dialog
                                                           if (cardDetails ==
                                                               null) {
-                                                            Dialogs
-                                                                .showMessageInfo(
-                                                              context,
-                                                              SplashScreenNotifier
-                                                                  .getLanguageLabel(
-                                                                      'Recharge Card'),
-                                                              SplashScreenNotifier
-                                                                  .getLanguageLabel(
-                                                                      "Please select a card to recharge."),
-                                                            );
+                                                            Dialogs.showMessageInfo(
+                                                                context,
+                                                                SplashScreenNotifier
+                                                                    .getLanguageLabel(
+                                                                        'Recharge Card'),
+                                                                SplashScreenNotifier
+                                                                    .getLanguageLabel(
+                                                                        "Please select a card to recharge."),
+                                                                ref);
                                                             //if there is a card selected and is not blocked or expired then navigate
                                                           } else if (!(cardDetails
                                                                   .isBlocked() ||
@@ -470,16 +471,15 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                             );
                                                           } else {
                                                             //else show dialog
-                                                            Dialogs
-                                                                .showMessageInfo(
-                                                              context,
-                                                              SplashScreenNotifier
-                                                                  .getLanguageLabel(
-                                                                      'Recharge Card'),
-                                                              SplashScreenNotifier
-                                                                  .getLanguageLabel(
-                                                                      "Please select an active card"),
-                                                            );
+                                                            Dialogs.showMessageInfo(
+                                                                context,
+                                                                SplashScreenNotifier
+                                                                    .getLanguageLabel(
+                                                                        'Recharge Card'),
+                                                                SplashScreenNotifier
+                                                                    .getLanguageLabel(
+                                                                        "Please select an active card"),
+                                                                ref);
                                                           }
                                                         }
                                                       } else if (quickLink
@@ -492,21 +492,21 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                               SplashScreenNotifier
                                                                   .getLanguageLabel(
                                                                       'Lost Card'),
-                                                              msgCardNoLink);
+                                                              msgCardNoLink,
+                                                              ref);
                                                         } else {
                                                           //if the user has no card selected show dialog
                                                           if (cardDetails ==
                                                               null) {
-                                                            Dialogs
-                                                                .showMessageInfo(
-                                                              context,
-                                                              SplashScreenNotifier
-                                                                  .getLanguageLabel(
-                                                                      'Lost Card'),
-                                                              SplashScreenNotifier
-                                                                  .getLanguageLabel(
-                                                                      "Please select an active card"),
-                                                            );
+                                                            Dialogs.showMessageInfo(
+                                                                context,
+                                                                SplashScreenNotifier
+                                                                    .getLanguageLabel(
+                                                                        'Lost Card'),
+                                                                SplashScreenNotifier
+                                                                    .getLanguageLabel(
+                                                                        "Please select an active card"),
+                                                                ref);
                                                             //if there is a card selected and is not blocked or expired then navigate
                                                           } else if (!(cardDetails
                                                                   .isBlocked() ||
@@ -522,16 +522,15 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                             );
                                                           } else {
                                                             //else show dialog
-                                                            Dialogs
-                                                                .showMessageInfo(
-                                                              context,
-                                                              SplashScreenNotifier
-                                                                  .getLanguageLabel(
-                                                                      'Lost Card'),
-                                                              SplashScreenNotifier
-                                                                  .getLanguageLabel(
-                                                                      "Please select an active card"),
-                                                            );
+                                                            Dialogs.showMessageInfo(
+                                                                context,
+                                                                SplashScreenNotifier
+                                                                    .getLanguageLabel(
+                                                                        'Lost Card'),
+                                                                SplashScreenNotifier
+                                                                    .getLanguageLabel(
+                                                                        "Please select an active card"),
+                                                                ref);
                                                           }
                                                         }
                                                       } else if (quickLink
@@ -562,7 +561,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                                         'Transfer Credits'),
                                                                 SplashScreenNotifier
                                                                     .getLanguageLabel(
-                                                                        'Please select an active card'));
+                                                                        'Please select an active card'),
+                                                                ref);
                                                           } else {
                                                             Navigator.pushNamed(
                                                                 context,
@@ -578,7 +578,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                               SplashScreenNotifier
                                                                   .getLanguageLabel(
                                                                       'Transfer Credits'),
-                                                              msgCardNoLink);
+                                                              msgCardNoLink,
+                                                              ref);
                                                         }
                                                       } else {
                                                         if (hasCard) {
@@ -605,7 +606,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                                               SplashScreenNotifier
                                                                   .getLanguageLabel(
                                                                       'Activities'),
-                                                              msgCardNoLink);
+                                                              msgCardNoLink,
+                                                              ref);
                                                         }
                                                       }
                                                     },

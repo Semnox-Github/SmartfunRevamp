@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/core/routes.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/round_rectangle_picture.dart';
 import 'package:semnox/features/home/widgets/more_view_widgets/user_info.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 
-class UserPresentationCard extends StatelessWidget {
+class UserPresentationCard extends ConsumerWidget {
   const UserPresentationCard({
     super.key,
     required this.user,
@@ -13,14 +16,17 @@ class UserPresentationCard extends StatelessWidget {
   final CustomerDTO user;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cmsHeader = ref.watch(cmsPageHeaderProvider);
     return InkWell(
       onTap: () => Navigator.pushNamed(context, Routes.kAccount),
       child: Card(
         elevation: 10.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(
-          margin: const EdgeInsets.all(20.0),
+          color: HexColor.fromHex(cmsHeader?.backgroundColor),
+          //margin: const EdgeInsets.all(20.0),
           child: Row(
             children: [
               RoundRectanglePicture(user: user),

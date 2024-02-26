@@ -197,6 +197,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                               Icons.date_range_outlined,
                               color: CustomColors.hardOrange,
                             ),
+                            textColor: HexColor.fromHex(cmsBody?.appTextColor),
                           );
                         }
                         return CustomTextField(
@@ -262,9 +263,10 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                     ),
                     children: [
                       TextSpan(
-                        text:
-                            '${SplashScreenNotifier.getLanguageLabel('By Logging in you agree to our')} ',
-                      ),
+                          text:
+                              '${SplashScreenNotifier.getLanguageLabel('By Logging in you agree to our')} ',
+                          style: TextStyle(
+                              color: HexColor.fromHex(cmsBody?.appTextColor))),
                       TextSpan(
                           text: SplashScreenNotifier.getLanguageLabel(
                               'Terms of Service'),
@@ -294,6 +296,8 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                       const TextSpan(text: ' '),
                       TextSpan(
                         text: SplashScreenNotifier.getLanguageLabel('and'),
+                        style: TextStyle(
+                            color: HexColor.fromHex(cmsBody?.appTextColor)),
                       ),
                       const TextSpan(text: ' '),
                       TextSpan(
@@ -383,7 +387,8 @@ class CustomTextField extends ConsumerWidget {
             style: GoogleFonts.mulish(
                 fontWeight: FontWeight.bold,
                 fontSize: 14.0,
-                color: Colors.white),
+                color: HexColor.fromHex(cmsBody?.appTextColor) //Colors.white
+                ),
           ),
           const SizedBox(height: 5.0),
           TextFormField(
@@ -396,9 +401,11 @@ class CustomTextField extends ConsumerWidget {
             cursorColor: Colors.black,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white, width: 2.0),
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(
+                  color: Colors.white,
+                ),
               ),
               isDense: true,
               fillColor: fillColor,
@@ -415,7 +422,77 @@ class CustomTextField extends ConsumerWidget {
   }
 }
 
-class CustomPasswordTextField extends StatefulWidget {
+class CustomTextFieldWithFill extends ConsumerWidget {
+  const CustomTextFieldWithFill({
+    Key? key,
+    required this.onSaved,
+    required this.label,
+    this.inputType = TextInputType.name,
+    this.fillColor = Colors.transparent,
+    this.formatters,
+    this.initialValue,
+    this.padding = EdgeInsets.zero,
+    this.margins = EdgeInsets.zero,
+    this.required = true,
+  }) : super(key: key);
+  final Function(String) onSaved;
+  final String label;
+  final String? initialValue;
+  final TextInputType inputType;
+  final Color fillColor;
+  final List<TextInputFormatter>? formatters;
+  final EdgeInsets padding;
+  final EdgeInsets margins;
+  final bool required;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final cmsBody = ref.watch(cmsBodyStyleProvider);
+    return Container(
+      padding: padding,
+      margin: margins,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.mulish(
+              fontWeight: FontWeight.bold,
+              fontSize: 14.0,
+              // color: HexColor.fromHex(cmsBody?.appTextColor) //Colors.white
+            ),
+          ),
+          const SizedBox(height: 5.0),
+          TextFormField(
+            initialValue: initialValue,
+            inputFormatters: formatters,
+            onSaved: (newValue) => onSaved(newValue!),
+            validator: (value) => value!.isEmpty && required
+                ? SplashScreenNotifier.getLanguageLabel('Required')
+                : null,
+            cursorColor: Colors.black,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(
+                  color: Colors.white,
+                ),
+              ),
+              isDense: true,
+              fillColor: fillColor,
+              filled: true,
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class CustomPasswordTextField extends ConsumerStatefulWidget {
   const CustomPasswordTextField({
     Key? key,
     required this.onSaved,
@@ -439,14 +516,16 @@ class CustomPasswordTextField extends StatefulWidget {
   final bool required;
 
   @override
-  State<CustomPasswordTextField> createState() =>
+  ConsumerState<CustomPasswordTextField> createState() =>
       _CustomPasswordTextFieldState();
 }
 
-class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
+class _CustomPasswordTextFieldState
+    extends ConsumerState<CustomPasswordTextField> {
   bool _passwordVisible = false;
   @override
   Widget build(BuildContext context) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Container(
       padding: widget.padding,
       margin: widget.margins,
@@ -457,9 +536,9 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
           Text(
             widget.label,
             style: GoogleFonts.mulish(
-              fontWeight: FontWeight.bold,
-              fontSize: 14.0,
-            ),
+                fontWeight: FontWeight.bold,
+                fontSize: 14.0,
+                color: HexColor.fromHex(cmsBody?.appTextColor)),
           ),
           const SizedBox(height: 5.0),
           TextFormField(
@@ -473,6 +552,14 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
             keyboardType: TextInputType.emailAddress,
             obscureText: !_passwordVisible, //This will obscure text dynamically
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: BorderSide(
+                  color: HexColor.fromHex(
+                      cmsBody?.appTextColor), // Border color when enabled
+                  //width: 2.0, // Border width when enabled
+                ),
+              ),
               hintText:
                   SplashScreenNotifier.getLanguageLabel('Enter your password'),
               // Here is key idea

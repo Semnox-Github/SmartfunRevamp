@@ -117,57 +117,57 @@ class _TransferPageState extends ConsumerState<TransferPage> {
         ),
       ),
       bottomSheet: BottomSheetButton(
-        onTap: () {
-          if (!formKey.currentState!.validate()) {
-            return;
-          }
-          formKey.currentState!.save();
-          if (cardFrom!.isSameCard(cardTo)) {
-            Dialogs.showErrorMessage(
-              context,
-              SplashScreenNotifier.getLanguageLabel(
-                  "You can't transfer from/to the same card"),
-            );
-          } else {
-            TransferBalance transferBalance = TransferBalance(
-              cardFrom!,
-              cardTo!,
-              amount,
-              entitlement,
-            );
-            ref.listenManual(
-              CardsProviders.transferBalance(transferBalance),
-              (previous, next) {
-                next.maybeWhen(
-                  orElse: () => {},
-                  loading: () => context.loaderOverlay.show(),
-                  data: (_) {
-                    context.loaderOverlay.hide();
-                    ref.invalidate(CardsProviders.userCardsProvider);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TransferSuccessPage(
-                          transferBalance: transferBalance,
+          onTap: () {
+            if (!formKey.currentState!.validate()) {
+              return;
+            }
+            formKey.currentState!.save();
+            if (cardFrom!.isSameCard(cardTo)) {
+              Dialogs.showErrorMessage(
+                context,
+                SplashScreenNotifier.getLanguageLabel(
+                    "You can't transfer from/to the same card"),
+              );
+            } else {
+              TransferBalance transferBalance = TransferBalance(
+                cardFrom!,
+                cardTo!,
+                amount,
+                entitlement,
+              );
+              ref.listenManual(
+                CardsProviders.transferBalance(transferBalance),
+                (previous, next) {
+                  next.maybeWhen(
+                    orElse: () => {},
+                    loading: () => context.loaderOverlay.show(),
+                    data: (_) {
+                      context.loaderOverlay.hide();
+                      ref.invalidate(CardsProviders.userCardsProvider);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TransferSuccessPage(
+                            transferBalance: transferBalance,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  error: (error, stackTrace) {
-                    context.loaderOverlay.hide();
-                    Dialogs.showErrorMessage(
-                      context,
-                      SplashScreenNotifier.getLanguageLabel(
-                          'There was an error during the transfer.\nPlease try again.'),
-                    );
-                  },
-                );
-              },
-              fireImmediately: true,
-            );
-          }
-        },
-      ),
+                      );
+                    },
+                    error: (error, stackTrace) {
+                      context.loaderOverlay.hide();
+                      Dialogs.showErrorMessage(
+                        context,
+                        SplashScreenNotifier.getLanguageLabel(
+                            'There was an error during the transfer.\nPlease try again.'),
+                      );
+                    },
+                  );
+                },
+                fireImmediately: true,
+              );
+            }
+          },
+          backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor)),
     );
   }
 }

@@ -21,6 +21,7 @@ class EntitlementField extends StatelessWidget {
         CustomNativeDropdown(
           items: const ['Credits', 'Bonus', 'Tickets'],
           onChanged: onChanged,
+          
         ),
       ],
     );

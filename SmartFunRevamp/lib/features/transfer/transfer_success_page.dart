@@ -16,9 +16,9 @@ class TransferSuccessPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cmsBody = ref.watch(cmsPageHeaderProvider);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Scaffold(
-      backgroundColor: HexColor.fromHex(cmsBody?.backgroundColor),
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 54.0, vertical: 20.0),
         child: Column(

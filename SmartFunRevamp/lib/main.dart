@@ -58,7 +58,8 @@ void main() async {
   }
   CachedNetworkImage.logLevel = CacheManagerLogLevel.none;
   di.init();
-  runApp(const MyApp());
+  //runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 const _posibleLoadings = [
@@ -100,38 +101,41 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
       DeviceOrientation.portraitDown,
     ]);
 
-    return ProviderScope(
-      child: GlobalLoaderOverlay(
-        useDefaultLoading: false,
-        overlayWidget: Center(
-          child: SizedBox(
-            height: 50.0,
-            width: 50.0,
-            child: _posibleLoadings[Random().nextInt(_posibleLoadings.length)],
-          ),
-        ),
-        child: MaterialApp(
-          title: 'SmartFun',
-          navigatorKey: navigatorKey,
-          routes: Routes.routesMap,
-          onUnknownRoute: (settings) {
-            return MaterialPageRoute(
-              settings: settings,
-              builder: (BuildContext context) => Scaffold(
-                appBar: AppBar(),
-                body: Center(
-                  child: MulishText(
-                      text:
-                          '404 Page not found.\n Route ${settings.name} not found'),
-                ),
-              ),
-            );
-          },
-          initialRoute: Routes.initialRoute,
-          theme: kMainTheme, //
+    // return ProviderScope(
+    return GlobalLoaderOverlay(
+      useDefaultLoading: false,
+      overlayWidget: Center(
+        child: SizedBox(
+          height: 50.0,
+          width: 50.0,
+          child: _posibleLoadings[Random().nextInt(_posibleLoadings.length)],
         ),
       ),
+      child: MaterialApp(
+        title: 'SmartFun',
+        navigatorKey: navigatorKey,
+        routes: Routes.routesMap,
+        onUnknownRoute: (settings) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (BuildContext context) => Scaffold(
+              appBar: AppBar(),
+              body: Center(
+                child: MulishText(
+                    text:
+                        '404 Page not found.\n Route ${settings.name} not found'),
+              ),
+            ),
+          );
+        },
+        initialRoute: Routes.initialRoute,
+
+        //theme: getAppTheme(context, kMainTheme)
+        theme: getAppTheme(context, ref.watch(appThemeProvider)),
+        //kMainTheme, //
+      ),
     );
+    // );
   }
 
   @override

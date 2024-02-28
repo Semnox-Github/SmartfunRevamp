@@ -147,11 +147,14 @@ class BonusSummaryPage extends ConsumerWidget {
                                                           ?.tableLineTextColor),
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            MulishText(
-                                              text:
-                                                  '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
-                                              fontSize: 10.0,
-                                            ),
+                                            Text(
+                                                '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)},${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
+                                                style: TextStyle(
+                                                  color: HexColor.fromHex(
+                                                      cmsBody
+                                                          ?.tableLineTextColor),
+                                                  fontSize: 12,
+                                                ))
                                           ],
                                         ),
                                       ),

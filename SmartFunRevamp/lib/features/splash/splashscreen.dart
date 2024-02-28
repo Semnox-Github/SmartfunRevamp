@@ -21,6 +21,7 @@ import 'package:semnox/features/login/provider/login_notifier.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
+import 'package:semnox/themes/main_theme.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -101,6 +102,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               needsSiteSelection, user, notificationData) {
             ref.read(newHomePageCMSProvider.notifier).update((_) => cms);
             ref.read(newHomePageCMSProvider.notifier).state = cms;
+            final customTheme = setAppTheme(cms.cmsBodyStyle);
+            ref.read(appThemeProvider.notifier).state = customTheme;
+
             ref
                 .read(languangeContainerProvider.notifier)
                 .update((_) => langDto);

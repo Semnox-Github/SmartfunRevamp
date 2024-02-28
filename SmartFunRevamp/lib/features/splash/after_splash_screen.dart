@@ -65,7 +65,7 @@ class AfterSplashScreen extends ConsumerWidget {
               SplashScreenNotifier.getLanguageLabel('QUICK CARD RECHARGES'),
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: CustomColors.customBlack,
+                //color: CustomColors.customBlack,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w400,
               ),

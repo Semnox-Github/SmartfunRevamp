@@ -25,11 +25,14 @@ import 'package:semnox/di/injection_container.dart';
 import 'package:semnox/features/splash/after_splash_screen.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 import 'package:semnox/firebase/firebase_api.dart';
+import 'package:semnox/themes/main_theme.dart';
 import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:semnox_core/modules/sites/model/site_view_dto.dart';
 
 part 'new_splash_screen_notifier.freezed.dart';
 part 'new_splash_screen_state.dart';
+
+final appThemeProvider = StateProvider<ThemeData>((ref) => kMainTheme);
 
 final newHomePageCMSProvider = StateProvider<HomePageCMSResponse?>((ref) {
   return null;

@@ -54,6 +54,7 @@ class _PasswordFieldState extends State<PasswordField> {
               ),
             ),
           ),
+          style: const TextStyle(color: Colors.black),
         )
       ],
     );

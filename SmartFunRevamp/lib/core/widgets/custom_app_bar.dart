@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:semnox/colors/colors.dart';
@@ -5,6 +7,7 @@ import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response
 import 'package:semnox/core/widgets/mulish_text.dart';
 
 import '../../features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
+import '../../features/splash/provider/splash_screen_notifier.dart';
 import '../utils/extensions.dart';
 
 final appHeader = Provider<CMSPageHeader?>((ref) {
@@ -29,13 +32,13 @@ class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
     print("background Color $backgroundColor");
     print("textColor $textColor");
     return AppBar(
-      title: MulishText(
-        text: title,
-        fontWeight: FontWeight.bold,
-        fontColor: HexColor.fromHex(textColor), // CustomColors.customPink,
-        //customBlue,
-
-        fontSize: fontSize,
+      title: Text(
+        SplashScreenNotifier.getLanguageLabel(title),
+        style: TextStyle(
+          color: HexColor.fromHex(textColor), // CustomColors.customBlue,
+          fontWeight: FontWeight.bold,
+          // fontSize: 16.0,
+        ),
       ),
       iconTheme: IconThemeData(color: HexColor.fromHex(textColor)),
       centerTitle: false,
@@ -75,7 +78,7 @@ class CustomAppBarCustomWidget extends ConsumerWidget
         ),
       ),
       foregroundColor: HexColor.fromHex(textColor),
-      // title: title,
+      title: title,
       centerTitle: false,
     );
   }

@@ -24,7 +24,9 @@ class LoginWithOTP extends ConsumerWidget {
                 'Enter registered phone number or email'),
             inputType: TextInputType.emailAddress,
             fillColor: Colors.white,
-            initialValue: '', //gkodaja@gmail.com
+            fontColor: Colors.black,
+            initialValue: '',
+            //gkodaja@gmail.com
           ),
           const SizedBox(height: 20.0),
           CustomButton(

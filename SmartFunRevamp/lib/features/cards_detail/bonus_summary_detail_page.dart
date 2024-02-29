@@ -22,22 +22,26 @@ class BonusSummaryDetailPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final double width = MediaQuery.of(context).size.width;
     final cmsBody = ref.watch(cmsBodyStyleProvider);
+    final cmsHeader = ref.watch(cmsPageHeaderProvider);
     return Scaffold(
       backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBarCustomWidget(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MulishText(
-              text: summary.remarks,
-              fontColor: CustomColors.customBlue,
-              fontWeight: FontWeight.bold,
-            ),
-            MulishText(
-              text:
-                  '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
-              fontColor: CustomColors.customBlue,
-              fontSize: 16.0,
+            Text(summary.remarks,
+                style: TextStyle(
+                  color: HexColor.fromHex(
+                      cmsHeader?.textColor), //CustomColors.customBlue,
+                  fontWeight: FontWeight.bold,
+                )),
+            Text(
+              '${summary.periodFrom.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.periodFrom.formatDate(DateFormat.HOUR_MINUTE)}',
+              style: TextStyle(
+                color: HexColor.fromHex(cmsHeader?.textColor),
+                // color: CustomColors.customBlue,
+                fontSize: 16.0,
+              ),
             ),
           ],
         ),

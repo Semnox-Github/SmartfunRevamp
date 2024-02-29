@@ -25,22 +25,27 @@ class AccountGamesSummaryDetailPage extends ConsumerWidget {
       ?..removeWhere((element) => (element.exclude));
     final double width = MediaQuery.of(context).size.width;
     final cmsBody = ref.watch(cmsBodyStyleProvider);
+    final cmsHeader = ref.watch(cmsPageHeaderProvider);
     return Scaffold(
       backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBarCustomWidget(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MulishText(
-              text: summary.gameId.toString(),
-              fontColor: CustomColors.customBlue,
-              fontWeight: FontWeight.bold,
+            Text(
+              summary.gameId.toString(),
+              style: TextStyle(
+                color: HexColor.fromHex(cmsHeader?.textColor),
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            MulishText(
-              text:
-                  '${summary.fromDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.fromDate.formatDate(DateFormat.HOUR_MINUTE)}',
-              fontColor: CustomColors.customBlue,
-              fontSize: 16.0,
+            Text(
+              '${summary.fromDate.formatDate(DateFormat.YEAR_ABBR_MONTH_DAY)} - ${summary.fromDate.formatDate(DateFormat.HOUR_MINUTE)}',
+              //  fontColor: CustomColors.customBlue,
+              style: TextStyle(
+                color: HexColor.fromHex(cmsHeader?.textColor),
+                fontSize: 16.0,
+              ),
             ),
           ],
         ),

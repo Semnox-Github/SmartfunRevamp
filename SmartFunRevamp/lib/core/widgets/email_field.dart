@@ -33,6 +33,7 @@ class EmailTextField extends StatelessWidget {
             filled: true,
             floatingLabelBehavior: FloatingLabelBehavior.never,
           ),
+          style: const TextStyle(color: Colors.black),
         )
       ],
     );

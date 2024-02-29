@@ -429,6 +429,7 @@ class CustomTextFieldWithFill extends ConsumerWidget {
     required this.label,
     this.inputType = TextInputType.name,
     this.fillColor = Colors.transparent,
+    this.fontColor = Colors.transparent,
     this.formatters,
     this.initialValue,
     this.padding = EdgeInsets.zero,
@@ -440,6 +441,7 @@ class CustomTextFieldWithFill extends ConsumerWidget {
   final String? initialValue;
   final TextInputType inputType;
   final Color fillColor;
+  final Color fontColor;
   final List<TextInputFormatter>? formatters;
   final EdgeInsets padding;
   final EdgeInsets margins;
@@ -484,6 +486,9 @@ class CustomTextFieldWithFill extends ConsumerWidget {
               fillColor: fillColor,
               filled: true,
               floatingLabelBehavior: FloatingLabelBehavior.never,
+            ),
+            style: TextStyle(
+              color: fontColor, // This changes the input color
             ),
           )
         ],

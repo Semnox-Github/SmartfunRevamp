@@ -174,15 +174,15 @@ class CMSModuleColorsHome {
   final String upperHalf;
   final String middle;
   final String bottomHalf;
+  @JsonKey(name: "profile_TextColor")
+  final String profileTextColor;
   @JsonKey(name: "profile_picture_gradient")
   final List<String> profilePictureGradient;
+  //@JsonKey(name: "profile_TextColor")
+  //final String profileTextColor;
 
-  CMSModuleColorsHome(
-    this.upperHalf,
-    this.middle,
-    this.bottomHalf,
-    this.profilePictureGradient,
-  );
+  CMSModuleColorsHome(this.upperHalf, this.middle, this.bottomHalf,
+      this.profileTextColor, this.profilePictureGradient);
   factory CMSModuleColorsHome.fromJson(Map<String, dynamic> json) =>
       _$CMSModuleColorsHomeFromJson(json);
   Map<String, dynamic> toJson() => _$CMSModuleColorsHomeToJson(this);
@@ -233,6 +233,12 @@ class CMSPageBodyStyle {
   final String linkTextColor;
   final String appBackGroundColor;
   final String appTextColor;
+  final String primaryColor;
+  final String popupBackGroundColor;
+  final String errorTextColor;
+  //  "PrimaryColor"
+  // 			"PopupBackGroundColor"
+  // 			"ErrorTextColor"
   final String tableHeaderBackGroundColor;
   final String tableHeaderTextColor;
   final String tableLineBackGroundColor;
@@ -243,6 +249,9 @@ class CMSPageBodyStyle {
       this.linkTextColor,
       this.appBackGroundColor,
       this.appTextColor,
+      this.primaryColor,
+      this.popupBackGroundColor,
+      this.errorTextColor,
       this.tableHeaderBackGroundColor,
       this.tableHeaderTextColor,
       this.tableLineBackGroundColor,

@@ -57,6 +57,7 @@ class _MapPageState extends ConsumerState<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     late CustomerDTO? customer = ref.watch(userProvider);
     try {
       customer = Get.find<CustomerDTO>();
@@ -70,7 +71,7 @@ class _MapPageState extends ConsumerState<MapPage> {
           orElse: () => context.loaderOverlay.hide(),
           error: (message) {
             context.loaderOverlay.hide();
-            Dialogs.showErrorMessage(context, message);
+            Dialogs.showErrorMessage(context, message, ref);
           },
           inProgress: () => context.loaderOverlay.show(),
           newContextSuccess: (selectedSite) {
@@ -92,6 +93,8 @@ class _MapPageState extends ConsumerState<MapPage> {
         orElse: () => {},
         error: (_, __) {
           AwesomeDialog(
+            dialogBackgroundColor:
+                HexColor.fromHex(cmsBody?.popupBackGroundColor),
             context: context,
             dialogType: DialogType.error,
             animType: AnimType.scale,
@@ -111,7 +114,7 @@ class _MapPageState extends ConsumerState<MapPage> {
         },
       );
     });
-    final cmsBody = ref.watch(cmsBodyStyleProvider);
+
     return Scaffold(
       backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       floatingActionButton: hasSelectedSite

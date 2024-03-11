@@ -44,19 +44,29 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
 
   @override
   Future<Either<Failure, SystemUser>> authenticateBaseURL() async {
+    final login = {
+      "LoginId": "SmartFun",
+      "Password": "",
+      "LoginToken": await jwtGenerator(secretKey: dotenv.env['SECRET_KEY']!),
+    };
+
+    print("LoginBody $login");
     try {
       final response = await _api.authenticateSystemUser(
         {
           "LoginId": "SmartFun",
           "Password": "",
-          "LoginToken": await jwtGenerator(secretKey: dotenv.env['SECRET_KEY']!),
+          "LoginToken":
+              await jwtGenerator(secretKey: dotenv.env['SECRET_KEY']!),
         },
       );
-      final token = response.response.headers.value(HttpHeaders.authorizationHeader);
+      final token =
+          response.response.headers.value(HttpHeaders.authorizationHeader);
       final systemUserResponse = await _api.getExecutionContext(
         token: token,
       );
-      final systemUser = SystemUser.fromJson(Map<String, dynamic>.from(systemUserResponse.response.data)['data']);
+      final systemUser = SystemUser.fromJson(
+          Map<String, dynamic>.from(systemUserResponse.response.data)['data']);
       systemUser.webApiToken = token;
       return Right(systemUser);
     } on Exception catch (e) {
@@ -65,7 +75,8 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
   }
 
   @override
-  Future<Either<Failure, void>> getAppImages({required String imageType, required String lastModifiedDate}) async {
+  Future<Either<Failure, void>> getAppImages(
+      {required String imageType, required String lastModifiedDate}) async {
     try {
       final response = await _api.getAppImages(imageType, lastModifiedDate);
       Logger().d(response);
@@ -79,7 +90,8 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
   Future<Either<Failure, void>> getAppProductsImages(
       {required String imageType, required String lastModifiedDate}) async {
     try {
-      final response = await _api.getAppProductsImages(lastModifiedDate, imageType);
+      final response =
+          await _api.getAppProductsImages(lastModifiedDate, imageType);
       Logger().d(response);
       return const Right(null);
     } on Exception catch (e) {
@@ -99,7 +111,8 @@ class SplashScreenRepositoryImpl implements SplashScreenRepository {
   }
 
   @override
-  Future<Either<Failure, void>> getParafaitLanguages({required String siteId}) async {
+  Future<Either<Failure, void>> getParafaitLanguages(
+      {required String siteId}) async {
     try {
       final response = await _api.getParafaitLanguages(siteId);
       Logger().d(response);

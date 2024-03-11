@@ -200,11 +200,11 @@ class _MembershipRewardsPageState extends ConsumerState<MembershipRewardsPage> {
   }
 }
 
-class CardCustomWidget extends StatelessWidget {
+class CardCustomWidget extends ConsumerWidget {
   const CardCustomWidget({super.key, required this.card});
   final CardDetails card;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return BackgroundCard(
       isVirtual: card.isBlocked(),
       isExpired: card.isExpired(),
@@ -239,8 +239,8 @@ class CardCustomWidget extends StatelessWidget {
                 ],
               ),
               GestureDetector(
-                onTap: () =>
-                    Dialogs.showBarcodeTempCard(context, card.accountNumber!),
+                onTap: () => Dialogs.showBarcodeTempCard(
+                    context, card.accountNumber!, ref),
                 child: const ImageHandler(
                   height: 42.0,
                   imageKey: "QR_image_path",

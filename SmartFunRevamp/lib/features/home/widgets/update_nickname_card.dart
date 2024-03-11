@@ -9,16 +9,19 @@ import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/input_text_field.dart';
 import 'package:semnox/features/home/provider/cards_provider.dart';
 import 'package:semnox/features/home/provider/update_card_nickname/update_card_nickname_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 class UpdateNicknameCard extends ConsumerWidget {
   final CardDetails cardDetails;
-  UpdateNicknameCard({super.key, required this.cardDetails, required this.onUpdate});
+  UpdateNicknameCard(
+      {super.key, required this.cardDetails, required this.onUpdate});
   final _formKey = GlobalKey<FormState>();
   final Function(String) onUpdate;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     String cardNickname = '';
     ref.listen(
       updateCardNicknameProvider,
@@ -30,7 +33,8 @@ class UpdateNicknameCard extends ConsumerWidget {
             Navigator.of(context).pop();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(SplashScreenNotifier.getLanguageLabel('Nickname successfully updated')),
+                content: Text(SplashScreenNotifier.getLanguageLabel(
+                    'Nickname successfully updated')),
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
@@ -48,6 +52,8 @@ class UpdateNicknameCard extends ConsumerWidget {
           error: (e) {
             context.loaderOverlay.hide();
             AwesomeDialog(
+              dialogBackgroundColor:
+                  HexColor.fromHex(cmsBody?.popupBackGroundColor),
               context: context,
               dialogType: DialogType.error,
               animType: AnimType.scale,
@@ -81,7 +87,8 @@ class UpdateNicknameCard extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      SplashScreenNotifier.getLanguageLabel('Edit nickanme of your card'),
+                      SplashScreenNotifier.getLanguageLabel(
+                          'Edit nickanme of your card'),
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -98,9 +105,14 @@ class UpdateNicknameCard extends ConsumerWidget {
               children: [
                 Expanded(
                   child: InputTextField(
-                    initialValue: cardDetails.accountIdentifier.isNullOrEmpty() ? cardDetails.customerName! : cardDetails.accountIdentifier!.characters.take(15).toString(),
+                    initialValue: cardDetails.accountIdentifier.isNullOrEmpty()
+                        ? cardDetails.customerName!
+                        : cardDetails.accountIdentifier!.characters
+                            .take(15)
+                            .toString(),
                     onSaved: (newNickname) => cardNickname = newNickname,
-                    hintText: SplashScreenNotifier.getLanguageLabel('Choose nickname'),
+                    hintText: SplashScreenNotifier.getLanguageLabel(
+                        'Choose nickname'),
                     prefixIcon: IconButton(
                       icon: const Icon(
                         Icons.add_card,
@@ -131,7 +143,10 @@ class UpdateNicknameCard extends ConsumerWidget {
                         if (_formKey.currentState!.validate()) {
                           Logger().d('updating nickname');
                           _formKey.currentState!.save();
-                          ref.read(updateCardNicknameProvider.notifier).updateCardNickname(cardDetails.accountId!, cardNickname);
+                          ref
+                              .read(updateCardNicknameProvider.notifier)
+                              .updateCardNickname(
+                                  cardDetails.accountId!, cardNickname);
                         }
                       },
                       child: Text(

@@ -115,6 +115,7 @@ CMSModuleColorsHome _$CMSModuleColorsHomeFromJson(Map<String, dynamic> json) =>
       json['upper_half'] as String,
       json['middle'] as String,
       json['bottom_half'] as String,
+      json['profile_TextColor'] as String,
       (json['profile_picture_gradient'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
@@ -126,6 +127,7 @@ Map<String, dynamic> _$CMSModuleColorsHomeToJson(
       'upper_half': instance.upperHalf,
       'middle': instance.middle,
       'bottom_half': instance.bottomHalf,
+      'profile_TextColor': instance.profileTextColor,
       'profile_picture_gradient': instance.profilePictureGradient,
     };
 
@@ -301,6 +303,9 @@ CMSPageBodyStyle _$CMSPageBodyStyleFromJson(Map<String, dynamic> json) =>
         json['LinkTextColor'] as String,
         json['AppBackGroundColor'] as String,
         json['AppTextColor'] as String,
+        json['PrimaryColor'] as String,
+        json['PopupBackGroundColor'] as String,
+        json['ErrorTextColor'] as String,
         json['TableHeaderBackGroundColor'] as String,
         json['TableHeaderTextColor'] as String,
         json['TableLineBackGroundColor'] as String,
@@ -312,6 +317,9 @@ Map<String, dynamic> _$CMSPageBodyStyleToJson(CMSPageBodyStyle instance) {
     'LinkTextColor': instance.linkTextColor,
     'AppBackGroundColor': instance.appBackGroundColor,
     'AppTextColor': instance.appTextColor,
+    'PrimaryColor': instance.primaryColor,
+    'PopupBackGroundColor': instance.popupBackGroundColor,
+    'ErrorTextColor': instance.errorTextColor,
     'TableHeaderBackGroundColor': instance.tableHeaderBackGroundColor,
     'TableHeaderTextColor': instance.tableHeaderTextColor,
     'TableLineBackGroundColor': instance.tableLineBackGroundColor,

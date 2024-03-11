@@ -144,7 +144,10 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                       label: Expanded(
                         child: Text(
                           SplashScreenNotifier.getLanguageLabel('Category'),
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: HexColor.fromHex(
+                                  cmsBody?.tableLineTextColor)),
                         ),
                       ),
                     ),
@@ -152,7 +155,10 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                       label: Expanded(
                         child: Text(
                           SplashScreenNotifier.getLanguageLabel('Package'),
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: HexColor.fromHex(
+                                  cmsBody?.tableLineTextColor)),
                         ),
                       ),
                     ),
@@ -160,7 +166,10 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                       label: Expanded(
                         child: Text(
                           SplashScreenNotifier.getLanguageLabel('Qty'),
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: HexColor.fromHex(
+                                  cmsBody?.tableLineTextColor)),
                         ),
                       ),
                     ),
@@ -216,7 +225,10 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                       label: Expanded(
                         child: Text(
                           SplashScreenNotifier.getLanguageLabel('Category'),
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: HexColor.fromHex(
+                                  cmsBody?.tableLineTextColor)),
                         ),
                       ),
                     ),
@@ -224,7 +236,10 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                       label: Expanded(
                         child: Text(
                           SplashScreenNotifier.getLanguageLabel('Package'),
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: HexColor.fromHex(
+                                  cmsBody?.tableLineTextColor)),
                         ),
                       ),
                     ),
@@ -288,7 +303,10 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                       label: Expanded(
                         child: Text(
                           SplashScreenNotifier.getLanguageLabel('Category'),
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: HexColor.fromHex(
+                                  cmsBody?.tableLineTextColor)),
                         ),
                       ),
                     ),
@@ -296,7 +314,10 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                       label: Expanded(
                         child: Text(
                           SplashScreenNotifier.getLanguageLabel('Game'),
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: HexColor.fromHex(
+                                  cmsBody?.tableLineTextColor)),
                         ),
                       ),
                     ),
@@ -304,7 +325,10 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                       label: Expanded(
                         child: Text(
                           SplashScreenNotifier.getLanguageLabel('Qty'),
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: HexColor.fromHex(
+                                  cmsBody?.tableLineTextColor)),
                         ),
                       ),
                     ),
@@ -360,7 +384,10 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                       label: Expanded(
                         child: Text(
                           SplashScreenNotifier.getLanguageLabel('Category'),
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: HexColor.fromHex(
+                                  cmsBody?.tableLineTextColor)),
                         ),
                       ),
                     ),
@@ -368,7 +395,10 @@ class BonusSummaryDetailPage extends ConsumerWidget {
                       label: Expanded(
                         child: Text(
                           SplashScreenNotifier.getLanguageLabel('Game'),
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: HexColor.fromHex(
+                                  cmsBody?.tableLineTextColor)),
                         ),
                       ),
                     ),

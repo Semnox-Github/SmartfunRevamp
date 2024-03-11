@@ -72,7 +72,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
         },
         error: (message) {
           context.loaderOverlay.hide();
-          Dialogs.showErrorMessage(context, message);
+          Dialogs.showErrorMessage(context, message, ref);
         },
       );
     });
@@ -95,7 +95,7 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
         },
         error: (message) {
           context.loaderOverlay.hide();
-          Dialogs.showErrorMessage(context, message);
+          Dialogs.showErrorMessage(context, message, ref);
         },
       );
     });
@@ -164,8 +164,13 @@ class _SignUpPage extends ConsumerState<SignUpPage> {
                                   return DropdownMenuItem<String>(
                                     value: title,
                                     child: Text(
-                                        SplashScreenNotifier.getLanguageLabel(
-                                            title)),
+                                      SplashScreenNotifier.getLanguageLabel(
+                                        title,
+                                      ),
+                                      style: TextStyle(
+                                          color: HexColor.fromHex(
+                                              cmsBody?.appTextColor)),
+                                    ),
                                   );
                                 }).toList(),
                                 onChanged: (title) =>
@@ -398,23 +403,25 @@ class CustomTextField extends ConsumerWidget {
             validator: (value) => value!.isEmpty && required
                 ? SplashScreenNotifier.getLanguageLabel('Required')
                 : null,
-            cursorColor: Colors.black,
+            cursorColor:
+                HexColor.fromHex(cmsBody?.appTextColor), //Colors.black,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.0),
-                borderSide: const BorderSide(
-                  color: Colors.white,
-                ),
-              ),
+              // enabledBorder: OutlineInputBorder(
+              //   borderRadius: BorderRadius.circular(12.0),
+              //   borderSide: const BorderSide(
+              //     color:
+              //   ),
+              // ),
               isDense: true,
               fillColor: fillColor,
               filled: true,
               floatingLabelBehavior: FloatingLabelBehavior.never,
             ),
-            style: const TextStyle(
-              color: Colors.white, // This changes the input color
-            ),
+            style: TextStyle(
+                color: HexColor.fromHex(cmsBody
+                    ?.appTextColor) // Colors.white, // This changes the input color
+                ),
           )
         ],
       ),
@@ -586,6 +593,7 @@ class _CustomPasswordTextFieldState
               filled: true,
               floatingLabelBehavior: FloatingLabelBehavior.never,
             ),
+            style: TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
           )
         ],
       ),

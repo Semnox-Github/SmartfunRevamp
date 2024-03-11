@@ -32,9 +32,12 @@ class NotificationCenterPage extends StatelessWidget {
       final cmsPageHeader = ref.watch(cmsPageHeaderProvider);
       return Scaffold(
         appBar: AppBar(
-          title: const MulishText(
-            text: 'Notification',
-            fontWeight: FontWeight.bold,
+          title: Text(
+            'Notification',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: HexColor.fromHex(cmsPageHeader?.textColor),
+            ),
 
             //fontColor: CustomColors.customBlue,
           ),

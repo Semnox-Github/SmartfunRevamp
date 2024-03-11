@@ -34,8 +34,11 @@ import 'package:semnox_core/modules/customer/model/customer/customer_dto.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Dialogs {
-  static void couponSuccessDialog(BuildContext context, double couponValue) {
+  static void couponSuccessDialog(
+      BuildContext context, double couponValue, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     AwesomeDialog(
+      dialogBackgroundColor: HexColor.fromHex(cmsBody?.popupBackGroundColor),
       context: context,
       dialogType: DialogType.noHeader,
       animType: AnimType.scale,
@@ -71,11 +74,13 @@ class Dialogs {
 
   static void getCoupongNumberDialog(BuildContext context, WidgetRef ref,
       CardProduct cardProduct, String? primaryCard, int qty) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     final key = GlobalKey<FormState>();
     final siteId = ref.watch(selectedSiteIdProvider);
     bool isOkButtonPressed = false;
     String coupon = '';
     AwesomeDialog(
+      dialogBackgroundColor: HexColor.fromHex(cmsBody?.popupBackGroundColor),
       context: context,
       dialogType: DialogType.noHeader,
       animType: AnimType.scale,
@@ -107,21 +112,21 @@ class Dialogs {
 
   static void selectLanguageDialog(BuildContext context, WidgetRef ref) {
     final currenLang = ref.watch(currentLanguageProvider);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     var newLang = ref.watch(currentLanguageProvider);
     final localDataSource = Get.find<LocalDataSource>();
     //final key = GlobalKey<FormState>();
     // final siteId = ref.watch(selectedSiteIdProvider);
     // String coupon = '';
     AwesomeDialog(
+      dialogBackgroundColor: HexColor.fromHex(cmsBody?.popupBackGroundColor),
       context: context,
       dialogType: DialogType.info,
       animType: AnimType.scale,
       title: SplashScreenNotifier.getLanguageLabel('Select language'),
       desc: SplashScreenNotifier.getLanguageLabel('Select language'),
       descTextStyle: const TextStyle(
-        fontWeight: FontWeight.w400,
-        fontSize: 18,
-      ),
+          fontWeight: FontWeight.w400, fontSize: 18, color: Colors.white),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -133,15 +138,21 @@ class Dialogs {
                 isExpanded: true,
                 value: currenLang,
                 hint: const MulishText(text: 'Select a language'),
+                //style: TextStyle(color: Colors.black),
                 items: langs?.languageContainerDTOList.map((item) {
                   return DropdownMenuItem<LanguageContainerDTOList>(
                     value: item,
-                    child: Text(item.languageName),
+                    child: Text(
+                      item.languageName,
+                      style: TextStyle(
+                          color: HexColor.fromHex(cmsBody?.appTextColor)),
+                      //style: TextStyle(color: Colors.red),
+                    ),
                   );
                 }).toList(),
                 onChanged: (value) {
                   newLang = value;
-                  // ref.read(currentLanguageProvider.notifier).state = value;
+                  ref.read(currentLanguageProvider.notifier).state = value;
                 },
               );
             },
@@ -257,7 +268,10 @@ class Dialogs {
       BuildContext context, String title, String meessge, WidgetRef ref) {
     final cmsBody = ref.watch(cmsBodyStyleProvider);
     AwesomeDialog(
-      dialogBackgroundColor: HexColor.fromHex(cmsBody?.widgetBackgroundColor),
+      ///barrierColor: ,
+      // barrierColor:
+      //     HexColor.fromHex(cmsBody?.popupBackGroundColor).withOpacity(0.5),
+      dialogBackgroundColor: HexColor.fromHex(cmsBody?.popupBackGroundColor),
       titleTextStyle: TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
       context: context,
       dialogType: DialogType.infoReverse,
@@ -268,23 +282,30 @@ class Dialogs {
           fontWeight: FontWeight.w400,
           fontSize: 18,
           color: HexColor.fromHex(cmsBody?.appTextColor)),
+      // ), //HexColor.fromHex(cmsBody?.appTextColor)),
       btnOkOnPress: () {},
+
       btnOkText: SplashScreenNotifier.getLanguageLabel('OK'),
       btnOkColor: Colors.blue,
     ).show();
   }
 
-  static void showErrorMessage(BuildContext context, String message,
+  static void showErrorMessage(
+      BuildContext context, String message, WidgetRef ref,
       {Function()? onOkPress}) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     AwesomeDialog(
+      dialogBackgroundColor: HexColor.fromHex(cmsBody?.popupBackGroundColor),
       context: context,
       dialogType: DialogType.error,
       animType: AnimType.scale,
       title: SplashScreenNotifier.getLanguageLabel('Error'),
+      titleTextStyle: TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
       desc: message,
-      descTextStyle: const TextStyle(
+      descTextStyle: TextStyle(
         fontWeight: FontWeight.w400,
         fontSize: 18,
+        color: HexColor.fromHex(cmsBody?.appTextColor),
       ),
       btnOkOnPress: () {
         if (onOkPress != null) {
@@ -296,7 +317,9 @@ class Dialogs {
     ).show();
   }
 
-  static void showBarcodeTempCard(BuildContext context, String accountNumber) {
+  static void showBarcodeTempCard(
+      BuildContext context, String accountNumber, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     String titleOfDialog = accountNumber.startsWith('T')
         ? SplashScreenNotifier.getLanguageLabel('Virtual Card')
         : SplashScreenNotifier.getLanguageLabel('Card');
@@ -305,11 +328,16 @@ class Dialogs {
       context: context,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: HexColor.fromHex(cmsBody?.popupBackGroundColor),
+          titleTextStyle:
+              TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
           contentPadding: EdgeInsets.zero,
           title: Text(
             titleOfDialog,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: HexColor.fromHex(cmsBody?.appTextColor)),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
@@ -322,10 +350,12 @@ class Dialogs {
                 child: Column(
                   children: [
                     Container(
+                      color: Colors.white,
                       padding: const EdgeInsetsDirectional.all(10.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(5),
                         child: BarcodeWidget(
+                          // color:HexColor?.fromHex(cm) ,
                           barcode: cardCoachMark == 'BARCODE'
                               ? Barcode.code128()
                               : Barcode.qrCode(
@@ -341,7 +371,9 @@ class Dialogs {
                     const SizedBox(height: 10.0),
                     Text(
                       accountNumber,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: HexColor.fromHex(cmsBody?.appTextColor)),
                     ),
                     const SizedBox(height: 20.0),
                     CustomButton(
@@ -359,9 +391,12 @@ class Dialogs {
   }
 
   static void verifyDialog(BuildContext context, Function(String) onVerify,
-      ContactType contactType) {
+      ContactType contactType, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     String otp = '';
     AwesomeDialog(
+      dialogBackgroundColor: HexColor.fromHex(cmsBody?.popupBackGroundColor),
+      titleTextStyle: TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
       context: context,
       dialogType: DialogType.noHeader,
       btnOk: CustomButton(
@@ -488,8 +523,11 @@ class Dialogs {
   }
 
   static void deleteProfileSuccessDialog(
-      BuildContext context, Function() onSubmitted) {
+      BuildContext context, Function() onSubmitted, WidgetRef ref) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     AwesomeDialog(
+      dialogBackgroundColor: HexColor.fromHex(cmsBody?.popupBackGroundColor),
+      titleTextStyle: TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
       context: context,
       dismissOnTouchOutside: true,
       onDismissCallback: (type) => onSubmitted(),
@@ -504,15 +542,18 @@ class Dialogs {
   }
 
   static Future<void> downloadUpdateDialog(
-      BuildContext context, String appUrl) async {
+      BuildContext context, String appUrl, WidgetRef ref) async {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     await AwesomeDialog(
+      dialogBackgroundColor: HexColor.fromHex(cmsBody?.popupBackGroundColor),
+      titleTextStyle: TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
       context: context,
       dialogType: DialogType.info,
       animType: AnimType.scale,
-      descTextStyle: const TextStyle(
-        fontWeight: FontWeight.w400,
-        fontSize: 18,
-      ),
+      descTextStyle: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 18,
+          color: HexColor.fromHex(cmsBody?.appTextColor)),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -531,6 +572,7 @@ class Dialogs {
 
   static Future<void> lastTransactionDialog(
       BuildContext context, WidgetRef ref, String transactionId) async {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     ref
         .watch(
             OrdersProviders.orderSummaryDetailProviderResponse(transactionId))
@@ -548,16 +590,21 @@ class Dialogs {
                           GluttonLocalDataSource()
                               .deleteValue(LocalDataSource.kTransactionId);
                           AwesomeDialog(
+                            dialogBackgroundColor:
+                                HexColor.fromHex(cmsBody?.popupBackGroundColor),
                             context: context,
+                            titleTextStyle: TextStyle(
+                                color: HexColor.fromHex(cmsBody?.appTextColor)),
                             btnOkText:
                                 SplashScreenNotifier.getLanguageLabel('Close'),
                             dialogType: DialogType.info,
                             animType: AnimType.scale,
                             title: "",
                             desc: "",
-                            descTextStyle: const TextStyle(
+                            descTextStyle: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 18,
+                              color: HexColor.fromHex(cmsBody?.appTextColor),
                             ),
                             body: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,

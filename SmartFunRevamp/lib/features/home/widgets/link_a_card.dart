@@ -42,8 +42,10 @@ class LinkACard extends ConsumerWidget {
             enableLink = true;
             if (!isAlertShown) {
               AwesomeDialog(
+                // barrierColor: HexColor.fromHex(cmsBody?.appBackGroundColor)
+                //     .withOpacity(0.5),
                 dialogBackgroundColor:
-                    HexColor.fromHex(cmsBody?.widgetBackgroundColor),
+                    HexColor.fromHex(cmsBody?.popupBackGroundColor),
                 titleTextStyle:
                     TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
                 context: context,
@@ -68,7 +70,7 @@ class LinkACard extends ConsumerWidget {
             if (!isAlertShown) {
               AwesomeDialog(
                 dialogBackgroundColor:
-                    HexColor.fromHex(cmsBody?.widgetBackgroundColor),
+                    HexColor.fromHex(cmsBody?.popupBackGroundColor),
                 titleTextStyle:
                     TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
                 descTextStyle:
@@ -116,6 +118,7 @@ class LinkACard extends ConsumerWidget {
                 Expanded(
                   child: InputTextField(
                     // initialValue: 'X6PIS313',
+
                     onSaved: (cardNumber) => mCardNumber = cardNumber,
                     hintText: SplashScreenNotifier.getLanguageLabel(
                         'Enter Card Number'),

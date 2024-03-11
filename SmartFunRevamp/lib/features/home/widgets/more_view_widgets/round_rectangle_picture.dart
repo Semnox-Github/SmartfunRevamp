@@ -23,17 +23,16 @@ class RoundRectanglePicture extends ConsumerWidget {
 
     final noImageGradient = ref
             .watch(newHomePageCMSProvider)
-            ?.buttonStyle
-            ?.primaryButtonStyle
-            ?.buttonColorGradient
+            ?.cmsModuleColorsHome
+            ?.profilePictureGradient
             .getColorList() ??
         [CustomColors.hardOrange, CustomColors.customOrange];
 
     final noTextColor = ref
         .watch(newHomePageCMSProvider)
-        ?.buttonStyle
-        ?.primaryButtonStyle
-        ?.buttonTextColor;
+        ?.cmsModuleColorsHome
+        ?.profileTextColor;
+
     return Container(
       padding: const EdgeInsets.all(1.5),
       decoration: BoxDecoration(
@@ -54,10 +53,12 @@ class RoundRectanglePicture extends ConsumerWidget {
                       colors: noImageGradient,
                     ),
                   ),
-                  child: MulishText(
-                    text: '$fInitial$lInitial',
-                    fontSize: 25.0,
-                    fontColor: HexColor.fromHex(noTextColor),
+                  child: Text(
+                    '$fInitial$lInitial',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      color: HexColor.fromHex(noTextColor),
+                    ),
                   ),
                 ),
         ),

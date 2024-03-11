@@ -1,0 +1,9 @@
+APP_TITLE="Semnox"
+GET_BASE_URL=https://parafaitios.parafait.com/api/
+SECRET_KEY="SgVkYp3s6v9y$B&E)H@McQeThWmZq4t7"
+BUILD_NUMBER="2.110.0"
+BUILD_SECURITY_CODE="QASMART1"
+USE_LOCAL_CMS_JSON=false
+CENTRAL_API_ORIGIN="mQ/btZP6wd74Sgd59JETzEtAkBO8QIL4KpE2pjz9hRg="
+CMS_FILE="cms.json"
+APP_ID="com.qa.smartfun"

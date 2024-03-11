@@ -13,15 +13,18 @@ class NotificationsSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: SplashScreenNotifier.getLanguageLabel('Notifications Preferences'),
+        title:
+            SplashScreenNotifier.getLanguageLabel('Notifications Preferences'),
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             NotificationSetting(
-              title: SplashScreenNotifier.getLanguageLabel('Promotional Notifications'),
-              description: SplashScreenNotifier.getLanguageLabel('Receive push notifications about new offers and deals on your mobile phone'),
+              title: SplashScreenNotifier.getLanguageLabel(
+                  'Promotional Notifications'),
+              description: SplashScreenNotifier.getLanguageLabel(
+                  'Receive push notifications about new offers and deals on your mobile phone'),
               onChanged: (_) {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -36,8 +39,10 @@ class NotificationsSettingsPage extends StatelessWidget {
               },
             ),
             NotificationSetting(
-              title: SplashScreenNotifier.getLanguageLabel('Transactional Notifications'),
-              description: SplashScreenNotifier.getLanguageLabel('Receive push notifications about new transactions made.'),
+              title: SplashScreenNotifier.getLanguageLabel(
+                  'Transactional Notifications'),
+              description: SplashScreenNotifier.getLanguageLabel(
+                  'Receive push notifications about new transactions made.'),
               onChanged: (_) {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -52,8 +57,10 @@ class NotificationsSettingsPage extends StatelessWidget {
               },
             ),
             NotificationSetting(
-              title: SplashScreenNotifier.getLanguageLabel('Email Notifications'),
-              description: SplashScreenNotifier.getLanguageLabel('Receive emails about new offers and deals'),
+              title:
+                  SplashScreenNotifier.getLanguageLabel('Email Notifications'),
+              description: SplashScreenNotifier.getLanguageLabel(
+                  'Receive emails about new offers and deals'),
               onChanged: (_) {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -111,9 +118,10 @@ class _NotificationSettingState extends State<NotificationSetting> {
                         fontColor: Colors.black,
                       ),
                       Text(
-                        SplashScreenNotifier.getLanguageLabel(widget.description),
+                        SplashScreenNotifier.getLanguageLabel(
+                            widget.description),
                         style: GoogleFonts.mulish(
-                          color: CustomColors.couponTextColor,
+                          // color: CustomColors.couponTextColor,
                           fontSize: 12,
                         ),
                       ),

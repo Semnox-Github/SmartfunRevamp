@@ -24,16 +24,14 @@ class ProfilePicture extends ConsumerWidget {
 
     final noImageGradient = ref
             .watch(newHomePageCMSProvider)
-            ?.buttonStyle
-            ?.primaryButtonStyle
-            ?.buttonColorGradient
+            ?.cmsModuleColorsHome
+            ?.profilePictureGradient
             .getColorList() ?? //cmsModuleColorsHome?.profilePictureGradient.getColorList() ??
         [CustomColors.hardOrange, CustomColors.customOrange];
     final noTextColor = ref
         .watch(newHomePageCMSProvider)
-        ?.buttonStyle
-        ?.primaryButtonStyle
-        ?.buttonTextColor;
+        ?.cmsModuleColorsHome
+        ?.profileTextColor;
 
     return InkWell(
       onTap: () => Navigator.pushNamed(context, Routes.kAccount),
@@ -53,9 +51,11 @@ class ProfilePicture extends ConsumerWidget {
                 height: 40.0,
                 width: 40.0,
                 child: Center(
-                  child: MulishText(
-                    text: '$fInitial$lInitial',
-                    fontColor: HexColor.fromHex(noTextColor),
+                  child: Text(
+                    '$fInitial$lInitial',
+                    style: TextStyle(
+                      color: HexColor.fromHex(noTextColor),
+                    ),
                   ),
                 ),
               ),

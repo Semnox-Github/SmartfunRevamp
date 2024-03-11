@@ -64,7 +64,7 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                             responseData.transactionLinesDTOList![0];
 
                         return Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             MulishText(
@@ -81,6 +81,9 @@ class OrdersSummaryDetailPage extends ConsumerWidget {
                               height: MediaQuery.of(context).size.height * 0.1,
                             ),
                             Container(
+                              // width: 40,
+                              color: Colors.white,
+                              // color: HexColor.fromHex(cmsBody?.appTextColor),
                               alignment: Alignment.center,
                               child: QrImageView(
                                 data: responseData.transactionOTP,

@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:semnox/core/enums/contact_enum.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/account/provider/verify/verify_provider.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import 'verify_button.dart';
@@ -59,6 +61,7 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return Container(
       padding: widget.padding,
       margin: widget.margins,
@@ -68,9 +71,9 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
           Text(
             widget.label,
             style: GoogleFonts.mulish(
-              fontWeight: FontWeight.bold,
-              fontSize: 14.0,
-            ),
+                fontWeight: FontWeight.bold,
+                fontSize: 14.0,
+                color: HexColor.fromHex(cmsBody?.appTextColor)),
           ),
           const SizedBox(height: 5.0),
           Container(
@@ -123,14 +126,14 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.white, width: 2.0),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(4.0)),
-                          ),
+                          // enabledBorder: const OutlineInputBorder(
+                          //   borderSide:
+                          //       BorderSide(color: Colors.white, width: 2.0),
+                          //   borderRadius:
+                          //       BorderRadius.all(Radius.circular(4.0)),
+                          // ),
                           errorBorder: InputBorder.none,
-                          //  enabledBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           focusedErrorBorder: InputBorder.none,
@@ -139,8 +142,9 @@ class _CustomVerifyTextField extends ConsumerState<CustomVerifyTextField> {
                           filled: true,
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                         ),
-                        style: const TextStyle(
-                          color: Colors.white, // This changes the input color
+                        style: TextStyle(
+                          color: HexColor.fromHex(cmsBody
+                              ?.appTextColor), // This changes the input color
                         ),
                       ),
                     ),

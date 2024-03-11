@@ -12,6 +12,7 @@ import 'package:semnox/core/api/smart_fun_api.dart';
 import 'package:semnox/core/data/datasources/local_data_source.dart';
 import 'package:semnox/core/domain/entities/config/parafait_defaults_response.dart';
 import 'package:semnox/core/domain/entities/language/language_container_dto.dart';
+import 'package:semnox/core/domain/entities/splash_screen/home_page_cms_response.dart';
 import 'package:semnox/core/domain/use_cases/authentication/get_execution_context_use_case.dart';
 import 'package:semnox/core/routes.dart';
 import 'package:semnox/core/utils/dialogs.dart';
@@ -88,6 +89,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           orElse: () {},
           error: (message) {
             AwesomeDialog(
+              dialogBackgroundColor:
+                  HexColor.fromHex(cmsBody?.popupBackGroundColor),
               context: context,
               headerAnimationLoop: false,
               desc: message,
@@ -169,7 +172,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         GluttonLocalDataSource().saveValue(
                             LocalDataSource.kAppUpdateReminderDate,
                             currentDate),
-                        await Dialogs.downloadUpdateDialog(context, storeUrl),
+                        await Dialogs.downloadUpdateDialog(
+                            context, storeUrl, ref),
                         if (deprecated != "M")
                           {
                             if (user == null)
@@ -399,13 +403,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   Future<void> checkNetworkConnectivity() async {
     bool isConnected = await isNetworkConnected();
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
+    final backgroundColor = HexColor.fromHex(cmsBody?.popupBackGroundColor);
 
     if (isConnected) {
       // Network is available, proceed with your splash screen logic
       ref.read(newSplashScreenProvider.notifier).initApp();
     } else {
       // Network is not available, show an error message or handle accordingly
-      showNetworkErrorDialog();
+      showNetworkErrorDialog(backgroundColor);
     }
   }
 
@@ -416,8 +422,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     checkNetworkConnectivity();
   }
 
-  void showNetworkErrorDialog() {
+  void showNetworkErrorDialog(Color color) {
     AwesomeDialog(
+      dialogBackgroundColor: color,
       context: context,
       headerAnimationLoop: false,
       desc: 'No internet connection',

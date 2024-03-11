@@ -204,8 +204,10 @@ class _GameplaysPageState extends ConsumerState<GameplaysPage> {
         dialogType: DialogType.noHeader,
         titleTextStyle:
             TextStyle(color: HexColor.fromHex(cmsBody?.appTextColor)),
-        dialogBackgroundColor: HexColor.fromHex(cmsBody
-            ?.appBackGroundColor), //Theme.of(context).dialogBackgroundColor,
+        // barrierColor:
+        //     HexColor.fromHex(cmsBody?.appBackGroundColor).withOpacity(0.5),
+        dialogBackgroundColor: HexColor.fromHex(cmsBody?.popupBackGroundColor),
+        //Theme.of(context).dialogBackgroundColor,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         body: Column(
           mainAxisSize: MainAxisSize.min,

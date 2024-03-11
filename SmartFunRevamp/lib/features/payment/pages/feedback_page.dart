@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:logger/logger.dart';
 import 'package:semnox/core/utils/dialogs.dart';
+import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/core/widgets/custom_button.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/features/payment/provider/feedback_provider.dart';
 import 'package:semnox/features/payment/widgets/feedback_value_item.dart';
+import 'package:semnox/features/splash/provider/new_splash_screen/new_splash_screen_notifier.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
 import '../../../core/routes.dart';
@@ -19,6 +21,7 @@ class FeedbackPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final surveyProvider = ref.watch(surveyDetailsProvider);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     return WillPopScope(
         onWillPop: () async {
           Navigator.pushNamedAndRemoveUntil(
@@ -29,7 +32,8 @@ class FeedbackPage extends ConsumerWidget {
           return false; // prevent the default back button behavior
         },
         child: Scaffold(
-          appBar:CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Feedback')),
+          appBar: CustomAppBar(
+              title: SplashScreenNotifier.getLanguageLabel('Feedback')),
           //  AppBar(
           //   leading: const SizedBox.shrink(),
           //   centerTitle: true,
@@ -78,6 +82,7 @@ class FeedbackPage extends ConsumerWidget {
                                   Dialogs.showErrorMessage(
                                     context,
                                     'Error Sending The Feedback',
+                                    ref,
                                     onOkPress: () => {
                                       Navigator.popUntil(
                                           context, (route) => route.isFirst),
@@ -88,6 +93,8 @@ class FeedbackPage extends ConsumerWidget {
                                 data: (_) {
                                   context.loaderOverlay.hide();
                                   AwesomeDialog(
+                                    dialogBackgroundColor: HexColor.fromHex(
+                                        cmsBody?.popupBackGroundColor),
                                     context: context,
                                     dialogType: DialogType.success,
                                     headerAnimationLoop: false,

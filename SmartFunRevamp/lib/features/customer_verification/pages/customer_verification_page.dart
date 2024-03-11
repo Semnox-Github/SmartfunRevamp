@@ -55,6 +55,8 @@ class _CustomerVerificationPage
           success: (data) {
             context.loaderOverlay.hide();
             AwesomeDialog(
+              dialogBackgroundColor:
+                  HexColor.fromHex(cmsBody?.popupBackGroundColor),
               context: context,
               dialogType: DialogType.success,
               headerAnimationLoop: false,
@@ -88,7 +90,7 @@ class _CustomerVerificationPage
           },
           error: (error) {
             context.loaderOverlay.hide();
-            Dialogs.showErrorMessage(context, error);
+            Dialogs.showErrorMessage(context, error, ref);
           },
           loading: () {
             context.loaderOverlay.show();

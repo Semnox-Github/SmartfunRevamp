@@ -103,7 +103,10 @@ class AfterSplashScreen extends ConsumerWidget {
                         items: langs?.languageContainerDTOList.map((item) {
                           return DropdownMenuItem<LanguageContainerDTOList>(
                             value: item,
-                            child: Text(item.languageName),
+                            child: Text(item.languageName,
+                                style: TextStyle(
+                                    color: HexColor.fromHex(
+                                        cmsBody?.appTextColor))),
                           );
                         }).toList(),
                         onChanged: (value) {

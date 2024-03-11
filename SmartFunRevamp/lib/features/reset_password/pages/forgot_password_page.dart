@@ -24,7 +24,7 @@ class ForgotPasswordPage extends ConsumerWidget {
         orElse: () => Logger().d('orElse'),
         error: (message) {
           context.loaderOverlay.hide();
-          Dialogs.showErrorMessage(context, message);
+          Dialogs.showErrorMessage(context, message, ref);
         },
         inProgress: () => context.loaderOverlay.show(),
         success: () {

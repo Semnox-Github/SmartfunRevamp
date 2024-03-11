@@ -44,6 +44,7 @@ class MoreView extends ConsumerWidget {
             physics: const ClampingScrollPhysics(),
             children: [
               Container(
+                //  color: HexColor.fromHex(cmsHeader?.backgroundColor),
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: HexColor.fromHex(cmsHeader?.backgroundColor),
@@ -82,11 +83,17 @@ class MoreView extends ConsumerWidget {
                           },
                         );
                       },
-                      child: MulishText(
-                        text: SplashScreenNotifier.getLanguageLabel('Logout'),
-                        fontColor: HexColor.fromHex(cmsBody?.linkTextColor),
-                        fontWeight: FontWeight.bold,
-                        textDecoration: TextDecoration.underline,
+                      child: Text(
+                        SplashScreenNotifier.getLanguageLabel('Logout'),
+                        style: TextStyle(
+                            color: HexColor.fromHex(cmsBody?.linkTextColor),
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                            decorationColor: HexColor.fromHex(cmsBody
+                                ?.linkTextColor), // Assuming you want the underline to have the same color as the text
+                            decorationStyle: TextDecorationStyle.solid
+                            // textDecoration:
+                            ),
                       ),
                     ),
                     FutureBuilder<PackageInfo>(

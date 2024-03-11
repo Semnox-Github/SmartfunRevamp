@@ -121,13 +121,38 @@ class _HomeViewState extends ConsumerState<HomeView> {
   @override
   void initState() {
     super.initState();
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+    //   SystemUiOverlay.top,
+    //   SystemUiOverlay.bottom,
+    // ]);
+    // SystemChrome.setSystemUIOverlayStyle(
+    //   SystemUiOverlayStyle(
+    //     statusBarColor: Colors.deepPurpleAccent, // Set your desired color here
+    //   ),
+    // );
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   // Ensure the status bar is always visible
+  //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+  //     SystemUiOverlay.top, // Status bar
+  //     // SystemUiOverlay.bottom, // Uncomment if you want the navigation bar to be visible
+  //   ]);
+  //   SystemChrome.setSystemUIOverlayStyle(
+  //     SystemUiOverlayStyle(
+  //       statusBarColor: Colors.deepPurpleAccent, // Set your desired color here
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     final homeColor = ref.watch(homeColors);
     final user = ref.watch(userProvider);
+
     final itemsOrder = ref
         .watch(newHomePageCMSProvider)
         ?.homePageOrder
@@ -149,7 +174,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
     AlertDialog buildExitDialog(BuildContext context) {
       return AlertDialog(
-        backgroundColor: HexColor.fromHex(cmsBody?.widgetBackgroundColor),
+        backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
         title: MulishText(
           text: SplashScreenNotifier.getLanguageLabel('Please confirm'),
         ),

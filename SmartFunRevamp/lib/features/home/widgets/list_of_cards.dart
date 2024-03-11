@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
 import 'package:semnox/core/utils/dialogs.dart';
@@ -8,20 +9,23 @@ import 'package:semnox/core/widgets/background_card_details.dart';
 import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class ListOfCard extends StatelessWidget {
+class ListOfCard extends ConsumerWidget {
   const ListOfCard({Key? key, required this.data}) : super(key: key);
 
   final List<CardDetails> data;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return CarouselSlider(
       options: CarouselOptions(height: 200.0),
       items: data.map((i) {
         bool hasBlocked = i.accountNumber!.startsWith('T') ? true : false;
         late final DateTime timeNow = DateTime.now();
-        late final DateTime expirationDate = i.expiryDate != null ? DateTime.parse(i.expiryDate.toString()) : timeNow;
-        late final int daysUntilExpiration = (expirationDate.difference(timeNow).inHours / 24).round();
+        late final DateTime expirationDate = i.expiryDate != null
+            ? DateTime.parse(i.expiryDate.toString())
+            : timeNow;
+        late final int daysUntilExpiration =
+            (expirationDate.difference(timeNow).inHours / 24).round();
         return Builder(
           builder: (BuildContext context) {
             // return Image.asset('assets/home/carousel_test.png');
@@ -59,7 +63,8 @@ class ListOfCard extends StatelessWidget {
                         ],
                       ),
                       GestureDetector(
-                        onTap: () => Dialogs.showBarcodeTempCard(context, i.accountNumber!),
+                        onTap: () => Dialogs.showBarcodeTempCard(
+                            context, i.accountNumber!, ref),
                         child: const ImageHandler(
                           height: 42.0,
                           imageKey: "QR_image_path",

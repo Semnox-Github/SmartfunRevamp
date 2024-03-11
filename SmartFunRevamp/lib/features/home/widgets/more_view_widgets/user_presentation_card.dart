@@ -18,25 +18,27 @@ class UserPresentationCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cmsHeader = ref.watch(cmsPageHeaderProvider);
+
     return InkWell(
       onTap: () => Navigator.pushNamed(context, Routes.kAccount),
       child: Card(
-        elevation: 10.0,
+        //elevation: 15.0,
+        color: HexColor.fromHex(cmsHeader?.backgroundColor).withOpacity(0.8),
+
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-        child: Container(
-          color: HexColor.fromHex(cmsHeader?.backgroundColor),
-          //margin: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              RoundRectanglePicture(user: user),
-              Expanded(child: UserInfo(user: user)),
-              IconButton(
-                onPressed: () => Navigator.pushNamed(context, Routes.kAccount),
-                icon: const Icon(Icons.arrow_forward_ios),
+        child: Row(
+          children: [
+            RoundRectanglePicture(user: user),
+            Expanded(child: UserInfo(user: user)),
+            IconButton(
+              onPressed: () => Navigator.pushNamed(context, Routes.kAccount),
+              icon: Icon(
+                Icons.arrow_forward_ios,
+                color: HexColor.fromHex(cmsHeader?.textColor),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

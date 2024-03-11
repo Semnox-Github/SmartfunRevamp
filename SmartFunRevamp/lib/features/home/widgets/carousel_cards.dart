@@ -205,7 +205,7 @@ class CarouselCardItemState extends State<CarouselCardItem> {
                       ),
                       GestureDetector(
                         onTap: () => Dialogs.showBarcodeTempCard(
-                            context, card.accountNumber!),
+                            context, card.accountNumber!, ref),
                         child: const ImageHandler(
                           height: 42.0,
                           imageKey: "QR_image_path",

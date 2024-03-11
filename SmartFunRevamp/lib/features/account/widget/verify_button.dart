@@ -31,18 +31,18 @@ class VerifyButton extends ConsumerWidget {
           inProgress: () => context.loaderOverlay.show(),
           error: (message) {
             context.loaderOverlay.hide();
-            Dialogs.showErrorMessage(context, message);
+            Dialogs.showErrorMessage(context, message, ref);
           },
           success: (verifyContactType) {
             if (verifyContactType == contactType) {
               context.loaderOverlay.hide();
               Dialogs.verifyDialog(
-                context,
-                (otp) => ref
-                    .read(sendOtpStateProvider.notifier)
-                    .verifyOTP(otp, contactType),
-                contactType,
-              );
+                  context,
+                  (otp) => ref
+                      .read(sendOtpStateProvider.notifier)
+                      .verifyOTP(otp, contactType),
+                  contactType,
+                  ref);
             }
           },
           otpVerified: (_) => context.loaderOverlay.hide(),

@@ -48,16 +48,13 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
         otpVerified: () {
           context.loaderOverlay.hide();
           ref.read(loginProvider.notifier).deleteProfile();
-          Dialogs.deleteProfileSuccessDialog(
-            context,
-            () {
-              Navigator.popAndPushNamed(context, Routes.kLogInPage);
-            },
-          );
+          Dialogs.deleteProfileSuccessDialog(context, () {
+            Navigator.popAndPushNamed(context, Routes.kLogInPage);
+          }, ref);
         },
         otpVerificationError: (message) {
           context.loaderOverlay.hide();
-          Dialogs.showErrorMessage(context, message);
+          Dialogs.showErrorMessage(context, message, ref);
         },
       );
     });
@@ -92,10 +89,11 @@ class _DeleteProfileOTPPageState extends ConsumerState<DeleteProfileOTPPage> {
                   keyboardType: TextInputType.number,
                   otpPinFieldDecoration:
                       OtpPinFieldDecoration.defaultPinBoxDecoration,
-                  otpPinFieldStyle: const OtpPinFieldStyle(
-                    defaultFieldBorderColor: CustomColors.customOrange,
-                    activeFieldBorderColor: CustomColors.hardOrange,
-                  ),
+                  otpPinFieldStyle: OtpPinFieldStyle(
+                      defaultFieldBorderColor: CustomColors.customOrange,
+                      activeFieldBorderColor: CustomColors.hardOrange,
+                      textStyle: TextStyle(
+                          color: HexColor.fromHex(cmsBody?.appTextColor))),
                   maxLength: 6,
                   fieldHeight: MediaQuery.of(context).size.width * 0.12,
                   fieldWidth: MediaQuery.of(context).size.width * 0.12,

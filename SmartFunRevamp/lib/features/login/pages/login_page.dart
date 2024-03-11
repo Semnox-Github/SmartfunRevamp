@@ -81,7 +81,7 @@ class LoginPage extends ConsumerWidget {
         },
         error: (message) {
           context.loaderOverlay.hide();
-          Dialogs.showErrorMessage(context, message);
+          Dialogs.showErrorMessage(context, message, ref);
         },
       );
     });
@@ -137,10 +137,12 @@ class LoginPage extends ConsumerWidget {
                   TextButton(
                     onPressed: () =>
                         Navigator.pushNamed(context, Routes.kSignUpPage),
-                    child: MulishText(
-                      text: SplashScreenNotifier.getLanguageLabel('SIGN UP'),
-                      fontColor: HexColor.fromHex(cmsBody?.linkTextColor),
-                      fontWeight: FontWeight.bold,
+                    child: Text(
+                      SplashScreenNotifier.getLanguageLabel('SIGN UP'),
+                      style: TextStyle(
+                        color: HexColor.fromHex(cmsBody?.linkTextColor),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],

@@ -51,7 +51,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
         },
         otpVerificationError: (message) {
           context.loaderOverlay.hide();
-          Dialogs.showErrorMessage(context, message);
+          Dialogs.showErrorMessage(context, message, ref);
         },
       );
     });

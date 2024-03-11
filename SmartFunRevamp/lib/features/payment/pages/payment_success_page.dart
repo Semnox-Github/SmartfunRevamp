@@ -41,6 +41,7 @@ class PaymentSuccessPage extends ConsumerWidget {
     final format =
         parafaitDefault?.getDefault(ParafaitDefaultsResponse.currencyFormat) ??
             '#,##0.00';
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     final String fixedAmount = amount.toCurrency(currency, format);
     final DateTime dateToday = DateTime.now();
     final DateTime dateOneYearLater =
@@ -114,7 +115,7 @@ class PaymentSuccessPage extends ConsumerWidget {
                               ),
                               GestureDetector(
                                 onTap: () => Dialogs.showBarcodeTempCard(
-                                    context, cardNumber!),
+                                    context, cardNumber!, ref),
                                 child: const ImageHandler(
                                   height: 42.0,
                                   imageKey: "QR_image_path",
@@ -184,164 +185,84 @@ class PaymentSuccessPage extends ConsumerWidget {
               loading: () =>
                   const Center(child: CircularProgressIndicator.adaptive()),
               error: (_, __) {
-                return Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(children: [
-                    Expanded(
-                        child: PrimaryButton(
-                      label:
-                          SplashScreenNotifier.getLanguageLabel('Back To Home'),
-                      onTap: () => Navigator.pushReplacementNamed(
-                          context, Routes.kHomePage),
-                    )
-                        // child: Text(
-                        //   SplashScreenNotifier.getLanguageLabel('Back To Home'),
-                        //   style: const TextStyle(
-                        //     color: Colors.white,
-                        //     fontWeight: FontWeight.bold,
-                        //   ),
-                        // ),
-
-                        //  Container(
-                        //   decoration: BoxDecoration(
-                        //     gradient: CustomGradients.linearGradient,
-                        //     borderRadius: BorderRadius.circular(15.0),
-                        //   ),
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(12.0),
-                        //       gradient: CustomGradients.linearGradient,
-                        //     ),
-                        //     margin: const EdgeInsets.all(3),
-                        //     child: TextButton(
-                        //       onPressed: () => Navigator.pushReplacementNamed(
-                        //           context, Routes.kHomePage),
-                        //       child: Text(
-                        //         SplashScreenNotifier.getLanguageLabel(
-                        //             'Back To Home'),
-                        //         style: const TextStyle(
-                        //           color: Colors.white,
-                        //           fontWeight: FontWeight.bold,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        ),
-                  ]),
+                return PrimaryButton(
+                  label: SplashScreenNotifier.getLanguageLabel('Back To Home'),
+                  onTap: () =>
+                      Navigator.pushReplacementNamed(context, Routes.kHomePage),
+                  margin: EdgeInsets.all(0),
                 );
+                // Row(children: [
+                //   Expanded(
+                //       child: PrimaryButton(
+                //     label:
+                //         SplashScreenNotifier.getLanguageLabel('Back To Home'),
+                //     onTap: () => Navigator.pushReplacementNamed(
+                //         context, Routes.kHomePage),
+                //   )
+                //       // child: Text(
+                //       //   SplashScreenNotifier.getLanguageLabel('Back To Home'),
+                //       //   style: const TextStyle(
+                //       //     color: Colors.white,
+                //       //     fontWeight: FontWeight.bold,
+                //       //   ),
+                //       // ),
+
+                //       //  Container(
+                //       //   decoration: BoxDecoration(
+                //       //     gradient: CustomGradients.linearGradient,
+                //       //     borderRadius: BorderRadius.circular(15.0),
+                //       //   ),
+                //       //   child: Container(
+                //       //     decoration: BoxDecoration(
+                //       //       borderRadius: BorderRadius.circular(12.0),
+                //       //       gradient: CustomGradients.linearGradient,
+                //       //     ),
+                //       //     margin: const EdgeInsets.all(3),
+                //       //     child: TextButton(
+                //       //       onPressed: () => Navigator.pushReplacementNamed(
+                //       //           context, Routes.kHomePage),
+                //       //       child: Text(
+                //       //         SplashScreenNotifier.getLanguageLabel(
+                //       //             'Back To Home'),
+                //       //         style: const TextStyle(
+                //       //           color: Colors.white,
+                //       //           fontWeight: FontWeight.bold,
+                //       //         ),
+                //       //       ),
+                //       //     ),
+                //       //   ),
+                //       // ),
+                //       ),
+                // ]
+                //     //),
+                //     );
               },
               data: (surveyDetailsResponse) {
-                return Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(
-                    children: [
-                      if (surveyDetailsResponse.isResponseMandatory)
-                        Expanded(
-                            child: PrimaryButton(
-                          label: SplashScreenNotifier.getLanguageLabel(
-                              'Back To Home'),
-                          onTap: () => Navigator.pushReplacementNamed(
-                              context, Routes.kFeedback),
-                        )
-
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //     gradient: CustomGradients.linearGradient,
-                            //     borderRadius: BorderRadius.circular(15.0),
-                            //   ),
-                            //   child: Container(
-                            //     decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(12.0),
-                            //       gradient: CustomGradients.linearGradient,
-                            //     ),
-                            //     margin: const EdgeInsets.all(3),
-                            //     child: TextButton(
-                            //       onPressed: () => Navigator.pushReplacementNamed(
-                            //           context, Routes.kFeedback),
-                            //       child: Text(
-                            //         SplashScreenNotifier.getLanguageLabel(
-                            //             'Back To Home'),
-                            //         style: const TextStyle(
-                            //           color: Colors.white,
-                            //           fontWeight: FontWeight.bold,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            ),
-                      if (!surveyDetailsResponse.isResponseMandatory)
-                        Expanded(
-                            child: PrimaryButton(
-                          onTap: () => Navigator.pushReplacementNamed(
-                              context, Routes.kHomePage),
-                          label: SplashScreenNotifier.getLanguageLabel(
-                              'Back To Home'),
-                        )
-
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //     gradient: CustomGradients.linearGradient,
-                            //     borderRadius: BorderRadius.circular(15.0),
-                            //   ),
-                            //   child: Container(
-                            //     decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(12.0),
-                            //       gradient: CustomGradients.linearGradient,
-                            //     ),
-                            //     margin: const EdgeInsets.all(3),
-                            //     child: TextButton(
-                            //       onPressed: () => Navigator.pushReplacementNamed(
-                            //           context, Routes.kHomePage),
-                            //       child: Text(
-                            //         SplashScreenNotifier.getLanguageLabel(
-                            //             'Back To Home'),
-                            //         style: const TextStyle(
-                            //           color: Colors.white,
-                            //           fontWeight: FontWeight.bold,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            ),
-                      if (!surveyDetailsResponse.isResponseMandatory)
-                        const SizedBox(width: 20.0),
-                      Expanded(
-                          child: SecondaryButton(
+                return Row(
+                  children: [
+                    if (surveyDetailsResponse.isResponseMandatory)
+                      PrimaryButton(
+                        label: SplashScreenNotifier.getLanguageLabel(
+                            'Back To Home'),
                         onTap: () => Navigator.pushReplacementNamed(
                             context, Routes.kFeedback),
+                      ),
+                    if (!surveyDetailsResponse.isResponseMandatory)
+                      PrimaryButton(
+                        onTap: () => Navigator.pushReplacementNamed(
+                            context, Routes.kHomePage),
                         label: SplashScreenNotifier.getLanguageLabel(
-                            'Provide Feedback'),
-                      )
-                          // Container(
-                          //   decoration: BoxDecoration(
-                          //     gradient: CustomGradients.linearGradient,
-                          //     borderRadius: BorderRadius.circular(15.0),
-                          //   ),
-                          //   child: Container(
-                          //     decoration: BoxDecoration(
-                          //       borderRadius: BorderRadius.circular(12.0),
-                          //       color: Colors.white,
-                          //     ),
-                          //     margin: const EdgeInsets.all(3),
-                          //     child: TextButton(
-                          //       onPressed: () => Navigator.pushReplacementNamed(
-                          //           context, Routes.kFeedback),
-                          //       child: Text(
-                          //         SplashScreenNotifier.getLanguageLabel(
-                          //             'Provide Feedback'),
-                          //         style: const TextStyle(
-                          //           color: CustomColors.hardOrange,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                          ),
-                    ],
-                  ),
+                            'Back To Home'),
+                      ),
+                    if (!surveyDetailsResponse.isResponseMandatory)
+                      const SizedBox(width: 20.0),
+                    SecondaryButton(
+                      onTap: () => Navigator.pushReplacementNamed(
+                          context, Routes.kFeedback),
+                      label: SplashScreenNotifier.getLanguageLabel(
+                          'Provide Feedback'),
+                    ),
+                  ],
                 );
               }),
         ),
@@ -382,155 +303,65 @@ class PaymentSuccessPage extends ConsumerWidget {
               loading: () =>
                   const Center(child: CircularProgressIndicator.adaptive()),
               error: (_, __) {
-                return Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(children: [
-                    Expanded(
-                      child: Container(
-                          decoration: BoxDecoration(
-                            gradient: CustomGradients.linearGradient,
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: PrimaryButton(
-                            label: SplashScreenNotifier.getLanguageLabel(
-                                'Back To Home'),
-                            onTap: () => Navigator.pushReplacementNamed(
-                                context, Routes.kHomePage),
-                          )
-                          //   Container(
-                          //     decoration: BoxDecoration(
-                          //       borderRadius: BorderRadius.circular(12.0),
-                          //       gradient: CustomGradients.linearGradient,
-                          //     ),
-                          //     margin: const EdgeInsets.all(3),
-                          //     child: TextButton(
-                          //       onPressed: () => Navigator.pushReplacementNamed(
-                          //           context, Routes.kHomePage),
-                          //       child: Text(
-                          //         SplashScreenNotifier.getLanguageLabel(
-                          //             'Back To Home'),
-                          //         style: const TextStyle(
-                          //           color: Colors.white,
-                          //           fontWeight: FontWeight.bold,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
-                          ),
-                    ),
-                  ]),
-                );
+                return Row(children: [
+                  PrimaryButton(
+                    label:
+                        SplashScreenNotifier.getLanguageLabel('Back To Home'),
+                    onTap: () => Navigator.pushReplacementNamed(
+                        context, Routes.kHomePage),
+                  ),
+                ]);
               },
               data: (surveyDetailsResponse) {
-                return Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(
-                    children: [
-                      if (surveyDetailsResponse.isResponseMandatory)
-                        Expanded(
-                          child: PrimaryButton(
-                            label: SplashScreenNotifier.getLanguageLabel(
-                                'Back To Home'),
-                            onTap: () => Navigator.pushReplacementNamed(
-                                context, Routes.kFeedback),
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //     gradient: CustomGradients.linearGradient,
-                            //     borderRadius: BorderRadius.circular(15.0),
-                            //   ),
-                            //   child: Container(
-                            //     decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(12.0),
-                            //       gradient: CustomGradients.linearGradient,
-                            //     ),
-                            //     margin: const EdgeInsets.all(3),
-                            //     child: TextButton(
-                            //       onPressed: () => Navigator.pushReplacementNamed(
-                            //           context, Routes.kFeedback),
-                            //       child: Text(
-                            //         SplashScreenNotifier.getLanguageLabel(
-                            //             'Back To Home'),
-                            //         style: const TextStyle(
-                            //           color: Colors.white,
-                            //           fontWeight: FontWeight.bold,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                          ),
-                        ),
-                      if (!surveyDetailsResponse.isResponseMandatory)
-                        Expanded(
-                            child: PrimaryButton(
-                          label: SplashScreenNotifier.getLanguageLabel(
-                              'Back To Home'),
-                          onTap: () => Navigator.pushReplacementNamed(
-                              context, Routes.kHomePage),
-                        )
-
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //     gradient: CustomGradients.linearGradient,
-                            //     borderRadius: BorderRadius.circular(15.0),
-                            //   ),
-                            //   child: Container(
-                            //     decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(12.0),
-                            //       gradient: CustomGradients.linearGradient,
-                            //     ),
-                            //     margin: const EdgeInsets.all(3),
-                            //     child: TextButton(
-                            //       onPressed: () => Navigator.pushReplacementNamed(
-                            //           context, Routes.kHomePage),
-                            //       child: Text(
-                            //         SplashScreenNotifier.getLanguageLabel(
-                            //             'Back To Home'),
-                            //         style: const TextStyle(
-                            //           color: Colors.white,
-                            //           fontWeight: FontWeight.bold,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            ),
-                      if (!surveyDetailsResponse.isResponseMandatory)
-                        const SizedBox(width: 20.0),
-                      Expanded(
-                          child: SecondaryButton(
+                return Row(
+                  children: [
+                    if (surveyDetailsResponse.isResponseMandatory)
+                      PrimaryButton(
+                        label: SplashScreenNotifier.getLanguageLabel(
+                            'Back To Home'),
                         onTap: () => Navigator.pushReplacementNamed(
                             context, Routes.kFeedback),
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //     gradient: CustomGradients.linearGradient,
+                        //     borderRadius: BorderRadius.circular(15.0),
+                        //   ),
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(12.0),
+                        //       gradient: CustomGradients.linearGradient,
+                        //     ),
+                        //     margin: const EdgeInsets.all(3),
+                        //     child: TextButton(
+                        //       onPressed: () => Navigator.pushReplacementNamed(
+                        //           context, Routes.kFeedback),
+                        //       child: Text(
+                        //         SplashScreenNotifier.getLanguageLabel(
+                        //             'Back To Home'),
+                        //         style: const TextStyle(
+                        //           color: Colors.white,
+                        //           fontWeight: FontWeight.bold,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                      ),
+                    if (!surveyDetailsResponse.isResponseMandatory)
+                      PrimaryButton(
                         label: SplashScreenNotifier.getLanguageLabel(
-                            'Provide Feedback'),
-                      )
-
-                          // Container(
-                          //   decoration: BoxDecoration(
-                          //     gradient: CustomGradients.linearGradient,
-                          //     borderRadius: BorderRadius.circular(15.0),
-                          //   ),
-                          //   child: Container(
-                          //     decoration: BoxDecoration(
-                          //       borderRadius: BorderRadius.circular(12.0),
-                          //       color: Colors.white,
-                          //     ),
-                          //     margin: const EdgeInsets.all(3),
-                          //     child: TextButton(
-                          //       onPressed: () => Navigator.pushReplacementNamed(
-                          //           context, Routes.kFeedback),
-                          //       child: Text(
-                          //         SplashScreenNotifier.getLanguageLabel(
-                          //             'Provide Feedback'),
-                          //         style: const TextStyle(
-                          //           color: CustomColors.hardOrange,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                          ),
-                    ],
-                  ),
+                            'Back To Home'),
+                        onTap: () => Navigator.pushReplacementNamed(
+                            context, Routes.kHomePage),
+                      ),
+                    if (!surveyDetailsResponse.isResponseMandatory)
+                      const SizedBox(width: 20.0),
+                    SecondaryButton(
+                      onTap: () => Navigator.pushReplacementNamed(
+                          context, Routes.kFeedback),
+                      label: SplashScreenNotifier.getLanguageLabel(
+                          'Provide Feedback'),
+                    ),
+                  ],
                 );
               }),
         ),

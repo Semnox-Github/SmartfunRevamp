@@ -62,6 +62,8 @@ class _AccountPage extends ConsumerState<AccountPage> {
           success: (data) {
             context.loaderOverlay.hide();
             AwesomeDialog(
+              dialogBackgroundColor:
+                  HexColor.fromHex(cmsBody?.popupBackGroundColor),
               context: context,
               dialogType: DialogType.success,
               headerAnimationLoop: false,
@@ -77,7 +79,7 @@ class _AccountPage extends ConsumerState<AccountPage> {
           },
           error: (error) {
             context.loaderOverlay.hide();
-            Dialogs.showErrorMessage(context, error);
+            Dialogs.showErrorMessage(context, error, ref);
           },
           loading: () {
             context.loaderOverlay.show();
@@ -87,7 +89,7 @@ class _AccountPage extends ConsumerState<AccountPage> {
     );
 
     return Scaffold(
-      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
+      // backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar:
           CustomAppBar(title: SplashScreenNotifier.getLanguageLabel('Account')),
       body: SafeArea(

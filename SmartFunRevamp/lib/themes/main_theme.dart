@@ -185,9 +185,10 @@ TextTheme generateTextTheme(Color color) {
 
 ThemeData setAppTheme(cmsBody) {
   print(" cms background");
-  print(cmsBody?.appBackGroundColor ?? 'red');
+  print(cmsBody?.popupBackGroundColor ?? 'red');
   return ThemeData(
-    canvasColor: HexColor.fromHex(cmsBody.appBackGroundColor ?? "#ffffff"),
+    canvasColor: HexColor.fromHex(cmsBody.popupBackGroundColor ?? "#ffffff"),
+    //  primaryColor: Colors.lightBlue,
     useMaterial3: true,
     scaffoldBackgroundColor:
         HexColor.fromHex(cmsBody.appBackGroundColor ?? "#ffffff"),

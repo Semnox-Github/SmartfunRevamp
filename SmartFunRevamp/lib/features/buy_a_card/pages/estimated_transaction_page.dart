@@ -93,7 +93,7 @@ class EstimatedTransactionPageState
         transactionEstimated: (estimated) {
           if (estimated.couponDiscountAmount != null) {
             Dialogs.couponSuccessDialog(
-                context, estimated.transactionDiscountAmount);
+                context, estimated.transactionDiscountAmount, ref);
           }
           ref
               .read(currentTransactionIdProvider.notifier)
@@ -185,19 +185,17 @@ class EstimatedTransactionPageState
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              MulishText(
-                                text: widget.cardProduct.productType ==
-                                        "VARIABLECARD"
+                              Text(
+                                widget.cardProduct.productType == "VARIABLECARD"
                                     ? widget.finalPrice
                                         .toCurrency(currency, format)
                                     : (widget.cardProduct.finalPrice *
                                             widget.qty)
                                         .toCurrency(currency, format),
-                                // style: const TextStyle(
-                                //   color: Colors.black,
-                                fontWeight: FontWeight.bold,
-
-                                ///),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ],
                           ),

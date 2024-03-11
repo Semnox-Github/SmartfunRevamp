@@ -124,10 +124,10 @@ class _TransferPageState extends ConsumerState<TransferPage> {
             formKey.currentState!.save();
             if (cardFrom!.isSameCard(cardTo)) {
               Dialogs.showErrorMessage(
-                context,
-                SplashScreenNotifier.getLanguageLabel(
-                    "You can't transfer from/to the same card"),
-              );
+                  context,
+                  SplashScreenNotifier.getLanguageLabel(
+                      "You can't transfer from/to the same card"),
+                  ref);
             } else {
               TransferBalance transferBalance = TransferBalance(
                 cardFrom!,
@@ -156,10 +156,10 @@ class _TransferPageState extends ConsumerState<TransferPage> {
                     error: (error, stackTrace) {
                       context.loaderOverlay.hide();
                       Dialogs.showErrorMessage(
-                        context,
-                        SplashScreenNotifier.getLanguageLabel(
-                            'There was an error during the transfer.\nPlease try again.'),
-                      );
+                          context,
+                          SplashScreenNotifier.getLanguageLabel(
+                              'There was an error during the transfer.\nPlease try again.'),
+                          ref);
                     },
                   );
                 },

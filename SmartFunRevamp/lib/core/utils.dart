@@ -35,6 +35,7 @@ Future<String?> _getId() async {
 
 Future<String> jwtGenerator({String secretKey = ""}) async {
   final dateTime = DateTime.now().toUtc().toString();
+  String SecretKeyVal = "SgVkYp3s6v9y\$B&E)H@McQeThWmZq4t7";
   final jwt = JWT(
     // Payload
     {
@@ -44,6 +45,8 @@ Future<String> jwtGenerator({String secretKey = ""}) async {
       'ExpiresAt': dateTime,
     },
   );
+
   final token = jwt.sign(SecretKey(secretKey));
+
   return token;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -8,7 +9,7 @@ import 'package:semnox/core/widgets/mulish_text.dart';
 import 'package:semnox/core/utils/extensions.dart';
 import 'package:semnox/features/splash/provider/splash_screen_notifier.dart';
 
-class CardWidget extends StatelessWidget {
+class CardWidget extends ConsumerWidget {
   CardWidget({Key? key, required this.cardDetails}) : super(key: key);
 
   final formatter = DateFormat('dd MMM yyyy');
@@ -17,7 +18,7 @@ class CardWidget extends StatelessWidget {
       ? formatter.format(cardDetails.issueDate ?? DateTime.now())
       : '${formatter.format(cardDetails.issueDate ?? DateTime.now())} - ${formatter.format(DateTime.parse(cardDetails.expiryDate.toString()))}';
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       margin: const EdgeInsets.all(10.0),
       padding: const EdgeInsets.only(left: 15, top: 0, right: 10),
@@ -57,7 +58,7 @@ class CardWidget extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () => Dialogs.showBarcodeTempCard(
-                    context, cardDetails.accountNumber ?? ''),
+                    context, cardDetails.accountNumber ?? '', ref),
                 child: const ImageHandler(
                   height: 42.0,
                   imageKey: "QR_image_path",

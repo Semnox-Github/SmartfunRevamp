@@ -24,7 +24,9 @@ class InputTextField extends StatelessWidget {
         TextFormField(
           initialValue: initialValue,
           onSaved: (newValue) => onSaved(newValue!),
-          validator: (value) => value!.isEmpty ? SplashScreenNotifier.getLanguageLabel('Required') : null,
+          validator: (value) => value!.isEmpty
+              ? SplashScreenNotifier.getLanguageLabel('Required')
+              : null,
           cursorColor: Colors.black,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
@@ -35,6 +37,7 @@ class InputTextField extends StatelessWidget {
             prefixIcon: prefixIcon,
             floatingLabelBehavior: FloatingLabelBehavior.never,
           ),
+          style: const TextStyle(color: Colors.black),
         )
       ],
     );

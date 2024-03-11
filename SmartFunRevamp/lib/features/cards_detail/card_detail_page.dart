@@ -39,6 +39,7 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
     final links = cms?.getCardDetailsLinks() ?? [];
     final cardsWatch = ref.watch(CardsProviders.userCardsProvider);
     final cmsBody = ref.watch(cmsBodyStyleProvider);
+
     return Scaffold(
       backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       appBar: CustomAppBar(
@@ -111,6 +112,7 @@ class _CardDetailPage extends ConsumerState<CardDetailPage> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                 ),
+                //padding: EdgeInsets.symmetric(vertical: 10.0),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: items.length,
@@ -337,7 +339,7 @@ class CardDetailItem extends StatelessWidget {
                     SvgPicture.asset('assets/card_details/$image.svg'),
               ),
             ),
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 4.0),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [

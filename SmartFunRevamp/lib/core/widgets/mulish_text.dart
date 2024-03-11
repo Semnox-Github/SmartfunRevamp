@@ -26,7 +26,7 @@ class MulishText extends ConsumerWidget {
       text,
       textAlign: textAlign,
       style: TextStyle(
-        color:  HexColor.fromHex(cmsBody?.appTextColor),
+        color: HexColor.fromHex(cmsBody?.appTextColor),
         fontSize: fontSize,
         fontWeight: fontWeight,
         decoration: textDecoration,

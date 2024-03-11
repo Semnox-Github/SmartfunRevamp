@@ -43,6 +43,8 @@ class BlockCardButton extends ConsumerWidget {
                 },
                 error: (e, s) {
                   AwesomeDialog(
+                    dialogBackgroundColor:
+                        HexColor.fromHex(cmsBody?.popupBackGroundColor),
                     context: context,
                     dialogType: DialogType.error,
                     animType: AnimType.scale,

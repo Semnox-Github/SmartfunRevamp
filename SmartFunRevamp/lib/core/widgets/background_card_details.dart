@@ -40,7 +40,7 @@ class BackgroundCard extends ConsumerWidget {
       GestureDetector(
         onTap: !isVirtual
             ? () {}
-            : () => Dialogs.showBarcodeTempCard(context, cardNumber),
+            : () => Dialogs.showBarcodeTempCard(context, cardNumber, ref),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.25,
           width: double.infinity,

@@ -18,6 +18,7 @@ class FilterDrawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cmsHeader = ref.watch(cmsPageHeaderProvider);
+    final cmsBody = ref.watch(cmsBodyStyleProvider);
     List<List<int>>? buyACardFilters =
         ref.watch(newHomePageCMSProvider)?.buyACardFilters;
     List<List<int>> gFilter = buyACardFilters ??
@@ -27,6 +28,7 @@ class FilterDrawer extends ConsumerWidget {
 
     List<List<int>> filters = [];
     return Drawer(
+      backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
       child: Column(
         children: [
           ClipRRect(
@@ -41,11 +43,13 @@ class FilterDrawer extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  MulishText(
-                    text: 'Filter',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    fontColor: HexColor.fromHex(cmsHeader?.textColor),
+                  Text(
+                    SplashScreenNotifier.getLanguageLabel('Filter'),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      color: HexColor.fromHex(cmsHeader?.textColor),
+                    ),
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
@@ -65,9 +69,9 @@ class FilterDrawer extends ConsumerWidget {
               Text(
                 SplashScreenNotifier.getLanguageLabel('Price Range'),
                 style: GoogleFonts.mulish(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    color: HexColor.fromHex(cmsBody?.appTextColor)),
               ),
               ListView(
                 padding: EdgeInsets.zero,
@@ -78,6 +82,7 @@ class FilterDrawer extends ConsumerWidget {
                       e.length == 2 ? '\$${e[0]} - \$${e[1]}' : '\$${e[0]}+';
                   return ListTile(
                     contentPadding: EdgeInsets.zero,
+                    // textColor: HexColor.fromHex(cmsBody?.appTextColor),
                     leading: CustomCheckBox(
                       onTap: (isChecked) {
                         if (isChecked) {
@@ -89,6 +94,8 @@ class FilterDrawer extends ConsumerWidget {
                     ),
                     title: Text(
                       text,
+                      style: TextStyle(
+                          color: HexColor.fromHex(cmsBody?.appTextColor)),
                     ),
                   );
                 }).toList(),

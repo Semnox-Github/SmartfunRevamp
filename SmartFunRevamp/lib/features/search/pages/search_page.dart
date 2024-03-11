@@ -53,6 +53,7 @@ class _SearchPageState extends ConsumerState<SearchPage>
   @override
   Widget build(BuildContext context) {
     final cmsBody = ref.watch(cmsBodyStyleProvider);
+    final primaryColor = HexColor.fromHex(cmsBody?.primaryColor);
     return Scaffold(
         backgroundColor: HexColor.fromHex(cmsBody?.appBackGroundColor),
         appBar: CustomAppBar(
@@ -82,7 +83,7 @@ class _SearchPageState extends ConsumerState<SearchPage>
                   })
                 },
               ),
-              _tabSection(context, filterStr),
+              _tabSection(context, filterStr, primaryColor),
             ],
           ),
         ));
@@ -95,22 +96,26 @@ class _SearchPageState extends ConsumerState<SearchPage>
   }
 }
 
-Widget _tabSection(BuildContext context, String? filterStr) {
+Widget _tabSection(
+    BuildContext context, String? filterStr, Color? indicatorColor) {
   return DefaultTabController(
     length: 3,
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        TabBar(tabs: [
-          MulishText(
-            text: SplashScreenNotifier.getLanguageLabel("Recharge"),
-            fontSize: 14,
-          ),
-          MulishText(
-            text: SplashScreenNotifier.getLanguageLabel("New Card"),
-            fontSize: 14,
-          ),
-        ]),
+        TabBar(
+          tabs: [
+            MulishText(
+              text: SplashScreenNotifier.getLanguageLabel("Recharge"),
+              fontSize: 14,
+            ),
+            MulishText(
+              text: SplashScreenNotifier.getLanguageLabel("New Card"),
+              fontSize: 14,
+            ),
+          ],
+          indicatorColor: indicatorColor,
+        ),
         SizedBox(
           //Add this to give height
           height: MediaQuery.of(context).size.height * 0.8,

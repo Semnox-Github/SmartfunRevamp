@@ -45,7 +45,7 @@ class SelectLocationManuallyPage extends ConsumerWidget {
           orElse: () => context.loaderOverlay.hide(),
           error: (message) {
             context.loaderOverlay.hide();
-            Dialogs.showErrorMessage(context, message);
+            Dialogs.showErrorMessage(context, message, ref);
           },
           inProgress: () => context.loaderOverlay.show(),
           newContextSuccess: (selectedSite) {
@@ -237,6 +237,7 @@ class SearchTextField extends StatelessWidget {
           ),
         ),
       ),
+      style: TextStyle(color: searchButtonColor),
     );
   }
 }

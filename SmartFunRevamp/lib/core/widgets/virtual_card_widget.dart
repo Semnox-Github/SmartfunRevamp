@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:semnox/colors/gradients.dart';
 import 'package:semnox/core/domain/entities/card_details/card_details.dart';
@@ -6,7 +7,7 @@ import 'package:semnox/core/utils/dialogs.dart';
 import 'package:semnox/core/widgets/image_handler.dart';
 import 'package:semnox/core/widgets/mulish_text.dart';
 
-class VirtualCardWidget extends StatelessWidget {
+class VirtualCardWidget extends ConsumerWidget {
   VirtualCardWidget({Key? key, required this.cardDetails, this.cardColor})
       : super(key: key);
 
@@ -14,7 +15,7 @@ class VirtualCardWidget extends StatelessWidget {
   final CardDetails cardDetails;
   final Color? cardColor;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     String virtualNumber = 'T${cardDetails.accountNumber!.substring(1)}';
     return Stack(children: [
       Container(
@@ -78,7 +79,7 @@ class VirtualCardWidget extends StatelessWidget {
                     ]),
                 GestureDetector(
                   onTap: () =>
-                      Dialogs.showBarcodeTempCard(context, virtualNumber),
+                      Dialogs.showBarcodeTempCard(context, virtualNumber, ref),
                   child: const ImageHandler(
                     height: 60,
                     imageKey: "barcode_image_path",

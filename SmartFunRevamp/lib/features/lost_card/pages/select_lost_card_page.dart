@@ -162,6 +162,8 @@ class _SelectCardLostPageState extends ConsumerState<SelectCardLostPage> {
                 error: (e, s) {
                   context.loaderOverlay.hide();
                   AwesomeDialog(
+                    dialogBackgroundColor:
+                        HexColor.fromHex(cmsBody?.popupBackGroundColor),
                     context: context,
                     dialogType: DialogType.error,
                     animType: AnimType.scale,
